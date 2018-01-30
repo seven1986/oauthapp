@@ -1,19 +1,23 @@
-# IdentityServer4.MicroService
+ï»¿# IdentityServer4.MicroService
 
-IdentityServer4.MicroServiceÊÇÒ»¸öÃâ·Ñ¿ªÔ´µÄÎ¢·şÎñ¿ò¼Ü¡£»ùÓÚIdentityServer4¡¢Azure API Management¡¢AzureÆäËû²úÆ·µÈ¹¹½¨¡£ Ä¿Ç°Ö÷ÒªÓÉ[seven1986](https://github.com/seven1986)´´½¨ºÍÎ¬»¤£¬Ëü¼¯³ÉÁËIdentityServer4£¨ÁîÅÆ°ä·¢¡¢Éí·İÑéÖ¤¡¢µ¥µãµÇÂ¼ºÍAPI·ÃÎÊ¿ØÖÆËùĞèµÄËùÓĞĞ­ÒéÊµÏÖºÍÀ©Õ¹µã£©£¬Azure API Management£¨¼¯ÖĞ¹ÜÀíËùÓĞAPI£¬ÅäÖÃ·ÃÎÊ²ßÂÔ¡¢Æµ´Î£¬Éú³ÉÎÄµµÓëSDK£©ºÍÆäËûÖ÷Á÷¼¼Êõ¡£ 
+IdentityServer4.MicroServiceæ˜¯ä¸€ä¸ªå…è´¹å¼€æºçš„å¾®æœåŠ¡æ¡†æ¶ï¼ŒåŸºäºIdentityServer4ã€Azure API Managementæ„å»ºã€‚ 
 
+æ ¸å¿ƒåŠŸèƒ½
+--
+* ç»Ÿä¸€ç®¡ç†å¾®æœåŠ¡ã€ç”¨æˆ·ã€å®¢æˆ·ç«¯çš„Sassæˆæƒä¸­å¿ƒ
+* é›†æˆAzure API Management  [ğŸ±â€ğŸç¤ºä¾‹](https://portal.ixingban.com)
+* è‡ªåŠ¨ç”Ÿæˆæ¥å£æ–‡æ¡£ã€Server/Clientç«¯SDKåŒ…ã€æ¨é€Android/IOS/Npm/Nugetå¹³å°   [ğŸ±â€ğŸç¤ºä¾‹](https://portal.ixingban.com/docs/services/59f97c558826900ef0b57d7a/operations/59f98c018826900e60abf936)
 
-#### * Í³Ò»·¢²¼µ½AzureAPIManagement£¬×Ô¶¯Éú³ÉÎÄµµ¡¢Server/Client¶ËµÄSDK¡¢SDK°ü²¢ÍÆËÍµ½¸÷ÓïÑÔ°ü¹ÜÀíÆ½Ì¨£¬¶©ÔÄ²¢½ÓÊÜÍ¨Öª
-Ê¾Àı£ºhttps://portal.ixingban.com/docs/services/5/operations/5a4c9af4882690135c8701d4
-![sdkgen0](https://jixiucampaignstaging.blob.core.chinacloudapi.cn/adminportalicon/apisdkgen0.png)
-![sdkgen](https://jixiucampaignstaging.blob.core.chinacloudapi.cn/adminportalicon/apisdkgen.png)
+æˆªå›¾
+--
+![apiresource](apiresource.png)
+![doc](doc.png)
+![codegen](codegen.png)
+![gatewatlog](gatewaylog.png)
+![elklog](elklog.png)
 
-#### * Í¨¹ıAzure API ManagementÍø¹Ø¼à¿ØÍø¹Ø¼¶ÈÕÖ¾£¬Í¨¹ıELK¼à¿ØÒµÎñ¼¶ÈÕÖ¾
-![apilog1](https://jixiucampaignstaging.blob.core.chinacloudapi.cn/adminportal/apilog1.png)
-![apilog2](https://jixiucampaignstaging.blob.core.chinacloudapi.cn/adminportal/apilog2.png)
-
-
-### Acknowledgements
+Acknowledgements
+--
   IdentityServer4.MicroService is built using the following great open source projects
   
 * [IdentityServer4](https://github.com/IdentityServer)
@@ -21,12 +25,14 @@ IdentityServer4.MicroServiceÊÇÒ»¸öÃâ·Ñ¿ªÔ´µÄÎ¢·şÎñ¿ò¼Ü¡£»ùÓÚIdentityServer4¡¢Azu
 * [Azure API Management](https://azure.microsoft.com/zh-cn/services/api-management/)
 * [Swagger Codegen](https://github.com/swagger-api/swagger-codegen)
 
+For run this project requires
+--
+* Azure Key Valut (ç»Ÿä¸€é…ç½®ï¼Œå°†Appsettingçš„é…ç½®ã€SSLè¯ä¹¦è¿ç§»åˆ°Azure Key Valutç­‰)
+* Azure Redis ï¼ˆç¼“å­˜ï¼‰
+* Azure SqlServer ï¼ˆæŒä¹…å­˜å‚¨ï¼ŒUserã€Clientã€ApiResourceç­‰æ•°æ®ï¼‰
+* Azure Storage ï¼ˆTable/Queue/Blobï¼‰
+* Email & Message ï¼ˆSend Cloudï¼‰
+* Elastic Search ï¼ˆè¯·æ±‚æ—¥å¿—ï¼‰
 
-#### For run this project requires
 
-* Azure Key Valut (Í³Ò»ÅäÖÃ£¬½«AppsettingµÄÅäÖÃ¡¢SSLÖ¤ÊéÇ¨ÒÆµ½Azure Key ValutµÈ)
-* Azure Redis £¨»º´æ£©
-* Azure SqlServer £¨³Ö¾Ã´æ´¢£¬User¡¢Client¡¢ApiResourceµÈÊı¾İ£©
-* Azure Storage £¨Table/Queue/Blob£©
-* Email & Message £¨Send Cloud£©
-* Elastic Search £¨ÇëÇóÈÕÖ¾£©
+> ç›®å‰ä¸»è¦ç”±[seven1986](https://github.com/seven1986)åˆ›å»ºå’Œç»´æŠ¤ã€‚
