@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2024
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer4.MicroService", "IdentityServer4.MicroService\IdentityServer4.MicroService.csproj", "{283C0F06-3AF1-449C-ADBF-B4B0A981A7B0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{283C0F06-3AF1-449C-ADBF-B4B0A981A7B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{283C0F06-3AF1-449C-ADBF-B4B0A981A7B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{283C0F06-3AF1-449C-ADBF-B4B0A981A7B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{283C0F06-3AF1-449C-ADBF-B4B0A981A7B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B4518AC4-7959-47F3-9C89-B53094F9BC16}
+	EndGlobalSection
+EndGlobal
