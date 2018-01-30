@@ -1,0 +1,20 @@
+{
+  "name": "campaign.identity",
+  "version": "1.0.0",
+  "dependencies": {
+    "jquery": "3.3.1",
+    "jquery-validation": "1.17.0",
+    "jquery-validation-unobtrusive": "^3.2.6",
+    "angular": "1.6.8",
+    "semantic-ui-css": "2.2.14"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-uglify": "^3.0.0",
+    "merge-stream": "^1.0.1",
+    "gulp-clean": "0.4.0",
+    "gulp-sequence": "1.0.0"
+  }
+}

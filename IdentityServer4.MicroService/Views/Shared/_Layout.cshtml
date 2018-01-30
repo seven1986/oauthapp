@@ -1,0 +1,48 @@
+﻿@{
+    AppTenantPublicModel tenant = null;
+    var currentTenant = Context.Items[TenantConstant.CacheKey];
+    if (currentTenant != null)
+    {
+        var tenantString = currentTenant.ToString();
+        tenant = JsonConvert.DeserializeObject<AppTenantPublicModel>(tenantString);
+    }
+}
+@inject IViewLocalizer Localizer
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@Html.Raw(tenant.name) - @Localizer["身份认证中心"]</title>
+    <environment names="Development">
+        <link href="/dist/vendor.min.css" rel="stylesheet" />
+        <link href="/dist/app.css" rel="stylesheet" />
+    </environment>
+    <environment names="Staging,Production">
+        <link href="/dist/app.min.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+    <div class="ui fixed inverted menu">
+        <div class="ui container">
+            <a href="" class="header item">
+                @Html.Raw(tenant.name)
+            </a>
+            <a asp-area="" class="active item" asp-controller="Home" asp-action="Index">@Localizer["首页"]</a>
+            <div class="right menu">
+                @await Html.PartialAsync("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <br />
+    @RenderBody()
+    <environment names="Development">
+        <script src="/dist/vendor.min.js"></script>
+        <script src="/dist/app.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/dist/app.min.js" asp-append-version="true"></script>
+    </environment>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
