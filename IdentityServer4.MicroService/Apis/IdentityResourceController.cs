@@ -10,7 +10,7 @@ using Microsoft.Extensions.Localization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
-using IdentityServer4.MicroService.ApiCodes;
+using IdentityServer4.MicroService.Codes;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.CommonModels;
 using IdentityServer4.MicroService.Models.IdentityResourceModels;
@@ -44,7 +44,7 @@ namespace IdentityServer4.MicroService.Apis
             {
                 return new PagingResult<IdentityResource>()
                 {
-                    code = (int)BasicControllerCodes.UnprocessableEntity,
+                    code = (int)BasicControllerEnums.UnprocessableEntity,
                     error_msg = ModelErrors()
                 };
             }
@@ -107,7 +107,7 @@ namespace IdentityServer4.MicroService.Apis
 
             if (entity == null)
             {
-                return new ApiResult<IdentityResource>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<IdentityResource>(l, BasicControllerEnums.NotFound);
             }
 
             return new ApiResult<IdentityResource>(entity);
@@ -120,7 +120,7 @@ namespace IdentityServer4.MicroService.Apis
         {
             if (!ModelState.IsValid)
             {
-                return new ApiResult<long>(l, BasicControllerCodes.UnprocessableEntity,
+                return new ApiResult<long>(l, BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
@@ -139,7 +139,7 @@ namespace IdentityServer4.MicroService.Apis
             if (!ModelState.IsValid)
             {
                 return new ApiResult<long>(l,
-                    BasicControllerCodes.UnprocessableEntity,
+                    BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
@@ -216,7 +216,7 @@ namespace IdentityServer4.MicroService.Apis
                     tran.Rollback();
 
                     return new ApiResult<long>(l,
-                        BasicControllerCodes.ExpectationFailed,
+                        BasicControllerEnums.ExpectationFailed,
                         ex.Message);
                 }
             }
@@ -233,7 +233,7 @@ namespace IdentityServer4.MicroService.Apis
 
             if (entity == null)
             {
-                return new ApiResult<long>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
 
             db.IdentityResources.Remove(entity);

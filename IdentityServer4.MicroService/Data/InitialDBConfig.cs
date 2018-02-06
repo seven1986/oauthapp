@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.MicroService.Tenant;
+using static IdentityServer4.MicroService.AppConstant;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace IdentityServer4.MicroService.Data
 {
@@ -47,41 +49,14 @@ namespace IdentityServer4.MicroService.Data
                         DisplayName = "campaign.core.identity",
                         Description = "campaign.core.identity",
                         Scopes = {
-                            new Scope("campaign.core.identity.approve","批准",new[]{ "approve"}),
-                            new Scope("campaign.core.identity.create","创建", new[]{ "create"}),
-                            new Scope("campaign.core.identity.delete","删除", new[]{ "delete"}),
-                            new Scope("campaign.core.identity.read","读取",   new[]{ "read"}),
-                            new Scope("campaign.core.identity.reject","拒绝", new[]{ "reject"}),
-                            new Scope("campaign.core.identity.update","更新", new[]{ "update"}),
-                            new Scope("campaign.core.identity.upload","上传", new[]{ "upload"}),
-                            new Scope("campaign.core.identity.all","所有权限",new[]{ "all"})
-                        },
-                          
-                        //需要使用的用户claims
-                        UserClaims= {
-                            "permission",
-                            "role"
-                        }
-                    },
-                    new ApiResource()
-                    {
-                        Enabled =true,
-                        ApiSecrets = {
-                            new Secret("1".Sha256()),
-                            new Secret("2".Sha256(),"desc",DateTime.UtcNow.AddYears(1)),
-                        },
-                        Name = "campaign.core.apis",
-                        DisplayName = "campaign.core.apis",
-                        Description = "campaign.core.apis",
-                        Scopes = {
-                            new Scope("campaign.core.apis.approve","批准",new[]{ "approve"}),
-                            new Scope("campaign.core.apis.create","创建", new[]{ "create"}),
-                            new Scope("campaign.core.apis.delete","删除", new[]{ "delete"}),
-                            new Scope("campaign.core.apis.read","读取",   new[]{ "read"}),
-                            new Scope("campaign.core.apis.reject","拒绝", new[]{ "reject"}),
-                            new Scope("campaign.core.apis.update","更新", new[]{ "update"}),
-                            new Scope("campaign.core.apis.upload","上传", new[]{ "upload"}),
-                            new Scope("campaign.core.apis.all","所有权限",new[]{ "all"})
+                            new Scope(MicroServiceName + ".approve","批准"),
+                            new Scope(MicroServiceName + ".create","创建"),
+                            new Scope(MicroServiceName + ".delete","删除"),
+                            new Scope(MicroServiceName + ".read","读取"),
+                            new Scope(MicroServiceName + ".reject","拒绝"),
+                            new Scope(MicroServiceName + ".update","更新"),
+                            new Scope(MicroServiceName + ".upload","上传"),
+                            new Scope(MicroServiceName + ".all","所有权限")
                         },
                           
                         //需要使用的用户claims
@@ -98,7 +73,7 @@ namespace IdentityServer4.MicroService.Data
                 // client credentials client
                 return new List<Client>
                 {
-                    #region Campaign AppStore 专用
+                    #region Campaign.H5Game
 		            new Client
                     {
                         ClientId = "xingbangames",
@@ -122,14 +97,12 @@ namespace IdentityServer4.MicroService.Data
                         {
                             IdentityServerConstants.StandardScopes.OpenId,
                             IdentityServerConstants.StandardScopes.Profile,
-                            "campaign.core.apis.all",
-                            "campaign.core.identity.all"
+                            MicroServiceName + ".all",
                         },
                         AllowOfflineAccess = true,
                         RequireConsent=false
-                    } 
+                    }, 
 	                #endregion
-                    ,
                     #region 开放平台接口测试专用
 		            new Client
                     {
@@ -154,8 +127,8 @@ namespace IdentityServer4.MicroService.Data
                         {
                             IdentityServerConstants.StandardScopes.OpenId,
                             IdentityServerConstants.StandardScopes.Profile,
-                            "campaign.core.apis.all",
-                            "campaign.core.identity.all"
+                            MicroServiceName+ ".all",
+                            "campaign.game.all"
                         },
                         AllowOfflineAccess = true,
                     }, 
@@ -184,8 +157,8 @@ namespace IdentityServer4.MicroService.Data
                         {
                             IdentityServerConstants.StandardScopes.OpenId,
                             IdentityServerConstants.StandardScopes.Profile,
-                            "campaign.core.apis.all",
-                            "campaign.core.identity.all"
+                            MicroServiceName + ".all",
+                            "campaign.game.all"
                         },
                         AllowOfflineAccess = true
                     },
@@ -213,11 +186,11 @@ namespace IdentityServer4.MicroService.Data
                         {
                             IdentityServerConstants.StandardScopes.OpenId,
                             IdentityServerConstants.StandardScopes.Profile,
-                            "campaign.core.apis.all",
-                            "campaign.core.identity.all"
+                            MicroServiceName + ".all",
+                            "campaign.game.all"
                         },
                         AllowOfflineAccess = true
-                    } 
+                    }
 	                #endregion
                 };
             }
@@ -227,39 +200,25 @@ namespace IdentityServer4.MicroService.Data
         {
             public static IEnumerable<AppRole> GetRoles()
             {
-                return new List<AppRole>
+                var result = new List<AppRole>();
+
+                var roles = typeof(Roles).GetFields();
+
+                foreach (var role in roles)
                 {
-                     new AppRole
+                    var roleName = role.GetRawConstantValue().ToString();
+
+                    var roleDisplayName = role.GetCustomAttribute<DisplayNameAttribute>().DisplayName;
+
+                    result.Add(new AppRole
                     {
-                        Name=AppConstant.Roles.Users,
-                        NormalizedName=AppConstant.Roles.UsersNormalizedName,
-                        ConcurrencyStamp=Guid.NewGuid().ToString()
-                    },
-                     new AppRole
-                    {
-                        Name=AppConstant.Roles.Developer,
-                        NormalizedName=AppConstant.Roles.DeveloperNormalizedName,
-                        ConcurrencyStamp=Guid.NewGuid().ToString()
-                    },
-                     new AppRole
-                    {
-                        Name=AppConstant.Roles.Partners,
-                        NormalizedName=AppConstant.Roles.PartnersNormalizedName,
-                        ConcurrencyStamp=Guid.NewGuid().ToString()
-                    },
-                     new AppRole
-                    {
-                        Name=AppConstant.Roles.Administrators,
-                        NormalizedName=AppConstant.Roles.AdministratorsNormalizedName,
-                        ConcurrencyStamp=Guid.NewGuid().ToString()
-                     },
-                     new AppRole
-                    {
-                        Name=AppConstant.Roles.Star,
-                        NormalizedName=AppConstant.Roles.StarNormalizedName,
-                        ConcurrencyStamp=Guid.NewGuid().ToString()
-                     }
-                };
+                        Name = roleName,
+                        NormalizedName = roleDisplayName,
+                        ConcurrencyStamp = Guid.NewGuid().ToString()
+                    });
+                }
+
+                return result;
             }
 
             public static IEnumerable<AppUser> GetUsers()
@@ -268,8 +227,8 @@ namespace IdentityServer4.MicroService.Data
                 {
                      new AppUser()
                      {
-                        Email="1@1.1",
-                        UserName="1@1.1",
+                        Email="1@1.com",
+                        UserName="1@1.com",
                         PasswordHash="123456aA!",
                         EmailConfirmed=true
                      }

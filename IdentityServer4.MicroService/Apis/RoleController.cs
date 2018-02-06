@@ -9,7 +9,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Authorization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.ApiCodes;
+using IdentityServer4.MicroService.Codes;
 using IdentityServer4.MicroService.Models.CommonModels;
 using static IdentityServer4.MicroService.AppConstant;
 
@@ -57,7 +57,7 @@ namespace IdentityServer4.MicroService.Apis
 
             if (entity == null)
             {
-                return new ApiResult<AppRole>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<AppRole>(l, BasicControllerEnums.NotFound);
             }
 
             return new ApiResult<AppRole>(entity);
@@ -70,7 +70,7 @@ namespace IdentityServer4.MicroService.Apis
         {
             if (!ModelState.IsValid)
             {
-                return new ApiResult<long>(l, BasicControllerCodes.UnprocessableEntity,
+                return new ApiResult<long>(l, BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
@@ -89,7 +89,7 @@ namespace IdentityServer4.MicroService.Apis
             if (!ModelState.IsValid)
             {
                 return new ApiResult<long>(l,
-                    BasicControllerCodes.UnprocessableEntity,
+                    BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
@@ -184,7 +184,7 @@ namespace IdentityServer4.MicroService.Apis
                     tran.Rollback();
 
                     return new ApiResult<long>(l,
-                        BasicControllerCodes.ExpectationFailed,
+                        BasicControllerEnums.ExpectationFailed,
                         ex.Message);
                 }
             }
@@ -201,7 +201,7 @@ namespace IdentityServer4.MicroService.Apis
 
             if (entity == null)
             {
-                return new ApiResult<long>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
 
             db.Roles.Remove(entity);

@@ -152,9 +152,7 @@ namespace IdentityServer4.MicroService.Models.AppUsersModels
         [StringLength(50, ErrorMessage = "2-50个字节之内", MinimumLength = 2)]
         public string NickName { get; set; }
 
-        /// <summary>
-        /// Email
-        /// </summary>
+
         //[Required(ErrorMessage = "请填写联系邮箱")]
         //[EmailAddress(ErrorMessage = "邮箱格式错误")]
         //public string Email { get; set; }
@@ -212,9 +210,7 @@ namespace IdentityServer4.MicroService.Models.AppUsersModels
         [RegularExpression("[0-9]{4,6}",ErrorMessage ="验证码为格式错误")]
         public string PhoneNumberVerifyCode { get; set; }
 
-        /// <summary>
-        /// 非必填，如果填写了将进行有效性的验证
-        /// </summary>
+        // 非必填，如果填写了将进行有效性的验证
         //public string EmailVerifyCode { get; set; }
 
         /// <summary>

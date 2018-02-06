@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel;
 
-namespace IdentityServer4.MicroService.ApiCodes
+namespace IdentityServer4.MicroService.Codes
 {
     /// <summary>
     /// 用户接口业务代码常量表
     /// </summary>
-    public class UserControllerCodes
+    public class UserControllerEnums
     {
         /// <summary>
         /// 提交报名 - 业务代码

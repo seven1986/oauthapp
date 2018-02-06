@@ -11,7 +11,7 @@ using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.DbContexts;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.ApiCodes;
+using IdentityServer4.MicroService.Codes;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.CommonModels;
 using IdentityServer4.MicroService.Models.ClientModels;
@@ -51,7 +51,7 @@ namespace IdentityServer4.MicroService.Apis
             {
                 return new PagingResult<Client>()
                 {
-                    code = (int)BasicControllerCodes.UnprocessableEntity,
+                    code = (int)BasicControllerEnums.UnprocessableEntity,
                     error_msg = ModelErrors()
                 };
             }
@@ -131,7 +131,7 @@ namespace IdentityServer4.MicroService.Apis
         {
             if (!await exists(id))
             {
-                return new ApiResult<Client>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<Client>(l, BasicControllerEnums.NotFound);
             }
 
             var query = idsDB.Clients.AsQueryable();
@@ -151,7 +151,7 @@ namespace IdentityServer4.MicroService.Apis
 
             if (entity == null)
             {
-                return new ApiResult<Client>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<Client>(l, BasicControllerEnums.NotFound);
             }
 
             return new ApiResult<Client>(entity);
@@ -164,7 +164,7 @@ namespace IdentityServer4.MicroService.Apis
         {
             if (!ModelState.IsValid)
             {
-                return new ApiResult<long>(l, BasicControllerCodes.UnprocessableEntity,
+                return new ApiResult<long>(l, BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
@@ -191,13 +191,13 @@ namespace IdentityServer4.MicroService.Apis
             if (!ModelState.IsValid)
             {
                 return new ApiResult<long>(l,
-                    BasicControllerCodes.UnprocessableEntity,
+                    BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
             if (! await exists(value.Id))
             {
-                return new ApiResult<long>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
 
             using (var tran = idsDB.Database.BeginTransaction(IsolationLevel.ReadCommitted))
@@ -695,7 +695,7 @@ namespace IdentityServer4.MicroService.Apis
                     tran.Rollback();
 
                     return new ApiResult<long>(l,
-                        BasicControllerCodes.ExpectationFailed,
+                        BasicControllerEnums.ExpectationFailed,
                         ex.Message);
                 }
             }
@@ -710,7 +710,7 @@ namespace IdentityServer4.MicroService.Apis
         {
             if (!await exists(id))
             {
-                return new ApiResult<long>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
 
             var entity = await idsDB.Clients.SingleOrDefaultAsync(m => m.Id == id);

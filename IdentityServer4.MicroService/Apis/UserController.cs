@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using IdentityServer4.MicroService.ApiCodes;
+using IdentityServer4.MicroService.Codes;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Mappers;
 using IdentityServer4.MicroService.Models.CommonModels;
@@ -30,8 +30,6 @@ namespace IdentityServer4.MicroService.Apis
         #region Services
         //Database
         readonly ApplicationDbContext db;
-        //redis
-        readonly RedisService redis;
         // 短信
         readonly ISmsSender sms;
         // 邮件
@@ -75,7 +73,7 @@ namespace IdentityServer4.MicroService.Apis
             {
                 return new PagingResult<AppUserModel>()
                 {
-                    code = (int)BasicControllerCodes.UnprocessableEntity,
+                    code = (int)BasicControllerEnums.UnprocessableEntity,
 
                     error_msg = ModelErrors()
                 };
@@ -179,7 +177,7 @@ namespace IdentityServer4.MicroService.Apis
 
             if (entity == null)
             {
-                return new ApiResult<AppUser>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<AppUser>(l, BasicControllerEnums.NotFound);
             }
 
             return new ApiResult<AppUser>(entity);
@@ -197,7 +195,7 @@ namespace IdentityServer4.MicroService.Apis
         {
             if (!ModelState.IsValid)
             {
-                return new ApiResult<long>(l, BasicControllerCodes.UnprocessableEntity,
+                return new ApiResult<long>(l, BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
@@ -224,7 +222,7 @@ namespace IdentityServer4.MicroService.Apis
             if (!ModelState.IsValid)
             {
                 return new ApiResult<long>(l, 
-                    BasicControllerCodes.UnprocessableEntity,
+                    BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
@@ -396,7 +394,7 @@ namespace IdentityServer4.MicroService.Apis
                     tran.Rollback();
 
                     return new ApiResult<long>(l, 
-                        BasicControllerCodes.ExpectationFailed,
+                        BasicControllerEnums.ExpectationFailed,
                         ex.Message);
                 }
             }
@@ -422,7 +420,7 @@ namespace IdentityServer4.MicroService.Apis
 
             if (entity == null)
             {
-                return new ApiResult<long>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
 
             db.Users.Remove(entity);
@@ -478,7 +476,7 @@ namespace IdentityServer4.MicroService.Apis
         {
             if (!ModelState.IsValid)
             {
-                return new ApiResult<string>(l,BasicControllerCodes.UnprocessableEntity, 
+                return new ApiResult<string>(l,BasicControllerEnums.UnprocessableEntity, 
                     ModelErrors());
             }
 
@@ -505,7 +503,7 @@ namespace IdentityServer4.MicroService.Apis
             #region 校验手机号是否重复
             if (await db.Users.AnyAsync(x => x.PhoneNumber.Equals(value.PhoneNumber)))
             {
-                return new ApiResult<string>(l, UserControllerCodes.ApplyFor.PhoneNumberExists);
+                return new ApiResult<string>(l, UserControllerEnums.ApplyFor.PhoneNumberExists);
             }
             #endregion
             #region 校验手机验证码
@@ -513,7 +511,7 @@ namespace IdentityServer4.MicroService.Apis
 
             if (await redis.KeyExists(PhoneNumberVerifyCodeKey) == false)
             {
-                return new ApiResult<string>(l, UserControllerCodes.ApplyFor.PhoneNumberVerifyCodeError);
+                return new ApiResult<string>(l, UserControllerEnums.ApplyFor.PhoneNumberVerifyCodeError);
             }
 
             await redis.Remove(PhoneNumberVerifyCodeKey);
@@ -612,7 +610,7 @@ namespace IdentityServer4.MicroService.Apis
 
             else
             {
-                return new ApiResult<string>(l, BasicControllerCodes.ExpectationFailed,
+                return new ApiResult<string>(l, BasicControllerEnums.ExpectationFailed,
                     JsonConvert.SerializeObject(result.Errors));
             }
             #endregion
@@ -621,7 +619,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         /// 发送手机验证码
         /// </summary>
-        /// <param name="phoneNumber">电话号码</param>
+        /// <param name="value"></param>
         /// <returns></returns>
         [HttpPost("VerifyPhoneNumber")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Create)]
@@ -630,7 +628,7 @@ namespace IdentityServer4.MicroService.Apis
         {
             if (!ModelState.IsValid)
             {
-                return new ApiResult<string>(l,BasicControllerCodes.UnprocessableEntity,
+                return new ApiResult<string>(l,BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
@@ -645,7 +643,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 if (dailyLimit > RedisKeys.Limit_24Hour_Verify_MAX_Phone)
                 {
-                    return new ApiResult<string>(l,UserControllerCodes.VerifyPhoneNumber.CallLimited);
+                    return new ApiResult<string>(l,UserControllerEnums.VerifyPhoneNumber.CallLimited);
                 }
             }
             else
@@ -670,7 +668,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 if (usedTime < RedisKeys.MinimumTime_SendCode_Phone)
                 {
-                    return new ApiResult<string>(l, UserControllerCodes.VerifyPhoneNumber.TooManyRequests, string.Empty,
+                    return new ApiResult<string>(l, UserControllerEnums.VerifyPhoneNumber.TooManyRequests, string.Empty,
                         RedisKeys.MinimumTime_SendCode_Phone - usedTime);
                 }
             }
@@ -699,7 +697,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         /// 发送邮件验证码
         /// </summary>
-        /// <param name="emailAddress">邮件地址</param>
+        /// <param name="value"></param>
         /// <returns></returns>
         [HttpPost("VerifyEmailAddress")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Create)]
@@ -708,7 +706,7 @@ namespace IdentityServer4.MicroService.Apis
         {
             if (!ModelState.IsValid)
             {
-                return new ApiResult<string>(l,BasicControllerCodes.UnprocessableEntity,
+                return new ApiResult<string>(l,BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
@@ -723,7 +721,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 if (dailyLimit > RedisKeys.Limit_24Hour_Verify_MAX_Email)
                 {
-                    return new ApiResult<string>(l,UserControllerCodes.VerifyEmailAddress.CallLimited);
+                    return new ApiResult<string>(l,UserControllerEnums.VerifyEmailAddress.CallLimited);
                 }
             }
             else
@@ -748,7 +746,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 if (usedTime < RedisKeys.MinimumTime_SendCode_Email)
                 {
-                    return new ApiResult<string>(l, UserControllerCodes.VerifyEmailAddress.TooManyRequests, string.Empty,
+                    return new ApiResult<string>(l, UserControllerEnums.VerifyEmailAddress.TooManyRequests, string.Empty,
                         RedisKeys.MinimumTime_SendCode_Email - usedTime);
                 }
             }

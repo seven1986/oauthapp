@@ -12,82 +12,29 @@ using System.Threading.Tasks;
 
 namespace IdentityServer4.MicroService.Services
 {
-    public class AzureApiManagementAuthorizationServerEntity
+    #region Basic
+    public class AzureApiManagementEntities<T>
     {
-        public string id { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public string clientRegistrationEndpoint { get; set; }
-        public string authorizationEndpoint { get; set; }
-        public List<string> authorizationMethods { get; set; }
-        public List<string> clientAuthenticationMethod { get; set; }
-        public List<string> tokenBodyParameters { get; set; }
-        public string tokenEndpoint { get; set; }
-        public bool supportState { get; set; }
-        public string defaultScope { get; set; }
-        public List<string> grantTypes { get; set; }
-        public List<string> bearerTokenSendingMethods { get; set; }
-        public string clientId { get; set; }
-        public string clientSecret { get; set; }
-        public string resourceOwnerUsername { get; set; }
-        public string resourceOwnerPassword { get; set; }
-    }
+        public List<T> value { get; set; }
 
-    public class AzureApiManagementAuthorizationServers : AzureApiManagement
-    {
-        public AzureApiManagementAuthorizationServers(string _host,
-            string _apiId,
-            string _apiKey) : base(_host, _apiId, _apiKey)
-        {
-        }
+        public int count { get; set; }
 
-        /// <summary>
-        /// authorizationServers List
-        /// </summary>
-        /// <returns></returns>
-        public async Task<AzureApiManagementEntities<AzureApiManagementAuthorizationServerEntity>> GetAsync()
-        {
-            var result = await _GetAsync("/authorizationServers");
-
-            if (result.IsSuccessStatusCode)
-            {
-                var data = result.Content.ReadAsStringAsync().Result;
-
-                var entities = JsonConvert.DeserializeObject<AzureApiManagementEntities<AzureApiManagementAuthorizationServerEntity>>(data);
-
-                return entities;
-            }
-
-            else
-            {
-                return null;
-            }
-        }
+        public string nextLink { get; set; }
     }
 
     public class AzureApiManagement
     {
-        protected string host; 
+        protected string host;
 
-        protected string apiId; 
+        protected string apiId;
 
         protected string apiKey;
 
         protected const string apiversion = "?api-version=2017-03-01";
 
+        #region Token
         string _token { get; set; }
-
         DateTime tokenExpiry { get; set; }
-
-        public AzureApiManagement(string _host,
-            string _apiId,
-            string _apiKey)
-        {
-            host = _host;
-            apiId = _apiId;
-            apiKey = _apiKey;
-        }
-
         protected string token
         {
             get
@@ -114,16 +61,24 @@ namespace IdentityServer4.MicroService.Services
                 return _token;
             }
         }
+        #endregion
 
+        public AzureApiManagement(string _host,
+            string _apiId,
+            string _apiKey)
+        {
+            host = _host;
+            apiId = _apiId;
+            apiKey = _apiKey;
+        }
+
+        #region Request Helpers
         protected Task<HttpResponseMessage> _GetAsync(string url) => RequestAsync(url, HttpMethod.Get.Method);
-
         protected Task<HttpResponseMessage> _PutAsync(string url) => RequestAsync(url, HttpMethod.Put.Method);
-
         protected Task<HttpResponseMessage> _PostAsync(string url) => RequestAsync(url, HttpMethod.Post.Method);
-
         protected Task<HttpResponseMessage> _DeleteAsync(string url) => RequestAsync(url, HttpMethod.Delete.Method);
-
         protected Task<HttpResponseMessage> _HeadAsync(string url) => RequestAsync(url, HttpMethod.Head.Method);
+        #endregion
 
         /// <summary>
         /// Request for Rest API Management
@@ -179,15 +134,125 @@ namespace IdentityServer4.MicroService.Services
             return response;
         }
     }
+    #endregion
 
+    #region AuthorizationServers
+    public class AzureApiManagementAuthorizationServerEntity
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string clientRegistrationEndpoint { get; set; }
+        public string authorizationEndpoint { get; set; }
+        public List<string> authorizationMethods { get; set; }
+        public List<string> clientAuthenticationMethod { get; set; }
+        public List<string> tokenBodyParameters { get; set; }
+        public string tokenEndpoint { get; set; }
+        public bool supportState { get; set; }
+        public string defaultScope { get; set; }
+        public List<string> grantTypes { get; set; }
+        public List<string> bearerTokenSendingMethods { get; set; }
+        public string clientId { get; set; }
+        public string clientSecret { get; set; }
+        public string resourceOwnerUsername { get; set; }
+        public string resourceOwnerPassword { get; set; }
+    }
+    public class AzureApiManagementAuthorizationServers : AzureApiManagement
+    {
+        public AzureApiManagementAuthorizationServers(string _host,
+            string _apiId,
+            string _apiKey) : base(_host, _apiId, _apiKey)
+        {
+        }
+
+        /// <summary>
+        /// authorizationServers List
+        /// </summary>
+        /// <returns></returns>
+        public async Task<AzureApiManagementEntities<AzureApiManagementAuthorizationServerEntity>> GetAsync()
+        {
+            var result = await _GetAsync("/authorizationServers");
+
+            if (result.IsSuccessStatusCode)
+            {
+                var data = result.Content.ReadAsStringAsync().Result;
+
+                var entities = JsonConvert.DeserializeObject<AzureApiManagementEntities<AzureApiManagementAuthorizationServerEntity>>(data);
+
+                return entities;
+            }
+
+            else
+            {
+                return null;
+            }
+        }
+    }
+    #endregion
+
+    #region Product
+    public class AzureApiManagementProductEntity
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string terms { get; set; }
+        public string subscriptionRequired { get; set; }
+        public string approvalRequired { get; set; }
+        public string subscriptionsLimit { get; set; }
+        public string state { get; set; }
+    }
+    public class AzureApiManagementProduct : AzureApiManagement
+    {
+        public AzureApiManagementProduct(string _host,
+            string _apiId,
+            string _apiKey) : base(_host, _apiId, _apiKey)
+        {
+        }
+
+        /// <summary>
+        /// Product List
+        /// </summary>
+        /// <returns></returns>
+        public async Task<AzureApiManagementEntities<AzureApiManagementProductEntity>> GetAsync()
+        {
+            var result = await _GetAsync("/products");
+
+            if (result.IsSuccessStatusCode)
+            {
+                var data = result.Content.ReadAsStringAsync().Result;
+
+                var entities = JsonConvert.DeserializeObject<AzureApiManagementEntities<AzureApiManagementProductEntity>>(data);
+
+                return entities;
+            }
+
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Add Api To Product
+        /// </summary>
+        /// <param name="pid">Product id</param>
+        /// <param name="aid">Api id</param>
+        /// <returns></returns>
+        public async Task<bool> AddApiAsync(string pid, string aid)
+        {
+            var path = $"{pid}/apis/{aid}";
+
+            var result = await _PutAsync(path);
+
+            return result.IsSuccessStatusCode;
+        }
+    }
+    #endregion
+
+    #region Api
     public class AzureApiManagementApi : AzureApiManagement
     {
-        // 默认的oAuth2 Server ID
-        // 59efe9dd88269013808d7cf0
-
-        // 默认的产品ID
-        // 5a40b9b788269017d4082616
-
         AzureApiManagementProduct prdService;
 
         public AzureApiManagementApi(string _host,
@@ -198,41 +263,49 @@ namespace IdentityServer4.MicroService.Services
         }
 
         /// <summary>
-        /// Api List
+        /// Get Api List
         /// </summary>
         /// <returns></returns>
-        public async Task<string> GetAsync()
+        public async Task<AzureApiManagementEntities<AzureApiManagementApiEntity>> GetAsync()
         {
             var result = await _GetAsync("/apis");
 
             if (result.IsSuccessStatusCode)
             {
-                return result.Content.ReadAsStringAsync().Result;
+                var data = result.Content.ReadAsStringAsync().Result;
+
+                var entities = JsonConvert.DeserializeObject<AzureApiManagementEntities<AzureApiManagementApiEntity>>(data);
+
+                return entities;
             }
 
             else
             {
-                return string.Empty;
+                return null;
             }
         }
 
         /// <summary>
-        /// Api Detail
+        /// Get Api Detail
         /// </summary>
         /// <param name="aid">Api Id</param>
         /// <returns></returns>
-        public async Task<string> DetailAsync(string aid)
+        public async Task<AzureApiManagementApiEntity> DetailAsync(string aid)
         {
             var result = await _GetAsync($"/apis/{aid}");
 
             if (result.IsSuccessStatusCode)
             {
-                return result.Content.ReadAsStringAsync().Result;
+                var data = result.Content.ReadAsStringAsync().Result;
+
+                var entity = JsonConvert.DeserializeObject<AzureApiManagementApiEntity>(data);
+
+                return entity;
             }
 
             else
             {
-                return string.Empty;
+                return null;
             }
         }
 
@@ -371,7 +444,7 @@ namespace IdentityServer4.MicroService.Services
         }
 
         /// <summary>
-        /// Update Api Entity By Model
+        /// Update Api
         /// </summary>
         /// <param name="aid">id</param>
         /// <param name="body">Model</param>
@@ -407,6 +480,27 @@ namespace IdentityServer4.MicroService.Services
             return result.IsSuccessStatusCode;
         }
 
+        /// <summary>
+        /// Delete Api include all revisions
+        /// </summary>
+        /// <param name="aid">aid</param>
+        /// <returns></returns>
+        public async Task<bool> DeleteAllAsync(string aid)
+        {
+            var result = await _DeleteAsync($"/apis/{aid}/revisions");
+
+            if (result.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
+        }
+
+        #region Policy 策略
         /// <summary>
         /// Get Api Policy
         /// </summary>
@@ -455,50 +549,23 @@ namespace IdentityServer4.MicroService.Services
                 return string.Empty;
             }
         }
-    }
+        #endregion
 
-    public class AzureApiManagementEntities<T>
-    {
-        public List<T> value { get; set; }
-
-        public int count { get; set; }
-
-        public string nextLink { get; set; }
-    }
-
-    public class AzureApiManagementProductEntity
-    {
-        public string id { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public string terms { get; set; }
-        public string subscriptionRequired { get; set; }
-        public string approvalRequired { get; set; }
-        public string subscriptionsLimit { get; set; }
-        public string state { get; set; }
-    }
-
-    public class AzureApiManagementProduct : AzureApiManagement
-    {
-        public AzureApiManagementProduct(string _host,
-            string _apiId,
-            string _apiKey) : base(_host, _apiId, _apiKey)
-        {
-        }
-
+        #region Revisions 修订版本
         /// <summary>
-        /// Product List
+        /// GetRevisions
         /// </summary>
+        /// <param name="aid">7</param>
         /// <returns></returns>
-        public async Task<AzureApiManagementEntities<AzureApiManagementProductEntity>> GetAsync()
+        public async Task<AzureApiManagementEntities<AzureApiManagementRevisionEntity>> GetRevisionsAsync(string aid)
         {
-            var result = await _GetAsync("/products");
+            var result = await _GetAsync($"/apis/{aid}/revisions");
 
             if (result.IsSuccessStatusCode)
             {
                 var data = result.Content.ReadAsStringAsync().Result;
 
-                var entities = JsonConvert.DeserializeObject<AzureApiManagementEntities<AzureApiManagementProductEntity>>(data);
+                var entities = JsonConvert.DeserializeObject<AzureApiManagementEntities<AzureApiManagementRevisionEntity>>(data);
 
                 return entities;
             }
@@ -510,21 +577,249 @@ namespace IdentityServer4.MicroService.Services
         }
 
         /// <summary>
-        /// Add Api To Product
+        /// Create Revision
         /// </summary>
-        /// <param name="pid">Product id</param>
-        /// <param name="aid">Api id</param>
+        /// <param name="aid">7;rev=2</param>
+        /// <param name="releaseId">7;rev=3</param>
+        /// <param name="apiRevisionDescription">desc</param>
         /// <returns></returns>
-        public async Task<bool> AddApiAsync(string pid, string aid)
+        public async Task<bool> CreateRevisionAsync(string aid, string releaseId, string apiRevisionDescription)
         {
-            var path = $"{pid}/apis/{aid}";
+            var path = $"/apis/{releaseId}";
 
-            var result = await _PutAsync(path);
+            var body = JsonConvert.SerializeObject(new
+            {
+                sourceApiId = $"/apis/{aid}",
+                apiRevisionDescription
+            });
+
+            var content = new StringContent(body, Encoding.UTF8, "application/vnd.ms-azure-apim.revisioninfo+json");
+
+            var result = await RequestAsync(path, HttpMethod.Put.Method, null, content);
 
             return result.IsSuccessStatusCode;
         }
+
+        /// <summary>
+        /// Create Version from a revision
+        /// </summary>
+        /// <param name="revisionId">/apis/7;rev=3</param>
+        /// <param name="newApiId">default is guid</param>
+        /// <param name="newApiName">default is revisionId apiName</param>
+        /// <param name="apiVersionName">default is V2</param>
+        /// <param name="apiRevisionDescription"></param>
+        /// <param name="versioningScheme">default is Query(Segment/Header) </param>
+        /// <param name="versionQueryName">default is api-version</param>
+        /// <returns></returns>
+        public async Task<bool> CreateVersionAsync(
+            string revisionId,
+            string apiVersionName,
+            string newApiId = "",
+            string newApiName = "",
+            string apiRevisionDescription = "Description",
+            string versioningScheme = "Query",
+            string versionQueryName = "api-version")
+        {
+            if (string.IsNullOrWhiteSpace(apiVersionName))
+            {
+                throw new ArgumentNullException("apiVersionName can not be null");
+            }
+
+            apiVersionName = apiVersionName.ToLower();
+
+            if (string.IsNullOrWhiteSpace(newApiId))
+            {
+                newApiId = Guid.NewGuid().ToString().Replace("-", string.Empty);
+            }
+
+            if (string.IsNullOrWhiteSpace(newApiName))
+            {
+                var detail = await DetailAsync(revisionId);
+
+                if (detail != null && !string.IsNullOrWhiteSpace(detail.name))
+                {
+                    newApiName = detail.name;
+                }
+            }
+
+            var path = $"/apis/{newApiId}";
+
+            var body = JsonConvert.SerializeObject(new
+            {
+                sourceApiId = $"/apis/{revisionId}",
+                apiVersionName,
+                apiRevisionDescription,
+                apiVersionSet = new
+                {
+                    name = newApiName,
+                    versioningScheme,
+                    versionQueryName = "api-version"
+                }
+            });
+
+            var content = new StringContent(body, Encoding.UTF8, "application/vnd.ms-azure-apim.revisioninfo+json");
+
+            var result = await RequestAsync(path, HttpMethod.Put.Method, null, content);
+
+            return result.IsSuccessStatusCode;
+        }
+
+        /// <summary>
+        /// Update Revision
+        /// </summary>
+        /// <param name="aid">7;rev=3</param>
+        /// <param name="apiRevisionDescription">desc</param>
+        /// <returns></returns>
+        public async Task<bool> UpdateRevisionAsync(string aid, string apiRevisionDescription)
+        {
+            var body = JsonConvert.SerializeObject(new
+            {
+                apiRevisionDescription
+            });
+
+            var result = await UpdateAsync(aid, body);
+
+            return result;
+        }
+        #endregion
+
+        #region Releases 发布版本
+        /// <summary>
+        /// Get Releases
+        /// </summary>
+        /// <param name="aid">7</param>
+        /// <returns></returns>
+        public async Task<AzureApiManagementEntities<AzureApiManagementReleaseEntity>> GetReleasesAsync(string aid)
+        {
+            var result = await _GetAsync($"/apis/{aid}/releases");
+
+            if (result.IsSuccessStatusCode)
+            {
+                var data = result.Content.ReadAsStringAsync().Result;
+
+                var entities = JsonConvert.DeserializeObject<AzureApiManagementEntities<AzureApiManagementReleaseEntity>>(data);
+
+                return entities;
+            }
+
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Create Release
+        /// </summary>
+        /// <param name="aid">7</param>
+        /// <param name="notes"></param>
+        /// <param name="releaseId"></param>
+        /// <returns></returns>
+        public async Task<bool> CreateReleaseAsync(string aid, string notes, string releaseId = null)
+        {
+            if (string.IsNullOrWhiteSpace(releaseId)) { releaseId = DateTime.UtcNow.Ticks.ToString(); }
+
+            var path = $"/apis/{aid}/releases/{releaseId}";
+
+            var headerItems = new Dictionary<string, string>() { { "If-Match", "*" } };
+
+            var body = JsonConvert.SerializeObject(new
+            {
+                apiId = $"/apis/{aid}",
+                notes
+            });
+
+            var content = new StringContent(body, Encoding.UTF8, "application/json");
+
+            var result = await RequestAsync(path, HttpMethod.Put.Method, null, content, headerItems);
+
+            return result.IsSuccessStatusCode;
+        }
+
+        /// <summary>
+        /// Update Release
+        /// </summary>
+        /// <param name="releaseId"></param>
+        /// <param name="notes"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdateReleaseAsync(string releaseId, string notes)
+        {
+            var method = "PATCH";
+
+            var headerItems = new Dictionary<string, string>() { { "If-Match", "*" } };
+
+            var content = new StringContent(JsonConvert.SerializeObject(new
+            {
+                notes
+            }), Encoding.UTF8, "application/json");
+
+            var result = await RequestAsync(releaseId, method, null, content, headerItems);
+
+            return result.IsSuccessStatusCode;
+        }
+
+        /// <summary>
+        /// Delete Release
+        /// </summary>
+        /// <param name="releaseId"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteReleaseAsync(string releaseId)
+        {
+            var headerItems = new Dictionary<string, string>() { { "If-Match", "*" } };
+
+            var result = await RequestAsync(releaseId, HttpMethod.Delete.ToString(),
+                null, null, headerItems);
+
+            if (result.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
+        }
+        #endregion
     }
 
+    public class AzureApiManagementRevisionEntity
+    {
+        public string apiId { get; set; }
+        public string apiRevision { get; set; }
+        public string createdDateTime { get; set; }
+        public string updatedDateTime { get; set; }
+        public string description { get; set; }
+        public string privateUrl { get; set; }
+        public bool isOnline { get; set; }
+        public bool isCurrent { get; set; }
+    }
+
+    public class AzureApiManagementReleaseEntity
+    {
+        public string id { get; set; }
+        public string createdDateTime { get; set; }
+        public string updatedDateTime { get; set; }
+        public string notes { get; set; }
+    }
+
+    public class AzureApiManagementApiEntity
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string apiRevision { get; set; }
+        public string description { get; set; }
+        public string serviceUrl { get; set; }
+        public string path { get; set; }
+        public List<string> protocols { get; set; }
+        public string apiRevisionDescription { get; set; }
+        public string apiVersionSetId { get; set; }
+        public JObject authenticationSettings { get; set; }
+        public JObject subscriptionKeyParameterNames { get; set; }
+    }
+    #endregion
+
+    #region User
     public class AzureApiManagementUser : AzureApiManagement
     {
         public AzureApiManagementUser(string _host,
@@ -581,9 +876,10 @@ namespace IdentityServer4.MicroService.Services
             return result.IsSuccessStatusCode;
         }
     }
+    #endregion
 
     /// <summary>
-    /// 必须初始化 调用init方法
+    /// Azure Api Management
     /// </summary>
     public class AzureApiManagementServices
     {
@@ -592,6 +888,15 @@ namespace IdentityServer4.MicroService.Services
         string apiId { get; set; }
         string apiKey { get; set; }
         #endregion
+
+        public AzureApiManagementServices(string _host,
+            string _apiId,
+            string _apiKey)
+        {
+            host = _host;
+            apiId = _apiId;
+            apiKey = _apiKey;
+        }
 
         private AzureApiManagement _Management;
         public AzureApiManagement Management
@@ -665,15 +970,6 @@ namespace IdentityServer4.MicroService.Services
 
                 return _AuthorizationServers;
             }
-        }
-
-        public AzureApiManagementServices(string _host,
-            string _apiId,
-            string _apiKey)
-        {
-            host = _host;
-            apiId = _apiId;
-            apiKey = _apiKey;
         }
     }
 }
