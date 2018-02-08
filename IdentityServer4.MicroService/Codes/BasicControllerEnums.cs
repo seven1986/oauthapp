@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel;
 
-namespace IdentityServer4.MicroService.ApiCodes
+namespace IdentityServer4.MicroService.Codes
 {
     /// <summary>
     /// 公用接口业务代码常量表
     /// </summary>
-    public enum BasicControllerCodes
+    public enum BasicControllerEnums
     {
         /// <summary>
         /// 正确

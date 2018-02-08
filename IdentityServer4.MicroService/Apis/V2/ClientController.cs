@@ -10,6 +10,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Models.CommonModels;
 using static IdentityServer4.MicroService.AppConstant;
+using IdentityServer4.MicroService.Models.ClientModels;
 
 namespace IdentityServer4.MicroService.Apis.V2
 {
@@ -31,8 +32,6 @@ namespace IdentityServer4.MicroService.Apis.V2
         readonly ApplicationDbContext userDB;
         #endregion
 
-        private readonly IStringLocalizer<ClientController> l;
-
         public ClientController(
             ConfigurationDbContext _idsDB,
             ApplicationDbContext _userDB,
@@ -46,7 +45,7 @@ namespace IdentityServer4.MicroService.Apis.V2
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
         [SwaggerOperation("Client/Get")]
-        public async Task<PagingResult<Client>> Get(PagingRequest value)
+        public async Task<PagingResult<Client>> Get(PagingRequest<ClientQuery> value)
         {
             var ClientIDs = userDB.UserClients.Where(x => x.UserId == UserId).Select(x => x.ClientId).ToList();
 

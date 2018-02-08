@@ -3,7 +3,6 @@ using System.Linq;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
@@ -14,7 +13,7 @@ using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Tenant;
-using IdentityServer4.MicroService.ApiCodes;
+using IdentityServer4.MicroService.Codes;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.CommonModels;
 using IdentityServer4.MicroService.Models.ApiResourceModels;
@@ -62,7 +61,7 @@ namespace IdentityServer4.MicroService.Apis
             {
                 return new PagingResult<ApiResource>()
                 {
-                    code = (int)BasicControllerCodes.UnprocessableEntity,
+                    code = (int)BasicControllerEnums.UnprocessableEntity,
                     error_msg = ModelErrors()
                 };
             }
@@ -130,7 +129,7 @@ namespace IdentityServer4.MicroService.Apis
         {
             if (!await exists(id))
             {
-                return new ApiResult<ApiResource>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<ApiResource>(l, BasicControllerEnums.NotFound);
             }
 
             var query = db.ApiResources.AsQueryable();
@@ -144,7 +143,7 @@ namespace IdentityServer4.MicroService.Apis
 
             if (entity == null)
             {
-                return new ApiResult<ApiResource>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<ApiResource>(l, BasicControllerEnums.NotFound);
             }
 
             return new ApiResult<ApiResource>(entity);
@@ -157,7 +156,7 @@ namespace IdentityServer4.MicroService.Apis
         {
             if (!ModelState.IsValid)
             {
-                return new ApiResult<long>(l, BasicControllerCodes.UnprocessableEntity,
+                return new ApiResult<long>(l, BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
@@ -184,13 +183,13 @@ namespace IdentityServer4.MicroService.Apis
             if (!ModelState.IsValid)
             {
                 return new ApiResult<long>(l,
-                    BasicControllerCodes.UnprocessableEntity,
+                    BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
             if (!await exists(value.Id))
             {
-                return new ApiResult<long>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
 
             using (var tran = db.Database.BeginTransaction(IsolationLevel.ReadCommitted))
@@ -443,7 +442,7 @@ namespace IdentityServer4.MicroService.Apis
                     tran.Rollback();
 
                     return new ApiResult<long>(l,
-                        BasicControllerCodes.ExpectationFailed,
+                        BasicControllerEnums.ExpectationFailed,
                         ex.Message);
                 }
             }
@@ -458,14 +457,14 @@ namespace IdentityServer4.MicroService.Apis
         {
             if (!await exists(id))
             {
-                return new ApiResult<long>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
 
             var entity = await db.ApiResources.FirstOrDefaultAsync(x => x.Id == id);
 
             if (entity == null)
             {
-                return new ApiResult<long>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
 
             db.ApiResources.Remove(entity);
@@ -475,7 +474,7 @@ namespace IdentityServer4.MicroService.Apis
             return new ApiResult<long>(id);
         }
 
-        #region MyRegion
+        #region Api Management
         /// <summary>
         /// 发布微服务到网关
         /// </summary>
@@ -488,13 +487,13 @@ namespace IdentityServer4.MicroService.Apis
         {
             if (!ModelState.IsValid)
             {
-                return new ApiResult<bool>(l, BasicControllerCodes.UnprocessableEntity,
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
             if (!await exists(value.id))
             {
-                return new ApiResult<bool>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
 
             #region 如果 oauth2 或 productId为空，从租户配置读取默认配置
@@ -535,18 +534,18 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// 获取微服务的发布配置（最后一次发布）
+        /// 获取上次微服务发布的配置记录
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("PublishSetting/{id}")]
+        [HttpGet("Publish/{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
         [SwaggerOperation("ApiResource/PublishSetting")]
-        public async Task<ApiResult<ApiResourcePublishModel>> PublishSetting(int id)
+        public async Task<ApiResult<ApiResourcePublishModel>> Publish(int id)
         {
             if (!await exists(id))
             {
-                return new ApiResult<ApiResourcePublishModel>(l, BasicControllerCodes.NotFound);
+                return new ApiResult<ApiResourcePublishModel>(l, BasicControllerEnums.NotFound);
             }
 
             ApiResourcePublishModel result = null;
@@ -564,14 +563,13 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// 微服务可使用的OAuthServers
+        /// 微服务可集成的OAuthServers
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("AuthorizationServers")]
+        [HttpGet("AuthServers")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
-        [SwaggerOperation("ApiResource/AuthorizationServers")]
-        public async Task<ApiResult<AzureApiManagementEntities<AzureApiManagementAuthorizationServerEntity>>> AuthorizationServers()
+        [SwaggerOperation("ApiResource/AuthServers")]
+        public async Task<ApiResult<AzureApiManagementEntities<AzureApiManagementAuthorizationServerEntity>>> AuthServers()
         {
             var result = await AzureApim.AuthorizationServers.GetAsync();
 
@@ -579,9 +577,8 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// 获取微服务产品组集合
+        /// 微服务可集成的产品组
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("Products")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
@@ -591,101 +588,6 @@ namespace IdentityServer4.MicroService.Apis
             var result = await AzureApim.Products.GetAsync();
 
             return new ApiResult<AzureApiManagementEntities<AzureApiManagementProductEntity>>(result);
-        }
-
-        /// <summary>
-        /// 保存微服务渠道包数据
-        /// </summary>
-        [HttpPost("ChannelsPackage")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Create)]
-        [SwaggerOperation("ApiResource/ChannelsPackage")]
-        public async Task<ApiResult<bool>> ClientPackage([FromBody]GenerateClientModel value)
-        {
-            if (!ModelState.IsValid)
-            {
-                return new ApiResult<bool>(l, BasicControllerCodes.UnprocessableEntity,
-                    ModelErrors());
-            }
-
-            if (!await exists(value.id))
-            {
-                return new ApiResult<bool>(l, BasicControllerCodes.NotFound);
-            }
-
-            var clients = new Dictionary<string, SwaggerCodeGenResult>();
-
-            foreach (var v in value.languages)
-            {
-                var genResult = await swagerCodeGen.ClientGenerate(v.Key, v.Value);
-
-                if (!clients.ContainsKey(v.Key))
-                {
-                    clients.Add(v.Key, genResult);
-                }
-
-                var ClientsSDKKey = $"ApiResource:ClientsSDK:{value.id}:{v.Key}";
-
-                var cacheResult = await redis.Set(ClientsSDKKey, JsonConvert.SerializeObject(clients), null);
-            }
-
-            return new ApiResult<bool>(true);
-        }
-
-        /// <summary>
-        /// 获取微服务渠道包数据
-        /// </summary>
-        [HttpGet("ChannelsPackageList/{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
-        [SwaggerOperation("ApiResource/ChannelsPackageList")]
-        public async Task<ApiResult<GenerateClientModel>> ChannelsPackageList(int id)
-        {
-            if (!await exists(id))
-            {
-                return new ApiResult<GenerateClientModel>(l, BasicControllerCodes.NotFound);
-            }
-
-            GenerateClientModel result = null;
-
-            var ClientsSDKKey = $"ApiResource:ClientsSDK:{id}";
-
-            var resultCache = await redis.Get(ClientsSDKKey);
-
-            if (!string.IsNullOrWhiteSpace(resultCache))
-            {
-                result = JsonConvert.DeserializeObject<GenerateClientModel>(resultCache);
-            }
-
-            return new ApiResult<GenerateClientModel>(result);
-        }
-
-        /// <summary>
-        /// 可生成的client
-        /// </summary>
-        /// <param name="fromCache"></param>
-        /// <returns></returns>
-        [HttpGet("ClientLanguegs")]
-        [AllowAnonymous]
-        [SwaggerOperation("ApiResource/ClientLanguegs")]
-        public ApiResult<List<SwaggerCodeGenItem>> ClientLanguegs(bool fromCache = true)
-        {
-            var result = fromCache ? swagerCodeGen.ClientItemsCache : swagerCodeGen.ClientItems;
-
-            return new ApiResult<List<SwaggerCodeGenItem>>(result);
-        }
-
-        /// <summary>
-        /// 可生成的server
-        /// </summary>
-        /// <param name="fromCache"></param>
-        /// <returns></returns>
-        [HttpGet("ServerLanguegs")]
-        [AllowAnonymous]
-        [SwaggerOperation("ApiResource/ServerLanguegs")]
-        public ApiResult<List<SwaggerCodeGenItem>> ServerLanguegs(bool fromCache = true)
-        {
-            var result = fromCache ? swagerCodeGen.ServerItemsCache : swagerCodeGen.ServerItems;
-
-            return new ApiResult<List<SwaggerCodeGenItem>>(result);
         }
         #endregion
 

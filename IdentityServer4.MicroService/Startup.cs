@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Globalization;
@@ -19,6 +20,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -140,7 +142,7 @@ namespace IdentityServer4.MicroService
             authBuilder.AddIdentityServerAuthentication(AppAuthenScheme, isAuth =>
             {
                 isAuth.Authority = "https://" + Configuration["IdentityServer"];
-                isAuth.ApiName = assemblyName.ToLower();
+                isAuth.ApiName = MicroServiceName;
                 isAuth.RequireHttpsMetadata = true;
             });
 
@@ -262,69 +264,72 @@ namespace IdentityServer4.MicroService
 
             #region SwaggerGen
             services.AddSwaggerGen(c =>
-                {
-                   // c.TagActionsBy(x => x.RelativePath.Split('/')[0]);
+            {
+                // c.TagActionsBy(x => x.RelativePath.Split('/')[0]);
 
-                    c.AddSecurityDefinition("SubscriptionKey",
-                        new ApiKeyScheme()
-                        {
-                            Name = "Ocp-Apim-Subscription-Key",
-                            Type = "apiKey",
-                            In = "header",
-                            Description = "从开放平台申请的Subscription Key，从网关调用接口时必需传入。",
-                        });
+                c.AddSecurityDefinition("SubscriptionKey",
+                    new ApiKeyScheme()
+                    {
+                        Name = "Ocp-Apim-Subscription-Key",
+                        Type = "apiKey",
+                        In = "header",
+                        Description = "从开放平台申请的Subscription Key，从网关调用接口时必需传入。",
+                    });
 
-                    c.AddSecurityDefinition("AccessToken",
-                        new ApiKeyScheme()
-                        {
-                            Name = "Authorization",
-                            Type = "apiKey",
-                            In = "header",
-                            Description = "从身份认证中心颁发的Token，根据接口要求决定是否传入。",
-                        });
+                c.AddSecurityDefinition("AccessToken",
+                    new ApiKeyScheme()
+                    {
+                        Name = "Authorization",
+                        Type = "apiKey",
+                        In = "header",
+                        Description = "从身份认证中心颁发的Token，根据接口要求决定是否传入。",
+                    });
 
-
-                    c.AddSecurityDefinition("OAuth2",
-                        new OAuth2Scheme()
-                        {
-                            Type = "oauth2",
-                            Flow = "accessCode",
-                            AuthorizationUrl = "https://"+ Configuration["IdentityServer"] + "/connect/authorize",
-                            TokenUrl = "https://"+ Configuration["IdentityServer"] + "/connect/token",
-                            Description = "勾选授权范围，获取Token",
-                            Scopes = new Dictionary<string, string>(){
+                c.AddSecurityDefinition("OAuth2",
+                    new OAuth2Scheme()
+                    {
+                        Type = "oauth2",
+                        Flow = "accessCode",
+                        AuthorizationUrl = "https://" + Configuration["IdentityServer"] + "/connect/authorize",
+                        TokenUrl = "https://" + Configuration["IdentityServer"] + "/connect/token",
+                        Description = "勾选授权范围，获取Token",
+                        Scopes = new Dictionary<string, string>(){
                             { "openid","用户标识" },
                             { "profile","用户资料" },
-                            { "all","所有接口权限"},
-                            }
-                        });
+                            { MicroServiceName+ ".all","所有接口权限"},
+                        }
+                    });
 
-                    c.OperationFilter<FormFileOperationFilter>();
+                c.OperationFilter<FormFileOperationFilter>();
 
-                    var provider = services.BuildServiceProvider()
-                                   .GetRequiredService<IApiVersionDescriptionProvider>();
+                var provider = services.BuildServiceProvider()
+                               .GetRequiredService<IApiVersionDescriptionProvider>();
 
-                    foreach (var description in provider.ApiVersionDescriptions)
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+                    c.SwaggerDoc(description.GroupName, new Info
                     {
-                        c.SwaggerDoc(description.GroupName, new Info
+                        Title = assemblyName,
+                        Version = description.ApiVersion.ToString(),
+                        License = new License()
                         {
-                            Title = assemblyName + description.ApiVersion,
-                            Version = description.ApiVersion.ToString(),
-                            License = new License()
-                            {
-                                Name = "MIT",
-                                Url = "https://spdx.org/licenses/MIT.html"
-                            },
-                            Contact = new Contact()
-                            {
-                                Url = "https://portal.ixingban.com",
-                                Name = "Campaign - 开放平台",
-                                Email = "wangzhen@jixiuapp.com"
-                            },
-                            Description = "Swagger document"
-                        });
-                    }
-                });
+                            Name = "MIT",
+                            Url = "https://spdx.org/licenses/MIT.html"
+                        },
+                        // Contact = new Contact()
+                        // {
+                        //     Url = "",
+                        //     Name = "",
+                        //     Email = ""
+                        // },
+                        // Description = "Swagger document",
+                    });
+                }
+
+                var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, assemblyName + ".xml");
+
+                c.IncludeXmlComments(filePath);
+            });
             #endregion
 
             #region MessageSender
@@ -493,8 +498,7 @@ namespace IdentityServer4.MicroService
                     x.PreSerializeFilters.Add((doc, req) =>
                     {
                         doc.Schemes = new[] { "https" };
-
-                        doc.Host = Configuration["IdentityServer"];
+                        //doc.Host = Configuration["IdentityServer"];
                     });
                 });
             #endregion

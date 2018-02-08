@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
@@ -200,7 +201,7 @@ namespace IdentityServer4.MicroService
         /// <summary>
         /// 当前项目的微服务名称
         /// </summary>
-        public const string MicroServiceName = "id4.ms";
+        public const string MicroServiceName = "ids4.ms";
 
         /// <summary>
         /// https://identityserver4.readthedocs.io/en/release/topics/add_apis.html
@@ -299,32 +300,32 @@ namespace IdentityServer4.MicroService
             /// <summary>
             ///  用户
             /// </summary>
+            [DisplayName("用户")]
             public const string Users = "users";
-            public const string UsersNormalizedName = "用户";
 
             /// <summary>
             /// 合作商
             /// </summary>
+            [DisplayName("合作商")]
             public const string Partners = "partners";
-            public const string PartnersNormalizedName = "合作商";
 
             /// <summary>
             /// 开发者
             /// </summary>
+            [DisplayName("开发者")]
             public const string Developer = "developer";
-            public const string DeveloperNormalizedName = "开发者";
 
             /// <summary>
             /// 管理员
             /// </summary>
+            [DisplayName("管理员")]
             public const string Administrators = "administrators";
-            public const string AdministratorsNormalizedName = "管理员";
 
             /// <summary>
             /// 艺人
             /// </summary>
+            [DisplayName("艺人")]
             public const string Star = "star";
-            public const string StarNormalizedName = "艺人";
         }
 
         public class RedisKeys

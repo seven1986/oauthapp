@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using IdentityServer4.MicroService.Models.AppTenantModels;
+using Microsoft.AspNetCore.Authentication;
 
 namespace IdentityServer4.MicroService.Tenant
 {

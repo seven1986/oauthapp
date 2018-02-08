@@ -1,4 +1,4 @@
-﻿using IdentityServer4.MicroService.ApiCodes;
+﻿using IdentityServer4.MicroService.Codes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 using System;
@@ -6,41 +6,17 @@ using System.ComponentModel;
 
 namespace IdentityServer4.MicroService.Models.CommonModels
 {
-    [Obsolete("已过期，尽快改用ApiResult<T>")]
-    public class SingleResult<T>
-    {
-        public int code { get; set; }
-
-        public string error_msg { get; set; }
-
-        public T data { get; set; }
-
-        public SingleResult() { this.code = StatusCodes.Status200OK; }
-
-        public SingleResult(T data)
-        {
-            this.data = data;
-            this.code = StatusCodes.Status200OK;
-        }
-
-        public SingleResult(int code, string error_msg)
-        {
-            this.code = code;
-            this.error_msg = error_msg;
-        }
-    }
-
     public class ApiResult<T>
     {
         /// <summary>
         /// 代码
         /// </summary>
-        public int code { get; set; } = (int)BasicControllerCodes.Status200OK;
+        public int code { get; set; } = (int)BasicControllerEnums.Status200OK;
 
         /// <summary>
         /// 代码名称
         /// </summary>
-        public string codeName { get; set; } = BasicControllerCodes.Status200OK.ToString();
+        public string codeName { get; set; } = BasicControllerEnums.Status200OK.ToString();
 
         /// <summary>
         /// 说明
@@ -65,7 +41,6 @@ namespace IdentityServer4.MicroService.Models.CommonModels
         /// (接口正常执行 + 返回数据)
         /// </summary>
         /// <param name="_data">数据</param>
-        /// <param name="l">本地化服务</param>
         public ApiResult(T _data)
         {
             data = _data;

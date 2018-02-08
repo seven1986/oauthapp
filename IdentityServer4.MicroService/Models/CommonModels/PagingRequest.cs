@@ -1,19 +1,8 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace IdentityServer4.MicroService.Models.CommonModels
 {
-    [Obsolete("已过期，尽快改用PagingRequest<T>")]
-    public class PagingRequest
-    {
-        [Range(0, long.MaxValue)]
-        public int skip { get; set; } = 0;
-
-        [Range(10, 2000)]
-        public int take { get; set; } = 10;
-    }
-
     public class PagingRequest<T> where T : new()
     {
         /// <summary>
