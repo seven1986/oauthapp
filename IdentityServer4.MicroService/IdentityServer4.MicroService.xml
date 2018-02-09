@@ -1,0 +1,1457 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IdentityServer4.MicroService</name>
+    </assembly>
+    <members>
+        <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Publish(IdentityServer4.MicroService.Models.ApiResourceModels.ApiResourcePublishModel)">
+            <summary>
+            发布微服务到网关
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Publish(System.Int32)">
+            <summary>
+            获取上次微服务发布的配置记录
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.AuthServers">
+            <summary>
+            微服务可集成的OAuthServers
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Products">
+            <summary>
+            微服务可集成的产品组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Apis.BasicController.TenantId">
+            <summary>
+            租户信息 from client access token
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.Clients(System.Boolean)">
+            <summary>
+            Swagger CodeGen Clients
+            </summary>
+            <param name="fromCache"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.Servers(System.Boolean)">
+            <summary>
+            Swagger CodeGen Servers
+            </summary>
+            <param name="fromCache"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.FileController.Post(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Upload file
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.FileController.Image(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上传图片
+            </summary>
+            <param name="value">图片文件</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.TenantController.Get(IdentityServer4.MicroService.Models.CommonModels.PagingRequest{IdentityServer4.MicroService.Models.AppTenantModels.AppTenantQuery})">
+            <summary>
+            Get Tenant List
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.TenantController.Get(System.Int32)">
+            <summary>
+            Get Tenant Detail By Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.TenantController.Post(IdentityServer4.MicroService.Tenant.AppTenant)">
+            <summary>
+            Insert Tenant
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.TenantController.Put(IdentityServer4.MicroService.Tenant.AppTenant)">
+            <summary>
+            Update Tenant
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.TenantController.Delete(System.Int32)">
+            <summary>
+            Delete Tenant
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.TenantController.Info(System.String)">
+            <summary>
+            Get Tenant Detail By Host
+            </summary>
+            <param name="host"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.UserController.Get(IdentityServer4.MicroService.Models.CommonModels.PagingRequest{IdentityServer4.MicroService.Models.AppUsersModels.AppUserQuery})">
+            <summary>
+            Get User List
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.UserController.Get(System.Int32)">
+            <summary>
+            Get User Detail By Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.UserController.Post(IdentityServer4.MicroService.AppUser)">
+            <summary>
+            Insert User
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.UserController.Put(IdentityServer4.MicroService.AppUser)">
+            <summary>
+            Update User
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.UserController.Delete(System.Int32)">
+            <summary>
+            Delete User
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.UserController.Head(IdentityServer4.MicroService.Models.AppUsersModels.AppUserDetailQuery)">
+            <summary>
+            Check exists
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.UserController.ApplyFor(IdentityServer4.MicroService.Models.AppUsersModels.ApplyForModel)">
+            <summary>
+            用户报名
+            邮箱验证码非必填
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.UserController.VerifyPhoneNumber(IdentityServer4.MicroService.Models.AppUsersModels.VerifyPhoneNumberModel)">
+            <summary>
+            发送手机验证码
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.UserController.VerifyEmailAddress(IdentityServer4.MicroService.Models.AppUsersModels.VerifyEmailAddressModel)">
+            <summary>
+            发送邮件验证码
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Apis.V2.ClientController">
+            <summary>
+            JUST FOR TEST
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Codes.BasicControllerEnums">
+            <summary>
+            公用接口业务代码常量表
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Codes.BasicControllerEnums.Status200OK">
+            <summary>
+            正确
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Codes.BasicControllerEnums.UnprocessableEntity">
+            <summary>
+            请求实体错误
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Codes.BasicControllerEnums.ExpectationFailed">
+            <summary>
+            服务器内部错误
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Codes.UserControllerEnums">
+            <summary>
+            用户接口业务代码常量表
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Codes.UserControllerEnums.ApplyFor">
+            <summary>
+            提交报名 - 业务代码
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Codes.UserControllerEnums.ApplyFor.PhoneNumberExists">
+            <summary>
+            手机号已被注册
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Codes.UserControllerEnums.ApplyFor.PhoneNumberVerifyCodeError">
+            <summary>
+            无效的手机验证码
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Codes.UserControllerEnums.VerifyPhoneNumber">
+            <summary>
+            发送手机验证码 - 业务代码
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Codes.UserControllerEnums.VerifyPhoneNumber.CallLimited">
+            <summary>
+            该号码已达24小时发送上限
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Codes.UserControllerEnums.VerifyPhoneNumber.TooManyRequests">
+            <summary>
+            发送过于频繁,请{0}秒后重试
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Codes.UserControllerEnums.VerifyEmailAddress">
+            <summary>
+            发送手机验证码 - 业务代码
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Codes.UserControllerEnums.VerifyEmailAddress.CallLimited">
+            <summary>
+            该号码已达24小时发送上限
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Codes.UserControllerEnums.VerifyEmailAddress.TooManyRequests">
+            <summary>
+            发送过于频繁,请{0}秒后重试
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Controllers.AccountController.Logout(System.String)">
+            <summary>
+            Show logout page
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Controllers.AccountController.Logout(IdentityServer4.MicroService.Models.AccountViewModels.LogoutInputModel)">
+            <summary>
+            Handle logout page postback
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Controllers.ConsentController.Index(System.String)">
+            <summary>
+            Shows the consent screen
+            </summary>
+            <param name="returnUrl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Controllers.ConsentController.Index(IdentityServer4.MicroService.Models.ConcentViewModels.ConsentInputModel)">
+            <summary>
+            Handles the consent screen postback
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Data.InitialDBConfig">
+            <summary>
+             For 初始化数据
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppUser.IsDeleted">
+            <summary>
+            是否已删除账号
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppUser.Roles">
+            <summary>
+            Navigation property for the roles this user belongs to.
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppUser.Claims">
+            <summary>
+            Navigation property for the claims this user possesses.
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppUser.Logins">
+            <summary>
+            Navigation property for this users login accounts.
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppUser.Tokens">
+            <summary>
+            Navigation property for this users token accounts.
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppUser.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppUser.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppUser.Address">
+            <summary>
+            联系地址
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppUser.Birthday">
+            <summary>
+            生日
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppUser.Stature">
+            <summary>
+            身高
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppUser.Weight">
+            <summary>
+            体重
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppUser.Description">
+            <summary>
+            介绍
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppUser.CreateDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppUser.LastUpdateTime">
+            <summary>
+            最后更新日期
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppUser.Files">
+            <summary>
+            2017-11-13 管理file
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppUser.Tenants">
+            <summary>
+            2017-12-11 所属租户
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AppRole.Claims">
+            <summary>
+            Navigation property for the claims this role belongs to.
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.AspNetUserClient">
+            <summary>
+            relation between User and Client
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.AspNetUserFile.FileType">
+            <summary>
+            0图片
+            1视频
+            2文档
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.AspNetUserTenant">
+            <summary>
+             relation between User and Tenant
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.AspNetUserApiResource">
+            <summary>
+            relation between User and ApiResource
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.MicroServiceName">
+            <summary>
+            当前项目的微服务名称
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.AppAuthenScheme">
+            <summary>
+            https://identityserver4.readthedocs.io/en/release/topics/add_apis.html
+            Campaign.Core.IdentityServer.AuthenticationScheme
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.AppConstant.ClaimTypes">
+            <summary>
+            策略
+            对应Identity的ClaimType
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.ClaimTypes.UserPermission">
+            <summary>
+            for User
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.ClaimTypes.ClientScope">
+            <summary>
+            for client
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.AppConstant.ClientScopes">
+            <summary>
+            Client权限定义
+            对应Token中的claim的scope字段
+            字段名：用去controller 的 action 标记
+            字段值：策略的名称
+            字段自定义属性：策略的权限集合，
+            聚合PolicyClaimValues所有的值（除了"all"），去重后登记到IdentityServer的ApiResource中去
+            例如PolicyClaimValues("id4.ms.create", "id4.ms.all", "all"),代表
+            当前id4.ms项目的create权限，或者 id4.ms.all权限，或者all权限
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.AppConstant.UserPermissions">
+            <summary>
+            User权限定义
+            对应Token中的claim的permission字段
+            字段名：用去controller 的 action 标记
+            字段值：策略的名称
+            字段自定义属性：策略的权限集合，可按需设置User表的claims的permission属性
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.AppConstant.Roles">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.Roles.Users">
+            <summary>
+             用户
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.Roles.Partners">
+            <summary>
+            合作商
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.Roles.Developer">
+            <summary>
+            开发者
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.Roles.Administrators">
+            <summary>
+            管理员
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.Roles.Star">
+            <summary>
+            艺人
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.RedisKeys.Limit_24Hour_Verify_Phone">
+            <summary>
+            （缓存KEY）
+            24小时内发送短信验证码的次数计数
+            Key的格式：{手机号}
+            Value的格式： 次数，调用SDK的increase方法即可，每次加1
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.RedisKeys.Limit_24Hour_Verify_MAX_Phone">
+            <summary>
+            24小时内发送短信验证码的上限
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.RedisKeys.LastTime_SendCode_Phone">
+            <summary>
+            （缓存KEY）
+            Key的格式：{手机号}
+            Value的格式：当前时间的tick            
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.RedisKeys.MinimumTime_SendCode_Phone">
+            <summary>
+            每次发送验证码的最小间隔时长（秒）
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.RedisKeys.VerifyCode_Phone">
+            <summary>
+            （缓存KEY）
+            Key的格式：{手机号} + ":" + {验证码}
+            Value的格式：任意
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.RedisKeys.VerifyCode_Expire_Phone">
+            <summary>
+            发送手机验证码后，该验证码在服务器的有效时长（秒）
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.RedisKeys.Limit_24Hour_Verify_Email">
+            <summary>
+            （缓存KEY）
+            24小时内发送邮件验证码的次数计数
+            Key的格式：{手机号}
+            Value的格式： 次数，调用SDK的increase方法即可，每次加1
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.RedisKeys.Limit_24Hour_Verify_MAX_Email">
+            <summary>
+            24小时内发送邮件验证码的上限
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.RedisKeys.LastTime_SendCode_Email">
+            <summary>
+            （缓存KEY）
+            Key的格式：{邮箱地址}
+            Value的格式：当前时间的tick            
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.RedisKeys.MinimumTime_SendCode_Email">
+            <summary>
+            每次发送验证码的最小间隔时长（秒）
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.RedisKeys.VerifyCode_Email">
+            <summary>
+            （缓存KEY）
+            Key的格式：{邮箱地址} + ":" + {验证码}
+            Value的格式：任意
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.RedisKeys.VerifyCode_Expire_Email">
+            <summary>
+            发送邮箱验证码后，该验证码在服务器的有效时长（秒）
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.AzureApiManagementConsts.Host">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.AzureApiManagementConsts.ApiId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.AzureApiManagementConsts.ApiKey">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.AzureApiManagementConsts.AuthorizationServerId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.AzureApiManagementConsts.ProductId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.AzureApiManagementConsts.PortalUris">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Models.ApiResourceModels.ApiResourceQuery">
+            <summary>
+            query model
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.ApiResourceModels.ApiResourceQuery.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Models.ApiResourceModels.ApiResourcePublishModel">
+            <summary>
+            微服务发布实体
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.ApiResourceModels.ApiResourcePublishModel.id">
+            <summary>
+            id
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.ApiResourceModels.ApiResourcePublishModel.suffix">
+            <summary>
+            二级路径
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.ApiResourceModels.ApiResourcePublishModel.swaggerUrl">
+            <summary>
+            swagger文档Uri
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.ApiResourceModels.ApiResourcePublishModel.productId">
+            <summary>
+            服务所属产品组
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.ApiResourceModels.ApiResourcePublishModel.authorizationServerId">
+            <summary>
+            使用的Oauth服务ID，从网关创建得来，可空
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.ApiResourceModels.ApiResourcePublishModel.scope">
+            <summary>
+            调用Api时需要授权的的scope，可空
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.ApiResourceModels.ApiResourcePublishModel.openid">
+            <summary>
+            使用的OpenId服务ID，从网关创建得来，可空
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.ApiResourceModels.ApiResourcePublishModel.policy">
+            <summary>
+            服务的策略配置
+            https://docs.microsoft.com/zh-cn/rest/api/apimanagement/apimanagementrest/azure-api-management-rest-api-api-entity#SetAPIPolicy
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Models.ApiResourceModels.GenerateClientModel">
+            <summary>
+            渠道包的实体
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.ApiResourceModels.GenerateClientModel.id">
+            <summary>
+            id
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppTenantModels.AppTenantQuery.Host">
+            <summary>
+            站点域名
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppTenantModels.AppTenantPublicModel.name">
+            <summary>
+            租户名称
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppTenantModels.AppTenantPublicModel.claims">
+            <summary>
+            声明
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppTenantModels.AppTenantPrivateModel.IdentityServerIssuerUri">
+            <summary>
+            租户身份认证Server地址
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppTenantModels.AppTenantPrivateModel.properties">
+            <summary>
+            属性
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Models.AppUsersModels.AppUserQuery">
+            <summary>
+            query model
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.AppUserQuery.Role">
+            <summary>
+            用户角色
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.AppUserQuery.PhoneNumber">
+            <summary>
+            手机号
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.AppUserQuery.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.AppUserQuery.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Models.AppUsersModels.AppUserQueryRole.Users">
+            <summary>
+            用户
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Models.AppUsersModels.AppUserQueryRole.Partners">
+            <summary>
+            合作伙伴
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Models.AppUsersModels.AppUserQueryRole.Developer">
+            <summary>
+            开发者
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Models.AppUsersModels.AppUserQueryRole.Administrators">
+            <summary>
+            管理员
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Models.AppUsersModels.AppUserQueryRole.Star">
+            <summary>
+            艺人
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Models.AppUsersModels.AppUserDetailQuery">
+            <summary>
+            head model
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.AppUserDetailQuery.PhoneNumber">
+            <summary>
+            PhoneNumber
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Models.AppUsersModels.ApplyForModel">
+            <summary>
+            ApplyForModel
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.ApplyForModel.NickName">
+            <summary>
+            NickName
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.ApplyForModel.Gender">
+            <summary>
+            Gender
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.ApplyForModel.Address">
+            <summary>
+            Adress
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.ApplyForModel.Birthday">
+            <summary>
+            Birth
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.ApplyForModel.Stature">
+            <summary>
+            Stature
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.ApplyForModel.Weight">
+            <summary>
+            Weight
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.ApplyForModel.Description">
+            <summary>
+            Description
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.ApplyForModel.PhoneNumber">
+            <summary>
+            PhoneNumber
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.ApplyForModel.PhoneNumberVerifyCode">
+            <summary>
+            PhoneNumber VerifyCode
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.ApplyForModel.ImageUrl">
+            <summary>
+            photos（max for 9）
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.ApplyForModel.Video">
+            <summary>
+            Video（max for 20M）
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.ApplyForModel.Doc">
+            <summary>
+            Doc（PDF/DOC max for 10M）
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Models.AppUsersModels.VerifyEmailAddressModel">
+            <summary>
+            VerifyEmailAddressModel
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.VerifyEmailAddressModel.Email">
+            <summary>
+            Email
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Models.AppUsersModels.VerifyPhoneNumberModel">
+            <summary>
+            VerifyPhoneNumberModel
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.AppUsersModels.VerifyPhoneNumberModel.PhoneNumber">
+            <summary>
+            PhoneNumber
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Models.ClientModels.ClientQuery">
+            <summary>
+            query model
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.CommonModels.PagingRequest`1.q">
+            <summary>
+            查询实体
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.CommonModels.PagingRequest`1.orderby">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.CommonModels.PagingRequest`1.asc">
+            <summary>
+            正序或倒序
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.CommonModels.ApiResult`1.code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.CommonModels.ApiResult`1.codeName">
+            <summary>
+            代码名称
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.CommonModels.ApiResult`1.message">
+            <summary>
+            说明
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.CommonModels.ApiResult`1.data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Models.CommonModels.ApiResult`1.#ctor">
+            <summary>
+            构造函数
+            (接口正常执行)
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Models.CommonModels.ApiResult`1.#ctor(`0)">
+            <summary>
+            构造函数
+            (接口正常执行 + 返回数据)
+            </summary>
+            <param name="_data">数据</param>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Models.CommonModels.ApiResult`1.#ctor(Microsoft.Extensions.Localization.IStringLocalizer,System.Enum,System.String,System.Object[])">
+            <summary>
+            构造函数
+            (接口报错返回实体)
+            </summary>
+            <param name="_code">代码</param>
+            <param name="l">本地化服务</param>
+            <param name="_message">自定义说明（将覆盖默认说明）</param>
+            <param name="arguments">本地化服务的参数</param>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.IdentityResourceModels.IdentityResourceQuery.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagement.RequestAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Net.Http.HttpContent,System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>
+            Request for Rest API Management
+            </summary>
+            <param name="path">path</param>
+            <param name="method">/POST/PUT/GET,etc.</param>
+            <param name="query">query parameters</param>
+            <param name="content">http content</param>
+            <param name="headerItems">request Headers</param>
+            <param name="mediaType">request media type,default is application/json</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementAuthorizationServers.GetAsync">
+            <summary>
+            authorizationServers List
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementProduct.GetAsync">
+            <summary>
+            Product List
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementProduct.AddApiAsync(System.String,System.String)">
+            <summary>
+            Add Api To Product
+            </summary>
+            <param name="pid">Product id</param>
+            <param name="aid">Api id</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.GetAsync">
+            <summary>
+            Get Api List
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.DetailAsync(System.String)">
+            <summary>
+            Get Api Detail
+            </summary>
+            <param name="aid">Api Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.MetadataAsync(System.String)">
+            <summary>
+            Check Api exists
+            </summary>
+            <param name="aid">Api id</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.ImportOrUpdateAsync(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Import or Update Api By swagger Url
+            1，check Api exists by {aid}
+            2，if exists update Api
+            3，if not exists import Api
+            4，if set authorizationServerId, update Api authenticationSettings
+            </summary>
+            <param name="aid">Api id, not null</param>
+            <param name="suffix">Api service suffix, not null</param>
+            <param name="swaggerUrl">Swagger doc url, not null</param>
+            <param name="productId">Product id</param>
+            <param name="authorizationServerId">authorize server Id</param>
+            <param name="scope">scope</param>
+            <param name="openid">openid</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.UpdateOAuth2Async(System.String,System.String,System.String,System.String)">
+            <summary>
+            Update Api authenticationSettings
+            </summary>
+            <param name="aid">Api Id</param>
+            <param name="authorizationServerId">oauth ServerId</param>
+            <param name="scope">scopes</param>
+            <param name="openid">openid</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.UpdateAsync(System.String,System.String)">
+            <summary>
+            Update Api
+            </summary>
+            <param name="aid">id</param>
+            <param name="body">Model</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.DeleteAsync(System.String)">
+            <summary>
+            Delete Api by id
+            </summary>
+            <param name="aid">id</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.DeleteAllAsync(System.String)">
+            <summary>
+            Delete Api include all revisions
+            </summary>
+            <param name="aid">aid</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.GetPolicyAsync(System.String)">
+            <summary>
+            Get Api Policy
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.SetPolicyAsync(System.String,System.String)">
+            <summary>
+            Set Api Policy
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.GetRevisionsAsync(System.String)">
+            <summary>
+            GetRevisions
+            </summary>
+            <param name="aid">7</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.CreateRevisionAsync(System.String,System.String,System.String)">
+            <summary>
+            Create Revision
+            </summary>
+            <param name="aid">7;rev=2</param>
+            <param name="releaseId">7;rev=3</param>
+            <param name="apiRevisionDescription">desc</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.CreateVersionAsync(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Create Version from a revision
+            </summary>
+            <param name="revisionId">/apis/7;rev=3</param>
+            <param name="newApiId">default is guid</param>
+            <param name="newApiName">default is revisionId apiName</param>
+            <param name="apiVersionName">default is V2</param>
+            <param name="apiRevisionDescription"></param>
+            <param name="versioningScheme">default is Query(Segment/Header) </param>
+            <param name="versionQueryName">default is api-version</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.UpdateRevisionAsync(System.String,System.String)">
+            <summary>
+            Update Revision
+            </summary>
+            <param name="aid">7;rev=3</param>
+            <param name="apiRevisionDescription">desc</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.GetReleasesAsync(System.String)">
+            <summary>
+            Get Releases
+            </summary>
+            <param name="aid">7</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.CreateReleaseAsync(System.String,System.String,System.String)">
+            <summary>
+            Create Release
+            </summary>
+            <param name="aid">7</param>
+            <param name="notes"></param>
+            <param name="releaseId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.UpdateReleaseAsync(System.String,System.String)">
+            <summary>
+            Update Release
+            </summary>
+            <param name="releaseId"></param>
+            <param name="notes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.AzureApiManagementApi.DeleteReleaseAsync(System.String)">
+            <summary>
+            Delete Release
+            </summary>
+            <param name="releaseId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Services.AzureApiManagementServices">
+            <summary>
+            Azure Api Management
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.SmsSender.SendSmsAsync(System.String,System.String,System.String)">
+            <summary>
+            发送短信
+            （服务商：https://sendcloud.sohu.com）
+            </summary>
+            <param name="smsVars">模板变量</param>
+            <param name="phone">电话号码</param>
+            <param name="templateId">模板ID(9812)</param>
+            <returns>true成功false失败</returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.SmsSender._ServerTimestamp">
+            <summary>
+            sendcloud服务器的时间戳
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.RedisService.Get(System.String)">
+            <summary>
+            根据Key获取值
+            </summary>
+            <param name="key">键</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.RedisService.Get(StackExchange.Redis.IDatabase,System.String)">
+            <summary>
+            根据Key获取值
+            </summary>
+            <param name="db">数据库</param>
+            <param name="key">键</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.RedisService.Set(System.String,System.String,System.Nullable{System.TimeSpan})">
+            <summary>
+            设置缓存key和value
+            </summary>
+            <param name="key">键</param>
+            <param name="value">值</param>
+            <param name="expire">过期时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.RedisService.Set(StackExchange.Redis.IDatabase,System.String,System.String,System.Nullable{System.TimeSpan})">
+            <summary>
+            设置缓存key和value
+            </summary>
+            <param name="db">数据库</param>
+            <param name="key">键</param>
+            <param name="value">值</param>
+            <param name="expire">过期时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.RedisService.Remove(System.String)">
+             <summary>
+             删除指定的Key
+            </summary>
+            <param name="key">键</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.RedisService.Increment(System.String,System.Int64)">
+            <summary>
+            将指定的Key的值叠加value
+            </summary>
+            <param name="key">键</param>
+            <param name="value">值，默认1</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.RedisService.Increment(StackExchange.Redis.IDatabase,System.String,System.Int64)">
+            <summary>
+            将指定的Key的值叠加value
+            </summary>
+            <param name="db">数据库</param>
+            <param name="key">键</param>
+            <param name="value">值</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Services.RedisService.KeyExists(System.String)">
+            <summary>
+            检测Key是否存在
+            </summary>
+            <param name="key">键</param>
+            <returns></returns>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Tenant.TenantConstant.CacheKey">
+            <summary>
+            for request context
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Tenant.TenantConstant.TokenKey">
+            <summary>
+            for Token 
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Tenant.AppTenant">
+            <summary>
+            租户实体
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Tenant.AppTenant.Name">
+            <summary>
+            租户名称
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Tenant.AppTenant.Theme">
+            <summary>
+            风格
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Tenant.AppTenant.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Tenant.AppTenant.IdentityServerIssuerUri">
+            <summary>
+            IdentityServer IssuerUri
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Tenant.AppTenant.Hosts">
+            <summary>
+            域名集合
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Tenant.AppTenant.CreateDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Tenant.AppTenant.LastUpdateTime">
+            <summary>
+            最后更新时间
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Tenant.AppTenant.Claims">
+            <summary>
+            声明
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Tenant.AppTenant.CacheDuration">
+            <summary>
+            租户数据缓存时长，单位秒
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Tenant.AppTenant.OwnerUserId">
+            <summary>
+            所有者用户Id
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Tenant.AppTenant.Properties">
+            <summary>
+            属性集合
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults">
+            <summary>
+            Default values used by the GitHub authentication middleware.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults.AuthenticationScheme">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.Name"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults.DisplayName">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.DisplayName"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults.Issuer">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions.ClaimsIssuer"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults.CallbackPath">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults.AuthorizationEndpoint">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.AuthorizationEndpoint"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults.TokenEndpoint">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.TokenEndpoint"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults.UserInformationEndpoint">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.UserInformationEndpoint"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults.UserEmailsEndpoint">
+            <summary>
+            Default value for <see cref="!:GitHubAuthenticationOptions.UserEmailsEndpoint"/>.
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.GitHub.GitHubOptions">
+            <summary>
+            Defines a set of options used by <see cref="T:Microsoft.AspNetCore.Authentication.GitHub.GitHubHandler"/>.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.GitHub.GitHubOptions.UserEmailsEndpoint">
+            <summary>
+            Gets or sets the address of the endpoint exposing
+            the email addresses associated with the logged in user.
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.QQ.QQDefaults">
+            <summary>
+            Default values for QQ authentication.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.QQ.QQDefaults.AuthenticationScheme">
+            <summary>
+            Default value for <see cref="!:AuthenticationOptions.AuthenticationScheme"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.QQ.QQDefaults.CallbackPath">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.QQ.QQDefaults.Issuer">
+            <summary>
+            Default value for <see cref="!:AuthenticationOptions.ClaimsIssuer"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.QQ.QQDefaults.AuthorizationEndpoint">
+            <summary>
+            Default value for <see cref="!:OAuthOptions.AuthorizationEndpoint"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.QQ.QQDefaults.TokenEndpoint">
+            <summary>
+            Default value for <see cref="!:OAuthOptions.TokenEndpoint"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.QQ.QQDefaults.UserIdentificationEndpoint">
+            <summary>
+            Default value for <see cref="!:QQAuthenticationOptions.UserIdentificationEndpoint"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.QQ.QQDefaults.UserInformationEndpoint">
+            <summary>
+            Default value for <see cref="!:OAuthOptions.UserInformationEndpoint"/>.
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.QQ.QQHelper">
+            <summary>
+            Contains static methods that allow to extract user's information from a <see cref="T:Newtonsoft.Json.Linq.JObject"/>
+            instance retrieved from QQ after a successful authentication process.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.QQ.QQHelper.GetNickname(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Gets the user's nickname.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.QQ.QQHelper.GetPicture(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Gets the user's QQ profile picture URL (30px*30px).
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.QQ.QQHelper.GetPictureMedium(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Gets the user's QQ profile picture URL (50px*50px).
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.QQ.QQHelper.GetPictureFull(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Gets the user's QQ profile picture URL (100px*100px).
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.QQ.QQHelper.GetAvatar(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Gets the user's QQ avatar URL (40px*40px).
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.QQ.QQHelper.GetAvatarFull(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Gets the user's QQ space avatar URL (100px*100px).
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.QQ.QQHelper.GetGender(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Gets the user's gender.
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.QQ.QQOptions">
+            <summary>
+            Defines a set of options used by <see cref="T:Microsoft.AspNetCore.Authentication.QQ.QQHandler"/>.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.QQ.QQOptions.UserIdentificationEndpoint">
+            <summary>
+            Gets or sets the URL of the user identification endpoint (aka "OpenID endpoint").
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.Weibo.WeiboDefaults">
+            <summary>
+            Default values for Weibo authentication.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Weibo.WeiboDefaults.AuthenticationScheme">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.Name"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Weibo.WeiboDefaults.DisplayName">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.DisplayName"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Weibo.WeiboDefaults.CallbackPath">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Weibo.WeiboDefaults.Issuer">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions.ClaimsIssuer"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Weibo.WeiboDefaults.AuthorizationEndpoint">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.AuthorizationEndpoint"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Weibo.WeiboDefaults.TokenEndpoint">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.TokenEndpoint"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Weibo.WeiboDefaults.UserInformationEndpoint">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.UserInformationEndpoint"/>.
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.Weibo.WeiboOptions">
+            <summary>
+            Defines a set of options used by <see cref="T:Microsoft.AspNetCore.Authentication.Weibo.WeiboHandler"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Weixin.WeixinDefaults.AuthenticationScheme">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.Name"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Weixin.WeixinDefaults.DisplayName">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.DisplayName"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Weixin.WeixinDefaults.CallbackPath">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Weixin.WeixinDefaults.Issuer">
+            <summary>
+            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions.ClaimsIssuer"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Weixin.WeixinDefaults.AuthorizationEndpoint">
+            <summary>
+            Default value for <see cref="!:OAuthOptions.AuthorizationEndpoint"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Weixin.WeixinDefaults.TokenEndpoint">
+            <summary>
+            Default value for <see cref="!:OAuthOptions.TokenEndpoint"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Weixin.WeixinDefaults.UserInformationEndpoint">
+            <summary>
+            Default value for <see cref="!:OAuthOptions.UserInformationEndpoint"/>.
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.Weixin.WeixinOptions">
+            <summary>
+            Defines a set of options used by <see cref="T:Microsoft.AspNetCore.Authentication.Weixin.WeixinHandler"/>.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.GitHubAuthenticationExtensions">
+            <summary>
+            Extension methods to add GitHub authentication capabilities to an HTTP application pipeline.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.QQExtensions">
+            <summary>
+            Extension methods to add QQ authentication capabilities to an HTTP application pipeline.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.WeiboAuthenticationExtensions">
+            <summary>
+            Extension methods to add Weibo authentication capabilities to an HTTP application pipeline.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.WeixinExtensions">
+            <summary>
+            Extension methods to add Weixin authentication capabilities to an HTTP application pipeline.
+            </summary>
+        </member>
+    </members>
+</doc>
