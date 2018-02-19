@@ -7,11 +7,11 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;1705;1591;1574</NoWarn>
-    <DocumentationFile>obj\Debug\netcoreapp2.0\IdentityServer4.MicroService.xml</DocumentationFile>
+    <DocumentationFile>wwwroot\IdentityServer4.MicroService.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp1.1\IdentityServer4.MicroService.xml</DocumentationFile>
+    <DocumentationFile>wwwroot\IdentityServer4.MicroService.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
