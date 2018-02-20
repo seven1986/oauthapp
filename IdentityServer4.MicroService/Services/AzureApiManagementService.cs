@@ -623,6 +623,7 @@ namespace IdentityServer4.MicroService.Services
         /// <param name="apiVersionName">default is V2</param>
         /// <param name="apiRevisionDescription"></param>
         /// <param name="versioningScheme">default is Query(Segment/Header) </param>
+        /// <param name="versionQueryName">default is api-version </param>
         /// <returns></returns>
         public async Task<bool> CreateVersionAsync(
             string revisionId,

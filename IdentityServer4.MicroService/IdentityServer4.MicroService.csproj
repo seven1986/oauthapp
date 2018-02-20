@@ -7,11 +7,12 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;1705;1591;1574</NoWarn>
-    <DocumentationFile>wwwroot\IdentityServer4.MicroService.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp2.0\IdentityServer4.MicroService.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>wwwroot\IdentityServer4.MicroService.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netcoreapp2.0\IdentityServer4.MicroService.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;1591;1574</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,7 +38,9 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
   </ItemGroup>
-
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+  </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\RoleModels\" />
     <Folder Include="Properties\PublishProfiles\" />

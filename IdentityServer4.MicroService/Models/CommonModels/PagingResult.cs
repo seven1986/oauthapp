@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using IdentityServer4.MicroService.Codes;
 using System.Collections.Generic;
 
 namespace IdentityServer4.MicroService.Models.CommonModels
 {
-    public class PagingResult<T>
+    public class PagingResult<T> where T : class
     {
         public int take { get; set; }
 
         public int skip { get; set; }
 
-        public int code { get; set; } = StatusCodes.Status200OK;
+        public int code { get; set; } = (int)BasicControllerEnums.Status200OK;
 
         public int total { get; set; }
 
@@ -23,7 +23,7 @@ namespace IdentityServer4.MicroService.Models.CommonModels
             skip = _skip;
             take = _take;
             total = _total;
-            code = StatusCodes.Status200OK;
+            code = (int)BasicControllerEnums.Status200OK;
         }
 
         public PagingResult() { }

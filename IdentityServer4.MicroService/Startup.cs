@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Globalization;
@@ -344,7 +345,6 @@ namespace IdentityServer4.MicroService
             services.AddSingleton<RedisService>();
             services.AddSingleton<TenantService>();
             services.AddSingleton<SwaggerCodeGenService>();
-            //services.AddTransient<AzureApiManagementServices>();
 
             #region 权限定义
             services.AddAuthorization(options =>
@@ -372,7 +372,28 @@ namespace IdentityServer4.MicroService
                         var permissionValues = permission.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues;
 
                         options.AddPolicy(permissionName,
-                            policy => policy.RequireClaim(ClaimTypes.UserPermission, permissionValues));
+                            policy => policy.RequireAssertion(context =>
+                            {
+                                var userPermissionClaim = context.User.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.UserPermission));
+
+                                if (userPermissionClaim != null && !string.IsNullOrWhiteSpace(userPermissionClaim.Value))
+                                {
+                                    var userPermissionClaimValue = userPermissionClaim.Value.ToLower().Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+
+                                    if (userPermissionClaimValue != null && userPermissionClaimValue.Length > 0)
+                                    {
+                                        foreach (var userPermissionItem in userPermissionClaimValue)
+                                        {
+                                            if (permissionValues.Contains(userPermissionItem))
+                                            {
+                                                return true;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                return false;
+                            }));
                     }
                     #endregion
                 });
@@ -450,8 +471,8 @@ namespace IdentityServer4.MicroService
               .AddAspNetIdentity<AppUser>();
             #endregion
 
-            services.Configure<ApiTrackerSetting>(Configuration.GetSection("ApiTrackerSetting"));
-            services.AddScoped<ApiTracker.ApiTracker>();
+            //services.Configure<ApiTrackerSetting>(Configuration.GetSection("ApiTrackerSetting"));
+            //services.AddScoped<ApiTracker.ApiTracker>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -460,7 +481,7 @@ namespace IdentityServer4.MicroService
             ILoggerFactory loggerFactory,
             IApiVersionDescriptionProvider provider)
         {
-            InitialDBConfig.InitializeDatabase(app);
+            InitialDBConfig.InitializeDatabase(app,Configuration);
 
             app.UseMutitenancy();
 
@@ -498,7 +519,7 @@ namespace IdentityServer4.MicroService
                     x.PreSerializeFilters.Add((doc, req) =>
                     {
                         doc.Schemes = new[] { "https" };
-                        //doc.Host = Configuration["IdentityServer"];
+                        doc.Host = Configuration["IdentityServer"];
                     });
                 });
             #endregion
@@ -511,7 +532,8 @@ namespace IdentityServer4.MicroService
                         $"/swagger/{description.GroupName}/swagger.json",
                         description.GroupName.ToUpperInvariant());
 
-                    c.ConfigureOAuth2("test", "1", string.Empty, "API测试专用");
+                    c.ConfigureOAuth2(TestClient.ClientId, TestClient.ClientSecret,
+                        string.Empty, TestClient.ClientName);
                 }
 
                 c.DocExpansion("none");

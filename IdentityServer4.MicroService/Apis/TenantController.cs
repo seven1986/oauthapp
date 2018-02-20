@@ -14,12 +14,17 @@ using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.Models.AppTenantModels;
 using static IdentityServer4.MicroService.AppConstant;
+using System.Collections.Generic;
 
 namespace IdentityServer4.MicroService.Apis
 {
     // Tenant 根据 OwnerUserId 来获取列表、或详情、增删改
 
+        /// <summary>
+        /// 租户
+        /// </summary>
     [Route("Tenant")]
+    [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class TenantController : BasicController
     {
@@ -43,7 +48,7 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// Get Tenant List
+        /// 租户 - 列表
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -75,8 +80,8 @@ namespace IdentityServer4.MicroService.Apis
             #region total
             var result = new PagingResult<AppTenant>()
             {
-                skip = value.skip,
-                take = value.take,
+                skip = value.skip.Value,
+                take = value.take.Value,
                 total = await query.CountAsync()
             }; 
             #endregion
@@ -86,7 +91,7 @@ namespace IdentityServer4.MicroService.Apis
                 #region orderby
                 if (!string.IsNullOrWhiteSpace(value.orderby))
                 {
-                    if (value.asc)
+                    if (value.asc.Value)
                     {
                         query = query.OrderBy(value.orderby);
                     }
@@ -98,7 +103,7 @@ namespace IdentityServer4.MicroService.Apis
                 #endregion
 
                 #region pagingWithData
-                var data = await query.Skip(value.skip).Take(value.take)
+                var data = await query.Skip(value.skip.Value).Take(value.take.Value)
                             .Include(x => x.Claims)
                             .Include(x => x.Hosts)
                             .Include(x => x.Properties)
@@ -115,7 +120,7 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// Get Tenant Detail By Id
+        /// 租户 - 详情
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -143,7 +148,7 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// Insert Tenant
+        /// 租户 - 创建
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -168,7 +173,7 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// Update Tenant
+        /// 租户 - 更新
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -368,7 +373,7 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// Delete Tenant
+        /// 租户 - 删除
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -394,7 +399,7 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// Get Tenant Detail By Host
+        /// 租户 - 详情（公共）
         /// </summary>
         /// <param name="host"></param>
         /// <returns></returns>
@@ -412,5 +417,20 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<string>(entity.Item1);
         }
+
+        #region 租户 - 错误码表
+        /// <summary>
+        /// 租户 - 错误码表
+        /// </summary>
+        [HttpGet("Codes")]
+        [AllowAnonymous]
+        [SwaggerOperation("Tenant/Codes")]
+        public List<ErrorCodeModel> Codes()
+        {
+            var result = _Codes<TenantControllerEnum>();
+
+            return result;
+        }
+        #endregion
     }
 }

@@ -16,12 +16,17 @@ using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.CommonModels;
 using IdentityServer4.MicroService.Models.ClientModels;
 using static IdentityServer4.MicroService.AppConstant;
+using System.Collections.Generic;
 
 namespace IdentityServer4.MicroService.Apis
 {
     // Client 根据 userId 来获取列表、或详情、增删改
 
+    /// <summary>
+    /// 客户端
+    /// </summary>
     [Route("Client")]
+    [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class ClientController : BasicController
     {
@@ -42,6 +47,11 @@ namespace IdentityServer4.MicroService.Apis
             l = localizer;
         }
 
+        /// <summary>
+        /// 客户端 - 列表
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
         [SwaggerOperation("Client/Get")]
@@ -81,8 +91,8 @@ namespace IdentityServer4.MicroService.Apis
             #region total
             var result = new PagingResult<Client>()
             {
-                skip = value.skip,
-                take = value.take,
+                skip = value.skip.Value,
+                take = value.take.Value,
                 total = await query.CountAsync()
             };
             #endregion
@@ -92,7 +102,7 @@ namespace IdentityServer4.MicroService.Apis
                 #region orderby
                 if (!string.IsNullOrWhiteSpace(value.orderby))
                 {
-                    if (value.asc)
+                    if (value.asc.Value)
                     {
                         query = query.OrderBy(value.orderby);
                     }
@@ -105,7 +115,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 #region pagingWithData
                 var data = await query
-               .Skip(value.skip).Take(value.take)
+               .Skip(value.skip.Value).Take(value.take.Value)
                .Include(x => x.Claims)
                .Include(x => x.AllowedGrantTypes)
                .Include(x => x.AllowedScopes)
@@ -124,6 +134,11 @@ namespace IdentityServer4.MicroService.Apis
             return result;
         }
 
+        /// <summary>
+        /// 客户端 - 详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
         [SwaggerOperation("Client/Detail")]
@@ -156,7 +171,12 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<Client>(entity);
         }
-        
+
+        /// <summary>
+        /// 客户端 - 创建
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Create)]
         [SwaggerOperation("Client/Post")]
@@ -183,6 +203,11 @@ namespace IdentityServer4.MicroService.Apis
             return new ApiResult<long>(value.Id);
         }
 
+        /// <summary>
+        /// 客户端 - 更新
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Update)]
         [SwaggerOperation("Client/Put")]
@@ -195,7 +220,7 @@ namespace IdentityServer4.MicroService.Apis
                     ModelErrors());
             }
 
-            if (! await exists(value.Id))
+            if (!await exists(value.Id))
             {
                 return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
@@ -703,6 +728,11 @@ namespace IdentityServer4.MicroService.Apis
             return new ApiResult<long>(value.Id);
         }
 
+        /// <summary>
+        /// 客户端 - 删除
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Delete)]
         [SwaggerOperation("Client/Delete")]
@@ -747,5 +777,20 @@ namespace IdentityServer4.MicroService.Apis
 
             return query.Any(x => x.Id == id);
         }
+
+        #region 客户端 - 错误码表
+        /// <summary>
+        /// 客户端 - 错误码表
+        /// </summary>
+        [HttpGet("Codes")]
+        [AllowAnonymous]
+        [SwaggerOperation("Client/Codes")]
+        public List<ErrorCodeModel> Codes()
+        {
+            var result = _Codes<ClientControllerEnum>();
+
+            return result;
+        }
+        #endregion
     }
 }

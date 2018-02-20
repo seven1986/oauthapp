@@ -10,10 +10,15 @@ using IdentityServer4.MicroService.Codes;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.CommonModels;
 using static IdentityServer4.MicroService.AppConstant;
+using System.Collections.Generic;
 
 namespace IdentityServer4.MicroService.Apis
 {
+    /// <summary>
+    /// 文件
+    /// </summary>
     [Route("File")]
+    [Produces("application/json")]
     public class FileController : BasicController
     {
         #region Services
@@ -52,11 +57,11 @@ namespace IdentityServer4.MicroService.Apis
             "application/pdf",
             "application/msword",
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        }; 
+        };
         #endregion
 
         /// <summary>
-        /// Upload file
+        /// 文件 - 上传视频或文档
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -93,7 +98,7 @@ namespace IdentityServer4.MicroService.Apis
                 // treats as video
                 if (value.Length < 1 || value.Length > 20000000)
                 {
-                    return new ApiResult<string>(l,BasicControllerEnums.UnprocessableEntity,
+                    return new ApiResult<string>(l, BasicControllerEnums.UnprocessableEntity,
                         "视频应小于20MB");
                 }
                 //return new SingleResult<string>(StatusCodes.Status415UnsupportedMediaType,
@@ -115,11 +120,11 @@ namespace IdentityServer4.MicroService.Apis
 
         #region Image Settings
         static long ImageSizeLimit = 1024 * 1024 * 5;
-        static string[] AllowedImageTypes = new string[] { "image/jpeg", "image/jpg", "image/png" }; 
+        static string[] AllowedImageTypes = new string[] { "image/jpeg", "image/jpg", "image/png" };
         #endregion
 
         /// <summary>
-        /// 上传图片
+        /// 文件 - 上传图片
         /// </summary>
         /// <param name="value">图片文件</param>
         /// <returns></returns>
@@ -130,7 +135,7 @@ namespace IdentityServer4.MicroService.Apis
         {
             if (value == null)
             {
-                return new ApiResult<string>(l,BasicControllerEnums.UnprocessableEntity,
+                return new ApiResult<string>(l, BasicControllerEnums.UnprocessableEntity,
                     "未发现任何文件");
             }
 
@@ -158,5 +163,20 @@ namespace IdentityServer4.MicroService.Apis
                 return new ApiResult<string>(l, BasicControllerEnums.ExpectationFailed, ex.Message);
             }
         }
+
+        #region 文件 - 错误码表
+        /// <summary>
+        /// 文件 - 错误码表
+        /// </summary>
+        [HttpGet("Codes")]
+        [AllowAnonymous]
+        [SwaggerOperation("File/Codes")]
+        public List<ErrorCodeModel> Codes()
+        {
+            var result = _Codes<FileControllerEnum>();
+
+            return result;
+        }
+        #endregion
     }
 }

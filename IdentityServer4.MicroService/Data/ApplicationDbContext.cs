@@ -47,12 +47,11 @@ namespace IdentityServer4.MicroService.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<AppRole>()
-    .HasMany(e => e.Claims)
-    .WithOne()
-    .HasForeignKey(e => e.RoleId)
-    .IsRequired()
-    .OnDelete(DeleteBehavior.Cascade);
-
+                .HasMany(e => e.Claims)
+                .WithOne()
+                .HasForeignKey(e => e.RoleId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
 
@@ -61,5 +60,7 @@ namespace IdentityServer4.MicroService.Data
         public DbSet<AspNetUserFile> UserFiles { get; set; }
 
         public DbSet<AspNetUserApiResource> UserApiResources { get; set; }
+
+        public DbSet<AspNetUserDistribution> UserDistributions { get; set; }
     }
 }

@@ -9,10 +9,17 @@ using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.AppTenantModels;
 using static IdentityServer4.MicroService.AppConstant;
+using System.Data.SqlClient;
+using System.Data.Common;
+using System.Collections.Generic;
+using IdentityServer4.MicroService.Models.CommonModels;
+using System.Reflection;
+using System.ComponentModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace IdentityServer4.MicroService.Apis
 {
-    [ServiceFilter(typeof(ApiTracker.ApiTracker), IsReusable = true)]
+    //[ServiceFilter(typeof(ApiTracker.ApiTracker), IsReusable = true)]
     [Authorize(AuthenticationSchemes = AppAuthenScheme)]
     public class BasicController : ControllerBase
     {
@@ -107,6 +114,81 @@ namespace IdentityServer4.MicroService.Apis
                 }
 
                 return _azureApim;
+            }
+        }
+
+        /// <summary>
+        /// 根据枚举，返回值与名称的字典
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        protected List<ErrorCodeModel> _Codes<T>()
+        {
+            var t = typeof(T);
+
+            var items = t.GetFields()
+                .Where(x => x.CustomAttributes.Count() > 0).ToList();
+
+            var result = new List<ErrorCodeModel>();
+
+            foreach (var item in items)
+            {
+                var code = long.Parse(item.GetRawConstantValue().ToString());
+
+                var codeName = item.Name;
+
+                var desc = item.GetCustomAttribute<DescriptionAttribute>();
+
+                var codeItem = new ErrorCodeModel()
+                {
+                    Code = code,
+                    Name = codeName,
+                    Description = l != null ? l[desc.Description] : desc.Description
+                };
+
+                result.Add(codeItem);
+            }
+
+            return result;
+        }
+
+        protected object ExecuteScalar(DbContext db, string sql, params SqlParameter[] sqlparams)
+        {
+            using (var connection = db.Database.GetDbConnection())
+            {
+                connection.Open();
+
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = sql;
+
+                    command.Parameters.AddRange(sqlparams);
+
+                    return command.ExecuteScalar();
+                }
+            }
+        }
+        protected void ExecuteReader(DbContext db, string sql, Action<DbDataReader> action, params SqlParameter[] sqlparams)
+        {
+            using (var connection = db.Database.GetDbConnection())
+            {
+                connection.Open();
+
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = sql;
+
+                    command.Parameters.AddRange(sqlparams);
+
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                        }
+                    }
+                }
             }
         }
     }
