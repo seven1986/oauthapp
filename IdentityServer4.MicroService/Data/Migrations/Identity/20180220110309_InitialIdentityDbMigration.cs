@@ -25,6 +25,20 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetUserApiResources",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ApiResourceId = table.Column<long>(nullable: false),
+                    UserId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserApiResources", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserClients",
                 columns: table => new
                 {
@@ -39,42 +53,31 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
+                name: "AspNetUserDistribution",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    Address = table.Column<string>(nullable: true),
-                    Avatar = table.Column<string>(nullable: true),
-                    Birthday = table.Column<DateTime>(nullable: false),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    CreateDate = table.Column<DateTime>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    Gender = table.Column<string>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    LastUpdateTime = table.Column<DateTime>(nullable: false),
-                    LineageIDs = table.Column<string>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    NickName = table.Column<string>(nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    ParentUserID = table.Column<long>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    Stature = table.Column<double>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true),
-                    Weight = table.Column<double>(nullable: false)
+                    Commission = table.Column<decimal>(nullable: false),
+                    CommissionLastUpdate = table.Column<DateTime>(nullable: false),
+                    CommissionLv1 = table.Column<decimal>(nullable: false),
+                    CommissionLv1LastUpdate = table.Column<DateTime>(nullable: false),
+                    CommissionLv2 = table.Column<decimal>(nullable: false),
+                    CommissionLv2LastUpdate = table.Column<DateTime>(nullable: false),
+                    CommissionLv3 = table.Column<decimal>(nullable: false),
+                    CommissionLv3LastUpdate = table.Column<DateTime>(nullable: false),
+                    Earned = table.Column<decimal>(nullable: false),
+                    EarnedDiff = table.Column<decimal>(nullable: false),
+                    EarnedDiffLastUpdate = table.Column<DateTime>(nullable: false),
+                    Members = table.Column<long>(nullable: false),
+                    MembersLastUpdate = table.Column<DateTime>(nullable: false),
+                    Sales = table.Column<decimal>(nullable: false),
+                    SalesLastUpdate = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.PrimaryKey("PK_AspNetUserDistribution", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,6 +99,55 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Address = table.Column<string>(nullable: true),
+                    Avatar = table.Column<string>(nullable: true),
+                    Birthday = table.Column<DateTime>(nullable: false),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    DistributionId = table.Column<long>(nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    Gender = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    LastUpdateTime = table.Column<DateTime>(nullable: false),
+                    Lineage = table.Column<string>(type: "sys.hierarchyid", nullable: true),
+                    LineageIDs = table.Column<string>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    NickName = table.Column<string>(nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    ParentUserID = table.Column<long>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    Remark = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    Stature = table.Column<double>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    TypeIDs = table.Column<string>(nullable: true),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Weight = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_AspNetUserDistribution_DistributionId",
+                        column: x => x.DistributionId,
+                        principalTable: "AspNetUserDistribution",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -257,6 +309,11 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_DistributionId",
+                table: "AspNetUsers",
+                column: "DistributionId");
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -278,6 +335,9 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
         {
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserApiResources");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserClaims");
@@ -305,6 +365,9 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserDistribution");
         }
     }
 }

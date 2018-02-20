@@ -9,7 +9,11 @@ using static IdentityServer4.MicroService.AppConstant;
 
 namespace IdentityServer4.MicroService.Apis
 {
+    /// <summary>
+    /// Swagger CodeGen
+    /// </summary>
     [Route("CodeGen")]
+    [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class CodeGenController : BasicController
     {
@@ -28,8 +32,6 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         /// Swagger CodeGen Clients
         /// </summary>
-        /// <param name="fromCache"></param>
-        /// <returns></returns>
         [HttpGet("Clients")]
         [AllowAnonymous]
         [SwaggerOperation("CodeGen/Clients")]
@@ -43,8 +45,6 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         /// Swagger CodeGen Servers
         /// </summary>
-        /// <param name="fromCache"></param>
-        /// <returns></returns>
         [HttpGet("Servers")]
         [AllowAnonymous]
         [SwaggerOperation("CodeGen/Servers")]

@@ -18,12 +18,17 @@ using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.CommonModels;
 using IdentityServer4.MicroService.Models.ApiResourceModels;
 using static IdentityServer4.MicroService.AppConstant;
+using System.Collections.Generic;
 
 namespace IdentityServer4.MicroService.Apis
 {
     // ApiResource 根据 userId 来获取列表、或详情、增删改
 
+    /// <summary>
+    /// 微服务
+    /// </summary>
     [Route("ApiResource")]
+    [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class ApiResourceController : BasicController
     {
@@ -52,6 +57,11 @@ namespace IdentityServer4.MicroService.Apis
             swagerCodeGen = _swagerCodeGen;
         }
 
+        /// <summary>
+        /// 微服务 - 列表
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
         [SwaggerOperation("ApiResource/Get")]
@@ -86,8 +96,8 @@ namespace IdentityServer4.MicroService.Apis
             #region total
             var result = new PagingResult<ApiResource>()
             {
-                skip = value.skip,
-                take = value.take,
+                skip = value.skip.Value,
+                take = value.take.Value,
                 total = await query.CountAsync()
             };
             #endregion
@@ -97,7 +107,7 @@ namespace IdentityServer4.MicroService.Apis
                 #region orderby
                 if (!string.IsNullOrWhiteSpace(value.orderby))
                 {
-                    if (value.asc)
+                    if (value.asc.Value)
                     {
                         query = query.OrderBy(value.orderby);
                     }
@@ -109,7 +119,7 @@ namespace IdentityServer4.MicroService.Apis
                 #endregion
 
                 #region pagingWithData
-                var data = await query.Skip(value.skip).Take(value.take)
+                var data = await query.Skip(value.skip.Value).Take(value.take.Value)
                     .Include(x => x.UserClaims)
                     .Include(x => x.Scopes)
                     .Include(x => x.Secrets)
@@ -122,6 +132,11 @@ namespace IdentityServer4.MicroService.Apis
             return result;
         }
 
+        /// <summary>
+        /// 微服务 - 详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
         [SwaggerOperation("ApiResource/Detail")]
@@ -149,6 +164,11 @@ namespace IdentityServer4.MicroService.Apis
             return new ApiResult<ApiResource>(entity);
         }
 
+        /// <summary>
+        /// 微服务 - 创建
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Create)]
         [SwaggerOperation("ApiResource/Post")]
@@ -175,6 +195,11 @@ namespace IdentityServer4.MicroService.Apis
             return new ApiResult<long>(value.Id);
         }
 
+        /// <summary>
+        /// 微服务 - 更新
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Update)]
         [SwaggerOperation("ApiResource/Put")]
@@ -450,6 +475,11 @@ namespace IdentityServer4.MicroService.Apis
             return new ApiResult<long>(value.Id);
         }
 
+        /// <summary>
+        /// 微服务 - 删除
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Delete)]
         [SwaggerOperation("ApiResource/Delete")]
@@ -476,7 +506,7 @@ namespace IdentityServer4.MicroService.Apis
 
         #region Api Management
         /// <summary>
-        /// 发布微服务到网关
+        /// 微服务 - 发布到网关
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -534,7 +564,7 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// 获取上次微服务发布的配置记录
+        /// 微服务 - 上次发布配置
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -563,7 +593,7 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// 微服务可集成的OAuthServers
+        /// 微服务 - OAuthServers
         /// </summary>
         /// <returns></returns>
         [HttpGet("AuthServers")]
@@ -577,7 +607,7 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// 微服务可集成的产品组
+        /// 微服务 - 产品组
         /// </summary>
         /// <returns></returns>
         [HttpGet("Products")]
@@ -588,6 +618,21 @@ namespace IdentityServer4.MicroService.Apis
             var result = await AzureApim.Products.GetAsync();
 
             return new ApiResult<AzureApiManagementEntities<AzureApiManagementProductEntity>>(result);
+        }
+        #endregion
+
+        #region 微服务 - 错误码表
+        /// <summary>
+        /// 微服务 - 错误码表
+        /// </summary>
+        [HttpGet("Codes")]
+        [AllowAnonymous]
+        [SwaggerOperation("ApiResource/Codes")]
+        public List<ErrorCodeModel> Codes()
+        {
+            var result = _Codes<ApiResourceControllerEnum>();
+
+            return result;
         }
         #endregion
 

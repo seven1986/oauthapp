@@ -12,8 +12,8 @@ using System;
 namespace IdentityServer4.MicroService.Data.Migrations.Identity
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171218080030_2017121801UpdateIdentityDbMigration")]
-    partial class _2017121801UpdateIdentityDbMigration
+    [Migration("20180220110309_InitialIdentityDbMigration")]
+    partial class InitialIdentityDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,7 +22,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Campaign.Core.Identity.AppRole", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AppRole", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -46,7 +46,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AppRoleClaim", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AppRoleClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -64,7 +64,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AppUser", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AppUser", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -84,6 +84,8 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
 
                     b.Property<string>("Description");
 
+                    b.Property<long?>("DistributionId");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -94,6 +96,9 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime>("LastUpdateTime");
+
+                    b.Property<string>("Lineage")
+                        .HasColumnType("sys.hierarchyid");
 
                     b.Property<string>("LineageIDs");
 
@@ -117,11 +122,15 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("Remark");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<double>("Stature");
 
                     b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("TypeIDs");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
@@ -129,6 +138,8 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.Property<double>("Weight");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DistributionId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -141,7 +152,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AppUserClaim", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AppUserClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -159,7 +170,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AppUserLogin", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AppUserLogin", b =>
                 {
                     b.Property<string>("LoginProvider");
 
@@ -176,7 +187,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AppUserRole", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AppUserRole", b =>
                 {
                     b.Property<long>("UserId");
 
@@ -189,7 +200,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AppUserToken", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AppUserToken", b =>
                 {
                     b.Property<long>("UserId");
 
@@ -204,7 +215,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AspNetUserApiResource", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AspNetUserApiResource", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -218,7 +229,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.ToTable("AspNetUserApiResources");
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AspNetUserClient", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AspNetUserClient", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -232,7 +243,49 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.ToTable("AspNetUserClients");
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AspNetUserFile", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AspNetUserDistribution", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("Commission");
+
+                    b.Property<DateTime>("CommissionLastUpdate");
+
+                    b.Property<decimal>("CommissionLv1");
+
+                    b.Property<DateTime>("CommissionLv1LastUpdate");
+
+                    b.Property<decimal>("CommissionLv2");
+
+                    b.Property<DateTime>("CommissionLv2LastUpdate");
+
+                    b.Property<decimal>("CommissionLv3");
+
+                    b.Property<DateTime>("CommissionLv3LastUpdate");
+
+                    b.Property<decimal>("Earned");
+
+                    b.Property<decimal>("EarnedDiff");
+
+                    b.Property<DateTime>("EarnedDiffLastUpdate");
+
+                    b.Property<long>("Members");
+
+                    b.Property<DateTime>("MembersLastUpdate");
+
+                    b.Property<decimal>("Sales");
+
+                    b.Property<DateTime>("SalesLastUpdate");
+
+                    b.Property<long>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AspNetUserDistribution");
+                });
+
+            modelBuilder.Entity("IdentityServer4.MicroService.AspNetUserFile", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -250,7 +303,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.ToTable("AspNetUserFiles");
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AspNetUserTenant", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AspNetUserTenant", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -266,62 +319,69 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.ToTable("AspNetUserTenants");
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AppRoleClaim", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AppRoleClaim", b =>
                 {
-                    b.HasOne("Campaign.Core.Identity.AppRole")
+                    b.HasOne("IdentityServer4.MicroService.AppRole")
                         .WithMany("Claims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AppUserClaim", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AppUser", b =>
                 {
-                    b.HasOne("Campaign.Core.Identity.AppUser")
+                    b.HasOne("IdentityServer4.MicroService.AspNetUserDistribution", "Distribution")
+                        .WithMany()
+                        .HasForeignKey("DistributionId");
+                });
+
+            modelBuilder.Entity("IdentityServer4.MicroService.AppUserClaim", b =>
+                {
+                    b.HasOne("IdentityServer4.MicroService.AppUser")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AppUserLogin", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AppUserLogin", b =>
                 {
-                    b.HasOne("Campaign.Core.Identity.AppUser")
+                    b.HasOne("IdentityServer4.MicroService.AppUser")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AppUserRole", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AppUserRole", b =>
                 {
-                    b.HasOne("Campaign.Core.Identity.AppRole")
+                    b.HasOne("IdentityServer4.MicroService.AppRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Campaign.Core.Identity.AppUser")
+                    b.HasOne("IdentityServer4.MicroService.AppUser")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AppUserToken", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AppUserToken", b =>
                 {
-                    b.HasOne("Campaign.Core.Identity.AppUser")
+                    b.HasOne("IdentityServer4.MicroService.AppUser")
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AspNetUserFile", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AspNetUserFile", b =>
                 {
-                    b.HasOne("Campaign.Core.Identity.AppUser")
+                    b.HasOne("IdentityServer4.MicroService.AppUser")
                         .WithMany("Files")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Campaign.Core.Identity.AspNetUserTenant", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AspNetUserTenant", b =>
                 {
-                    b.HasOne("Campaign.Core.Identity.AppUser")
+                    b.HasOne("IdentityServer4.MicroService.AppUser")
                         .WithMany("Tenants")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade);

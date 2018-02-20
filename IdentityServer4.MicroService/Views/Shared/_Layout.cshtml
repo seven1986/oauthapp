@@ -6,6 +6,14 @@
         var tenantString = currentTenant.ToString();
         tenant = JsonConvert.DeserializeObject<AppTenantPublicModel>(tenantString);
     }
+    if (tenant == null)
+    {
+        tenant = new AppTenantPublicModel()
+        {
+            id = 1,
+            name = ""
+        };
+    }
 }
 @inject IViewLocalizer Localizer
 <!DOCTYPE html>

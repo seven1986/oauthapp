@@ -390,12 +390,20 @@ namespace IdentityServer4.MicroService.Services
                 // 如果为空，设置到Unlimited 这个Product里，否则需要带上subkey才能call
                 if (!string.IsNullOrWhiteSpace(productId))
                 {
-                    var addApiResult = await prdService.AddApiAsync(productId, aid);
+                    try
+                    {
+                        var addApiResult = await prdService.AddApiAsync(productId, aid);
+                    }
+                    catch { }
                 }
                 #endregion
 
                 #region Update Api OAuth2 Settings
-                var oAuth2result = await UpdateOAuth2Async(aid, authorizationServerId, scope, openid);
+                try
+                {
+                    var oAuth2result = await UpdateOAuth2Async(aid, authorizationServerId, scope, openid);
+                }
+                catch { }
                 #endregion
             }
 
@@ -579,17 +587,23 @@ namespace IdentityServer4.MicroService.Services
         /// <summary>
         /// Create Revision
         /// </summary>
-        /// <param name="aid">7;rev=2</param>
-        /// <param name="releaseId">7;rev=3</param>
+        /// <param name="aid">7</param>
         /// <param name="apiRevisionDescription">desc</param>
-        /// <returns></returns>
-        public async Task<bool> CreateRevisionAsync(string aid, string releaseId, string apiRevisionDescription)
+        /// <param name="newApiRevision">new revision number，default is from lastRevision +1</param>
+        /// <returns>apiRevision</returns>
+        public async Task<long> CreateRevisionFromSourceApiAsync(string aid, string apiRevisionDescription, long newApiRevision = 0)
         {
-            var path = $"/apis/{releaseId}";
+            var revisions = await GetRevisionsAsync(aid);
+
+            var lastRevision = revisions.value.OrderByDescending(x => long.Parse(x.apiRevision)).LastOrDefault();
+
+            newApiRevision = long.Parse(lastRevision.apiRevision) + 1;
+
+            var path = $"/apis/{aid};rev={newApiRevision}";
 
             var body = JsonConvert.SerializeObject(new
             {
-                sourceApiId = $"/apis/{aid}",
+                sourceApiId = $"/apis/{aid};rev={lastRevision.apiRevision}",
                 apiRevisionDescription
             });
 
@@ -597,7 +611,7 @@ namespace IdentityServer4.MicroService.Services
 
             var result = await RequestAsync(path, HttpMethod.Put.Method, null, content);
 
-            return result.IsSuccessStatusCode;
+            return newApiRevision;
         }
 
         /// <summary>
@@ -609,7 +623,7 @@ namespace IdentityServer4.MicroService.Services
         /// <param name="apiVersionName">default is V2</param>
         /// <param name="apiRevisionDescription"></param>
         /// <param name="versioningScheme">default is Query(Segment/Header) </param>
-        /// <param name="versionQueryName">default is api-version</param>
+        /// <param name="versionQueryName">default is api-version </param>
         /// <returns></returns>
         public async Task<bool> CreateVersionAsync(
             string revisionId,
@@ -889,15 +903,6 @@ namespace IdentityServer4.MicroService.Services
         string apiKey { get; set; }
         #endregion
 
-        public AzureApiManagementServices(string _host,
-            string _apiId,
-            string _apiKey)
-        {
-            host = _host;
-            apiId = _apiId;
-            apiKey = _apiKey;
-        }
-
         private AzureApiManagement _Management;
         public AzureApiManagement Management
         {
@@ -970,6 +975,15 @@ namespace IdentityServer4.MicroService.Services
 
                 return _AuthorizationServers;
             }
+        }
+
+        public AzureApiManagementServices(string _host,
+            string _apiId,
+            string _apiKey)
+        {
+            host = _host;
+            apiId = _apiId;
+            apiKey = _apiKey;
         }
     }
 }

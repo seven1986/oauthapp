@@ -7,3 +7,5 @@
 /IdentityServer4.MicroService/node_modules
 /IdentityServer4.MicroService/obj
 /IdentityServer4.MicroService/.vs/IdentityServer4.MicroService/v15
+/IdentityServer4.MicroService/bin
+/IdentityServer4.MicroService/Properties/PublishProfiles

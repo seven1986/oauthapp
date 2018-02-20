@@ -15,11 +15,16 @@ using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.CommonModels;
 using IdentityServer4.MicroService.Models.IdentityResourceModels;
 using static IdentityServer4.MicroService.AppConstant;
+using System.Collections.Generic;
 
 namespace IdentityServer4.MicroService.Apis
 {
+    /// <summary>
+    /// 身份服务
+    /// </summary>
     [Route("IdentityResource")]
-    [Authorize(AuthenticationSchemes = AppAuthenScheme,Roles = Roles.Users)]
+    [Produces("application/json")]
+    [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class IdentityResourceController : BasicController
     {
         #region Services
@@ -35,6 +40,11 @@ namespace IdentityServer4.MicroService.Apis
             l = localizer;
         }
 
+        /// <summary>
+        /// 身份服务 - 列表
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
         [SwaggerOperation("IdentityResource/Get")]
@@ -61,8 +71,8 @@ namespace IdentityServer4.MicroService.Apis
             #region total
             var result = new PagingResult<IdentityResource>()
             {
-                skip = value.skip,
-                take = value.take,
+                skip = value.skip.Value,
+                take = value.take.Value,
                 total = await query.CountAsync()
             };
             #endregion
@@ -72,7 +82,7 @@ namespace IdentityServer4.MicroService.Apis
                 #region orderby
                 if (!string.IsNullOrWhiteSpace(value.orderby))
                 {
-                    if (value.asc)
+                    if (value.asc.Value)
                     {
                         query = query.OrderBy(value.orderby);
                     }
@@ -84,7 +94,7 @@ namespace IdentityServer4.MicroService.Apis
                 #endregion
 
                 #region pagingWithData
-                var data = await query.Skip(value.skip).Take(value.take)
+                var data = await query.Skip(value.skip.Value).Take(value.take.Value)
                     .Include(x => x.UserClaims)
                     .ToListAsync();
                 #endregion
@@ -95,6 +105,11 @@ namespace IdentityServer4.MicroService.Apis
             return result;
         }
 
+        /// <summary>
+        /// 身份服务 - 详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
         [SwaggerOperation("IdentityResource/Detail")]
@@ -113,6 +128,11 @@ namespace IdentityServer4.MicroService.Apis
             return new ApiResult<IdentityResource>(entity);
         }
 
+        /// <summary>
+        /// 身份服务 - 创建
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Create)]
         [SwaggerOperation("IdentityResource/Post")]
@@ -131,6 +151,11 @@ namespace IdentityServer4.MicroService.Apis
             return new ApiResult<long>(value.Id);
         }
 
+        /// <summary>
+        /// 身份服务 - 更新
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Update)]
         [SwaggerOperation("IdentityResource/Put")]
@@ -224,6 +249,11 @@ namespace IdentityServer4.MicroService.Apis
             return new ApiResult<long>(value.Id);
         }
 
+        /// <summary>
+        /// 身份服务 - 更新
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Delete)]
         [SwaggerOperation("IdentityResource/Delete")]
@@ -242,5 +272,20 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<long>(id);
         }
+
+        #region 身份服务 - 错误码表
+        /// <summary>
+        /// 身份服务 - 错误码表
+        /// </summary>
+        [HttpGet("Codes")]
+        [AllowAnonymous]
+        [SwaggerOperation("IdentityResource/Codes")]
+        public List<ErrorCodeModel> Codes()
+        {
+            var result = _Codes<IdentityResourceControllerEnum>();
+
+            return result;
+        }
+        #endregion
     }
 }

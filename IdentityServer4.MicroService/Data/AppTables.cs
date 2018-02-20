@@ -11,10 +11,10 @@ namespace IdentityServer4.MicroService
     {
         public long ParentUserID { get; set; }
 
-        public string LineageIDs { get; set; }
-
-        [NotMapped()]
+        [Column(TypeName = "sys.hierarchyid")]
         public string Lineage { get; set; }
+
+        public string LineageIDs { get; set; }
 
         public string Avatar { get; set; }
 
@@ -43,7 +43,16 @@ namespace IdentityServer4.MicroService
         /// </summary>
         public virtual List<AppUserToken> Tokens { get; } = new List<AppUserToken>();
 
-        #region 2017-11-7 新增
+        /// <summary>
+        /// 所属租户
+        /// </summary>
+        public virtual List<AspNetUserTenant> Tenants { get; } = new List<AspNetUserTenant>();
+
+        /// <summary>
+        /// 管理file
+        /// </summary>
+        public virtual List<AspNetUserFile> Files { get; } = new List<AspNetUserFile>();
+
         /// <summary>
         /// 昵称
         /// </summary>
@@ -88,17 +97,21 @@ namespace IdentityServer4.MicroService
         /// 最后更新日期
         /// </summary>
         public DateTime LastUpdateTime { get; set; }
-        #endregion
 
         /// <summary>
-        /// 2017-11-13 管理file
+        /// 分类
         /// </summary>
-        public virtual List<AspNetUserFile> Files { get; } = new List<AspNetUserFile>();
+        public string TypeIDs { get; set; }
 
         /// <summary>
-        /// 2017-12-11 所属租户
+        /// 备注
         /// </summary>
-        public virtual List<AspNetUserTenant> Tenants { get; } = new List<AspNetUserTenant>();
+        public string Remark { get; set; }
+
+        /// <summary>
+        /// 销售团队
+        /// </summary>
+        public AspNetUserDistribution Distribution { get; set; }
     }
 
     public class AppRole : IdentityRole<long>
@@ -194,12 +207,119 @@ namespace IdentityServer4.MicroService
         Video = 1,
         Doc = 2
     }
+
+    /// <summary>
+    /// 销售团队
+    /// </summary>
+    [Table("AspNetUserDistribution")]
+    public class AspNetUserDistribution
+    {
+        public long Id { get; set; }
+
+        public long UserId { get; set; }
+
+        /// <summary>
+        /// 团队成员数
+        /// </summary>
+        public long Members { get; set; }
+
+        /// <summary>
+        /// 团队成员数 最后更新时间
+        /// </summary>
+        public DateTime MembersLastUpdate{ get; set; }
+
+        /// <summary>
+        /// 销售额
+        /// </summary>
+        public decimal Sales { get; set; }
+
+        /// <summary>
+        /// 销售额更新时间
+        /// </summary>
+        public DateTime SalesLastUpdate { get; set; }
+
+        /// <summary>
+        /// 总利润
+        /// </summary>
+        public decimal Earned { get; set; }
+
+        /// <summary>
+        /// 差价
+        /// </summary>
+        public decimal EarnedDiff { get; set; }
+
+        /// <summary>
+        /// 差价最后更新时间
+        /// </summary>
+        public DateTime EarnedDiffLastUpdate { get; set; }
+
+        /// <summary>
+        /// 我的提成
+        /// </summary>
+        public decimal Commission { get; set; }
+
+        /// <summary>
+        /// 我的提成最后更新时间
+        /// </summary>
+        public DateTime CommissionLastUpdate { get; set; }
+
+        /// <summary>
+        /// 1级分销提成
+        /// </summary>
+        public decimal CommissionLv1 { get; set; }
+        /// <summary>
+        /// 1级分销提成最后更新时间
+        /// </summary>
+        public DateTime CommissionLv1LastUpdate { get; set; }
+
+        /// <summary>
+        /// 2级分销提成
+        /// </summary>
+        public decimal CommissionLv2 { get; set; }
+        /// <summary>
+        /// 2级分销提成最后更新时间
+        /// </summary>
+        public DateTime CommissionLv2LastUpdate { get; set; }
+
+        /// <summary>
+        /// 3级分销提成
+        /// </summary>
+        public decimal CommissionLv3 { get; set; }
+        /// <summary>
+        /// 3级分销提成最后更新时间
+        /// </summary>
+        public DateTime CommissionLv3LastUpdate { get; set; }
+    }
     #endregion
 
     public class AppConstant
     {
         /// <summary>
-        /// 当前项目的微服务名称
+        /// swagger 测试用client，数据库初始化数据
+        /// </summary>
+        public class TestClient
+        {
+            public const string ClientId = "test";
+            public const string ClientName = "API测试专用";
+            public const string ClientSecret = "1";
+            public static List<string> RedirectUris = new List<string>()
+            { 
+                "https://{0}/swagger/o2c.html"
+            };
+        }
+
+        /// <summary>
+        /// 默认管理员账号密码
+        /// </summary>
+        public class DefaultAdmin
+        {
+            public const string Email = "1@1.com";
+            public const string UserName = "1@1.com";
+            public const string PasswordHash = "123456aA!";
+        }
+
+        /// <summary>
+        /// 微服务名称
         /// </summary>
         public const string MicroServiceName = "ids4.ms";
 
@@ -220,7 +340,6 @@ namespace IdentityServer4.MicroService
             /// </summary>
             public const string UserPermission = "permission";
 
-
             /// <summary>
             /// for client
             /// </summary>
@@ -239,25 +358,32 @@ namespace IdentityServer4.MicroService
         /// </summary>
         public class ClientScopes
         {
-            [PolicyClaimValues(MicroServiceName + ".create", MicroServiceName + ".all", "all")]
+            [Description("创建")]
+            [PolicyClaimValues(MicroServiceName + ".create", MicroServiceName + ".all")]
             public const string Create = "scope:create";
 
-            [PolicyClaimValues(MicroServiceName + ".read", MicroServiceName + ".all", "all")]
+            [Description("读取")]
+            [PolicyClaimValues(MicroServiceName + ".read", MicroServiceName + ".all")]
             public const string Read = "scope:read";
 
-            [PolicyClaimValues(MicroServiceName + ".update", MicroServiceName + ".all", "all")]
+            [Description("更新")]
+            [PolicyClaimValues(MicroServiceName + ".update", MicroServiceName + ".all")]
             public const string Update = "scope:update";
 
-            [PolicyClaimValues(MicroServiceName + ".delete", MicroServiceName + ".all", "all")]
+            [Description("删除")]
+            [PolicyClaimValues(MicroServiceName + ".delete", MicroServiceName + ".all")]
             public const string Delete = "scope:delete";
 
-            [PolicyClaimValues(MicroServiceName + ".approve", MicroServiceName + ".all", "all")]
+            [Description("批准")]
+            [PolicyClaimValues(MicroServiceName + ".approve", MicroServiceName + ".all")]
             public const string Approve = "scope:approve";
 
-            [PolicyClaimValues(MicroServiceName + ".reject", MicroServiceName + ".all", "all")]
+            [Description("拒绝")]
+            [PolicyClaimValues(MicroServiceName + ".reject", MicroServiceName + ".all")]
             public const string Reject = "scope:reject";
 
-            [PolicyClaimValues(MicroServiceName + ".upload", MicroServiceName + ".all", "all")]
+            [Description("上传")]
+            [PolicyClaimValues(MicroServiceName + ".upload", MicroServiceName + ".all")]
             public const string Upload = "scope:upload";
         }
 
@@ -270,25 +396,25 @@ namespace IdentityServer4.MicroService
         /// </summary>
         public class UserPermissions
         {
-            [PolicyClaimValues(MicroServiceName + ".create", MicroServiceName + ".all", "all")]
+            [PolicyClaimValues(MicroServiceName + ".create", MicroServiceName + ".all")]
             public const string Create = "permission:create";
 
-            [PolicyClaimValues(MicroServiceName + ".read", MicroServiceName + ".all", "all")]
+            [PolicyClaimValues(MicroServiceName + ".read", MicroServiceName + ".all")]
             public const string Read = "permission:read";
 
-            [PolicyClaimValues(MicroServiceName + ".update", MicroServiceName + ".all", "all")]
+            [PolicyClaimValues(MicroServiceName + ".update", MicroServiceName + ".all")]
             public const string Update = "permission:update";
 
-            [PolicyClaimValues(MicroServiceName + ".delete", MicroServiceName + ".all", "all")]
+            [PolicyClaimValues(MicroServiceName + ".delete", MicroServiceName + ".all")]
             public const string Delete = "permission:delete";
 
-            [PolicyClaimValues(MicroServiceName + ".approve", MicroServiceName + ".all", "all")]
+            [PolicyClaimValues(MicroServiceName + ".approve", MicroServiceName + ".all")]
             public const string Approve = "permission:approve";
 
-            [PolicyClaimValues(MicroServiceName + ".reject", MicroServiceName + ".all", "all")]
+            [PolicyClaimValues(MicroServiceName + ".reject", MicroServiceName + ".all")]
             public const string Reject = "permission:reject";
 
-            [PolicyClaimValues(MicroServiceName + ".upload", MicroServiceName + ".all", "all")]
+            [PolicyClaimValues(MicroServiceName + ".upload", MicroServiceName + ".all")]
             public const string Upload = "permission:upload";
         }
 
@@ -320,12 +446,6 @@ namespace IdentityServer4.MicroService
             /// </summary>
             [DisplayName("管理员")]
             public const string Administrators = "administrators";
-
-            /// <summary>
-            /// 艺人
-            /// </summary>
-            [DisplayName("艺人")]
-            public const string Star = "star";
         }
 
         public class RedisKeys
@@ -454,5 +574,41 @@ namespace IdentityServer4.MicroService
         {
             this.ClaimsValues = ClaimsValues;
         }
+    }
+
+    public class DefaultData
+    {
+        public static string IdentityServerIssuerUri = "localhost:44309";
+        public static string AppHostName = "localhost:44309";
+
+        public static Dictionary<string, string> TenantProperties =
+            new Dictionary<string, string>()
+        {
+                //auth login
+            {"Weixin:ClientId","" },
+            { "Weixin:ClientSecret", ""},
+            { "Weibo:ClientId", ""},
+            { "Weibo:ClientSecret", ""},
+            { "GitHub:ClientId", ""},
+            { "GitHub:ClientSecret", ""},
+            { "QQ:ClientId", ""},
+            { "QQ:ClientSecret", ""},
+            { "Facebook:ClientId", ""},
+            { "Facebook:ClientSecret", ""},
+            { "Microsoft:ClientId", ""},
+            { "Microsoft:ClientSecret", ""},
+            { "Google:ClientId", ""},
+            { "Google:ClientSecret", ""},
+            { "Twitter:ClientId", ""},
+            { "Twitter:ClientSecret", ""},
+
+            //AzureApiManagement
+            { "Azure:ApiManagement:Host", ""},
+            { "Azure:ApiManagement:ApiId", ""},
+            { "Azure:ApiManagement:ApiKey", ""},
+            { "Azure:ApiManagement:AuthorizationServerId", ""},
+            { "Azure:ApiManagement:ProductId", ""},
+            { "Azure:ApiManagement:PortalUris", ""}, 
+        };
     }
 }

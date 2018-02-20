@@ -12,10 +12,15 @@ using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Codes;
 using IdentityServer4.MicroService.Models.CommonModels;
 using static IdentityServer4.MicroService.AppConstant;
+using System.Collections.Generic;
 
 namespace IdentityServer4.MicroService.Apis
 {
+    /// <summary>
+    /// 角色
+    /// </summary>
     [Route("Role")]
+    [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class RoleController : BasicController
     {
@@ -32,6 +37,10 @@ namespace IdentityServer4.MicroService.Apis
             l = localizer;
         }
 
+        /// <summary>
+        /// 角色 - 列表
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
         [SwaggerOperation("Role/Get")]
@@ -46,6 +55,11 @@ namespace IdentityServer4.MicroService.Apis
             return new PagingResult<AppRole>(data, total, 0, total);
         }
 
+        /// <summary>
+        /// 角色 - 详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
         [SwaggerOperation("Role/Detail")]
@@ -63,6 +77,11 @@ namespace IdentityServer4.MicroService.Apis
             return new ApiResult<AppRole>(entity);
         }
 
+        /// <summary>
+        /// 角色 - 创建
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Create)]
         [SwaggerOperation("Role/Post")]
@@ -81,6 +100,11 @@ namespace IdentityServer4.MicroService.Apis
             return new ApiResult<long>(value.Id);
         }
 
+        /// <summary>
+        /// 角色 - 更新
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Update)]
         [SwaggerOperation("Role/Put")]
@@ -192,6 +216,11 @@ namespace IdentityServer4.MicroService.Apis
             return new ApiResult<long>(value.Id);
         }
 
+        /// <summary>
+        /// 角色 - 删除
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Delete)]
         [SwaggerOperation("Role/Delete")]
@@ -210,5 +239,20 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<long>(id);
         }
+
+        #region 角色 - 错误码表
+        /// <summary>
+        /// 角色 - 错误码表
+        /// </summary>
+        [HttpGet("Codes")]
+        [AllowAnonymous]
+        [SwaggerOperation("Role/Codes")]
+        public List<ErrorCodeModel> Codes()
+        {
+            var result = _Codes<RoleControllerEnum>();
+
+            return result;
+        }
+        #endregion
     }
 }

@@ -1,5 +1,4 @@
 ﻿using IdentityServer4.MicroService.Codes;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 using System;
 using System.ComponentModel;
