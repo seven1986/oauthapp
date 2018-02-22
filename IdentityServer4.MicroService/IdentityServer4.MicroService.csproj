@@ -42,8 +42,10 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Data\Migrations\IdentityServer\" />
     <Folder Include="Models\RoleModels\" />
     <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Resources\Controllers\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>

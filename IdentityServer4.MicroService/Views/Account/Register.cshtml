@@ -5,8 +5,9 @@
         <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="ui form">
             <h4>@Localizer["注册"]</h4>
             <p>@Localizer["创建新的账号."]</p>
-            <div asp-validation-summary="All" class="ui message" />
 
+            <div asp-validation-summary="All" class="ui message"></div>
+       
             <div class="field">
                 <label asp-for="Email" class="col-md-2 control-label"></label>
                 <div class="col-md-10">

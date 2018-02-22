@@ -11,15 +11,7 @@
             <p class="text-success">@ViewData["StatusMessage"]</p>
 
             <div>
-                @if (User.IsInRole(AppConstant.Roles.Administrators))
-    {
-        <a class="ui button" asp-controller="AppUsers">用户管理</a>
-      
-        <a class="ui button" asp-controller="ApiResources">微服务资源</a>
-        <a class="ui button" asp-controller="IdentityResources">身份资源</a>
-                }
-
-                <a class="ui button" asp-controller="Clients">应用管理</a>
+    
                 <h4 class="ui horizontal divider header"><i class="tag icon"></i> Change your account settings </h4>
                 <div class="ui form">
                     <div class="field">

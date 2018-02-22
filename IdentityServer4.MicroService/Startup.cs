@@ -31,6 +31,7 @@ using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Tenant;
 using ApiTracker;
 using static IdentityServer4.MicroService.AppConstant;
+using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace IdentityServer4.MicroService
 {
@@ -116,7 +117,7 @@ namespace IdentityServer4.MicroService
                 options.UseSqlServer(DBConnection));
 
             // Add ApplicationDbContext.
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<IdentityDbContext>(options =>
                 options.UseSqlServer(DBConnection));
 
             services.AddIdentity<AppUser, AppRole>(opts =>
@@ -124,7 +125,7 @@ namespace IdentityServer4.MicroService
                 opts.SignIn.RequireConfirmedEmail = true;
                 //opts.SignIn.RequireConfirmedPhoneNumber = true;
             })
-            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddEntityFrameworkStores<IdentityDbContext>()
             .AddDefaultTokenProviders();
             services.Configure<ConnectionStrings>(connSection);
             #endregion
@@ -261,6 +262,8 @@ namespace IdentityServer4.MicroService
                 o.AssumeDefaultVersionWhenUnspecified = true;
                 o.ReportApiVersions = true;
             });
+
+            services.AddScoped<IPasswordHasher<AppUser>, MD5PasswordHasher>();
             #endregion
 
             #region SwaggerGen
@@ -334,7 +337,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region MessageSender
-            services.Configure<SmsSenderOptions>(Configuration.GetSection("MessageSender:sms"));
+            services.Configure<SmsSenderOptions>(Configuration.GetSection("MessageSender:Sms"));
             services.Configure<EmailSenderOptions>(Configuration.GetSection("MessageSender:Email"));
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ISmsSender, SmsSender>();
@@ -481,7 +484,7 @@ namespace IdentityServer4.MicroService
             ILoggerFactory loggerFactory,
             IApiVersionDescriptionProvider provider)
         {
-            InitialDBConfig.InitializeDatabase(app,Configuration);
+            AppDefaultData.InitializeDatabase(app,Configuration);
 
             app.UseMutitenancy();
 
@@ -532,8 +535,8 @@ namespace IdentityServer4.MicroService
                         $"/swagger/{description.GroupName}/swagger.json",
                         description.GroupName.ToUpperInvariant());
 
-                    c.ConfigureOAuth2(TestClient.ClientId, TestClient.ClientSecret,
-                        string.Empty, TestClient.ClientName);
+                    c.ConfigureOAuth2(AppDefaultData.TestClient.ClientId, AppDefaultData.TestClient.ClientSecret,
+                        string.Empty, AppDefaultData.TestClient.ClientName);
                 }
 
                 c.DocExpansion("none");

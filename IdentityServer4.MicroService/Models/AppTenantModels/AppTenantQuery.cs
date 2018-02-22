@@ -27,6 +27,8 @@ namespace IdentityServer4.MicroService.Models.AppTenantModels
 
     public class AppTenantPrivateModel
     {
+        public long id { get; set; }
+
         /// <summary>
         /// 租户身份认证Server地址
         /// </summary>

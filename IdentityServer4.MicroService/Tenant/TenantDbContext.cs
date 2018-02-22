@@ -85,6 +85,16 @@ namespace IdentityServer4.MicroService.Tenant
         /// 属性集合
         /// </summary>
         public virtual List<AppTenantProperty> Properties { get; } = new List<AppTenantProperty>();
+
+        /// <summary>
+        /// 官方网站
+        /// </summary>
+        public string WebSite { get; set; }
+
+        /// <summary>
+        /// 介绍
+        /// </summary>
+        public string Description { get; set; }
     }
 
     [Table("AppTenantHosts")]
