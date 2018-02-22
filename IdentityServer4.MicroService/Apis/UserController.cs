@@ -105,7 +105,7 @@ namespace IdentityServer4.MicroService.Apis
             {
                 where = (where, sqlParams) => 
                 {
-                    where.Add("AppTenantId = " + TenantId);
+                    where.Add("TenantId = " + TenantId);
 
                     if (!string.IsNullOrWhiteSpace(value.q.email))
                     {
@@ -472,7 +472,7 @@ namespace IdentityServer4.MicroService.Apis
             }
         }
 
-        #region 开放接口业务
+        #region 用户注册
         /// <summary>
         /// 用户注册，需验证手机号和邮箱
         /// </summary>
@@ -491,7 +491,7 @@ namespace IdentityServer4.MicroService.Apis
             #region 校验邮箱是否重复
             if (await db.Users.AnyAsync(x => x.Email.Equals(value.Email)))
             {
-                return new ApiResult<string>(l,UserControllerEnum.Register.EmailExists);
+                return new ApiResult<string>(l,UserControllerEnum.Register_EmailExists);
             }
             #endregion
             #region 校验邮箱验证码
@@ -503,7 +503,7 @@ namespace IdentityServer4.MicroService.Apis
                 }
                 catch
                 {
-                    return new ApiResult<string>(l,UserControllerEnum.Register.EmailVerifyCodeError);
+                    return new ApiResult<string>(l,UserControllerEnum.Register_EmailVerifyCodeError);
                 }
             }
             #endregion
@@ -511,7 +511,7 @@ namespace IdentityServer4.MicroService.Apis
             #region 校验手机号是否重复
             if (await db.Users.AnyAsync(x => x.PhoneNumber.Equals(value.PhoneNumber)))
             {
-                return new ApiResult<string>(l, UserControllerEnum.Register.PhoneNumberExists);
+                return new ApiResult<string>(l, UserControllerEnum.Register_PhoneNumberExists);
             }
             #endregion
             #region 校验手机验证码
@@ -519,7 +519,7 @@ namespace IdentityServer4.MicroService.Apis
 
             if (await redis.KeyExists(PhoneNumberVerifyCodeKey) == false)
             {
-                return new ApiResult<string>(l, UserControllerEnum.Register.PhoneNumberVerifyCodeError);
+                return new ApiResult<string>(l, UserControllerEnum.Register_PhoneNumberVerifyCodeError);
             }
 
             await redis.Remove(PhoneNumberVerifyCodeKey);
@@ -541,7 +541,8 @@ namespace IdentityServer4.MicroService.Apis
                 Description = value.Description,
                 CreateDate = DateTime.UtcNow,
                 LastUpdateTime = DateTime.UtcNow,
-                EmailConfirmed = true
+                EmailConfirmed = true,
+                ParentUserID = UserId
             };
 
             #region 确认邮箱验证通过
@@ -598,8 +599,7 @@ namespace IdentityServer4.MicroService.Apis
                 user, 
                 roleIds, 
                 string.Join(",", permissions), 
-                tenantIds, 
-                UserId);
+                tenantIds);
 
             if (result.Succeeded)
             {
@@ -641,7 +641,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 if (dailyLimit > UserControllerKeys.Limit_24Hour_Verify_MAX_Phone)
                 {
-                    return new ApiResult<string>(l, UserControllerEnum.VerifyPhoneNumber.CallLimited);
+                    return new ApiResult<string>(l, UserControllerEnum.VerifyPhone_CallLimited);
                 }
             }
             else
@@ -666,7 +666,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 if (usedTime < UserControllerKeys.MinimumTime_SendCode_Phone)
                 {
-                    return new ApiResult<string>(l, UserControllerEnum.VerifyPhoneNumber.TooManyRequests, string.Empty,
+                    return new ApiResult<string>(l, UserControllerEnum.VerifyPhone_TooManyRequests, string.Empty,
                         UserControllerKeys.MinimumTime_SendCode_Phone - usedTime);
                 }
             }
@@ -719,7 +719,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 if (dailyLimit > UserControllerKeys.Limit_24Hour_Verify_MAX_Email)
                 {
-                    return new ApiResult<string>(l, UserControllerEnum.VerifyEmailAddress.CallLimited);
+                    return new ApiResult<string>(l, UserControllerEnum.VerifyEmail_CallLimited);
                 }
             }
             else
@@ -744,7 +744,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 if (usedTime < UserControllerKeys.MinimumTime_SendCode_Email)
                 {
-                    return new ApiResult<string>(l, UserControllerEnum.VerifyEmailAddress.TooManyRequests, string.Empty,
+                    return new ApiResult<string>(l, UserControllerEnum.VerifyEmail_TooManyRequests, string.Empty,
                         UserControllerKeys.MinimumTime_SendCode_Email - usedTime);
                 }
             }

@@ -9,6 +9,12 @@ namespace IdentityServer4.MicroService
     {
         public long ParentUserID { get; set; }
 
+        //当使用efcore重新生成脚本时，取消下面的注释
+        //这样生成的脚本会设置该字段对应sqlserver的sys.hierarchyid类型
+        //脚本生成好以后，注释掉column属性，换成notmapped属性
+        //[Column(TypeName = "sys.hierarchyid")]
+        //如果不需要生成脚本，请需要注释
+        [NotMapped]
         public string Lineage { get; set; }
 
         public string LineageIDs { get; set; }
@@ -304,10 +310,10 @@ namespace IdentityServer4.MicroService
 
     #region 数据库视图 View_User 对应的实体
     /*
-CREATE VIEW dbo.View_User
+CREATE VIEW View_User
 AS
 SELECT
- D.AppTenantId,
+ D.TenantId,
  A.Id as UserId,
 (SELECT Q2.Id, Q2.Name, Q2.NormalizedName FROM AspNetUserRoles Q1
 JOIN AspNetRoles Q2 ON Q1.RoleId = Q2.Id
@@ -317,7 +323,7 @@ WHERE UserId = A.Id FOR JSON AUTO) as Roles,
 WHERE Q1.UserId = A.Id FOR JSON AUTO) as Claims,
 
 (SELECT Q1.Files,Q1.FileType AS Name FROM AspNetUserFiles Q1
-WHERE Q1.AppUserId = A.Id FOR JSON AUTO) as Files,
+WHERE Q1.UserId = A.Id FOR JSON AUTO) as Files,
 
  A.Avatar,
  A.UserName,
@@ -350,9 +356,7 @@ WHERE Q1.AppUserId = A.Id FOR JSON AUTO) as Files,
  FROM AspNetUsers AS A
  INNER JOIN AspNetUserDistribution AS B ON A.ID = B.UserID
  INNER JOIN AspNetUsers AS C ON A.ParentUserID = C.ID
- INNER JOIN AspNetUserTenants AS D ON A.Id = D.AppUserId
-
- --SELECT RoleId FROM AspNetUserRoles WHERE UserId = 1 FOR JSON AUTO
+ INNER JOIN AspNetUserTenants AS D ON A.Id = D.UserId
      */
     [NotMapped]
     public class View_User

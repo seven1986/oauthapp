@@ -11,6 +11,7 @@ namespace IdentityServer4.MicroService.Data
         public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
             : base(options)
         {
+
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -107,19 +108,6 @@ namespace IdentityServer4.MicroService.Data
                 .HasForeignKey(e => e.RoleId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
-
-            //创建数据库
-            if (!Database.EnsureCreated())
-            {
-                // 添加复杂类型
-                builder.Entity<AppUser>().Property("Lineage").HasColumnType("sys.hierarchyid");
-            }
-            else
-            {
-                //数据库已经创建，取消映射复杂类型
-                //如果启动报错:Type Udt is not supported on this platform.
-                builder.Entity<AppUser>().Ignore("Lineage");
-            }
         }
 
         public DbSet<AspNetUserClient> UserClients { get; set; }
@@ -131,6 +119,23 @@ namespace IdentityServer4.MicroService.Data
         public DbSet<AspNetUserDistribution> UserDistributions { get; set; }
 
         public DbSet<AspNetUserTenant> UserTenants { get; set; }
+
+        public object ExecuteScalar(string sql)
+        {
+            var con = Database.GetDbConnection();
+
+            if (con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+
+            using (var cmd = con.CreateCommand())
+            {
+                cmd.CommandText = sql;
+
+                return cmd.ExecuteScalar();
+            }
+        }
     }
 
     public class MD5PasswordHasher : IPasswordHasher<AppUser>
