@@ -11,9 +11,10 @@ using System;
 namespace IdentityServer4.MicroService.Data.Migrations.Tenant
 {
     [DbContext(typeof(TenantDbContext))]
-    partial class TenantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180222102527_InitialTenantDbMigration")]
+    partial class InitialTenantDbMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -10,12 +10,13 @@ using Microsoft.Extensions.Localization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
-using IdentityServer4.MicroService.Codes;
+using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.CommonModels;
 using IdentityServer4.MicroService.Models.IdentityResourceModels;
 using static IdentityServer4.MicroService.AppConstant;
 using System.Collections.Generic;
+using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace IdentityServer4.MicroService.Apis
 {

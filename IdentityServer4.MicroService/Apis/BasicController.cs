@@ -16,6 +16,7 @@ using IdentityServer4.MicroService.Models.CommonModels;
 using System.Reflection;
 using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
+using IdentityServer4.MicroService.CacheKeys;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -102,14 +103,14 @@ namespace IdentityServer4.MicroService.Apis
             {
                 if (_azureApim == null)
                 {
-                    if (Tenant.properties.ContainsKey(AzureApiManagementConsts.Host) &&
-                    Tenant.properties.ContainsKey(AzureApiManagementConsts.ApiId) &&
-                    Tenant.properties.ContainsKey(AzureApiManagementConsts.ApiKey))
+                    if (Tenant.properties.ContainsKey(AzureApiManagementKeys.Host) &&
+                    Tenant.properties.ContainsKey(AzureApiManagementKeys.ApiId) &&
+                    Tenant.properties.ContainsKey(AzureApiManagementKeys.ApiKey))
                     {
                         _azureApim = new AzureApiManagementServices(
-                            Tenant.properties[AzureApiManagementConsts.Host],
-                            Tenant.properties[AzureApiManagementConsts.ApiId],
-                            Tenant.properties[AzureApiManagementConsts.ApiKey]);
+                            Tenant.properties[AzureApiManagementKeys.Host],
+                            Tenant.properties[AzureApiManagementKeys.ApiId],
+                            Tenant.properties[AzureApiManagementKeys.ApiKey]);
                     }
                 }
 

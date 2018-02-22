@@ -9,10 +9,11 @@ using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Authorization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.Codes;
+using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Models.CommonModels;
 using static IdentityServer4.MicroService.AppConstant;
 using System.Collections.Generic;
+using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -26,11 +27,11 @@ namespace IdentityServer4.MicroService.Apis
     {
         #region Services
         // database
-        readonly ApplicationDbContext db;
+        readonly IdentityDbContext db;
         #endregion
 
         public RoleController(
-            ApplicationDbContext _db,
+            IdentityDbContext _db,
             IStringLocalizer<RoleController> localizer)
         {
             db = _db;

@@ -82,48 +82,24 @@ namespace IdentityServer4.MicroService.Models.AppUsersModels
         /// <summary>
         /// 用户角色
         /// </summary>
-        public AppUserQueryRole Role { get; set; }
+        public List<int> roles { get; set; }
 
         /// <summary>
         /// 手机号
         /// </summary>
         [Phone(ErrorMessage = "手机号码格式错误")]
-        public string PhoneNumber { get; set; }
+        public string phoneNumber { get; set; }
 
         /// <summary>
         /// 名称
         /// </summary>
-        public string Name { get; set; }
+        public string name { get; set; }
 
         /// <summary>
         /// 邮箱
         /// </summary>
         [EmailAddress(ErrorMessage = "邮箱格式错误")]
-        public string Email { get; set; }
-    }
-
-    public enum AppUserQueryRole
-    {
-        /// <summary>
-        /// 用户
-        /// </summary>
-        Users = 1,
-        /// <summary>
-        /// 合作伙伴
-        /// </summary>
-        Partners = 2,
-        /// <summary>
-        /// 开发者
-        /// </summary>
-        Developer = 3,
-        /// <summary>
-        /// 管理员
-        /// </summary>
-        Administrators = 4,
-        /// <summary>
-        /// 艺人
-        /// </summary>
-        Star = 5
+        public string email { get; set; }
     }
 
     /// <summary>
@@ -139,11 +115,10 @@ namespace IdentityServer4.MicroService.Models.AppUsersModels
         public string PhoneNumber { get; set; }
     }
 
-
     /// <summary>
-    /// ApplyForModel
+    /// RegisterModel
     /// </summary>
-    public class ApplyForModel
+    public class RegisterModel
     {
         /// <summary>
         /// NickName
@@ -153,9 +128,9 @@ namespace IdentityServer4.MicroService.Models.AppUsersModels
         public string NickName { get; set; }
 
 
-        //[Required(ErrorMessage = "请填写联系邮箱")]
-        //[EmailAddress(ErrorMessage = "邮箱格式错误")]
-        //public string Email { get; set; }
+        [Required(ErrorMessage = "请填写联系邮箱")]
+        [EmailAddress(ErrorMessage = "邮箱格式错误")]
+        public string Email { get; set; }
 
         /// <summary>
         /// Gender
@@ -182,14 +157,14 @@ namespace IdentityServer4.MicroService.Models.AppUsersModels
         /// </summary>
         [Required(ErrorMessage = "请填写身高")]
         [Range(0.1, 99, ErrorMessage = "0.1-99之内")]
-        public double Stature { get; set; }
+        public decimal Stature { get; set; }
 
         /// <summary>
         /// Weight
         /// </summary>
         [Required(ErrorMessage = "请填写体重")]
         [Range(1, 999, ErrorMessage = "1-999之内")]
-        public double Weight { get; set; }
+        public decimal Weight { get; set; }
 
         /// <summary>
         /// Description
@@ -207,11 +182,11 @@ namespace IdentityServer4.MicroService.Models.AppUsersModels
         /// PhoneNumber VerifyCode
         /// </summary>
         [Required(ErrorMessage = "请填写手机验证码")]
-        [RegularExpression("[0-9]{4,6}",ErrorMessage ="验证码为格式错误")]
+        [RegularExpression("[0-9]{4,6}", ErrorMessage = "验证码为格式错误")]
         public string PhoneNumberVerifyCode { get; set; }
 
         // 非必填，如果填写了将进行有效性的验证
-        //public string EmailVerifyCode { get; set; }
+        public string EmailVerifyCode { get; set; }
 
         /// <summary>
         /// photos（max for 9）
@@ -227,6 +202,13 @@ namespace IdentityServer4.MicroService.Models.AppUsersModels
         /// Doc（PDF/DOC max for 10M）
         /// </summary>
         public string Doc { get; set; }
+
+        /// <summary>
+        /// 登录密码
+        /// </summary>
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        public string Password { get; set; }
     }
 
     /// <summary>

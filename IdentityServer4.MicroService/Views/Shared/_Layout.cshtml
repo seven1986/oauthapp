@@ -6,7 +6,8 @@
         var tenantString = currentTenant.ToString();
         tenant = JsonConvert.DeserializeObject<AppTenantPublicModel>(tenantString);
     }
-    if (tenant == null)
+
+    if(tenant==null)
     {
         tenant = new AppTenantPublicModel()
         {
@@ -21,7 +22,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@Html.Raw(tenant.name) - @Localizer["身份认证中心"]</title>
+    <title>@Html.Raw(tenant.name) - @Localizer["授权中心"]</title>
     <environment names="Development">
         <link href="/dist/vendor.min.css" rel="stylesheet" />
         <link href="/dist/app.css" rel="stylesheet" />

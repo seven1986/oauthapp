@@ -5,7 +5,7 @@
     <div class="six wide column">
         <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="ui form">
             <h4>@Localizer["登录"]</h4>
-            <div asp-validation-summary="All" class="ui message" />
+            <div asp-validation-summary="All" class="ui message"></div>
             <div class="field">
                 <label asp-for="Email"></label>
                 <div class="col-md-10">

@@ -1,4 +1,4 @@
-﻿using IdentityServer4.MicroService.Codes;
+﻿using IdentityServer4.MicroService.Enums;
 using System.Collections.Generic;
 
 namespace IdentityServer4.MicroService.Models.CommonModels

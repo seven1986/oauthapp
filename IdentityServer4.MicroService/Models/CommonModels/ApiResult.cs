@@ -1,4 +1,4 @@
-﻿using IdentityServer4.MicroService.Codes;
+﻿using IdentityServer4.MicroService.Enums;
 using Microsoft.Extensions.Localization;
 using System;
 using System.ComponentModel;

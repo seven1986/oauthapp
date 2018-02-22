@@ -11,13 +11,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using IdentityServer4.MicroService.Codes;
+using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.Mappers;
 using IdentityServer4.MicroService.Models.CommonModels;
 using IdentityServer4.MicroService.Models.AppUsersModels;
 using IdentityServer4.MicroService.Services;
+using Newtonsoft.Json;
 using static IdentityServer4.MicroService.AppConstant;
+using static IdentityServer4.MicroService.MicroserviceConfig;
+using IdentityServer4.MicroService.CacheKeys;
+using IdentityServer4.MicroService.Tenant;
+using IdentityServer4.EntityFramework.DbContexts;
+using System.Reflection;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -28,11 +33,12 @@ namespace IdentityServer4.MicroService.Apis
     /// </summary>
     [Route("User")]
     [Produces("application/json")]
+    [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class UserController : BasicController
     {
         #region Services
         //Database
-        readonly ApplicationDbContext db;
+        readonly IdentityDbContext db;
         // 短信
         readonly ISmsSender sms;
         // 邮件
@@ -41,16 +47,22 @@ namespace IdentityServer4.MicroService.Apis
         readonly ITimeLimitedDataProtector protector;
         // 用户管理SDK
         readonly UserManager<AppUser> userManager;
+
+        readonly TenantDbContext tenantDbContext;
+
+        readonly ConfigurationDbContext configDbContext;
         #endregion
 
         public UserController(
-            ApplicationDbContext _db,
+            IdentityDbContext _db,
             RedisService _redis,
             IStringLocalizer<UserController> _localizer,
             ISmsSender _sms,
             IEmailSender _email,
             IDataProtectionProvider _provider,
-            UserManager<AppUser> _userManager)
+            UserManager<AppUser> _userManager,
+            TenantDbContext _tenantDbContext,
+            ConfigurationDbContext _configDbContext)
         {
             // 多语言
             l = _localizer;
@@ -60,6 +72,8 @@ namespace IdentityServer4.MicroService.Apis
             protector = _provider.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
             email = _email;
             userManager = _userManager;
+            tenantDbContext = _tenantDbContext;
+            configDbContext = _configDbContext;
         }
 
         /// <summary>
@@ -68,13 +82,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users, Policy = UserPermissions.Read)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
         [SwaggerOperation("User/Get")]
-        public async Task<PagingResult<AppUserModel>> Get(PagingRequest<AppUserQuery> value)
+        public async Task<PagingResult<View_User>> Get(PagingRequest<AppUserQuery> value)
         {
             if (!ModelState.IsValid)
             {
-                return new PagingResult<AppUserModel>()
+                return new PagingResult<View_User>()
                 {
                     code = (int)BasicControllerEnums.UnprocessableEntity,
 
@@ -82,77 +96,65 @@ namespace IdentityServer4.MicroService.Apis
                 };
             }
 
-            var query = db.Users.AsQueryable();
-
-            query = query.Where(x => x.Tenants.Any(t => t.AppTenantId == TenantId));
-
-            #region filter
-            if (!string.IsNullOrWhiteSpace(value.q.Email))
+            if (string.IsNullOrWhiteSpace(value.orderby))
             {
-                query = query.Where(x => x.Email.Equals(value.q.Email));
+                value.orderby = "UserId";
             }
 
-            if (!string.IsNullOrWhiteSpace(value.q.Name))
+            var q = new PagingService<View_User>(db, value, "View_User")
             {
-                query = query.Where(x => x.NickName.Equals(value.q.Name));
-            }
+                where = (where, sqlParams) => 
+                {
+                    where.Add("AppTenantId = " + TenantId);
 
-            if (!string.IsNullOrWhiteSpace(value.q.PhoneNumber))
-            {
-                query = query.Where(x => x.PhoneNumber.Equals(value.q.PhoneNumber));
-            }
+                    if (!string.IsNullOrWhiteSpace(value.q.email))
+                    {
+                        where.Add("Email = @Email");
+                        sqlParams.Add(new SqlParameter("@Email", value.q.email));
+                    }
 
-            if (value.q.Role > 0)
-            {
-                query = query.Where(x => x.Roles.Any(role => role.RoleId == (int)value.q.Role));
-            }
-            #endregion
+                    if (!string.IsNullOrWhiteSpace(value.q.name))
+                    {
+                        where.Add("UserName like @UserName");
+                        sqlParams.Add(new SqlParameter("@UserName", "%" + value.q.name + "%"));
+                    }
 
-            #region total
-            var result = new PagingResult<AppUserModel>()
-            {
-                skip = value.skip.Value,
-                take = value.take.Value,
-                total = await query.CountAsync()
+                    if (!string.IsNullOrWhiteSpace(value.q.phoneNumber))
+                    {
+                        where.Add("PhoneNumber = @PhoneNumber");
+                        sqlParams.Add(new SqlParameter("@PhoneNumber", value.q.phoneNumber));
+                    }
+
+                    if (value.q.roles != null && value.q.roles.Count > 0)
+                    {
+                        var rolesExpression = new List<string>();
+
+                        value.q.roles.ForEach(r =>
+                        {
+                            rolesExpression.Add("Roles Like '%\"Id\":" + r + ",%'");
+                        });
+
+                        where.Add(" ( " + string.Join(" OR ", rolesExpression) + " ) ");
+                    }
+                }
             };
-            #endregion
 
-            if (result.total > 0)
-            {
-                #region orderby
-                if (!string.IsNullOrWhiteSpace(value.orderby))
-                {
-                    if (value.asc.Value)
-                    {
-                        query = query.OrderBy(value.orderby);
-                    }
-                    else
-                    {
-                        query = query.OrderByDescending(value.orderby);
-                    }
-                }
-                #endregion
-
-                #region pagingWithData
-                var data = await query.Skip(value.skip.Value).Take(value.take.Value)
-                            .Include(x => x.Logins)
-                            .Include(x => x.Claims)
-                            .Include(x => x.Roles)
-                            .Include(x => x.Files)
-                            .ToListAsync();
-                #endregion
-
-                if (data.Count > 0)
-                {
-                    var models = data.ToModels();
-
-                    var roles = await db.Roles.ToDictionaryAsync(k => k.Id, v => v.NormalizedName);
-
-                    models.ForEach(x => x.Roles.ForEach(r => r.Name = roles[r.Id]));
-
-                    result.data = models;
-                }
-            }
+            var result = await q.ExcuteAsync(propConverter: (prop, val) =>
+             {
+                 if (prop.Name.Equals("Roles"))
+                 {
+                     return JsonConvert.DeserializeObject<List<View_User_Role>>(val.ToString());
+                 }
+                 else if (prop.Name.Equals("Claims"))
+                 {
+                     return JsonConvert.DeserializeObject<List<View_User_Claim>>(val.ToString());
+                 }
+                 else if (prop.Name.Equals("Files"))
+                 {
+                     return JsonConvert.DeserializeObject<List<View_User_File>>(val.ToString());
+                 }
+                 return val;
+             });
 
             return result;
         }
@@ -169,7 +171,7 @@ namespace IdentityServer4.MicroService.Apis
         {
             var query = db.Users.AsQueryable();
 
-            query = query.Where(x => x.Tenants.Any(t => t.AppTenantId == TenantId));
+            query = query.Where(x => x.Tenants.Any(t => t.TenantId == TenantId));
 
             var entity = await query
                 .Include(x => x.Logins)
@@ -186,31 +188,36 @@ namespace IdentityServer4.MicroService.Apis
             return new ApiResult<AppUser>(entity);
         }
 
-        /// <summary>
-        /// 用户 - 创建
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users, Policy = UserPermissions.Create)]
-        [SwaggerOperation("User/Post")]
-        public async Task<ApiResult<long>> Post([FromBody]AppUser value)
-        {
-            if (!ModelState.IsValid)
-            {
-                return new ApiResult<long>(l, BasicControllerEnums.UnprocessableEntity,
-                    ModelErrors());
-            }
+        ///// <summary>
+        ///// 用户 - 创建
+        ///// </summary>
+        ///// <param name = "value" ></ param >
+        ///// < returns ></ returns >
+        ////[HttpPost]
+        ////[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Create)]
+        ////[SwaggerOperation("User/Post")]
+        ////public async Task<ApiResult<long>> Post([FromBody]AppUser value)
+        ////{
+        ////    if (!ModelState.IsValid)
+        ////    {
+        ////        return new ApiResult<long>(l, BasicControllerEnums.UnprocessableEntity,
+        ////            ModelErrors());
+        ////    }
 
-            value.Tenants.Clear();
-            value.Tenants.Add(new AspNetUserTenant() { AppTenantId = TenantId });
+        ////    await AccountService.CreateUser(TenantId,
+        ////        null,
+        ////        db,
+        ////        tenantDb,
+        ////        null,
+        ////        value,
+        ////        UserId);
 
-            db.Add(value);
+        ////    db.Add(value);
 
-            await db.SaveChangesAsync();
+        ////    await db.SaveChangesAsync();
 
-            return new ApiResult<long>(value.Id);
-        }
+        ////    return new ApiResult<long>(value.Id);
+        ////}
 
         /// <summary>
         /// 用户 - 更新
@@ -218,7 +225,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPut]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users, Policy = UserPermissions.Update)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Update)]
         [SwaggerOperation("User/Put")]
         public async Task<ApiResult<long>> Put([FromBody]AppUser value)
         {
@@ -411,13 +418,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users, Policy = UserPermissions.Delete)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Delete)]
         [SwaggerOperation("User/Delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
             var query = db.Users.AsQueryable();
 
-            query = query.Where(x => x.Tenants.Any(t => t.AppTenantId == TenantId));
+            query = query.Where(x => x.Tenants.Any(t => t.TenantId == TenantId));
 
             var entity = await query.Where(x => x.Id == id).FirstOrDefaultAsync();
 
@@ -450,7 +457,7 @@ namespace IdentityServer4.MicroService.Apis
 
             var query = db.Users.AsQueryable();
 
-            query = query.Where(x => x.Tenants.Any(t => t.AppTenantId == TenantId));
+            query = query.Where(x => x.Tenants.Any(t => t.TenantId == TenantId));
 
             var result = await query.Where(x => x.PhoneNumber.Equals(value.PhoneNumber))
                 .Select(x => x.Id).FirstOrDefaultAsync();
@@ -465,320 +472,308 @@ namespace IdentityServer4.MicroService.Apis
             }
         }
 
-        //#region 开放接口业务
-        ///// <summary>
-        ///// 用户报名
-        ///// 邮箱验证码非必填
-        ///// </summary>
-        ///// <param name="value"></param>
-        ///// <returns></returns>
-        //[HttpPost("ApplyFor")]
-        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Create)]
-        //[SwaggerOperation("User/ApplyFor")]
-        //public async Task<ApiResult<string>> ApplyFor([FromBody]ApplyForModel value)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return new ApiResult<string>(l,BasicControllerEnums.UnprocessableEntity, 
-        //            ModelErrors());
-        //    }
+        #region 开放接口业务
+        /// <summary>
+        /// 用户注册，需验证手机号和邮箱
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("Register")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Create)]
+        [SwaggerOperation("User/Register")]
+        public async Task<ApiResult<string>> Register([FromBody]RegisterModel value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<string>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
 
-        //    #region 校验邮箱是否重复
-        //    //if (await db.Users.AnyAsync(x => x.Email.Equals(value.Email)))
-        //    //{
-        //    //    return new SingleResult<string>(StatusCodes.Status406NotAcceptable, l["邮箱已被注册"]);
-        //    //}
-        //    #endregion
-        //    #region 校验邮箱验证码
-        //    //if (!string.IsNullOrWhiteSpace(value.EmailVerifyCode))
-        //    //{
-        //    //    try
-        //    //    {
-        //    //        protector.Unprotect(value.EmailVerifyCode);
-        //    //    }
-        //    //    catch
-        //    //    {
-        //    //        return new SingleResult<string>(StatusCodes.Status406NotAcceptable, l["无效的邮箱验证码"]);
-        //    //    }
-        //    //}
-        //    #endregion
+            #region 校验邮箱是否重复
+            if (await db.Users.AnyAsync(x => x.Email.Equals(value.Email)))
+            {
+                return new ApiResult<string>(l,UserControllerEnum.Register.EmailExists);
+            }
+            #endregion
+            #region 校验邮箱验证码
+            if (!string.IsNullOrWhiteSpace(value.EmailVerifyCode))
+            {
+                try
+                {
+                    protector.Unprotect(value.EmailVerifyCode);
+                }
+                catch
+                {
+                    return new ApiResult<string>(l,UserControllerEnum.Register.EmailVerifyCodeError);
+                }
+            }
+            #endregion
 
-        //    #region 校验手机号是否重复
-        //    if (await db.Users.AnyAsync(x => x.PhoneNumber.Equals(value.PhoneNumber)))
-        //    {
-        //        return new ApiResult<string>(l, UserControllerEnums.ApplyFor.PhoneNumberExists);
-        //    }
-        //    #endregion
-        //    #region 校验手机验证码
-        //    var PhoneNumberVerifyCodeKey = RedisKeys.VerifyCode_Phone + value.PhoneNumber + ":" + value.PhoneNumberVerifyCode;
+            #region 校验手机号是否重复
+            if (await db.Users.AnyAsync(x => x.PhoneNumber.Equals(value.PhoneNumber)))
+            {
+                return new ApiResult<string>(l, UserControllerEnum.Register.PhoneNumberExists);
+            }
+            #endregion
+            #region 校验手机验证码
+            var PhoneNumberVerifyCodeKey = UserControllerKeys.VerifyCode_Phone + value.PhoneNumber + ":" + value.PhoneNumberVerifyCode;
 
-        //    if (await redis.KeyExists(PhoneNumberVerifyCodeKey) == false)
-        //    {
-        //        return new ApiResult<string>(l, UserControllerEnums.ApplyFor.PhoneNumberVerifyCodeError);
-        //    }
+            if (await redis.KeyExists(PhoneNumberVerifyCodeKey) == false)
+            {
+                return new ApiResult<string>(l, UserControllerEnum.Register.PhoneNumberVerifyCodeError);
+            }
 
-        //    await redis.Remove(PhoneNumberVerifyCodeKey);
-        //    #endregion
+            await redis.Remove(PhoneNumberVerifyCodeKey);
+            #endregion
 
-        //    #region 创建用户
-        //    var user = new AppUser
-        //    {
-        //        UserName = value.PhoneNumber + "@xcx.com",
-        //        Email = value.PhoneNumber + "@xcx.com",
-        //        PhoneNumber = value.PhoneNumber,
-        //        NickName = value.NickName,
-        //        Gender = value.Gender,
-        //        Address = value.Address,
-        //        Birthday = value.Birthday,
-        //        PhoneNumberConfirmed = true,
-        //        Stature = value.Stature,
-        //        Weight = value.Weight,
-        //        Description = value.Description,
-        //        CreateDate = DateTime.UtcNow,
-        //        LastUpdateTime = DateTime.UtcNow
-        //    };
+            #region 创建用户
+            var user = new AppUser
+            {
+                UserName = value.Email,
+                Email = value.Email,
+                PhoneNumber = value.PhoneNumber,
+                NickName = value.NickName,
+                Gender = value.Gender,
+                Address = value.Address,
+                Birthday = value.Birthday,
+                PhoneNumberConfirmed = true,
+                Stature = value.Stature,
+                Weight = value.Weight,
+                Description = value.Description,
+                CreateDate = DateTime.UtcNow,
+                LastUpdateTime = DateTime.UtcNow,
+                EmailConfirmed = true
+            };
 
-        //    // set default tenantId
-        //    user.Tenants.Add(new AspNetUserTenant() { AppTenantId = 1 });
+            #region 确认邮箱验证通过
+            //如果填写了邮件验证码，并且验证通过（不通过不会走到这里）
+            if (!string.IsNullOrWhiteSpace(value.EmailVerifyCode))
+            {
+                user.EmailConfirmed = true;
+            }
+            #endregion
 
-        //    var result = await userManager.CreateAsync(user, "123456aA!");
+            #region 图片
+            if (value.ImageUrl != null && value.ImageUrl.Count > 0)
+            {
+                user.Files.Add(new AspNetUserFile()
+                {
+                    Files = JsonConvert.SerializeObject(value.ImageUrl),
+                    FileType = FileTypes.Image,
+                });
+            }
+            #endregion
 
-        //    if (result.Succeeded)
-        //    {
-        //        #region 确认邮箱验证通过
-        //        // 如果填写了邮件验证码，并且验证通过（不通过不会走到这里）
-        //        //if (!string.IsNullOrWhiteSpace(value.EmailVerifyCode))
-        //        //{
-        //        //    user.EmailConfirmed = true;
-        //        //}
-        //        #endregion
+            #region 视频
+            if (!string.IsNullOrWhiteSpace(value.Video))
+            {
+                user.Files.Add(new AspNetUserFile()
+                {
+                    Files = value.Video,
+                    FileType = FileTypes.Video,
+                });
+            }
+            #endregion
 
-        //        #region 设置角色
-        //        var RoleIDs = db.Roles.Where(x => x.Name.Equals(Roles.Users) || x.Name.Equals(Roles.Star)).Select(x => x.Id).ToList();
+            #region 文档
+            if (!string.IsNullOrWhiteSpace(value.Doc))
+            {
+                user.Files.Add(new AspNetUserFile()
+                {
+                    Files = value.Doc,
+                    FileType = FileTypes.Doc,
+                });
+            }
+            #endregion
 
-        //        var UserRoles = RoleIDs.Select(x => new AppUserRole()
-        //        {
-        //            RoleId = x,
-        //            UserId = user.Id
-        //        });
+            var roleIds = db.Roles.Where(x => x.Name.Equals(Roles.Users) || x.Name.Equals(Roles.Developer))
+                    .Select(x => x.Id).ToList();
 
-        //        db.UserRoles.AddRange(UserRoles);
-        //        #endregion
+            var permissions = typeof(UserPermissions).GetFields().Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues[0]).ToList();
 
-        //        #region 图片
-        //        if (value.ImageUrl != null && value.ImageUrl.Count > 0)
-        //        {
-        //            db.UserFiles.Add(new AspNetUserFile()
-        //            {
-        //                Files = JsonConvert.SerializeObject(value.ImageUrl),
-        //                FileType = FileTypes.Image,
-        //                AppUserId = user.Id
-        //            });
-        //        }
-        //        #endregion
+            var tenantIds = tenantDbContext.Tenants.Select(x => x.Id).ToList();
 
-        //        #region 视频
-        //        if (!string.IsNullOrWhiteSpace(value.Video))
-        //        {
-        //            db.UserFiles.Add(new AspNetUserFile()
-        //            {
-        //                Files = value.Video,
-        //                FileType = FileTypes.Video,
-        //                AppUserId = user.Id
-        //            });
-        //        }
-        //        #endregion
+            var result = await AccountService.CreateUser(TenantId,
+                userManager,
+                db,
+                user, 
+                roleIds, 
+                string.Join(",", permissions), 
+                tenantIds, 
+                UserId);
 
-        //        #region 文档
-        //        if (!string.IsNullOrWhiteSpace(value.Doc))
-        //        {
-        //            db.UserFiles.Add(new AspNetUserFile()
-        //            {
-        //                Files = value.Doc,
-        //                FileType = FileTypes.Doc,
-        //                AppUserId = user.Id
-        //            });
-        //        }
-        //        #endregion
+            if (result.Succeeded)
+            {
+                return new ApiResult<string>();
+            }
 
-        //        await db.SaveChangesAsync();
+            else
+            {
+                return new ApiResult<string>(l, BasicControllerEnums.ExpectationFailed,
+                    JsonConvert.SerializeObject(result.Errors));
+            }
+            #endregion
+        }
 
-        //        #region 发送报名成功的短信通知
-        //        var smsVars = JsonConvert.SerializeObject(new { nickname = value.NickName });
-        //        await sms.SendSmsWithRetryAsync(smsVars, value.PhoneNumber, "9901", 3); 
-        //        #endregion
+        /// <summary>
+        /// 发送手机验证码
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost("VerifyPhone")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Create)]
+        [SwaggerOperation("User/VerifyPhone")]
+        public async Task<ApiResult<string>> VerifyPhone([FromBody]VerifyPhoneNumberModel value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<string>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
 
-        //        return new ApiResult<string>();
-        //    }
+            #region 发送计数、验证是否已经达到上限
+            var dailyLimitKey = UserControllerKeys.Limit_24Hour_Verify_Phone + value.PhoneNumber;
 
-        //    else
-        //    {
-        //        return new ApiResult<string>(l, BasicControllerEnums.ExpectationFailed,
-        //            JsonConvert.SerializeObject(result.Errors));
-        //    }
-        //    #endregion
-        //}
+            var _dailyLimit = await redis.Get(dailyLimitKey);
 
-        ///// <summary>
-        ///// 发送手机验证码
-        ///// </summary>
-        ///// <param name="value"></param>
-        ///// <returns></returns>
-        //[HttpPost("VerifyPhoneNumber")]
-        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Create)]
-        //[SwaggerOperation("User/VerifyPhoneNumber")]
-        //public async Task<ApiResult<string>> VerifyPhoneNumber([FromBody]VerifyPhoneNumberModel value)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return new ApiResult<string>(l,BasicControllerEnums.UnprocessableEntity,
-        //            ModelErrors());
-        //    }
+            if (!string.IsNullOrWhiteSpace(_dailyLimit))
+            {
+                var dailyLimit = int.Parse(_dailyLimit);
 
-        //    #region 发送计数、验证是否已经达到上限
-        //    var dailyLimitKey = RedisKeys.Limit_24Hour_Verify_Phone + value.PhoneNumber;
+                if (dailyLimit > UserControllerKeys.Limit_24Hour_Verify_MAX_Phone)
+                {
+                    return new ApiResult<string>(l, UserControllerEnum.VerifyPhoneNumber.CallLimited);
+                }
+            }
+            else
+            {
+                await redis.Set(dailyLimitKey, "0", TimeSpan.FromHours(24));
+            }
+            #endregion
 
-        //    var _dailyLimit = await redis.Get(dailyLimitKey);
+            #region 验证发送间隔时间是否过快
+            //两次发送间隔必须大于指定秒数
+            var _lastTimeKey = UserControllerKeys.LastTime_SendCode_Phone + value.PhoneNumber;
 
-        //    if (!string.IsNullOrWhiteSpace(_dailyLimit))
-        //    {
-        //        var dailyLimit = int.Parse(_dailyLimit);
+            var lastTimeString = await redis.Get(_lastTimeKey);
 
-        //        if (dailyLimit > RedisKeys.Limit_24Hour_Verify_MAX_Phone)
-        //        {
-        //            return new ApiResult<string>(l,UserControllerEnums.VerifyPhoneNumber.CallLimited);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        await redis.Set(dailyLimitKey, "0", TimeSpan.FromHours(24));
-        //    }
-        //    #endregion
+            if (!string.IsNullOrWhiteSpace(lastTimeString))
+            {
+                var lastTime = long.Parse(lastTimeString);
 
-        //    #region 验证发送间隔时间是否过快
-        //    //两次发送间隔必须大于指定秒数
-        //    var _lastTimeKey = RedisKeys.LastTime_SendCode_Phone + value.PhoneNumber;
+                var now = DateTime.UtcNow.AddHours(8).Ticks;
 
-        //    var lastTimeString = await redis.Get(_lastTimeKey);
+                var usedTime = (now - lastTime) / 10000000;
 
-        //    if (!string.IsNullOrWhiteSpace(lastTimeString))
-        //    {
-        //        var lastTime = long.Parse(lastTimeString);
+                if (usedTime < UserControllerKeys.MinimumTime_SendCode_Phone)
+                {
+                    return new ApiResult<string>(l, UserControllerEnum.VerifyPhoneNumber.TooManyRequests, string.Empty,
+                        UserControllerKeys.MinimumTime_SendCode_Phone - usedTime);
+                }
+            }
+            #endregion
 
-        //        var now = DateTime.UtcNow.AddHours(8).Ticks;
+            #region 发送验证码
+            var verifyCode = random.Next(1111, 9999).ToString();
+            var smsVars = JsonConvert.SerializeObject(new { code = verifyCode });
+            await sms.SendSmsWithRetryAsync(smsVars, value.PhoneNumber, "9900", 3);
+            #endregion
 
-        //        var usedTime = (now - lastTime) / 10000000;
+            var verifyCodeKey = UserControllerKeys.VerifyCode_Phone + value.PhoneNumber + ":" + verifyCode;
 
-        //        if (usedTime < RedisKeys.MinimumTime_SendCode_Phone)
-        //        {
-        //            return new ApiResult<string>(l, UserControllerEnums.VerifyPhoneNumber.TooManyRequests, string.Empty,
-        //                RedisKeys.MinimumTime_SendCode_Phone - usedTime);
-        //        }
-        //    }
-        //    #endregion
+            // 记录验证码，用于提交报名接口校验
+            await redis.Set(verifyCodeKey, string.Empty, TimeSpan.FromSeconds(UserControllerKeys.VerifyCode_Expire_Phone));
 
-        //    #region 发送验证码
-        //    var verifyCode = random.Next(1111, 9999).ToString();
-        //    var smsVars = JsonConvert.SerializeObject(new { code = verifyCode });
-        //    await sms.SendSmsWithRetryAsync(smsVars, value.PhoneNumber, "9900", 3);
-        //    #endregion
+            // 记录发送验证码的时间，用于下次发送验证码校验间隔时间
+            await redis.Set(_lastTimeKey, DateTime.UtcNow.AddHours(8).Ticks.ToString(), null);
 
-        //    var verifyCodeKey = RedisKeys.VerifyCode_Phone + value.PhoneNumber + ":" + verifyCode;
+            // 叠加发送次数
+            await redis.Increment(dailyLimitKey);
 
-        //    // 记录验证码，用于提交报名接口校验
-        //    await redis.Set(verifyCodeKey, string.Empty, TimeSpan.FromSeconds(RedisKeys.VerifyCode_Expire_Phone));
+            return new ApiResult<string>();
+        }
 
-        //    // 记录发送验证码的时间，用于下次发送验证码校验间隔时间
-        //    await redis.Set(_lastTimeKey, DateTime.UtcNow.AddHours(8).Ticks.ToString(), null);
+        /// <summary>
+        /// 发送邮件验证码
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost("VerifyEmail")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Create)]
+        [SwaggerOperation("User/VerifyEmail")]
+        public async Task<ApiResult<string>> VerifyEmail([FromBody]VerifyEmailAddressModel value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<string>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
 
-        //    // 叠加发送次数
-        //    await redis.Increment(dailyLimitKey);
+            #region 发送计数、验证是否已经达到上限
+            var dailyLimitKey = UserControllerKeys.Limit_24Hour_Verify_Email + value.Email;
 
-        //    return new ApiResult<string>();
-        //}
+            var _dailyLimit = await redis.Get(dailyLimitKey);
 
-        ///// <summary>
-        ///// 发送邮件验证码
-        ///// </summary>
-        ///// <param name="value"></param>
-        ///// <returns></returns>
-        //[HttpPost("VerifyEmailAddress")]
-        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Create)]
-        //[SwaggerOperation("User/VerifyEmailAddress")]
-        //public async Task<ApiResult<string>> VerifyEmailAddress([FromBody]VerifyEmailAddressModel value)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return new ApiResult<string>(l,BasicControllerEnums.UnprocessableEntity,
-        //            ModelErrors());
-        //    }
+            if (!string.IsNullOrWhiteSpace(_dailyLimit))
+            {
+                var dailyLimit = int.Parse(_dailyLimit);
 
-        //    #region 发送计数、验证是否已经达到上限
-        //    var dailyLimitKey = RedisKeys.Limit_24Hour_Verify_Email + value.Email;
+                if (dailyLimit > UserControllerKeys.Limit_24Hour_Verify_MAX_Email)
+                {
+                    return new ApiResult<string>(l, UserControllerEnum.VerifyEmailAddress.CallLimited);
+                }
+            }
+            else
+            {
+                await redis.Set(dailyLimitKey, "0", TimeSpan.FromHours(24));
+            }
+            #endregion
 
-        //    var _dailyLimit = await redis.Get(dailyLimitKey);
+            #region 验证发送间隔时间是否过快
+            //两次发送间隔必须大于指定秒数
+            var _lastTimeKey = UserControllerKeys.LastTime_SendCode_Email + value.Email;
 
-        //    if (!string.IsNullOrWhiteSpace(_dailyLimit))
-        //    {
-        //        var dailyLimit = int.Parse(_dailyLimit);
+            var lastTimeString = await redis.Get(_lastTimeKey);
 
-        //        if (dailyLimit > RedisKeys.Limit_24Hour_Verify_MAX_Email)
-        //        {
-        //            return new ApiResult<string>(l,UserControllerEnums.VerifyEmailAddress.CallLimited);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        await redis.Set(dailyLimitKey, "0", TimeSpan.FromHours(24));
-        //    }
-        //    #endregion
+            if (!string.IsNullOrWhiteSpace(lastTimeString))
+            {
+                var lastTime = long.Parse(lastTimeString);
 
-        //    #region 验证发送间隔时间是否过快
-        //    //两次发送间隔必须大于指定秒数
-        //    var _lastTimeKey = RedisKeys.LastTime_SendCode_Email + value.Email;
+                var now = DateTime.UtcNow.AddHours(8).Ticks;
 
-        //    var lastTimeString = await redis.Get(_lastTimeKey);
+                var usedTime = (now - lastTime) / 10000000;
 
-        //    if (!string.IsNullOrWhiteSpace(lastTimeString))
-        //    {
-        //        var lastTime = long.Parse(lastTimeString);
+                if (usedTime < UserControllerKeys.MinimumTime_SendCode_Email)
+                {
+                    return new ApiResult<string>(l, UserControllerEnum.VerifyEmailAddress.TooManyRequests, string.Empty,
+                        UserControllerKeys.MinimumTime_SendCode_Email - usedTime);
+                }
+            }
+            #endregion
 
-        //        var now = DateTime.UtcNow.AddHours(8).Ticks;
+            #region 发送验证码
+            var verifyCode = random.Next(111111, 999999).ToString();
+            // 用加密算法生成具有时效性的密文
+            var protectedData = protector.Protect(verifyCode, TimeSpan.FromSeconds(UserControllerKeys.VerifyCode_Expire_Email));
+            var xsmtpapi = JsonConvert.SerializeObject(new
+            {
+                to = new string[] { value.Email },
+                sub = new Dictionary<string, string[]>()
+                        {
+                            { "%code%", new string[] { protectedData } },
+                        }
+            });
+            await email.SendEmailAsync("邮箱验证", "verify_email", xsmtpapi);
+            #endregion
 
-        //        var usedTime = (now - lastTime) / 10000000;
+            // 记录发送验证码的时间，用于下次发送验证码校验间隔时间
+            await redis.Set(_lastTimeKey, DateTime.UtcNow.AddHours(8).Ticks.ToString(), null);
 
-        //        if (usedTime < RedisKeys.MinimumTime_SendCode_Email)
-        //        {
-        //            return new ApiResult<string>(l, UserControllerEnums.VerifyEmailAddress.TooManyRequests, string.Empty,
-        //                RedisKeys.MinimumTime_SendCode_Email - usedTime);
-        //        }
-        //    }
-        //    #endregion
+            // 叠加发送次数
+            await redis.Increment(dailyLimitKey);
 
-        //    #region 发送验证码
-        //    var verifyCode = random.Next(111111, 999999).ToString();
-        //    // 用加密算法生成具有时效性的密文
-        //    var protectedData = protector.Protect(verifyCode, TimeSpan.FromSeconds(RedisKeys.VerifyCode_Expire_Email));
-        //    var xsmtpapi = JsonConvert.SerializeObject(new
-        //    {
-        //        to = new string[] { value.Email },
-        //        sub = new Dictionary<string, string[]>()
-        //                {
-        //                    { "%code%", new string[] { protectedData } },
-        //                }
-        //    });
-        //    await email.SendEmailAsync("邮箱验证", "verify_email", xsmtpapi);
-        //    #endregion
-
-        //    // 记录发送验证码的时间，用于下次发送验证码校验间隔时间
-        //    await redis.Set(_lastTimeKey, DateTime.UtcNow.AddHours(8).Ticks.ToString(), null);
-
-        //    // 叠加发送次数
-        //    await redis.Increment(dailyLimitKey);
-
-        //    return new ApiResult<string>();
-        //}
-        //#endregion
+            return new ApiResult<string>();
+        }
+        #endregion
 
         #region 用户 - 错误码表
         /// <summary>

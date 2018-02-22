@@ -12,9 +12,10 @@ using System;
 namespace IdentityServer4.MicroService.Data.Migrations.Identity
 {
     [DbContext(typeof(IdentityDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180222102626_InitialIdentityDbMigration")]
+    partial class InitialIdentityDbMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

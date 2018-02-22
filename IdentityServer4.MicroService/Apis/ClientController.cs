@@ -3,6 +3,7 @@ using System.Linq;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
@@ -11,12 +12,12 @@ using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.DbContexts;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.Codes;
+using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.CommonModels;
 using IdentityServer4.MicroService.Models.ClientModels;
 using static IdentityServer4.MicroService.AppConstant;
-using System.Collections.Generic;
+using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -34,12 +35,12 @@ namespace IdentityServer4.MicroService.Apis
         // database for identityserver
         readonly ConfigurationDbContext idsDB;
         // database for user
-        readonly ApplicationDbContext userDB;
+        readonly IdentityDbContext userDB;
         #endregion
 
         public ClientController(
             ConfigurationDbContext _idsDB,
-            ApplicationDbContext _userDB,
+            IdentityDbContext _userDB,
             IStringLocalizer<ClientController> localizer)
         {
             userDB = _userDB;

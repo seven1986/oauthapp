@@ -13,12 +13,14 @@ using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Tenant;
-using IdentityServer4.MicroService.Codes;
+using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.CommonModels;
 using IdentityServer4.MicroService.Models.ApiResourceModels;
-using static IdentityServer4.MicroService.AppConstant;
 using System.Collections.Generic;
+using static IdentityServer4.MicroService.AppConstant;
+using static IdentityServer4.MicroService.MicroserviceConfig;
+using IdentityServer4.MicroService.CacheKeys;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -35,13 +37,13 @@ namespace IdentityServer4.MicroService.Apis
         #region Services
         //Database
         readonly ConfigurationDbContext db;
-        readonly ApplicationDbContext userDb;
+        readonly IdentityDbContext userDb;
         readonly SwaggerCodeGenService swagerCodeGen;
         #endregion
 
         public ApiResourceController(
             ConfigurationDbContext _db,
-            ApplicationDbContext _userDb,
+            IdentityDbContext _userDb,
             IStringLocalizer<ApiResourceController> localizer,
             TenantService _tenantService,
             TenantDbContext _tenantDb,
@@ -528,15 +530,15 @@ namespace IdentityServer4.MicroService.Apis
 
             #region 如果 oauth2 或 productId为空，从租户配置读取默认配置
             if (string.IsNullOrWhiteSpace(value.authorizationServerId) &&
-                    Tenant.properties.ContainsKey(AzureApiManagementConsts.AuthorizationServerId))
+                    Tenant.properties.ContainsKey(AzureApiManagementKeys.AuthorizationServerId))
             {
-                value.authorizationServerId = Tenant.properties[AzureApiManagementConsts.AuthorizationServerId];
+                value.authorizationServerId = Tenant.properties[AzureApiManagementKeys.AuthorizationServerId];
             }
 
             if (string.IsNullOrWhiteSpace(value.productId) &&
-                Tenant.properties.ContainsKey(AzureApiManagementConsts.ProductId))
+                Tenant.properties.ContainsKey(AzureApiManagementKeys.ProductId))
             {
-                value.productId = Tenant.properties[AzureApiManagementConsts.ProductId];
+                value.productId = Tenant.properties[AzureApiManagementKeys.ProductId];
             }
             #endregion
 

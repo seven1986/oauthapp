@@ -18,29 +18,17 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.Models.AppTenantModels;
+using static IdentityServer4.MicroService.MicroserviceConfig;
+using IdentityServer4.MicroService.CacheKeys;
+using IdentityServer4.EntityFramework.DbContexts;
+using System.Reflection;
 
 namespace IdentityServer4.MicroService.Controllers
 {
     [Authorize]
     [SecurityHeaders]
-    public class AccountController : Controller
+    public class AccountController : BasicController
     {
-        private AppTenantPrivateModel _tenant;
-        public AppTenantPrivateModel Tenant
-        {
-          get
-            {
-                if (_tenant == null)
-                {
-                    var tenantCache = _tenantService.GetTenant(_tenantDb, HttpContext.Request.Host.Value);
-
-                    _tenant = JsonConvert.DeserializeObject<AppTenantPrivateModel>(tenantCache.Item2);
-                }
-
-                return _tenant;
-            }
-        }
-
         private AzureApiManagementServices _azureApim;
         public AzureApiManagementServices AzureApim {
             get
@@ -48,14 +36,14 @@ namespace IdentityServer4.MicroService.Controllers
                 if (_azureApim == null)
                 {
                     
-                    if (Tenant.properties.ContainsKey(AppConstant.AzureApiManagementConsts.Host) &&
-                    Tenant.properties.ContainsKey(AppConstant.AzureApiManagementConsts.ApiId) &&
-                    Tenant.properties.ContainsKey(AppConstant.AzureApiManagementConsts.ApiKey))
+                    if (pvtTenant.properties.ContainsKey(AzureApiManagementKeys.Host) &&
+                    pvtTenant.properties.ContainsKey(AzureApiManagementKeys.ApiId) &&
+                    pvtTenant.properties.ContainsKey(AzureApiManagementKeys.ApiKey))
                     {
                         _azureApim = new AzureApiManagementServices(
-                            Tenant.properties[AppConstant.AzureApiManagementConsts.Host],
-                            Tenant.properties[AppConstant.AzureApiManagementConsts.ApiId],
-                            Tenant.properties[AppConstant.AzureApiManagementConsts.ApiKey]);
+                            pvtTenant.properties[AzureApiManagementKeys.Host],
+                            pvtTenant.properties[AzureApiManagementKeys.ApiId],
+                            pvtTenant.properties[AzureApiManagementKeys.ApiKey]);
                     }
                 }
 
@@ -69,11 +57,9 @@ namespace IdentityServer4.MicroService.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly AccountService _account;
-        private readonly ApplicationDbContext _userContext;
-        
-
-        private readonly TenantService _tenantService;
-        private readonly TenantDbContext _tenantDb;
+        private readonly IdentityDbContext _userContext;
+        private readonly ConfigurationDbContext _configDbContext;
+       
 
         public AccountController(
             IIdentityServerInteractionService interaction,
@@ -81,12 +67,13 @@ namespace IdentityServer4.MicroService.Controllers
             IClientStore clientStore,
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
+            ConfigurationDbContext configDbContext,
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
-            ApplicationDbContext userContext,
-            TenantService tenantService,
-            TenantDbContext tenantDb)
+            IdentityDbContext userContext,
+            TenantService _tenantService,
+            TenantDbContext _tenantDb)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -95,8 +82,10 @@ namespace IdentityServer4.MicroService.Controllers
             _logger = loggerFactory.CreateLogger<AccountController>();
             _account = new AccountService(interaction, httpContextAccessor, clientStore);
             _userContext = userContext;
-            _tenantService = tenantService;
-            _tenantDb = tenantDb;
+            _configDbContext = configDbContext;
+
+            tenantService = _tenantService;
+            tenantDb = _tenantDb;
         }
 
         //
@@ -172,11 +161,31 @@ namespace IdentityServer4.MicroService.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = model.Email, Email = model.Email };
+                var user = new AppUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    PasswordHash = model.Password,
+                    ParentUserID = model.ParentUserID
+                };
 
-                user.Tenants.Add(new AspNetUserTenant() { AppTenantId = 1 });
 
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var roleIds = _userContext.Roles.Where(x => x.Name.Equals(Roles.Users) || x.Name.Equals(Roles.Developer))
+                    .Select(x => x.Id).ToList();
+
+                var permissions = typeof(UserPermissions).GetFields().Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues[0]).ToList();
+
+                var tenantIds = tenantDb.Tenants.Select(x => x.Id).ToList();
+
+                var result = await AccountService.CreateUser(
+                    pvtTenant.id,
+                    _userManager,
+                    _userContext,
+                    user,
+                    roleIds,
+                    string.Join(",", permissions),
+                    tenantIds,
+                    1);
 
                 if (result.Succeeded)
                 {
@@ -184,7 +193,9 @@ namespace IdentityServer4.MicroService.Controllers
                     // Send an email with this link
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                    var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                    var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account",
+                        new { userId = user.Id,  code },
+                        protocol: HttpContext.Request.Scheme);
 
                     var xsmtpapi = JsonConvert.SerializeObject(new
                     {
@@ -196,28 +207,15 @@ namespace IdentityServer4.MicroService.Controllers
                         }
                     });
 
-                    await _emailSender.SendEmailAsync("Confirm your account", "test_template_active", xsmtpapi);
-
-                    #region set roles
-                    var RoleIDs = _userContext.Roles.Where(x =>
-                                x.Name.Equals(AppConstant.Roles.Users) ||
-                                x.Name.Equals(AppConstant.Roles.Developer)).Select(x => x.Id).ToList();
-
-                    RoleIDs.ForEach(x =>
-                    _userContext.UserRoles.Add(
-                        new AppUserRole()
-                        {
-                            RoleId = x,
-                            UserId = user.Id
-                        }
-                        ));
-                    _userContext.SaveChanges();
-                    #endregion
+                    await _emailSender.SendEmailAsync("%name%请激活您的邮箱", "test_template_active", xsmtpapi);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
+
                     _logger.LogInformation(3, "User created a new account with password.");
+
                     return RedirectToLocal(returnUrl,model.Email,model.Password);
                 }
+
                 AddErrors(result);
             }
 
@@ -286,7 +284,7 @@ namespace IdentityServer4.MicroService.Controllers
                 // If the user does not have an account, then ask the user to create an account.
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
-                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                var email = info.Principal.FindFirstValue(System.Security.Claims.ClaimTypes.Email);
                 return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = email });
             }
         }
@@ -389,7 +387,7 @@ namespace IdentityServer4.MicroService.Controllers
                     }
                 });
 
-                await _emailSender.SendEmailAsync("Reset Password", "Reset_Password", xsmtpapi);
+                await _emailSender.SendEmailAsync("reset password", "reset_password", xsmtpapi);
 
                 return View("ForgotPasswordConfirmation");
             }
@@ -642,9 +640,9 @@ namespace IdentityServer4.MicroService.Controllers
             {
                 try
                 {
-                    if (Tenant.properties.ContainsKey(AppConstant.AzureApiManagementConsts.PortalUris))
+                    if (pvtTenant.properties.ContainsKey(AzureApiManagementKeys.PortalUris))
                     {
-                        var portalUris = Tenant.properties[AppConstant.AzureApiManagementConsts.PortalUris]
+                        var portalUris = pvtTenant.properties[AzureApiManagementKeys.PortalUris]
                              .Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 
                         if (portalUris.Length > 0)

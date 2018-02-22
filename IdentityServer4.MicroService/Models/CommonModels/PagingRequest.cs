@@ -35,7 +35,7 @@ namespace IdentityServer4.MicroService.Models.CommonModels
         /// 正序或倒序
         /// </summary>
         [DefaultValue(false)]
-        public bool? asc { get; set; }
+        public bool? asc { get; set; } = false;
 
         /// <summary>
         /// 跳过的数据条数
