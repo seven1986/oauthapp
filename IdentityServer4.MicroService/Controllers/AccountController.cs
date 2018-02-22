@@ -184,8 +184,7 @@ namespace IdentityServer4.MicroService.Controllers
                     user,
                     roleIds,
                     string.Join(",", permissions),
-                    tenantIds,
-                    1);
+                    tenantIds);
 
                 if (result.Succeeded)
                 {

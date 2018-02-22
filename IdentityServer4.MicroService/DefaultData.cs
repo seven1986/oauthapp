@@ -21,16 +21,27 @@ namespace IdentityServer4.MicroService
     public class AppDefaultData
     {
         /// <summary>
+        /// 管理员
+        /// </summary>
+        public class Admin
+        {
+            public const string Email = "1@1.com";
+            public const string PasswordHash = "123456aA!";
+        }
+
+        /// <summary>
         /// 租户
         /// </summary>
         public class Tenant
         {
             public static string IdentityServerIssuerUri = "localhost:44309";
             public static string AppHostName = "localhost:44309";
+            public static string Name = "微服务";
+            public static string WebSite = "http://localhost:44309";
 
             public static Dictionary<string, string> TenantProperties =
-                new Dictionary<string, string>()
-            {
+                    new Dictionary<string, string>()
+                {
                 //auth login
             {"Weixin:ClientId","" },
             { "Weixin:ClientSecret", ""},
@@ -56,7 +67,7 @@ namespace IdentityServer4.MicroService
             { "Azure:ApiManagement:AuthorizationServerId", ""},
             { "Azure:ApiManagement:ProductId", ""},
             { "Azure:ApiManagement:PortalUris", ""},
-            };
+                }; 
         }
 
         /// <summary>
@@ -65,22 +76,12 @@ namespace IdentityServer4.MicroService
         public class TestClient
         {
             public const string ClientId = "test";
-            public const string ClientName = "API测试专用";
+            public const string ClientName = "测试专用";
             public const string ClientSecret = "1";
             public static List<string> RedirectUris = new List<string>()
             {
                 "https://{0}/swagger/o2c.html"
             };
-        }
-
-        /// <summary>
-        /// 管理员
-        /// </summary>
-        public class Admin
-        {
-            public const string Email = "1@1.com";
-            public const string UserName = "1@1.com";
-            public const string PasswordHash = "123456aA!";
         }
 
         public static IEnumerable<AppUser> GetUsers()
@@ -90,9 +91,10 @@ namespace IdentityServer4.MicroService
                      new AppUser()
                      {
                         Email=Admin.Email,
-                        UserName=Admin.UserName,
+                        UserName=Admin.Email,
                         PasswordHash=Admin.PasswordHash,
-                        EmailConfirmed=true
+                        EmailConfirmed=true,
+                        ParentUserID=AppConstant.seedUserId
                      }
                 };
         }
@@ -204,6 +206,11 @@ namespace IdentityServer4.MicroService
                 };
         }
 
+        /// <summary>
+        /// 数据库初始化
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="config"></param>
         public static void InitializeDatabase(IApplicationBuilder app, IConfigurationRoot config)
         {
             Tenant.AppHostName = config["IdentityServer"];
@@ -214,29 +221,6 @@ namespace IdentityServer4.MicroService
 
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                var tenantDbContext = scope.ServiceProvider.GetRequiredService<TenantDbContext>();
-                tenantDbContext.Database.Migrate();
-                if (!tenantDbContext.Tenants.Any())
-                {
-                    #region Create Default Tenant
-                    var tenant = new AppTenant()
-                    {
-                        CacheDuration = 600,
-                        CreateDate = DateTime.UtcNow,
-                        IdentityServerIssuerUri = Tenant.IdentityServerIssuerUri,
-                        LastUpdateTime = DateTime.UtcNow,
-                        Name = "默认",
-                        OwnerUserId = 1, //默认设置为1
-                        Status = TenantStatus.Enable,
-                        Theme = "default"
-                    };
-                    tenant.Hosts.Add(new AppTenantHost() { HostName = Tenant.AppHostName });
-                    tenant.Properties.AddRange(Tenant.TenantProperties.Select(x => new AppTenantProperty() { Key = x.Key, Value = x.Value }));
-                    tenantDbContext.Tenants.Add(tenant);
-                    tenantDbContext.SaveChanges();
-                    #endregion
-                }
-
                 #region identityserver
                 scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
                 var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
@@ -267,6 +251,32 @@ namespace IdentityServer4.MicroService
                 }
                 #endregion
 
+                #region tenant
+                var tenantDbContext = scope.ServiceProvider.GetRequiredService<TenantDbContext>();
+                tenantDbContext.Database.Migrate();
+                if (!tenantDbContext.Tenants.Any())
+                {
+                    #region Create Default Tenant
+                    var tenant = new AppTenant()
+                    {
+                        CacheDuration = 600,
+                        CreateDate = DateTime.UtcNow,
+                        IdentityServerIssuerUri = Tenant.IdentityServerIssuerUri,
+                        LastUpdateTime = DateTime.UtcNow,
+                        Name = Tenant.Name,
+                        WebSite = Tenant.WebSite,
+                        OwnerUserId = AppConstant.seedUserId, //默认设置为1
+                        Status = TenantStatus.Enable,
+                        Theme = "default"
+                    };
+                    tenant.Hosts.Add(new AppTenantHost() { HostName = Tenant.AppHostName });
+                    tenant.Properties.AddRange(Tenant.TenantProperties.Select(x => new AppTenantProperty() { Key = x.Key, Value = x.Value }));
+                    tenantDbContext.Tenants.Add(tenant);
+                    tenantDbContext.SaveChanges();
+                    #endregion
+                } 
+                #endregion
+
                 var userContext = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
                 userContext.Database.Migrate();
 
@@ -292,13 +302,13 @@ namespace IdentityServer4.MicroService
 
                     foreach (var _user in GetUsers())
                     {
-                        var r = AccountService.CreateUser(1,
+                        var r = AccountService.CreateUser(AppConstant.seedTenantId,
                              userManager,
                              userContext,
                              _user,
                              roleIds,
                             string.Join(",", permissions),
-                            tenantIds, 1).Result;
+                            tenantIds).Result;
 
                         #region User Clients
                         var clientIds = context.Clients.Select(x => x.Id).ToList();
@@ -306,7 +316,6 @@ namespace IdentityServer4.MicroService
                         {
                             _user.Clients.Add(new AspNetUserClient()
                             {
-                                UserId = _user.Id,
                                 ClientId = cid
                             });
                         }
@@ -319,7 +328,6 @@ namespace IdentityServer4.MicroService
                             _user.ApiResources.Add(new AspNetUserApiResource()
                             {
                                 ApiResourceId = apiId,
-                                UserId = _user.Id
                             });
                         }
                         #endregion

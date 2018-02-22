@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using IdentityModel;
 using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.Tenant;
-using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.Stores;
 using IdentityServer4.Services;
 using IdentityServer4.MicroService.Models.AccountViewModels;
@@ -95,15 +93,15 @@ namespace IdentityServer4.MicroService.Services
 
         /// <summary>
         /// 创建用户
+        /// 注意设置 parentUserID 上级用户ID
         /// </summary>
         /// <param name="TenantId">当前平台ID</param>
-        /// <param name="userManager"></param>
-        /// <param name="userContext"></param>
+        /// <param name="userManager">db</param>
+        /// <param name="userContext">db</param>
         /// <param name="user">新用户</param>
         /// <param name="roleIds">角色集合</param>
         /// <param name="permissions">权限集合</param>
         /// <param name="tenantIds">平台集合</param>
-        /// <param name="parentUserID">上级用户ID</param>
         /// <returns></returns>
         public static async Task<IdentityResult> CreateUser(
             long TenantId,
@@ -112,9 +110,13 @@ namespace IdentityServer4.MicroService.Services
             AppUser user,
             List<long> roleIds,
             string permissions,
-            List<long> tenantIds,
-            long parentUserID = 1)
+            List<long> tenantIds)
         {
+            if (user.ParentUserID == 0)
+            {
+                user.ParentUserID = AppConstant.seedUserId;
+            }
+
             var result = await userManager.CreateAsync(user, user.PasswordHash);
 
             if (result.Succeeded)
@@ -123,36 +125,34 @@ namespace IdentityServer4.MicroService.Services
 
                 var ParentUser = userContext.Users
                                 .Include(x => x.Distributions)
-                                .FirstOrDefault(x => x.Id == parentUserID);
+                                .FirstOrDefault(x => x.Id == user.ParentUserID);
 
-                if (user.Id == 1)
+                if (user.Id == AppConstant.seedUserId)
                 {
-                    user.Lineage = "/1/";
-                    user.LineageIDs = "1";
+                    var sql = $"UPDATE AspNetUsers set Lineage = '/{AppConstant.seedUserId}/' WHERE ID = {user.Id}";
+
+                    userContext.ExecuteScalar(sql);
                 }
                 else
                 {
-                    //叠加上级用户关系链
-                    user.Lineage = $"{ParentUser.Lineage}{user.Id}/";
+                    //叠加上级关系链到 当前用户
+                    var sql = "DECLARE @ParentLineage nvarchar(max)\r\n" +
+                              $"SELECT @ParentLineage = Lineage.ToString() FROM AspNetUsers WHERE Id = {ParentUser.Id}\r\n" +
+                              $"UPDATE AspNetUsers set Lineage = @ParentLineage + '{user.Id}/' WHERE Id = {user.Id}";
 
-                    //更新上级用户关系链
-                    using (var con = userContext.Database.GetDbConnection())
+                    userContext.ExecuteScalar(sql);
+
+                    // 上面加入了当前创建用户的关系，
+                    // 所以这里要更新 上级用户关系链
+                    sql = "DECLARE @ParentLineage hierarchyid \r\n" +
+                         $"SELECT @ParentLineage = Lineage FROM AspNetUsers WHERE Id = {ParentUser.Id} \r\n" +
+                          "SELECT ',' + CONVERT(NVARCHAR, Id) from AspNetUsers where Lineage.IsDescendantOf(@ParentLineage) = 1 For xml path('')";
+
+                    var LineageIDs = userContext.ExecuteScalar(sql);
+
+                    if (LineageIDs != null)
                     {
-                        con.Open();
-
-                        using (var cmd = con.CreateCommand())
-                        {
-                            cmd.CommandText = $"SELECT ','+CONVERT(NVARCHAR,ID) from yy_User where Lineage.IsDescendantOf(hierarchyid::Parse ('{ParentUser.Lineage}')) = 1	For xml path('')";
-
-                            var LineageIDs =  cmd.ExecuteScalar();
-
-                            if(LineageIDs!=null)
-                            {
-                                var _LineageIDs = LineageIDs.ToString().Substring(1);
-
-                                ParentUser.LineageIDs = _LineageIDs;
-                            }
-                        }
+                        ParentUser.LineageIDs = LineageIDs.ToString().Substring(1);
                     }
                 }
 
@@ -164,7 +164,6 @@ namespace IdentityServer4.MicroService.Services
                     user.Roles.Add(new AppUserRole()
                     {
                         RoleId = roleId,
-                        UserId = user.Id
                     });
                 }
                 #endregion
@@ -174,7 +173,6 @@ namespace IdentityServer4.MicroService.Services
                 {
                     user.Claims.Add(new AppUserClaim()
                     {
-                        UserId = user.Id,
                         ClaimType = ClaimTypes.UserPermission,
                         ClaimValue = string.Join(",", permissions),
                     });
@@ -186,31 +184,30 @@ namespace IdentityServer4.MicroService.Services
                 {
                     user.Tenants.Add(new AspNetUserTenant()
                     {
-                        UserId = user.Id,
                         TenantId = tid
                     });
 
                     user.Distributions.Add(new AspNetUserDistribution()
                     {
                         TenantId = tid,
-                        UserId = user.Id
                     });
                 }
                 #endregion
 
                 userContext.SaveChanges();
 
-                //存在上级用户
-                if (user.Id != parentUserID &&
-                    ParentUser != null)
+                //存在上级用户，更新统计
+                if (ParentUser != null&&
+                    user.Id != user.ParentUserID)
                 {
                     #region update current tenant distributions
+
                     // 上级用户当前平台的分销详情
                     // 当前是平台A 就更新平台A的详情
                     // 当前是平台B 就更新平台B的详情
                     var ParentUserDistribution = ParentUser.Distributions.FirstOrDefault(x => x.TenantId == TenantId);
                     //上级用户关系链总用户数
-                    var Members = userContext.Users.Where(x => x.ParentUserID == parentUserID).Count();
+                    var Members = userContext.Users.Where(x => x.ParentUserID == user.ParentUserID).Count();
 
                     //存在就更新，不存在就创建
                     if (ParentUserDistribution != null)
