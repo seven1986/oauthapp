@@ -13,20 +13,18 @@ using IdentityServer4.Stores;
 using IdentityServer4.Services;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.Models.AccountViewModels;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using IdentityServer4.MicroService.Tenant;
-using IdentityServer4.MicroService.Models.AppTenantModels;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.EntityFramework.DbContexts;
 using System.Reflection;
+using IdentityServer4.MicroService.Models.Views.Account;
 
 namespace IdentityServer4.MicroService.Controllers
 {
     [Authorize]
-    [SecurityHeaders]
     public class AccountController : BasicController
     {
         private AzureApiManagementServices _azureApim;

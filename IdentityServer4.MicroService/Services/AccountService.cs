@@ -6,11 +6,11 @@ using IdentityModel;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.Stores;
 using IdentityServer4.Services;
-using IdentityServer4.MicroService.Models.AccountViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+using IdentityServer4.MicroService.Models.Views.Account;
 
 namespace IdentityServer4.MicroService.Services
 {
@@ -131,7 +131,7 @@ namespace IdentityServer4.MicroService.Services
                 {
                     var sql = $"UPDATE AspNetUsers set Lineage = '/{AppConstant.seedUserId}/' WHERE ID = {user.Id}";
 
-                    userContext.ExecuteScalar(sql);
+                    await userContext.ExecuteScalarAsync(sql);
                 }
                 else
                 {
@@ -140,7 +140,7 @@ namespace IdentityServer4.MicroService.Services
                               $"SELECT @ParentLineage = Lineage.ToString() FROM AspNetUsers WHERE Id = {ParentUser.Id}\r\n" +
                               $"UPDATE AspNetUsers set Lineage = @ParentLineage + '{user.Id}/' WHERE Id = {user.Id}";
 
-                    userContext.ExecuteScalar(sql);
+                    await userContext.ExecuteScalarAsync(sql);
 
                     // 上面加入了当前创建用户的关系，
                     // 所以这里要更新 上级用户关系链
@@ -148,7 +148,7 @@ namespace IdentityServer4.MicroService.Services
                          $"SELECT @ParentLineage = Lineage FROM AspNetUsers WHERE Id = {ParentUser.Id} \r\n" +
                           "SELECT ',' + CONVERT(NVARCHAR, Id) from AspNetUsers where Lineage.IsDescendantOf(@ParentLineage) = 1 For xml path('')";
 
-                    var LineageIDs = userContext.ExecuteScalar(sql);
+                    var LineageIDs = await userContext.ExecuteScalarAsync(sql);
 
                     if (LineageIDs != null)
                     {

@@ -11,8 +11,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace IdentityServer4.MicroService.Controllers
 {
-    [SecurityHeaders]
-    public class HomeController : Controller
+    public class HomeController : BasicController
     {
         private readonly IStringLocalizer<HomeController> l;
         private readonly SignInManager<AppUser> _signInManager;

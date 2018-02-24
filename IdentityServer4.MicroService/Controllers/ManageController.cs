@@ -6,14 +6,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
 using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.Models.ManageViewModels;
 using Newtonsoft.Json;
+using IdentityServer4.MicroService.Models.Views.Manage;
 
 namespace IdentityServer4.MicroService.Controllers
 {
     [Authorize]
-    [SecurityHeaders]
-    public class ManageController : Controller
+    public class ManageController : BasicController
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;

@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace IdentityServer4.MicroService.Data.Migrations.Identity
 {
@@ -352,8 +353,18 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 name: "IX_AspNetUserTenants_UserId",
                 table: "AspNetUserTenants",
                 column: "UserId");
+
+            var views = AppViews();
+
+            foreach(var f in views)
+            {
+                var script = File.ReadAllText(f, Encoding.UTF8);
+
+                migrationBuilder.Sql(script);
+            }
         }
 
+        
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
@@ -391,6 +402,23 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            // custom
+            var views = AppViews();
+
+            foreach (var f in views)
+            {
+                var tableName = Path.GetFileNameWithoutExtension(f);
+
+                migrationBuilder.DropTable(tableName);
+            }
+        }
+
+        string[] AppViews()
+        {
+            var sqlViewsPath = Path.Combine(Directory.GetCurrentDirectory(), "Data/Views");
+            var viewFiles = Directory.GetFiles(sqlViewsPath);
+            return viewFiles;
         }
     }
 }

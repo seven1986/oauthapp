@@ -15,12 +15,13 @@ using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.Models.CommonModels;
-using IdentityServer4.MicroService.Models.ApiResourceModels;
 using System.Collections.Generic;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 using IdentityServer4.MicroService.CacheKeys;
+using IdentityServer4.MicroService.Models.Apis.Common;
+using IdentityServer4.MicroService.Models.Apis.IdentityResourceController;
+using IdentityServer4.MicroService.Models.Apis.ApiResourceController;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -67,14 +68,14 @@ namespace IdentityServer4.MicroService.Apis
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
         [SwaggerOperation("ApiResource/Get")]
-        public async Task<PagingResult<ApiResource>> Get(PagingRequest<ApiResourceQuery> value)
+        public async Task<PagingResult<ApiResource>> Get(PagingRequest<ApiResourceGetRequest> value)
         {
             if (!ModelState.IsValid)
             {
                 return new PagingResult<ApiResource>()
                 {
                     code = (int)BasicControllerEnums.UnprocessableEntity,
-                    error_msg = ModelErrors()
+                    message = ModelErrors()
                 };
             }
 
@@ -515,7 +516,7 @@ namespace IdentityServer4.MicroService.Apis
         [HttpPut("Publish")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Update)]
         [SwaggerOperation("ApiResource/Publish")]
-        public async Task<ApiResult<bool>> Publish([FromBody]ApiResourcePublishModel value)
+        public async Task<ApiResult<bool>> Publish([FromBody]ApiResourcePublishRequest value)
         {
             if (!ModelState.IsValid)
             {
@@ -560,7 +561,7 @@ namespace IdentityServer4.MicroService.Apis
 
             var publishKey = $"ApiResource:Publish:{value.id}";
 
-            await redis.Set(publishKey, JsonConvert.SerializeObject(value), null);
+            await redis.SetAsync(publishKey, JsonConvert.SerializeObject(value), null);
 
             return new ApiResult<bool>(result);
         }
@@ -573,25 +574,25 @@ namespace IdentityServer4.MicroService.Apis
         [HttpGet("Publish/{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
         [SwaggerOperation("ApiResource/PublishSetting")]
-        public async Task<ApiResult<ApiResourcePublishModel>> Publish(int id)
+        public async Task<ApiResult<ApiResourcePublishRequest>> Publish(int id)
         {
             if (!await exists(id))
             {
-                return new ApiResult<ApiResourcePublishModel>(l, BasicControllerEnums.NotFound);
+                return new ApiResult<ApiResourcePublishRequest>(l, BasicControllerEnums.NotFound);
             }
 
-            ApiResourcePublishModel result = null;
+            ApiResourcePublishRequest result = null;
 
             var publishKey = $"ApiResource:Publish:{id}";
 
-            var resultCache = await redis.Get(publishKey);
+            var resultCache = await redis.GetAsync(publishKey);
 
             if (!string.IsNullOrWhiteSpace(resultCache))
             {
-                result = JsonConvert.DeserializeObject<ApiResourcePublishModel>(resultCache);
+                result = JsonConvert.DeserializeObject<ApiResourcePublishRequest>(resultCache);
             }
 
-            return new ApiResult<ApiResourcePublishModel>(result);
+            return new ApiResult<ApiResourcePublishRequest>(result);
         }
 
         /// <summary>

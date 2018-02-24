@@ -1,15 +1,15 @@
 ﻿@{
-    AppTenantPublicModel tenant = null;
+    TenantPublicModel tenant = null;
     var currentTenant = Context.Items[TenantConstant.CacheKey];
     if (currentTenant != null)
     {
         var tenantString = currentTenant.ToString();
-        tenant = JsonConvert.DeserializeObject<AppTenantPublicModel>(tenantString);
+        tenant = JsonConvert.DeserializeObject<TenantPublicModel>(tenantString);
     }
 
     if(tenant==null)
     {
-        tenant = new AppTenantPublicModel()
+        tenant = new TenantPublicModel()
         {
             id = 1,
             name = ""

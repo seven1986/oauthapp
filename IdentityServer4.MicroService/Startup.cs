@@ -197,11 +197,16 @@ namespace IdentityServer4.MicroService
             //});
             #endregion
 
-            // Common Cache Service, for now, no need
-            // services.AddDistributedRedisCache(options => {
-            //    options.Configuration = Configuration["ConnectionStrings:RedisConnection"];
-            //    options.InstanceName = assemblyName;
-            // });
+            //for now, no need
+            //var RedisConnection = Configuration["ConnectionStrings:RedisConnection"];
+            //if (!string.IsNullOrWhiteSpace(RedisConnection))
+            //{
+            //    services.AddDistributedRedisCache(options =>
+            //    {
+            //        options.Configuration = RedisConnection;
+            //        options.InstanceName = assemblyName + ":";
+            //    });
+            //}
 
             #region Mvc + localization
             // Configure supported cultures and localization options
@@ -263,7 +268,7 @@ namespace IdentityServer4.MicroService
                 o.ReportApiVersions = true;
             });
 
-            services.AddScoped<IPasswordHasher<AppUser>, MD5PasswordHasher>();
+            services.AddScoped<IPasswordHasher<AppUser>, IdentityMD5PasswordHasher>();
             #endregion
 
             #region SwaggerGen
@@ -343,7 +348,6 @@ namespace IdentityServer4.MicroService
             services.AddTransient<ISmsSender, SmsSender>();
             #endregion
 
-            services.AddTransient(typeof(SqlService));
             services.AddTransient(typeof(AzureStorageService));
             services.AddSingleton<RedisService>();
             services.AddSingleton<TenantService>();

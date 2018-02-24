@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using IdentityServer4.MicroService.Models.CommonModels;
+using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using System.Linq;
-using IdentityServer4.MicroService.Models.AppTenantModels;
 using IdentityServer4.MicroService.Tenant;
+using IdentityServer4.MicroService.Models.Shared;
 
 namespace IdentityServer4.MicroService.Mappers
 {
@@ -9,11 +9,11 @@ namespace IdentityServer4.MicroService.Mappers
     {
         public TenancyMapperProfile()
         {
-            CreateMap<AppTenant, AppTenantPublicModel>()
+            CreateMap<AppTenant, TenantPublicModel>()
                   .ForMember(x => x.claims,
                   opts => opts.MapFrom(src => src.Claims.ToDictionary(x => x.ClaimType, x => x.ClaimValue)));
 
-            CreateMap<AppTenant, AppTenantPrivateModel>()
+            CreateMap<AppTenant, TenantPrivateModel>()
                   .ForMember(x => x.properties,
                   opts => opts.MapFrom(src => src.Properties.ToDictionary(x => x.Key, x => x.Value)));
         }

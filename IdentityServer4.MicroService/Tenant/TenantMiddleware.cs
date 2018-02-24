@@ -14,8 +14,8 @@ using Microsoft.AspNetCore.Authentication.Twitter;
 using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.Facebook;
-using IdentityServer4.MicroService.Models.AppTenantModels;
 using Microsoft.AspNetCore.Authentication;
+using IdentityServer4.MicroService.Models.Shared;
 
 namespace IdentityServer4.MicroService.Tenant
 {
@@ -57,7 +57,7 @@ namespace IdentityServer4.MicroService.Tenant
             if (!string.IsNullOrWhiteSpace(tenant.Item2))
             {
                 var pvtModel = JsonConvert
-                            .DeserializeObject<AppTenantPrivateModel>(tenant.Item2);
+                            .DeserializeObject<TenantPrivateModel>(tenant.Item2);
 
                 #region IssuerUri
                 var IdServerOptions = context.RequestServices.GetRequiredService<IdentityServerOptions>();

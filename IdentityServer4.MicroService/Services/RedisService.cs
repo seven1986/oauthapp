@@ -5,9 +5,9 @@ using Microsoft.Extensions.Options;
 
 namespace IdentityServer4.MicroService.Services
 {
-    public class RedisService
+    public class RedisService : IDisposable
     {
-        string configurationString { get; set; }
+        string RedisConnectionString { get; set; }
 
         ConnectionMultiplexer _Connection;
         public ConnectionMultiplexer Connection
@@ -16,7 +16,7 @@ namespace IdentityServer4.MicroService.Services
             {
                 if (_Connection == null || !_Connection.IsConnected)
                 {
-                    _Connection = ConnectionMultiplexer.Connect(configurationString);
+                    _Connection = ConnectionMultiplexer.Connect(RedisConnectionString);
                 }
 
                 return _Connection;
@@ -25,146 +25,71 @@ namespace IdentityServer4.MicroService.Services
 
         public RedisService(IOptions<ConnectionStrings> _config)
         {
-            configurationString = _config.Value.RedisConnection;
+            RedisConnectionString = _config.Value.RedisConnection;
         }
 
-        #region get
         /// <summary>
         /// 根据Key获取值
         /// </summary>
         /// <param name="key">键</param>
-        /// <returns></returns>
-        public async Task<string> Get(string key)
+        public async Task<string> GetAsync(string key) => await GetAsync(key, Connection.GetDatabase());
+        public async Task<string> GetAsync(string key, IDatabase db)
         {
-            if (await KeyExists(key) == false)
-            {
-                return string.Empty;
-            }
-
-            var db = Connection.GetDatabase();
-
-            return await Get(db, key);
+            var result = await db.StringGetAsync(key);
+            return result;
         }
-        /// <summary>
-        /// 根据Key获取值
-        /// </summary>
-        /// <param name="db">数据库</param>
-        /// <param name="key">键</param>
-        /// <returns></returns>
-        public async Task<string> Get(IDatabase db, string key)
-        {
-            try
-            {
-                return await db.StringGetAsync(key);
-            }
-            catch
-            {
 
-            }
-
-            return string.Empty;
-        }
-        #endregion
-
-        #region set
         /// <summary>
         /// 设置缓存key和value
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
         /// <param name="expire">过期时间</param>
-        /// <returns></returns>
-        public async Task<bool> Set(string key, string value, TimeSpan? expire)
+        public async Task<bool> SetAsync(string key, string value, TimeSpan? expire) => await SetAsync(key, value, expire, Connection.GetDatabase());
+        public async Task<bool> SetAsync(string key, string value, TimeSpan? expire, IDatabase db)
         {
-            var db = Connection.GetDatabase();
-
-            return await Set(db, key, value, expire);
+            var result = await db.StringSetAsync(key, value, expire);
+            return result;
         }
-        /// <summary>
-        /// 设置缓存key和value
-        /// </summary>
-        /// <param name="db">数据库</param>
-        /// <param name="key">键</param>
-        /// <param name="value">值</param>
-        /// <param name="expire">过期时间</param>
-        /// <returns></returns>
-        public async Task<bool> Set(IDatabase db, string key, string value, TimeSpan? expire)
-        {
-            try
-            {
-                return await db.StringSetAsync(key, value, expire);
-            }
-            catch
-            {
 
-            }
-
-            return false;
-        }
-        #endregion
-
-        #region Remove
         /// <summary>
         /// 删除指定的Key
         ///</summary>
-        ///<param name="key">键</param>
         ///<returns></returns>
-        public async Task<bool> Remove(string key)
+        public async Task<bool> RemoveAsync(string key) => await RemoveAsync(key, Connection.GetDatabase());
+        public async Task<bool> RemoveAsync(string key, IDatabase db)
         {
-            var db = Connection.GetDatabase();
-
-            return await db.KeyDeleteAsync(key);
+            var result = await db.KeyDeleteAsync(key);
+            return result;
         }
-        #endregion
 
-        #region Increment
         /// <summary>
         /// 将指定的Key的值叠加value
         /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="value">值，默认1</param>
         /// <returns></returns>
-        public async Task<long> Increment(string key, long value = 1)
+        public async Task<long> IncrementAsync(string key, long value = 1) => await IncrementAsync(key, value, Connection.GetDatabase());
+        public async Task<long> IncrementAsync(string key, long value, IDatabase db)
         {
-            var db = Connection.GetDatabase();
-
-            return await Increment(db, key, value);
+            return await db.StringIncrementAsync(key, value);
         }
+
         /// <summary>
-        /// 将指定的Key的值叠加value
-        /// </summary>
-        /// <param name="db">数据库</param>
-        /// <param name="key">键</param>
-        /// <param name="value">值</param>
-        /// <returns></returns>
-        public async Task<long> Increment(IDatabase db, string key, long value)
-        {
-            try
-            {
-                return await db.StringIncrementAsync(key, value);
-            }
-            catch
-            {
-            }
-
-            return value;
-        }
-        #endregion
-
-        #region KeyExists
-		/// <summary>
         /// 检测Key是否存在
         /// </summary>
-        /// <param name="key">键</param>
-        /// <returns></returns>
-        public async Task<bool> KeyExists(string key)
+        public async Task<bool> KeyExistsAsync(string key) => await KeyExistsAsync(key, Connection.GetDatabase());
+        public async Task<bool> KeyExistsAsync(string key, IDatabase db)
         {
-            var db = Connection.GetDatabase();
-
             var result = await db.KeyExistsAsync(key);
 
             return result;
-        } 
-        #endregion
+        }
+
+        public void Dispose()
+        {
+            if (Connection != null)
+            {
+                Connection.Dispose();
+            }
+        }
     }
 }
