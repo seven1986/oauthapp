@@ -23,23 +23,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.AspNetCore.Authentication.QQ;
+using Microsoft.AspNetCore.Authentication.Weixin;
+using Microsoft.AspNetCore.Authentication.Weibo;
+using Microsoft.AspNetCore.Authentication.GitHub;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Tenant;
-using ApiTracker;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
-using Microsoft.AspNetCore.Authentication.QQ;
-using Microsoft.AspNetCore.Authentication.Weixin;
-using Microsoft.AspNetCore.Authentication.Weibo;
-using Microsoft.AspNetCore.Authentication.GitHub;
-using Microsoft.AspNetCore.Authentication.Facebook;
-using Microsoft.AspNetCore.Authentication.Twitter;
-using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 
 namespace IdentityServer4.MicroService
 {
@@ -388,10 +383,11 @@ namespace IdentityServer4.MicroService
             services.AddTransient<ISmsSender, SmsSender>();
             #endregion
 
-            services.AddTransient(typeof(AzureStorageService));
             services.AddSingleton<RedisService>();
             services.AddSingleton<TenantService>();
             services.AddSingleton<SwaggerCodeGenService>();
+            services.AddSingleton<AzureStorageService>();
+            services.AddScoped<ApiLoggerService>();
 
             #region 权限定义
             services.AddAuthorization(options =>
@@ -578,13 +574,14 @@ namespace IdentityServer4.MicroService
                         $"/swagger/{description.GroupName}/swagger.json",
                         description.GroupName.ToUpperInvariant());
 
-                    c.ConfigureOAuth2(AppDefaultData.TestClient.ClientId, AppDefaultData.TestClient.ClientSecret,
-                        string.Empty, AppDefaultData.TestClient.ClientName);
+                    //c.OAuthConfigObject(AppDefaultData.TestClient.ClientId, AppDefaultData.TestClient.ClientSecret,
+                    //    string.Empty, AppDefaultData.TestClient.ClientName);
                 }
 
-                c.DocExpansion("none");
+                c.DocExpansion(DocExpansion.None);
             });
             #endregion
         }
+
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using IdentityServer4.MicroService.Tenant;
 
 namespace IdentityServer4.MicroService.Controllers
 {
@@ -18,11 +19,15 @@ namespace IdentityServer4.MicroService.Controllers
 
         public HomeController(
             IStringLocalizer<HomeController> localizer,
-            SignInManager<AppUser> signInManager
+            SignInManager<AppUser> signInManager,
+            TenantService _tenantService,
+            TenantDbContext _tenantDb
             )
         {
             l = localizer;
             _signInManager = signInManager;
+            tenantService = _tenantService;
+            tenantDb = _tenantDb;
         }
 
         public IActionResult Index()

@@ -531,15 +531,15 @@ namespace IdentityServer4.MicroService.Apis
 
             #region 如果 oauth2 或 productId为空，从租户配置读取默认配置
             if (string.IsNullOrWhiteSpace(value.authorizationServerId) &&
-                    Tenant.properties.ContainsKey(AzureApiManagementKeys.AuthorizationServerId))
+                    Tenant.Properties.ContainsKey(AzureApiManagementKeys.AuthorizationServerId))
             {
-                value.authorizationServerId = Tenant.properties[AzureApiManagementKeys.AuthorizationServerId];
+                value.authorizationServerId = Tenant.Properties[AzureApiManagementKeys.AuthorizationServerId];
             }
 
             if (string.IsNullOrWhiteSpace(value.productId) &&
-                Tenant.properties.ContainsKey(AzureApiManagementKeys.ProductId))
+                Tenant.Properties.ContainsKey(AzureApiManagementKeys.ProductId))
             {
-                value.productId = Tenant.properties[AzureApiManagementKeys.ProductId];
+                value.productId = Tenant.Properties[AzureApiManagementKeys.ProductId];
             }
             #endregion
 

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.IO;
+using System.Resources;
 using System.Text;
 
 namespace IdentityServer4.MicroService.Data.Migrations.Identity
@@ -356,15 +357,12 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
 
             var views = AppViews();
 
-            foreach(var f in views)
+            foreach (var script in views)
             {
-                var script = File.ReadAllText(f, Encoding.UTF8);
-
                 migrationBuilder.Sql(script);
             }
         }
 
-        
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
@@ -404,21 +402,14 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 name: "AspNetUsers");
 
             // custom
-            var views = AppViews();
-
-            foreach (var f in views)
-            {
-                var tableName = Path.GetFileNameWithoutExtension(f);
-
-                migrationBuilder.DropTable(tableName);
-            }
+            migrationBuilder.DropTable("View_User");
         }
 
         string[] AppViews()
         {
-            var sqlViewsPath = Path.Combine(Directory.GetCurrentDirectory(), "Data/Views");
-            var viewFiles = Directory.GetFiles(sqlViewsPath);
-            return viewFiles;
+            return new string[] {
+                Views.Views.View_User
+            };
         }
     }
 }

@@ -20,7 +20,7 @@ using IdentityServer4.MicroService.Models.Shared;
 
 namespace IdentityServer4.MicroService.Apis
 {
-    //[ServiceFilter(typeof(ApiTracker.ApiTracker), IsReusable = true)]
+    [ServiceFilter(typeof(ApiLoggerService), IsReusable = true)]
     [Authorize(AuthenticationSchemes = AppAuthenScheme)]
     public class BasicController : ControllerBase
     {
@@ -103,14 +103,14 @@ namespace IdentityServer4.MicroService.Apis
             {
                 if (_azureApim == null)
                 {
-                    if (Tenant.properties.ContainsKey(AzureApiManagementKeys.Host) &&
-                    Tenant.properties.ContainsKey(AzureApiManagementKeys.ApiId) &&
-                    Tenant.properties.ContainsKey(AzureApiManagementKeys.ApiKey))
+                    if (Tenant.Properties.ContainsKey(AzureApiManagementKeys.Host) &&
+                    Tenant.Properties.ContainsKey(AzureApiManagementKeys.ApiId) &&
+                    Tenant.Properties.ContainsKey(AzureApiManagementKeys.ApiKey))
                     {
                         _azureApim = new AzureApiManagementServices(
-                            Tenant.properties[AzureApiManagementKeys.Host],
-                            Tenant.properties[AzureApiManagementKeys.ApiId],
-                            Tenant.properties[AzureApiManagementKeys.ApiKey]);
+                            Tenant.Properties[AzureApiManagementKeys.Host],
+                            Tenant.Properties[AzureApiManagementKeys.ApiId],
+                            Tenant.Properties[AzureApiManagementKeys.ApiKey]);
                     }
                 }
 
