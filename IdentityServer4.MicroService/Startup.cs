@@ -32,6 +32,14 @@ using IdentityServer4.MicroService.Tenant;
 using ApiTracker;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+using Microsoft.AspNetCore.Authentication.QQ;
+using Microsoft.AspNetCore.Authentication.Weixin;
+using Microsoft.AspNetCore.Authentication.Weibo;
+using Microsoft.AspNetCore.Authentication.GitHub;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication.Twitter;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 
 namespace IdentityServer4.MicroService
 {
@@ -148,53 +156,85 @@ namespace IdentityServer4.MicroService
                 isAuth.RequireHttpsMetadata = true;
             });
 
-            //authBuilder.AddWeixin(x =>
-            //{
-            //    x.ClientId = Configuration["Authentication:Weixin:ClientId"];
-            //    x.ClientSecret = Configuration["Authentication:Weixin:ClientSecret"];
-            //});
+            #region 微信 (/signin-weixin)
+            authBuilder.AddWeixin(x =>
+                {
+                    var ClientId = $"{WeixinDefaults.AuthenticationScheme}:ClientId";
+                    var ClientSecret = $"{WeixinDefaults.AuthenticationScheme}:ClientSecret";
+                    x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
+                    x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
+                });
+            #endregion
 
-            //authBuilder.AddWeibo(x =>
-            //{
-            //    x.ClientId = Configuration["Authentication:Weibo:ClientId"];
-            //    x.ClientSecret = Configuration["Authentication:Weibo:ClientSecret"];
-            //});
+            #region 微博 (/signin-weibo)
+            authBuilder.AddWeibo(x =>
+                {
+                    var ClientId = $"{WeiboDefaults.AuthenticationScheme}:ClientId";
+                    var ClientSecret = $"{WeiboDefaults.AuthenticationScheme}:ClientSecret";
+                    x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
+                    x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
+                });
+            #endregion
 
-            //authBuilder.AddGitHub(x =>
-            //{
-            //    x.ClientId = Configuration["Authentication:GitHub:ClientId"];
-            //    x.ClientSecret = Configuration["Authentication:GitHub:ClientSecret"];
-            //});
+            #region github (/signin-github)
+            authBuilder.AddGitHub(x =>
+                {
+                    var ClientId = $"{GitHubDefaults.AuthenticationScheme}:ClientId";
+                    var ClientSecret = $"{GitHubDefaults.AuthenticationScheme}:ClientSecret";
+                    x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
+                    x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
+                });
+            #endregion
 
-            //authBuilder.AddQQ(x =>
-            //{
-            //    x.ClientId = Configuration["Authentication:QQ:ClientId"];
-            //    x.ClientSecret = Configuration["Authentication:QQ:ClientSecret"];
-            //});
+            #region QQ (/signin-qq)
+            authBuilder.AddQQ(x =>
+                {
+                    var ClientId = $"{QQDefaults.AuthenticationScheme}:ClientId";
+                    var ClientSecret = $"{QQDefaults.AuthenticationScheme}:ClientSecret";
+                    x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
+                    x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
+                });
+            #endregion
 
+            //#region Facebook (/signin-facebook)
             //authBuilder.AddFacebook(x =>
-            //{
-            //    x.AppId = Configuration["Authentication:Facebook:ClientId"];
-            //    x.AppSecret = Configuration["Authentication:Facebook:ClientSecret"];
-            //});
+            //    {
+            //        var ClientId = $"{FacebookDefaults.AuthenticationScheme}:ClientId";
+            //        var ClientSecret = $"{FacebookDefaults.AuthenticationScheme}:ClientSecret";
+            //        x.AppId = AppDefaultData.Tenant.TenantProperties[ClientId];
+            //        x.AppSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
+            //    });
+            //#endregion
 
+            //#region Twitter (/signin-twitter)
             //authBuilder.AddTwitter(x =>
-            //{
-            //    x.ConsumerKey = Configuration["Authentication:Twitter:ClientId"];
-            //    x.ConsumerSecret = Configuration["Authentication:Twitter:ClientSecret"];
-            //});
+            //    {
+            //        var ClientId = $"{TwitterDefaults.AuthenticationScheme}:ClientId";
+            //        var ClientSecret = $"{TwitterDefaults.AuthenticationScheme}:ClientSecret";
+            //        x.ConsumerKey = AppDefaultData.Tenant.TenantProperties[ClientId];
+            //        x.ConsumerSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
+            //    });
+            //#endregion
 
+            //#region Google (/signin-google)
             //authBuilder.AddGoogle(x =>
-            //{
-            //    x.ClientId = Configuration["Authentication:Google:ClientId"];
-            //    x.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-            //});
+            //    {
+            //        var ClientId = $"{GoogleDefaults.AuthenticationScheme}:ClientId";
+            //        var ClientSecret = $"{GoogleDefaults.AuthenticationScheme}:ClientSecret";
+            //        x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
+            //        x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
+            //    });
+            //#endregion
 
+            //#region MicrosoftAccount (/signin-microsoft)
             //authBuilder.AddMicrosoftAccount(x =>
-            //{
-            //    x.ClientId = Configuration["Authentication:Microsoft:ClientId"];
-            //    x.ClientSecret = Configuration["Authentication:Microsoft:ClientSecret"];
-            //});
+            //    {
+            //        var ClientId = $"{MicrosoftAccountDefaults.AuthenticationScheme}:ClientId";
+            //        var ClientSecret = $"{MicrosoftAccountDefaults.AuthenticationScheme}:ClientSecret";
+            //        x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
+            //        x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
+            //    }); 
+            //#endregion
             #endregion
 
             //for now, no need
@@ -490,8 +530,6 @@ namespace IdentityServer4.MicroService
         {
             AppDefaultData.InitializeDatabase(app,Configuration);
 
-            app.UseMutitenancy();
-
             app.UseCors("default");
 
             #region Localization
@@ -514,6 +552,8 @@ namespace IdentityServer4.MicroService
 
             app.UseStaticFiles();
 
+            app.UseMutitenancy();
+
             app.UseAuthentication();
 
             app.UseIdentityServer();
@@ -529,7 +569,6 @@ namespace IdentityServer4.MicroService
                         doc.Host = Configuration["IdentityServer"];
                     });
                 });
-            #endregion
 
             app.UseSwaggerUI(c =>
             {
@@ -544,7 +583,8 @@ namespace IdentityServer4.MicroService
                 }
 
                 c.DocExpansion("none");
-            });   
+            });
+            #endregion
         }
     }
 }

@@ -14,6 +14,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.QQ;
+using Microsoft.AspNetCore.Authentication.Weixin;
+using Microsoft.AspNetCore.Authentication.Weibo;
+using Microsoft.AspNetCore.Authentication.GitHub;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication.Twitter;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace IdentityServer4.MicroService
@@ -43,22 +51,22 @@ namespace IdentityServer4.MicroService
                     new Dictionary<string, string>()
                 {
                 //auth login
-            {"Weixin:ClientId","" },
-            { "Weixin:ClientSecret", ""},
-            { "Weibo:ClientId", ""},
-            { "Weibo:ClientSecret", ""},
-            { "GitHub:ClientId", ""},
-            { "GitHub:ClientSecret", ""},
-            { "QQ:ClientId", ""},
-            { "QQ:ClientSecret", ""},
-            { "Facebook:ClientId", ""},
-            { "Facebook:ClientSecret", ""},
-            { "Microsoft:ClientId", ""},
-            { "Microsoft:ClientSecret", ""},
-            { "Google:ClientId", ""},
-            { "Google:ClientSecret", ""},
-            { "Twitter:ClientId", ""},
-            { "Twitter:ClientSecret", ""},
+            { $"{WeixinDefaults.AuthenticationScheme}:ClientId","1" },
+            { $"{WeixinDefaults.AuthenticationScheme}:ClientSecret", "1"},
+            { $"{WeiboDefaults.AuthenticationScheme}:ClientId", "1"},
+            { $"{WeiboDefaults.AuthenticationScheme}:ClientSecret", "1"},
+            { $"{GitHubDefaults.AuthenticationScheme}:ClientId", "1"},
+            { $"{GitHubDefaults.AuthenticationScheme}:ClientSecret", "1"},
+            { $"{QQDefaults.AuthenticationScheme}:ClientId", "1"},
+            { $"{QQDefaults.AuthenticationScheme}:ClientSecret", "1"},
+            { $"{FacebookDefaults.AuthenticationScheme}:ClientId", "1"},
+            { $"{FacebookDefaults.AuthenticationScheme}:ClientSecret", "1"},
+            { $"{MicrosoftAccountDefaults.AuthenticationScheme}:ClientId", "1"},
+            { $"{MicrosoftAccountDefaults.AuthenticationScheme}:ClientSecret", "1"},
+            { $"{GoogleDefaults.AuthenticationScheme}:ClientId", "1"},
+            { $"{GoogleDefaults.AuthenticationScheme}:ClientSecret", "1"},
+            { $"{TwitterDefaults.AuthenticationScheme}:ClientId", "1"},
+            { $"{TwitterDefaults.AuthenticationScheme}:ClientSecret", "1"},
 
             //AzureApiManagement
             { "Azure:ApiManagement:Host", ""},
@@ -67,7 +75,7 @@ namespace IdentityServer4.MicroService
             { "Azure:ApiManagement:AuthorizationServerId", ""},
             { "Azure:ApiManagement:ProductId", ""},
             { "Azure:ApiManagement:PortalUris", ""},
-                }; 
+                    };
         }
 
         /// <summary>
