@@ -25,7 +25,7 @@ Acknowledgements
 * [Azure API Management](https://azure.microsoft.com/zh-cn/services/api-management/)
 * [Swagger Codegen](https://github.com/swagger-api/swagger-codegen)
 
-For run this project requires
+For run this project recommends
 --
 * Azure Key Valut (统一配置，将Appsetting的配置、SSL证书迁移到Azure Key Valut等)
 * Azure Redis （缓存）

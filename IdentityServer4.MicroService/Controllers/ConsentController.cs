@@ -3,13 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
-using IdentityServer4.MicroService.Models.ConcentViewModels;
 using IdentityServer4.MicroService.Services;
+using IdentityServer4.MicroService.Models.Views.Concent;
 
 namespace IdentityServer4.MicroService.Controllers
 {
-    [SecurityHeaders]
-    public class ConsentController: Controller
+    public class ConsentController: BasicController
     {
         private readonly ConsentService _consent;
 

@@ -1,6 +1,6 @@
 ﻿namespace IdentityServer4.MicroService.CacheKeys
 {
-    public class UserControllerKeys
+    internal class UserControllerKeys
     {
         #region 电话号码
         /// <summary>

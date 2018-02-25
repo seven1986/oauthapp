@@ -9,10 +9,12 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
+using IdentityServer4.MicroService;
+using IdentityServer4.MicroService.Microsoft.AspNetCore.Authentication;
 
 namespace Microsoft.AspNetCore.Authentication.Weixin
 {
-    public class WeixinHandler : OAuthHandler<WeixinOptions>
+    public class WeixinHandler : TenantOAuthHandler<WeixinOptions>
     {
         public WeixinHandler(
             IOptionsMonitor<WeixinOptions> options,

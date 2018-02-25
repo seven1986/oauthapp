@@ -28,8 +28,8 @@ namespace IdentityServer4.MicroService.Tenant
             #endregion
 
             #region 根据缓存Key获取数据
-            var tenant_public = _redis.Get(Unique_TenantPublic_CacheKey).Result;
-            var tenant_private = _redis.Get(Unique_TenantPrivate_CacheKey).Result;
+            var tenant_public = _redis.GetAsync(Unique_TenantPublic_CacheKey).Result;
+            var tenant_private = _redis.GetAsync(Unique_TenantPrivate_CacheKey).Result;
             #endregion
 
             // 详情和Issuer
@@ -52,11 +52,11 @@ namespace IdentityServer4.MicroService.Tenant
 
                     tenant_private = JsonConvert.SerializeObject(tenant.ToPrivateModel());
 
-                    var cacheResult = _redis.Set(Unique_TenantPublic_CacheKey,
+                    var cacheResult = _redis.SetAsync(Unique_TenantPublic_CacheKey,
                         tenant_public,
                         TimeSpan.FromSeconds(tenant.CacheDuration)).Result;
 
-                    cacheResult = _redis.Set(Unique_TenantPrivate_CacheKey,
+                    cacheResult = _redis.SetAsync(Unique_TenantPrivate_CacheKey,
                         tenant_private,
                         TimeSpan.FromSeconds(tenant.CacheDuration)).Result;
                 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Linq;
 using System.Data;
 using System.Data.SqlClient;
@@ -11,18 +12,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Newtonsoft.Json;
 using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.Models.CommonModels;
-using IdentityServer4.MicroService.Models.AppUsersModels;
 using IdentityServer4.MicroService.Services;
-using Newtonsoft.Json;
-using static IdentityServer4.MicroService.AppConstant;
-using static IdentityServer4.MicroService.MicroserviceConfig;
 using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.EntityFramework.DbContexts;
-using System.Reflection;
+using IdentityServer4.MicroService.Models.Apis.Common;
+using IdentityServer4.MicroService.Models.Apis.UserController;
+using static IdentityServer4.MicroService.AppConstant;
+using static IdentityServer4.MicroService.MicroserviceConfig;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -76,6 +77,7 @@ namespace IdentityServer4.MicroService.Apis
             configDbContext = _configDbContext;
         }
 
+
         /// <summary>
         /// 用户 - 列表
         /// </summary>
@@ -84,7 +86,7 @@ namespace IdentityServer4.MicroService.Apis
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
         [SwaggerOperation("User/Get")]
-        public async Task<PagingResult<View_User>> Get(PagingRequest<AppUserQuery> value)
+        public async Task<PagingResult<View_User>> Get(PagingRequest<UserGetRequest> value)
         {
             if (!ModelState.IsValid)
             {
@@ -92,7 +94,7 @@ namespace IdentityServer4.MicroService.Apis
                 {
                     code = (int)BasicControllerEnums.UnprocessableEntity,
 
-                    error_msg = ModelErrors()
+                    message = ModelErrors()
                 };
             }
 
@@ -103,7 +105,7 @@ namespace IdentityServer4.MicroService.Apis
 
             var q = new PagingService<View_User>(db, value, "View_User")
             {
-                where = (where, sqlParams) => 
+                where = (where, sqlParams) =>
                 {
                     where.Add("TenantId = " + TenantId);
 
@@ -448,7 +450,7 @@ namespace IdentityServer4.MicroService.Apis
         [HttpGet("Head")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Read)]
         [SwaggerOperation("User/Head")]
-        public async Task<ObjectResult> Head(AppUserDetailQuery value)
+        public async Task<ObjectResult> Head(UserDetailRequest value)
         {
             if (!ModelState.IsValid)
             {
@@ -480,7 +482,7 @@ namespace IdentityServer4.MicroService.Apis
         [HttpPost("Register")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Create)]
         [SwaggerOperation("User/Register")]
-        public async Task<ApiResult<string>> Register([FromBody]RegisterModel value)
+        public async Task<ApiResult<string>> Register([FromBody]UserRegisterRequest value)
         {
             if (!ModelState.IsValid)
             {
@@ -517,12 +519,12 @@ namespace IdentityServer4.MicroService.Apis
             #region 校验手机验证码
             var PhoneNumberVerifyCodeKey = UserControllerKeys.VerifyCode_Phone + value.PhoneNumber + ":" + value.PhoneNumberVerifyCode;
 
-            if (await redis.KeyExists(PhoneNumberVerifyCodeKey) == false)
+            if (await redis.KeyExistsAsync(PhoneNumberVerifyCodeKey) == false)
             {
                 return new ApiResult<string>(l, UserControllerEnum.Register_PhoneNumberVerifyCodeError);
             }
 
-            await redis.Remove(PhoneNumberVerifyCodeKey);
+            await redis.RemoveAsync(PhoneNumberVerifyCodeKey);
             #endregion
 
             #region 创建用户
@@ -622,7 +624,7 @@ namespace IdentityServer4.MicroService.Apis
         [HttpPost("VerifyPhone")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Create)]
         [SwaggerOperation("User/VerifyPhone")]
-        public async Task<ApiResult<string>> VerifyPhone([FromBody]VerifyPhoneNumberModel value)
+        public async Task<ApiResult<string>> VerifyPhone([FromBody]UserVerifyPhoneRequest value)
         {
             if (!ModelState.IsValid)
             {
@@ -633,7 +635,7 @@ namespace IdentityServer4.MicroService.Apis
             #region 发送计数、验证是否已经达到上限
             var dailyLimitKey = UserControllerKeys.Limit_24Hour_Verify_Phone + value.PhoneNumber;
 
-            var _dailyLimit = await redis.Get(dailyLimitKey);
+            var _dailyLimit = await redis.GetAsync(dailyLimitKey);
 
             if (!string.IsNullOrWhiteSpace(_dailyLimit))
             {
@@ -646,7 +648,7 @@ namespace IdentityServer4.MicroService.Apis
             }
             else
             {
-                await redis.Set(dailyLimitKey, "0", TimeSpan.FromHours(24));
+                await redis.SetAsync(dailyLimitKey, "0", TimeSpan.FromHours(24));
             }
             #endregion
 
@@ -654,7 +656,7 @@ namespace IdentityServer4.MicroService.Apis
             //两次发送间隔必须大于指定秒数
             var _lastTimeKey = UserControllerKeys.LastTime_SendCode_Phone + value.PhoneNumber;
 
-            var lastTimeString = await redis.Get(_lastTimeKey);
+            var lastTimeString = await redis.GetAsync(_lastTimeKey);
 
             if (!string.IsNullOrWhiteSpace(lastTimeString))
             {
@@ -681,13 +683,13 @@ namespace IdentityServer4.MicroService.Apis
             var verifyCodeKey = UserControllerKeys.VerifyCode_Phone + value.PhoneNumber + ":" + verifyCode;
 
             // 记录验证码，用于提交报名接口校验
-            await redis.Set(verifyCodeKey, string.Empty, TimeSpan.FromSeconds(UserControllerKeys.VerifyCode_Expire_Phone));
+            await redis.SetAsync(verifyCodeKey, string.Empty, TimeSpan.FromSeconds(UserControllerKeys.VerifyCode_Expire_Phone));
 
             // 记录发送验证码的时间，用于下次发送验证码校验间隔时间
-            await redis.Set(_lastTimeKey, DateTime.UtcNow.AddHours(8).Ticks.ToString(), null);
+            await redis.SetAsync(_lastTimeKey, DateTime.UtcNow.AddHours(8).Ticks.ToString(), null);
 
             // 叠加发送次数
-            await redis.Increment(dailyLimitKey);
+            await redis.IncrementAsync(dailyLimitKey);
 
             return new ApiResult<string>();
         }
@@ -700,7 +702,7 @@ namespace IdentityServer4.MicroService.Apis
         [HttpPost("VerifyEmail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Create)]
         [SwaggerOperation("User/VerifyEmail")]
-        public async Task<ApiResult<string>> VerifyEmail([FromBody]VerifyEmailAddressModel value)
+        public async Task<ApiResult<string>> VerifyEmail([FromBody]UserVerifyEmailRequest value)
         {
             if (!ModelState.IsValid)
             {
@@ -711,7 +713,7 @@ namespace IdentityServer4.MicroService.Apis
             #region 发送计数、验证是否已经达到上限
             var dailyLimitKey = UserControllerKeys.Limit_24Hour_Verify_Email + value.Email;
 
-            var _dailyLimit = await redis.Get(dailyLimitKey);
+            var _dailyLimit = await redis.GetAsync(dailyLimitKey);
 
             if (!string.IsNullOrWhiteSpace(_dailyLimit))
             {
@@ -724,7 +726,7 @@ namespace IdentityServer4.MicroService.Apis
             }
             else
             {
-                await redis.Set(dailyLimitKey, "0", TimeSpan.FromHours(24));
+                await redis.SetAsync(dailyLimitKey, "0", TimeSpan.FromHours(24));
             }
             #endregion
 
@@ -732,7 +734,7 @@ namespace IdentityServer4.MicroService.Apis
             //两次发送间隔必须大于指定秒数
             var _lastTimeKey = UserControllerKeys.LastTime_SendCode_Email + value.Email;
 
-            var lastTimeString = await redis.Get(_lastTimeKey);
+            var lastTimeString = await redis.GetAsync(_lastTimeKey);
 
             if (!string.IsNullOrWhiteSpace(lastTimeString))
             {
@@ -766,10 +768,10 @@ namespace IdentityServer4.MicroService.Apis
             #endregion
 
             // 记录发送验证码的时间，用于下次发送验证码校验间隔时间
-            await redis.Set(_lastTimeKey, DateTime.UtcNow.AddHours(8).Ticks.ToString(), null);
+            await redis.SetAsync(_lastTimeKey, DateTime.UtcNow.AddHours(8).Ticks.ToString(), null);
 
             // 叠加发送次数
-            await redis.Increment(dailyLimitKey);
+            await redis.IncrementAsync(dailyLimitKey);
 
             return new ApiResult<string>();
         }

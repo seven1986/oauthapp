@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace IdentityServer4.MicroService.Enums
 {
-    public class RoleControllerEnum
+    internal enum RoleControllerEnum
     {
     }
 }

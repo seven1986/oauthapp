@@ -7,16 +7,16 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.Models.AppTenantModels;
 using static IdentityServer4.MicroService.AppConstant;
 using System.Data.SqlClient;
 using System.Data.Common;
 using System.Collections.Generic;
-using IdentityServer4.MicroService.Models.CommonModels;
 using System.Reflection;
 using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
 using IdentityServer4.MicroService.CacheKeys;
+using IdentityServer4.MicroService.Models.Apis.Common;
+using IdentityServer4.MicroService.Models.Shared;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -80,8 +80,8 @@ namespace IdentityServer4.MicroService.Apis
         public virtual TenantService tenantService { get; set; }
         public virtual TenantDbContext tenantDb { get; set; }
 
-        private AppTenantPrivateModel _tenant;
-        public AppTenantPrivateModel Tenant
+        private TenantPrivateModel _tenant;
+        public TenantPrivateModel Tenant
         {
             get
             {
@@ -89,7 +89,7 @@ namespace IdentityServer4.MicroService.Apis
                 {
                     var tenantCache = tenantService.GetTenant(tenantDb, HttpContext.Request.Host.Value);
 
-                    _tenant = JsonConvert.DeserializeObject<AppTenantPrivateModel>(tenantCache.Item2);
+                    _tenant = JsonConvert.DeserializeObject<TenantPrivateModel>(tenantCache.Item2);
                 }
 
                 return _tenant;

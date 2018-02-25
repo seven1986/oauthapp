@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
-using IdentityServer4.MicroService.Models.ConcentViewModels;
 using IdentityServer4.Stores;
-using IdentityServer4;
 using IdentityServer4.Services;
 using Microsoft.Extensions.Logging;
 using IdentityServer4.Models;
 using System.Linq;
+using IdentityServer4.MicroService.Models.Views.Concent;
 
 namespace IdentityServer4.MicroService.Services
 {

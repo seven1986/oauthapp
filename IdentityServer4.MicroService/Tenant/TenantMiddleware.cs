@@ -4,8 +4,6 @@ using IdentityServer4.Configuration;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Authentication.Weixin;
 using Microsoft.AspNetCore.Authentication.Weibo;
 using Microsoft.AspNetCore.Authentication.GitHub;
@@ -14,8 +12,7 @@ using Microsoft.AspNetCore.Authentication.Twitter;
 using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.Facebook;
-using IdentityServer4.MicroService.Models.AppTenantModels;
-using Microsoft.AspNetCore.Authentication;
+using IdentityServer4.MicroService.Models.Shared;
 
 namespace IdentityServer4.MicroService.Tenant
 {
@@ -35,16 +32,7 @@ namespace IdentityServer4.MicroService.Tenant
 
         public Task Invoke(
             HttpContext context, 
-            TenantDbContext _db
-            // IOptionsMonitor<WeixinOptions> _WeixinOptions,
-            // IOptionsMonitor<WeiboOptions> _WeiboOptions,
-            // IOptionsMonitor<GitHubOptions> _GitHubOptions,
-            // IOptionsMonitor<QQOptions> _QQOptions,
-            // IOptionsMonitor<FacebookOptions> _FacebookOptions,
-            // IOptionsMonitor<MicrosoftAccountOptions> _MicrosoftAccountOptions,
-            // IOptionsMonitor<GoogleOptions> _GoogleOptions,
-            // IOptionsMonitor<TwitterOptions> _TwitterOptions
-            )
+            TenantDbContext _db)
         {
             var tenant = _tenantService.GetTenant(_db,
                 context.Request.Host.Value);
@@ -57,73 +45,58 @@ namespace IdentityServer4.MicroService.Tenant
             if (!string.IsNullOrWhiteSpace(tenant.Item2))
             {
                 var pvtModel = JsonConvert
-                            .DeserializeObject<AppTenantPrivateModel>(tenant.Item2);
+                            .DeserializeObject<TenantPrivateModel>(tenant.Item2);
 
                 #region IssuerUri
                 var IdServerOptions = context.RequestServices.GetRequiredService<IdentityServerOptions>();
                 IdServerOptions.IssuerUri = context.Request.Scheme + "://" + pvtModel.IdentityServerIssuerUri;
                 #endregion
 
-                #region ConfigAuthentication
-                //if (pvtModel.properties.Count > 0)
-                //{
-                //    ConfigAuthentication(_WeixinOptions.CurrentValue,
-                //            pvtModel.properties, WeixinDefaults.AuthenticationScheme);
-                //
-                //    ConfigAuthentication(_WeiboOptions.CurrentValue,
-                //        pvtModel.properties, WeiboDefaults.AuthenticationScheme);
-                //
-                //    ConfigAuthentication(_GitHubOptions.CurrentValue,
-                //        pvtModel.properties, GitHubDefaults.AuthenticationScheme);
-                //
-                //    ConfigAuthentication(_QQOptions.CurrentValue,
-                //        pvtModel.properties, QQDefaults.AuthenticationScheme);
-                //
-                //    ConfigAuthentication(_FacebookOptions.CurrentValue,
-                //        pvtModel.properties, FacebookDefaults.AuthenticationScheme);
-                //
-                //    ConfigAuthentication(_MicrosoftAccountOptions.CurrentValue,
-                //        pvtModel.properties, MicrosoftAccountDefaults.AuthenticationScheme);
-                //
-                //    ConfigAuthentication(_GoogleOptions.CurrentValue,
-                //        pvtModel.properties, GoogleDefaults.AuthenticationScheme);
-                //
-                //    ConfigTwitterAuthentication(_TwitterOptions.CurrentValue,
-                //        pvtModel.properties);
-                //}
+                #region ResetOAuthOptions
+                if (pvtModel.properties.Count > 0)
+                {
+                    ResetOAuthOptions(WeixinDefaults.AuthenticationScheme, 
+                        pvtModel.properties);
+
+                    ResetOAuthOptions(WeiboDefaults.AuthenticationScheme, 
+                        pvtModel.properties);
+
+                    ResetOAuthOptions(GitHubDefaults.AuthenticationScheme, 
+                        pvtModel.properties);
+
+                    ResetOAuthOptions(QQDefaults.AuthenticationScheme, 
+                        pvtModel.properties);
+
+                    ResetOAuthOptions(FacebookDefaults.AuthenticationScheme, 
+                        pvtModel.properties);
+
+                    ResetOAuthOptions(MicrosoftAccountDefaults.AuthenticationScheme, 
+                        pvtModel.properties);
+
+                    ResetOAuthOptions(GoogleDefaults.AuthenticationScheme, 
+                        pvtModel.properties);
+
+                    ResetOAuthOptions(TwitterDefaults.AuthenticationScheme, 
+                        pvtModel.properties);
+                }
                 #endregion
             }
 
             return _next(context);
         }
 
-        void ConfigAuthentication<T>(
-            T options, 
-            Dictionary<string, string> claims,
-            string key) where T : OAuthOptions
-        {
-            var clientIdKey = $"{key}:ClientId";
-            var ClientSecretKey = $"{key}:ClientSecret";
-
-            if (claims.ContainsKey(clientIdKey) &&
-                claims.ContainsKey(ClientSecretKey))
-            {
-               options.ClientId = claims[clientIdKey];
-               options.ClientSecret = claims[ClientSecretKey];
-            }
-        }
-
-        void ConfigTwitterAuthentication(TwitterOptions options,
+        void ResetOAuthOptions(
+            string scheme,
             Dictionary<string, string> claims)
         {
-            var clientIdKey = "Twitter:ClientId";
-            var ClientSecretKey = "Twitter:ClientSecret";
+            var ClientIdKey = $"{scheme}:ClientId";
+            var ClientSecretKey = $"{scheme}:ClientSecret";
 
-            if (claims.ContainsKey(clientIdKey) &&
+            if (claims.ContainsKey(ClientIdKey) &&
                 claims.ContainsKey(ClientSecretKey))
             {
-                options.ConsumerKey = claims[clientIdKey];
-                options.ConsumerSecret = claims[ClientSecretKey];
+                AppDefaultData.Tenant.TenantProperties[ClientIdKey] = claims[ClientIdKey];
+                AppDefaultData.Tenant.TenantProperties[ClientSecretKey] = claims[ClientSecretKey];
             }
         }
     }

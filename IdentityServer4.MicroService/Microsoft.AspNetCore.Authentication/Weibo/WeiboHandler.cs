@@ -11,6 +11,8 @@ using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using IdentityServer4.MicroService;
+using IdentityServer4.MicroService.Microsoft.AspNetCore.Authentication;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth;
@@ -21,7 +23,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.AspNetCore.Authentication.Weibo
 {
-    public class WeiboHandler : OAuthHandler<WeiboOptions>
+    public class WeiboHandler : TenantOAuthHandler<WeiboOptions>
     {
         public WeiboHandler(
             IOptionsMonitor<WeiboOptions> options,

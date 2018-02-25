@@ -15,11 +15,12 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
-
+using IdentityServer4.MicroService;
+using IdentityServer4.MicroService.Microsoft.AspNetCore.Authentication;
 
 namespace Microsoft.AspNetCore.Authentication.QQ
 {
-    public class QQHandler : OAuthHandler<QQOptions>
+    public class QQHandler : TenantOAuthHandler<QQOptions>
     {
         public QQHandler(IOptionsMonitor<QQOptions> options, 
             ILoggerFactory logger, 
@@ -27,7 +28,6 @@ namespace Microsoft.AspNetCore.Authentication.QQ
             ISystemClock clock)
             : base(options, logger, encoder, clock)
         {
-
         }
 
         protected override async Task<AuthenticationTicket> CreateTicketAsync(

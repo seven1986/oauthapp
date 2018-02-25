@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using IdentityServer4.MicroService.Models.AppTenantModels;
+using IdentityServer4.MicroService.Models.Shared;
 using IdentityServer4.MicroService.Tenant;
 
 namespace IdentityServer4.MicroService.Mappers
@@ -14,14 +14,14 @@ namespace IdentityServer4.MicroService.Mappers
 
         internal static IMapper Mapper { get; }
 
-        public static AppTenantPublicModel ToPublicModel(this AppTenant tenant)
+        public static TenantPublicModel ToPublicModel(this AppTenant tenant)
         {
-            return Mapper.Map<AppTenantPublicModel>(tenant);
+            return Mapper.Map<TenantPublicModel>(tenant);
         }
 
-        public static AppTenantPrivateModel ToPrivateModel(this AppTenant tenant)
+        public static TenantPrivateModel ToPrivateModel(this AppTenant tenant)
         {
-            return Mapper.Map<AppTenantPrivateModel>(tenant);
+            return Mapper.Map<TenantPrivateModel>(tenant);
         }
     }
 }

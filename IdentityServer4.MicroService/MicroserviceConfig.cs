@@ -13,7 +13,7 @@ namespace IdentityServer4.MicroService
         /// <summary>
         /// Client权限定义
         /// 对应Token中的claim的scope字段
-        /// 字段名：用去controller 的 action 标记
+        /// 字段名：用于controller 的 action 标记
         /// 字段值：策略的名称
         /// 字段自定义属性：策略的权限集合，
         /// 聚合PolicyClaimValues所有的值（除了"all"），去重后登记到IdentityServer的ApiResource中去
@@ -54,7 +54,7 @@ namespace IdentityServer4.MicroService
         /// <summary>
         /// User权限定义
         /// 对应Token中的claim的permission字段
-        /// 字段名：用去controller 的 action 标记
+        /// 字段名：用于controller 的 action 标记
         /// 字段值：策略的名称
         /// 字段自定义属性：策略的权限集合，可按需设置User表的claims的permission属性
         /// </summary>

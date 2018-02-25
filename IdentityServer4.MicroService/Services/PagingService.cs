@@ -5,14 +5,12 @@ using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using IdentityServer4.MicroService.Models.CommonModels;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Reflection;
+using IdentityServer4.MicroService.Models.Apis.Common;
 
 namespace IdentityServer4.MicroService.Services
 {
-    public class PagingService<T> where T : class, new()
+    public class PagingService<T> where T :  class, new()
     {
         static readonly ConcurrentDictionary<string, List<string>> Columns =
             new ConcurrentDictionary<string, List<string>>();
@@ -27,7 +25,7 @@ namespace IdentityServer4.MicroService.Services
         public Action<List<string>, List<SqlParameter>> where { get; set; }
 
         /// <summary>
-        /// 添加create字段的查询条件
+        /// 添加CreateDate字段的查询条件
         /// </summary>
         public bool AutoFilter_CreateDate { get; set; } = true;
 
@@ -54,6 +52,13 @@ namespace IdentityServer4.MicroService.Services
             this.value = value;
         }
 
+        /// <summary>
+        /// 执行分页查询
+        /// </summary>
+        /// <param name="sql">分页数据查询语句</param>
+        /// <param name="sql_dataCount">数据总数查询语句</param>
+        /// <param name="propConverter">返回实体属性转换委托</param>
+        /// <returns></returns>
         public async Task<PagingResult<T>> ExcuteAsync(
             string sql = @"SELECT * FROM {0} {1} ORDER BY {2} OFFSET {3} ROW FETCH NEXT {4} ROW ONLY",
             string sql_dataCount = "SELECT COUNT(1) FROM {0} {1}",
@@ -113,11 +118,17 @@ namespace IdentityServer4.MicroService.Services
             sql = string.Format(sql, TableName, Where, OrderBy, 
                 value.skip, 
                 value.take);
+
             var entities = new List<T>();
+
+            var entityType = typeof(T);
 
             using (var connection = db.Database.GetDbConnection())
             {
-                connection.Open();
+                if (connection.State != System.Data.ConnectionState.Open)
+                {
+                    connection.Open();
+                }
 
                 using (var command = connection.CreateCommand())
                 {
@@ -150,7 +161,7 @@ namespace IdentityServer4.MicroService.Services
 
                                 if (PropertyValue != DBNull.Value)
                                 {
-                                    var Property = item.GetType().GetProperty(PropertyName);
+                                    var Property = entityType.GetProperty(PropertyName);
 
                                     try
                                     {
@@ -168,7 +179,7 @@ namespace IdentityServer4.MicroService.Services
                                     }
                                     catch (Exception ex)
                                     {
-                                        Console.WriteLine(ex.Message);
+                                        throw ex;
                                     }
                                 }
                             }

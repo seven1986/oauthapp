@@ -14,10 +14,10 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.Models.CommonModels;
-using IdentityServer4.MicroService.Models.ClientModels;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+using IdentityServer4.MicroService.Models.Apis.Common;
+using IdentityServer4.MicroService.Models.Apis.ClientController;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -56,14 +56,14 @@ namespace IdentityServer4.MicroService.Apis
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
         [SwaggerOperation("Client/Get")]
-        public async Task<PagingResult<Client>> Get(PagingRequest<ClientQuery> value)
+        public async Task<PagingResult<Client>> Get(PagingRequest<ClientGetRequest> value)
         {
             if (!ModelState.IsValid)
             {
                 return new PagingResult<Client>()
                 {
                     code = (int)BasicControllerEnums.UnprocessableEntity,
-                    error_msg = ModelErrors()
+                    message = ModelErrors()
                 };
             }
 

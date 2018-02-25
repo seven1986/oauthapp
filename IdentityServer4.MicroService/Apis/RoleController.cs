@@ -10,10 +10,10 @@ using Microsoft.AspNetCore.Authorization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Enums;
-using IdentityServer4.MicroService.Models.CommonModels;
 using static IdentityServer4.MicroService.AppConstant;
 using System.Collections.Generic;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+using IdentityServer4.MicroService.Models.Apis.Common;
 
 namespace IdentityServer4.MicroService.Apis
 {

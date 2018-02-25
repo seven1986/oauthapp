@@ -11,6 +11,10 @@ using System.Reflection;
 
 namespace IdentityServer4.MicroService.Services
 {
+    /// <summary>
+    /// used for swagger ui
+    /// when web api parameter is [FromForm]IFormFile value,can show input file html element in ui page
+    /// </summary>
     internal class FormFileOperationFilter : IOperationFilter
     {
         private struct ContainerParameterData

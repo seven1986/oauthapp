@@ -1,13 +1,11 @@
-﻿using IdentityServer4.MicroService.Models.AppTenantModels;
+﻿using IdentityServer4.MicroService.Models.Shared;
 using IdentityServer4.MicroService.Tenant;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System.Linq;
 
 namespace IdentityServer4.MicroService.Controllers
 {
+    [SecurityHeaders]
     public class BasicController:Controller
     {
         protected virtual TenantDbContext tenantDb { get; set; }
@@ -15,8 +13,8 @@ namespace IdentityServer4.MicroService.Controllers
 
         // public used for View Pages
         //
-        //AppTenantPublicModel _pubTenant;
-        //public AppTenantPublicModel pubTenant
+        //TenantPublicModel _pubTenant;
+        //public TenantPublicModel pubTenant
         //{
         //    get
         //    {
@@ -27,13 +25,13 @@ namespace IdentityServer4.MicroService.Controllers
         //            if (currentTenant != null)
         //            {
         //                var tenantString = currentTenant.ToString();
-        //                _pubTenant = JsonConvert.DeserializeObject<AppTenantPublicModel>(tenantString);
+        //                _pubTenant = JsonConvert.DeserializeObject<TenantPublicModel>(tenantString);
         //            }
         //            if (_pubTenant == null)
         //            {
         //                var DefaultTenant = tenantDb.Tenants.Include(x => x.Claims).FirstOrDefault();
 
-        //                _pubTenant = new AppTenantPublicModel()
+        //                _pubTenant = new TenantPublicModel()
         //                {
         //                    id = DefaultTenant.Id,
         //                    name = DefaultTenant.Name,
@@ -47,8 +45,8 @@ namespace IdentityServer4.MicroService.Controllers
         //}
 
         // private use
-        private AppTenantPrivateModel _pvtTenant;
-        public AppTenantPrivateModel pvtTenant
+        private TenantPrivateModel _pvtTenant;
+        public TenantPrivateModel pvtTenant
         {
             get
             {
@@ -56,7 +54,7 @@ namespace IdentityServer4.MicroService.Controllers
                 {
                     var tenantCache = tenantService.GetTenant(tenantDb, HttpContext.Request.Host.Value);
 
-                    _pvtTenant = JsonConvert.DeserializeObject<AppTenantPrivateModel>(tenantCache.Item2);
+                    _pvtTenant = JsonConvert.DeserializeObject<TenantPrivateModel>(tenantCache.Item2);
                 }
 
                 return _pvtTenant;

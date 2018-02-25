@@ -1,7 +1,8 @@
-﻿using System.Text;
-using System.Security.Cryptography;
+﻿using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace IdentityServer4.MicroService.Data
@@ -120,11 +121,11 @@ namespace IdentityServer4.MicroService.Data
 
         public DbSet<AspNetUserTenant> UserTenants { get; set; }
 
-        public object ExecuteScalar(string sql)
+        public async Task<object> ExecuteScalarAsync(string sql, CommandType cmdType = CommandType.Text,params SqlParameter[] sqlParams)
         {
             var con = Database.GetDbConnection();
 
-            if (con.State != System.Data.ConnectionState.Open)
+            if (con.State != ConnectionState.Open)
             {
                 con.Open();
             }
@@ -133,42 +134,48 @@ namespace IdentityServer4.MicroService.Data
             {
                 cmd.CommandText = sql;
 
-                return cmd.ExecuteScalar();
+                cmd.Parameters.AddRange(sqlParams);
+
+                return await cmd.ExecuteScalarAsync();
             }
         }
-    }
 
-    public class MD5PasswordHasher : IPasswordHasher<AppUser>
-    {
-        public string HashPassword(AppUser user, string password) => 
-            md5String(password);
-
-        public PasswordVerificationResult VerifyHashedPassword(AppUser user, string hashedPassword, string providedPassword)
+        public async Task<int> ExecuteNonQueryAsync(string sql, CommandType cmdType = CommandType.Text, params SqlParameter[] sqlParams)
         {
-            if (md5String(providedPassword).Equals(hashedPassword))
+            var con = Database.GetDbConnection();
+
+            if (con.State != ConnectionState.Open)
             {
-                return PasswordVerificationResult.Success;
+                con.Open();
             }
 
-            return PasswordVerificationResult.Failed;
+            using (var cmd = con.CreateCommand())
+            {
+                cmd.CommandText = sql;
+
+                cmd.Parameters.AddRange(sqlParams);
+
+                return await cmd.ExecuteNonQueryAsync();
+            }
         }
 
-        /// <summary>
-        /// 生成MD5
-        /// </summary>
-        /// <returns></returns>
-        private string md5String(string str)
+        public async Task<DbDataReader> ExecuteReaderAsync(string sql, CommandType cmdType = CommandType.Text, params SqlParameter[] sqlParams)
         {
-            var md5 = new MD5CryptoServiceProvider();
-            var bs = Encoding.UTF8.GetBytes(str);
-            bs = md5.ComputeHash(bs);
-            var s = new StringBuilder();
-            foreach (byte b in bs)
+            var con = Database.GetDbConnection();
+
+            if (con.State != ConnectionState.Open)
             {
-                s.Append(b.ToString("x2").ToUpper());
+                con.Open();
             }
-            var password = s.ToString();
-            return password;
+
+            using (var cmd = con.CreateCommand())
+            {
+                cmd.CommandText = sql;
+
+                cmd.Parameters.AddRange(sqlParams);
+
+                return await cmd.ExecuteReaderAsync();
+            }
         }
     }
 }

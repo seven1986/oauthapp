@@ -5,7 +5,7 @@ namespace IdentityServer4.MicroService.Enums
     /// <summary>
     /// 公用接口业务代码常量表
     /// </summary>
-    public enum BasicControllerEnums
+    internal enum BasicControllerEnums
     {
         /// <summary>
         /// 正确
