@@ -1,18 +1,11 @@
 ﻿@{
-    TenantPublicModel tenant = null;
-    var currentTenant = Context.Items[TenantConstant.CacheKey];
-    if (currentTenant != null)
-    {
-        var tenantString = currentTenant.ToString();
-        tenant = JsonConvert.DeserializeObject<TenantPublicModel>(tenantString);
-    }
-
+    TenantPrivateModel tenant = ViewBag.pvtTenant;
     if(tenant==null)
     {
-        tenant = new TenantPublicModel()
+        tenant = new TenantPrivateModel()
         {
-            id = 1,
-            name = ""
+            Id = 1,
+            Name = ""
         };
     }
 }
@@ -22,7 +15,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@Html.Raw(tenant.name) - @Localizer["授权中心"]</title>
+    <meta name="keywords" content="@tenant.Keywords" />
+    <meta name="description" content="@tenant.Summary" />
+    <title>@Html.Raw(tenant.Name) - @Localizer["授权中心"]</title>
     <environment names="Development">
         <link href="/dist/vendor.min.css" rel="stylesheet" />
         <link href="/dist/app.css" rel="stylesheet" />
@@ -34,17 +29,25 @@
 <body>
     <div class="ui fixed inverted menu">
         <div class="ui container">
-            <a href="" class="header item">
-                @Html.Raw(tenant.name)
+            <a href="@tenant.WebSite" class="header item">
+                @Html.Raw(tenant.Name)
             </a>
             <a asp-area="" class="active item" asp-controller="Home" asp-action="Index">@Localizer["首页"]</a>
             <div class="right menu">
                 @await Html.PartialAsync("_LoginPartial")
+                <div class="ui dropdown item">
+                    @Localizer["更多"] <i class="dropdown icon"></i> <div class="menu">
+    <a href="@tenant.PortalSite" target="_blank" class="item">@Localizer["开放平台"]</a>
+    <a href="@tenant.AdminSite" target="_blank" class="item">@Localizer["运营中心"]</a>
+    <a href="@tenant.EnterpriseEmail" target="_blank" class="item">@Localizer["企业邮箱"]</a>
+</div>
+                </div>
             </div>
+            
         </div>
     </div>
     <br />
-    @RenderBody()
+        @RenderBody()
     <environment names="Development">
         <script src="/dist/vendor.min.js"></script>
         <script src="/dist/app.js"></script>

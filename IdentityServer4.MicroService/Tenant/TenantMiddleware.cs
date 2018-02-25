@@ -53,31 +53,31 @@ namespace IdentityServer4.MicroService.Tenant
                 #endregion
 
                 #region ResetOAuthOptions
-                if (pvtModel.properties.Count > 0)
+                if (pvtModel.Properties.Count > 0)
                 {
                     ResetOAuthOptions(WeixinDefaults.AuthenticationScheme, 
-                        pvtModel.properties);
+                        pvtModel.Properties);
 
                     ResetOAuthOptions(WeiboDefaults.AuthenticationScheme, 
-                        pvtModel.properties);
+                        pvtModel.Properties);
 
                     ResetOAuthOptions(GitHubDefaults.AuthenticationScheme, 
-                        pvtModel.properties);
+                        pvtModel.Properties);
 
                     ResetOAuthOptions(QQDefaults.AuthenticationScheme, 
-                        pvtModel.properties);
+                        pvtModel.Properties);
 
                     ResetOAuthOptions(FacebookDefaults.AuthenticationScheme, 
-                        pvtModel.properties);
+                        pvtModel.Properties);
 
                     ResetOAuthOptions(MicrosoftAccountDefaults.AuthenticationScheme, 
-                        pvtModel.properties);
+                        pvtModel.Properties);
 
                     ResetOAuthOptions(GoogleDefaults.AuthenticationScheme, 
-                        pvtModel.properties);
+                        pvtModel.Properties);
 
                     ResetOAuthOptions(TwitterDefaults.AuthenticationScheme, 
-                        pvtModel.properties);
+                        pvtModel.Properties);
                 }
                 #endregion
             }

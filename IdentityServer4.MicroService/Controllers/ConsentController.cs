@@ -5,6 +5,7 @@ using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.Views.Concent;
+using IdentityServer4.MicroService.Tenant;
 
 namespace IdentityServer4.MicroService.Controllers
 {
@@ -16,9 +17,13 @@ namespace IdentityServer4.MicroService.Controllers
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IResourceStore resourceStore,
-            ILogger<ConsentController> logger)
+            ILogger<ConsentController> logger,
+            TenantService _tenantService,
+            TenantDbContext _tenantDb)
         {
             _consent = new ConsentService(interaction, clientStore, resourceStore, logger);
+            tenantService = _tenantService;
+            tenantDb = _tenantDb;
         }
 
         /// <summary>

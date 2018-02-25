@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using IdentityServer4.MicroService.Services;
 using Newtonsoft.Json;
 using IdentityServer4.MicroService.Models.Views.Manage;
+using IdentityServer4.MicroService.Tenant;
 
 namespace IdentityServer4.MicroService.Controllers
 {
@@ -25,13 +26,17 @@ namespace IdentityServer4.MicroService.Controllers
           SignInManager<AppUser> signInManager,
           IEmailSender emailSender,
           ISmsSender smsSender,
-          ILoggerFactory loggerFactory)
+          ILogger<ManageController> logger,
+            TenantService _tenantService,
+            TenantDbContext _tenantDb)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
-            _logger = loggerFactory.CreateLogger<ManageController>();
+            _logger = logger;
+            tenantService = _tenantService;
+            tenantDb = _tenantDb;
         }
 
         //

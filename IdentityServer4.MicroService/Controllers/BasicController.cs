@@ -1,6 +1,7 @@
 ﻿using IdentityServer4.MicroService.Models.Shared;
 using IdentityServer4.MicroService.Tenant;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 
 namespace IdentityServer4.MicroService.Controllers
@@ -59,6 +60,14 @@ namespace IdentityServer4.MicroService.Controllers
 
                 return _pvtTenant;
             }
+        }
+
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+
+            ViewBag.pvtTenant = pvtTenant;
+
+            base.OnActionExecuted(context);
         }
     }
 }

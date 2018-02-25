@@ -14,7 +14,7 @@ namespace IdentityServer4.MicroService.Mappers
                   opts => opts.MapFrom(src => src.Claims.ToDictionary(x => x.ClaimType, x => x.ClaimValue)));
 
             CreateMap<AppTenant, TenantPrivateModel>()
-                  .ForMember(x => x.properties,
+                  .ForMember(x => x.Properties,
                   opts => opts.MapFrom(src => src.Properties.ToDictionary(x => x.Key, x => x.Value)));
         }
     }

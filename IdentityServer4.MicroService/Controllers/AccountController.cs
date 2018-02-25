@@ -34,14 +34,14 @@ namespace IdentityServer4.MicroService.Controllers
                 if (_azureApim == null)
                 {
                     
-                    if (pvtTenant.properties.ContainsKey(AzureApiManagementKeys.Host) &&
-                    pvtTenant.properties.ContainsKey(AzureApiManagementKeys.ApiId) &&
-                    pvtTenant.properties.ContainsKey(AzureApiManagementKeys.ApiKey))
+                    if (pvtTenant.Properties.ContainsKey(AzureApiManagementKeys.Host) &&
+                    pvtTenant.Properties.ContainsKey(AzureApiManagementKeys.ApiId) &&
+                    pvtTenant.Properties.ContainsKey(AzureApiManagementKeys.ApiKey))
                     {
                         _azureApim = new AzureApiManagementServices(
-                            pvtTenant.properties[AzureApiManagementKeys.Host],
-                            pvtTenant.properties[AzureApiManagementKeys.ApiId],
-                            pvtTenant.properties[AzureApiManagementKeys.ApiKey]);
+                            pvtTenant.Properties[AzureApiManagementKeys.Host],
+                            pvtTenant.Properties[AzureApiManagementKeys.ApiId],
+                            pvtTenant.Properties[AzureApiManagementKeys.ApiKey]);
                     }
                 }
 
@@ -176,7 +176,7 @@ namespace IdentityServer4.MicroService.Controllers
                 var tenantIds = tenantDb.Tenants.Select(x => x.Id).ToList();
 
                 var result = await AccountService.CreateUser(
-                    pvtTenant.id,
+                    pvtTenant.Id,
                     _userManager,
                     _userContext,
                     user,
@@ -637,9 +637,9 @@ namespace IdentityServer4.MicroService.Controllers
             {
                 try
                 {
-                    if (pvtTenant.properties.ContainsKey(AzureApiManagementKeys.PortalUris))
+                    if (pvtTenant.Properties.ContainsKey(AzureApiManagementKeys.PortalUris))
                     {
-                        var portalUris = pvtTenant.properties[AzureApiManagementKeys.PortalUris]
+                        var portalUris = pvtTenant.Properties[AzureApiManagementKeys.PortalUris]
                              .Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 
                         if (portalUris.Length > 0)
