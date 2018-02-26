@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Authentication.Twitter;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+using IdentityServer4.MicroService.CacheKeys;
 
 namespace IdentityServer4.MicroService
 {
@@ -68,13 +69,14 @@ namespace IdentityServer4.MicroService
             { $"{TwitterDefaults.AuthenticationScheme}:ClientId", "1"},
             { $"{TwitterDefaults.AuthenticationScheme}:ClientSecret", "1"},
 
-            //AzureApiManagement
-            { "Azure:ApiManagement:Host", ""},
-            { "Azure:ApiManagement:ApiId", ""},
-            { "Azure:ApiManagement:ApiKey", ""},
-            { "Azure:ApiManagement:AuthorizationServerId", ""},
-            { "Azure:ApiManagement:ProductId", ""},
-            { "Azure:ApiManagement:PortalUris", ""},
+            //  Azure Api Management
+            { AzureApiManagementKeys.Host, ""},
+            { AzureApiManagementKeys.ApiId, "integration"},
+            { AzureApiManagementKeys.ApiKey, ""},
+            { AzureApiManagementKeys.AuthorizationServerId, ""},
+            { AzureApiManagementKeys.ProductId, ""},
+            { AzureApiManagementKeys.PortalUris, ""},
+            { AzureApiManagementKeys.DelegationKey, ""},
                     };
         }
 

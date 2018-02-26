@@ -68,7 +68,7 @@ namespace IdentityServer4.MicroService.Controllers
             ConfigurationDbContext configDbContext,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory,
+            ILogger<AccountController> logger,
             IdentityDbContext userContext,
             TenantService _tenantService,
             TenantDbContext _tenantDb)
@@ -77,7 +77,7 @@ namespace IdentityServer4.MicroService.Controllers
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
-            _logger = loggerFactory.CreateLogger<AccountController>();
+            _logger = logger;
             _account = new AccountService(interaction, httpContextAccessor, clientStore);
             _userContext = userContext;
             _configDbContext = configDbContext;
@@ -167,53 +167,16 @@ namespace IdentityServer4.MicroService.Controllers
                     ParentUserID = model.ParentUserID
                 };
 
+                var result = await CreateUser(user);
 
-                var roleIds = _userContext.Roles.Where(x => x.Name.Equals(Roles.Users) || x.Name.Equals(Roles.Developer))
-                    .Select(x => x.Id).ToList();
-
-                var permissions = typeof(UserPermissions).GetFields().Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues[0]).ToList();
-
-                var tenantIds = tenantDb.Tenants.Select(x => x.Id).ToList();
-
-                var result = await AccountService.CreateUser(
-                    pvtTenant.Id,
-                    _userManager,
-                    _userContext,
-                    user,
-                    roleIds,
-                    string.Join(",", permissions),
-                    tenantIds);
-
-                if (result.Succeeded)
+                if (result)
                 {
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
-                    // Send an email with this link
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
-                    var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account",
-                        new { userId = user.Id,  code },
-                        protocol: HttpContext.Request.Scheme);
-
-                    var xsmtpapi = JsonConvert.SerializeObject(new
-                    {
-                        to = new string[] { model.Email },
-                        sub = new Dictionary<string, string[]>()
-                        {
-                            { "%name%", new string[] { model.Email } },
-                            { "%url%", new string[] { callbackUrl } },
-                        }
-                    });
-
-                    await _emailSender.SendEmailAsync("%name%请激活您的邮箱", "test_template_active", xsmtpapi);
-
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
                     _logger.LogInformation(3, "User created a new account with password.");
 
-                    return RedirectToLocal(returnUrl,model.Email,model.Password);
+                    return RedirectToLocal(returnUrl, model.Email, model.Password);
                 }
-
-                AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
@@ -297,26 +260,35 @@ namespace IdentityServer4.MicroService.Controllers
             {
                 // Get the information about the user from the external login provider
                 var info = await _signInManager.GetExternalLoginInfoAsync();
+
                 if (info == null)
                 {
                     return View("ExternalLoginFailure");
                 }
+
                 var user = new AppUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user);
-                if (result.Succeeded)
+
+                var result = await CreateUser(user);
+
+                if (result)
                 {
-                    result = await _userManager.AddLoginAsync(user, info);
-                    if (result.Succeeded)
+                    var AddLoginResult = await _userManager.AddLoginAsync(user, info);
+
+                    if (AddLoginResult.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
+
                         _logger.LogInformation(6, "User created an account using {Name} provider.", info.LoginProvider);
+
                         return RedirectToLocal(returnUrl, null, null);
                     }
+
+                    AddErrors(AddLoginResult);
                 }
-                AddErrors(result);
             }
 
             ViewData["ReturnUrl"] = returnUrl;
+
             return View(model);
         }
 
@@ -620,6 +592,55 @@ namespace IdentityServer4.MicroService.Controllers
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
+        }
+
+        private async Task<bool> CreateUser(AppUser user)
+        {
+            var roleIds = _userContext.Roles.Where(x => x.Name.Equals(Roles.Users) || x.Name.Equals(Roles.Developer))
+                  .Select(x => x.Id).ToList();
+
+            var permissions = typeof(UserPermissions).GetFields()
+                .Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues[0]).ToList();
+
+            var tenantIds = tenantDb.Tenants.Select(x => x.Id).ToList();
+
+            var result = await AccountService.CreateUser(
+                pvtTenant.Id,
+                _userManager,
+                _userContext,
+                user,
+                roleIds,
+                string.Join(",", permissions),
+                tenantIds);
+
+            if (result.Succeeded)
+            {
+                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
+                // Send an email with this link
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account",
+                    new { userId = user.Id, code },
+                    protocol: HttpContext.Request.Scheme);
+
+                var xsmtpapi = JsonConvert.SerializeObject(new
+                {
+                    to = new string[] { user.Email },
+                    sub = new Dictionary<string, string[]>()
+                        {
+                            { "%name%", new string[] { user.Email } },
+                            { "%url%", new string[] { callbackUrl } },
+                        }
+                });
+
+                await _emailSender.SendEmailAsync("%name%请激活您的邮箱", "test_template_active", xsmtpapi);
+
+                return true;
+            }
+
+            AddErrors(result);
+
+            return false;
         }
 
         private IActionResult RedirectToLocal(string returnUrl,string email,string password)
