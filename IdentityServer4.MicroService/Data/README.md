@@ -22,9 +22,7 @@ dotnet ef migrations add {yyyyMMdd}UpdateTenantDbMigration -c MutitenancyDbConte
 ```
 
 ##### 生成数据库视图
-将视图的脚本放到Data/Views文件夹里，程序会自动创建，视图名称必须和文件名称一致
-- View_User
-
+将视图的脚本创建同名的Class，附加到InitialIdentityDbMigration类里
 
 #### 其他
 ```

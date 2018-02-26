@@ -1,4 +1,10 @@
-﻿CREATE VIEW View_User
+﻿namespace IdentityServer4.MicroService.Data
+{
+    public class View_User
+    {
+        public const string ViewName = "View_User";
+
+        public const string ViewSQL = @"CREATE VIEW View_User
 AS
 SELECT
  D.TenantId,
@@ -44,4 +50,6 @@ WHERE Q1.UserId = A.Id FOR JSON AUTO) as Files,
  FROM AspNetUsers AS A
  INNER JOIN AspNetUserDistribution AS B ON A.ID = B.UserID
  INNER JOIN AspNetUsers AS C ON A.ParentUserID = C.ID
- INNER JOIN AspNetUserTenants AS D ON A.Id = D.UserId
+ INNER JOIN AspNetUserTenants AS D ON A.Id = D.UserId";
+    }
+}

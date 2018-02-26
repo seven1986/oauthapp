@@ -355,12 +355,8 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 table: "AspNetUserTenants",
                 column: "UserId");
 
-            var views = AppViews();
 
-            foreach (var script in views)
-            {
-                migrationBuilder.Sql(script);
-            }
+            migrationBuilder.Sql(View_User.ViewSQL);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -402,14 +398,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 name: "AspNetUsers");
 
             // custom
-            migrationBuilder.DropTable("View_User");
-        }
-
-        string[] AppViews()
-        {
-            return new string[] {
-                Views.Views.View_User
-            };
+            migrationBuilder.DropTable(View_User.ViewName);
         }
     }
 }

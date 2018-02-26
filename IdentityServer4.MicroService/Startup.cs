@@ -27,6 +27,10 @@ using Microsoft.AspNetCore.Authentication.QQ;
 using Microsoft.AspNetCore.Authentication.Weixin;
 using Microsoft.AspNetCore.Authentication.Weibo;
 using Microsoft.AspNetCore.Authentication.GitHub;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication.Twitter;
+using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
@@ -35,6 +39,7 @@ using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Tenant;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+
 
 namespace IdentityServer4.MicroService
 {
@@ -191,45 +196,45 @@ namespace IdentityServer4.MicroService
                 });
             #endregion
 
-            //#region Facebook (/signin-facebook)
-            //authBuilder.AddFacebook(x =>
-            //    {
-            //        var ClientId = $"{FacebookDefaults.AuthenticationScheme}:ClientId";
-            //        var ClientSecret = $"{FacebookDefaults.AuthenticationScheme}:ClientSecret";
-            //        x.AppId = AppDefaultData.Tenant.TenantProperties[ClientId];
-            //        x.AppSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            //    });
-            //#endregion
+            #region Facebook (/signin-facebook)
+            authBuilder.AddFacebook2(x =>
+                {
+                    var ClientId = $"{FacebookDefaults.AuthenticationScheme}:ClientId";
+                    var ClientSecret = $"{FacebookDefaults.AuthenticationScheme}:ClientSecret";
+                    x.AppId = AppDefaultData.Tenant.TenantProperties[ClientId];
+                    x.AppSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
+                });
+            #endregion
 
-            //#region Twitter (/signin-twitter)
-            //authBuilder.AddTwitter(x =>
-            //    {
-            //        var ClientId = $"{TwitterDefaults.AuthenticationScheme}:ClientId";
-            //        var ClientSecret = $"{TwitterDefaults.AuthenticationScheme}:ClientSecret";
-            //        x.ConsumerKey = AppDefaultData.Tenant.TenantProperties[ClientId];
-            //        x.ConsumerSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            //    });
-            //#endregion
+            #region Twitter (/signin-twitter)
+            authBuilder.AddTwitter2(x =>
+                {
+                    var ClientId = $"{TwitterDefaults.AuthenticationScheme}:ClientId";
+                    var ClientSecret = $"{TwitterDefaults.AuthenticationScheme}:ClientSecret";
+                    x.ConsumerKey = AppDefaultData.Tenant.TenantProperties[ClientId];
+                    x.ConsumerSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
+                });
+            #endregion
 
-            //#region Google (/signin-google)
-            //authBuilder.AddGoogle(x =>
-            //    {
-            //        var ClientId = $"{GoogleDefaults.AuthenticationScheme}:ClientId";
-            //        var ClientSecret = $"{GoogleDefaults.AuthenticationScheme}:ClientSecret";
-            //        x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-            //        x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            //    });
-            //#endregion
+            #region Google (/signin-google)
+            authBuilder.AddGoogle2(x =>
+                {
+                    var ClientId = $"{GoogleDefaults.AuthenticationScheme}:ClientId";
+                    var ClientSecret = $"{GoogleDefaults.AuthenticationScheme}:ClientSecret";
+                    x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
+                    x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
+                });
+            #endregion
 
-            //#region MicrosoftAccount (/signin-microsoft)
-            //authBuilder.AddMicrosoftAccount(x =>
-            //    {
-            //        var ClientId = $"{MicrosoftAccountDefaults.AuthenticationScheme}:ClientId";
-            //        var ClientSecret = $"{MicrosoftAccountDefaults.AuthenticationScheme}:ClientSecret";
-            //        x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-            //        x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            //    }); 
-            //#endregion
+            #region MicrosoftAccount (/signin-microsoft)
+            authBuilder.AddMicrosoftAccount2(x =>
+               {
+                   var ClientId = $"{MicrosoftAccountDefaults.AuthenticationScheme}:ClientId";
+                   var ClientSecret = $"{MicrosoftAccountDefaults.AuthenticationScheme}:ClientSecret";
+                   x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
+                   x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
+               }); 
+            #endregion
             #endregion
 
             //for now, no need
@@ -574,8 +579,9 @@ namespace IdentityServer4.MicroService
                         $"/swagger/{description.GroupName}/swagger.json",
                         description.GroupName.ToUpperInvariant());
 
-                    //c.OAuthConfigObject(AppDefaultData.TestClient.ClientId, AppDefaultData.TestClient.ClientSecret,
-                    //    string.Empty, AppDefaultData.TestClient.ClientName);
+                    c.OAuthClientId(AppDefaultData.TestClient.ClientId);
+                    c.OAuthClientSecret(AppDefaultData.TestClient.ClientSecret);
+                    c.OAuthAppName(AppDefaultData.TestClient.ClientName);
                 }
 
                 c.DocExpansion(DocExpansion.None);

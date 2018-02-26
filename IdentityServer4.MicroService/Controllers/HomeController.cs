@@ -9,6 +9,7 @@ using System.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using IdentityServer4.MicroService.Tenant;
+using IdentityServer4.MicroService.CacheKeys;
 
 namespace IdentityServer4.MicroService.Controllers
 {
@@ -65,12 +66,12 @@ namespace IdentityServer4.MicroService.Controllers
 
                 HttpContext.SignOutAsync().Wait();
 
-                return Redirect("https://portal.ixingban.com");
+                return Redirect(pvtTenant.PortalSite);
             }
             #endregion
 
             #region SignIn
-            string key = "829PBWllXiTWGCExixRQKsSaTaimeY0ebpOl1r0Odqb6nquN7BR8phbC47nng8go2Ugr1i9Peh5/Am2V4TnctA==";
+            string key = pvtTenant.Properties[AzureApiManagementKeys.DelegationKey];
 
             string signature;
 
@@ -112,7 +113,7 @@ namespace IdentityServer4.MicroService.Controllers
 
             if (operation.Equals("SignIn"))
             {
-                returnUrl = HttpUtility.UrlEncode("https://portal.ixingban.com") + returnUrl;
+                returnUrl = HttpUtility.UrlEncode(pvtTenant.PortalSite) + returnUrl;
 
                 return Redirect("/Account/Login?returnurl=" + returnUrl);
             } 

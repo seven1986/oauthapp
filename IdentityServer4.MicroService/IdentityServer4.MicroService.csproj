@@ -45,17 +45,6 @@
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Data\Views\Views.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Views.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Data\Views\Views.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Views.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Apis\ApiResourceController.en.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>

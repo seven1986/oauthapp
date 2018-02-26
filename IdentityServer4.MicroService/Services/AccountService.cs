@@ -117,7 +117,18 @@ namespace IdentityServer4.MicroService.Services
                 user.ParentUserID = AppConstant.seedUserId;
             }
 
-            var result = await userManager.CreateAsync(user, user.PasswordHash);
+            IdentityResult result = null;
+
+            // 如果没有设置密码
+            if (string.IsNullOrWhiteSpace(user.PasswordHash))
+            {
+                result = await userManager.CreateAsync(user);
+            }
+
+            else
+            {
+                result = await userManager.CreateAsync(user, user.PasswordHash);
+            }
 
             if (result.Succeeded)
             {
