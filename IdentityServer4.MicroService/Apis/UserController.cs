@@ -23,7 +23,6 @@ using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.UserController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
-using Microsoft.Extensions.Caching.Distributed;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -476,7 +475,7 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 用户注册
         /// <summary>
-        /// 用户注册，需验证手机号和邮箱
+        /// 用户注册 (需验证手机号，邮箱如果填写了也需要验证)
         /// </summary>
         /// <returns></returns>
         [HttpPost("Register")]
