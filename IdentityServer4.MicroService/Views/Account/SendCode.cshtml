@@ -2,20 +2,27 @@
 @{
     ViewData["Title"] = "Send Verification Code";
 }
+<div class="ui centered grid">
+    <div class="six wide column">
+        <h2>@ViewData["Title"].</h2>
+        <form asp-controller="Account" asp-action="SendCode" asp-route-returnurl="@Model.ReturnUrl" method="post" class="ui form">
+            <input asp-for="RememberMe" type="hidden" />
+            <div class="field">
+                <label>Select Two-Factor Authentication Provider:</label>
+                <div class="col-md-6">
+                    <select asp-for="SelectedProvider" asp-items="Model.Providers"></select>
+                </div>
+            </div>
 
-<h2>@ViewData["Title"].</h2>
+            <div class="field">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="positive ui button">Submit</button>
+                </div>
+            </div>
+        </form>
 
-<form asp-controller="Account" asp-action="SendCode" asp-route-returnurl="@Model.ReturnUrl" method="post" class="form-horizontal">
-    <input asp-for="RememberMe" type="hidden" />
-    <div class="row">
-        <div class="col-md-8">
-            Select Two-Factor Authentication Provider:
-            <select asp-for="SelectedProvider" asp-items="Model.Providers"></select>
-            <button type="submit" class="btn btn-default">Submit</button>
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+        }
         </div>
-    </div>
-</form>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-}
+</div>

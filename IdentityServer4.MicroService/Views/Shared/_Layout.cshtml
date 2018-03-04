@@ -1,12 +1,17 @@
 ﻿@{
-    TenantPrivateModel tenant = ViewBag.pvtTenant;
-    if(tenant==null)
+    TenantPrivateModel tenant = null;
+
+    if(ViewBag.pvtTenant == null)
     {
-        tenant = new TenantPrivateModel()
+        tenant =  ViewBag.pvtTenant = new TenantPrivateModel()
         {
             Id = 1,
             Name = ""
         };
+    }
+    else
+    {
+        tenant = ViewBag.pvtTenant;
     }
 }
 @inject IViewLocalizer Localizer
@@ -29,25 +34,17 @@
 <body>
     <div class="ui fixed inverted menu">
         <div class="ui container">
-            <a href="@tenant.WebSite" class="header item">
-                @Html.Raw(tenant.Name)
-            </a>
-            <a asp-area="" class="active item" asp-controller="Home" asp-action="Index">@Localizer["首页"]</a>
-            <div class="right menu">
-                @await Html.PartialAsync("_LoginPartial")
-                <div class="ui dropdown item">
-                    @Localizer["更多"] <i class="dropdown icon"></i> <div class="menu">
-    <a href="@tenant.PortalSite" target="_blank" class="item">@Localizer["开放平台"]</a>
-    <a href="@tenant.AdminSite" target="_blank" class="item">@Localizer["运营中心"]</a>
-    <a href="@tenant.EnterpriseEmail" target="_blank" class="item">@Localizer["企业邮箱"]</a>
-</div>
+            <div class="ui large secondary inverted pointing menu" style="width:100%;">
+                <a class="active item" asp-controller="Home" asp-action="Index"> @Html.Raw(tenant.Name)</a>
+                <div class="right menu">
+                    @await Html.PartialAsync("_LoginPartial")
                 </div>
             </div>
-            
         </div>
     </div>
-    <br />
-        @RenderBody()
+
+    @RenderBody()
+
     <environment names="Development">
         <script src="/dist/vendor.min.js"></script>
         <script src="/dist/app.js"></script>

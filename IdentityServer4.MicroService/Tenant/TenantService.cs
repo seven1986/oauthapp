@@ -33,8 +33,9 @@ namespace IdentityServer4.MicroService.Tenant
             #endregion
 
             // 详情和Issuer
-            if (string.IsNullOrWhiteSpace(tenant_public) ||
-                string.IsNullOrWhiteSpace(tenant_private))
+            if (1==1||
+                (string.IsNullOrWhiteSpace(tenant_public) ||
+                string.IsNullOrWhiteSpace(tenant_private)))
             {
                 var tenantId = _db.TenantHosts.Where(x => x.HostName.Equals(host))
                     .Select(x => x.AppTenantId)

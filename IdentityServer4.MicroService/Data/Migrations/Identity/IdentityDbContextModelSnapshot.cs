@@ -12,7 +12,7 @@ using System;
 namespace IdentityServer4.MicroService.Data.Migrations.Identity
 {
     [DbContext(typeof(IdentityDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    partial class IdentityDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -130,6 +130,8 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("TypeIDs");
+
+                    b.Property<Guid>("UserKey");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);

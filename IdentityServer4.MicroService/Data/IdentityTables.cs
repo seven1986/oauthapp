@@ -7,6 +7,9 @@ namespace IdentityServer4.MicroService
 {
     public class AppUser : IdentityUser<long>
     {
+        // 也是唯一的
+        public Guid UserKey { get; set; } = Guid.NewGuid();
+
         public long ParentUserID { get; set; }
 
         //当使用efcore重新生成脚本时，取消下面的注释

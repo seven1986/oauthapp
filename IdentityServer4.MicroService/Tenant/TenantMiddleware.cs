@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using IdentityServer4.MicroService.Models.Shared;
+using Microsoft.AspNetCore.Authentication;
+using System.Linq;
 
 namespace IdentityServer4.MicroService.Tenant
 {
@@ -20,14 +22,16 @@ namespace IdentityServer4.MicroService.Tenant
     {
         readonly RequestDelegate _next;
         readonly TenantService _tenantService;
-
+        readonly IAuthenticationSchemeProvider _oauthProvider;
         public TenantMiddleware(
             RequestDelegate next,
-            TenantService tenantService
+            TenantService tenantService,
+            IAuthenticationSchemeProvider oauthProvider
             )
         {
             _next = next;
             _tenantService = tenantService;
+            _oauthProvider = oauthProvider;
         }
 
         public Task Invoke(
@@ -55,49 +59,40 @@ namespace IdentityServer4.MicroService.Tenant
                 #region ResetOAuthOptions
                 if (pvtModel.Properties.Count > 0)
                 {
-                    ResetOAuthOptions(WeixinDefaults.AuthenticationScheme, 
-                        pvtModel.Properties);
+                    // 获取当前所有OAuth Scheme
+                    var AllSchemes = _oauthProvider.GetAllSchemesAsync().Result.Select(x => x.Name).ToList();
 
-                    ResetOAuthOptions(WeiboDefaults.AuthenticationScheme, 
-                        pvtModel.Properties);
+                    foreach (var v in AppDefaultData.Tenant.OAuthHandlers)
+                    {
+                        var ClientIdKey = $"{v.Key}:ClientId";
+                        var ClientIdValue = pvtModel.Properties[ClientIdKey];
 
-                    ResetOAuthOptions(GitHubDefaults.AuthenticationScheme, 
-                        pvtModel.Properties);
+                        var ClientSecretKey = $"{v.Key}:ClientSecret";
+                        var ClientSecretValue = pvtModel.Properties[ClientSecretKey];
 
-                    ResetOAuthOptions(QQDefaults.AuthenticationScheme, 
-                        pvtModel.Properties);
+                        if (string.IsNullOrWhiteSpace(ClientIdValue) ||
+                            string.IsNullOrWhiteSpace(ClientSecretValue))
+                        {
+                            _oauthProvider.RemoveScheme(v.Key);
+                            continue;
+                        }
 
-                    ResetOAuthOptions(FacebookDefaults.AuthenticationScheme, 
-                        pvtModel.Properties);
+                        AppDefaultData.Tenant.TenantProperties[ClientIdKey] = ClientIdValue;
+                        AppDefaultData.Tenant.TenantProperties[ClientSecretKey] = ClientSecretValue;
 
-                    ResetOAuthOptions(MicrosoftAccountDefaults.AuthenticationScheme, 
-                        pvtModel.Properties);
+                        if (!AllSchemes.Contains(v.Key))
+                        {
+                            var authScheme = new AuthenticationScheme(v.Key,
+                               v.Key, AppDefaultData.Tenant.OAuthHandlers[v.Key]);
 
-                    ResetOAuthOptions(GoogleDefaults.AuthenticationScheme, 
-                        pvtModel.Properties);
-
-                    ResetOAuthOptions(TwitterDefaults.AuthenticationScheme, 
-                        pvtModel.Properties);
+                            _oauthProvider.AddScheme(authScheme);
+                        }
+                    }
                 }
                 #endregion
             }
 
             return _next(context);
-        }
-
-        void ResetOAuthOptions(
-            string scheme,
-            Dictionary<string, string> claims)
-        {
-            var ClientIdKey = $"{scheme}:ClientId";
-            var ClientSecretKey = $"{scheme}:ClientSecret";
-
-            if (claims.ContainsKey(ClientIdKey) &&
-                claims.ContainsKey(ClientSecretKey))
-            {
-                AppDefaultData.Tenant.TenantProperties[ClientIdKey] = claims[ClientIdKey];
-                AppDefaultData.Tenant.TenantProperties[ClientSecretKey] = claims[ClientSecretKey];
-            }
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.IO;
-using System.Resources;
-using System.Text;
+using System.Collections.Generic;
 
 namespace IdentityServer4.MicroService.Data.Migrations.Identity
 {
@@ -61,6 +59,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     Stature = table.Column<decimal>(nullable: false),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     TypeIDs = table.Column<string>(nullable: true),
+                    UserKey = table.Column<Guid>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     Weight = table.Column<decimal>(nullable: false)
                 },
@@ -354,9 +353,6 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 name: "IX_AspNetUserTenants_UserId",
                 table: "AspNetUserTenants",
                 column: "UserId");
-
-
-            migrationBuilder.Sql(View_User.ViewSQL);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -396,9 +392,6 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            // custom
-            migrationBuilder.DropTable(View_User.ViewName);
         }
     }
 }

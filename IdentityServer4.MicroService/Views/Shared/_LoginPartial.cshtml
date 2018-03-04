@@ -2,11 +2,14 @@
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
 @inject IViewLocalizer Localizer
+@{ 
+    TenantPrivateModel tenant = ViewBag.pvtTenant;
+}
 <form id="logout2_form" name="" asp-area="" asp-controller="Account" asp-action="Logout2" method="post" style="display:flex">
     @if (SignInManager.IsSignedIn(User))
     {
         <a asp-area="" asp-controller="Manage" asp-action="Index" class="item" title="Manage">@UserManager.GetUserName(User)</a>
-        <a class="item" title="Manage" onclick="logout2_form.submit()">Log out</a>
+        <a class="item" title="Manage" onclick="logout2_form.submit()">@Localizer["退出"]</a>
     }
     else
     {
@@ -14,4 +17,11 @@
         <a asp-area="" asp-controller="Account" class="item" asp-action="Login">@Localizer["登录"]</a>
     }
 </form>
+<div class="ui dropdown item">
+    @Localizer["更多"] <i class="dropdown icon"></i> <div class="menu">
+        <a href="@tenant.PortalSite" target="_blank" class="item">@Localizer["开放平台"]</a>
+        <a href="@tenant.AdminSite" target="_blank" class="item">@Localizer["运营中心"]</a>
+        <a href="@tenant.EnterpriseEmail" target="_blank" class="item">@Localizer["企业邮箱"]</a>
+    </div>
+</div>
 @await Html.PartialAsync("_SelectLanguagePartial")

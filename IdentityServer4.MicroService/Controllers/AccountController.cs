@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -9,18 +10,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 using IdentityServer4.Stores;
 using IdentityServer4.Services;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Services;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using IdentityServer4.MicroService.Tenant;
-using static IdentityServer4.MicroService.MicroserviceConfig;
 using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.EntityFramework.DbContexts;
-using System.Reflection;
 using IdentityServer4.MicroService.Models.Views.Account;
+using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace IdentityServer4.MicroService.Controllers
 {
@@ -468,12 +468,12 @@ namespace IdentityServer4.MicroService.Controllers
 
             else if (model.SelectedProvider == "Phone")
             {
-                await _smsSender.SendSmsAsync(JsonConvert.SerializeObject(new { code=code}),
+                await _smsSender.SendSmsAsync(JsonConvert.SerializeObject(new { code}),
                     await _userManager.GetPhoneNumberAsync(user), 
                     "9812");
             }
 
-            return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+            return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider,  model.ReturnUrl,  model.RememberMe });
         }
 
         //

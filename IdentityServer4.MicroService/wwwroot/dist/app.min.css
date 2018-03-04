@@ -365,3 +365,7 @@
 body {
     padding-top:55px;
 }
+
+.loginProviders .ui.circular.button {
+    margin: 5px;
+}

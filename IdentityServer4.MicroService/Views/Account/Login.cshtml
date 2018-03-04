@@ -5,16 +5,16 @@
     <div class="six wide column">
         <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="ui form">
             <h4>@Localizer["登录"]</h4>
-            <div asp-validation-summary="All" class="ui message"></div>
+            <div asp-validation-summary="All"></div>
             <div class="field">
-                <label asp-for="Email"></label>
+                <h4>@Localizer["邮箱"]</h4>
                 <div class="col-md-10">
                     <input asp-for="Email" class="form-control" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
             </div>
             <div class="field">
-                <label asp-for="Password"></label>
+                <label>@Localizer["密码"]</label>
                 <div class="col-md-10">
                     <input asp-for="Password" class="form-control" />
                     <span asp-validation-for="Password" class="text-danger"></span>
@@ -23,30 +23,23 @@
             <div class="field">
                 <div class="ui checkbox">
                     <input asp-for="RememberMe" />
-                    <label asp-for="RememberMe"></label>
+                    <label>@Localizer["保存登录信息"]</label>
                 </div>
+                <a asp-action="ForgotPassword" style="float:right">@Localizer["忘记密码"]?</a>
             </div>
             <div class="field">
                 <div class="col-md-offset-2 col-md-10">
                     <button type="submit" class="positive ui button">@Localizer["登录"]</button>
                 </div>
             </div>
-            <p>
-                <div class="mini ui buttons">
-                    <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="ui button">@Localizer["新用户注册"]</a>
-                    <div class="or" data-text="or"></div>
-                    <a asp-action="ForgotPassword" class="ui button">@Localizer["忘记密码"]</a>
-                </div>
-            </p>
         </form>
 
         @{
         var loginProviders = SignInManager.GetExternalAuthenticationSchemesAsync().Result.ToList();
         if (loginProviders.Count > 0)
         {
-            <h4>@Localizer["其他方式登录"]</h4>
-            <hr />
-            <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+            <p>@Localizer["其他方式登录"]</p>
+            <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="loginProviders">
 
                 @foreach (var provider in loginProviders)
             {
@@ -57,14 +50,9 @@
                     classMapping = "windows";
                     iconMapping = classMapping;
                 }
-                else if (classMapping.Equals("google"))
-                {
-                    classMapping += " plus";
-                    iconMapping = "google";
-                }
-
-                <button type="submit" class="mini ui circular @classMapping icon button" name="provider" value="@provider.DisplayName">
-                    <i class="@iconMapping icon"></i>
+               
+                <button type="submit" class="ui circular @classMapping icon button basic" name="provider" value="@provider.DisplayName">
+                    <i class="@iconMapping icon"></i> @provider.DisplayName
                 </button>
         }
             </form>

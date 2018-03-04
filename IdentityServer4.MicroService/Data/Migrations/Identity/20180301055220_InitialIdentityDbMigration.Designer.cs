@@ -12,7 +12,7 @@ using System;
 namespace IdentityServer4.MicroService.Data.Migrations.Identity
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20180222102626_InitialIdentityDbMigration")]
+    [Migration("20180301055220_InitialIdentityDbMigration")]
     partial class InitialIdentityDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,6 +131,8 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("TypeIDs");
+
+                    b.Property<Guid>("UserKey");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
