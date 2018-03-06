@@ -30,7 +30,8 @@ gulp.task("vendor", function () {
 
     var vendor_js = gulp.src([
         "./node_modules/jquery/dist/jquery.min.js",
-        "./node_modules/semantic-ui-css/semantic.min.js",
+        "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+        "./node_modules/swiper/dist/js/swiper.min.js",
         "./node_modules/jquery-validation/dist/jquery.validate.min.js",
         "./node_modules/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
         "./node_modules/angular/angular.min.js"])
@@ -38,16 +39,13 @@ gulp.task("vendor", function () {
         .pipe(gulp.dest("./wwwroot/dist"));
 
     var vendor_css = gulp.src([
-        './node_modules/semantic-ui-css/semantic.min.css'
+        './node_modules/bootstrap/dist/css/bootstrap.min.css',
+        "./node_modules/swiper/dist/css/swiper.min.css",
     ])
         .pipe(concat('vendor.min.css'))
         .pipe(gulp.dest("./wwwroot/dist"));
 
-
-    var vendor_files = gulp.src(['./node_modules/semantic-ui-css/themes/**/*'])
-        .pipe(gulp.dest("./wwwroot/dist/themes"));
-
-    return merge(vendor_js, vendor_css, vendor_files);
+    return merge(vendor_js, vendor_css);
 });
 
 gulp.task("js", function () {

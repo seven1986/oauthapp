@@ -81,8 +81,6 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
 
                     b.Property<DateTime>("CreateDate");
 
-                    b.Property<long>("DataAmount");
-
                     b.Property<string>("Description");
 
                     b.Property<string>("Email")

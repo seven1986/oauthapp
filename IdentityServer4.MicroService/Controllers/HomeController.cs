@@ -66,7 +66,7 @@ namespace IdentityServer4.MicroService.Controllers
 
                 HttpContext.SignOutAsync().Wait();
 
-                return Redirect(pvtTenant.PortalSite);
+                return Redirect(pvtTenant.Properties[TenantDefaultProperty.PortalSite]);
             }
             #endregion
 
@@ -113,7 +113,7 @@ namespace IdentityServer4.MicroService.Controllers
 
             if (operation.Equals("SignIn"))
             {
-                returnUrl = HttpUtility.UrlEncode(pvtTenant.PortalSite) + returnUrl;
+                returnUrl = HttpUtility.UrlEncode(pvtTenant.Properties[TenantDefaultProperty.PortalSite]) + returnUrl;
 
                 return Redirect("/Account/Login?returnurl=" + returnUrl);
             } 

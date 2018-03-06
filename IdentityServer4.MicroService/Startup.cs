@@ -510,6 +510,7 @@ namespace IdentityServer4.MicroService
                     c.OAuthClientId(AppDefaultData.TestClient.ClientId);
                     c.OAuthClientSecret(AppDefaultData.TestClient.ClientSecret);
                     c.OAuthAppName(AppDefaultData.TestClient.ClientName);
+                    c.OAuth2RedirectUrl(AppDefaultData.TestClient.RedirectUris[0]);
                 }
 
                 c.DocExpansion(DocExpansion.None);

@@ -120,11 +120,6 @@ namespace IdentityServer4.MicroService
         public string Remark { get; set; }
 
         /// <summary>
-        /// 流量余额
-        /// </summary>
-        public long DataAmount { get; set; }
-
-        /// <summary>
         /// 创建时间
         /// </summary>
         public DateTime CreateDate { get; set; }
@@ -326,7 +321,6 @@ namespace IdentityServer4.MicroService
         public string Lineage { get; set; }
         public long ParentUserID { get; set; }
         public string ParentUserName { get; set; }
-        public long DataAmount { get; set; }
         public string TypeIDs { get; set; }
         public string PasswordHash { get; set; }
         public bool IsDeleted { get; set; }

@@ -36,7 +36,6 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     Birthday = table.Column<DateTime>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: false),
-                    DataAmount = table.Column<long>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
@@ -353,6 +352,8 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 name: "IX_AspNetUserTenants_UserId",
                 table: "AspNetUserTenants",
                 column: "UserId");
+
+            migrationBuilder.Sql(View_IdentityUser.SQL);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -392,6 +393,9 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+               name: View_IdentityUser.Name);
         }
     }
 }

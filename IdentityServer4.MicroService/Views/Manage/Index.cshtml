@@ -2,15 +2,11 @@
 @{
     ViewData["Title"] = "Manage your account";
 }
-
-<div class="ui grid container">
+<div class="container">
     <div class="row">
-        <div class="column">
+        <div class="col">
             <h2>@ViewData["Title"].</h2>
-
             <p class="text-success">@ViewData["StatusMessage"]</p>
-
-            <div>
     
                 <h4 class="ui horizontal divider header"><i class="tag icon"></i> Change your account settings </h4>
                 <div class="ui form">
@@ -31,8 +27,7 @@
                         <label>Phone Number:</label>
                         <p>
                             Phone Numbers can be used as a second factor of verification in two-factor authentication.
-                            See <a href="https://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
-                            for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+                            @*See <a href="https://go.microsoft.com/fwlink/?LinkID=532713">this article</a>for details on setting up this ASP.NET application to support two-factor authentication using SMS.*@
                         </p>
                         @(Model.PhoneNumber ?? "None")
                 @if (Model.PhoneNumber != null)
@@ -51,24 +46,24 @@
                     <div class="field">
                         <label>Two-Factor Authentication:</label>
                         <p>
-                            There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
-                            for setting up this application to support two-factor authentication.
+                            There are no two-factor authentication providers configured. 
+                            @*See <a href="https://go.microsoft.com/fwlink/?LinkID=532713">this article</a>for setting up this application to support two-factor authentication.*@
                         </p>
-                        @*@if (Model.TwoFactor)
+                        @if (Model.TwoFactor)
         {
             <form asp-controller="Manage" asp-action="DisableTwoFactorAuthentication" method="post" class="form-horizontal">
-                Enabled <button type="submit" class="btn-link btn-bracketed">Disable</button>
+                启用 <button type="submit" class="btn btn-link">禁用</button>
             </form>
         }
         else
         {
             <form asp-controller="Manage" asp-action="EnableTwoFactorAuthentication" method="post" class="form-horizontal">
-                <button type="submit" class="btn-link btn-bracketed">Enable</button> Disabled
+                <button type="submit" class="btn btn-link">启用</button> 禁用
             </form>
-        }*@
+        }
                     </div>
                 </div>
-                </div>
+  
         </div>
     </div>
 </div>

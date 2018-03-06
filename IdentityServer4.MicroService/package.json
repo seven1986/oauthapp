@@ -11,8 +11,9 @@
     "jquery": "3.3.1",
     "jquery-validation": "1.17.0",
     "jquery-validation-unobtrusive": "^3.2.6",
-    "angular": "1.6.8",
-    "semantic-ui-css": "2.2.14"
+    "angular": "1.6.9",
+    "bootstrap": "4.0.0",
+    "swiper": "4.1.6"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

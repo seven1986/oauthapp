@@ -1,17 +1,13 @@
 ﻿var app = angular.module('app', []);
-$(document)
-    .ready(function () {
-        $('.ui.menu .ui.dropdown').dropdown({
-            on: 'hover'
-        });
-        $('.ui.menu a.item')
-            .on('click', function () {
-                $(this)
-                    .addClass('active')
-                    .siblings()
-                    .removeClass('active')
-                    ;
-            })
-            ;
+$(function () {
+    var ydSwiper = new Swiper('#youdaoBanner', {
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        spaceBetween: 40,
+        initialSlide: 3,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
     })
-    ;
+});

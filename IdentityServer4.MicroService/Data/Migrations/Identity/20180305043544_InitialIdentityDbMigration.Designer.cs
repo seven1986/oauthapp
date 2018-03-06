@@ -12,7 +12,7 @@ using System;
 namespace IdentityServer4.MicroService.Data.Migrations.Identity
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20180301055220_InitialIdentityDbMigration")]
+    [Migration("20180305043544_InitialIdentityDbMigration")]
     partial class InitialIdentityDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,8 +81,6 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                         .IsConcurrencyToken();
 
                     b.Property<DateTime>("CreateDate");
-
-                    b.Property<long>("DataAmount");
 
                     b.Property<string>("Description");
 

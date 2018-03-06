@@ -24,6 +24,57 @@ namespace IdentityServer4.MicroService.Tenant
     }
 
     /// <summary>
+    /// 租户默认属性集合
+    /// </summary>
+    public class TenantDefaultProperty
+    {
+        /// <summary>
+        /// 官方网站
+        /// </summary>
+        public const string WebSite = "WebSite";
+
+        /// <summary>
+        /// 开放平台
+        /// </summary>
+        public const string PortalSite = "PortalSite";
+
+        /// <summary>
+        /// 运营中心
+        /// </summary>
+        public const string AdminSite = "AdminSite";
+
+        /// <summary>
+        /// 关键字
+        /// </summary>
+        public const string Keywords = "Keywords";
+
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public const string Summary = "Summary";
+
+        /// <summary>
+        /// 介绍
+        /// </summary>
+        public const string Description = "Description";
+
+        /// <summary>
+        /// 企业邮箱
+        /// </summary>
+        public const string EnterpriseEmail = "EnterpriseEmail";
+
+        /// <summary>
+        /// 站点统计代码
+        /// </summary>
+        public const string Tracking = "Tracking";
+
+        /// <summary>
+        /// 网站图标
+        /// </summary>
+        public const string Favicon = "Favicon";
+    }
+
+    /// <summary>
     /// 租户实体
     /// </summary>
     [Table("AppTenant")]
@@ -74,7 +125,7 @@ namespace IdentityServer4.MicroService.Tenant
         /// <summary>
         /// 租户数据缓存时长，单位秒
         /// </summary>
-        public long CacheDuration { get; set; } = 3600L; 
+        public long CacheDuration { get; set; } = 60L; 
 
         /// <summary>
         /// 所有者用户Id
@@ -85,41 +136,6 @@ namespace IdentityServer4.MicroService.Tenant
         /// 属性集合
         /// </summary>
         public virtual List<AppTenantProperty> Properties { get; } = new List<AppTenantProperty>();
-
-        /// <summary>
-        /// 官方网站
-        /// </summary>
-        public string WebSite { get; set; }
-
-        /// <summary>
-        /// 开放平台
-        /// </summary>
-        public string PortalSite { get; set; }
-
-        /// <summary>
-        /// 运营中心
-        /// </summary>
-        public string AdminSite { get; set; }
-
-        /// <summary>
-        /// 关键字
-        /// </summary>
-        public string Keywords { get; set; }
-
-        /// <summary>
-        /// 描述
-        /// </summary>
-        public string Summary { get; set; }
-
-        /// <summary>
-        /// 介绍
-        /// </summary>
-        public string Description { get; set; }
-
-        /// <summary>
-        /// 企业邮箱
-        /// </summary>
-        public string EnterpriseEmail { get; set; }
     }
 
     [Table("AppTenantHosts")]

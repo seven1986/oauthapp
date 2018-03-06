@@ -90,6 +90,18 @@ namespace IdentityServer4.MicroService
             public static Dictionary<string, string> TenantProperties =
                     new Dictionary<string, string>()
                 {
+                     // Default Tenant Properties
+                     { TenantDefaultProperty.AdminSite, ""},
+                     { TenantDefaultProperty.Description, ""},
+                     { TenantDefaultProperty.EnterpriseEmail, ""},
+                     { TenantDefaultProperty.Keywords, ""},
+                     { TenantDefaultProperty.PortalSite, ""},
+                     { TenantDefaultProperty.Summary, ""},
+                     { TenantDefaultProperty.Tracking, ""},
+                     { TenantDefaultProperty.WebSite, ""},
+                     { TenantDefaultProperty.Favicon, "favicon.ico"},
+                     
+
                     //  Azure Api Management
                     { AzureApiManagementKeys.Host, ""},
                     { AzureApiManagementKeys.ApiId, "integration"},
@@ -113,7 +125,7 @@ namespace IdentityServer4.MicroService
             public const string ClientSecret = "1";
             public static List<string> RedirectUris = new List<string>()
             {
-                "https://{0}/swagger/o2c.html"
+                "https://{0}/swagger/oauth2-redirect.html"
             };
         }
 
@@ -297,7 +309,6 @@ namespace IdentityServer4.MicroService
                         IdentityServerIssuerUri = Tenant.IdentityServerIssuerUri,
                         LastUpdateTime = DateTime.UtcNow,
                         Name = Tenant.Name,
-                        WebSite = Tenant.WebSite,
                         OwnerUserId = AppConstant.seedUserId, //默认设置为1
                         Status = TenantStatus.Enable,
                         Theme = "default"
