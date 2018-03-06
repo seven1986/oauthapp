@@ -1,21 +1,23 @@
 ﻿@model LogoutViewModel
-
-<div class="logout-page">
-    <div class="page-header">
-        <h1>Logout</h1>
-    </div>
-
+@inject IViewLocalizer Localizer
+<style>
+    .form-label-group {
+        position: relative;
+        margin-bottom: 1rem;
+    }
+</style>
+<div class="container" style="margin-top:3em;">
     <div class="row">
-        <div class="col-sm-6">
-            <p>Would you like to logout of IdentityServer?</p>
+        <div class="col-2"></div>
+        <div class="col">
+            <div class="text-center mb-4">
+                <h5 class="h3 mb-3 font-weight-normal">Would you like to logout?</h5>
+            </div>
             <form asp-action="Logout">
-                <input type="hidden" name="logoutId" value="@Model.LogoutId"  />
-                <fieldset>
-                    <div class="form-group">
-                        <button class="btn btn-primary">Yes</button>
-                    </div>
-                </fieldset>
+                <input type="hidden" name="logoutId" value="@Model.LogoutId" />
+                <button class="btn btn-lg btn-success btn-block" type="submit">@Localizer["确定"]</button>
             </form>
         </div>
+        <div class="col-2"></div>
     </div>
-</div>
+</div>        

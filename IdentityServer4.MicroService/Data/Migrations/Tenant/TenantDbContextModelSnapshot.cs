@@ -25,19 +25,11 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AdminSite");
-
                     b.Property<long>("CacheDuration");
 
                     b.Property<DateTime>("CreateDate");
 
-                    b.Property<string>("Description");
-
-                    b.Property<string>("EnterpriseEmail");
-
                     b.Property<string>("IdentityServerIssuerUri");
-
-                    b.Property<string>("Keywords");
 
                     b.Property<DateTime>("LastUpdateTime");
 
@@ -45,15 +37,9 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
 
                     b.Property<long>("OwnerUserId");
 
-                    b.Property<string>("PortalSite");
-
                     b.Property<int>("Status");
 
-                    b.Property<string>("Summary");
-
                     b.Property<string>("Theme");
-
-                    b.Property<string>("WebSite");
 
                     b.HasKey("Id");
 

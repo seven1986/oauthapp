@@ -7,6 +7,9 @@ namespace IdentityServer4.MicroService
 {
     public class AppUser : IdentityUser<long>
     {
+        // 也是唯一的
+        public Guid UserKey { get; set; } = Guid.NewGuid();
+
         public long ParentUserID { get; set; }
 
         //当使用efcore重新生成脚本时，取消下面的注释
@@ -115,11 +118,6 @@ namespace IdentityServer4.MicroService
         /// 备注
         /// </summary>
         public string Remark { get; set; }
-
-        /// <summary>
-        /// 流量余额
-        /// </summary>
-        public long DataAmount { get; set; }
 
         /// <summary>
         /// 创建时间
@@ -323,7 +321,6 @@ namespace IdentityServer4.MicroService
         public string Lineage { get; set; }
         public long ParentUserID { get; set; }
         public string ParentUserName { get; set; }
-        public long DataAmount { get; set; }
         public string TypeIDs { get; set; }
         public string PasswordHash { get; set; }
         public bool IsDeleted { get; set; }

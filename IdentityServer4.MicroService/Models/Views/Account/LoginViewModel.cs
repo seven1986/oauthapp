@@ -12,7 +12,6 @@ namespace IdentityServer4.MicroService.Models.Views.Account
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Display(Name = "保存登录信息")]
         public bool RememberMe { get; set; }
     }
 

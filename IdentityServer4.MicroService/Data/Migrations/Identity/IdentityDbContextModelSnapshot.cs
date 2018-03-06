@@ -12,10 +12,9 @@ using System;
 namespace IdentityServer4.MicroService.Data.Migrations.Identity
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20180222102626_InitialIdentityDbMigration")]
-    partial class InitialIdentityDbMigration
+    partial class IdentityDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,8 +81,6 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
 
                     b.Property<DateTime>("CreateDate");
 
-                    b.Property<long>("DataAmount");
-
                     b.Property<string>("Description");
 
                     b.Property<string>("Email")
@@ -131,6 +128,8 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("TypeIDs");
+
+                    b.Property<Guid>("UserKey");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);

@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.IO;
-using System.Resources;
-using System.Text;
+using System.Collections.Generic;
 
 namespace IdentityServer4.MicroService.Data.Migrations.Identity
 {
@@ -38,7 +36,6 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     Birthday = table.Column<DateTime>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: false),
-                    DataAmount = table.Column<long>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
@@ -61,6 +58,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     Stature = table.Column<decimal>(nullable: false),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     TypeIDs = table.Column<string>(nullable: true),
+                    UserKey = table.Column<Guid>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     Weight = table.Column<decimal>(nullable: false)
                 },
@@ -355,8 +353,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 table: "AspNetUserTenants",
                 column: "UserId");
 
-
-            migrationBuilder.Sql(View_User.ViewSQL);
+            migrationBuilder.Sql(View_IdentityUser.SQL);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -397,8 +394,8 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
-            // custom
-            migrationBuilder.DropTable(View_User.ViewName);
+            migrationBuilder.DropTable(
+               name: View_IdentityUser.Name);
         }
     }
 }

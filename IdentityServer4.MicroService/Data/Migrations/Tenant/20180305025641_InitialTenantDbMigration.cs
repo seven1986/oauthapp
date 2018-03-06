@@ -15,21 +15,14 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AdminSite = table.Column<string>(nullable: true),
                     CacheDuration = table.Column<long>(nullable: false),
                     CreateDate = table.Column<DateTime>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    EnterpriseEmail = table.Column<string>(nullable: true),
                     IdentityServerIssuerUri = table.Column<string>(nullable: true),
-                    Keywords = table.Column<string>(nullable: true),
                     LastUpdateTime = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     OwnerUserId = table.Column<long>(nullable: false),
-                    PortalSite = table.Column<string>(nullable: true),
                     Status = table.Column<int>(nullable: false),
-                    Summary = table.Column<string>(nullable: true),
-                    Theme = table.Column<string>(nullable: true),
-                    WebSite = table.Column<string>(nullable: true)
+                    Theme = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

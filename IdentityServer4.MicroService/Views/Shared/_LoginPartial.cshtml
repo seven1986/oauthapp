@@ -2,16 +2,33 @@
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
 @inject IViewLocalizer Localizer
-<form id="logout2_form" name="" asp-area="" asp-controller="Account" asp-action="Logout2" method="post" style="display:flex">
+@{
+    TenantPrivateModel tenant = ViewBag.pvtTenant;
+}
+
+<ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+    <li class="nav-item dropdown">
+        <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @Localizer["平台"]
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
+            <a class="dropdown-item" href="@tenant.Properties[TenantDefaultProperty.PortalSite]" target="_blank">@Localizer["开放平台"]</a>
+            <a class="dropdown-item" href="@tenant.Properties[TenantDefaultProperty.AdminSite]" target="_blank">@Localizer["运营中心"]</a>
+            <a class="dropdown-item" href="@tenant.Properties[TenantDefaultProperty.EnterpriseEmail]" target="_blank">@Localizer["企业邮箱"]</a>
+        </div>
+    </li>
+</ul>
+
+<form id="logout2_form" name="" asp-area="" asp-controller="Account" asp-action="Logout2" method="post" class="form-inline mt-2 mt-md-0">
+
     @if (SignInManager.IsSignedIn(User))
     {
-        <a asp-area="" asp-controller="Manage" asp-action="Index" class="item" title="Manage">@UserManager.GetUserName(User)</a>
-        <a class="item" title="Manage" onclick="logout2_form.submit()">Log out</a>
+        <a asp-controller="Manage" asp-action="Index" class="btn btn-bd-download d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" title="Manage">@UserManager.GetUserName(User)</a>
+        <a class="btn btn-bd-download d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" title="Manage" onclick="logout2_form.submit()">@Localizer["退出"]</a>
     }
     else
     {
-        <a asp-area="" asp-controller="Account" class="item" asp-action="Register">@Localizer["注册"]</a>
-        <a asp-area="" asp-controller="Account" class="item" asp-action="Login">@Localizer["登录"]</a>
+        <a asp-controller="Account" class="btn btn-bd-download d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" asp-action="Login">@Localizer["登录"]</a>
+        <a asp-controller="Account" class="btn btn-bd-download d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" asp-action="Register">@Localizer["注册"]</a>
     }
 </form>
-@await Html.PartialAsync("_SelectLanguagePartial")

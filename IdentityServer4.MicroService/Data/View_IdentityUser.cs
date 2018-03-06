@@ -1,10 +1,10 @@
 ﻿namespace IdentityServer4.MicroService.Data
 {
-    public class View_User
+    public class View_IdentityUser
     {
-        public const string ViewName = "View_User";
+        public const string Name = "View_IdentityUser";
 
-        public const string ViewSQL = @"CREATE VIEW View_User
+        public const string SQL = @"CREATE VIEW View_IdentityUser
 AS
 SELECT
  D.TenantId,
@@ -25,7 +25,6 @@ WHERE Q1.UserId = A.Id FOR JSON AUTO) as Files,
  A.Lineage.ToString() AS Lineage, 
  A.ParentUserID, 
  C.UserName AS ParentUserName,
- A.DataAmount,
  A.TypeIDs, 
  A.PasswordHash, 
  A.IsDeleted,
