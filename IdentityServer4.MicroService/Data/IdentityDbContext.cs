@@ -94,9 +94,18 @@ namespace IdentityServer4.MicroService.Data
                     .OnDelete(DeleteBehavior.Cascade);
             #endregion
 
-            #region Distributions
+            #region Distributors
             builder.Entity<AppUser>()
-                    .HasMany(e => e.Distributions)
+                    .HasMany(e => e.Distributors)
+                    .WithOne()
+                    .HasForeignKey(e => e.UserId)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
+            #endregion
+
+            #region Properties
+            builder.Entity<AppUser>()
+                    .HasMany(e => e.Properties)
                     .WithOne()
                     .HasForeignKey(e => e.UserId)
                     .IsRequired()
@@ -117,7 +126,7 @@ namespace IdentityServer4.MicroService.Data
 
         public DbSet<AspNetUserApiResource> UserApiResources { get; set; }
 
-        public DbSet<AspNetUserDistribution> UserDistributions { get; set; }
+        public DbSet<AspNetUserDistributor> AspNetUserDistributor { get; set; }
 
         public DbSet<AspNetUserTenant> UserTenants { get; set; }
 

@@ -77,7 +77,7 @@ namespace IdentityServer4.MicroService.Tenant
     /// <summary>
     /// 租户实体
     /// </summary>
-    [Table("AppTenant")]
+    [Table("AppTenants")]
     public class AppTenant
     {
         public long Id { get; set; }
@@ -160,7 +160,7 @@ namespace IdentityServer4.MicroService.Tenant
         public string ClaimValue { get; set; }
     }
 
-    [Table("AppTenantProperty")]
+    [Table("AppTenantProperties")]
     public class AppTenantProperty
     {
         public long Id { get; set; }

@@ -135,7 +135,7 @@ namespace IdentityServer4.MicroService.Services
                 user.LineageIDs = user.Id.ToString();
 
                 var ParentUser = userContext.Users
-                                .Include(x => x.Distributions)
+                                .Include(x => x.Distributors)
                                 .FirstOrDefault(x => x.Id == user.ParentUserID);
 
                 if (user.Id == AppConstant.seedUserId)
@@ -198,7 +198,7 @@ namespace IdentityServer4.MicroService.Services
                         TenantId = tid
                     });
 
-                    user.Distributions.Add(new AspNetUserDistribution()
+                    user.Distributors.Add(new AspNetUserDistributor()
                     {
                         TenantId = tid,
                     });
@@ -216,7 +216,7 @@ namespace IdentityServer4.MicroService.Services
                     // 上级用户当前平台的分销详情
                     // 当前是平台A 就更新平台A的详情
                     // 当前是平台B 就更新平台B的详情
-                    var ParentUserDistribution = ParentUser.Distributions.FirstOrDefault(x => x.TenantId == TenantId);
+                    var ParentUserDistribution = ParentUser.Distributors.FirstOrDefault(x => x.TenantId == TenantId);
                     //上级用户关系链总用户数
                     var Members = userContext.Users.Where(x => x.ParentUserID == user.ParentUserID).Count();
 
@@ -228,7 +228,7 @@ namespace IdentityServer4.MicroService.Services
                     }
                     else
                     {
-                        ParentUser.Distributions.Add(new AspNetUserDistribution()
+                        ParentUser.Distributors.Add(new AspNetUserDistributor()
                         {
                             Members = Members,
                             MembersLastUpdate = DateTime.UtcNow
