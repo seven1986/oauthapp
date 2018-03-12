@@ -9,3 +9,8 @@
 /IdentityServer4.MicroService/.vs/IdentityServer4.MicroService/v15
 /IdentityServer4.MicroService/bin
 /IdentityServer4.MicroService/Properties/PublishProfiles
+/packages
+/IdentityServer4.MicroService.SDKGen/bin/Release
+/IdentityServer4.MicroService.SDKGen/obj
+/IdentityServer4.MicroService.SDKGen/Properties/PublishProfiles
+/IdentityServer4.MicroService.SDKGen/IdentityServer4.MicroService.SDKGen.csproj.user

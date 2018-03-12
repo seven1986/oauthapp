@@ -47,7 +47,7 @@ WHERE Q1.UserId = A.Id FOR JSON AUTO) as Files,
  B.CommissionLv3, 
  B.CommissionLv3LastUpdate
  FROM AspNetUsers AS A
- INNER JOIN AspNetUserDistribution AS B ON A.ID = B.UserID
+ INNER JOIN AspNetUserDistributors AS B ON A.ID = B.UserID
  INNER JOIN AspNetUsers AS C ON A.ParentUserID = C.ID
  INNER JOIN AspNetUserTenants AS D ON A.Id = D.UserId";
     }

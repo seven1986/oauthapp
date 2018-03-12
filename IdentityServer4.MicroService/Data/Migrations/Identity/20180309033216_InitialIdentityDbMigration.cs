@@ -378,6 +378,8 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 name: "IX_AspNetUserTenants_UserId",
                 table: "AspNetUserTenants",
                 column: "UserId");
+
+            migrationBuilder.Sql(View_IdentityUser.SQL);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -420,6 +422,8 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(View_IdentityUser.Name);
         }
     }
 }
