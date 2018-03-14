@@ -29,7 +29,9 @@ namespace Microsoft.AspNetCore.Authentication.Weixin
             ClaimActions.MapJsonKey("urn:weixin:province", "province");
             ClaimActions.MapJsonKey("urn:weixin:city", "city");
             ClaimActions.MapJsonKey("urn:weixin:headimgurl", "headimgurl");
-            ClaimActions.MapJsonKey("urn:weixin:privilege", "privilege");
+
+            // issue for InvalidCastException: Cannot cast Newtonsoft.Json.Linq.JArray to Newtonsoft.Json.Linq.JToken.
+            // ClaimActions.MapJsonKey("urn:weixin:privilege", "privilege");
         }
     }
 }
