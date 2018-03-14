@@ -40,7 +40,7 @@ namespace IdentityServer4.MicroService.SDKGen
                 using (StreamWriter sw = p.StandardInput)
                 {
                     if (sw.BaseStream.CanWrite)
-                    {
+                    { 
                         sw.WriteLine("cd  D:\\home\\data\\jobs\\npm\\npmpackage");
                         sw.WriteLine("npm publish");
                         sw.WriteLine("cd  ..");
@@ -51,6 +51,7 @@ namespace IdentityServer4.MicroService.SDKGen
                 }
 
                 p.WaitForExit();
+                p.Dispose();
             }
         }
     }
