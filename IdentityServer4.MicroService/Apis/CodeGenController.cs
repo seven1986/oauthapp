@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.NodeServices;
 using Microsoft.Extensions.Localization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using static IdentityServer4.MicroService.AppConstant;
@@ -20,14 +22,17 @@ namespace IdentityServer4.MicroService.Apis
     {
         #region Services
         readonly SwaggerCodeGenService swagerCodeGen;
+        readonly INodeServices nodeServices;
         #endregion
 
         public CodeGenController(
             IStringLocalizer<CodeGenController> localizer,
-            SwaggerCodeGenService _swagerCodeGen)
+            SwaggerCodeGenService _swagerCodeGen,
+            INodeServices _nodeServices)
         {
             l = localizer;
             swagerCodeGen = _swagerCodeGen;
+            nodeServices = _nodeServices;
         }
 
         /// <summary>
@@ -55,5 +60,20 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<List<SwaggerCodeGenItem>>(result);
         }
+
+
+        /// <summary>
+        /// Generate Client SDK
+        /// </summary>
+        [HttpPost("Clients/{language}")]
+        [AllowAnonymous]
+        [SwaggerOperation("GenerateClient")]
+        public async Task<ApiResult<string>> GenerateClient(string language)
+        {
+            var r = await nodeServices.InvokeAsync<string>("./Node/transpile",1, 2);
+
+            return new ApiResult<string>();
+        }
+
     }
 }
