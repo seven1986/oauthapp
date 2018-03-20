@@ -10,49 +10,68 @@ namespace IdentityServer4.MicroService.SDKGen
 {
     public class Functions
     {
-        // This function will get triggered/executed when a new message is written 
-        // on an Azure Queue called queue.
-        public static async Task ProcessQueueMessageAsync([QueueTrigger("queue")] string message, TextWriter log)
+        public static async Task ProcessQueueMessageAsync([QueueTrigger("publish-package-npm")] string packageUrl, TextWriter log)
         {
-            log.WriteLine(message);
+            log.WriteLine(packageUrl);
 
             using (var client = new WebClient())
             {
-                client.DownloadFile(new Uri(message), "D:\\home\\data\\jobs\\npm\\npmpackage.zip");
+                // 解压文件夹名称
+                var packageDirectoryName = "npmpackage";
 
-                ZipFile.ExtractToDirectory("D:\\home\\data\\jobs\\npm\\npmpackage.zip", "D:\\home\\data\\jobs\\npm\\npmpackage");
+                // 压缩包名
+                var packageName = Guid.NewGuid().ToString("N") + ".zip";
 
-                Process p = new Process();
-                ProcessStartInfo info = new ProcessStartInfo();
-                info.FileName = "cmd.exe";
-                info.RedirectStandardInput = true;
-                info.RedirectStandardOutput = true;
-                info.RedirectStandardError = true;
-                info.UseShellExecute = false;
+                // zip包下载文件夹路径
+                var packageExtractToDirectory = AppDomain.CurrentDomain.BaseDirectory + packageDirectoryName + @"\";
 
-                p.StartInfo = info;
-                p.OutputDataReceived += (s, e) => log.WriteLine(e.Data);
-                p.ErrorDataReceived += (s, e) => log.WriteLine(e.Data);
-                p.Start();
-                p.BeginOutputReadLine();
-                p.BeginErrorReadLine();
+                // zip包下载路径
+                var packagePath = packageExtractToDirectory + packageName;
 
-                using (StreamWriter sw = p.StandardInput)
+                client.DownloadFile(packageUrl, packagePath);
+
+                ZipFile.ExtractToDirectory(packagePath, packageExtractToDirectory);
+
+                using (var p = new Process())
                 {
-                    if (sw.BaseStream.CanWrite)
-                    { 
-                        sw.WriteLine("cd  D:\\home\\data\\jobs\\npm\\npmpackage");
-                        sw.WriteLine("npm publish");
-                        sw.WriteLine("cd  ..");
-                        sw.WriteLine("rmdir npmpackage /s");
-                        sw.WriteLine("Y");
-                        sw.WriteLine("rm npmpackage.zip -f");
-                    }
-                }
+                    var info = new ProcessStartInfo()
+                    {
+                        FileName = "cmd.exe",
+                        RedirectStandardInput = true,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        UseShellExecute = false
+                    };
 
-                p.WaitForExit();
-                p.Dispose();
+                    p.StartInfo = info;
+                    p.OutputDataReceived += (s, e) => log.WriteLine(e.Data);
+                    p.ErrorDataReceived += (s, e) => log.WriteLine(e.Data);
+
+                    p.Start();
+                    p.BeginOutputReadLine();
+                    p.BeginErrorReadLine();
+
+                    using (var sw = p.StandardInput)
+                    {
+                        if (sw.BaseStream.CanWrite)
+                        {
+                            sw.WriteLine("cd  "+packageExtractToDirectory);
+                            sw.WriteLine("npm publish");
+                            sw.WriteLine("cd  ..");
+                            sw.WriteLine("rmdir " + packageDirectoryName + " /s");
+                            sw.WriteLine("Y");
+                            sw.WriteLine("rm " + packageName + " -f");
+                        }
+                    }
+
+                    p.WaitForExit();
+                }
             }
+        }
+
+        public class NpmPublishModel
+        {
+            public string packageUrl { get; set; }
         }
     }
 }
