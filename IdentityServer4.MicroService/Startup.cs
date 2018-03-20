@@ -500,6 +500,15 @@ namespace IdentityServer4.MicroService
                     {
                         doc.Schemes = new[] { "https" };
                         doc.Host = Configuration["IdentityServer"];
+                        doc.Security = new List<IDictionary<string, IEnumerable<string>>>()
+                        {
+                            new Dictionary<string, IEnumerable<string>>()
+                            {
+                                { "SubscriptionKey", new string[]{ } },
+                                { "AccessToken", new string[]{ } },
+                                { "OAuth2", new string[]{ } },
+                            }
+                        };
                     });
                 });
 

@@ -90,6 +90,8 @@ function clientGen(ele) {
     });
 }
 
+var hosturl = location.protocol + location.host;
+
 const _template_codegen_azure = `<div>
                   <blockquote>
                       <h4>Clients</h4>
@@ -103,7 +105,7 @@ const _template_codegen_azure = `<div>
 
                   <blockquote>
                       <h4>PostMan</h4>
-                      <input id="PostManImportUrl" type="text" class="form-control" value="https://portal.ixingban.com/docs/services/5/export?DocumentFormat=Swagger" readonly>
+                      <input id="PostManImportUrl" type="text" class="form-control" value="${hosturl}/docs/services/5/export?DocumentFormat=Swagger" readonly>
                       <br />
                       <small>import Swagger</small>
                   </blockquote>
@@ -159,18 +161,15 @@ const _template_codegen_azure = `<div>
 
 $(function () {
     $('#codegen_azure').html(_template_codegen_azure);
-
-    $.getJSON("https://ids.ixingban.com/ApiResource/ClientLanguegs").then(r => {
+    $.getJSON(hosturl+"/ApiResource/ClientLanguegs").then(r => {
         clientSDKs = r.data;
         ShowClientSDKs();
     });
-
-    $.getJSON("https://ids.ixingban.com/ApiResource/ServerLanguegs").then(r => {
+    $.getJSON(hosturl +"/ApiResource/ServerLanguegs").then(r => {
         serverSDKs = r.data;
         ShowServerSDKs();
     });
-
     $("#PostManImportUrl").val(swaggerUrl);
-    var CodeGenOnlineUrl = 'https://portal.ixingban.com/codegen-2?swagger=' + swaggerUrl;
+    var CodeGenOnlineUrl = hosturl+'/codegen-2?swagger=' + swaggerUrl;
     $("#CodeGenOnline").html('<a href="' + CodeGenOnlineUrl + '">' + CodeGenOnlineUrl + '</a>');
 });
