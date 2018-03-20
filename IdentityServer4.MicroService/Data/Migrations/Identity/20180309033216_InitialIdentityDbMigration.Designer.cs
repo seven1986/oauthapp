@@ -12,7 +12,7 @@ using System;
 namespace IdentityServer4.MicroService.Data.Migrations.Identity
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20180305043544_InitialIdentityDbMigration")]
+    [Migration("20180309033216_InitialIdentityDbMigration")]
     partial class InitialIdentityDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -245,7 +245,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.ToTable("AspNetUserClients");
                 });
 
-            modelBuilder.Entity("IdentityServer4.MicroService.AspNetUserDistribution", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AspNetUserDistributor", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -288,7 +288,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserDistribution");
+                    b.ToTable("AspNetUserDistributors");
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.AspNetUserFile", b =>
@@ -307,6 +307,24 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     b.HasIndex("UserId");
 
                     b.ToTable("AspNetUserFiles");
+                });
+
+            modelBuilder.Entity("IdentityServer4.MicroService.AspNetUserProperty", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Key");
+
+                    b.Property<long>("UserId");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserProperties");
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.AspNetUserTenant", b =>
@@ -386,10 +404,10 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("IdentityServer4.MicroService.AspNetUserDistribution", b =>
+            modelBuilder.Entity("IdentityServer4.MicroService.AspNetUserDistributor", b =>
                 {
                     b.HasOne("IdentityServer4.MicroService.AppUser")
-                        .WithMany("Distributions")
+                        .WithMany("Distributors")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -398,6 +416,14 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 {
                     b.HasOne("IdentityServer4.MicroService.AppUser")
                         .WithMany("Files")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("IdentityServer4.MicroService.AspNetUserProperty", b =>
+                {
+                    b.HasOne("IdentityServer4.MicroService.AppUser")
+                        .WithMany("Properties")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

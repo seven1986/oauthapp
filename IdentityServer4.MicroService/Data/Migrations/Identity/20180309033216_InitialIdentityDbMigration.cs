@@ -150,7 +150,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserDistribution",
+                name: "AspNetUserDistributors",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -175,9 +175,9 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserDistribution", x => x.Id);
+                    table.PrimaryKey("PK_AspNetUserDistributors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserDistribution_AspNetUsers_UserId",
+                        name: "FK_AspNetUserDistributors_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -219,6 +219,27 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                     table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
                         name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserProperties",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Key = table.Column<string>(nullable: true),
+                    UserId = table.Column<long>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserProperties", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserProperties_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -317,8 +338,8 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserDistribution_UserId",
-                table: "AspNetUserDistribution",
+                name: "IX_AspNetUserDistributors_UserId",
+                table: "AspNetUserDistributors",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -329,6 +350,11 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserLogins_UserId",
                 table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserProperties_UserId",
+                table: "AspNetUserProperties",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -371,13 +397,16 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
                 name: "AspNetUserClients");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserDistribution");
+                name: "AspNetUserDistributors");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserFiles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserProperties");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserRoles");
@@ -394,8 +423,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
-            migrationBuilder.DropTable(
-               name: View_IdentityUser.Name);
+            migrationBuilder.DropTable(View_IdentityUser.Name);
         }
     }
 }

@@ -22,12 +22,13 @@
 /* Padding below the footer and lighter body text */
 
 body {
-    padding-top: 3rem;
+    padding-top: 5rem;
     padding-bottom: 3rem;
     color: #5a5a5a;
 }
 
-.btn-bd-download {
+.btn-bd-download,
+.btn-bd-download:not([href]):not([tabindex]) {
     font-weight: 500;
     color: #ffe484;
     border-color: #ffe484

@@ -72,7 +72,12 @@ namespace IdentityServer4.MicroService
         /// <summary>
         /// Distribution
         /// </summary>
-        public virtual List<AspNetUserDistribution> Distributions { get; } = new List<AspNetUserDistribution>();
+        public virtual List<AspNetUserDistributor> Distributors { get; } = new List<AspNetUserDistributor>();
+
+        /// <summary>
+        /// Property
+        /// </summary>
+        public virtual List<AspNetUserProperty> Properties { get; } = new List<AspNetUserProperty>();
 
         /// <summary>
         /// 分类
@@ -220,10 +225,10 @@ namespace IdentityServer4.MicroService
     }
 
     /// <summary>
-    /// Distribution
+    /// Distributor
     /// </summary>
-    [Table("AspNetUserDistribution")]
-    public class AspNetUserDistribution
+    [Table("AspNetUserDistributors")]
+    public class AspNetUserDistributor
     {
         public long Id { get; set; }
 
@@ -303,6 +308,18 @@ namespace IdentityServer4.MicroService
         /// CommissionLv3LastUpdate
         /// </summary>
         public DateTime CommissionLv3LastUpdate { get; set; }
+    }
+
+    [Table("AspNetUserProperties")]
+    public class AspNetUserProperty
+    {
+        public long Id { get; set; }
+
+        public long UserId { get; set; }
+
+        public string Key { get; set; }
+
+        public string Value { get; set; }
     }
     #endregion
 

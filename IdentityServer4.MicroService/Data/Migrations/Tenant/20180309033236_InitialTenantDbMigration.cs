@@ -10,7 +10,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AppTenant",
+                name: "AppTenants",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -26,7 +26,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppTenant", x => x.Id);
+                    table.PrimaryKey("PK_AppTenants", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -43,9 +43,9 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
                 {
                     table.PrimaryKey("PK_AppTenantClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AppTenantClaims_AppTenant_AppTenantId",
+                        name: "FK_AppTenantClaims_AppTenants_AppTenantId",
                         column: x => x.AppTenantId,
-                        principalTable: "AppTenant",
+                        principalTable: "AppTenants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -63,15 +63,15 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
                 {
                     table.PrimaryKey("PK_AppTenantHosts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AppTenantHosts_AppTenant_AppTenantId",
+                        name: "FK_AppTenantHosts_AppTenants_AppTenantId",
                         column: x => x.AppTenantId,
-                        principalTable: "AppTenant",
+                        principalTable: "AppTenants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppTenantProperty",
+                name: "AppTenantProperties",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -82,11 +82,11 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppTenantProperty", x => x.Id);
+                    table.PrimaryKey("PK_AppTenantProperties", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AppTenantProperty_AppTenant_AppTenantId",
+                        name: "FK_AppTenantProperties_AppTenants_AppTenantId",
                         column: x => x.AppTenantId,
-                        principalTable: "AppTenant",
+                        principalTable: "AppTenants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -102,8 +102,8 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
                 column: "AppTenantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppTenantProperty_AppTenantId",
-                table: "AppTenantProperty",
+                name: "IX_AppTenantProperties_AppTenantId",
+                table: "AppTenantProperties",
                 column: "AppTenantId");
         }
 
@@ -116,10 +116,10 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
                 name: "AppTenantHosts");
 
             migrationBuilder.DropTable(
-                name: "AppTenantProperty");
+                name: "AppTenantProperties");
 
             migrationBuilder.DropTable(
-                name: "AppTenant");
+                name: "AppTenants");
         }
     }
 }

@@ -11,7 +11,7 @@ using System;
 namespace IdentityServer4.MicroService.Data.Migrations.Tenant
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20180305025641_InitialTenantDbMigration")]
+    [Migration("20180309033236_InitialTenantDbMigration")]
     partial class InitialTenantDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppTenant");
+                    b.ToTable("AppTenants");
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Tenant.AppTenantClaim", b =>
@@ -96,7 +96,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
 
                     b.HasIndex("AppTenantId");
 
-                    b.ToTable("AppTenantProperty");
+                    b.ToTable("AppTenantProperties");
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Tenant.AppTenantClaim", b =>

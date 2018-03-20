@@ -1,6 +1,5 @@
 ﻿@{
     TenantPrivateModel tenant = null;
-
     if(ViewBag.pvtTenant == null)
     {
         tenant =  ViewBag.pvtTenant = new TenantPrivateModel()
@@ -20,10 +19,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="keywords" content="@tenant.Properties[TenantDefaultProperty.Keywords]" />
-    <meta name="description" content="@tenant.Properties[TenantDefaultProperty.Summary]" />
+    <meta name="keywords" content="@Html.Raw(tenant.Properties[TenantDefaultProperty.Keywords])" />
+    <meta name="description" content="@Html.Raw(tenant.Properties[TenantDefaultProperty.Summary])" />
+    <link rel="shortcut icon" href="@tenant.Properties["Favicon"]" type="image/x-icon" />
+    <link rel="bookmark" href="@tenant.Properties["Favicon"]" type="image/x-icon" />
     <title>@Html.Raw(tenant.Name) - @Localizer["授权中心"]</title>
-    <meta name="keywords" content="@tenant.Properties["Favicon"]" />
     <environment names="Development">
         <link href="/dist/vendor.min.css" rel="stylesheet" />
         <link href="/dist/app.css" rel="stylesheet" />
@@ -37,14 +37,14 @@
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="/">
-                    <img src="@tenant.Properties["Favicon"]" width="32px" /> 
+                    <img src="@tenant.Properties["Favicon"]" width="32px" />
                     @Html.Raw(tenant.Name)
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
-                        @await Html.PartialAsync("_LoginPartial")
+                    @await Html.PartialAsync("_LoginPartial")
                 </div>
             </div>
         </nav>
@@ -62,5 +62,6 @@
         <script src="~/dist/app.min.js" asp-append-version="true"></script>
     </environment>
     @RenderSection("Scripts", required: false)
+    @Html.Raw(tenant.Properties[TenantDefaultProperty.Tracking])
 </body>
 </html>

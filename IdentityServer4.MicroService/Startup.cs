@@ -449,6 +449,10 @@ namespace IdentityServer4.MicroService
               .AddOperationalStore(builder => builder.ConfigureDbContext = IdentityServerStore)
               .AddAspNetIdentity<AppUser>();
             #endregion
+
+            services.AddNodeServices(options => {
+                // Set any properties that you want on 'options' here
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -496,6 +500,15 @@ namespace IdentityServer4.MicroService
                     {
                         doc.Schemes = new[] { "https" };
                         doc.Host = Configuration["IdentityServer"];
+                        doc.Security = new List<IDictionary<string, IEnumerable<string>>>()
+                        {
+                            new Dictionary<string, IEnumerable<string>>()
+                            {
+                                { "SubscriptionKey", new string[]{ } },
+                                { "AccessToken", new string[]{ } },
+                                { "OAuth2", new string[]{ } },
+                            }
+                        };
                     });
                 });
 

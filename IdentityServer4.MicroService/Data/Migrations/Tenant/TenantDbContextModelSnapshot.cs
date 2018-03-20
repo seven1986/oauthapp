@@ -43,7 +43,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppTenant");
+                    b.ToTable("AppTenants");
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Tenant.AppTenantClaim", b =>
@@ -95,7 +95,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
 
                     b.HasIndex("AppTenantId");
 
-                    b.ToTable("AppTenantProperty");
+                    b.ToTable("AppTenantProperties");
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Tenant.AppTenantClaim", b =>

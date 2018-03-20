@@ -22,7 +22,7 @@
                     <h5 class="h3 mb-3 font-weight-normal">@ViewData["Status"]</h5>
                 </div>
                 <div class="form-label-group">
-                    <input type="text" id="Code" class="form-control" placeholder="@Localizer["验证码"]" />
+                    <input type="text" name="Code" id="Code" class="form-control" placeholder="@Localizer["验证码"]" />
                     <span asp-validation-for="Code" class="text-danger"></span>
                 </div>
 

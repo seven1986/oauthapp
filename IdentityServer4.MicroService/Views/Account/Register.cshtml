@@ -17,17 +17,17 @@
                     <h5 class="h3 mb-3 font-weight-normal">@Localizer["注册账号"]</h5>
                 </div>
                 <div class="form-label-group">
-                    <input type="email" id="Email" class="form-control" placeholder="@Localizer["邮箱"]" />
+                    <input type="email" name="Email" id="Email" class="form-control" placeholder="@Localizer["邮箱"]" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
                 <div class="form-label-group">
-                    <input type="password" id="Password" class="form-control" placeholder="@Localizer["密码"]" />
+                    <input type="password" name="Password" id="Password" class="form-control" placeholder="@Localizer["密码"]" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
 
                 <div class="form-label-group">
-                    <input type="password" id="ConfirmPassword" class="form-control" placeholder="@Localizer["确认密码"]" />
+                    <input type="password" name="ConfirmPassword" id="ConfirmPassword" class="form-control" placeholder="@Localizer["确认密码"]" />
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
 
