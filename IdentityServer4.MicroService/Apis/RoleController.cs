@@ -250,7 +250,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("Role/Codes")]
         public List<ErrorCodeModel> Codes()
         {
-            var result = _Codes<RoleControllerEnum>();
+            var result = _Codes<RoleControllerEnums>();
 
             return result;
         }

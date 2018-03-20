@@ -789,7 +789,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("Client/Codes")]
         public List<ErrorCodeModel> Codes()
         {
-            var result = _Codes<ClientControllerEnum>();
+            var result = _Codes<ClientControllerEnums>();
 
             return result;
         }

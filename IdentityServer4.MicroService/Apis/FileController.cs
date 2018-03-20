@@ -174,7 +174,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("File/Codes")]
         public List<ErrorCodeModel> Codes()
         {
-            var result = _Codes<FileControllerEnum>();
+            var result = _Codes<FileControllerEnums>();
 
             return result;
         }

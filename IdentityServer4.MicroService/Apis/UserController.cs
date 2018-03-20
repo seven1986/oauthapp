@@ -492,7 +492,7 @@ namespace IdentityServer4.MicroService.Apis
             #region 校验邮箱是否重复
             if (await db.Users.AnyAsync(x => x.Email.Equals(value.Email)))
             {
-                return new ApiResult<string>(l,UserControllerEnum.Register_EmailExists);
+                return new ApiResult<string>(l,UserControllerEnums.Register_EmailExists);
             }
             #endregion
             #region 校验邮箱验证码
@@ -504,7 +504,7 @@ namespace IdentityServer4.MicroService.Apis
                 }
                 catch
                 {
-                    return new ApiResult<string>(l,UserControllerEnum.Register_EmailVerifyCodeError);
+                    return new ApiResult<string>(l,UserControllerEnums.Register_EmailVerifyCodeError);
                 }
             }
             #endregion
@@ -512,7 +512,7 @@ namespace IdentityServer4.MicroService.Apis
             #region 校验手机号是否重复
             if (await db.Users.AnyAsync(x => x.PhoneNumber.Equals(value.PhoneNumber)))
             {
-                return new ApiResult<string>(l, UserControllerEnum.Register_PhoneNumberExists);
+                return new ApiResult<string>(l, UserControllerEnums.Register_PhoneNumberExists);
             }
             #endregion
             #region 校验手机验证码
@@ -520,7 +520,7 @@ namespace IdentityServer4.MicroService.Apis
 
             if (await redis.KeyExistsAsync(PhoneNumberVerifyCodeKey) == false)
             {
-                return new ApiResult<string>(l, UserControllerEnum.Register_PhoneNumberVerifyCodeError);
+                return new ApiResult<string>(l, UserControllerEnums.Register_PhoneNumberVerifyCodeError);
             }
 
             await redis.RemoveAsync(PhoneNumberVerifyCodeKey);
@@ -642,7 +642,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 if (dailyLimit > UserControllerKeys.Limit_24Hour_Verify_MAX_Phone)
                 {
-                    return new ApiResult<string>(l, UserControllerEnum.VerifyPhone_CallLimited);
+                    return new ApiResult<string>(l, UserControllerEnums.VerifyPhone_CallLimited);
                 }
             }
             else
@@ -667,7 +667,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 if (usedTime < UserControllerKeys.MinimumTime_SendCode_Phone)
                 {
-                    return new ApiResult<string>(l, UserControllerEnum.VerifyPhone_TooManyRequests, string.Empty,
+                    return new ApiResult<string>(l, UserControllerEnums.VerifyPhone_TooManyRequests, string.Empty,
                         UserControllerKeys.MinimumTime_SendCode_Phone - usedTime);
                 }
             }
@@ -720,7 +720,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 if (dailyLimit > UserControllerKeys.Limit_24Hour_Verify_MAX_Email)
                 {
-                    return new ApiResult<string>(l, UserControllerEnum.VerifyEmail_CallLimited);
+                    return new ApiResult<string>(l, UserControllerEnums.VerifyEmail_CallLimited);
                 }
             }
             else
@@ -745,7 +745,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 if (usedTime < UserControllerKeys.MinimumTime_SendCode_Email)
                 {
-                    return new ApiResult<string>(l, UserControllerEnum.VerifyEmail_TooManyRequests, string.Empty,
+                    return new ApiResult<string>(l, UserControllerEnums.VerifyEmail_TooManyRequests, string.Empty,
                         UserControllerKeys.MinimumTime_SendCode_Email - usedTime);
                 }
             }
@@ -785,7 +785,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("User/Codes")]
         public List<ErrorCodeModel> Codes()
         {
-            var result = _Codes<UserControllerEnum>();
+            var result = _Codes<UserControllerEnums>();
 
             return result;
         }

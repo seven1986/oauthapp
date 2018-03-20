@@ -283,7 +283,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("IdentityResource/Codes")]
         public List<ErrorCodeModel> Codes()
         {
-            var result = _Codes<IdentityResourceControllerEnum>();
+            var result = _Codes<IdentityResourceControllerEnums>();
 
             return result;
         }

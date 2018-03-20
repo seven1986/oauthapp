@@ -428,7 +428,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("Tenant/Codes")]
         public List<ErrorCodeModel> Codes()
         {
-            var result = _Codes<TenantControllerEnum>();
+            var result = _Codes<TenantControllerEnums>();
 
             return result;
         }

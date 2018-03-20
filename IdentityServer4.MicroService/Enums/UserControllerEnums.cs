@@ -5,7 +5,7 @@ namespace IdentityServer4.MicroService.Enums
     /// <summary>
     /// 用户接口业务代码常量表
     /// </summary>
-    internal enum UserControllerEnum
+    internal enum UserControllerEnums
     {
 
         #region 提交报名 - 业务代码
