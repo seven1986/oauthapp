@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Localization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using IdentityServer4.MicroService.Tenant;
-using IdentityServer4.MicroService.Services;
-using static IdentityServer4.MicroService.AppConstant;
 using System.Data.SqlClient;
 using System.Data.Common;
 using System.Collections.Generic;
 using System.Reflection;
 using System.ComponentModel;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using IdentityServer4.MicroService.Tenant;
+using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Shared;
+using static IdentityServer4.MicroService.AppConstant;
 
 namespace IdentityServer4.MicroService.Apis
 {

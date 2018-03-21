@@ -1,13 +1,13 @@
-﻿using IdentityServer4.MicroService.Models.Shared;
-using IdentityServer4.MicroService.Tenant;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
+using IdentityServer4.MicroService.Tenant;
+using IdentityServer4.MicroService.Models.Shared;
 
 namespace IdentityServer4.MicroService.Controllers
 {
     [SecurityHeaders]
-    public class BasicController:Controller
+    public class BasicController : Controller
     {
         protected virtual TenantDbContext tenantDb { get; set; }
         protected virtual TenantService tenantService { get; set; }

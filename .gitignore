@@ -3,16 +3,17 @@
 ################################################################################
 
 /.vs
-/IdentityServer4.MicroService/bin/Debug/netcoreapp2.0
-/IdentityServer4.MicroService/node_modules
+/IdentityServer4.MicroService/.vs
 /IdentityServer4.MicroService/obj
-/IdentityServer4.MicroService/.vs/IdentityServer4.MicroService/v15
-/IdentityServer4.MicroService/IdentityServer4.MicroService.csproj.user
 /IdentityServer4.MicroService/bin
 /IdentityServer4.MicroService/Properties/PublishProfiles
+/IdentityServer4.MicroService/node_modules
+/IdentityServer4.MicroService/IdentityServer4.MicroService.csproj.user
+/IdentityServer4.MicroService/appsettings.json
+/IdentityServer4.MicroService/appsettings.Production.json
+
 /packages
-/IdentityServer4.MicroService.SDKGen/bin/Release
+/IdentityServer4.MicroService.SDKGen/bin
 /IdentityServer4.MicroService.SDKGen/obj
 /IdentityServer4.MicroService.SDKGen/Properties/PublishProfiles
 /IdentityServer4.MicroService.SDKGen/IdentityServer4.MicroService.SDKGen.csproj.user
-/IdentityServer4.MicroService.SDKGen/bin/Debug

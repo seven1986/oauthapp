@@ -7,8 +7,7 @@ namespace IdentityServer4.MicroService.Enums
     /// </summary>
     internal enum UserControllerEnums
     {
-
-        #region 提交报名 - 业务代码
+        #region Register
         /// <summary>
         /// 手机号已被注册
         /// </summary>
@@ -34,8 +33,7 @@ namespace IdentityServer4.MicroService.Enums
         Register_EmailVerifyCodeError = 100004,
         #endregion
 
-
-        #region 发送手机验证码
+        #region VerifyPhone
         /// <summary>
         /// 该号码已达24小时发送上限
         /// </summary>
@@ -49,8 +47,7 @@ namespace IdentityServer4.MicroService.Enums
         VerifyPhone_TooManyRequests = 100006,
         #endregion
 
-
-        #region 发送手机验证码
+        #region VerifyEmail
         /// <summary>
         /// 该号码已达24小时发送上限
         /// </summary>
@@ -61,7 +58,12 @@ namespace IdentityServer4.MicroService.Enums
         /// 发送过于频繁,请{0}秒后重试
         /// </summary>
         [Description("发送过于频繁,请{0}秒后重试")]
-        VerifyEmail_TooManyRequests = 100008
+        VerifyEmail_TooManyRequests = 100008,
+        #endregion
+
+        #region Post
+        [Description("创建用户失败")]
+        Post_CreateUserFail = 100009,
         #endregion
     }
 }

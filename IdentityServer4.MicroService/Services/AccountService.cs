@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using IdentityModel;
-using IdentityServer4.MicroService.Data;
-using IdentityServer4.Stores;
-using IdentityServer4.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using static IdentityServer4.MicroService.MicroserviceConfig;
+using IdentityModel;
+using IdentityServer4.Stores;
+using IdentityServer4.Services;
+using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Models.Views.Account;
+using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace IdentityServer4.MicroService.Services
 {
@@ -89,7 +89,6 @@ namespace IdentityServer4.MicroService.Services
 
             return vm;
         }
-
 
         /// <summary>
         /// 创建用户
