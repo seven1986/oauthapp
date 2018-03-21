@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
@@ -8,10 +9,9 @@ using Microsoft.Extensions.Localization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Services;
-using static IdentityServer4.MicroService.AppConstant;
-using System.Collections.Generic;
-using static IdentityServer4.MicroService.MicroserviceConfig;
 using IdentityServer4.MicroService.Models.Apis.Common;
+using static IdentityServer4.MicroService.AppConstant;
+using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -67,7 +67,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Upload)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.FilePost)]
         [SwaggerOperation("File/Post")]
         public async Task<ApiResult<string>> Post([FromForm]IFormFile value)
         {
@@ -130,7 +130,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value">图片文件</param>
         /// <returns></returns>
         [HttpPost("Image")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Upload)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.FileImage)]
         [SwaggerOperation("File/Image")]
         public async Task<ApiResult<string>> Image([FromForm]IFormFile value)
         {
@@ -174,7 +174,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("File/Codes")]
         public List<ErrorCodeModel> Codes()
         {
-            var result = _Codes<FileControllerEnum>();
+            var result = _Codes<FileControllerEnums>();
 
             return result;
         }

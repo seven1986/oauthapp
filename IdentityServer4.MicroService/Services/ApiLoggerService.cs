@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Controllers;
 
 namespace IdentityServer4.MicroService.Services
 {
@@ -169,7 +169,23 @@ namespace IdentityServer4.MicroService.Services
                         log.UserID = long.Parse(subClaim.Value);
                     }
 
-                    log.claims = user.Claims.ToDictionary(k => k.Type, v => v.Value);
+                    log.claims = new Dictionary<string, string>();
+
+                    var claimsGroup = user.Claims.GroupBy(x => x.Type).ToList();
+
+                    foreach (var g in claimsGroup) {
+
+                        var valueCount = g.Count();
+
+                        if (valueCount > 1)
+                        {
+                            log.claims.Add(g.Key, string.Join(",", g.Select(x => x.Value).ToList()));
+                        }
+                        else
+                        {
+                            log.claims.Add(g.Key, g.FirstOrDefault().Value);
+                        }
+                    }
                 }
             }
 

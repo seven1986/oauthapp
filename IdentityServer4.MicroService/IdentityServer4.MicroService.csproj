@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\Migrations\IdentityServer\" />
-    <Folder Include="Node\" />
+    <Folder Include="Node\sdkgen\npm\" />
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>

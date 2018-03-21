@@ -327,11 +327,12 @@ namespace IdentityServer4.MicroService
     [NotMapped]
     public class View_User
     {
-        public long AppTenantId { get; set; }
+        public long TenantId { get; set; }
         public long UserId { get; set; }
         public List<View_User_Role> Roles { get; set; }
         public List<View_User_Claim> Claims { get; set; }
         public List<View_User_File> Files { get; set; }
+        public List<View_User_Property> Properties { get; set; }
         public string Avatar { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
@@ -394,6 +395,18 @@ namespace IdentityServer4.MicroService
         public int FileType { get; set; }
 
         public string Files { get; set; }
+    }
+
+    /// <summary>
+    /// used for View_User Properties property
+    /// </summary>
+    public class View_User_Property
+    {
+        public long Id { get; set; }
+
+        public string Key { get; set; }
+
+        public string Value { get; set; }
     }
     #endregion
 }

@@ -13,11 +13,14 @@ SELECT
 JOIN AspNetRoles Q2 ON Q1.RoleId = Q2.Id
 WHERE UserId = A.Id FOR JSON AUTO) as Roles,
 
-(SELECT Q1.ClaimType,Q1.ClaimValue FROM AspNetUserClaims Q1
+(SELECT Q1.Id, Q1.ClaimType,Q1.ClaimValue FROM AspNetUserClaims Q1
 WHERE Q1.UserId = A.Id FOR JSON AUTO) as Claims,
 
-(SELECT Q1.Files,Q1.FileType AS Name FROM AspNetUserFiles Q1
+(SELECT Q1.Id, Q1.Files,Q1.FileType AS Name FROM AspNetUserFiles Q1
 WHERE Q1.UserId = A.Id FOR JSON AUTO) as Files,
+
+(SELECT Q1.Id, Q1.[Key],Q1.[Value] FROM AspNetUserProperties Q1
+WHERE Q1.UserId = A.Id FOR JSON AUTO) as Properties,
 
  A.Avatar,
  A.UserName,

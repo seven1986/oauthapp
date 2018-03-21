@@ -12,18 +12,18 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Tenant;
-using static IdentityServer4.MicroService.AppConstant;
-using static IdentityServer4.MicroService.MicroserviceConfig;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.TenantController;
+using static IdentityServer4.MicroService.AppConstant;
+using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace IdentityServer4.MicroService.Apis
 {
     // Tenant 根据 OwnerUserId 来获取列表、或详情、增删改
 
-        /// <summary>
-        /// 租户
-        /// </summary>
+    /// <summary>
+    /// 租户
+    /// </summary>
     [Route("Tenant")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
@@ -54,7 +54,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.TenantGet)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.TenantGet)]
         [SwaggerOperation("Tenant/Get")]
         public async Task<PagingResult<AppTenant>> Get(PagingRequest<TenantGetRequest> value)
         {
@@ -126,7 +127,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.TenantDetail)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.TenantDetail)]
         [SwaggerOperation("Tenant/Detail")]
         public async Task<ApiResult<AppTenant>> Get(int id)
         {
@@ -154,7 +156,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Create)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.TenantPost)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.TenantPost)]
         [SwaggerOperation("Tenant/Post")]
         public async Task<ApiResult<long>> Post([FromBody]AppTenant value)
         {
@@ -179,7 +182,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPut]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Update)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.TenantPut)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.TenantPut)]
         [SwaggerOperation("Tenant/Put")]
         public async Task<ApiResult<long>> Put([FromBody]AppTenant value)
         {
@@ -270,7 +274,7 @@ namespace IdentityServer4.MicroService.Apis
 
                             if (DeleteEntities.Count() > 0)
                             {
-                                var sql = string.Format("DELETE AppTenantProperty WHERE ID IN ({0})",
+                                var sql = string.Format("DELETE AppTenantProperties WHERE ID IN ({0})",
                                             string.Join(",", DeleteEntities));
 
                                 db.Database.ExecuteSqlCommand(new RawSqlString(sql));
@@ -285,7 +289,7 @@ namespace IdentityServer4.MicroService.Apis
                             UpdateEntities.ForEach(x =>
                             {
                                 db.Database.ExecuteSqlCommand(
-                                  new RawSqlString("UPDATE AppTenantProperty SET [Key]=@Key,[Value]=@Value WHERE Id = " + x.Id),
+                                  new RawSqlString("UPDATE AppTenantProperties SET [Key]=@Key,[Value]=@Value WHERE Id = " + x.Id),
                                   new SqlParameter("@Key", x.Key),
                                   new SqlParameter("@Value", x.Value));
                             });
@@ -299,7 +303,7 @@ namespace IdentityServer4.MicroService.Apis
                             NewEntities.ForEach(x =>
                             {
                                 db.Database.ExecuteSqlCommand(
-                                  new RawSqlString("INSERT INTO AppTenantProperty VALUES (@Key,@Value,@AppTenantId)"),
+                                  new RawSqlString("INSERT INTO AppTenantProperties VALUES (@Key,@Value,@AppTenantId)"),
                                   new SqlParameter("@Key", x.Key),
                                   new SqlParameter("@Value", x.Value),
                                   new SqlParameter("@AppTenantId", source.Id));
@@ -379,7 +383,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Delete)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.TenantDelete)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.TenantDelete)]
         [SwaggerOperation("Tenant/Delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
@@ -428,7 +433,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("Tenant/Codes")]
         public List<ErrorCodeModel> Codes()
         {
-            var result = _Codes<TenantControllerEnum>();
+            var result = _Codes<TenantControllerEnums>();
 
             return result;
         }

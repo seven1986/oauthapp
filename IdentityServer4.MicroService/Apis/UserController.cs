@@ -76,14 +76,14 @@ namespace IdentityServer4.MicroService.Apis
             configDbContext = _configDbContext;
         }
 
-
         /// <summary>
         /// 用户 - 列表
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserGet)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserGet)]
         [SwaggerOperation("User/Get")]
         public async Task<PagingResult<View_User>> Get(PagingRequest<UserGetRequest> value)
         {
@@ -102,7 +102,7 @@ namespace IdentityServer4.MicroService.Apis
                 value.orderby = "UserId";
             }
 
-            var q = new PagingService<View_User>(db, value, "View_User")
+            var q = new PagingService<View_User>(db, value, "View_IdentityUser")
             {
                 where = (where, sqlParams) =>
                 {
@@ -126,35 +126,37 @@ namespace IdentityServer4.MicroService.Apis
                         sqlParams.Add(new SqlParameter("@PhoneNumber", value.q.phoneNumber));
                     }
 
-                    if (value.q.roles != null && value.q.roles.Count > 0)
+                    if (!string.IsNullOrWhiteSpace(value.q.roles))
                     {
-                        var rolesExpression = new List<string>();
+                        var roleIds = value.q.roles.Split(new string[] { "," },
+                            StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                        value.q.roles.ForEach(r =>
-                        {
-                            rolesExpression.Add("Roles Like '%\"Id\":" + r + ",%'");
-                        });
+                        var rolesExpression = roleIds.Select(r => "Roles Like '%\"Id\":" + r + ",%'");
 
-                        where.Add(" ( " + string.Join(" OR ", rolesExpression) + " ) ");
+                        where.Add(" ( " + string.Join(" AND ", rolesExpression) + " ) ");
                     }
                 }
             };
 
             var result = await q.ExcuteAsync(propConverter: (prop, val) =>
              {
-                 if (prop.Name.Equals("Roles"))
+                 switch (prop.Name)
                  {
-                     return JsonConvert.DeserializeObject<List<View_User_Role>>(val.ToString());
+                     case "Roles":
+                         return JsonConvert.DeserializeObject<List<View_User_Role>>(val.ToString());
+
+                     case "Claims":
+                         return JsonConvert.DeserializeObject<List<View_User_Claim>>(val.ToString());
+
+                     case "Files":
+                         return JsonConvert.DeserializeObject<List<View_User_File>>(val.ToString());
+
+                     case "Properties":
+                         return JsonConvert.DeserializeObject<List<View_User_Property>>(val.ToString());
+
+                     default:
+                         return val;
                  }
-                 else if (prop.Name.Equals("Claims"))
-                 {
-                     return JsonConvert.DeserializeObject<List<View_User_Claim>>(val.ToString());
-                 }
-                 else if (prop.Name.Equals("Files"))
-                 {
-                     return JsonConvert.DeserializeObject<List<View_User_File>>(val.ToString());
-                 }
-                 return val;
              });
 
             return result;
@@ -166,7 +168,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Read)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserDetail)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserDetail)]
         [SwaggerOperation("User/Detail")]
         public async Task<ApiResult<AppUser>> Get(int id)
         {
@@ -189,36 +192,62 @@ namespace IdentityServer4.MicroService.Apis
             return new ApiResult<AppUser>(entity);
         }
 
-        ///// <summary>
-        ///// 用户 - 创建
-        ///// </summary>
-        ///// <param name = "value" ></ param >
-        ///// < returns ></ returns >
-        ////[HttpPost]
-        ////[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Create)]
-        ////[SwaggerOperation("User/Post")]
-        ////public async Task<ApiResult<long>> Post([FromBody]AppUser value)
-        ////{
-        ////    if (!ModelState.IsValid)
-        ////    {
-        ////        return new ApiResult<long>(l, BasicControllerEnums.UnprocessableEntity,
-        ////            ModelErrors());
-        ////    }
+        /// <summary>
+        /// 用户 - 创建
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserPost)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserPost)]
+        [SwaggerOperation("User/Post")]
+        public async Task<ApiResult<long>> Post([FromBody]AppUser value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<long>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
 
-        ////    await AccountService.CreateUser(TenantId,
-        ////        null,
-        ////        db,
-        ////        tenantDb,
-        ////        null,
-        ////        value,
-        ////        UserId);
+            var roleIds = db.Roles.Where(x => x.Name.Equals(Roles.Users) || x.Name.Equals(Roles.Developer))
+                  .Select(x => x.Id).ToList();
 
-        ////    db.Add(value);
+            var permissions = typeof(UserPermissions).GetFields()
+                .Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues[0]).ToList();
 
-        ////    await db.SaveChangesAsync();
+            var tenantIds = tenantDb.Tenants.Select(x => x.Id).ToList();
+            try
+            {
+                var result = await AccountService.CreateUser(
+                    TenantId,
+                    userManager,
+                    db,
+                    value,
+                    roleIds,
+                    string.Join(",", permissions),
+                    tenantIds);
 
-        ////    return new ApiResult<long>(value.Id);
-        ////}
+                db.Add(value);
+
+                if (result.Succeeded)
+                {
+                    return new ApiResult<long>(value.Id);
+                }
+
+                else
+                {
+                    return new ApiResult<long>(l, UserControllerEnums.Post_CreateUserFail,
+                       JsonConvert.SerializeObject(result.Errors));
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return new ApiResult<long>(l,
+                    BasicControllerEnums.ExpectationFailed,
+                    ex.Message);
+            }
+        }
 
         /// <summary>
         /// 用户 - 更新
@@ -226,7 +255,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPut]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Update)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserPut)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserPut)]
         [SwaggerOperation("User/Put")]
         public async Task<ApiResult<long>> Put([FromBody]AppUser value)
         {
@@ -377,22 +407,52 @@ namespace IdentityServer4.MicroService.Apis
                     }
                     #endregion
 
-                    #region Update Entity.Roles
-                    if (value.Roles != null && value.Roles.Count > 0)
+                    #region Update Entity.Properties
+                    if (value.Properties != null && value.Properties.Count > 0)
                     {
                         #region delete
-                        var sql = $"DELETE AspNetUserRoles WHERE UserId = {source.Id}";
-                        db.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                        var EntityIDs = value.Properties.Select(x => x.Id).ToList();
+                        if (EntityIDs.Count > 0)
+                        {
+                            var DeleteEntities = source.Properties.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
+
+                            if (DeleteEntities.Count() > 0)
+                            {
+                                var sql = string.Format("DELETE AspNetUserProperties WHERE ID IN ({0})",
+                                            string.Join(",", DeleteEntities));
+
+                                db.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                            }
+                        }
+                        #endregion
+
+                        #region update
+                        var UpdateEntities = value.Properties.Where(x => x.Id > 0).ToList();
+                        if (UpdateEntities.Count > 0)
+                        {
+                            UpdateEntities.ForEach(x =>
+                            {
+                                db.Database.ExecuteSqlCommand(
+                                  new RawSqlString("UPDATE AspNetUserProperties SET [Key]=@Key,[Value]=@Value WHERE Id = " + x.Id),
+                                  new SqlParameter("@Key", x.Key),
+                                  new SqlParameter("@Value", x.Value));
+                            });
+                        }
                         #endregion
 
                         #region insert
-                        value.Roles.ForEach(x =>
+                        var NewEntities = value.Properties.Where(x => x.Id == 0).ToList();
+                        if (NewEntities.Count > 0)
                         {
-                            db.Database.ExecuteSqlCommand(
-                              new RawSqlString("INSERT INTO AspNetUserRoles VALUES (@UserId,@RoleId)"),
-                              new SqlParameter("@UserId", source.Id),
-                              new SqlParameter("@RoleId", x.RoleId));
-                        });
+                            NewEntities.ForEach(x =>
+                            {
+                                db.Database.ExecuteSqlCommand(
+                                  new RawSqlString("INSERT INTO AspNetUserProperties VALUES (@Key,@UserId,@Value)"),
+                                  new SqlParameter("@Key", x.Key),
+                                  new SqlParameter("@UserId", source.Id),
+                                  new SqlParameter("@Value", x.Value));
+                            });
+                        }
                         #endregion
                     }
                     #endregion
@@ -419,7 +479,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Delete)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserDelete)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserDelete)]
         [SwaggerOperation("User/Delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
@@ -427,14 +488,16 @@ namespace IdentityServer4.MicroService.Apis
 
             query = query.Where(x => x.Tenants.Any(t => t.TenantId == TenantId));
 
-            var entity = await query.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var entity = await query.Where(x => x.Id == id && !x.IsDeleted).FirstOrDefaultAsync();
 
             if (entity == null)
             {
                 return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
 
-            db.Users.Remove(entity);
+            entity.IsDeleted = true;
+
+            //db.Users.Remove(entity);
 
             await db.SaveChangesAsync();
 
@@ -447,7 +510,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpGet("Head")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Read)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserHead)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserHead)]
         [SwaggerOperation("User/Head")]
         public async Task<ObjectResult> Head(UserDetailRequest value)
         {
@@ -460,7 +524,7 @@ namespace IdentityServer4.MicroService.Apis
 
             query = query.Where(x => x.Tenants.Any(t => t.TenantId == TenantId));
 
-            var result = await query.Where(x => x.PhoneNumber.Equals(value.PhoneNumber))
+            var result = await query.Where(x => x.PhoneNumber.Equals(value.PhoneNumber)&&!x.IsDeleted)
                 .Select(x => x.Id).FirstOrDefaultAsync();
 
             if (result > 0)
@@ -475,11 +539,12 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 用户注册
         /// <summary>
-        /// 用户注册 (需验证手机号，邮箱如果填写了也需要验证)
+        /// 用户 - 注册 (需验证手机号，邮箱如果填写了也需要验证)
         /// </summary>
         /// <returns></returns>
         [HttpPost("Register")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Create)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserRegister)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserRegister)]
         [SwaggerOperation("User/Register")]
         public async Task<ApiResult<string>> Register([FromBody]UserRegisterRequest value)
         {
@@ -492,7 +557,7 @@ namespace IdentityServer4.MicroService.Apis
             #region 校验邮箱是否重复
             if (await db.Users.AnyAsync(x => x.Email.Equals(value.Email)))
             {
-                return new ApiResult<string>(l,UserControllerEnum.Register_EmailExists);
+                return new ApiResult<string>(l,UserControllerEnums.Register_EmailExists);
             }
             #endregion
             #region 校验邮箱验证码
@@ -504,7 +569,7 @@ namespace IdentityServer4.MicroService.Apis
                 }
                 catch
                 {
-                    return new ApiResult<string>(l,UserControllerEnum.Register_EmailVerifyCodeError);
+                    return new ApiResult<string>(l,UserControllerEnums.Register_EmailVerifyCodeError);
                 }
             }
             #endregion
@@ -512,7 +577,7 @@ namespace IdentityServer4.MicroService.Apis
             #region 校验手机号是否重复
             if (await db.Users.AnyAsync(x => x.PhoneNumber.Equals(value.PhoneNumber)))
             {
-                return new ApiResult<string>(l, UserControllerEnum.Register_PhoneNumberExists);
+                return new ApiResult<string>(l, UserControllerEnums.Register_PhoneNumberExists);
             }
             #endregion
             #region 校验手机验证码
@@ -520,7 +585,7 @@ namespace IdentityServer4.MicroService.Apis
 
             if (await redis.KeyExistsAsync(PhoneNumberVerifyCodeKey) == false)
             {
-                return new ApiResult<string>(l, UserControllerEnum.Register_PhoneNumberVerifyCodeError);
+                return new ApiResult<string>(l, UserControllerEnums.Register_PhoneNumberVerifyCodeError);
             }
 
             await redis.RemoveAsync(PhoneNumberVerifyCodeKey);
@@ -616,12 +681,13 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// 发送手机验证码
+        /// 用户 - 注册 - 发送手机验证码
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPost("VerifyPhone")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Create)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserVerifyPhone)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserVerifyPhone)]
         [SwaggerOperation("User/VerifyPhone")]
         public async Task<ApiResult<string>> VerifyPhone([FromBody]UserVerifyPhoneRequest value)
         {
@@ -642,7 +708,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 if (dailyLimit > UserControllerKeys.Limit_24Hour_Verify_MAX_Phone)
                 {
-                    return new ApiResult<string>(l, UserControllerEnum.VerifyPhone_CallLimited);
+                    return new ApiResult<string>(l, UserControllerEnums.VerifyPhone_CallLimited);
                 }
             }
             else
@@ -667,7 +733,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 if (usedTime < UserControllerKeys.MinimumTime_SendCode_Phone)
                 {
-                    return new ApiResult<string>(l, UserControllerEnum.VerifyPhone_TooManyRequests, string.Empty,
+                    return new ApiResult<string>(l, UserControllerEnums.VerifyPhone_TooManyRequests, string.Empty,
                         UserControllerKeys.MinimumTime_SendCode_Phone - usedTime);
                 }
             }
@@ -694,12 +760,13 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// 发送邮件验证码
+        /// 用户 - 注册 - 发送邮件验证码
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPost("VerifyEmail")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.Create)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserVerifyEmail)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserVerifyEmail)]
         [SwaggerOperation("User/VerifyEmail")]
         public async Task<ApiResult<string>> VerifyEmail([FromBody]UserVerifyEmailRequest value)
         {
@@ -720,7 +787,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 if (dailyLimit > UserControllerKeys.Limit_24Hour_Verify_MAX_Email)
                 {
-                    return new ApiResult<string>(l, UserControllerEnum.VerifyEmail_CallLimited);
+                    return new ApiResult<string>(l, UserControllerEnums.VerifyEmail_CallLimited);
                 }
             }
             else
@@ -745,7 +812,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 if (usedTime < UserControllerKeys.MinimumTime_SendCode_Email)
                 {
-                    return new ApiResult<string>(l, UserControllerEnum.VerifyEmail_TooManyRequests, string.Empty,
+                    return new ApiResult<string>(l, UserControllerEnums.VerifyEmail_TooManyRequests, string.Empty,
                         UserControllerKeys.MinimumTime_SendCode_Email - usedTime);
                 }
             }
@@ -785,7 +852,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("User/Codes")]
         public List<ErrorCodeModel> Codes()
         {
-            var result = _Codes<UserControllerEnum>();
+            var result = _Codes<UserControllerEnums>();
 
             return result;
         }

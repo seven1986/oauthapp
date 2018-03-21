@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Data;
 using System.Data.SqlClient;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,13 +16,11 @@ using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Services;
-using System.Collections.Generic;
-using static IdentityServer4.MicroService.AppConstant;
-using static IdentityServer4.MicroService.MicroserviceConfig;
 using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.MicroService.Models.Apis.Common;
-using IdentityServer4.MicroService.Models.Apis.IdentityResourceController;
 using IdentityServer4.MicroService.Models.Apis.ApiResourceController;
+using static IdentityServer4.MicroService.AppConstant;
+using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -66,7 +65,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceGet)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceGet)]
         [SwaggerOperation("ApiResource/Get")]
         public async Task<PagingResult<ApiResource>> Get(PagingRequest<ApiResourceGetRequest> value)
         {
@@ -141,7 +141,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceDetail)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceDetail)]
         [SwaggerOperation("ApiResource/Detail")]
         public async Task<ApiResult<ApiResource>> Get(int id)
         {
@@ -173,7 +174,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Create)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePost)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePost)]
         [SwaggerOperation("ApiResource/Post")]
         public async Task<ApiResult<long>> Post([FromBody]ApiResource value)
         {
@@ -204,7 +206,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPut]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Update)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePut)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePut)]
         [SwaggerOperation("ApiResource/Put")]
         public async Task<ApiResult<long>> Put([FromBody]ApiResource value)
         {
@@ -484,7 +487,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Delete)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceDelete)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceDelete)]
         [SwaggerOperation("ApiResource/Delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
@@ -514,7 +518,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPut("Publish")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Update)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePublish)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePublish)]
         [SwaggerOperation("ApiResource/Publish")]
         public async Task<ApiResult<bool>> Publish([FromBody]ApiResourcePublishRequest value)
         {
@@ -572,7 +577,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("Publish/{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePublishSetting)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePublishSetting)]
         [SwaggerOperation("ApiResource/PublishSetting")]
         public async Task<ApiResult<ApiResourcePublishRequest>> Publish(int id)
         {
@@ -600,7 +606,8 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <returns></returns>
         [HttpGet("AuthServers")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceAuthServers)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceAuthServers)]
         [SwaggerOperation("ApiResource/AuthServers")]
         public async Task<ApiResult<AzureApiManagementEntities<AzureApiManagementAuthorizationServerEntity>>> AuthServers()
         {
@@ -614,7 +621,8 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <returns></returns>
         [HttpGet("Products")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.Read)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceProducts)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceProducts)]
         [SwaggerOperation("ApiResource/Products")]
         public async Task<ApiResult<AzureApiManagementEntities<AzureApiManagementProductEntity>>> Products()
         {
@@ -633,7 +641,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("ApiResource/Codes")]
         public List<ErrorCodeModel> Codes()
         {
-            var result = _Codes<ApiResourceControllerEnum>();
+            var result = _Codes<ApiResourceControllerEnums>();
 
             return result;
         }
