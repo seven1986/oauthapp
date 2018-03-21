@@ -9,8 +9,6 @@
 /IdentityServer4.MicroService/Properties/PublishProfiles
 /IdentityServer4.MicroService/node_modules
 /IdentityServer4.MicroService/IdentityServer4.MicroService.csproj.user
-/IdentityServer4.MicroService/appsettings.json
-/IdentityServer4.MicroService/appsettings.Production.json
 
 /packages
 /IdentityServer4.MicroService.SDKGen/bin

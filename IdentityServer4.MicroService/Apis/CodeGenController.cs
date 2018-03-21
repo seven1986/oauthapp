@@ -9,6 +9,11 @@ using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+using System.Net.Http;
+using System.IO;
+using IdentityServer4.MicroService.Enums;
+using IdentityServer4.MicroService.Models.Apis.CodeGenController;
+using System;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -65,15 +70,40 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         /// Generate Client SDK
         /// </summary>
-        [HttpPost("Clients/{language}")]
+        [HttpPost("GenerateClient")]
         [AllowAnonymous]
-        [SwaggerOperation("GenerateClient")]
-        public async Task<ApiResult<string>> GenerateClient(string language)
+        [SwaggerOperation("CodeGen/GenerateClient")]
+        public async Task<ApiResult<string>> GenerateClient(GenerateClientRequest value)
         {
-            var r = await nodeServices.InvokeAsync<string>("./Node/transpile",1, 2);
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<string>()
+                {
+                    code = (int)BasicControllerEnums.UnprocessableEntity,
+                    message = ModelErrors()
+                };
+            }
 
-            return new ApiResult<string>();
+            var tempPath = $"./Node/sdkgen/{Enum.GetName(typeof(PackagePlatform), value.platform)}/{value.templateKey}";
+
+            if (!System.IO.File.Exists(tempPath))
+            {
+                return new ApiResult<string>(l, CodeGenControllerEnums.GenerateClient_ModuleIsNotExists);
+            }
+
+            try
+            {
+                var r = await nodeServices.InvokeAsync<string>(tempPath, value.packageOptions);
+
+                return new ApiResult<string>(r);
+            }
+
+            catch (Exception ex)
+            {
+                return new ApiResult<string>(l,
+                    BasicControllerEnums.ExpectationFailed,
+                    ex.Message);
+            }
         }
-
     }
 }

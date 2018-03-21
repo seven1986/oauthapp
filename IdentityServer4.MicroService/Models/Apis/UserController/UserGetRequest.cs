@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace IdentityServer4.MicroService.Models.Apis.UserController
 {
     public class UserGetRequest
     {
         /// <summary>
-        /// 用户角色
+        /// 用户角色标识，多个角色用","链接
         /// </summary>
-        public List<int> roles { get; set; }
+        [RegularExpression("^[0-9,]+$", ErrorMessage = "用户角色标识格式错误")]
+        public string roles { get; set; }
 
         /// <summary>
         /// 手机号

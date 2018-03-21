@@ -145,7 +145,15 @@ namespace IdentityServer4.MicroService.Services
                 {
                     command.CommandText = sql;
 
-                    command.Parameters.AddRange(WhereParameters.ToArray());
+                    //fix error:The SqlParameter is already contained by another SqlParameterCollection.
+                    var clonedParameters = new SqlParameter[WhereParameters.Count];
+
+                    for (int i = 0, j = WhereParameters.Count; i < j; i++)
+                    {
+                        clonedParameters[i] = (SqlParameter)((ICloneable)WhereParameters[i]).Clone();
+                    }
+
+                    command.Parameters.AddRange(clonedParameters);
 
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -187,6 +195,8 @@ namespace IdentityServer4.MicroService.Services
                             entities.Add(item);
                         }
                     }
+
+                    command.Parameters.Clear();
                 }
             }
 

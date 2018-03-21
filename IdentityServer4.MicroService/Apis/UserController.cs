@@ -126,16 +126,14 @@ namespace IdentityServer4.MicroService.Apis
                         sqlParams.Add(new SqlParameter("@PhoneNumber", value.q.phoneNumber));
                     }
 
-                    if (value.q.roles != null && value.q.roles.Count > 0)
+                    if (!string.IsNullOrWhiteSpace(value.q.roles))
                     {
-                        var rolesExpression = new List<string>();
+                        var roleIds = value.q.roles.Split(new string[] { "," },
+                            StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                        value.q.roles.ForEach(r =>
-                        {
-                            rolesExpression.Add("Roles Like '%\"Id\":" + r + ",%'");
-                        });
+                        var rolesExpression = roleIds.Select(r => "Roles Like '%\"Id\":" + r + ",%'");
 
-                        where.Add(" ( " + string.Join(" OR ", rolesExpression) + " ) ");
+                        where.Add(" ( " + string.Join(" AND ", rolesExpression) + " ) ");
                     }
                 }
             };
