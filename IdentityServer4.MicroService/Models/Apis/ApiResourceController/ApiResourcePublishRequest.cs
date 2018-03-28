@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace IdentityServer4.MicroService.Models.Apis.ApiResourceController
 {
@@ -48,5 +49,36 @@ namespace IdentityServer4.MicroService.Models.Apis.ApiResourceController
         /// https://docs.microsoft.com/zh-cn/rest/api/apimanagement/apimanagementrest/azure-api-management-rest-api-api-entity#SetAPIPolicy
         /// </summary>
         public string policy { get; set; }
+
+        /// <summary>
+        /// 创建为修订版本
+        /// </summary>
+        //public PublishMode publishMode { get; set; } = PublishMode.Release;
+
+        /// <summary>
+        /// 发布修订版时，必填
+        /// </summary>
+        //public string releaseNote { get; set; }
     }
+
+    //public enum PublishMode
+    //{
+    //    /// <summary>
+    //    /// 首次发布或覆盖当前版本的发布
+    //    /// </summary>
+    //    [EnumMember(Value = "Release")]
+    //    Release = 0,
+
+    //    /// <summary>
+    //    /// 发布修订版
+    //    /// </summary>
+    //    [EnumMember(Value = "ReVersion")]
+    //    ReVersion = 1,
+
+    //    /// <summary>
+    //    /// 发布新版本
+    //    /// </summary>
+    //    [EnumMember(Value = "NewVersion")]
+    //    NewVersion = 2,
+    //}
 }

@@ -512,8 +512,9 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         #region Api Management
+
         /// <summary>
-        /// 微服务 - 发布到网关
+        /// 微服务 - 发布
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -534,27 +535,13 @@ namespace IdentityServer4.MicroService.Apis
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
 
-            #region 如果 oauth2 或 productId为空，从租户配置读取默认配置
-            if (string.IsNullOrWhiteSpace(value.authorizationServerId) &&
-                    Tenant.Properties.ContainsKey(AzureApiManagementKeys.AuthorizationServerId))
-            {
-                value.authorizationServerId = Tenant.Properties[AzureApiManagementKeys.AuthorizationServerId];
-            }
-
-            if (string.IsNullOrWhiteSpace(value.productId) &&
-                Tenant.Properties.ContainsKey(AzureApiManagementKeys.ProductId))
-            {
-                value.productId = Tenant.Properties[AzureApiManagementKeys.ProductId];
-            }
-            #endregion
-
-            // 发布或更新微服务到网关
             var result = await AzureApim.Apis.ImportOrUpdateAsync(
                 value.id.ToString(),
                 value.suffix,
                 value.swaggerUrl,
-                value.productId,
+                new string[] { value.productId },
                 value.authorizationServerId,
+                new List<string>() { "https" },
                 value.scope,
                 value.openid);
 
@@ -599,6 +586,84 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             return new ApiResult<ApiResourcePublishRequest>(result);
+        }
+
+        /// <summary>
+        /// 微服务 - 修订版 - 列表
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("Revisions/{id}")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceRevisions)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceRevisions)]
+        [SwaggerOperation("ApiResource/Revisions")]
+        public async Task<PagingResult<AzureApiManagementRevisionEntity>> Revisions(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return new PagingResult<AzureApiManagementRevisionEntity>(l, ApiResourceControllerEnums.Revisions_IdCanNotBeNull);
+            }
+
+            var response = await AzureApim.Apis.GetRevisionsAsync(id);
+
+            var result = new PagingResult<AzureApiManagementRevisionEntity>(response.value, 
+                response.count,
+                0, 
+                response.value.Count);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 微服务 - 修订版 - 发布
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost("Revisions")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePublishRevision)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePublishRevision)]
+        [SwaggerOperation("ApiResource/PublishRevision")]
+        public async Task<ApiResult<bool>> Revisions([FromBody]ApiResourcePublishRevisionsRequest value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            if (!await exists(value.id))
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
+            }
+
+            var ApiRevision = await AzureApim.Apis.CreateRevisionFromSourceApiAsync(value.id.ToString(), value.releaseNote);
+
+            var ApiDetail = await AzureApim.Apis.DetailAsync(value.id.ToString());
+
+            if (ApiDetail == null) { return new ApiResult<bool>(l, ApiResourceControllerEnums.PublishRevision_GetDetailFailed); }
+
+            var RevisionId = $"{value.id};rev={ApiRevision}";
+
+            var ImportResult = await AzureApim.Apis.ImportOrUpdateAsync(RevisionId, ApiDetail.path, value.swaggerUrl);
+
+            if (ImportResult)
+            {
+                var ReleaseResult = await AzureApim.Apis.CreateReleaseAsync(RevisionId, value.releaseNote);
+
+                if (ReleaseResult)
+                {
+                    return new ApiResult<bool>(true);
+                }
+                else
+                {
+                    return new ApiResult<bool>(l, ApiResourceControllerEnums.PublishRevision_CreateReleaseFailed);
+                }
+            }
+
+            else
+            {
+                return new ApiResult<bool>(l, ApiResourceControllerEnums.PublishRevision_PublishFailed);
+            }
         }
 
         /// <summary>
@@ -647,20 +712,20 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
+        const string _ExistsCmd = "SELECT Id FROM AspNetUserApiResources WHERE UserId = {0} AND ApiResourceId = {1}";
+
         async Task<bool> exists(long id)
         {
-            var query = db.ApiResources.AsQueryable();
+            var result = await userDb.ExecuteScalarAsync(string.Format(_ExistsCmd, UserId, id));
 
-            var ApiResourceIds = await userDb.UserApiResources
-                .Where(x => x.UserId == UserId)
-                .Select(x => x.ApiResourceId).ToListAsync();
-
-            if (ApiResourceIds.Count > 0)
+            if (result != null)
             {
-                query = query.Where(x => ApiResourceIds.Contains(x.Id));
+                long.TryParse(result.ToString(), out long userApiResourceId);
+
+                return userApiResourceId > 0;
             }
 
-            return query.Any(x => x.Id == id);
+            return false;
         }
     }
 }

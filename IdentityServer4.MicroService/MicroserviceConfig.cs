@@ -72,6 +72,20 @@ namespace IdentityServer4.MicroService
                 MicroServiceName + ".all")]
             public const string ApiResourcePublishSetting = "scope:apiresource.publishsetting";
 
+            [Description(" 微服务 - 修订版 - 列表")]
+            [PolicyClaimValues(
+                MicroServiceName + ".apiresource.revisions",
+                MicroServiceName + ".apiresource.all",
+                MicroServiceName + ".all")]
+            public const string ApiResourceRevisions = "scope:apiresource.revisions";
+
+            [Description("微服务 - 修订版 - 发布")]
+            [PolicyClaimValues(
+                MicroServiceName + ".apiresource.publishrevision",
+                MicroServiceName + ".apiresource.all",
+                MicroServiceName + ".all")]
+            public const string ApiResourcePublishRevision = "scope:apiresource.publishrevision";
+
             [Description("微服务 - OAuthServers")]
             [PolicyClaimValues(
                 MicroServiceName + ".apiresource.authservers",
@@ -375,6 +389,20 @@ namespace IdentityServer4.MicroService
                 MicroServiceName + ".apiresource.all",
                 MicroServiceName + ".all")]
             public const string ApiResourcePublishSetting = "permission:apiresource.publishsetting";
+
+            [Description(" 微服务 - 修订版 - 列表")]
+            [PolicyClaimValues(
+                MicroServiceName + ".apiresource.revisions",
+                MicroServiceName + ".apiresource.all",
+                MicroServiceName + ".all")]
+            public const string ApiResourceRevisions = "permission:apiresource.revisions";
+
+            [Description("微服务 - 修订版 - 发布")]
+            [PolicyClaimValues(
+                MicroServiceName + ".apiresource.publishrevision",
+                MicroServiceName + ".apiresource.all",
+                MicroServiceName + ".all")]
+            public const string ApiResourcePublishRevision = "permission:apiresource.publishrevision";
 
             [Description("微服务 - OAuthServers")]
             [PolicyClaimValues(

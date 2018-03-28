@@ -10,6 +10,8 @@ namespace IdentityServer4.MicroService.Models.Apis.Common
 
         int code { get; set; }
 
+        string codeName { get; set; }
+
         int total { get; set; }
 
         string message { get; set; }
