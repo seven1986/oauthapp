@@ -22,6 +22,8 @@ namespace IdentityServer4.MicroService.Models.Apis.Common
 
         public IList<T> data { get; set; } = new List<T>();
 
+        public PagingResult() { }
+
         public PagingResult(IList<T> _data, int _total, int _skip, int _take)
         {
             data = _data;

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace IdentityServer4.MicroService.Models.Apis.CodeGenController
@@ -8,17 +9,37 @@ namespace IdentityServer4.MicroService.Models.Apis.CodeGenController
         /// <summary>
         /// 包平台
         /// </summary>
-       public PackagePlatform platform { get; set; }
+        public PackagePlatform platform { get; set; }
 
         /// <summary>
-        /// 模板标识
+        /// 语言(可选：angular2)
         /// </summary>
-       public string templateKey { get; set; }
+        public Language language { get; set; }
 
         /// <summary>
-        /// 模板是生成设置
+        /// 模板名称
         /// </summary>
-       public string packageOptions { get; set; }
+        public string template { get; set; }
+
+        /// <summary>
+        /// SDK生成设置
+        /// </summary>
+        public string packageOptions { get; set; }
+
+        /// <summary>
+        /// swagger 文档地址
+        /// </summary>
+        [Required(ErrorMessage ="请填写swagger文档地址")]
+        public string swaggerUrl { get; set; }
+    }
+
+    public enum Language
+    {
+        /// <summary>
+        /// angular2
+        /// </summary>
+        [EnumMember(Value = "angular2")]
+        angular2 = 0,
     }
 
     public enum PackagePlatform

@@ -6,13 +6,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;1705;1591;1574</NoWarn>
+    <NoWarn>1701;1702;1705;1591;1574;1587</NoWarn>
     <DocumentationFile>bin\Debug\netcoreapp2.0\IdentityServer4.MicroService.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\netcoreapp2.0\IdentityServer4.MicroService.xml</DocumentationFile>
-    <NoWarn>1701;1702;1705;1591;1574</NoWarn>
+    <NoWarn>1701;1702;1705;1591;1574;1587</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,13 +46,13 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="2.3.0" />
+    <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\Migrations\IdentityServer\" />
-    <Folder Include="Node\sdkgen\npm\" />
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>

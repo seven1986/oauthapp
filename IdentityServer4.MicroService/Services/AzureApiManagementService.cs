@@ -293,6 +293,34 @@ namespace IdentityServer4.MicroService.Services
         }
 
         /// <summary>
+        /// Get Api List By Path
+        /// </summary>
+        /// <returns></returns>
+        public async Task<AzureApiManagementEntities<AzureApiManagementApiEntity>> GetByPathAsync(string path)
+        {
+            var query = new Dictionary<string, string>()
+            {
+                { "$filter", $"path eq '{path}'" }
+            };
+
+            var result = await RequestAsync("/apisByTags", HttpMethod.Get.Method, query);
+
+            if (result.IsSuccessStatusCode)
+            {
+                var data = result.Content.ReadAsStringAsync().Result;
+
+                var entities = JsonConvert.DeserializeObject<AzureApiManagementEntities<AzureApiManagementApiEntity>>(data);
+
+                return entities;
+            }
+
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Get Api Detail
         /// </summary>
         /// <param name="aid">Api Id</param>
@@ -667,6 +695,7 @@ namespace IdentityServer4.MicroService.Services
         /// <param name="apiVersionName">default is V2</param>
         /// <param name="apiRevisionDescription"></param>
         /// <param name="versioningScheme">default is Query(Segment/Header) </param>
+        /// <param name="versionQueryName">default is api-version </param>
         /// <returns></returns>
         public async Task<bool> CreateVersionAsync(
             string revisionId,
@@ -868,7 +897,7 @@ namespace IdentityServer4.MicroService.Services
         /// <summary>
         /// Get Api Detail
         /// </summary>
-        /// <param name="aid">Api Id</param>
+        /// <param name="id">Api Id</param>
         /// <returns></returns>
         public async Task<AzureApiManagementApiVersionSetEntity> VersionSetDetailAsync(string id)
         {
@@ -892,8 +921,9 @@ namespace IdentityServer4.MicroService.Services
         /// <summary>
         /// Update Version Set
         /// </summary>
-        /// <param name="aid">id</param>
-        /// <param name="body">Model</param>
+        /// <param name="id">id</param>
+        /// <param name="name">name</param>
+        /// <param name="description">description</param>
         /// <returns></returns>
         public async Task<bool> UpdateVersionSetAsync(string id, string name, string description)
         {

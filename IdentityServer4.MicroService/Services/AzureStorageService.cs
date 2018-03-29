@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage.Table;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using Microsoft.WindowsAzure.Storage.Queue;
 
 namespace IdentityServer4.MicroService.Services
 {
@@ -40,21 +41,17 @@ namespace IdentityServer4.MicroService.Services
 
             return blobContainer;
         }
-        public async Task<string> UploadBlob(Stream stream, string blobContainerName, string blobName)
+        public async Task<string> UploadBlobAsync(Stream stream, string blobContainerName, string blobName)
         {
             if (stream == null || string.IsNullOrWhiteSpace(blobContainerName)) { return string.Empty; }
             
             try
             {
-                if (blobName.Contains("wx-file"))
-                {
-                    blobName = string.Format("{0}-{1}", DateTime.UtcNow.ToString("HHmmssffff"), blobName);
-                }
-
                 var blobContainer = await CreateBlobAsync(blobContainerName);
+
                 var blockBlob = blobContainer.GetBlockBlobReference(DateTime.UtcNow.ToString("yyyyMMdd") + "/" + blobName);
 
-                blockBlob.UploadFromStreamAsync(stream).Wait();
+                await blockBlob.UploadFromStreamAsync(stream);
 
                 return blockBlob.Uri.ToString();
             }
@@ -95,6 +92,24 @@ namespace IdentityServer4.MicroService.Services
             {
                 throw ex;
             }
+        }
+
+        public async Task<bool> AddMessageAsync(string queueName, string message)
+        {
+            var storageAccount = CloudStorageAccount.Parse(Connection);
+
+            // Create the queue client.
+            var queueClient = storageAccount.CreateCloudQueueClient();
+
+            // Retrieve a reference to a container.
+            var queue = queueClient.GetQueueReference(queueName);
+
+            // Create the queue if it doesn't already exist
+           await queue.CreateIfNotExistsAsync();
+
+           await queue.AddMessageAsync(new CloudQueueMessage(message));
+
+           return true;
         }
     }
 }

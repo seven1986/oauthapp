@@ -10,7 +10,7 @@ namespace IdentityServer4.MicroService.SDKGen
 {
     public class Functions
     {
-        public static async Task ProcessQueueMessageAsync([QueueTrigger("publish-package-npm")] string packageUrl, TextWriter log)
+        public static async Task ReleasePackage_NPM([QueueTrigger("publish-package-npm")] string packageUrl, TextWriter log)
         {
             log.WriteLine(packageUrl);
 
@@ -24,6 +24,11 @@ namespace IdentityServer4.MicroService.SDKGen
 
                 // zip包下载文件夹路径
                 var packageExtractToDirectory = AppDomain.CurrentDomain.BaseDirectory + packageDirectoryName + @"\";
+
+                if (!Directory.Exists(packageExtractToDirectory))
+                {
+                    Directory.CreateDirectory(packageExtractToDirectory);
+                }
 
                 // zip包下载路径
                 var packagePath = packageExtractToDirectory + packageName;
@@ -67,11 +72,6 @@ namespace IdentityServer4.MicroService.SDKGen
                     p.WaitForExit();
                 }
             }
-        }
-
-        public class NpmPublishModel
-        {
-            public string packageUrl { get; set; }
         }
     }
 }

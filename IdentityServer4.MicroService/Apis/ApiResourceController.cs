@@ -90,9 +90,19 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             #region filter
-            if (!string.IsNullOrWhiteSpace(value.q.Name))
+            if (!string.IsNullOrWhiteSpace(value.q.name))
             {
-                query = query.Where(x => x.Name.Equals(value.q.Name));
+                query = query.Where(x => x.Name.Equals(value.q.name));
+            }
+
+            if (value.q.expandScopes)
+            {
+                query = query.Include(x => x.Scopes);
+            }
+
+            if (value.q.expandClaims)
+            {
+                query = query.Include(x => x.UserClaims);
             }
             #endregion
 
@@ -123,9 +133,6 @@ namespace IdentityServer4.MicroService.Apis
 
                 #region pagingWithData
                 var data = await query.Skip(value.skip.Value).Take(value.take.Value)
-                    .Include(x => x.UserClaims)
-                    .Include(x => x.Scopes)
-                    .Include(x => x.Secrets)
                     .ToListAsync();
                 #endregion
 
@@ -589,24 +596,26 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// 微服务 - 修订版 - 列表
+        /// 微服务 - 版本列表
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("Revisions/{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceRevisions)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceRevisions)]
-        [SwaggerOperation("ApiResource/Revisions")]
-        public async Task<PagingResult<AzureApiManagementRevisionEntity>> Revisions(string id)
+        [HttpGet("Versions/{id}")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceVersions)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceVersions)]
+        [SwaggerOperation("ApiResource/Versions")]
+        public async Task<PagingResult<AzureApiManagementApiEntity>> Versions(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
-                return new PagingResult<AzureApiManagementRevisionEntity>(l, ApiResourceControllerEnums.Revisions_IdCanNotBeNull);
+                return new PagingResult<AzureApiManagementApiEntity>(l, ApiResourceControllerEnums.Revisions_IdCanNotBeNull);
             }
 
-            var response = await AzureApim.Apis.GetRevisionsAsync(id);
+            var detail = await AzureApim.Apis.DetailAsync(id);
 
-            var result = new PagingResult<AzureApiManagementRevisionEntity>(response.value, 
+            var response = await AzureApim.Apis.GetByPathAsync(detail.path);
+
+            var result = new PagingResult<AzureApiManagementApiEntity>(response.value, 
                 response.count,
                 0, 
                 response.value.Count);
@@ -615,7 +624,7 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// 微服务 - 修订版 - 发布
+        /// 微服务 - 发修订版
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -664,6 +673,30 @@ namespace IdentityServer4.MicroService.Apis
             {
                 return new ApiResult<bool>(l, ApiResourceControllerEnums.PublishRevision_PublishFailed);
             }
+        }
+
+        /// <summary>
+        /// 微服务 - 发新版本
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost("Versions")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePublishVersion)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePublishVersion)]
+        [SwaggerOperation("ApiResource/PublishVersion")]
+        public async Task<ApiResult<bool>> Versions([FromBody]ApiResourceCreateVersionRequest value)
+        {
+            if(!ModelState.IsValid)
+            {
+                return new ApiResult<bool>(l,
+                    BasicControllerEnums.UnprocessableEntity, ModelErrors());
+            }
+
+            var newApiId = Guid.NewGuid().ToString("N");
+
+            var result = await AzureApim.Apis.CreateVersionAsync(value.revisionId, value.apiVersionName, newApiId);
+
+            return new ApiResult<bool>(result);
         }
 
         /// <summary>
