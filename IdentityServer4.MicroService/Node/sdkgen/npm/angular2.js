@@ -1,11 +1,17 @@
-﻿var template = require('./template-web');
+﻿var template = require('./mustache.min');
 
 module.exports = function (callback, doc, second)
 {
-    var result = template.render('hi, <%=value%>.', { value: 'aui' });
+    //var result = template.render('hi, {{title}} spends {{calc}}.',
+    //    {
+    //        title: 'aui',
+    //        calc: () => 2 + 4
+    //    });
+
+    var result = angular2Gen(JSON.parse(doc));
+
     callback(/* error */ null, result);
 }
-
 
 var angular2Gen = function (doc) {
 
@@ -33,8 +39,6 @@ var angular2Gen = function (doc) {
         methods.forEach(method => {
 
             let k = `${path}/${method}`;
-
-            if ($.inArray(k, $scope.clientMethods) < 0) { return; }
 
             let operation = doc.paths[path][method];
 
@@ -106,7 +110,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ${sdkName} {
-    public basePath:string = '${$scope.doc.basePath}';
+    public basePath:string = '${doc.basePath}';
     constructor(protected http: HttpClient){
     }\r\n\r\n`+
         fns.join('\n\n') +

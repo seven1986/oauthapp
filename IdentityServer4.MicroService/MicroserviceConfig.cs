@@ -22,6 +22,8 @@ namespace IdentityServer4.MicroService
         /// </summary>
         public class ClientScopes
         {
+            //Description标记的格式必须是{controllerName} - {actionName}
+
             #region ApiResourceController
             [Description("微服务 - 列表")]
             [PolicyClaimValues(
@@ -71,6 +73,27 @@ namespace IdentityServer4.MicroService
                 MicroServiceName + ".apiresource.all",
                 MicroServiceName + ".all")]
             public const string ApiResourcePublishSetting = "scope:apiresource.publishsetting";
+
+            [Description(" 微服务 - 版本列表")]
+            [PolicyClaimValues(
+                MicroServiceName + ".apiresource.versions",
+                MicroServiceName + ".apiresource.all",
+                MicroServiceName + ".all")]
+            public const string ApiResourceVersions = "scope:apiresource.versions";
+
+            [Description("微服务 - 发修订版")]
+            [PolicyClaimValues(
+                MicroServiceName + ".apiresource.publishrevision",
+                MicroServiceName + ".apiresource.all",
+                MicroServiceName + ".all")]
+            public const string ApiResourcePublishRevision = "scope:apiresource.publishrevision";
+
+            [Description("微服务 - 发新版本")]
+            [PolicyClaimValues(
+                MicroServiceName + ".apiresource.publishversion",
+                MicroServiceName + ".apiresource.all",
+                MicroServiceName + ".all")]
+            public const string ApiResourcePublishVersion = "scope:apiresource.publishversion";
 
             [Description("微服务 - OAuthServers")]
             [PolicyClaimValues(
@@ -375,6 +398,27 @@ namespace IdentityServer4.MicroService
                 MicroServiceName + ".apiresource.all",
                 MicroServiceName + ".all")]
             public const string ApiResourcePublishSetting = "permission:apiresource.publishsetting";
+
+            [Description(" 微服务 - 版本列表")]
+            [PolicyClaimValues(
+                MicroServiceName + ".apiresource.versions",
+                MicroServiceName + ".apiresource.all",
+                MicroServiceName + ".all")]
+            public const string ApiResourceVersions = "permission:apiresource.versions";
+
+            [Description("微服务 - 发修订版")]
+            [PolicyClaimValues(
+                MicroServiceName + ".apiresource.publishrevision",
+                MicroServiceName + ".apiresource.all",
+                MicroServiceName + ".all")]
+            public const string ApiResourcePublishRevision = "permission:apiresource.publishrevision";
+
+            [Description("微服务 - 发新版本")]
+            [PolicyClaimValues(
+                MicroServiceName + ".apiresource.publishversion",
+                MicroServiceName + ".apiresource.all",
+                MicroServiceName + ".all")]
+            public const string ApiResourcePublishVersion = "permission:apiresource.publishversion";
 
             [Description("微服务 - OAuthServers")]
             [PolicyClaimValues(

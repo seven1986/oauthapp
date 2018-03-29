@@ -108,7 +108,7 @@ namespace IdentityServer4.MicroService.Apis
 
             try
             {
-                var result = await azure.UploadBlob(value.OpenReadStream(), blobContainerName, value.FileName);
+                var result = await azure.UploadBlobAsync(value.OpenReadStream(), blobContainerName, value.FileName);
 
                 return new ApiResult<string>(result);
             }
@@ -154,7 +154,7 @@ namespace IdentityServer4.MicroService.Apis
 
             try
             {
-                var result = await azure.UploadBlob(value.OpenReadStream(), blobContainerName, value.FileName);
+                var result = await azure.UploadBlobAsync(value.OpenReadStream(), blobContainerName, value.FileName);
 
                 return new ApiResult<string>(result);
             }

@@ -214,9 +214,11 @@ namespace IdentityServer4.MicroService.Services
         /// Product List
         /// </summary>
         /// <returns></returns>
-        public async Task<AzureApiManagementEntities<AzureApiManagementProductEntity>> GetAsync()
+        public async Task<AzureApiManagementEntities<AzureApiManagementProductEntity>> GetAsync(string apiId = "")
         {
-            var result = await _GetAsync("/products");
+            var result = string.IsNullOrWhiteSpace(apiId) ?
+                await _GetAsync("/products") :
+                await _GetAsync($"/apis/{apiId}/products");
 
             if (result.IsSuccessStatusCode)
             {
@@ -266,9 +268,42 @@ namespace IdentityServer4.MicroService.Services
         /// Get Api List
         /// </summary>
         /// <returns></returns>
-        public async Task<AzureApiManagementEntities<AzureApiManagementApiEntity>> GetAsync()
+        public async Task<AzureApiManagementEntities<AzureApiManagementApiEntity>> GetAsync(bool expandApiVersionSet = true)
         {
-            var result = await _GetAsync("/apis");
+            var query = new Dictionary<string, string>()
+            {
+                { "expandApiVersionSet", expandApiVersionSet.ToString() }
+            };
+
+            var result = await RequestAsync("/apis", HttpMethod.Get.Method, query);
+
+            if (result.IsSuccessStatusCode)
+            {
+                var data = result.Content.ReadAsStringAsync().Result;
+
+                var entities = JsonConvert.DeserializeObject<AzureApiManagementEntities<AzureApiManagementApiEntity>>(data);
+
+                return entities;
+            }
+
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Api List By Path
+        /// </summary>
+        /// <returns></returns>
+        public async Task<AzureApiManagementEntities<AzureApiManagementApiEntity>> GetByPathAsync(string path)
+        {
+            var query = new Dictionary<string, string>()
+            {
+                { "$filter", $"path eq '{path}'" }
+            };
+
+            var result = await RequestAsync("/apisByTags", HttpMethod.Get.Method, query);
 
             if (result.IsSuccessStatusCode)
             {
@@ -331,8 +366,9 @@ namespace IdentityServer4.MicroService.Services
         /// <param name="aid">Api id, not null</param>
         /// <param name="suffix">Api service suffix, not null</param>
         /// <param name="swaggerUrl">Swagger doc url, not null</param>
-        /// <param name="productId">Product id</param>
+        /// <param name="productIds">Product id collection</param>
         /// <param name="authorizationServerId">authorize server Id</param>
+        /// <param name="protocols">protocols</param>
         /// <param name="scope">scope</param>
         /// <param name="openid">openid</param>
         /// <returns></returns>
@@ -340,8 +376,9 @@ namespace IdentityServer4.MicroService.Services
             string aid,
             string suffix,
             string swaggerUrl,
-            string productId = null,
+            string[] productIds = null,
             string authorizationServerId = null,
+            List<string> protocols = null,
             string scope = null,
             string openid = null)
         {
@@ -364,6 +401,8 @@ namespace IdentityServer4.MicroService.Services
             var body = new JObject();
             body["id"] = path;
             body["link"] = swaggerUrl;
+            body["protocols"] = JsonConvert.SerializeObject(
+                 protocols == null || protocols.Count < 1 ? new List<string> { "https" } : protocols);
 
             var content = new StringContent(body.ToString(),
                 Encoding.UTF8,
@@ -388,13 +427,16 @@ namespace IdentityServer4.MicroService.Services
             {
                 #region Add Api to Product
                 // 如果为空，设置到Unlimited 这个Product里，否则需要带上subkey才能call
-                if (!string.IsNullOrWhiteSpace(productId))
+                if (productIds != null && productIds.Length > 0)
                 {
-                    try
+                    foreach (var productId in productIds)
                     {
-                        var addApiResult = await prdService.AddApiAsync(productId, aid);
+                        try
+                        {
+                            var addApiResult = await prdService.AddApiAsync(productId, aid);
+                        }
+                        catch { }
                     }
-                    catch { }
                 }
                 #endregion
 
@@ -557,6 +599,37 @@ namespace IdentityServer4.MicroService.Services
                 return string.Empty;
             }
         }
+
+        /// <summary>
+        /// Get Policy Snippets
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<AzureApiManagementApiPolicySnippet>> GetPolicySnippetsAsync()
+        {
+            var result = await RequestAsync("/policySnippets", HttpMethod.Get.Method);
+
+            if (result.IsSuccessStatusCode)
+            {
+                if (result.IsSuccessStatusCode)
+                {
+                    var data = result.Content.ReadAsStringAsync().Result;
+
+                    var entity = JsonConvert.DeserializeObject<List<AzureApiManagementApiPolicySnippet>>(data);
+
+                    return entity;
+                }
+
+                else
+                {
+                    return null;
+                }
+            }
+
+            else
+            {
+                return null;
+            }
+        }
         #endregion
 
         #region Revisions 修订版本
@@ -589,15 +662,14 @@ namespace IdentityServer4.MicroService.Services
         /// </summary>
         /// <param name="aid">7</param>
         /// <param name="apiRevisionDescription">desc</param>
-        /// <param name="newApiRevision">new revision number，default is from lastRevision +1</param>
         /// <returns>apiRevision</returns>
-        public async Task<long> CreateRevisionFromSourceApiAsync(string aid, string apiRevisionDescription, long newApiRevision = 0)
+        public async Task<long> CreateRevisionFromSourceApiAsync(string aid, string apiRevisionDescription)
         {
             var revisions = await GetRevisionsAsync(aid);
 
             var lastRevision = revisions.value.OrderByDescending(x => long.Parse(x.apiRevision)).LastOrDefault();
 
-            newApiRevision = long.Parse(lastRevision.apiRevision) + 1;
+            var newApiRevision = long.Parse(lastRevision.apiRevision) + 1;
 
             var path = $"/apis/{aid};rev={newApiRevision}";
 
@@ -643,7 +715,7 @@ namespace IdentityServer4.MicroService.Services
 
             if (string.IsNullOrWhiteSpace(newApiId))
             {
-                newApiId = Guid.NewGuid().ToString().Replace("-", string.Empty);
+                newApiId = Guid.NewGuid().ToString("N");
             }
 
             if (string.IsNullOrWhiteSpace(newApiName))
@@ -663,8 +735,10 @@ namespace IdentityServer4.MicroService.Services
                 sourceApiId = $"/apis/{revisionId}",
                 apiVersionName,
                 apiRevisionDescription,
+
                 apiVersionSet = new
                 {
+                    description = "test.test",
                     name = newApiName,
                     versioningScheme,
                     versionQueryName = "api-version"
@@ -795,6 +869,81 @@ namespace IdentityServer4.MicroService.Services
             }
         }
         #endregion
+
+        #region Version Set
+        /// <summary>
+        /// Get Version Set List
+        /// </summary>
+        /// <returns></returns>
+        public async Task<AzureApiManagementEntities<AzureApiManagementApiVersionSetEntity>> GetVersionSetsAsync()
+        {
+            var result = await _GetAsync("/api-version-sets");
+
+            if (result.IsSuccessStatusCode)
+            {
+                var data = result.Content.ReadAsStringAsync().Result;
+
+                var entities = JsonConvert.DeserializeObject<AzureApiManagementEntities<AzureApiManagementApiVersionSetEntity>>(data);
+
+                return entities;
+            }
+
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Api Detail
+        /// </summary>
+        /// <param name="id">Api Id</param>
+        /// <returns></returns>
+        public async Task<AzureApiManagementApiVersionSetEntity> VersionSetDetailAsync(string id)
+        {
+            var result = await _GetAsync($"/api-version-sets/{id}");
+
+            if (result.IsSuccessStatusCode)
+            {
+                var data = result.Content.ReadAsStringAsync().Result;
+
+                var entity = JsonConvert.DeserializeObject<AzureApiManagementApiVersionSetEntity>(data);
+
+                return entity;
+            }
+
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Update Version Set
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <param name="name">name</param>
+        /// <param name="description">description</param>
+        /// <returns></returns>
+        public async Task<bool> UpdateVersionSetAsync(string id, string name, string description)
+        {
+            var path = $"/api-version-sets/{id}";
+
+            var method = "PATCH";
+
+            var content = new StringContent(JsonConvert.SerializeObject(new
+            {
+                name,
+                description
+            }), Encoding.UTF8, "application/json");
+
+            var headerItems = new Dictionary<string, string>() { { "If-Match", "*" } };
+
+            var result = await RequestAsync(path, method, null, content, headerItems);
+
+            return result.IsSuccessStatusCode;
+        }
+        #endregion
     }
 
     public class AzureApiManagementRevisionEntity
@@ -830,6 +979,24 @@ namespace IdentityServer4.MicroService.Services
         public string apiVersionSetId { get; set; }
         public JObject authenticationSettings { get; set; }
         public JObject subscriptionKeyParameterNames { get; set; }
+    }
+
+    public class AzureApiManagementApiVersionSetEntity
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string versioningScheme { get; set; }
+        public string versionQueryName { get; set; }
+        public string versionHeaderName { get; set; }
+    }
+
+    public class AzureApiManagementApiPolicySnippet
+    {
+        public string name { get; set; }
+        public string content { get; set; }
+        public string toolTip { get; set; }
+        public string scope { get; set; }
     }
     #endregion
 

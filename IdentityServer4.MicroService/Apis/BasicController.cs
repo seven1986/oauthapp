@@ -17,6 +17,8 @@ using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Shared;
 using static IdentityServer4.MicroService.AppConstant;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -116,6 +118,24 @@ namespace IdentityServer4.MicroService.Apis
 
                 return _azureApim;
             }
+        }
+
+        /// <summary>
+        /// 生成MD5
+        /// </summary>
+        /// <returns></returns>
+        protected string _MD5(string str)
+        {
+            var md5 = new MD5CryptoServiceProvider();
+            var bs = Encoding.UTF8.GetBytes(str);
+            bs = md5.ComputeHash(bs);
+            var s = new StringBuilder();
+            foreach (byte b in bs)
+            {
+                s.Append(b.ToString("x2").ToUpper());
+            }
+            var password = s.ToString();
+            return password;
         }
 
         /// <summary>

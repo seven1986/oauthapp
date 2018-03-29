@@ -116,18 +116,42 @@ namespace IdentityServer4.MicroService
         }
 
         /// <summary>
-        /// 初始Client(可以用来测试)
+        /// 初始Client(用来测试)
         /// </summary>
         public class TestClient
         {
             public const string ClientId = "test";
             public const string ClientName = "测试专用";
             public const string ClientSecret = "1";
+            public static ICollection<string> AllowedGrantTypes = GrantTypes.CodeAndClientCredentials;
             public static List<string> RedirectUris = new List<string>()
             {
                 "https://{0}/swagger/oauth2-redirect.html"
             };
         }
+
+        /// <summary>
+        /// 初始Client(后台使用)
+        /// </summary>
+        public class AdminPortalClient
+        {
+            public const string ClientId = "adminportal";
+
+            public const string ClientName = "后台专用";
+
+            public const string ClientSecret = "1";
+
+            public static ICollection<string> AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials;
+
+            public static ICollection<string> RedirectUris = new string[]{
+                "http://localhost:4200/auth-callback"
+            };
+
+            public static ICollection<string> PostLogoutRedirectUris = new string[]{
+                "http://localhost:4200/logout-callback"
+            };
+        }
+
 
         public static IEnumerable<AppUser> GetUsers()
         {
@@ -172,12 +196,13 @@ namespace IdentityServer4.MicroService
             // client credentials client
             return new List<Client>
                 {
-                    #region Default Test Client
+                    #region Test Client
 		            new Client
                     {
                         ClientId = TestClient.ClientId,
                         ClientName = TestClient.ClientName,
-                        AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
+                        AllowedGrantTypes = TestClient.AllowedGrantTypes,
+                        AllowAccessTokensViaBrowser = true,
                         ClientSecrets =
                         {
                             new Secret(TestClient.ClientSecret.Sha256())
@@ -189,8 +214,39 @@ namespace IdentityServer4.MicroService
                         AlwaysSendClientClaims = true,
                         FrontChannelLogoutSessionRequired=false,
                         FrontChannelLogoutUri="",
-
                         RedirectUris = TestClient.RedirectUris,
+                        AllowedScopes =
+                        {
+                            IdentityServerConstants.StandardScopes.OpenId,
+                            IdentityServerConstants.StandardScopes.Profile,
+                            MicroServiceName + ".all"
+                        },
+                        AllowOfflineAccess = true
+                    },
+	                #endregion
+
+                    #region AdminPortal Client
+		            new Client
+                    {
+                        ClientId = AdminPortalClient.ClientId,
+                        ClientName = AdminPortalClient.ClientName,
+                        AllowedGrantTypes = AdminPortalClient.AllowedGrantTypes,
+                        AllowAccessTokensViaBrowser = true,
+                        ClientSecrets =
+                        {
+                            new Secret(AdminPortalClient.ClientSecret.Sha256())
+                        },
+                        BackChannelLogoutSessionRequired=false,
+                        BackChannelLogoutUri="",
+                        ConsentLifetime=969000,
+
+                        // 需要设置为true，否则token无法附加tenant相关信息
+                        AlwaysSendClientClaims = true,
+                        FrontChannelLogoutSessionRequired=false,
+                        FrontChannelLogoutUri="",
+
+                        RedirectUris = AdminPortalClient.RedirectUris,
+                        PostLogoutRedirectUris = AdminPortalClient.PostLogoutRedirectUris,
 
                         AllowedScopes =
                         {
@@ -218,7 +274,9 @@ namespace IdentityServer4.MicroService
 
         public static IEnumerable<ApiResource> GetApiResources()
         {
-            var scopes = typeof(ClientScopes).GetFields().Select(x =>
+            var ControllerScopes = new List<Scope>();
+
+            var ActionScopes = typeof(ClientScopes).GetFields().Select(x =>
             {
                 var permissionValues =
                 x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues;
@@ -226,11 +284,27 @@ namespace IdentityServer4.MicroService
                 var description =
                 x.GetCustomAttribute<DescriptionAttribute>().Description;
 
+                var _ControllerScope = permissionValues[1];
+
+                if (!ControllerScopes.Any(scope => scope.Name.Equals(_ControllerScope)))
+                {
+                    var ControllerDescription = description.Split(new string[] { "-" },
+                        StringSplitOptions.RemoveEmptyEntries)[0].Trim();
+
+                    ControllerScopes.Add(new Scope(_ControllerScope, ControllerDescription + " - 所有权限"));
+                }
+
                 return new Scope(permissionValues[0], description);
 
             }).ToList();
 
-            scopes.Add(new Scope(MicroServiceName + ".all", "所有权限"));
+            var ApplicationScope = new Scope(MicroServiceName + ".all", "所有权限");
+
+            ActionScopes.AddRange(ControllerScopes);
+
+            ActionScopes.Add(ApplicationScope);
+
+            ActionScopes = ActionScopes.OrderBy(x => x.Name).ToList();
 
             return new List<ApiResource>
                 {
@@ -241,7 +315,7 @@ namespace IdentityServer4.MicroService
                         Name = MicroServiceName,
                         DisplayName = MicroServiceName,
                         Description = MicroServiceName,
-                        Scopes = scopes,
+                        Scopes = ActionScopes,
                         //需要使用的用户claims
                         UserClaims= {
                             ClaimTypes.UserPermission,
