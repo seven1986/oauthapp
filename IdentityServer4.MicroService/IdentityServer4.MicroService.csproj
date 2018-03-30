@@ -3,6 +3,18 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Version>0.0.1</Version>
+    <Authors>Seven1986</Authors>
+    <PackageProjectUrl>https://github.com/seven1986/IdentityServer4.MicroService</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/seven1986/IdentityServer4.MicroService</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>MicroService,IdentityServer4,Azure API Management,Swagger</PackageTags>
+    <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <AssemblyVersion>0.0.1.0</AssemblyVersion>
+    <FileVersion>0.0.1.0</FileVersion>
+    <PackageIconUrl>https://github.com/seven1986/IdentityServer4.MicroService/raw/master/id4ms.png</PackageIconUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
