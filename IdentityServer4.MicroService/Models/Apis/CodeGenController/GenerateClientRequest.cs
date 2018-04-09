@@ -9,16 +9,19 @@ namespace IdentityServer4.MicroService.Models.Apis.CodeGenController
         /// <summary>
         /// 包平台
         /// </summary>
+        [Required(ErrorMessage = "请选择发包平台")]
         public PackagePlatform platform { get; set; }
 
         /// <summary>
         /// 语言(可选：angular2)
         /// </summary>
+        [Required(ErrorMessage = "请选择模板语言")]
         public Language language { get; set; }
 
         /// <summary>
         /// 模板名称
         /// </summary>
+        [Required(ErrorMessage = "请填写模板名称")]
         public string template { get; set; }
 
         /// <summary>

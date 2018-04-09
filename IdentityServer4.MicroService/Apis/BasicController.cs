@@ -22,7 +22,7 @@ using System.Text;
 
 namespace IdentityServer4.MicroService.Apis
 {
-    [ServiceFilter(typeof(ApiLoggerService), IsReusable = true)]
+    //[ServiceFilter(typeof(ApiLoggerService), IsReusable = true)]
     [Authorize(AuthenticationSchemes = AppAuthenScheme)]
     public class BasicController : ControllerBase
     {

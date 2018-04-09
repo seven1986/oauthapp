@@ -7,8 +7,8 @@ namespace IdentityServer4.MicroService.Models.Apis.ApiResourceController
         /// <summary>
         /// Api的ID
         /// </summary>
-        [Required(ErrorMessage = "请填写ID")]
-        public long id { get; set; }
+        [Required(ErrorMessage = "请填写Api的ID")]
+        public string apiId { get; set; }
 
         /// <summary>
         /// swagger文档Uri
@@ -17,7 +17,7 @@ namespace IdentityServer4.MicroService.Models.Apis.ApiResourceController
         public string swaggerUrl { get; set; }
 
         /// <summary>
-        /// 修订内容
+        /// 修订备注
         /// </summary>
         public string releaseNote { get; set; }
     }

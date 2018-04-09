@@ -8,7 +8,7 @@ namespace IdentityServer4.MicroService.Models.Apis.ApiResourceController
     public class ApiResourceCreateVersionRequest
     {
         /// <summary>
-        /// 修订版 版本号
+        /// api 修订版的版本号
         /// </summary>
         public string revisionId { get; set; }
 

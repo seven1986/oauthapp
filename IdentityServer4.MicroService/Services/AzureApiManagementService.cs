@@ -30,7 +30,7 @@ namespace IdentityServer4.MicroService.Services
 
         protected string apiKey;
 
-        protected const string apiversion = "?api-version=2017-03-01";
+        protected const string apiversion = "?api-version=2018-01-01";
 
         #region Token
         string _token { get; set; }
@@ -99,6 +99,8 @@ namespace IdentityServer4.MicroService.Services
            string mediaType = "application/json")
         {
             var client = new HttpClient();
+
+            client.Timeout = TimeSpan.FromSeconds(30);
 
             client.DefaultRequestHeaders.Add("Authorization", token);
 
@@ -303,7 +305,7 @@ namespace IdentityServer4.MicroService.Services
                 { "$filter", $"path eq '{path}'" }
             };
 
-            var result = await RequestAsync("/apisByTags", HttpMethod.Get.Method, query);
+            var result = await RequestAsync("/apis", HttpMethod.Get.Method, query);
 
             if (result.IsSuccessStatusCode)
             {
@@ -667,7 +669,7 @@ namespace IdentityServer4.MicroService.Services
         {
             var revisions = await GetRevisionsAsync(aid);
 
-            var lastRevision = revisions.value.OrderByDescending(x => long.Parse(x.apiRevision)).LastOrDefault();
+            var lastRevision = revisions.value.OrderBy(x => long.Parse(x.apiRevision)).LastOrDefault();
 
             var newApiRevision = long.Parse(lastRevision.apiRevision) + 1;
 
@@ -972,7 +974,9 @@ namespace IdentityServer4.MicroService.Services
         public string name { get; set; }
         public string apiRevision { get; set; }
         public string description { get; set; }
+        public string apiVersion { get; set; }
         public string serviceUrl { get; set; }
+        public bool isCurrent { get; set; }
         public string path { get; set; }
         public List<string> protocols { get; set; }
         public string apiRevisionDescription { get; set; }
