@@ -8,6 +8,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage.Queue;
+using System.Threading;
 
 namespace IdentityServer4.MicroService.Services
 {
@@ -73,10 +74,9 @@ namespace IdentityServer4.MicroService.Services
 
             return table;
         }
-        public async Task<IList<TableResult>> TableInsert(CloudTable table,
+        public async Task<IList<TableResult>> TableInsertAsync(CloudTable table,
            params ITableEntity[] entities)
         {
-
             try
             {
                 var operation = new TableBatchOperation();
@@ -92,6 +92,26 @@ namespace IdentityServer4.MicroService.Services
             {
                 throw ex;
             }
+        }
+
+        public async Task<IList<T>> ExecuteQueryAsync<T>(CloudTable table, TableQuery<T> query, 
+            CancellationToken ct = default(CancellationToken), Action<IList<T>> onProgress = null) where T : ITableEntity, new()
+        {
+
+            var items = new List<T>();
+            TableContinuationToken token = null;
+
+            do
+            {
+
+                TableQuerySegment<T> seg = await table.ExecuteQuerySegmentedAsync<T>(query, token);
+                token = seg.ContinuationToken;
+                items.AddRange(seg);
+                onProgress?.Invoke(items);
+
+            } while (token != null && !ct.IsCancellationRequested);
+
+            return items;
         }
 
         public async Task<bool> AddMessageAsync(string queueName, string message)

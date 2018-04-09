@@ -1,4 +1,4 @@
-{
+﻿{
   "author": "jixiucloud.cn",
   "description": "jixiu.identityserver.angular2",
   "keywords": [
@@ -6,5 +6,5 @@
   ],
   "license": "Unlicense",
   "name": "jixiu.identityserver.angular2",
-  "version": "0.0.3"
+  "version": "0.0.7"
 }

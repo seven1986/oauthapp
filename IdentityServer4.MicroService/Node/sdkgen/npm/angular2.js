@@ -102,15 +102,15 @@ var angular2Gen = function (doc) {
         });
     });
 
-    var fnStr = `
-// 需要配置angular4+ inersector使用
-import {Injectable }  from '@angular/core';
+    var fnStr = `// 需要配置angular4+ inersector使用
+import { Injectable }  from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { environment } from '@env/environment';
 
 @Injectable()
 export class ${sdkName} {
-    public basePath:string = '${doc.basePath}';
+    public basePath:string = environment.ApiServer +'${doc.basePath}';
     constructor(protected http: HttpClient){
     }\r\n\r\n`+
         fns.join('\n\n') +

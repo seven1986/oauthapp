@@ -80,7 +80,7 @@ namespace IdentityServer4.MicroService.Apis
         [HttpPost("ReleaseSDK")]
         [AllowAnonymous]
         [SwaggerOperation("CodeGen/ReleaseSDK")]
-        public async Task<ApiResult<bool>> ReleaseSDK(GenerateClientRequest value)
+        public async Task<ApiResult<bool>> ReleaseSDK([FromBody]GenerateClientRequest value)
         {
             if (!ModelState.IsValid)
             {
