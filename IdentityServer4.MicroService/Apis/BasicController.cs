@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Text;
 using System.Linq;
 using System.Data.SqlClient;
 using System.Data.Common;
 using System.Collections.Generic;
 using System.Reflection;
 using System.ComponentModel;
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -17,12 +19,10 @@ using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Shared;
 using static IdentityServer4.MicroService.AppConstant;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace IdentityServer4.MicroService.Apis
 {
-    //[ServiceFilter(typeof(ApiLoggerService), IsReusable = true)]
+    [ServiceFilter(typeof(ApiLoggerService), IsReusable = true)]
     [Authorize(AuthenticationSchemes = AppAuthenScheme)]
     public class BasicController : ControllerBase
     {
