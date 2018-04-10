@@ -16,6 +16,7 @@ using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.CodeGenController;
+using IdentityServer4.MicroService.CacheKeys;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 
@@ -33,19 +34,21 @@ namespace IdentityServer4.MicroService.Apis
         readonly SwaggerCodeGenService swagerCodeGen;
         readonly INodeServices nodeServices;
         // azure Storage
-        readonly AzureStorageService azure;
+        readonly AzureStorageService storageService;
         #endregion
 
         public CodeGenController(
-            AzureStorageService _azure,
+            AzureStorageService _storageService,
             IStringLocalizer<CodeGenController> localizer,
             SwaggerCodeGenService _swagerCodeGen,
-            INodeServices _nodeServices)
+            INodeServices _nodeServices,
+            RedisService _redis)
         {
             l = localizer;
             swagerCodeGen = _swagerCodeGen;
             nodeServices = _nodeServices;
-            azure = _azure;
+            storageService = _storageService;
+            redis = _redis;
         }
 
         /// <summary>
@@ -107,7 +110,7 @@ namespace IdentityServer4.MicroService.Apis
                     return new ApiResult<bool>(l, CodeGenControllerEnums.GenerateClient_GetSwaggerFialed);
                 }
 
-                var templateDirectory = platformPath + value.template + "/" + Enum.GetName(typeof(Language), value.language);
+                var templateDirectory = platformPath + Enum.GetName(typeof(Language), value.language);
 
                 if (!Directory.Exists(templateDirectory))
                 {
@@ -115,13 +118,13 @@ namespace IdentityServer4.MicroService.Apis
                 }
 
                 var SdkCode = await nodeServices.InvokeAsync<string>(platformPath + value.language,
-                    swaggerDoc, value.packageOptions);
+                    swaggerDoc, value.apiId);
 
                 switch (value.platform)
                 {
                     case PackagePlatform.npm:
 
-                        var PublishResult = ReleasePackage_NPM(templateDirectory, value.language, SdkCode);
+                        var PublishResult = ReleasePackage_NPM(templateDirectory, value.language, SdkCode, value.apiId);
                         
                         break;
 
@@ -153,7 +156,85 @@ namespace IdentityServer4.MicroService.Apis
             }
         }
 
-        async Task<bool> ReleasePackage_NPM(string templateDirectory, Language lan,string SdkCode)
+        /// <summary>
+        /// npmjs发布设置 - 获取
+        /// </summary>
+        [HttpGet("{id}/NpmOptions")]
+        [AllowAnonymous]
+        [SwaggerOperation("CodeGen/NpmOptions")]
+        public async Task<ApiResult<CodeGenNpmOptionsModel>> NpmOptions(string id)
+        {
+            var result = await GetNpmOptions(id);
+
+            var key = CodeGenControllerKeys.NpmOptions + id;
+
+            var cacheResult = await redis.GetAsync(key);
+
+            if (result != null)
+            {
+                return new ApiResult<CodeGenNpmOptionsModel>(result);
+            }
+            else
+            {
+                return new ApiResult<CodeGenNpmOptionsModel>(l, CodeGenControllerEnums.NpmOptions_GetOptionsFialed);
+            }
+        }
+
+        async Task<CodeGenNpmOptionsModel> GetNpmOptions(string id)
+        {
+            var key = CodeGenControllerKeys.NpmOptions + id;
+
+            var cacheResult = await redis.GetAsync(key);
+
+            if (!string.IsNullOrWhiteSpace(cacheResult))
+            {
+                try
+                {
+                    var result = JsonConvert.DeserializeObject<CodeGenNpmOptionsModel>(cacheResult);
+
+                    return result;
+                }
+
+                catch
+                {
+                    return null;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// npmjs发布设置 - 更新
+        /// </summary>
+        [HttpPut("{id}/NpmOptions")]
+        [AllowAnonymous]
+        [SwaggerOperation("CodeGen/PutNpmOptions")]
+        public async Task<ApiResult<bool>> NpmOptions(string id,[FromBody]CodeGenNpmOptionsModel value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            var result = await SetNpmOptions(id, value);
+
+            return new ApiResult<bool>(result);
+        }
+
+        async Task<bool> SetNpmOptions(string id, CodeGenNpmOptionsModel value)
+        {
+            var key = CodeGenControllerKeys.NpmOptions + id;
+
+            var cacheResult = JsonConvert.SerializeObject(value);
+
+            var result = await redis.SetAsync(key, cacheResult, null);
+
+            return result;
+        }
+
+        async Task<bool> ReleasePackage_NPM(string templateDirectory, Language lan,string SdkCode,string apiId)
         {
             #region 写SDK文件
             var fileName = string.Empty;
@@ -189,11 +270,45 @@ namespace IdentityServer4.MicroService.Apis
                 return false;
             }
 
+            var options = await GetNpmOptions(apiId);
+
             var JsonDoc = JsonConvert.DeserializeObject<JObject>(configFileContent);
 
-            var VersionString = JsonDoc["version"].Value<string>();
+            if (!string.IsNullOrWhiteSpace(options.name))
+            {
+                JsonDoc["name"] = options.name;
+            }
 
-            var CurrentVersion = Version.Parse(VersionString);
+            if (!string.IsNullOrWhiteSpace(options.homepage))
+            {
+                JsonDoc["homepage"] = options.homepage;
+            }
+
+            if (!string.IsNullOrWhiteSpace(options.author))
+            {
+                JsonDoc["author"] = options.author;
+            }
+
+            if (options.keywords!=null&& options.keywords.Length>0)
+            {
+                JsonDoc["keywords"] = JToken.FromObject(options.keywords);
+            }
+
+            if (!string.IsNullOrWhiteSpace(options.description))
+            {
+                JsonDoc["description"] = options.description;
+            }
+
+            if (string.IsNullOrWhiteSpace(options.version)) { options.version = "0.0.0"; }
+
+            if (!string.IsNullOrWhiteSpace(options.license))
+            {
+                JsonDoc["license"] = options.license;
+            }
+
+            #region version
+
+            var CurrentVersion = Version.Parse(options.version);
 
             var newVersion = string.Empty;
 
@@ -212,13 +327,32 @@ namespace IdentityServer4.MicroService.Apis
                 newVersion = $"{CurrentVersion.Major + 1}.{CurrentVersion.Minor}.{CurrentVersion.Build}";
             }
 
-            JsonDoc["version"] = newVersion;
+            JsonDoc["version"] = newVersion; 
+            #endregion
 
             using (var sw = new StreamWriter(configFilePath, false, Encoding.UTF8))
             {
                 await sw.WriteLineAsync(JsonDoc.ToString());
             }
             #endregion
+
+            var npmrcFilePath = templateDirectory + "/.npmrc";
+            if(!string.IsNullOrWhiteSpace(options.token))
+            {
+                using (var sw = new StreamWriter(npmrcFilePath, false, Encoding.UTF8))
+                {
+                    await sw.WriteLineAsync("//registry.npmjs.org/:_authToken=" + options.token);
+                }
+            }
+
+            var readmeFilePath = templateDirectory + "/README.md";
+            if (!string.IsNullOrWhiteSpace(options.README))
+            {
+                using (var sw = new StreamWriter(readmeFilePath, false, Encoding.UTF8))
+                {
+                    await sw.WriteLineAsync(options.README);
+                }
+            }
 
             #region 打包SDK文件为.zip
             var releaseDirectory = templateDirectory + "_release/";
@@ -240,15 +374,19 @@ namespace IdentityServer4.MicroService.Apis
 
             using (var zipFileStream = new FileStream(releaseDirectory + packageFileName, FileMode.Open, FileAccess.Read))
             {
-                blobUrl = await azure.UploadBlobAsync(zipFileStream, "codegen-npm", packageFileName);
+                blobUrl = await storageService.UploadBlobAsync(zipFileStream, "codegen-npm", packageFileName);
             }
 
-            await azure.AddMessageAsync("publish-package-npm", blobUrl);
+            await storageService.AddMessageAsync("publish-package-npm", blobUrl);
             #endregion
 
             #region 清理本地文件
-            System.IO.File.Delete(releaseDirectory + packageFileName); 
+            System.IO.File.Delete(releaseDirectory + packageFileName);
             #endregion
+
+            options.version = newVersion;
+
+            await SetNpmOptions(apiId, options);
 
             return true;
         }

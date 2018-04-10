@@ -1,108 +1,142 @@
 ﻿var template = require('./mustache.min');
 
-module.exports = function (callback, doc, second)
-{
+module.exports = function (callback, swaggerDocumentStr, packageOptions) {
     //var result = template.render('hi, {{title}} spends {{calc}}.',
     //    {
     //        title: 'aui',
     //        calc: () => 2 + 4
     //    });
 
-    var result = angular2Gen(JSON.parse(doc));
+    let documentJson = JSON.parse(swaggerDocumentStr);
+
+    let result = IGenerator(documentJson, packageOptions);
 
     callback(/* error */ null, result);
 }
 
-var angular2Gen = function (doc) {
+var IGenerator = function (doc,opts) {
 
-    var sdkName = doc.info.title.replace(/\./g, "") + 'Client';
+            var sdkName = doc.info.title.replace(/\./g, "") + 'Client';
 
-    var fns = [];
+            var fns = [];
 
-    var paths = Object.keys(doc.paths);
+            var paths = Object.keys(doc.paths);
 
-    paths.forEach(path => {
+            paths.forEach(path => {
 
-        let requestUrl = path;
+                let requestUrl = path;
 
-        let pathParams = [];
+                let pathParams = [];
 
-        if (path.indexOf('{') > 0) {
+                if (path.indexOf('{') > 0) {
 
-            requestUrl = path.replace(/\{/g, '${');
+                    requestUrl = path.replace(/\{/g, '${');
 
-            pathParams = requestUrl.split('$').filter(x => x.indexOf('{') > -1);
-        }
+                    pathParams = requestUrl.split('$').filter(x => x.indexOf('{') > -1);
+                }
 
-        var methods = Object.keys(doc.paths[path]);
+                var methods = Object.keys(doc.paths[path]);
 
-        methods.forEach(method => {
+                methods.forEach(method => {
 
-            let k = `${path}/${method}`;
+                    let operation = doc.paths[path][method];
 
-            let operation = doc.paths[path][method];
-
-            let methodName = operation.operationId.replace(/\//g, '');
-
-            let methodParams = [];
-
-            let httpParams = [];
-
-            if (operation.parameters != null && operation.parameters.length > 0) {
-
-                methodParams = operation.parameters.map(x => x.name);
-
-                methodParams.filter(x => {
-                    let isPathParamater = pathParams.filter(pp => pp.indexOf('{' + x + '}') > -1).length > 0;
-
-                    if (!isPathParamater) {
-                        httpParams.push(x);
+                    let methodName = operation.operationId;
+                    if (methodName.indexOf('/') > -1) {
+                        methodName = methodName.split('/').map(x => x.substring(0, 1).toUpperCase() + x.substring(1)).join('');
                     }
-                })
-            }
-            // GET/DELETE 请求
-            let fn = '';
-            if (method == 'get' || method == 'delete') {
-                fn = `    public ${methodName}(${methodParams.length > 0 ? methodParams.map(x => x.replace("-", "_").replace(".", "_")).join("?,") + '?' : ''}): Observable<any> {\r\n`;
+                    else if (methodName.indexOf('-') > -1) {
+                        methodName = methodName.split('-').map(x => x.substring(0, 1).toUpperCase() + x.substring(1)).join('');
+                    }
 
-                fn += '      const path = `${this.basePath}' + requestUrl + '`;\r\n';
+                    let fn = '';
+                    fn += `      /**\r\n`;
+                    fn += `       * @name ${operation.description}\r\n`;
 
-                if (httpParams.length > 0) {
-                    fn += `      let requestParams = new HttpParams();\r\n`;
+                    let methodParams = [];
+                    let httpParams = [];
+                    let bodyParams = '';
+                    let apiVersionParams = '';
+                    if (operation.parameters != null && operation.parameters.length > 0)
+                    {
+                        operation.parameters.forEach(x =>
+                        {
+                            if (x.name == 'api-version') { apiVersionParams = 'api_version?'; httpParams.push(x.name); return; }
 
-                    httpParams.forEach(p => {
-                        fn += `      if (${p.replace("-", "_").replace(".", "_")} !== undefined) { requestParams = requestParams.set('${p}', <any>${p.replace("-", "_").replace(".", "_")});}\r\n`;
-                    })
+                            if (x.in == 'path' || x.in == 'query') {
+                                fn += `       * @param ${x.name}    ${x.description ? x.description : ''}\r\n`;
 
-                    fn += `      let options = { params: requestParams }\n`;
+                                methodParams.push(x.name);
 
-                    fn += `      return this.http.${method}(path, options);`;
-                }
+                                if (x.in == 'query') {
+                                    httpParams.push(x.name);
+                                }
+                            }
+                        });
 
-                else {
-                    fn += `      return this.http.${method}(path);`;
-                }
+                        if (operation.parameters.filter(x => x.in == 'body').length > 0) {
+                            bodyParams = 'model?:any';
+                        }
+                    }
 
-                fn += ` \r\n    }`;
-            }
+                    /*
+                     * 特殊处理，当前网关无法导入file的operation.parameters
+                     * 所以维护一个静态集合，如果是存在就自动添加model参数
+                     */
+                    if (['fileimage', 'filepost'].indexOf(methodName.toLocaleLowerCase()) > -1) {
+                        bodyParams = 'model?:any';
+                    }
 
-            // PUT/POST 请求
-            else if (method == 'post' || method == 'put') {
-                fn += `    public ${methodName}(model:any): Observable<any> {\r\n`;
+                    fn += `       */\r\n`;
 
-                fn += '      const path = `${this.basePath}' + requestUrl + '`;\r\n';
+                    let methodParamsStr = [];
+                    if (methodParams.length > 0){
+                        methodParamsStr.push(methodParams.map(x => x.replace("-", "_").replace(".", "_")).join("?,")+'?');
+                    }
+                    if (bodyParams != '') { methodParamsStr.push(bodyParams);}
+                    if (apiVersionParams != '') {
+                        methodParamsStr.push(apiVersionParams);
+                    }
 
-                fn += `      return this.http.${method}(path, model);`;
+                    fn += `    public ${methodName}(${methodParamsStr.join(",")}): Observable<any> {\r\n`;
 
-                fn += ` \r\n    }`;
-            }
+                    fn += '      const path = `${this.basePath}' + requestUrl + '`;\r\n';
 
+                    if (httpParams.length > 0)
+                    {
+                        fn += `      let requestParams = new HttpParams();\r\n`;
 
-            fns.push(fn);
-        });
-    });
+                        httpParams.forEach(p => {
+                            let pName = p.replace("-", "_").replace(".", "_");
 
-    var fnStr = `// 需要配置angular4+ inersector使用
+                            fn += `      if (${pName} !== undefined) { requestParams = requestParams.set('${p}', <any>${pName});}\r\n`;
+                        })
+
+                        fn += `      let options = { params: requestParams }\n`;
+                    }
+
+                    if (bodyParams != '') {
+                        if (httpParams.length > 0) {
+                            fn += `      return this.http.${method}(path, model, options);`;
+                        }
+                        else {
+                            fn += `      return this.http.${method}(path, model);`;
+                        }
+                    }
+                    else if (httpParams.length > 0) {
+                        fn += `      return this.http.${method}(path, options);`;
+                    }
+                    else {
+                        fn += `      return this.http.${method}(path);`;
+                    }
+
+                    fn += ` \r\n    }`;
+
+                    fns.push(fn);
+                });
+            });
+
+            var fnStr = `// 需要配置angular4+ inersector使用
 import { Injectable }  from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
@@ -113,8 +147,8 @@ export class ${sdkName} {
     public basePath:string = environment.ApiServer +'${doc.basePath}';
     constructor(protected http: HttpClient){
     }\r\n\r\n`+
-        fns.join('\n\n') +
-        `\r\n }`;
+                fns.join('\n\n') +
+                `\r\n }`;
 
-    return fnStr;
-}
+            return fnStr;
+        }
