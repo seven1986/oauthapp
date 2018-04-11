@@ -4,7 +4,6 @@ using IdentityServer4.MicroService.Services;
 
 namespace IdentityServer4.MicroService.Mappers
 {
-
     public class ApiResourceControllerMappers : Profile
     {
         public ApiResourceControllerMappers()

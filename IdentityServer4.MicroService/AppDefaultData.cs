@@ -152,7 +152,6 @@ namespace IdentityServer4.MicroService
             };
         }
 
-
         public static IEnumerable<AppUser> GetUsers()
         {
             return new List<AppUser>

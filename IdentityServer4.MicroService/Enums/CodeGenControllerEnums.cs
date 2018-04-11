@@ -11,9 +11,9 @@ namespace IdentityServer4.MicroService.Enums
         GenerateClient_GetSwaggerFialed = 200001,
 
         /// <summary>
-        /// 不存在的模板
+        /// 不存在的配置
         /// </summary>
-        [Description("不存在的模板")]
-        GenerateClient_GetTemplateFialed = 200002,
+        [Description("不存在的配置")]
+        NpmOptions_GetOptionsFialed = 200002,
     }
 }

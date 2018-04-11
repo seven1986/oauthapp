@@ -13,21 +13,28 @@ namespace IdentityServer4.MicroService.Models.Apis.CodeGenController
         public PackagePlatform platform { get; set; }
 
         /// <summary>
-        /// 语言(可选：angular2)
+        /// 语言(可选：angular2/jQuery)
         /// </summary>
         [Required(ErrorMessage = "请选择模板语言")]
         public Language language { get; set; }
 
         /// <summary>
+        /// 微服务的ID
+        /// </summary>
+        [Required(ErrorMessage = "请填写微服务的ID")]
+        public string apiId { get; set; }
+
+        /// <summary>
         /// 模板名称
         /// </summary>
-        [Required(ErrorMessage = "请填写模板名称")]
-        public string template { get; set; }
+        //[Required(ErrorMessage = "请填写模板名称")]
+        //public string template { get; set; }
 
         /// <summary>
         /// SDK生成设置
         /// </summary>
-        public string packageOptions { get; set; }
+        //[Required(ErrorMessage = "请填写包配置信息")]
+        //public string packageOptions { get; set; }
 
         /// <summary>
         /// swagger 文档地址
@@ -43,6 +50,12 @@ namespace IdentityServer4.MicroService.Models.Apis.CodeGenController
         /// </summary>
         [EnumMember(Value = "angular2")]
         angular2 = 0,
+
+        /// <summary>
+        /// jquery
+        /// </summary>
+        [EnumMember(Value = "jQuery")]
+        jQuery = 1,
     }
 
     public enum PackagePlatform

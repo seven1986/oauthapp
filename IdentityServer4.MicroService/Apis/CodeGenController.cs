@@ -16,6 +16,7 @@ using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.CodeGenController;
+using IdentityServer4.MicroService.CacheKeys;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 
@@ -33,19 +34,21 @@ namespace IdentityServer4.MicroService.Apis
         readonly SwaggerCodeGenService swagerCodeGen;
         readonly INodeServices nodeServices;
         // azure Storage
-        readonly AzureStorageService azure;
+        readonly AzureStorageService storageService;
         #endregion
 
         public CodeGenController(
-            AzureStorageService _azure,
+            AzureStorageService _storageService,
             IStringLocalizer<CodeGenController> localizer,
             SwaggerCodeGenService _swagerCodeGen,
-            INodeServices _nodeServices)
+            INodeServices _nodeServices,
+            RedisService _redis)
         {
             l = localizer;
             swagerCodeGen = _swagerCodeGen;
             nodeServices = _nodeServices;
-            azure = _azure;
+            storageService = _storageService;
+            redis = _redis;
         }
 
         /// <summary>
@@ -77,6 +80,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         /// Release Client SDK
         /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpPost("ReleaseSDK")]
         [AllowAnonymous]
         [SwaggerOperation("CodeGen/ReleaseSDK")]
@@ -107,21 +112,21 @@ namespace IdentityServer4.MicroService.Apis
                     return new ApiResult<bool>(l, CodeGenControllerEnums.GenerateClient_GetSwaggerFialed);
                 }
 
-                var templateDirectory = platformPath + value.template + "/" + Enum.GetName(typeof(Language), value.language);
+                var templateDirectory = platformPath + Enum.GetName(typeof(Language), value.language) + "_" + DateTime.Now.Ticks.ToString();
 
                 if (!Directory.Exists(templateDirectory))
                 {
-                    return new ApiResult<bool>(l, CodeGenControllerEnums.GenerateClient_GetTemplateFialed);
+                    Directory.CreateDirectory(templateDirectory);
                 }
 
                 var SdkCode = await nodeServices.InvokeAsync<string>(platformPath + value.language,
-                    swaggerDoc, value.packageOptions);
+                    swaggerDoc, value.apiId);
 
                 switch (value.platform)
                 {
                     case PackagePlatform.npm:
 
-                        var PublishResult = ReleasePackage_NPM(templateDirectory, value.language, SdkCode);
+                        var PublishResult = ReleasePackage_NPM(templateDirectory, value.language, SdkCode, value.apiId);
                         
                         break;
 
@@ -153,7 +158,92 @@ namespace IdentityServer4.MicroService.Apis
             }
         }
 
-        async Task<bool> ReleasePackage_NPM(string templateDirectory, Language lan,string SdkCode)
+        /// <summary>
+        ///  npmjs发布设置 - 获取
+        /// </summary>
+        /// <param name="id">微服务ID</param>
+        /// <param name="language">语言</param>
+        /// <returns></returns>
+        [HttpGet("{id}/NpmOptions/{language}")]
+        [AllowAnonymous]
+        [SwaggerOperation("CodeGen/NpmOptions")]
+        public async Task<ApiResult<CodeGenNpmOptionsModel>> NpmOptions(string id,Language language)
+        {
+            var result = await GetNpmOptions(language, id);
+
+            var key = CodeGenControllerKeys.NpmOptions + id;
+
+            var cacheResult = await redis.GetAsync(key);
+
+            if (result != null)
+            {
+                return new ApiResult<CodeGenNpmOptionsModel>(result);
+            }
+            else
+            {
+                return new ApiResult<CodeGenNpmOptionsModel>(l, CodeGenControllerEnums.NpmOptions_GetOptionsFialed);
+            }
+        }
+
+        async Task<CodeGenNpmOptionsModel> GetNpmOptions(Language lan,string id)
+        {
+            var key = CodeGenControllerKeys.NpmOptions + Enum.GetName(typeof(Language), lan) + ":" + id;
+
+            var cacheResult = await redis.GetAsync(key);
+
+            if (!string.IsNullOrWhiteSpace(cacheResult))
+            {
+                try
+                {
+                    var result = JsonConvert.DeserializeObject<CodeGenNpmOptionsModel>(cacheResult);
+
+                    return result;
+                }
+
+                catch
+                {
+                    return null;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        ///  npmjs发布设置 - 更新
+        /// </summary>
+        /// <param name="id">微服务ID</param>
+        /// <param name="language">语言</param>
+        /// <param name="value">package.json的内容字符串</param>
+        /// <returns></returns>
+        [HttpPut("{id}/NpmOptions/{language}")]
+        [AllowAnonymous]
+        [SwaggerOperation("CodeGen/PutNpmOptions")]
+        public async Task<ApiResult<bool>> NpmOptions(string id, Language language, [FromBody]CodeGenNpmOptionsModel value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            var result = await SetNpmOptions(id, language, value);
+
+            return new ApiResult<bool>(result);
+        }
+
+        async Task<bool> SetNpmOptions(string id, Language lan, CodeGenNpmOptionsModel value)
+        {
+            var key = CodeGenControllerKeys.NpmOptions + Enum.GetName(typeof(Language), lan) + ":" + id;
+
+            var cacheResult = JsonConvert.SerializeObject(value);
+
+            var result = await redis.SetAsync(key, cacheResult, null);
+
+            return result;
+        }
+
+        async Task<bool> ReleasePackage_NPM(string templateDirectory, Language lan,string SdkCode,string apiId)
         {
             #region 写SDK文件
             var fileName = string.Empty;
@@ -162,6 +252,10 @@ namespace IdentityServer4.MicroService.Apis
             {
                 case Language.angular2:
                     fileName = templateDirectory + "/index.ts";
+                    break;
+
+                case Language.jQuery:
+                    fileName = templateDirectory + "/index.js";
                     break;
 
                 default:
@@ -177,23 +271,45 @@ namespace IdentityServer4.MicroService.Apis
             #region 更新包信息
             var configFilePath = templateDirectory + "/package.json";
 
-            var configFileContent = string.Empty;
+            var options = await GetNpmOptions(lan,apiId);
 
-            using (var sr = new StreamReader(configFilePath, Encoding.UTF8))
+            var JsonDoc = new JObject();
+
+            if (!string.IsNullOrWhiteSpace(options.name))
             {
-                configFileContent = await sr.ReadToEndAsync();
+                JsonDoc["name"] = options.name;
             }
 
-            if (string.IsNullOrWhiteSpace(configFileContent))
+            if (!string.IsNullOrWhiteSpace(options.homepage))
             {
-                return false;
+                JsonDoc["homepage"] = options.homepage;
             }
 
-            var JsonDoc = JsonConvert.DeserializeObject<JObject>(configFileContent);
+            if (!string.IsNullOrWhiteSpace(options.author))
+            {
+                JsonDoc["author"] = options.author;
+            }
 
-            var VersionString = JsonDoc["version"].Value<string>();
+            if (options.keywords!=null&& options.keywords.Length>0)
+            {
+                JsonDoc["keywords"] = JToken.FromObject(options.keywords);
+            }
 
-            var CurrentVersion = Version.Parse(VersionString);
+            if (!string.IsNullOrWhiteSpace(options.description))
+            {
+                JsonDoc["description"] = options.description;
+            }
+
+            if (string.IsNullOrWhiteSpace(options.version)) { options.version = "0.0.0"; }
+
+            if (!string.IsNullOrWhiteSpace(options.license))
+            {
+                JsonDoc["license"] = options.license;
+            }
+
+            #region version
+
+            var CurrentVersion = Version.Parse(options.version);
 
             var newVersion = string.Empty;
 
@@ -212,13 +328,32 @@ namespace IdentityServer4.MicroService.Apis
                 newVersion = $"{CurrentVersion.Major + 1}.{CurrentVersion.Minor}.{CurrentVersion.Build}";
             }
 
-            JsonDoc["version"] = newVersion;
+            JsonDoc["version"] = newVersion; 
+            #endregion
 
             using (var sw = new StreamWriter(configFilePath, false, Encoding.UTF8))
             {
                 await sw.WriteLineAsync(JsonDoc.ToString());
             }
             #endregion
+
+            var npmrcFilePath = templateDirectory + "/.npmrc";
+            if(!string.IsNullOrWhiteSpace(options.token))
+            {
+                using (var sw = new StreamWriter(npmrcFilePath, false, Encoding.UTF8))
+                {
+                    await sw.WriteLineAsync("//registry.npmjs.org/:_authToken=" + options.token);
+                }
+            }
+
+            var readmeFilePath = templateDirectory + "/README.md";
+            if (!string.IsNullOrWhiteSpace(options.README))
+            {
+                using (var sw = new StreamWriter(readmeFilePath, false, Encoding.UTF8))
+                {
+                    await sw.WriteLineAsync(options.README);
+                }
+            }
 
             #region 打包SDK文件为.zip
             var releaseDirectory = templateDirectory + "_release/";
@@ -240,15 +375,24 @@ namespace IdentityServer4.MicroService.Apis
 
             using (var zipFileStream = new FileStream(releaseDirectory + packageFileName, FileMode.Open, FileAccess.Read))
             {
-                blobUrl = await azure.UploadBlobAsync(zipFileStream, "codegen-npm", packageFileName);
+                blobUrl = await storageService.UploadBlobAsync(zipFileStream, "codegen-npm", packageFileName);
             }
 
-            await azure.AddMessageAsync("publish-package-npm", blobUrl);
+            await storageService.AddMessageAsync("publish-package-npm", blobUrl);
             #endregion
 
             #region 清理本地文件
-            System.IO.File.Delete(releaseDirectory + packageFileName); 
+            try
+            {
+                Directory.Delete(releaseDirectory, true);
+                Directory.Delete(templateDirectory, true);
+            }
+            catch { }
             #endregion
+
+            options.version = newVersion;
+
+            await SetNpmOptions(apiId, lan, options);
 
             return true;
         }
