@@ -374,7 +374,7 @@ namespace IdentityServer4.MicroService.Services
         /// <param name="scope">scope</param>
         /// <param name="openid">openid</param>
         /// <returns></returns>
-        public async Task<bool> ImportOrUpdateAsync(
+        public async Task<HttpResponseMessage> ImportOrUpdateAsync(
             string aid,
             string suffix,
             string swaggerUrl,
@@ -388,7 +388,7 @@ namespace IdentityServer4.MicroService.Services
                 string.IsNullOrWhiteSpace(suffix) ||
                 string.IsNullOrWhiteSpace(swaggerUrl))
             {
-                return false;
+                return new HttpResponseMessage(System.Net.HttpStatusCode.NotModified);
             }
 
             var path = $"/apis/{aid}";
@@ -451,7 +451,7 @@ namespace IdentityServer4.MicroService.Services
                 #endregion
             }
 
-            return result.IsSuccessStatusCode;
+            return result;
         }
 
         /// <summary>

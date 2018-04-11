@@ -37,6 +37,8 @@ namespace IdentityServer4.MicroService.SDKGen
 
                 ZipFile.ExtractToDirectory(packagePath, packageExtractToDirectory);
 
+                File.Delete(packagePath);
+
                 using (var p = new Process())
                 {
                     var info = new ProcessStartInfo()
