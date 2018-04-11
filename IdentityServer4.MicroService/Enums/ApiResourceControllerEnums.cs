@@ -70,5 +70,12 @@ namespace IdentityServer4.MicroService.Enums
         /// </summary>
         [Description("上线版本失败")]
         SetOnlineVersion_PostFailed =300010,
+
+
+        /// <summary>
+        /// 发布失败
+        /// </summary>
+        [Description("发布失败")]
+        Publish_PublishFailed =300011,
     }
 }

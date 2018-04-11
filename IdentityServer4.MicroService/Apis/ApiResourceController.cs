@@ -569,16 +569,23 @@ namespace IdentityServer4.MicroService.Apis
                 value.openid);
 
             // 更新微服务策略
-            if (result && !string.IsNullOrWhiteSpace(value.policy))
+            if (result.IsSuccessStatusCode && !string.IsNullOrWhiteSpace(value.policy))
             {
                 await AzureApim.Apis.SetPolicyAsync(value.apiId, value.policy);
+
+                var publishKey = $"ApiResource:Publish:{value.apiId}";
+
+                await redis.SetAsync(publishKey, JsonConvert.SerializeObject(value), null);
+
+                return new ApiResult<bool>(true);
             }
 
-            var publishKey = $"ApiResource:Publish:{value.apiId}";
+            else
+            {
+                var errorMessage = await result.Content.ReadAsStringAsync();
 
-            await redis.SetAsync(publishKey, JsonConvert.SerializeObject(value), null);
-
-            return new ApiResult<bool>(result);
+                return new ApiResult<bool>(l, ApiResourceControllerEnums.Publish_PublishFailed, errorMessage);
+            }
         }
         #endregion
 
@@ -621,7 +628,16 @@ namespace IdentityServer4.MicroService.Apis
 
             var ImportResult = await AzureApim.Apis.ImportOrUpdateAsync(RevisionId, ApiDetail.path, value.swaggerUrl);
 
-            return new ApiResult<bool>(ImportResult);
+            if (ImportResult.IsSuccessStatusCode)
+            {
+                return new ApiResult<bool>(true);
+            }
+            else
+            {
+                var errorMessage = await ImportResult.Content.ReadAsStringAsync();
+
+                return new ApiResult<bool>(l, ApiResourceControllerEnums.PublishRevision_PublishFailed, errorMessage);
+            }
         }
         #endregion
 
