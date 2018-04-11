@@ -80,6 +80,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         /// Release Client SDK
         /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpPost("ReleaseSDK")]
         [AllowAnonymous]
         [SwaggerOperation("CodeGen/ReleaseSDK")]
@@ -110,11 +112,11 @@ namespace IdentityServer4.MicroService.Apis
                     return new ApiResult<bool>(l, CodeGenControllerEnums.GenerateClient_GetSwaggerFialed);
                 }
 
-                var templateDirectory = platformPath + Enum.GetName(typeof(Language), value.language);
+                var templateDirectory = platformPath + Enum.GetName(typeof(Language), value.language) + "_" + DateTime.Now.Ticks.ToString();
 
                 if (!Directory.Exists(templateDirectory))
                 {
-                    return new ApiResult<bool>(l, CodeGenControllerEnums.GenerateClient_GetTemplateFialed);
+                    Directory.CreateDirectory(templateDirectory);
                 }
 
                 var SdkCode = await nodeServices.InvokeAsync<string>(platformPath + value.language,
@@ -157,14 +159,17 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// npmjs发布设置 - 获取
+        ///  npmjs发布设置 - 获取
         /// </summary>
-        [HttpGet("{id}/NpmOptions")]
+        /// <param name="id">微服务ID</param>
+        /// <param name="language">语言</param>
+        /// <returns></returns>
+        [HttpGet("{id}/NpmOptions/{language}")]
         [AllowAnonymous]
         [SwaggerOperation("CodeGen/NpmOptions")]
-        public async Task<ApiResult<CodeGenNpmOptionsModel>> NpmOptions(string id)
+        public async Task<ApiResult<CodeGenNpmOptionsModel>> NpmOptions(string id,Language language)
         {
-            var result = await GetNpmOptions(id);
+            var result = await GetNpmOptions(language, id);
 
             var key = CodeGenControllerKeys.NpmOptions + id;
 
@@ -180,9 +185,9 @@ namespace IdentityServer4.MicroService.Apis
             }
         }
 
-        async Task<CodeGenNpmOptionsModel> GetNpmOptions(string id)
+        async Task<CodeGenNpmOptionsModel> GetNpmOptions(Language lan,string id)
         {
-            var key = CodeGenControllerKeys.NpmOptions + id;
+            var key = CodeGenControllerKeys.NpmOptions + Enum.GetName(typeof(Language), lan) + ":" + id;
 
             var cacheResult = await redis.GetAsync(key);
 
@@ -205,12 +210,16 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// npmjs发布设置 - 更新
+        ///  npmjs发布设置 - 更新
         /// </summary>
-        [HttpPut("{id}/NpmOptions")]
+        /// <param name="id">微服务ID</param>
+        /// <param name="language">语言</param>
+        /// <param name="value">package.json的内容字符串</param>
+        /// <returns></returns>
+        [HttpPut("{id}/NpmOptions/{language}")]
         [AllowAnonymous]
         [SwaggerOperation("CodeGen/PutNpmOptions")]
-        public async Task<ApiResult<bool>> NpmOptions(string id,[FromBody]CodeGenNpmOptionsModel value)
+        public async Task<ApiResult<bool>> NpmOptions(string id, Language language, [FromBody]CodeGenNpmOptionsModel value)
         {
             if (!ModelState.IsValid)
             {
@@ -218,14 +227,14 @@ namespace IdentityServer4.MicroService.Apis
                     ModelErrors());
             }
 
-            var result = await SetNpmOptions(id, value);
+            var result = await SetNpmOptions(id, language, value);
 
             return new ApiResult<bool>(result);
         }
 
-        async Task<bool> SetNpmOptions(string id, CodeGenNpmOptionsModel value)
+        async Task<bool> SetNpmOptions(string id, Language lan, CodeGenNpmOptionsModel value)
         {
-            var key = CodeGenControllerKeys.NpmOptions + id;
+            var key = CodeGenControllerKeys.NpmOptions + Enum.GetName(typeof(Language), lan) + ":" + id;
 
             var cacheResult = JsonConvert.SerializeObject(value);
 
@@ -245,6 +254,10 @@ namespace IdentityServer4.MicroService.Apis
                     fileName = templateDirectory + "/index.ts";
                     break;
 
+                case Language.jQuery:
+                    fileName = templateDirectory + "/index.js";
+                    break;
+
                 default:
                     break;
             }
@@ -258,21 +271,9 @@ namespace IdentityServer4.MicroService.Apis
             #region 更新包信息
             var configFilePath = templateDirectory + "/package.json";
 
-            var configFileContent = string.Empty;
+            var options = await GetNpmOptions(lan,apiId);
 
-            using (var sr = new StreamReader(configFilePath, Encoding.UTF8))
-            {
-                configFileContent = await sr.ReadToEndAsync();
-            }
-
-            if (string.IsNullOrWhiteSpace(configFileContent))
-            {
-                return false;
-            }
-
-            var options = await GetNpmOptions(apiId);
-
-            var JsonDoc = JsonConvert.DeserializeObject<JObject>(configFileContent);
+            var JsonDoc = new JObject();
 
             if (!string.IsNullOrWhiteSpace(options.name))
             {
@@ -381,12 +382,17 @@ namespace IdentityServer4.MicroService.Apis
             #endregion
 
             #region 清理本地文件
-            System.IO.File.Delete(releaseDirectory + packageFileName);
+            try
+            {
+                Directory.Delete(releaseDirectory, true);
+                Directory.Delete(templateDirectory, true);
+            }
+            catch { }
             #endregion
 
             options.version = newVersion;
 
-            await SetNpmOptions(apiId, options);
+            await SetNpmOptions(apiId, lan, options);
 
             return true;
         }

@@ -13,7 +13,7 @@ namespace IdentityServer4.MicroService.Models.Apis.CodeGenController
         public PackagePlatform platform { get; set; }
 
         /// <summary>
-        /// 语言(可选：angular2)
+        /// 语言(可选：angular2/jQuery)
         /// </summary>
         [Required(ErrorMessage = "请选择模板语言")]
         public Language language { get; set; }
@@ -50,6 +50,12 @@ namespace IdentityServer4.MicroService.Models.Apis.CodeGenController
         /// </summary>
         [EnumMember(Value = "angular2")]
         angular2 = 0,
+
+        /// <summary>
+        /// jquery
+        /// </summary>
+        [EnumMember(Value = "jQuery")]
+        jQuery = 1,
     }
 
     public enum PackagePlatform

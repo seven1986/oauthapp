@@ -7,11 +7,17 @@ module.exports = function (callback, swaggerDocumentStr, packageOptions) {
     //        calc: () => 2 + 4
     //    });
 
-    let documentJson = JSON.parse(swaggerDocumentStr);
+    try {
+        let documentJson = JSON.parse(swaggerDocumentStr);
 
-    let result = IGenerator(documentJson, packageOptions);
 
-    callback(/* error */ null, result);
+        let result = IGenerator(documentJson, packageOptions);
+
+        callback(/* error */ null, result);
+    }
+    catch (err) {
+        callback(err, null);
+    }
 }
 
 var IGenerator = function (doc,opts) {
