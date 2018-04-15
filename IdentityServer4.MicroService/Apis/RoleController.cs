@@ -30,6 +30,7 @@ namespace IdentityServer4.MicroService.Apis
         readonly IdentityDbContext db;
         #endregion
 
+        #region 构造函数
         public RoleController(
             IdentityDbContext _db,
             IStringLocalizer<RoleController> localizer)
@@ -37,11 +38,16 @@ namespace IdentityServer4.MicroService.Apis
             db = _db;
             l = localizer;
         }
+        #endregion
 
+        #region 角色 - 列表
         /// <summary>
         /// 角色 - 列表
         /// </summary>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.role.get</code>，<code>用户：ids4.ms.role.get</code>
+        /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.RoleGet)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.RoleGet)]
@@ -55,13 +61,18 @@ namespace IdentityServer4.MicroService.Apis
             var total = await db.Roles.CountAsync();
 
             return new PagingResult<AppRole>(data, total, 0, total);
-        }
+        } 
+        #endregion
 
+        #region 角色 - 详情
         /// <summary>
         /// 角色 - 详情
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.role.detail</code>，<code>用户：ids4.ms.role.detail</code>
+        /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.RoleDetail)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.RoleDetail)]
@@ -78,13 +89,18 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             return new ApiResult<AppRole>(entity);
-        }
+        } 
+        #endregion
 
+        #region 角色 - 创建
         /// <summary>
         /// 角色 - 创建
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.role.post</code>，<code>用户：ids4.ms.role.post</code>
+        /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.RolePost)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.RolePost)]
@@ -102,13 +118,18 @@ namespace IdentityServer4.MicroService.Apis
             await db.SaveChangesAsync();
 
             return new ApiResult<long>(value.Id);
-        }
+        } 
+        #endregion
 
+        #region 角色 - 更新
         /// <summary>
         /// 角色 - 更新
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.role.put</code>，<code>用户：ids4.ms.role.put</code>
+        /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.RolePut)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.RolePut)]
@@ -219,13 +240,18 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             return new ApiResult<long>(value.Id);
-        }
+        } 
+        #endregion
 
+        #region 角色 - 删除
         /// <summary>
         /// 角色 - 删除
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.role.delete</code>，<code>用户：ids4.ms.role.delete</code>
+        /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.RoleDelete)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.RoleDelete)]
@@ -245,11 +271,16 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<long>(id);
         }
+        #endregion
 
         #region 角色 - 错误码表
         /// <summary>
         /// 角色 - 错误码表
         /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        /// 角色代码对照表
+        /// </remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
         [SwaggerOperation("Role/Codes")]

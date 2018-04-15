@@ -29,13 +29,15 @@ namespace IdentityServer4.MicroService.Apis
 
         static string blobContainerName = "campaign-core-identity";
 
+        #region 构造函数
         public FileController(
             AzureStorageService _azure,
             IStringLocalizer<FileController> localizer)
         {
             azure = _azure;
             l = localizer;
-        }
+        } 
+        #endregion
 
         #region File Settings
         // AllowedVideoTypes
@@ -61,11 +63,15 @@ namespace IdentityServer4.MicroService.Apis
         };
         #endregion
 
+        #region 文件 - 上传视频或文档
         /// <summary>
         /// 文件 - 上传视频或文档
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.file.post</code>
+        /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.FilePost)]
         [SwaggerOperation("File/Post")]
@@ -117,18 +123,23 @@ namespace IdentityServer4.MicroService.Apis
             {
                 return new ApiResult<string>(l, BasicControllerEnums.ExpectationFailed, ex.Message + ex.Source);
             }
-        }
+        } 
+        #endregion
 
         #region Image Settings
         static long ImageSizeLimit = 1024 * 1024 * 5;
         static string[] AllowedImageTypes = new string[] { "image/jpeg", "image/jpg", "image/png" };
         #endregion
 
+        #region 文件 - 上传图片
         /// <summary>
         /// 文件 - 上传图片
         /// </summary>
         /// <param name="value">图片文件</param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.file.image</code>
+        /// </remarks>
         [HttpPost("Image")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.FileImage)]
         [SwaggerOperation("File/Image")]
@@ -163,12 +174,17 @@ namespace IdentityServer4.MicroService.Apis
             {
                 return new ApiResult<string>(l, BasicControllerEnums.ExpectationFailed, ex.Message);
             }
-        }
+        } 
+        #endregion
 
         #region 文件 - 错误码表
         /// <summary>
         /// 文件 - 错误码表
         /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        /// 文件代码对照表
+        /// </remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
         [SwaggerOperation("File/Codes")]

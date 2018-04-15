@@ -114,7 +114,7 @@ var IGenerator = function (doc, opts) {
             }
 
             if (bodyParams != '') {
-                fn += `      return openapis._request({url:url,data:model,method:'${method.toUpperCase()}'});`;
+                fn += `      return openapis._request({url:url,data:JSON.stringify(model),method:'${method.toUpperCase()}'});`;
             }
             else {
                 fn += `      return openapis._request({url:url,method:'${method.toUpperCase()}'});`;
@@ -128,7 +128,7 @@ var IGenerator = function (doc, opts) {
 
     var fnStr = `;(function () {
     var sdk = new Object();\r\n
-    sdk.basepath = function(){ return openapis._settings.server_endpoint + '${doc.basePath}/'; }\r\n\r\n` +
+    sdk.basepath = function(){ return openapis._settings.server_endpoint + '${doc.basePath}'; }\r\n\r\n` +
         fns.join('\n\n') +
         `\r\n
     window.openapis.${sdkName} = sdk;

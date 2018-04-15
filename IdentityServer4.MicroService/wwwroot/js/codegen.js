@@ -1,4 +1,6 @@
-﻿var clientSDKs = [];
+﻿;(function () { 
+
+var clientSDKs = [];
 
 var serverSDKs = [];
 
@@ -8,15 +10,50 @@ var swaggerCodeGenCurrentItem = {};
 
 var swaggerCodeGenCurrentItemIsServer = {};
 
-function ShowClientSDKs() {
-    var str = clientSDKs.map((r, ind) => '<a class="btn btn-default btn-xs" onclick="showCodeGenModal(' + ind + ')">' + r.language + '</a>').join('\r\n');
+function ShowClientSDKs()
+{
+    var _layer = '<div class="btn-group pull-right" role="group" style="margin-right:5px">' +
+        '<button id="btnGroupClientsSDKDrop"' +
+        'type="button"' +
+        'class="btn btn-default dropdown-toggle"' +
+        'data-toggle="dropdown"' +
+        'aria-haspopup="true"' +
+        'aria-expanded="false">' +
+        '<span class="glyphicon glyphicon-download-alt"></span> Clients' +
+        '</button>' +
+        '<ul class="dropdown-menu" aria-labelledby="btnGroupClientsSDKDrop">';
 
-    $('#clientCodegen').html(str);
+    clientSDKs.forEach((r, ind) => {
+        _layer += '<li><a onclick="showCodeGenModal(' + ind + ')">' + r.language + '</a></li>';
+    });
+
+    _layer += '</ul>' +
+        '</div>';
+
+    $('#apiMenu').parent().after(_layer);
 }
 
 function ShowServerSDKs() {
-    var str = serverSDKs.map((r, ind) => '<a class="btn btn-default btn-xs" onclick="showCodeGenModal(' + ind + ',true)">' + r.language + '</a>').join('\r\n');
-    $('#serverCodegen').html(str);
+
+    var _layer = '<div class="btn-group pull-right" role="group" style="margin-right:5px">' +
+        '<button id="btnGroupClientsSDKDrop"' +
+        'type="button"' +
+        'class="btn btn-default dropdown-toggle"' +
+        'data-toggle="dropdown"' +
+        'aria-haspopup="true"' +
+        'aria-expanded="false">' +
+        '<span class="glyphicon glyphicon-download-alt"></span> Servers' +
+        '</button>' +
+        '<ul class="dropdown-menu" aria-labelledby="btnGroupClientsSDKDrop">';
+
+    serverSDKs.forEach((r, ind) => {
+        _layer += '<li><a onclick="showCodeGenModal(' + ind + ',true)">' + r.language + '</a></li>';
+    });
+
+    _layer += '</ul>' +
+        '</div>';
+
+    $('#apiMenu').parent().after(_layer);
 }
 
 function gen(path, options) {
@@ -60,7 +97,7 @@ function showCodeGenModal(ind, isServer) {
         }
     }
 
-    $('#CodegenModal .modal-title').html('<span class="label label-success">' + i.language + '</span> - ' + (isServer ? "Servers" : "Clients"));
+    $('#CodegenModal .modal-title').html('<b>' + i.language + '</b> - ' + (isServer ? "Servers" : "Clients"));
     $("#languageoptions").html(eles.join(''));
     $('#CodegenModal').modal('show');
 }
@@ -93,35 +130,6 @@ function clientGen(ele) {
 var hosturl = location.protocol + location.host;
 
 const _template_codegen_azure = `<div>
-                  <blockquote>
-                      <h4>Clients</h4>
-                      <div id="clientCodegen" style="line-height:2"></div>
-                  </blockquote>
-
-                  <blockquote>
-                      <h4>Servers</h4>
-                      <div id="serverCodegen" style="line-height:2"></div>
-                  </blockquote>
-
-                  <blockquote>
-                      <h4>PostMan</h4>
-                      <input id="PostManImportUrl" type="text" class="form-control" value="${hosturl}/docs/services/5/export?DocumentFormat=Swagger" readonly>
-                      <br />
-                      <small>import Swagger</small>
-                  </blockquote>
-
-                  <blockquote>
-                      <h4>CodeGen-Online</h4>
-                      <small id="CodeGenOnline"></small>
-                  </blockquote>
-
-                  <blockquote>
-                      <h4>Packages</h4>
-                      <small>npm: </small>
-                      <small>android: </small>
-                      <small>ios:</small>
-                  </blockquote>
-
                   <div id="CodegenModal" class="modal fade">
                       <div class="modal-dialog">
                           <div class="modal-content">
@@ -161,15 +169,31 @@ const _template_codegen_azure = `<div>
 
 $(function () {
     $('#codegen_azure').html(_template_codegen_azure);
-    $.getJSON(hosturl+"/ApiResource/ClientLanguegs").then(r => {
-        clientSDKs = r.data;
+
+    var codegenClientsData = localStorage.getItem('codegenClientsData');
+    if (codegenClientsData == null) {
+        $.getJSON("https://ids.jixiucloud.cn/CodeGen/Clients").then(r => {
+            clientSDKs = r.data;
+            ShowClientSDKs();
+            localStorage.setItem('codegenClientsData',JSON.stringify(clientSDKs));
+        });
+    }
+    else {
+        clientSDKs = JSON.parse(codegenClientsData);
         ShowClientSDKs();
-    });
-    $.getJSON(hosturl +"/ApiResource/ServerLanguegs").then(r => {
-        serverSDKs = r.data;
+    }
+
+    var codegenServersData = localStorage.getItem('codegenServersData');
+    if (codegenServersData == null) {
+        $.getJSON("https://ids.jixiucloud.cn/CodeGen/Servers").then(r => {
+            serverSDKs = r.data;
+            ShowServerSDKs();
+            localStorage.setItem('codegenServersData', JSON.stringify(serverSDKs));
+        });
+    }
+    else {
+        serverSDKs = JSON.parse(codegenServersData);
         ShowServerSDKs();
-    });
-    $("#PostManImportUrl").val(swaggerUrl);
-    var CodeGenOnlineUrl = hosturl+'/codegen-2?swagger=' + swaggerUrl;
-    $("#CodeGenOnline").html('<a href="' + CodeGenOnlineUrl + '">' + CodeGenOnlineUrl + '</a>');
+    }
 });
+})();

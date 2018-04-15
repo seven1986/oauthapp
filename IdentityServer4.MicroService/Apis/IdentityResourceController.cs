@@ -33,6 +33,7 @@ namespace IdentityServer4.MicroService.Apis
         readonly ConfigurationDbContext db;
         #endregion
 
+        #region 构造函数
         public IdentityResourceController(
             ConfigurationDbContext _db,
             IStringLocalizer<IdentityResourceController> localizer)
@@ -40,12 +41,17 @@ namespace IdentityServer4.MicroService.Apis
             db = _db;
             l = localizer;
         }
+        #endregion
 
+        #region 身份服务 - 列表
         /// <summary>
         /// 身份服务 - 列表
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.identityresource.get</code>，<code>用户：ids4.ms.identityresource.get</code>
+        /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.IdentityResourceGet)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.IdentityResourceGet)]
@@ -106,12 +112,17 @@ namespace IdentityServer4.MicroService.Apis
 
             return result;
         }
+        #endregion
 
+        #region 身份服务 - 详情
         /// <summary>
         /// 身份服务 - 详情
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.identityresource.detailt</code>，<code>用户：ids4.ms.identityresource.detail</code>
+        /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.IdentityResourceDetail)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.IdentityResourceDetail)]
@@ -130,12 +141,17 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<IdentityResource>(entity);
         }
+        #endregion
 
+        #region 身份服务 - 创建
         /// <summary>
         /// 身份服务 - 创建
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.identityresource.post</code>，<code>用户：ids4.ms.identityresource.post</code>
+        /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.IdentityResourcePost)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.IdentityResourcePost)]
@@ -154,12 +170,17 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<long>(value.Id);
         }
+        #endregion
 
+        #region 身份服务 - 更新
         /// <summary>
         /// 身份服务 - 更新
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.identityresource.put</code>，<code>用户：ids4.ms.identityresource.put</code>
+        /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.IdentityResourcePut)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.IdentityResourcePut)]
@@ -253,12 +274,17 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<long>(value.Id);
         }
+        #endregion
 
+        #region 身份服务 - 删除
         /// <summary>
         /// 身份服务 - 删除
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.identityresource.delete</code>，<code>用户：ids4.ms.identityresource.delete</code>
+        /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.IdentityResourceDelete)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.IdentityResourceDelete)]
@@ -277,12 +303,17 @@ namespace IdentityServer4.MicroService.Apis
             await db.SaveChangesAsync();
 
             return new ApiResult<long>(id);
-        }
+        } 
+        #endregion
 
         #region 身份服务 - 错误码表
         /// <summary>
         /// 身份服务 - 错误码表
         /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        /// 身份服务代码对照表
+        /// </remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
         [SwaggerOperation("IdentityResource/Codes")]
