@@ -62,7 +62,7 @@ namespace IdentityServer4.MicroService.Apis
             redis = _redis;
             swagerCodeGen = _swagerCodeGen;
             storageService = _storageService;
-        } 
+        }
         #endregion
 
         #region 微服务 - 列表
@@ -71,6 +71,9 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.get</code>，<code>用户：ids4.ms.apiresource.get</code>
+        /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceGet)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceGet)]
@@ -147,7 +150,7 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             return result;
-        } 
+        }
         #endregion
 
         #region 微服务 - 详情
@@ -156,6 +159,9 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.detail</code>，<code>用户：ids4.ms.apiresource.detail</code>
+        /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceDetail)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceDetail)]
@@ -182,7 +188,7 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             return new ApiResult<ApiResource>(entity);
-        } 
+        }
         #endregion
 
         #region 微服务 - 创建
@@ -191,6 +197,9 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value">ID</param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.post</code>，<code>用户：ids4.ms.apiresource.post</code>
+        /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePost)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePost)]
@@ -216,7 +225,7 @@ namespace IdentityServer4.MicroService.Apis
             await userDb.SaveChangesAsync();
 
             return new ApiResult<long>(value.Id);
-        } 
+        }
         #endregion
 
         #region 微服务 - 更新
@@ -225,6 +234,9 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.put</code>，<code>用户：ids4.ms.apiresource.put</code>
+        /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePut)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePut)]
@@ -499,7 +511,7 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             return new ApiResult<long>(value.Id);
-        } 
+        }
         #endregion
 
         #region 微服务 - 删除
@@ -508,6 +520,9 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="id">ID</param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.delete</code>，<code>用户：ids4.ms.apiresource.delete</code>
+        /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceDelete)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceDelete)]
@@ -541,6 +556,9 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.publish</code>，<code>用户：ids4.ms.apiresource.publish</code>
+        /// </remarks>
         [HttpPut("{id}/Publish")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePublish)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePublish)]
@@ -596,6 +614,9 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.publishrevision</code>，<code>用户：ids4.ms.apiresource.publishrevision</code>
+        /// </remarks>
         [HttpPost("{id}/PublishRevision")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePublishRevision)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePublishRevision)]
@@ -648,6 +669,9 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.publishversion</code>，<code>用户：ids4.ms.apiresource.publishversion</code>
+        /// </remarks>
         [HttpPost("{id}/PublishVersion")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePublishVersion)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePublishVersion)]
@@ -686,6 +710,9 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.publishconfiguration</code>，<code>用户：ids4.ms.apiresource.publishconfiguration</code>
+        /// </remarks>
         [HttpGet("{id}/PublishConfiguration")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePublishConfiguration)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePublishConfiguration)]
@@ -718,6 +745,9 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.versions</code>，<code>用户：ids4.ms.apiresource.versions</code>
+        /// </remarks>
         [HttpGet("{id}/Versions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceVersions)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceVersions)]
@@ -770,6 +800,9 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <param name="revisionId"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.setonlineversion</code>，<code>用户：ids4.ms.apiresource.setonlineversion</code>
+        /// </remarks>
         [HttpPost("{id}/Versions/{revisionId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceSetOnlineVersion)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceSetOnlineVersion)]
@@ -791,7 +824,7 @@ namespace IdentityServer4.MicroService.Apis
             {
                 return new ApiResult<bool>(l, ApiResourceControllerEnums.SetOnlineVersion_PostFailed);
             }
-        } 
+        }
         #endregion
 
         #region 微服务 - 修订内容 - 列表
@@ -801,6 +834,9 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <param name="apiId">Api的ID</param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.releases</code>，<code>用户：ids4.ms.apiresource.releases</code>
+        /// </remarks>
         [HttpGet("{id}/Releases")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceReleases)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceReleases)]
@@ -837,6 +873,9 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.postrelease</code>，<code>用户：ids4.ms.apiresource.postrelease</code>
+        /// </remarks>
         [HttpPost("{id}/Releases")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePostRelease)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePostRelease)]
@@ -863,6 +902,9 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="releaseId">修订内容的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.putrelease</code>，<code>用户：ids4.ms.apiresource.putrelease</code>
+        /// </remarks>
         [HttpPut("{id}/Releases/{releaseId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePutRelease)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePutRelease)]
@@ -894,6 +936,9 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <param name="releaseId">修订内容的ID</param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.deleterelease</code>，<code>用户：ids4.ms.apiresource.deleterelease</code>
+        /// </remarks>
         [HttpDelete("{id}/Releases/{releaseId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceDeleteRelease)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceDeleteRelease)]
@@ -917,6 +962,9 @@ namespace IdentityServer4.MicroService.Apis
         /// 微服务 - OAuthServers
         /// </summary>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.authservers</code>，<code>用户：ids4.ms.apiresource.authservers</code>
+        /// </remarks>
         [HttpGet("AuthServers")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceAuthServers)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceAuthServers)]
@@ -934,6 +982,9 @@ namespace IdentityServer4.MicroService.Apis
         /// 微服务 - 产品组
         /// </summary>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.products</code>，<code>用户：ids4.ms.apiresource.products</code>
+        /// </remarks>
         [HttpGet("Products")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceProducts)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceProducts)]
@@ -952,6 +1003,9 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.subscriptions</code>，<code>用户：ids4.ms.apiresource.subscriptions</code>
+        /// </remarks>
         [HttpGet("{id}/Subscriptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceSubscriptions)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceSubscriptions)]
@@ -987,6 +1041,9 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.apiresource.releases.postsubscription</code>，<code>用户：ids4.ms.apiresource.releases.postsubscription</code>
+        /// </remarks>
         [HttpPost("{id}/Subscriptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePostSubscription)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePostSubscription)]
@@ -1031,6 +1088,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         /// 微服务 - 错误码表
         /// </summary>
+        /// <remarks>微服务代码对照表</remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
         [SwaggerOperation("ApiResource/Codes")]

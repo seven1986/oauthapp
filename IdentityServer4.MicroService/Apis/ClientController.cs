@@ -39,6 +39,7 @@ namespace IdentityServer4.MicroService.Apis
         readonly IdentityDbContext userDB;
         #endregion
 
+        #region 构造函数
         public ClientController(
             ConfigurationDbContext _idsDB,
             IdentityDbContext _userDB,
@@ -47,13 +48,16 @@ namespace IdentityServer4.MicroService.Apis
             userDB = _userDB;
             idsDB = _idsDB;
             l = localizer;
-        }
+        } 
+        #endregion
 
+        #region 客户端 - 列表
         /// <summary>
         /// 客户端 - 列表
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// 调用权限：<code>应用：ids4.ms.client.get</code>，<code>用户：ids4.ms.client.get</code>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientGet)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientGet)]
@@ -136,12 +140,15 @@ namespace IdentityServer4.MicroService.Apis
 
             return result;
         }
+        #endregion
 
+        #region 客户端 - 详情
         /// <summary>
         /// 客户端 - 详情
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// 调用权限：<code>应用：ids4.ms.client.detail</code>，<code>用户：ids4.ms.client.detail</code>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientDetail)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientDetail)]
@@ -175,12 +182,15 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<Client>(entity);
         }
+        #endregion
 
+        #region 客户端 - 创建
         /// <summary>
         /// 客户端 - 创建
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// 调用权限：<code>应用：ids4.ms.client.post</code>，<code>用户：ids4.ms.client.post</code>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientPost)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientPost)]
@@ -207,12 +217,15 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<long>(value.Id);
         }
+        #endregion
 
+        #region 客户端 - 更新
         /// <summary>
         /// 客户端 - 更新
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// 调用权限：<code>应用：ids4.ms.client.put</code>，<code>用户：ids4.ms.client.put</code>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientPut)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientPut)]
@@ -733,15 +746,18 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<long>(value.Id);
         }
+        #endregion
 
+        #region 客户端 - 删除
         /// <summary>
         /// 客户端 - 删除
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// 调用权限：<code>应用：ids4.ms.client.delete</code>，<code>用户：ids4.ms.client.delet</code>
         [HttpDelete("{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientDetail)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientDetail)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientDelete)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientDelete)]
         [SwaggerOperation("Client/Delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
@@ -768,7 +784,25 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<long>(id);
         }
+        #endregion
 
+        #region 客户端 - 错误码表
+        /// <summary>
+        /// 客户端 - 错误码表
+        /// </summary>
+        /// <remarks>客户端代码对照表</remarks>
+        [HttpGet("Codes")]
+        [AllowAnonymous]
+        [SwaggerOperation("Client/Codes")]
+        public List<ErrorCodeModel> Codes()
+        {
+            var result = _Codes<ClientControllerEnums>();
+
+            return result;
+        }
+        #endregion
+
+        #region 辅助方法
         async Task<bool> exists(long id)
         {
             var query = idsDB.Clients.AsQueryable();
@@ -783,20 +817,6 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             return query.Any(x => x.Id == id);
-        }
-
-        #region 客户端 - 错误码表
-        /// <summary>
-        /// 客户端 - 错误码表
-        /// </summary>
-        [HttpGet("Codes")]
-        [AllowAnonymous]
-        [SwaggerOperation("Client/Codes")]
-        public List<ErrorCodeModel> Codes()
-        {
-            var result = _Codes<ClientControllerEnums>();
-
-            return result;
         }
         #endregion
     }

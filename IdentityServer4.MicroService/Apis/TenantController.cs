@@ -34,6 +34,7 @@ namespace IdentityServer4.MicroService.Apis
         readonly TenantDbContext db;
         #endregion
 
+        #region 构造函数
         public TenantController(
             TenantDbContext _db,
             RedisService _redis,
@@ -47,12 +48,17 @@ namespace IdentityServer4.MicroService.Apis
             db = _db;
             tenantService = _tenantService;
         }
+        #endregion
 
+        #region 租户 - 列表
         /// <summary>
         /// 租户 - 列表
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.tenant.get</code>，<code>用户：ids4.ms.tenant.get</code>
+        /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.TenantGet)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.TenantGet)]
@@ -85,7 +91,7 @@ namespace IdentityServer4.MicroService.Apis
                 skip = value.skip.Value,
                 take = value.take.Value,
                 total = await query.CountAsync()
-            }; 
+            };
             #endregion
 
             if (result.total > 0)
@@ -109,7 +115,7 @@ namespace IdentityServer4.MicroService.Apis
                             .Include(x => x.Claims)
                             .Include(x => x.Hosts)
                             .Include(x => x.Properties)
-                            .ToListAsync(); 
+                            .ToListAsync();
                 #endregion
 
                 if (data.Count > 0)
@@ -120,12 +126,17 @@ namespace IdentityServer4.MicroService.Apis
 
             return result;
         }
+        #endregion
 
+        #region 租户 - 详情
         /// <summary>
         /// 租户 - 详情
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.tenant.detail</code>，<code>用户：ids4.ms.tenant.detail</code>
+        /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.TenantDetail)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.TenantDetail)]
@@ -149,12 +160,17 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<AppTenant>(entity);
         }
+        #endregion
 
+        #region 租户 - 创建
         /// <summary>
         /// 租户 - 创建
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.tenant.post</code>，<code>用户：ids4.ms.tenant.post</code>
+        /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.TenantPost)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.TenantPost)]
@@ -175,12 +191,17 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<long>(value.Id);
         }
+        #endregion
 
+        #region 租户 - 更新
         /// <summary>
         /// 租户 - 更新
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.tenant.put</code>，<code>用户：ids4.ms.tenant.put</code>
+        /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.TenantPut)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.TenantPut)]
@@ -189,7 +210,7 @@ namespace IdentityServer4.MicroService.Apis
         {
             if (!ModelState.IsValid)
             {
-                return new ApiResult<long>(l, 
+                return new ApiResult<long>(l,
                     BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
@@ -368,7 +389,7 @@ namespace IdentityServer4.MicroService.Apis
                 {
                     tran.Rollback();
 
-                    return new ApiResult<long>(l, 
+                    return new ApiResult<long>(l,
                         BasicControllerEnums.ExpectationFailed,
                         ex.Message);
                 }
@@ -376,12 +397,17 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<long>(value.Id);
         }
+        #endregion
 
+        #region 租户 - 删除
         /// <summary>
         /// 租户 - 删除
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// 调用权限：<code>应用：ids4.ms.tenant.delete</code>，<code>用户：ids4.ms.tenant.delete</code>
+        /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.TenantDelete)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.TenantDelete)]
@@ -403,7 +429,9 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<long>(id);
         }
+        #endregion
 
+        #region 租户 - 详情（公共）
         /// <summary>
         /// 租户 - 详情（公共）
         /// </summary>
@@ -422,12 +450,17 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             return new ApiResult<string>(entity.Item1);
-        }
+        } 
+        #endregion
 
         #region 租户 - 错误码表
         /// <summary>
         /// 租户 - 错误码表
         /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        /// 租户代码对照表
+        /// </remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
         [SwaggerOperation("Tenant/Codes")]

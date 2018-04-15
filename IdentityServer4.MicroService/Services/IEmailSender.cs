@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
+using System.Text;
 
 namespace IdentityServer4.MicroService.Services
 {
@@ -54,7 +55,7 @@ namespace IdentityServer4.MicroService.Services
                     { "apiKey", Options.apiKey},
                     { "from", from},
                     { "fromName",fromName},
-                    { "xsmtpapi", xsmtpapi},
+                    { "xsmtpapi", Convert.ToBase64String(Encoding.UTF8.GetBytes(xsmtpapi))},
                     { "subject", subject},
                     { "templateInvokeName", templateInvokeName},
                 };

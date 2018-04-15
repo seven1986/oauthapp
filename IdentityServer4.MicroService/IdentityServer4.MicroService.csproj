@@ -36,12 +36,17 @@
 
   <ItemGroup>
     <Content Remove="package-lock.json" />
+    <Content Remove="wwwroot\js\codegen.min.js" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Properties\PublishProfiles\IdentityServer4MicroService20180208121002 - Web Deploy.pubxml" />
     <None Remove="Properties\PublishProfiles\IdentityServer4MicroService20180209105301 - Web Deploy.pubxml" />
     <None Remove="Properties\PublishProfiles\IdentityServer4MicroService20180209110348 - Web Deploy.pubxml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\codegen.min.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,6 +71,9 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\IdentityServer\" />
     <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\js\codegen.min.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="appsettings.json">

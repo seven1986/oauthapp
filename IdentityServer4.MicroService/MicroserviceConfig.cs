@@ -405,7 +405,7 @@ namespace IdentityServer4.MicroService
                     MicroServiceName + ".all")]
             public const string UserHead = "scope:user.head";
 
-            [Description("用户 - 注册 (需验证手机号，邮箱如果填写了也需要验证)")]
+            [Description("用户 - 注册")]
             [PolicyClaimValues(
                     MicroServiceName + ".user.register",
                     MicroServiceName + ".user.all",
@@ -817,7 +817,7 @@ namespace IdentityServer4.MicroService
                     MicroServiceName + ".all")]
             public const string UserHead = "permission:user.head";
 
-            [Description("用户 - 注册 (需验证手机号，邮箱如果填写了也需要验证)")]
+            [Description("用户 - 注册")]
             [PolicyClaimValues(
                     MicroServiceName + ".user.register",
                     MicroServiceName + ".user.all",
