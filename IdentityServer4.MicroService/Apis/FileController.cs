@@ -70,7 +70,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.file.post</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.file.post</code>
+        /// <label>User Permissions：</label><code>ids4.ms.file.post</code>
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.FilePost)]
@@ -138,7 +139,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value">图片文件</param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.file.image</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.file.image</code>
+        /// <label>User Permissions：</label><code>ids4.ms.file.image</code>
         /// </remarks>
         [HttpPost("Image")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.FileImage)]

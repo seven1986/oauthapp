@@ -23,7 +23,7 @@ using static IdentityServer4.MicroService.MicroserviceConfig;
 namespace IdentityServer4.MicroService.Apis
 {
     /// <summary>
-    /// Swagger CodeGen
+    /// 代码生成
     /// </summary>
     [Route("CodeGen")]
     [Produces("application/json")]
@@ -322,9 +322,9 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 代码生成 - 发布设置 - NPM
+        #region 代码生成 - NPM设置
         /// <summary>
-        ///  代码生成 - 发布设置 - NPM
+        ///  代码生成 - NPM设置
         /// </summary>
         /// <param name="id">微服务ID</param>
         /// <param name="language">语言</param>
@@ -374,9 +374,9 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 代码生成 - 发布设置 - 更新NPM
+        #region 代码生成 - 更新NPM设置
         /// <summary>
-        ///  代码生成 - 发布设置 - 更新NPM
+        ///  代码生成 - 更新NPM设置
         /// </summary>
         /// <param name="id">微服务ID</param>
         /// <param name="language">语言</param>

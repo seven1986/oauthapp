@@ -462,7 +462,7 @@ namespace IdentityServer4.MicroService.Services
         /// <param name="scope">scopes</param>
         /// <param name="openid">openid</param>
         /// <returns></returns>
-        public async Task<bool> UpdateOAuth2Async(string aid, string authorizationServerId, string scope = null, string openid = null)
+        public async Task<HttpResponseMessage> UpdateOAuth2Async(string aid, string authorizationServerId, string scope = null, string openid = null)
         {
             var body = new JObject();
 
@@ -501,7 +501,7 @@ namespace IdentityServer4.MicroService.Services
         /// <param name="aid">id</param>
         /// <param name="body">Model</param>
         /// <returns></returns>
-        public async Task<bool> UpdateAsync(string aid, string body)
+        public async Task<HttpResponseMessage> UpdateAsync(string aid, string body)
         {
             var path = $"/apis/{aid}";
 
@@ -513,7 +513,7 @@ namespace IdentityServer4.MicroService.Services
 
             var result = await RequestAsync(path, method, null, content, headerItems);
 
-            return result.IsSuccessStatusCode;
+            return result;
         }
 
         /// <summary>
@@ -557,28 +557,20 @@ namespace IdentityServer4.MicroService.Services
         /// Get Api Policy
         /// </summary>
         /// <returns></returns>
-        public async Task<string> GetPolicyAsync(string aid)
+        public async Task<HttpResponseMessage> GetPolicyAsync(string aid)
         {
             var result = await RequestAsync($"/apis/{aid}/policy",
                 HttpMethod.Get.Method,
                 null, null, null, "application/vnd.ms-azure-apim.policy+xml");
 
-            if (result.IsSuccessStatusCode)
-            {
-                return result.Content.ReadAsStringAsync().Result;
-            }
-
-            else
-            {
-                return string.Empty;
-            }
+            return result;
         }
 
         /// <summary>
         /// Set Api Policy
         /// </summary>
         /// <returns></returns>
-        public async Task<string> SetPolicyAsync(string aid, string policies)
+        public async Task<HttpResponseMessage> SetPolicyAsync(string aid, string policies)
         {
             var path = $"/apis/{aid}/policy";
 
@@ -591,15 +583,7 @@ namespace IdentityServer4.MicroService.Services
 
             var result = await RequestAsync(path, HttpMethod.Put.Method, null, content, headerItems);
 
-            if (result.IsSuccessStatusCode)
-            {
-                return result.Content.ReadAsStringAsync().Result;
-            }
-
-            else
-            {
-                return string.Empty;
-            }
+            return result;
         }
 
         /// <summary>
@@ -760,7 +744,7 @@ namespace IdentityServer4.MicroService.Services
         /// <param name="aid">7;rev=3</param>
         /// <param name="apiRevisionDescription">desc</param>
         /// <returns></returns>
-        public async Task<bool> UpdateRevisionAsync(string aid, string apiRevisionDescription)
+        public async Task<HttpResponseMessage> UpdateRevisionAsync(string aid, string apiRevisionDescription)
         {
             var body = JsonConvert.SerializeObject(new
             {

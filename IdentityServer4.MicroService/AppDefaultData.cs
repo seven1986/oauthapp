@@ -454,5 +454,18 @@ namespace IdentityServer4.MicroService
                 }
             }
         }
+
+        public class SendCloud
+        {
+            /// <summary>
+            /// 用户注册 - 邮箱验证
+            /// </summary>
+            public static string VerifyEmailTemplate = "verify_email";
+
+            /// <summary>
+            /// 用户订阅微服务 - 邮箱验证
+            /// </summary>
+            public static string VerifyApiresourceSubscriptionTemplate = "verify_apiresource_subscription";
+        } 
     }
 }

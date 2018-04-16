@@ -46,7 +46,8 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.role.get</code>，<code>用户：ids4.ms.role.get</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.role.get</code>
+        /// <label>User Permissions：</label><code>ids4.ms.role.get</code>
         /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.RoleGet)]
@@ -61,7 +62,7 @@ namespace IdentityServer4.MicroService.Apis
             var total = await db.Roles.CountAsync();
 
             return new PagingResult<AppRole>(data, total, 0, total);
-        } 
+        }
         #endregion
 
         #region 角色 - 详情
@@ -71,7 +72,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.role.detail</code>，<code>用户：ids4.ms.role.detail</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.role.detail</code>
+        /// <label>User Permissions：</label><code>ids4.ms.role.detail</code>
         /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.RoleDetail)]
@@ -89,7 +91,7 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             return new ApiResult<AppRole>(entity);
-        } 
+        }
         #endregion
 
         #region 角色 - 创建
@@ -99,7 +101,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.role.post</code>，<code>用户：ids4.ms.role.post</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.role.post</code>
+        /// <label>User Permissions：</label><code>ids4.ms.role.post</code>
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.RolePost)]
@@ -118,7 +121,7 @@ namespace IdentityServer4.MicroService.Apis
             await db.SaveChangesAsync();
 
             return new ApiResult<long>(value.Id);
-        } 
+        }
         #endregion
 
         #region 角色 - 更新
@@ -128,7 +131,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.role.put</code>，<code>用户：ids4.ms.role.put</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.role.put</code>
+        /// <label>User Permissions：</label><code>ids4.ms.role.put</code>
         /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.RolePut)]
@@ -240,7 +244,7 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             return new ApiResult<long>(value.Id);
-        } 
+        }
         #endregion
 
         #region 角色 - 删除
@@ -250,7 +254,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.role.delete</code>，<code>用户：ids4.ms.role.delete</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.role.delete</code>
+        /// <label>User Permissions：</label><code>ids4.ms.role.delete</code>
         /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.RoleDelete)]

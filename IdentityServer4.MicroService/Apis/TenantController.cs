@@ -57,7 +57,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.tenant.get</code>，<code>用户：ids4.ms.tenant.get</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.tenant.get</code>
+        /// <label>User Permissions：</label><code>ids4.ms.tenant.get</code>
         /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.TenantGet)]
@@ -135,7 +136,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.tenant.detail</code>，<code>用户：ids4.ms.tenant.detail</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.tenant.detail</code>
+        /// <label>User Permissions：</label><code>ids4.ms.tenant.detail</code>
         /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.TenantDetail)]
@@ -169,7 +171,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.tenant.post</code>，<code>用户：ids4.ms.tenant.post</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.tenant.post</code>
+        /// <label>User Permissions：</label><code>ids4.ms.tenant.post</code>
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.TenantPost)]
@@ -200,7 +203,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.tenant.put</code>，<code>用户：ids4.ms.tenant.put</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.tenant.put</code>
+        /// <label>User Permissions：</label><code>ids4.ms.tenant.put</code>
         /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.TenantPut)]
@@ -406,7 +410,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.tenant.delete</code>，<code>用户：ids4.ms.tenant.delete</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.tenant.delete</code>
+        /// <label>User Permissions：</label><code>ids4.ms.tenant.delete</code>
         /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.TenantDelete)]

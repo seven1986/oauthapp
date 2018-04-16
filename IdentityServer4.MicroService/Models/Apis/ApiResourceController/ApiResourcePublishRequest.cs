@@ -5,6 +5,16 @@ namespace IdentityServer4.MicroService.Models.Apis.ApiResourceController
     public class ApiResourcePublishRequest
     {
         /// <summary>
+        /// 微服务名称
+        /// </summary>
+        public string name { get; set; }
+
+        /// <summary>
+        /// 微服务功能简介
+        /// </summary>
+        public string description { get; set; }
+
+        /// <summary>
         /// api的id
         /// </summary>
         [Required(ErrorMessage = "请填写ID")]

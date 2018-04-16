@@ -23,6 +23,7 @@ using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.UserController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+using static IdentityServer4.MicroService.AppDefaultData;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -42,9 +43,7 @@ namespace IdentityServer4.MicroService.Apis
         // 短信
         readonly ISmsSender sms;
         // 邮件
-        readonly IEmailSender email;
-        // 加解密
-        readonly ITimeLimitedDataProtector protector;
+        readonly EmailService email;
         // 用户管理SDK
         readonly UserManager<AppUser> userManager;
 
@@ -59,8 +58,7 @@ namespace IdentityServer4.MicroService.Apis
             RedisService _redis,
             IStringLocalizer<UserController> _localizer,
             ISmsSender _sms,
-            IEmailSender _email,
-            IDataProtectionProvider _provider,
+            EmailService _email,
             UserManager<AppUser> _userManager,
             TenantDbContext _tenantDbContext,
             ConfigurationDbContext _configDbContext)
@@ -70,7 +68,6 @@ namespace IdentityServer4.MicroService.Apis
             db = _db;
             redis = _redis;
             sms = _sms;
-            protector = _provider.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
             email = _email;
             userManager = _userManager;
             tenantDbContext = _tenantDbContext;
@@ -78,13 +75,15 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
+        #region 用户 - 列表
         /// <summary>
         /// 用户 - 列表
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.user.get</code>，<code>用户：ids4.ms.user.get</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.user.get</code>
+        /// <label>User Permissions：</label><code>ids4.ms.user.get</code>
         /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserGet)]
@@ -165,15 +164,18 @@ namespace IdentityServer4.MicroService.Apis
              });
 
             return result;
-        }
+        } 
+        #endregion
 
+        #region 用户 - 详情
         /// <summary>
         ///用户 - 详情
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.user.detail</code>，<code>用户：ids4.ms.user.detail</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.user.detail</code>
+        /// <label>User Permissions：</label><code>ids4.ms.user.detail</code>
         /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserDetail)]
@@ -198,7 +200,8 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             return new ApiResult<AppUser>(entity);
-        }
+        } 
+        #endregion
 
         #region 用户 - 创建
         /// <summary>
@@ -207,7 +210,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.user.post</code>，<code>用户：ids4.ms.user.post</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.user.post</code>
+        /// <label>User Permissions：</label><code>ids4.ms.user.post</code>
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserPost)]
@@ -259,7 +263,7 @@ namespace IdentityServer4.MicroService.Apis
                     BasicControllerEnums.ExpectationFailed,
                     ex.Message);
             }
-        } 
+        }
         #endregion
 
         #region 用户 - 更新
@@ -269,7 +273,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.user.put</code>，<code>用户：ids4.ms.user.put</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.user.put</code>
+        /// <label>User Permissions：</label><code>ids4.ms.user.put</code>
         /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserPut)]
@@ -488,7 +493,7 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             return new ApiResult<long>(value.Id);
-        } 
+        }
         #endregion
 
         #region 用户 - 删除
@@ -498,7 +503,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.user.delete</code>，<code>用户：ids4.ms.user.delete</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.user.delete</code>
+        /// <label>User Permissions：</label><code>ids4.ms.user.delete</code>
         /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserDelete)]
@@ -524,7 +530,7 @@ namespace IdentityServer4.MicroService.Apis
             await db.SaveChangesAsync();
 
             return new ApiResult<long>(id);
-        } 
+        }
         #endregion
 
         #region 用户 - 是否存在
@@ -534,7 +540,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.user.headt</code>，<code>用户：ids4.ms.user.head</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.user.head</code>
+        /// <label>User Permissions：</label><code>ids4.ms.user.head</code>
         /// </remarks>
         [HttpGet("Head")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserHead)]
@@ -562,7 +569,7 @@ namespace IdentityServer4.MicroService.Apis
             {
                 return new NotFoundObjectResult(0);
             }
-        } 
+        }
         #endregion
 
         #region 用户 - 注册
@@ -571,8 +578,9 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.user.register</code>，<code>用户：ids4.ms.user.register</code>
-        /// 需验证手机号，邮箱如果填写了也需要验证
+        /// <label>Client Scopes：</label><code>ids4.ms.user.register</code>
+        /// <label>User Permissions：</label><code>ids4.ms.user.register</code>
+        /// 需验证手机号；邮箱如果填写了，也需要验证
         /// </remarks>
         [HttpPost("Register")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserRegister)]
@@ -595,11 +603,7 @@ namespace IdentityServer4.MicroService.Apis
             #region 校验邮箱验证码
             if (!string.IsNullOrWhiteSpace(value.EmailVerifyCode))
             {
-                try
-                {
-                    protector.Unprotect(value.EmailVerifyCode);
-                }
-                catch
+                if (!email.VerifyCode(value.EmailVerifyCode))
                 {
                     return new ApiResult<string>(l, UserControllerEnums.Register_EmailVerifyCodeError);
                 }
@@ -720,7 +724,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.user.verifyphone</code>，<code>用户：ids4.ms.user.verifyphone</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.user.verifyphone</code>
+        /// <label>User Permissions：</label><code>ids4.ms.user.verifyphone</code>
         /// </remarks>
         [HttpPost("VerifyPhone")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserVerifyPhone)]
@@ -794,7 +799,7 @@ namespace IdentityServer4.MicroService.Apis
             await redis.IncrementAsync(dailyLimitKey);
 
             return new ApiResult<string>();
-        } 
+        }
         #endregion
 
         #region 用户 - 注册 - 发送邮件验证码
@@ -804,7 +809,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.user.verifyemail</code>，<code>用户：ids4.ms.user.verifyemail</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.user.verifyemail</code>
+        /// <label>User Permissions：</label><code>ids4.ms.user.verifyemail</code>
         /// </remarks>
         [HttpPost("VerifyEmail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserVerifyEmail)]
@@ -862,17 +868,11 @@ namespace IdentityServer4.MicroService.Apis
 
             #region 发送验证码
             var verifyCode = random.Next(111111, 999999).ToString();
-            // 用加密算法生成具有时效性的密文
-            var protectedData = protector.Protect(verifyCode, TimeSpan.FromSeconds(UserControllerKeys.VerifyCode_Expire_Email));
-            var xsmtpapi = JsonConvert.SerializeObject(new
-            {
-                to = new string[] { value.Email },
-                sub = new Dictionary<string, string[]>()
-                        {
-                            { "%code%", new string[] { protectedData } },
-                        }
-            });
-            await email.SendEmailAsync("邮箱验证", "verify_email", xsmtpapi);
+
+            await email.SendCode("邮箱验证",
+                SendCloud.VerifyEmailTemplate, verifyCode, 
+                TimeSpan.FromSeconds(UserControllerKeys.VerifyCode_Expire_Email),
+                value.Email);
             #endregion
 
             // 记录发送验证码的时间，用于下次发送验证码校验间隔时间

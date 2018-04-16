@@ -48,7 +48,7 @@ namespace IdentityServer4.MicroService.Apis
             userDB = _userDB;
             idsDB = _idsDB;
             l = localizer;
-        } 
+        }
         #endregion
 
         #region 客户端 - 列表
@@ -57,7 +57,10 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// 调用权限：<code>应用：ids4.ms.client.get</code>，<code>用户：ids4.ms.client.get</code>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.client.get</code>
+        /// <label>User Permissions：</label><code>ids4.ms.client.get</code>
+        /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientGet)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientGet)]
@@ -148,7 +151,10 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// 调用权限：<code>应用：ids4.ms.client.detail</code>，<code>用户：ids4.ms.client.detail</code>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.client.detail</code>
+        /// <label>User Permissions：</label><code>ids4.ms.client.detail</code>
+        /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientDetail)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientDetail)]
@@ -190,7 +196,10 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// 调用权限：<code>应用：ids4.ms.client.post</code>，<code>用户：ids4.ms.client.post</code>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.client.post</code>
+        /// <label>User Permissions：</label><code>ids4.ms.client.post</code>
+        /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientPost)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientPost)]
@@ -225,7 +234,10 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// 调用权限：<code>应用：ids4.ms.client.put</code>，<code>用户：ids4.ms.client.put</code>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.client.put</code>
+        /// <label>User Permissions：</label><code>ids4.ms.client.put</code>
+        /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientPut)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientPut)]
@@ -754,7 +766,10 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// 调用权限：<code>应用：ids4.ms.client.delete</code>，<code>用户：ids4.ms.client.delet</code>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.client.delete</code>
+        /// <label>User Permissions：</label><code>ids4.ms.client.delete</code>
+        /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientDelete)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientDelete)]
