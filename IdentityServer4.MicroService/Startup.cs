@@ -317,6 +317,7 @@ namespace IdentityServer4.MicroService
             services.Configure<EmailSenderOptions>(Configuration.GetSection("MessageSender:Email"));
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ISmsSender, SmsSender>();
+            services.AddTransient<EmailService>();
             #endregion
 
             services.AddSingleton<RedisService>();

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
+using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.EntityFramework.DbContexts;
@@ -21,7 +22,8 @@ using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.ApiResourceController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
-using Microsoft.WindowsAzure.Storage.Table;
+using Newtonsoft.Json.Linq;
+using static IdentityServer4.MicroService.AppDefaultData;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -30,6 +32,7 @@ namespace IdentityServer4.MicroService.Apis
     /// <summary>
     /// 微服务
     /// </summary>
+    /// <remarks>为微服务提供版本管理、网关集成都功能。</remarks>
     [Route("ApiResource")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
@@ -41,6 +44,7 @@ namespace IdentityServer4.MicroService.Apis
         readonly IdentityDbContext userDb;
         readonly SwaggerCodeGenService swagerCodeGen;
         readonly AzureStorageService storageService;
+        readonly EmailService email;
         #endregion
 
         #region 构造函数
@@ -52,7 +56,8 @@ namespace IdentityServer4.MicroService.Apis
             TenantDbContext _tenantDb,
             RedisService _redis,
             SwaggerCodeGenService _swagerCodeGen,
-            AzureStorageService _storageService)
+            AzureStorageService _storageService,
+            EmailService _email)
         {
             db = _db;
             userDb = _userDb;
@@ -62,6 +67,7 @@ namespace IdentityServer4.MicroService.Apis
             redis = _redis;
             swagerCodeGen = _swagerCodeGen;
             storageService = _storageService;
+            email = _email;
         }
         #endregion
 
@@ -72,7 +78,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.get</code>，<code>用户：ids4.ms.apiresource.get</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.get</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.get</code>
         /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceGet)]
@@ -160,7 +167,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.detail</code>，<code>用户：ids4.ms.apiresource.detail</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.detail</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.detail</code>
         /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceDetail)]
@@ -198,7 +206,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value">ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.post</code>，<code>用户：ids4.ms.apiresource.post</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.post</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.post</code>
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePost)]
@@ -235,7 +244,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.put</code>，<code>用户：ids4.ms.apiresource.put</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.put</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.put</code>
         /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePut)]
@@ -521,7 +531,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.delete</code>，<code>用户：ids4.ms.apiresource.delete</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.delete</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.delete</code>
         /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceDelete)]
@@ -557,7 +568,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.publish</code>，<code>用户：ids4.ms.apiresource.publish</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.publish</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.publish</code>
         /// </remarks>
         [HttpPut("{id}/Publish")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePublish)]
@@ -587,13 +599,62 @@ namespace IdentityServer4.MicroService.Apis
                 value.openid);
 
             // 更新微服务策略
-            if (result.IsSuccessStatusCode && !string.IsNullOrWhiteSpace(value.policy))
+            if (result.IsSuccessStatusCode)
             {
-                await AzureApim.Apis.SetPolicyAsync(value.apiId, value.policy);
+                #region CacheConfigurations
+                try
+                {
+                    var publishKey = $"ApiResource:Publish:{id}";
 
-                var publishKey = $"ApiResource:Publish:{value.apiId}";
+                    var cacheResult = await redis.SetAsync(publishKey, JsonConvert.SerializeObject(value), null);
+                }
 
-                await redis.SetAsync(publishKey, JsonConvert.SerializeObject(value), null);
+                catch (Exception ex)
+                {
+                    return new ApiResult<bool>(l, ApiResourceControllerEnums.Publish_PublishFailed, ex.Message);
+                }
+                #endregion
+
+                #region UpdatePolicy
+                if (!string.IsNullOrWhiteSpace(value.policy))
+                {
+                    var policyResult = await AzureApim.Apis.SetPolicyAsync(value.apiId, value.policy);
+
+                    if (!policyResult.IsSuccessStatusCode)
+                    {
+                        var errorMessage = await policyResult.Content.ReadAsStringAsync();
+
+                        return new ApiResult<bool>(l, ApiResourceControllerEnums.Publish_PublishFailed, errorMessage);
+                    }
+                }
+                #endregion
+
+                #region UpdateName
+                if (!string.IsNullOrWhiteSpace(value.name))
+                {
+                    var body = new JObject();
+
+                    body["name"] = value.name;
+
+                    if(!string.IsNullOrWhiteSpace(value.description))
+                    {
+                        body["description"] = value.description;
+                    }
+
+                    var updateNameResult = await AzureApim.Apis.UpdateAsync(value.apiId, body.ToString());
+
+                    if (!updateNameResult.IsSuccessStatusCode)
+                    {
+                        var errorMessage = await updateNameResult.Content.ReadAsStringAsync();
+
+                        return new ApiResult<bool>(l, ApiResourceControllerEnums.Publish_PublishFailed, errorMessage);
+                    }
+                }
+                #endregion
+
+                #region Publish message to subscribers
+                await storageService.AddMessageAsync("apiresource-publish", id.ToString()); 
+                #endregion
 
                 return new ApiResult<bool>(true);
             }
@@ -615,7 +676,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.publishrevision</code>，<code>用户：ids4.ms.apiresource.publishrevision</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.publishrevision</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.publishrevision</code>
         /// </remarks>
         [HttpPost("{id}/PublishRevision")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePublishRevision)]
@@ -670,7 +732,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.publishversion</code>，<code>用户：ids4.ms.apiresource.publishversion</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.publishversion</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.publishversion</code>
         /// </remarks>
         [HttpPost("{id}/PublishVersion")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePublishVersion)]
@@ -711,7 +774,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.publishconfiguration</code>，<code>用户：ids4.ms.apiresource.publishconfiguration</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.publishconfiguration</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.publishconfiguration</code>
         /// </remarks>
         [HttpGet("{id}/PublishConfiguration")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePublishConfiguration)]
@@ -746,7 +810,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.versions</code>，<code>用户：ids4.ms.apiresource.versions</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.versions</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.versions</code>
         /// </remarks>
         [HttpGet("{id}/Versions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceVersions)]
@@ -801,7 +866,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="revisionId"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.setonlineversion</code>，<code>用户：ids4.ms.apiresource.setonlineversion</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.setonlineversion</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.setonlineversion</code>
         /// </remarks>
         [HttpPost("{id}/Versions/{revisionId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceSetOnlineVersion)]
@@ -835,7 +901,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="apiId">Api的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.releases</code>，<code>用户：ids4.ms.apiresource.releases</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.releases</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.releases</code>
         /// </remarks>
         [HttpGet("{id}/Releases")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceReleases)]
@@ -874,7 +941,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.postrelease</code>，<code>用户：ids4.ms.apiresource.postrelease</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.postrelease</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.postrelease</code>
         /// </remarks>
         [HttpPost("{id}/Releases")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePostRelease)]
@@ -903,7 +971,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.putrelease</code>，<code>用户：ids4.ms.apiresource.putrelease</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.putrelease</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.putrelease</code>
         /// </remarks>
         [HttpPut("{id}/Releases/{releaseId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePutRelease)]
@@ -937,7 +1006,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="releaseId">修订内容的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.deleterelease</code>，<code>用户：ids4.ms.apiresource.deleterelease</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.deleterelease</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.deleterelease</code>
         /// </remarks>
         [HttpDelete("{id}/Releases/{releaseId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceDeleteRelease)]
@@ -963,7 +1033,8 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.authservers</code>，<code>用户：ids4.ms.apiresource.authservers</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.authservers</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.authservers</code>
         /// </remarks>
         [HttpGet("AuthServers")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceAuthServers)]
@@ -983,7 +1054,8 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.products</code>，<code>用户：ids4.ms.apiresource.products</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.products</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.products</code>
         /// </remarks>
         [HttpGet("Products")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceProducts)]
@@ -1004,7 +1076,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.subscriptions</code>，<code>用户：ids4.ms.apiresource.subscriptions</code>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.subscriptions</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.subscriptions</code>
         /// </remarks>
         [HttpGet("{id}/Subscriptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceSubscriptions)]
@@ -1041,12 +1114,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// 调用权限：<code>应用：ids4.ms.apiresource.releases.postsubscription</code>，<code>用户：ids4.ms.apiresource.releases.postsubscription</code>
-        /// </remarks>
         [HttpPost("{id}/Subscriptions")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePostSubscription)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePostSubscription)]
+        [AllowAnonymous]
         [SwaggerOperation("ApiResource/PostSubscription")]
         public async Task<ApiResult<bool>> Subscription(long id,[FromBody]ApiResourceSubscriptionRequest value)
         {
@@ -1059,6 +1128,11 @@ namespace IdentityServer4.MicroService.Apis
             if (!await exists(id))
             {
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
+            }
+
+            if(!email.VerifyCode(value.Code))
+            {
+                return new ApiResult<bool>(l, ApiResourceControllerEnums.Subscription_VerfifyCodeFailed);
             }
 
             var tb = await storageService.CreateTableAsync("ApiResourceSubscriptions");
@@ -1080,6 +1154,57 @@ namespace IdentityServer4.MicroService.Apis
             catch(Exception ex)
             {
                 return new ApiResult<bool>(l, ApiResourceControllerEnums.Subscription_PostFailed, ex.Message);
+            }
+        }
+        #endregion
+
+        #region 微服务 - 订阅者 - 验证邮箱
+        /// <summary>
+        /// 微服务 - 订阅者 - 验证邮箱
+        /// </summary>
+        /// <param name="id">微服务的ID</param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost("{id}/Subscriptions/VerifyEmail")]
+        [AllowAnonymous]
+        [SwaggerOperation("ApiResource/VerifyEmail")]
+        public async Task<ApiResult<bool>> VerifyEmail(long id, [FromBody]ApiResourceSubscriptionsVerifyEmailRequest value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            if (!await exists(id))
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
+            }
+
+            try
+            {
+                var verifyCode = random.Next(111111, 999999).ToString();
+
+                var result = await email.SendCode("验证邮箱",
+                    SendCloud.VerifyApiresourceSubscriptionTemplate,
+                    verifyCode,
+                    TimeSpan.FromSeconds(60 * 10),
+                    value.email);
+
+                if (result)
+                {
+                    return new ApiResult<bool>(true);
+                }
+
+                else
+                {
+                    return new ApiResult<bool>(l, ApiResourceControllerEnums.Subscription_VerifyEmailFailed);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, ApiResourceControllerEnums.Subscription_VerifyEmailFailed, ex.Message);
             }
         }
         #endregion

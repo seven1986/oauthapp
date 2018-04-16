@@ -64,6 +64,18 @@ namespace IdentityServer4.MicroService.Enums
         [Description("添加订阅失败")]
         Subscription_PostFailed =300009,
 
+        /// <summary>
+        /// 订阅者 - 邮箱验证码错误
+        /// </summary>
+        [Description("邮箱验证码错误")]
+        Subscription_VerfifyCodeFailed = 300010,
+
+
+        /// <summary>
+        /// 订阅者 - 发送邮箱验证码失败
+        /// </summary>
+        [Description("发送邮箱验证码失败")]
+        Subscription_VerifyEmailFailed = 300010, 
 
         /// <summary>
         /// 上线版本失败

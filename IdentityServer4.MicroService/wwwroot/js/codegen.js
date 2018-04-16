@@ -1,135 +1,126 @@
-﻿;(function () { 
+﻿; (function () {
+    var clientSDKs = [];
+    var serverSDKs = [];
 
-var clientSDKs = [];
+    window.swaggerCodeGenCurrentItem = {};
+    window.swaggerCodeGenCurrentItemIsServer = {};
 
-var serverSDKs = [];
+    function ShowClientSDKs() {
+        var _layer = '<div class="btn-group pull-right" role="group" style="margin-right:5px">' +
+            '<button id="btnGroupClientsSDKDrop"' +
+            'type="button"' +
+            'class="btn btn-default dropdown-toggle"' +
+            'data-toggle="dropdown"' +
+            'aria-haspopup="true"' +
+            'aria-expanded="false">' +
+            '<span class="glyphicon glyphicon-download-alt"></span> Clients' +
+            '</button>' +
+            '<ul class="dropdown-menu" aria-labelledby="btnGroupClientsSDKDrop">';
 
-var swaggerUrl = location.href.substr(0, location.href.indexOf('/operations/')) + '/export?DocumentFormat=Swagger';
+        clientSDKs.forEach((r, ind) => {
+            _layer += '<li><a onclick="codegen_Modal(' + ind + ')">' + r.language + '</a></li>';
+        });
 
-var swaggerCodeGenCurrentItem = {};
+        _layer += '</ul>' +
+            '</div>';
 
-var swaggerCodeGenCurrentItemIsServer = {};
-
-function ShowClientSDKs()
-{
-    var _layer = '<div class="btn-group pull-right" role="group" style="margin-right:5px">' +
-        '<button id="btnGroupClientsSDKDrop"' +
-        'type="button"' +
-        'class="btn btn-default dropdown-toggle"' +
-        'data-toggle="dropdown"' +
-        'aria-haspopup="true"' +
-        'aria-expanded="false">' +
-        '<span class="glyphicon glyphicon-download-alt"></span> Clients' +
-        '</button>' +
-        '<ul class="dropdown-menu" aria-labelledby="btnGroupClientsSDKDrop">';
-
-    clientSDKs.forEach((r, ind) => {
-        _layer += '<li><a onclick="showCodeGenModal(' + ind + ')">' + r.language + '</a></li>';
-    });
-
-    _layer += '</ul>' +
-        '</div>';
-
-    $('#apiMenu').parent().after(_layer);
-}
-
-function ShowServerSDKs() {
-
-    var _layer = '<div class="btn-group pull-right" role="group" style="margin-right:5px">' +
-        '<button id="btnGroupClientsSDKDrop"' +
-        'type="button"' +
-        'class="btn btn-default dropdown-toggle"' +
-        'data-toggle="dropdown"' +
-        'aria-haspopup="true"' +
-        'aria-expanded="false">' +
-        '<span class="glyphicon glyphicon-download-alt"></span> Servers' +
-        '</button>' +
-        '<ul class="dropdown-menu" aria-labelledby="btnGroupClientsSDKDrop">';
-
-    serverSDKs.forEach((r, ind) => {
-        _layer += '<li><a onclick="showCodeGenModal(' + ind + ',true)">' + r.language + '</a></li>';
-    });
-
-    _layer += '</ul>' +
-        '</div>';
-
-    $('#apiMenu').parent().after(_layer);
-}
-
-function gen(path, options) {
-    return $.ajax({
-        type: "POST",
-        url: "https://generator.swagger.io/api/gen/" + path,
-        data: JSON.stringify(options),
-        datatype: "json",
-        contentType: "text/json;charset=UTF-8"
-    });
-}
-
-function showCodeGenModal(ind, isServer) {
-    let i;
-
-    if (isServer) {
-        swaggerCodeGenCurrentItemIsServer = true;
-        i = swaggerCodeGenCurrentItem = serverSDKs[ind];
+        $('#apiMenu').parent().after(_layer);
     }
-    else {
-        swaggerCodeGenCurrentItemIsServer = false;
-        i = swaggerCodeGenCurrentItem = clientSDKs[ind];
+    function ShowServerSDKs() {
+
+        var _layer = '<div class="btn-group pull-right" role="group" style="margin-right:5px">' +
+            '<button id="btnGroupClientsSDKDrop"' +
+            'type="button"' +
+            'class="btn btn-default dropdown-toggle"' +
+            'data-toggle="dropdown"' +
+            'aria-haspopup="true"' +
+            'aria-expanded="false">' +
+            '<span class="glyphicon glyphicon-download-alt"></span> Servers' +
+            '</button>' +
+            '<ul class="dropdown-menu" aria-labelledby="btnGroupClientsSDKDrop">';
+
+        serverSDKs.forEach((r, ind) => {
+            _layer += '<li><a onclick="codegen_Modal(' + ind + ',true)">' + r.language + '</a></li>';
+        });
+
+        _layer += '</ul>' +
+            '</div>';
+
+        $('#apiMenu').parent().after(_layer);
     }
 
-    var eles = [];
+    window.codegen_Modal = function (ind, isServer) {
+        let i;
 
-    for (var v in i.options) {
-        if (i.options[v].type == 'boolean') {
-            eles.push('<div class="form-group">' +
-                '<div class="checkbox">' +
-                '<label><input name="' + i.options[v].opt + '" type="checkbox"' + (i.options[v].default == 'true' ? ' checked="checked"' : '') + '> ' + i.options[v].opt + '</label>' +
-                '</div>' +
-                '<p class="help-block">' + i.options[v].description + '</p></div>');
+        if (isServer) {
+            swaggerCodeGenCurrentItemIsServer = true;
+            i = swaggerCodeGenCurrentItem = serverSDKs[ind];
         }
-
         else {
-            eles.push('<div class="form-group"><label>' + i.options[v].opt + '</label>' +
-                '<input type="text" name="' + i.options[v].opt + '" class="form-control" value="' + (i.options[v].default ? i.options[v].default : '') + '">' +
-                '<p class="help-block">' + i.options[v].description + '</p>' +
-                '</div>');
+            swaggerCodeGenCurrentItemIsServer = false;
+            i = swaggerCodeGenCurrentItem = clientSDKs[ind];
         }
+
+        var eles = [];
+
+        for (var v in i.options) {
+            if (i.options[v].type == 'boolean') {
+                eles.push('<div class="form-group">' +
+                    '<div class="checkbox">' +
+                    '<label><input name="' + i.options[v].opt + '" type="checkbox"' + (i.options[v].default == 'true' ? ' checked="checked"' : '') + '> ' + i.options[v].opt + '</label>' +
+                    '</div>' +
+                    '<p class="help-block">' + i.options[v].description + '</p></div>');
+            }
+
+            else {
+                eles.push('<div class="form-group"><label>' + i.options[v].opt + '</label>' +
+                    '<input type="text" name="' + i.options[v].opt + '" class="form-control" value="' + (i.options[v].default ? i.options[v].default : '') + '">' +
+                    '<p class="help-block">' + i.options[v].description + '</p>' +
+                    '</div>');
+            }
+        }
+
+        $('#CodegenModal .modal-title').html('<b>' + i.language + '</b> - ' + (isServer ? "Servers" : "Clients"));
+        $("#languageoptions").html(eles.join(''));
+        $('#CodegenModal').modal('show');
+    }
+    window.codegen_clientGen = function (ele)
+    {
+        var data = {
+            options: {},
+            swaggerUrl: location.href.substr(0, location.href.indexOf('/operations/')) + '/export?DocumentFormat=Swagger',
+        };
+
+        $("#languageoptions input").each((index, ipt) => {
+            if (ipt.attributes.type.value == 'checkbox') {
+                data.options[ipt.attributes.name.value] = ipt.checked;
+            }
+
+            else {
+                data.options[ipt.attributes.name.value] = ipt.value;
+            }
+        });
+
+        $("#CodegenModal").modal('hide');
+
+        $.ajax({
+            type: "POST",
+            url: "https://generator.swagger.io/api/gen/clients/" + swaggerCodeGenCurrentItem.language,
+            data: JSON.stringify(data),
+            datatype: "json",
+            contentType: "text/json;charset=UTF-8"
+        }).done(r => {
+            var htmlcode = '<h4>code</h4><input type="text" class="form-control" value="' + r.code + '" /><h4>link</h4><input type="text" class="form-control" value="' + r.link + '" />';
+            $("#CodePackageResult").html(htmlcode);
+            $("#CodePackageModal").modal('show');
+        }).fail(r => {
+            alert(JSON.stringify(r));
+        });
     }
 
-    $('#CodegenModal .modal-title').html('<b>' + i.language + '</b> - ' + (isServer ? "Servers" : "Clients"));
-    $("#languageoptions").html(eles.join(''));
-    $('#CodegenModal').modal('show');
-}
+    //var hosturl = location.protocol + location.host;
 
-function clientGen(ele) {
-    var data = {
-        options: {},
-        swaggerUrl: swaggerUrl,
-    };
-
-    $("#languageoptions input").each((index, ipt) => {
-        if (ipt.attributes.type.value == 'checkbox') {
-            data.options[ipt.attributes.name.value] = ipt.checked;
-        }
-
-        else {
-            data.options[ipt.attributes.name.value] = ipt.value;
-        }
-    });
-
-    $("#CodegenModal").modal('hide');
-
-    gen("clients/" + swaggerCodeGenCurrentItem.language, data).then(r => {
-        $("#CodePackageResult").html('<h4>code</h4><input type="text" class="form-control" value="' + r.code + '" /><h4>link</h4><input type="text" class="form-control" value="' + r.link + '" />');
-
-        $("#CodePackageModal").modal('show');
-    });
-}
-
-var hosturl = location.protocol + location.host;
-
-const _template_codegen_azure = `<div>
+    const _template_codegen_azure = `<div>
                   <div id="CodegenModal" class="modal fade">
                       <div class="modal-dialog">
                           <div class="modal-content">
@@ -142,7 +133,7 @@ const _template_codegen_azure = `<div>
                               </div>
                               <div class="modal-footer">
                                   <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                  <button type="button" class="btn btn-success" onclick="clientGen()">下载SDK</button>
+                                  <button type="button" class="btn btn-success" onclick="codegen_clientGen()">下载SDK</button>
                               </div>
                           </div>
                       </div>
@@ -167,33 +158,33 @@ const _template_codegen_azure = `<div>
                   </div>
               </div>`;
 
-$(function () {
-    $('#codegen_azure').html(_template_codegen_azure);
+    $(function () {
+        $('#codegen_azure').html(_template_codegen_azure);
 
-    var codegenClientsData = localStorage.getItem('codegenClientsData');
-    if (codegenClientsData == null) {
-        $.getJSON("https://ids.jixiucloud.cn/CodeGen/Clients").then(r => {
-            clientSDKs = r.data;
+        var codegenClientsData = localStorage.getItem('codegenClientsData');
+        if (codegenClientsData == null) {
+            $.getJSON("https://ids.jixiucloud.cn/CodeGen/Clients").then(r => {
+                clientSDKs = r.data;
+                ShowClientSDKs();
+                localStorage.setItem('codegenClientsData', JSON.stringify(clientSDKs));
+            });
+        }
+        else {
+            clientSDKs = JSON.parse(codegenClientsData);
             ShowClientSDKs();
-            localStorage.setItem('codegenClientsData',JSON.stringify(clientSDKs));
-        });
-    }
-    else {
-        clientSDKs = JSON.parse(codegenClientsData);
-        ShowClientSDKs();
-    }
+        }
 
-    var codegenServersData = localStorage.getItem('codegenServersData');
-    if (codegenServersData == null) {
-        $.getJSON("https://ids.jixiucloud.cn/CodeGen/Servers").then(r => {
-            serverSDKs = r.data;
+        var codegenServersData = localStorage.getItem('codegenServersData');
+        if (codegenServersData == null) {
+            $.getJSON("https://ids.jixiucloud.cn/CodeGen/Servers").then(r => {
+                serverSDKs = r.data;
+                ShowServerSDKs();
+                localStorage.setItem('codegenServersData', JSON.stringify(serverSDKs));
+            });
+        }
+        else {
+            serverSDKs = JSON.parse(codegenServersData);
             ShowServerSDKs();
-            localStorage.setItem('codegenServersData', JSON.stringify(serverSDKs));
-        });
-    }
-    else {
-        serverSDKs = JSON.parse(codegenServersData);
-        ShowServerSDKs();
-    }
-});
+        }
+    });
 })();

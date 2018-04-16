@@ -187,15 +187,6 @@ namespace IdentityServer4.MicroService
             public const string ApiResourceSubscriptions = "scope:apiresource.subscriptions";
             #endregion
 
-            #region 微服务 - 订阅者 - 添加
-            [Description(" 微服务 - 订阅者 - 添加")]
-            [PolicyClaimValues(
-                   MicroServiceName + ".apiresource.releases.postsubscription",
-                   MicroServiceName + ".apiresource.all",
-                   MicroServiceName + ".all")]
-            public const string ApiResourcePostSubscription = "scope:apiresource.postsubscription";
-            #endregion
-
             #endregion
 
             #region ClientController
@@ -599,14 +590,6 @@ namespace IdentityServer4.MicroService
             public const string ApiResourceSubscriptions = "permission:apiresource.subscriptions";
             #endregion
 
-            #region 微服务 - 订阅者 - 添加
-            [Description(" 微服务 - 订阅者 - 添加")]
-            [PolicyClaimValues(
-                   MicroServiceName + ".apiresource.releases.postsubscription",
-                   MicroServiceName + ".apiresource.all",
-                   MicroServiceName + ".all")]
-            public const string ApiResourcePostSubscription = "permission:apiresource.postsubscription";
-            #endregion
             #endregion
             #endregion
 
