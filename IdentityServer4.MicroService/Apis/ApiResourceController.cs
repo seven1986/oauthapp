@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
 using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
@@ -22,8 +23,9 @@ using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.ApiResourceController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
-using Newtonsoft.Json.Linq;
 using static IdentityServer4.MicroService.AppDefaultData;
+using IdentityServer4.MicroService.CacheKeys;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -57,7 +59,8 @@ namespace IdentityServer4.MicroService.Apis
             RedisService _redis,
             SwaggerCodeGenService _swagerCodeGen,
             AzureStorageService _storageService,
-            EmailService _email)
+            EmailService _email,
+            IDataProtectionProvider _provider)
         {
             db = _db;
             userDb = _userDb;
@@ -68,6 +71,7 @@ namespace IdentityServer4.MicroService.Apis
             swagerCodeGen = _swagerCodeGen;
             storageService = _storageService;
             email = _email;
+            protector = _provider.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
         }
         #endregion
 
@@ -1112,25 +1116,27 @@ namespace IdentityServer4.MicroService.Apis
         /// 微服务 - 订阅者 - 添加
         /// </summary>
         /// <param name="id">微服务的ID</param>
-        /// <param name="value"></param>
+        /// <param name="code">邮箱校验加密字符串</param>
         /// <returns></returns>
-        [HttpPost("{id}/Subscriptions")]
+        [HttpGet("{id}/AddSubscription")]
         [AllowAnonymous]
-        [SwaggerOperation("ApiResource/PostSubscription")]
-        public async Task<ApiResult<bool>> Subscription(long id,[FromBody]ApiResourceSubscriptionRequest value)
+        [SwaggerOperation("ApiResource/AddSubscription")]
+        public async Task<ApiResult<bool>> AddSubscription(long id,
+            [FromQuery]string code)
         {
-            if (!ModelState.IsValid)
+            if (string.IsNullOrWhiteSpace(code))
             {
                 return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
-                    ModelErrors());
+                    "无效的订阅验证码");
             }
 
-            if (!await exists(id))
+            string Email = string.Empty;
+
+            try
             {
-                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
+                Email = Unprotect(code);
             }
-
-            if(!email.VerifyCode(value.Code))
+            catch
             {
                 return new ApiResult<bool>(l, ApiResourceControllerEnums.Subscription_VerfifyCodeFailed);
             }
@@ -1139,7 +1145,7 @@ namespace IdentityServer4.MicroService.Apis
 
             try
             {
-                var result = await storageService.TableInsertAsync(tb, new ApiResourceSubscriptionEntity(id.ToString(), value.Email));
+                var result = await storageService.TableInsertAsync(tb, new ApiResourceSubscriptionEntity(id.ToString(), Email));
 
                 if (result.FirstOrDefault().Result != null)
                 {
@@ -1165,8 +1171,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.verifyemail</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.verifyemail</code>
+        /// </remarks>
         [HttpPost("{id}/Subscriptions/VerifyEmail")]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceVerifyEmail)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceVerifyEmail)]
         [SwaggerOperation("ApiResource/VerifyEmail")]
         public async Task<ApiResult<bool>> VerifyEmail(long id, [FromBody]ApiResourceSubscriptionsVerifyEmailRequest value)
         {
@@ -1176,20 +1187,22 @@ namespace IdentityServer4.MicroService.Apis
                     ModelErrors());
             }
 
-            if (!await exists(id))
-            {
-                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
-            }
-
             try
             {
-                var verifyCode = random.Next(111111, 999999).ToString();
+                var code = Protect(value.email, TimeSpan.FromSeconds(UserControllerKeys.VerifyCode_Expire_Email));
 
-                var result = await email.SendCode("验证邮箱",
-                    SendCloud.VerifyApiresourceSubscriptionTemplate,
-                    verifyCode,
-                    TimeSpan.FromSeconds(60 * 10),
-                    value.email);
+                var callbackUrl = Url.Action(
+                    "AddSubscription",
+                    "ApiResource",
+                   new { code },
+                   protocol: HttpContext.Request.Scheme);
+
+                var result = await email.SendEmailAsync(
+                    SendCloudMailTemplates.verify_apiresource_subscription,
+                    value.email,
+                    new Dictionary<string, string[]>() {
+                        { "%callbackUrl%", new string[] { callbackUrl } },
+                    });
 
                 if (result)
                 {

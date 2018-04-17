@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.DataProtection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using IdentityServer4.MicroService.Tenant;
@@ -26,8 +27,11 @@ namespace IdentityServer4.MicroService.Apis
     [Authorize(AuthenticationSchemes = AppAuthenScheme)]
     public class BasicController : ControllerBase
     {
+        #region Services
         public virtual IStringLocalizer l { get; set; }
         public virtual RedisService redis { get; set; }
+        public virtual ITimeLimitedDataProtector protector { get; set; } 
+        #endregion
 
         protected readonly Random random = new Random(DateTime.UtcNow.AddHours(8).Second);
 
@@ -56,6 +60,14 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             return JsonConvert.SerializeObject(errObject);
+        }
+
+        protected string ClientId
+        {
+            get
+            {
+                return User.Claims.FirstOrDefault(x => x.Type.Equals("client_id")).Value;
+            }
         }
 
         /// <summary>
@@ -121,24 +133,6 @@ namespace IdentityServer4.MicroService.Apis
         }
 
         /// <summary>
-        /// 生成MD5
-        /// </summary>
-        /// <returns></returns>
-        protected string _MD5(string str)
-        {
-            var md5 = new MD5CryptoServiceProvider();
-            var bs = Encoding.UTF8.GetBytes(str);
-            bs = md5.ComputeHash(bs);
-            var s = new StringBuilder();
-            foreach (byte b in bs)
-            {
-                s.Append(b.ToString("x2").ToUpper());
-            }
-            var password = s.ToString();
-            return password;
-        }
-
-        /// <summary>
         /// 根据枚举，返回值与名称的字典
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -201,7 +195,6 @@ namespace IdentityServer4.MicroService.Apis
 
                     command.Parameters.AddRange(sqlparams);
 
-
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -212,5 +205,42 @@ namespace IdentityServer4.MicroService.Apis
                 }
             }
         }
+
+        #region MD5
+        /// <summary>
+        /// MD5
+        /// </summary>
+        /// <returns></returns>
+        protected string _MD5(string str)
+        {
+            var md5 = new MD5CryptoServiceProvider();
+            var bs = Encoding.UTF8.GetBytes(str);
+            bs = md5.ComputeHash(bs);
+            var s = new StringBuilder();
+            foreach (byte b in bs)
+            {
+                s.Append(b.ToString("x2").ToUpper());
+            }
+            var password = s.ToString();
+            return password;
+        } 
+        #endregion
+
+        #region 加解密
+        /// <summary>
+        /// 解密
+        /// </summary>
+        /// <param name="str">加密过的字符串</param>
+        /// <returns></returns>
+        protected string Unprotect(string str) => protector.Unprotect(str);
+
+        /// <summary>
+        /// 加密
+        /// </summary>
+        /// <param name="str">未加密的字符串</param>
+        /// <param name="expiredIn">有效时间</param>
+        /// <returns></returns>
+        protected string Protect(string str, TimeSpan expiredIn) => protector.Protect(str, expiredIn); 
+        #endregion
     }
 }

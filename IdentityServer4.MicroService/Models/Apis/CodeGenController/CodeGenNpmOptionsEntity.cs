@@ -11,6 +11,12 @@ namespace IdentityServer4.MicroService.Models.Apis.CodeGenController
         public string name { get; set; }
 
         /// <summary>
+        /// 包名称
+        /// </summary>
+        [Required(ErrorMessage = "调用时包的class名称")]
+        public string sdkName { get; set; }
+
+        /// <summary>
         /// 版本号
         /// </summary>
         [Required(ErrorMessage = "请设置版本号")]

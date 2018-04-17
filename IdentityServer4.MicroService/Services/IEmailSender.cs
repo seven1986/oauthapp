@@ -55,7 +55,7 @@ namespace IdentityServer4.MicroService.Services
                     { "apiKey", Options.apiKey},
                     { "from", from},
                     { "fromName",fromName},
-                    { "xsmtpapi", Convert.ToBase64String(Encoding.UTF8.GetBytes(xsmtpapi))},
+                    { "xsmtpapi", xsmtpapi},
                     { "subject", subject},
                     { "templateInvokeName", templateInvokeName},
                 };

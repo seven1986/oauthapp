@@ -1,75 +1,97 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.DataProtection;
 using Newtonsoft.Json;
+using static IdentityServer4.MicroService.AppDefaultData;
 
 namespace IdentityServer4.MicroService.Services
 {
     /// <summary>
-    /// 发邮件验证码专用
+    /// 发送邮件
     /// </summary>
     public class EmailService
     {
-        readonly ITimeLimitedDataProtector protector;
-        // 邮件
+        // 邮件服务
         readonly IEmailSender email;
 
         public EmailService(
-            IEmailSender _email, 
-            IDataProtectionProvider _provider)
+            IEmailSender _email)
         {
             email = _email;
-            protector = _provider.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
         }
 
+        ///// <summary>
+        ///// 发送邮箱验证码
+        ///// </summary>
+        ///// <param name="subject">邮件标题</param>
+        ///// <param name="templateKey">邮件模板ID</param>
+        ///// <param name="emailAddress">收件地址</param>
+        ///// <param name="vars"></param>
+        ///// <returns></returns>
+        //public async Task<bool> SendCode(
+        //    string subject, 
+        //    string templateKey,
+        //    string emailAddress,
+        //    Dictionary<string,string[]> vars)
+        //{
+        //    try
+        //    {
+        //        var xsmtpapi = JsonConvert.SerializeObject(new
+        //        {
+        //            to = new string[] { emailAddress },
+        //            sub = vars
+        //        });
+
+        //        await email.SendEmailAsync(subject, templateKey, xsmtpapi);
+
+        //        return true;
+        //    }
+        //    catch
+        //    {
+        //        return false;
+        //    }
+        //}
 
         /// <summary>
-        /// 验证邮箱收到的验证码是否有效
+        /// 发送邮件
         /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public bool VerifyCode(string str)
-        {
-            try
-            {
-                protector.Unprotect(str);
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// 发送邮箱验证码
-        /// </summary>
-        /// <param name="subject">邮件标题</param>
-        /// <param name="templateKey">邮件模板ID</param>
-        /// <param name="verifyCode">验证码</param>
-        /// <param name="expiredIn">验证码有效时间（秒）</param>
+        /// <param name="template">邮件模板ID</param>
         /// <param name="emailAddress">收件地址</param>
+        /// <param name="vars">变量集合</param>
         /// <returns></returns>
-        public async Task<bool> SendCode(string subject, string templateKey,
-            string verifyCode, TimeSpan expiredIn, string emailAddress)
+        public async Task<bool> SendEmailAsync(
+            SendCloudMailTemplates template, 
+            string emailAddress, 
+            Dictionary<string, string[]> vars)
         {
+            var templateKey = Enum.GetName(typeof(SendCloudMailTemplates), template);
+
+            var TemplateEntity = template.GetType().GetField(templateKey).GetCustomAttribute<SendCloudTemplateAttribute>();
+
+            var sub = new Dictionary<string, string[]>();
+
+            foreach (var kv in vars)
+            {
+                if (!sub.ContainsKey(kv.Key))
+                {
+                    sub.Add(kv.Key, kv.Value);
+                }
+            }
+
+            var xsmtpapi = JsonConvert.SerializeObject(new
+            {
+                to = new string[] { emailAddress },
+                sub
+            });
+
             try
             {
-                // 用加密算法生成具有时效性的密文
-                var protectedData = protector.Protect(verifyCode, expiredIn);
-
-                var xsmtpapi = JsonConvert.SerializeObject(new
-                {
-                    to = new string[] { emailAddress },
-                    sub = new Dictionary<string, string[]>()
-                        {
-                            { "%code%", new string[] { protectedData } },
-                        }
-                });
-
-                await email.SendEmailAsync(subject, templateKey, xsmtpapi);
+                await email.SendEmailAsync(
+                    TemplateEntity.subject, 
+                    templateKey,
+                    xsmtpapi);
 
                 return true;
             }
@@ -77,6 +99,28 @@ namespace IdentityServer4.MicroService.Services
             {
                 return false;
             }
+        }
+    }
+
+    public class SendCloudTemplateAttribute : Attribute
+    {
+        /// <summary>
+        /// 邮件标题
+        /// </summary>
+        public string subject { get; set; }
+
+        ///// <summary>
+        ///// 变量集合,多个变量用英文逗号链接
+        ///// 格式：%name%
+        ///// 参考文档：http://www.sendcloud.net/doc/guide/rule/#x-smtpapi
+        ///// </summary>
+        //public string vars { get; set; }
+
+        public SendCloudTemplateAttribute() { }
+
+        public SendCloudTemplateAttribute(string _subject)
+        {
+            subject = _subject;
         }
     }
 }

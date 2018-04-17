@@ -19,7 +19,6 @@ using IdentityServer4.MicroService.Models.Apis.ClientController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 
-
 namespace IdentityServer4.MicroService.Apis
 {
     // Client 根据 userId 来获取列表、或详情、增删改
@@ -37,17 +36,21 @@ namespace IdentityServer4.MicroService.Apis
         readonly ConfigurationDbContext idsDB;
         // database for user
         readonly IdentityDbContext userDB;
+        // IdentityServer Tools
+        readonly IdentityServerTools _tools;
         #endregion
 
         #region 构造函数
         public ClientController(
             ConfigurationDbContext _idsDB,
             IdentityDbContext _userDB,
-            IStringLocalizer<ClientController> localizer)
+            IStringLocalizer<ClientController> localizer,
+            IdentityServerTools tools)
         {
             userDB = _userDB;
             idsDB = _idsDB;
             l = localizer;
+            _tools = tools;
         }
         #endregion
 
@@ -798,6 +801,30 @@ namespace IdentityServer4.MicroService.Apis
             await userDB.Database.ExecuteSqlCommandAsync(sql, _params);
 
             return new ApiResult<long>(id);
+        }
+        #endregion
+
+        #region 客户端 - 创建令牌
+        /// <summary>
+        /// 客户端 - 创建令牌
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.client.issuetoken</code>
+        /// <label>User Permissions：</label><code>ids4.ms.client.issuetoken</code>
+        /// </remarks>
+        [HttpPost("IssueToken")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientIssueToken)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientIssueToken)]
+        [SwaggerOperation("Client/IssueToken")]
+        public async Task<ApiResult<string>> IssueToken([FromBody]ClientIssueTokenRequest value)
+        {
+            if (value.lifetime < 1) { value.lifetime = 3600; }
+
+            var token = await _tools.IssueJwtAsync(value.lifetime, User.Claims);
+
+            return new ApiResult<string>(token);
         }
         #endregion
 

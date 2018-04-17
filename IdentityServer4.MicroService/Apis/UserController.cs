@@ -61,7 +61,8 @@ namespace IdentityServer4.MicroService.Apis
             EmailService _email,
             UserManager<AppUser> _userManager,
             TenantDbContext _tenantDbContext,
-            ConfigurationDbContext _configDbContext)
+            ConfigurationDbContext _configDbContext,
+            IDataProtectionProvider _provider)
         {
             // 多语言
             l = _localizer;
@@ -72,6 +73,7 @@ namespace IdentityServer4.MicroService.Apis
             userManager = _userManager;
             tenantDbContext = _tenantDbContext;
             configDbContext = _configDbContext;
+            protector = _provider.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
         }
         #endregion
 
@@ -603,7 +605,11 @@ namespace IdentityServer4.MicroService.Apis
             #region 校验邮箱验证码
             if (!string.IsNullOrWhiteSpace(value.EmailVerifyCode))
             {
-                if (!email.VerifyCode(value.EmailVerifyCode))
+                try
+                {
+                    var UnprotectStr = Unprotect(value.EmailVerifyCode);
+                }
+                catch
                 {
                     return new ApiResult<string>(l, UserControllerEnums.Register_EmailVerifyCodeError);
                 }
@@ -869,10 +875,15 @@ namespace IdentityServer4.MicroService.Apis
             #region 发送验证码
             var verifyCode = random.Next(111111, 999999).ToString();
 
-            await email.SendCode("邮箱验证",
-                SendCloud.VerifyEmailTemplate, verifyCode, 
-                TimeSpan.FromSeconds(UserControllerKeys.VerifyCode_Expire_Email),
-                value.Email);
+                verifyCode = Protect(verifyCode,
+                    TimeSpan.FromSeconds(UserControllerKeys.VerifyCode_Expire_Email));
+
+            await email.SendEmailAsync(
+                SendCloudMailTemplates.verify_email,
+                value.Email,
+                new Dictionary<string, string[]>() {
+                    { "%code%", new string[] { verifyCode } }
+                });
             #endregion
 
             // 记录发送验证码的时间，用于下次发送验证码校验间隔时间

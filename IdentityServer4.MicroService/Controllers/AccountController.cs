@@ -21,19 +21,22 @@ using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.MicroService.Models.Views.Account;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+using static IdentityServer4.MicroService.AppDefaultData;
 
 namespace IdentityServer4.MicroService.Controllers
 {
     [Authorize]
     public class AccountController : BasicController
     {
+        #region services
         private AzureApiManagementServices _azureApim;
-        public AzureApiManagementServices AzureApim {
+        public AzureApiManagementServices AzureApim
+        {
             get
             {
                 if (_azureApim == null)
                 {
-                    
+
                     if (pvtTenant.Properties.ContainsKey(AzureApiManagementKeys.Host) &&
                     pvtTenant.Properties.ContainsKey(AzureApiManagementKeys.ApiId) &&
                     pvtTenant.Properties.ContainsKey(AzureApiManagementKeys.ApiKey))
@@ -48,17 +51,17 @@ namespace IdentityServer4.MicroService.Controllers
                 return _azureApim;
             }
         }
-
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly EmailService _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly AccountService _account;
         private readonly IdentityDbContext _userContext;
         private readonly ConfigurationDbContext _configDbContext;
-       
+        #endregion
 
+        #region 构造函数
         public AccountController(
             IIdentityServerInteractionService interaction,
             IHttpContextAccessor httpContextAccessor,
@@ -66,7 +69,7 @@ namespace IdentityServer4.MicroService.Controllers
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             ConfigurationDbContext configDbContext,
-            IEmailSender emailSender,
+            EmailService emailSender,
             ISmsSender smsSender,
             ILogger<AccountController> logger,
             IdentityDbContext userContext,
@@ -84,7 +87,8 @@ namespace IdentityServer4.MicroService.Controllers
 
             tenantService = _tenantService;
             tenantDb = _tenantDb;
-        }
+        } 
+        #endregion
 
         //
         // GET: /Account/Login
@@ -157,8 +161,27 @@ namespace IdentityServer4.MicroService.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
             if (ModelState.IsValid)
             {
+                /*以存在的邮箱账号，但没有验证通过*/
+                var existedUser = await _userManager.FindByEmailAsync(model.Email);
+
+                if (existedUser != null)
+                {
+                    var IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(existedUser);
+
+                    if(!IsEmailConfirmed)
+                    {
+                        await SendActiveEmail(existedUser);
+                    }
+
+                    ModelState.AddModelError(string.Empty, "已存在的账号");
+
+                    return View(model);
+                }
+
+
                 var user = new AppUser
                 {
                     UserName = model.Email,
@@ -347,16 +370,24 @@ namespace IdentityServer4.MicroService.Controllers
                 //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
                 //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
 
-                var xsmtpapi = JsonConvert.SerializeObject(new
-                {
-                    to = new string[] { model.Email },
-                    sub = new Dictionary<string, string[]>()
-                    {
-                        { "%callbackUrl%", new string[] { callbackUrl } }
-                    }
-                });
+                //var xsmtpapi = JsonConvert.SerializeObject(new
+                //{
+                //    to = new string[] { model.Email },
+                //    sub = new Dictionary<string, string[]>()
+                //    {
+                //        { "%callbackUrl%", new string[] { callbackUrl } }
+                //    }
+                //});
 
-                await _emailSender.SendEmailAsync("reset password", "reset_password", xsmtpapi);
+                var result = await _emailSender.SendEmailAsync(
+                    SendCloudMailTemplates.reset_password,
+                    model.Email,
+                     new Dictionary<string, string[]>()
+                     {
+                         { "%callbackUrl%",new string[] { callbackUrl }}
+                     });
+
+                //await _emailSender.SendEmailAsync("reset password", "reset_password", xsmtpapi);
 
                 return View("ForgotPasswordConfirmation");
             }
@@ -463,7 +494,15 @@ namespace IdentityServer4.MicroService.Controllers
 
             if (model.SelectedProvider == "Email")
             {
-                await _emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
+                //await _emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
+
+                var result = await _emailSender.SendEmailAsync(
+                    SendCloudMailTemplates.security_code,
+                    await _userManager.GetEmailAsync(user),
+                    new Dictionary<string, string[]>()
+                    {
+                        { "%code%",new string[] { code }}
+                    });
             }
 
             else if (model.SelectedProvider == "Phone")
@@ -600,6 +639,7 @@ namespace IdentityServer4.MicroService.Controllers
                   .Select(x => x.Id).ToList();
 
             var permissions = typeof(UserPermissions).GetFields()
+                .Where(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().IsDefault)
                 .Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues[0]).ToList();
 
             var tenantIds = tenantDb.Tenants.Select(x => x.Id).ToList();
@@ -612,28 +652,10 @@ namespace IdentityServer4.MicroService.Controllers
                 roleIds,
                 string.Join(",", permissions),
                 tenantIds);
-
+            
             if (result.Succeeded)
             {
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
-                // Send an email with this link
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
-                var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account",
-                    new { userId = user.Id, code },
-                    protocol: HttpContext.Request.Scheme);
-
-                var xsmtpapi = JsonConvert.SerializeObject(new
-                {
-                    to = new string[] { user.Email },
-                    sub = new Dictionary<string, string[]>()
-                        {
-                            { "%name%", new string[] { user.Email } },
-                            { "%url%", new string[] { callbackUrl } },
-                        }
-                });
-
-                await _emailSender.SendEmailAsync("%name%请激活您的邮箱", "test_template_active", xsmtpapi);
+                var sendResult = await SendActiveEmail(user);
 
                 return true;
             }
@@ -642,6 +664,30 @@ namespace IdentityServer4.MicroService.Controllers
 
             return false;
         }
+
+        #region 发送激活邮件
+        async Task<bool> SendActiveEmail(AppUser user)
+        {
+            // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
+            // Send an email with this link
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account",
+                new { userId = user.Id, code },
+                protocol: HttpContext.Request.Scheme);
+
+            var sendEmailResult = await _emailSender.SendEmailAsync(
+                SendCloudMailTemplates.test_template_active,
+                user.Email,
+                new Dictionary<string, string[]>()
+                {
+                        { "%name%", new string[] { user.Email } },
+                        { "%url%", new string[] { callbackUrl } },
+                });
+
+            return sendEmailResult;
+        } 
+        #endregion
 
         private IActionResult RedirectToLocal(string returnUrl,string email,string password)
         {

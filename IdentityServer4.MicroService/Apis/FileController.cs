@@ -71,7 +71,6 @@ namespace IdentityServer4.MicroService.Apis
         /// <returns></returns>
         /// <remarks>
         /// <label>Client Scopes：</label><code>ids4.ms.file.post</code>
-        /// <label>User Permissions：</label><code>ids4.ms.file.post</code>
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.FilePost)]
@@ -140,7 +139,6 @@ namespace IdentityServer4.MicroService.Apis
         /// <returns></returns>
         /// <remarks>
         /// <label>Client Scopes：</label><code>ids4.ms.file.image</code>
-        /// <label>User Permissions：</label><code>ids4.ms.file.image</code>
         /// </remarks>
         [HttpPost("Image")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.FileImage)]
