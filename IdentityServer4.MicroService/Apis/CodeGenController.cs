@@ -27,7 +27,6 @@ namespace IdentityServer4.MicroService.Apis
     /// </summary>
     [Route("CodeGen")]
     [Produces("application/json")]
-    [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class CodeGenController : BasicController
     {
         #region Services
@@ -58,9 +57,13 @@ namespace IdentityServer4.MicroService.Apis
         /// 代码生成 - 客户端
         /// </summary>
         /// <remarks>支持生成的客户端集合</remarks>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.clients</code>
+        /// </remarks>
         [HttpGet("Clients")]
-        [AllowAnonymous]
         [SwaggerOperation("CodeGen/Clients")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenClients)]
         public ApiResult<List<SwaggerCodeGenItem>> Clients(bool fromCache = true)
         {
             var result = fromCache ? swagerCodeGen.ClientItemsCache : swagerCodeGen.ClientItems;
@@ -74,9 +77,13 @@ namespace IdentityServer4.MicroService.Apis
         /// 代码生成 - 服务端
         /// </summary>
         /// <remarks>支持生成的服务端集合</remarks>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.servers</code>
+        /// </remarks>
         [HttpGet("Servers")]
-        [AllowAnonymous]
         [SwaggerOperation("CodeGen/Servers")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenServers)]
         public ApiResult<List<SwaggerCodeGenItem>> Servers(bool fromCache = true)
         {
             var result = fromCache ? swagerCodeGen.ServerItemsCache : swagerCodeGen.ServerItems;
@@ -91,10 +98,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>立即发布SDK到指定包管理平台</remarks>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.releasesdk</code>
+        /// </remarks>
         [HttpPost("ReleaseSDK")]
-        [AllowAnonymous]
         [SwaggerOperation("CodeGen/ReleaseSDK")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenReleaseSDK)]
         public async Task<ApiResult<bool>> ReleaseSDK([FromBody]GenerateClientRequest value)
         {
             if (!ModelState.IsValid)
@@ -128,6 +137,25 @@ namespace IdentityServer4.MicroService.Apis
                 {
                     Directory.CreateDirectory(templateDirectory);
                 }
+
+                #region 重置swagger.json >> info >> title节点
+                // 获取的文档中，info-title节点是网关上的微服务名称，
+                // 生成的class时，命名一般都是英文的
+                var options = await GetNpmOptions(value.language, value.apiId);
+                if (options != null && !string.IsNullOrWhiteSpace(options.sdkName))
+                {
+                    try
+                    {
+                        var swaggerDocJson = JsonConvert.DeserializeObject<JObject>(swaggerDoc);
+                        swaggerDocJson["info"]["title"] = options.sdkName;
+                        swaggerDoc = swaggerDocJson.ToString();
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                #endregion
 
                 var SdkCode = await nodeServices.InvokeAsync<string>(platformPath + value.language,
                     swaggerDoc, value.apiId);
@@ -329,9 +357,12 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务ID</param>
         /// <param name="language">语言</param>
         /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.npmoptions</code>
+        /// </remarks>
         [HttpGet("{id}/NpmOptions/{language}")]
-        [AllowAnonymous]
         [SwaggerOperation("CodeGen/NpmOptions")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenNpmOptions)]
         public async Task<ApiResult<CodeGenNpmOptionsModel>> NpmOptions(string id, Language language)
         {
             var result = await GetNpmOptions(language, id);
@@ -382,9 +413,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="language">语言</param>
         /// <param name="value">package.json的内容字符串</param>
         /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.putnpmoptions</code>
+        /// 更新微服务的NPM发布设置
+        /// </remarks>
         [HttpPut("{id}/NpmOptions/{language}")]
-        [AllowAnonymous]
         [SwaggerOperation("CodeGen/PutNpmOptions")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenPutNpmOptions)]
         public async Task<ApiResult<bool>> NpmOptions(string id, Language language, [FromBody]CodeGenNpmOptionsModel value)
         {
             if (!ModelState.IsValid)

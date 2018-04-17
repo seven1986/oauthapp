@@ -2,6 +2,7 @@
     var clientSDKs = [];
     var serverSDKs = [];
 
+    window.swaggerCodeGenToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQxQjg0RkEwRTM4MEVGMzVEMTkxREFGNjczQjFENkMwRTgzQUY0RkYiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJRYmhQb09PQTd6WFJrZHIyYzdIV3dPZzY5UDgifQ.eyJuYmYiOlsxNTIzOTYxNzk2LDE1MjM5NjE3OTFdLCJleHAiOlsxNTI3NTYxNzk2LDE1MjM5NjUzOTFdLCJpc3MiOlsiaHR0cHM6Ly9pZHMuaml4aXVjbG91ZC5jbiIsImh0dHBzOi8vaWRzLmppeGl1Y2xvdWQuY24iXSwiYXVkIjpbImh0dHBzOi8vaWRzLmppeGl1Y2xvdWQuY24vcmVzb3VyY2VzIiwiaWRzNC5tcyJdLCJjbGllbnRfaWQiOiJ0ZXN0Iiwic3ViIjoiMiIsImF1dGhfdGltZSI6MTUyMzk2MTY4NywiaWRwIjoibG9jYWwiLCJwZXJtaXNzaW9uIjoiaWRzNC5tcy5jbGllbnQuaXNzdWV0b2tlbiIsInJvbGUiOlsidXNlcnMiLCJkZXZlbG9wZXIiXSwiY2xpZW50X3RlbmFudCI6eyJpZCI6MSwibmFtZSI6IuWQieengCIsImNsYWltcyI6e319LCJzY29wZSI6WyJvcGVuaWQiLCJwcm9maWxlIiwiaWRzNC5tcy5hbGwiXSwiYW1yIjpbInB3ZCJdfQ.LqqW3Gf2-OW8YpzuCcstaVsVtMBQ-lX2eMsJds6L_S2fiCXK8p1qTbH0L6l8u3LOdP4LH7ryBPkfNxqDT04QIofdsz2YPcD0P2ktpfqDEPv2mUyoUhjhs8ItgzuOS4p9lewXv_0nLglGeVDdBMhtAU1AI1-19Y-aLIxq-sA6MkmRdbjQbWHMTQvdje5OlP5nfzOzgwdZARduyP8ndnhoa3R1Bs6tlbEhfPPi-ox3OZbXMveavYz99FqI_NU_FQmwa0nzSLV4fO2hDfKPXIBDJRaxNECXl3ZlPPobABmAxTnr0vUuRbe_1GIdPSDW4OUVyWhmH4kyAlwJmAzwEMkC_w';
     window.swaggerCodeGenCurrentItem = {};
     window.swaggerCodeGenCurrentItemIsServer = {};
 
@@ -47,6 +48,17 @@
             '</div>';
 
         $('#apiMenu').parent().after(_layer);
+    }
+
+    function ShowSubscription() {
+        var _layer =
+            '<button id="btnShowSubscription"' +
+            'type="button"' +
+            'class="btn btn-default" style="float:right;margin-left: 5px">' +
+            '<span class="glyphicon glyphicon-star-empty"></span> 订阅' +
+            '</button>';
+
+        $('#apiMenu').parent().before(_layer);
     }
 
     window.codegen_Modal = function (ind, isServer) {
@@ -186,5 +198,7 @@
             serverSDKs = JSON.parse(codegenServersData);
             ShowServerSDKs();
         }
+
+        ShowSubscription();
     });
 })();
