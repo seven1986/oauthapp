@@ -1,0 +1,8 @@
+C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\IdentityServer4.MicroService.Services\bin\Debug\netcoreapp2.0\IdentityServer4.MicroService.Services.deps.json
+C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\IdentityServer4.MicroService.Services\bin\Debug\netcoreapp2.0\IdentityServer4.MicroService.Services.dll
+C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\IdentityServer4.MicroService.Services\bin\Debug\netcoreapp2.0\IdentityServer4.MicroService.Services.pdb
+C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\IdentityServer4.MicroService.Services\obj\Debug\netcoreapp2.0\IdentityServer4.MicroService.Services.csproj.CoreCompileInputs.cache
+C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\IdentityServer4.MicroService.Services\obj\Debug\netcoreapp2.0\IdentityServer4.MicroService.Services.AssemblyInfoInputs.cache
+C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\IdentityServer4.MicroService.Services\obj\Debug\netcoreapp2.0\IdentityServer4.MicroService.Services.AssemblyInfo.cs
+C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\IdentityServer4.MicroService.Services\obj\Debug\netcoreapp2.0\IdentityServer4.MicroService.Services.dll
+C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\IdentityServer4.MicroService.Services\obj\Debug\netcoreapp2.0\IdentityServer4.MicroService.Services.pdb

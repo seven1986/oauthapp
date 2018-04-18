@@ -822,7 +822,11 @@ namespace IdentityServer4.MicroService.Apis
         {
             if (value.lifetime < 1) { value.lifetime = 3600; }
 
-            var token = await _tools.IssueJwtAsync(value.lifetime, User.Claims);
+            var excludeClaimTypes = new List<String>() { "nbf", "exp", "iss" };
+
+            var claims = User.Claims.Where(x => !excludeClaimTypes.Contains(x.Type)).ToList();
+
+            var token = await _tools.IssueJwtAsync(value.lifetime, claims);
 
             return new ApiResult<string>(token);
         }

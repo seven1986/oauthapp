@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Text;
 using System.Linq;
 using System.Data;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
@@ -19,13 +21,13 @@ using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Mappers;
+using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.ApiResourceController;
+using IdentityServer4.MicroService.Models.Apis.CodeGenController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 using static IdentityServer4.MicroService.AppDefaultData;
-using IdentityServer4.MicroService.CacheKeys;
-using Microsoft.AspNetCore.DataProtection;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -792,6 +794,13 @@ namespace IdentityServer4.MicroService.Apis
                 return new ApiResult<ApiResourcePublishRequest>(l, BasicControllerEnums.NotFound);
             }
 
+            var result = await _PublishConfiguration(id);
+
+            return new ApiResult<ApiResourcePublishRequest>(result);
+        }
+
+        async Task<ApiResourcePublishRequest> _PublishConfiguration(long id)
+        {
             ApiResourcePublishRequest result = null;
 
             var publishKey = $"ApiResource:Publish:{id}";
@@ -803,7 +812,7 @@ namespace IdentityServer4.MicroService.Apis
                 result = JsonConvert.DeserializeObject<ApiResourcePublishRequest>(resultCache);
             }
 
-            return new ApiResult<ApiResourcePublishRequest>(result);
+            return result;
         }
         #endregion
 
@@ -1164,6 +1173,73 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
+        #region 微服务 - 订阅者 - 取消
+        /// <summary>
+        /// 微服务 - 订阅者 - 取消
+        /// </summary>
+        /// <param name="id">微服务的ID</param>
+        /// <param name="code">邮箱校验加密字符串</param>
+        /// <returns></returns>
+        [HttpGet("{id}/DelSubscription")]
+        [AllowAnonymous]
+        [SwaggerOperation("ApiResource/DelSubscription")]
+        public async Task<ApiResult<bool>> DelSubscription(long id,
+            [FromQuery]string code)
+        {
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    "无效的订阅验证码");
+            }
+
+            string Email = string.Empty;
+
+            try
+            {
+                Email = Encoding.UTF8.GetString(Convert.FromBase64String(code));
+            }
+            catch
+            {
+                return new ApiResult<bool>(l, ApiResourceControllerEnums.Subscription_DelSubscriptionFailed);
+            }
+
+            var tb = await storageService.CreateTableAsync("ApiResourceSubscriptions");
+
+            try
+            {
+                var retrieveOperation = TableOperation.Retrieve<ApiResourceSubscriptionEntity>(id.ToString(), Email);
+
+                var retrievedResult = await tb.ExecuteAsync(retrieveOperation);
+
+                if (retrievedResult.Result != null)
+                {
+                    var deleteEntity = (ApiResourceSubscriptionEntity)retrievedResult.Result;
+
+                    var deleteOperation = TableOperation.Delete(deleteEntity);
+
+                    var result = await tb.ExecuteAsync(deleteOperation);
+
+                    if (result.Result != null)
+                    {
+                        return new ApiResult<bool>(true);
+                    }
+
+                    else
+                    {
+                        return new ApiResult<bool>(l, ApiResourceControllerEnums.Subscription_DelSubscriptionFailed);
+                    }
+                }
+
+                return new ApiResult<bool>(true);
+
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, ApiResourceControllerEnums.Subscription_DelSubscriptionFailed, ex.Message);
+            }
+        }
+        #endregion
+
         #region 微服务 - 订阅者 - 验证邮箱
         /// <summary>
         /// 微服务 - 订阅者 - 验证邮箱
@@ -1187,21 +1263,104 @@ namespace IdentityServer4.MicroService.Apis
                     ModelErrors());
             }
 
+            #region 微服务是否存在
+            var apiEntity = db.ApiResources.FirstOrDefault(x => x.Id == id);
+            if (apiEntity == null)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
+            }
+            #endregion
+
+            #region 邮箱是否已经订阅
+            var tb = await storageService.CreateTableAsync("ApiResourceSubscriptions");
+
+            try
+            {
+                var retrieveOperation = TableOperation.Retrieve<ApiResourceSubscriptionEntity>(id.ToString(), value.email);
+
+                var result = await tb.ExecuteAsync(retrieveOperation);
+
+                if (result.Result != null)
+                {
+                    return new ApiResult<bool>(l, ApiResourceControllerEnums.VerifyEmail_AddEmailFailed);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, ApiResourceControllerEnums.VerifyEmail_AddEmailFailed, ex.Message);
+            }
+            #endregion
+
+            #region 发送频次校验
+
+            #endregion
+
             try
             {
                 var code = Protect(value.email, TimeSpan.FromSeconds(UserControllerKeys.VerifyCode_Expire_Email));
 
+                #region 订阅地址
                 var callbackUrl = Url.Action(
-                    "AddSubscription",
-                    "ApiResource",
-                   new { code },
-                   protocol: HttpContext.Request.Scheme);
+                            "AddSubscription",
+                            "ApiResource",
+                           new { code },
+                           protocol: HttpContext.Request.Scheme);
+                #endregion
+
+                #region 取消订阅
+                var DelSubscritionUrl = Url.Action(
+                           "DelSubscription",
+                           "ApiResource",
+                          new { code = Convert.ToBase64String(Encoding.UTF8.GetBytes(value.email)) },
+                          protocol: HttpContext.Request.Scheme);
+                #endregion
+
+                #region npmAngular2
+                var angular2NpmOptions = await GetNpmOptions(Language.angular2, id.ToString());
+                var npmAngular2 = string.Empty;
+                if (angular2NpmOptions != null && !string.IsNullOrWhiteSpace(angular2NpmOptions.name))
+                {
+                    npmAngular2 = angular2NpmOptions.name;
+                }
+                #endregion
+
+                #region npmjQuery
+                var jQueryNpmOptions = await GetNpmOptions(Language.jQuery, id.ToString());
+                string npmjQuery = string.Empty;
+                if (jQueryNpmOptions != null && !string.IsNullOrWhiteSpace(jQueryNpmOptions.name))
+                {
+                    npmjQuery = jQueryNpmOptions.name;
+                }
+                #endregion
+
+                #region serviceName
+                var serviceName = string.Empty;
+                var pubConfig = await _PublishConfiguration(id);
+                if (pubConfig != null && !string.IsNullOrWhiteSpace(pubConfig.name))
+                {
+                    serviceName = pubConfig.name;
+                }
+                else if (!string.IsNullOrWhiteSpace(apiEntity.DisplayName))
+                {
+                    serviceName = apiEntity.DisplayName;
+                }
+                else
+                {
+                    serviceName = apiEntity.Name;
+                }
+                #endregion
 
                 var result = await email.SendEmailAsync(
                     SendCloudMailTemplates.verify_apiresource_subscription,
-                    value.email,
-                    new Dictionary<string, string[]>() {
-                        { "%callbackUrl%", new string[] { callbackUrl } },
+                   new string[] { value.email },
+                    new Dictionary<string, string[]>()
+                    {
+                        { "%SubscritionUrl%", new string[] { callbackUrl } },
+                        { "%DelSubscritionUrl%", new string[] { DelSubscritionUrl } },
+                        { "%apiId%", new string[] { id.ToString() } },
+                        { "%npmjQuery%", new string[] { npmjQuery } },
+                        { "%npmAngular2%", new string[] { npmAngular2 } },
+                        { "%serviceName%", new string[] { serviceName } },
                     });
 
                 if (result)
@@ -1219,6 +1378,29 @@ namespace IdentityServer4.MicroService.Apis
             {
                 return new ApiResult<bool>(l, ApiResourceControllerEnums.Subscription_VerifyEmailFailed, ex.Message);
             }
+        }
+        async Task<CodeGenNpmOptionsModel> GetNpmOptions(Language lan, string id)
+        {
+            var key = CodeGenControllerKeys.NpmOptions + Enum.GetName(typeof(Language), lan) + ":" + id;
+
+            var cacheResult = await redis.GetAsync(key);
+
+            if (!string.IsNullOrWhiteSpace(cacheResult))
+            {
+                try
+                {
+                    var result = JsonConvert.DeserializeObject<CodeGenNpmOptionsModel>(cacheResult);
+
+                    return result;
+                }
+
+                catch
+                {
+                    return null;
+                }
+            }
+
+            return null;
         }
         #endregion
 

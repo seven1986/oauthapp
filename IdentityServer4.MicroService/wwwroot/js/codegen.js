@@ -1,8 +1,11 @@
 ﻿; (function () {
     var clientSDKs = [];
     var serverSDKs = [];
-
-    window.swaggerCodeGenToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQxQjg0RkEwRTM4MEVGMzVEMTkxREFGNjczQjFENkMwRTgzQUY0RkYiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJRYmhQb09PQTd6WFJrZHIyYzdIV3dPZzY5UDgifQ.eyJuYmYiOlsxNTIzOTYxNzk2LDE1MjM5NjE3OTFdLCJleHAiOlsxNTI3NTYxNzk2LDE1MjM5NjUzOTFdLCJpc3MiOlsiaHR0cHM6Ly9pZHMuaml4aXVjbG91ZC5jbiIsImh0dHBzOi8vaWRzLmppeGl1Y2xvdWQuY24iXSwiYXVkIjpbImh0dHBzOi8vaWRzLmppeGl1Y2xvdWQuY24vcmVzb3VyY2VzIiwiaWRzNC5tcyJdLCJjbGllbnRfaWQiOiJ0ZXN0Iiwic3ViIjoiMiIsImF1dGhfdGltZSI6MTUyMzk2MTY4NywiaWRwIjoibG9jYWwiLCJwZXJtaXNzaW9uIjoiaWRzNC5tcy5jbGllbnQuaXNzdWV0b2tlbiIsInJvbGUiOlsidXNlcnMiLCJkZXZlbG9wZXIiXSwiY2xpZW50X3RlbmFudCI6eyJpZCI6MSwibmFtZSI6IuWQieengCIsImNsYWltcyI6e319LCJzY29wZSI6WyJvcGVuaWQiLCJwcm9maWxlIiwiaWRzNC5tcy5hbGwiXSwiYW1yIjpbInB3ZCJdfQ.LqqW3Gf2-OW8YpzuCcstaVsVtMBQ-lX2eMsJds6L_S2fiCXK8p1qTbH0L6l8u3LOdP4LH7ryBPkfNxqDT04QIofdsz2YPcD0P2ktpfqDEPv2mUyoUhjhs8ItgzuOS4p9lewXv_0nLglGeVDdBMhtAU1AI1-19Y-aLIxq-sA6MkmRdbjQbWHMTQvdje5OlP5nfzOzgwdZARduyP8ndnhoa3R1Bs6tlbEhfPPi-ox3OZbXMveavYz99FqI_NU_FQmwa0nzSLV4fO2hDfKPXIBDJRaxNECXl3ZlPPobABmAxTnr0vUuRbe_1GIdPSDW4OUVyWhmH4kyAlwJmAzwEMkC_w';
+    window.swaggerCodeGenSubscriptionKey = '35a0672e5ff94b72a2e658e3debb2237';
+    /**
+     * token expiredAt 1555560241
+     */
+    window.swaggerCodeGenToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQxQjg0RkEwRTM4MEVGMzVEMTkxREFGNjczQjFENkMwRTgzQUY0RkYiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJRYmhQb09PQTd6WFJrZHIyYzdIV3dPZzY5UDgifQ.eyJuYmYiOjE1MjQwMjQyNDEsImV4cCI6MTU1NTU2MDI0MSwiaXNzIjoiaHR0cHM6Ly9pZHMuaml4aXVjbG91ZC5jbiIsImF1ZCI6WyJodHRwczovL2lkcy5qaXhpdWNsb3VkLmNuL3Jlc291cmNlcyIsImlkczQubXMiXSwiY2xpZW50X2lkIjoidGVzdCIsInN1YiI6IjIiLCJhdXRoX3RpbWUiOjE1MjQwMjQxNDcsImlkcCI6ImxvY2FsIiwicGVybWlzc2lvbiI6ImlkczQubXMuY2xpZW50Lmlzc3VldG9rZW4saWRzNC5tcy5hcGlyZXNvdXJjZS52ZXJpZnllbWFpbCIsInJvbGUiOlsidXNlcnMiLCJkZXZlbG9wZXIiXSwiY2xpZW50X3RlbmFudCI6eyJpZCI6MSwibmFtZSI6IuWQieengCIsImNsYWltcyI6e319LCJzY29wZSI6WyJvcGVuaWQiLCJwcm9maWxlIiwiaWRzNC5tcy5hbGwiXSwiYW1yIjpbInB3ZCJdfQ.NH0I1Cgl0bVecmbzM9LWR_7xp5anxNQJNm_eaEBWITw13IOddzxhf4YO2zBsLcXkL6c_gmgtosClo22_6zuCsQw-XZFUOQe6KhOsg71Hd_jpsF-S_JYswdzbsP0hcp3Yf66kuK_n6HHykwOby7A8WkjTShlvIbbTGSl37R11MGOIGogtQWP5F3zvild55CtwyzI5aN6zG8Dj0WKV4aUEj-aUFM3874LHcujXp-TNStnJGnjD2FBqCnxMVCxUnLe9qUPcVbenLM7Pz3SdzceIV2ZoGhSooiVtFetaL_qUZQHLN2O_vVbeKKReA9er993GB6l8OMW3WJkLff7vy7bbXg';
     window.swaggerCodeGenCurrentItem = {};
     window.swaggerCodeGenCurrentItemIsServer = {};
 
@@ -54,8 +57,8 @@
         var _layer =
             '<button id="btnShowSubscription"' +
             'type="button"' +
-            'class="btn btn-default" style="float:right;margin-left: 5px">' +
-            '<span class="glyphicon glyphicon-star-empty"></span> 订阅' +
+            'class="btn btn-default" style="float:right;margin-left: 5px" onclick="sub_Modal()">' +
+            '<span class="glyphicon glyphicon-star"></span> 订阅' +
             '</button>';
 
         $('#apiMenu').parent().before(_layer);
@@ -130,6 +133,38 @@
         });
     }
 
+    window.sub_Modal = function ()
+    {
+        $('#subModal').modal('show');
+    }
+
+    window.postSubscriber = function () {
+        var emailTest = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+        var email = $('#subscriberEmail').val();
+        if (!emailTest.test(email)) {
+            alert('邮箱格式错误');
+            return;
+        }
+        $('#subModal').modal('hide');
+        var apiId = location.href.replace(location.protocol + '//' + location.host + '/docs/services/', '').split('/')[0];
+        
+        $.ajax({
+            type: "POST",
+            url: "https://openapis.ixingban.com/identity/ApiResource/" + apiId + "/Subscriptions/VerifyEmail",
+            data: JSON.stringify({ email: email }),
+            datatype: "json",
+            headers: {
+                "Ocp-Apim-Subscription-Key": swaggerCodeGenSubscriptionKey,
+                "Authorization": "Bearer " + swaggerCodeGenToken
+            },
+            contentType: "application/json; charset=utf-8"
+        }).done(r => {
+            alert('请前往邮箱激活订阅即可。');
+        }).fail(r => {
+            alert(JSON.stringify(r));
+        });
+    }
+
     //var hosturl = location.protocol + location.host;
 
     const _template_codegen_azure = `<div>
@@ -164,6 +199,28 @@
                               </div>
                               <div class="modal-footer">
                                   <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                    <div id="subModal" class="modal fade">
+                      <div class="modal-dialog">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                  <h4 class="modal-title">订阅服务动态</h4>
+                              </div>
+                              <div class="modal-body">
+                                  <div class="form-group">
+                                        <label>邮箱地址</label>
+                                        <input type="text" name="subscriberEmail" class="form-control" id="subscriberEmail">
+                                        <p class="help-block">提交后，将会发送1封验证邮件到您的邮箱。</p>
+                                  </div>
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                  <button type="button" class="btn btn-success" onclick="postSubscriber()">确认</button>
                               </div>
                           </div>
                       </div>

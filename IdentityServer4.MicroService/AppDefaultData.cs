@@ -474,7 +474,13 @@ namespace IdentityServer4.MicroService
             #region 订阅微服务 - 邮箱验证
             /// <summary>
             /// 订阅微服务 - 邮箱验证
-            /// 变量：%callbackUrl%
+            /// 变量：
+            /// %SubscritionUrl%
+            /// %DelSubscritionUrl%
+            /// %apiId%
+            /// %npmjQuery%
+            /// %npmAngular2%
+            /// %serviceName%
             /// </summary>
             [SendCloudTemplate("验证邮箱")]
             verify_apiresource_subscription,
