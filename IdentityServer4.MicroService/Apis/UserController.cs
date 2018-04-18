@@ -880,7 +880,7 @@ namespace IdentityServer4.MicroService.Apis
 
             await email.SendEmailAsync(
                 SendCloudMailTemplates.verify_email,
-                value.Email,
+               new string[] { value.Email },
                 new Dictionary<string, string[]>() {
                     { "%code%", new string[] { verifyCode } }
                 });

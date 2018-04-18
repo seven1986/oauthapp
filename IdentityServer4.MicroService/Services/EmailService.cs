@@ -22,38 +22,6 @@ namespace IdentityServer4.MicroService.Services
             email = _email;
         }
 
-        ///// <summary>
-        ///// 发送邮箱验证码
-        ///// </summary>
-        ///// <param name="subject">邮件标题</param>
-        ///// <param name="templateKey">邮件模板ID</param>
-        ///// <param name="emailAddress">收件地址</param>
-        ///// <param name="vars"></param>
-        ///// <returns></returns>
-        //public async Task<bool> SendCode(
-        //    string subject, 
-        //    string templateKey,
-        //    string emailAddress,
-        //    Dictionary<string,string[]> vars)
-        //{
-        //    try
-        //    {
-        //        var xsmtpapi = JsonConvert.SerializeObject(new
-        //        {
-        //            to = new string[] { emailAddress },
-        //            sub = vars
-        //        });
-
-        //        await email.SendEmailAsync(subject, templateKey, xsmtpapi);
-
-        //        return true;
-        //    }
-        //    catch
-        //    {
-        //        return false;
-        //    }
-        //}
-
         /// <summary>
         /// 发送邮件
         /// </summary>
@@ -63,7 +31,7 @@ namespace IdentityServer4.MicroService.Services
         /// <returns></returns>
         public async Task<bool> SendEmailAsync(
             SendCloudMailTemplates template, 
-            string emailAddress, 
+            string[] emailAddress, 
             Dictionary<string, string[]> vars)
         {
             var templateKey = Enum.GetName(typeof(SendCloudMailTemplates), template);
@@ -82,7 +50,7 @@ namespace IdentityServer4.MicroService.Services
 
             var xsmtpapi = JsonConvert.SerializeObject(new
             {
-                to = new string[] { emailAddress },
+                to = emailAddress,
                 sub
             });
 

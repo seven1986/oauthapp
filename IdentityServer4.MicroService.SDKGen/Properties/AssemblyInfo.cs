@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("IdentityServer4.MicroService.SDKGen")]
+[assembly: AssemblyTitle("IdentityServer4.MicroService.AzureJobs")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("IdentityServer4.MicroService.SDKGen")]
+[assembly: AssemblyProduct("IdentityServer4.MicroService.AzureJobs")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

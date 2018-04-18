@@ -89,5 +89,17 @@ namespace IdentityServer4.MicroService.Enums
         /// </summary>
         [Description("发布失败")]
         Publish_PublishFailed =300011,
+
+        /// <summary>
+        /// 取消订阅失败
+        /// </summary>
+        [Description("取消订阅失败")]
+        Subscription_DelSubscriptionFailed =300012,
+
+        /// <summary>
+        /// 邮箱已存在订阅列表
+        /// </summary>
+        [Description("邮箱已存在订阅列表")]
+        VerifyEmail_AddEmailFailed = 300013,
     }
 }
