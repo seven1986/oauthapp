@@ -106,7 +106,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 版本列表
-            [Description(" 微服务 - 版本列表")]
+            [Description("微服务 - 版本列表")]
             [PolicyClaimValues(
                     MicroServiceName + ".apiresource.versions",
                     MicroServiceName + ".apiresource.all",
@@ -115,7 +115,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 上线指定版本
-            [Description(" 微服务 - 上线指定版本")]
+            [Description("微服务 - 上线指定版本")]
             [PolicyClaimValues(
                     MicroServiceName + ".apiresource.setonlineversion",
                     MicroServiceName + ".apiresource.all",
@@ -124,7 +124,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 修订内容 - 列表
-            [Description(" 微服务 - 修订内容 - 列表")]
+            [Description("微服务 - 修订内容 - 列表")]
             [PolicyClaimValues(
                    MicroServiceName + ".apiresource.releases",
                    MicroServiceName + ".apiresource.all",
@@ -133,7 +133,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 修订内容 - 发布
-            [Description(" 微服务 - 修订内容 - 发布")]
+            [Description("微服务 - 修订内容 - 发布")]
             [PolicyClaimValues(
                    MicroServiceName + ".apiresource.postrelease",
                    MicroServiceName + ".apiresource.all",
@@ -142,7 +142,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 修订内容 - 更新
-            [Description(" 微服务 - 修订内容 - 更新")]
+            [Description("微服务 - 修订内容 - 更新")]
             [PolicyClaimValues(
                    MicroServiceName + ".apiresource.putrelease",
                    MicroServiceName + ".apiresource.all",
@@ -151,7 +151,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 修订内容 - 删除
-            [Description(" 微服务 - 修订内容 - 删除")]
+            [Description("微服务 - 修订内容 - 删除")]
             [PolicyClaimValues(
                    MicroServiceName + ".apiresource.deleterelease",
                    MicroServiceName + ".apiresource.all",
@@ -178,7 +178,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 订阅者 - 列表
-            [Description(" 微服务 - 订阅者 - 列表")]
+            [Description("微服务 - 订阅者 - 列表")]
             [PolicyClaimValues(
                    MicroServiceName + ".apiresource.subscriptions",
                    MicroServiceName + ".apiresource.all",
@@ -187,7 +187,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 订阅者 - 验证邮箱
-            [Description(" 微服务 - 订阅者 - 验证邮箱")]
+            [Description("微服务 - 订阅者 - 验证邮箱")]
             [PolicyClaimValues(true,
                    MicroServiceName + ".apiresource.verifyemail",
                    MicroServiceName + ".apiresource.all",
@@ -196,7 +196,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 包市场 - 列表
-            [Description(" 微服务 - 包市场 - 列表")]
+            [Description("微服务 - 包市场 - 列表")]
             [PolicyClaimValues(true,
                    MicroServiceName + ".apiresource.packages",
                    MicroServiceName + ".apiresource.all",
@@ -205,7 +205,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 包市场 - 添加
-            [Description(" 微服务 - 包市场 - 添加")]
+            [Description("微服务 - 包市场 - 添加")]
             [PolicyClaimValues(true,
                    MicroServiceName + ".apiresource.postpackages",
                    MicroServiceName + ".apiresource.all",
@@ -214,7 +214,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 包市场 - 删除
-            [Description(" 微服务 - 包市场 - 删除")]
+            [Description("微服务 - 包市场 - 删除")]
             [PolicyClaimValues(true,
                    MicroServiceName + ".apiresource.deletepackage",
                    MicroServiceName + ".apiresource.all",
@@ -663,7 +663,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 版本列表
-            [Description(" 微服务 - 版本列表")]
+            [Description("微服务 - 版本列表")]
             [PolicyClaimValues(
                     MicroServiceName + ".apiresource.versions",
                     MicroServiceName + ".apiresource.all",
@@ -672,7 +672,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 上线指定版本
-            [Description(" 微服务 - 上线指定版本")]
+            [Description("微服务 - 上线指定版本")]
             [PolicyClaimValues(
                     MicroServiceName + ".apiresource.setonlineversion",
                     MicroServiceName + ".apiresource.all",
@@ -681,7 +681,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 修订内容 - 列表
-            [Description(" 微服务 - 修订内容 - 列表")]
+            [Description("微服务 - 修订内容 - 列表")]
             [PolicyClaimValues(
                    MicroServiceName + ".apiresource.releases",
                    MicroServiceName + ".apiresource.all",
@@ -690,7 +690,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 修订内容 - 发布
-            [Description(" 微服务 - 修订内容 - 发布")]
+            [Description("微服务 - 修订内容 - 发布")]
             [PolicyClaimValues(
                    MicroServiceName + ".apiresource.postrelease",
                    MicroServiceName + ".apiresource.all",
@@ -699,7 +699,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 修订内容 - 更新
-            [Description(" 微服务 - 修订内容 - 更新")]
+            [Description("微服务 - 修订内容 - 更新")]
             [PolicyClaimValues(
                    MicroServiceName + ".apiresource.putrelease",
                    MicroServiceName + ".apiresource.all",
@@ -708,7 +708,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 修订内容 - 删除
-            [Description(" 微服务 - 修订内容 - 删除")]
+            [Description("微服务 - 修订内容 - 删除")]
             [PolicyClaimValues(
                    MicroServiceName + ".apiresource.deleterelease",
                    MicroServiceName + ".apiresource.all",
@@ -735,7 +735,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 订阅者 - 列表
-            [Description(" 微服务 - 订阅者 - 列表")]
+            [Description("微服务 - 订阅者 - 列表")]
             [PolicyClaimValues(
                    MicroServiceName + ".apiresource.subscriptions",
                    MicroServiceName + ".apiresource.all",
@@ -744,7 +744,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 订阅者 - 验证邮箱
-            [Description(" 微服务 - 订阅者 - 验证邮箱")]
+            [Description("微服务 - 订阅者 - 验证邮箱")]
             [PolicyClaimValues(true,
                    MicroServiceName + ".apiresource.verifyemail",
                    MicroServiceName + ".apiresource.all",
@@ -753,7 +753,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 包市场 - 列表
-            [Description(" 微服务 - 包市场 - 列表")]
+            [Description("微服务 - 包市场 - 列表")]
             [PolicyClaimValues(true,
                    MicroServiceName + ".apiresource.packages",
                    MicroServiceName + ".apiresource.all",
@@ -762,7 +762,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 包市场 - 添加
-            [Description(" 微服务 - 包市场 - 添加")]
+            [Description("微服务 - 包市场 - 添加")]
             [PolicyClaimValues(true,
                    MicroServiceName + ".apiresource.postpackages",
                    MicroServiceName + ".apiresource.all",
@@ -771,7 +771,7 @@ namespace IdentityServer4.MicroService
             #endregion
 
             #region 微服务 - 包市场 - 删除
-            [Description(" 微服务 - 包市场 - 删除")]
+            [Description("微服务 - 包市场 - 删除")]
             [PolicyClaimValues(true,
                    MicroServiceName + ".apiresource.deletepackage",
                    MicroServiceName + ".apiresource.all",

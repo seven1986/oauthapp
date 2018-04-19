@@ -1,8 +1,11 @@
-﻿; (function () {
+﻿﻿; (function () {
     var clientSDKs = [];
     var serverSDKs = [];
-
-    window.swaggerCodeGenToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQxQjg0RkEwRTM4MEVGMzVEMTkxREFGNjczQjFENkMwRTgzQUY0RkYiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJRYmhQb09PQTd6WFJrZHIyYzdIV3dPZzY5UDgifQ.eyJuYmYiOlsxNTIzOTYxNzk2LDE1MjM5NjE3OTFdLCJleHAiOlsxNTI3NTYxNzk2LDE1MjM5NjUzOTFdLCJpc3MiOlsiaHR0cHM6Ly9pZHMuaml4aXVjbG91ZC5jbiIsImh0dHBzOi8vaWRzLmppeGl1Y2xvdWQuY24iXSwiYXVkIjpbImh0dHBzOi8vaWRzLmppeGl1Y2xvdWQuY24vcmVzb3VyY2VzIiwiaWRzNC5tcyJdLCJjbGllbnRfaWQiOiJ0ZXN0Iiwic3ViIjoiMiIsImF1dGhfdGltZSI6MTUyMzk2MTY4NywiaWRwIjoibG9jYWwiLCJwZXJtaXNzaW9uIjoiaWRzNC5tcy5jbGllbnQuaXNzdWV0b2tlbiIsInJvbGUiOlsidXNlcnMiLCJkZXZlbG9wZXIiXSwiY2xpZW50X3RlbmFudCI6eyJpZCI6MSwibmFtZSI6IuWQieengCIsImNsYWltcyI6e319LCJzY29wZSI6WyJvcGVuaWQiLCJwcm9maWxlIiwiaWRzNC5tcy5hbGwiXSwiYW1yIjpbInB3ZCJdfQ.LqqW3Gf2-OW8YpzuCcstaVsVtMBQ-lX2eMsJds6L_S2fiCXK8p1qTbH0L6l8u3LOdP4LH7ryBPkfNxqDT04QIofdsz2YPcD0P2ktpfqDEPv2mUyoUhjhs8ItgzuOS4p9lewXv_0nLglGeVDdBMhtAU1AI1-19Y-aLIxq-sA6MkmRdbjQbWHMTQvdje5OlP5nfzOzgwdZARduyP8ndnhoa3R1Bs6tlbEhfPPi-ox3OZbXMveavYz99FqI_NU_FQmwa0nzSLV4fO2hDfKPXIBDJRaxNECXl3ZlPPobABmAxTnr0vUuRbe_1GIdPSDW4OUVyWhmH4kyAlwJmAzwEMkC_w';
+    window.swaggerCodeGenSubscriptionKey = '35a0672e5ff94b72a2e658e3debb2237';
+    /**
+     * token expiredAt 1555560241
+     */
+    window.swaggerCodeGenToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQxQjg0RkEwRTM4MEVGMzVEMTkxREFGNjczQjFENkMwRTgzQUY0RkYiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJRYmhQb09PQTd6WFJrZHIyYzdIV3dPZzY5UDgifQ.eyJuYmYiOjE1MjQxMjg5MTMsImV4cCI6MTU1NTY2NDkxMywiaXNzIjoiaHR0cHM6Ly9pZHMuaml4aXVjbG91ZC5jbiIsImF1ZCI6WyJodHRwczovL2lkcy5qaXhpdWNsb3VkLmNuL3Jlc291cmNlcyIsImlkczQubXMiXSwiY2xpZW50X2lkIjoidGVzdCIsInN1YiI6IjIiLCJhdXRoX3RpbWUiOjE1MjQxMjg4ODgsImlkcCI6ImxvY2FsIiwicGVybWlzc2lvbiI6ImlkczQubXMuY2xpZW50Lmlzc3VldG9rZW4saWRzNC5tcy5hcGlyZXNvdXJjZS52ZXJpZnllbWFpbCxpZHM0Lm1zLmFwaXJlc291cmNlLnBhY2thZ2VzIiwicm9sZSI6WyJ1c2VycyIsImRldmVsb3BlciJdLCJjbGllbnRfdGVuYW50Ijp7ImlkIjoxLCJuYW1lIjoi5ZCJ56eAIiwiY2xhaW1zIjp7fX0sInNjb3BlIjpbIm9wZW5pZCIsInByb2ZpbGUiLCJpZHM0Lm1zLmFsbCJdLCJhbXIiOlsicHdkIl19.U6nOAUl65PwYJ5NceVmvHmMz2088fmzY8WWzvp1EEtWJWCRMgsj8iw4FaqgFe7F8oufR1v7_Ex7OkoudrtRRpnApGz0oG6AK8lOCqYDxBpMjAkaKVGJsThK0UnH6VsQl_x5LjCYh2gAunJipjC1yhsR6YxA69bHvDSH3-sDLg08VGJYZt6PLmrQRby3OheK8TGqLnzNkglPqJ1b7kcoAkmvCsh7jx3r55RkmjTe1eY2aXaVghbEUYvFwnK42K_w2iLkyGU9Kaqi1GKW7Hhb9n4Hk88O7bDbZzTUFtlr8sbV3D3PDNDSeYlfpn0hhZG6Z99ifDrqozt6vC-9PxGypmg';
     window.swaggerCodeGenCurrentItem = {};
     window.swaggerCodeGenCurrentItemIsServer = {};
 
@@ -28,7 +31,6 @@
         $('#apiMenu').parent().after(_layer);
     }
     function ShowServerSDKs() {
-
         var _layer = '<div class="btn-group pull-right" role="group" style="margin-right:5px">' +
             '<button id="btnGroupClientsSDKDrop"' +
             'type="button"' +
@@ -50,12 +52,57 @@
         $('#apiMenu').parent().after(_layer);
     }
 
+     function ShowPackages(packageItems) {
+         if (packageItems.length < 1) { return; }
+
+        var itemsStr= packageItems.map(x => {
+            return '<tr>' +
+                '<td><a href="' + x.link + '" target="_blank">' + x.rowKey + '</a></td>' +
+                '<td><a href="' + x.link + '" target="_blank"><img src="https://img.shields.io/npm/v/' + x.icon + '.svg" /></a></td>' +
+                '<td><img src="https://img.shields.io/npm/dw/' + x.icon + '.svg" /></td>' +
+                '<td>' + x.publisher + '</td>' +
+                '</tr>';
+         }).join('');
+
+        var _layer = '<div class="panel" style="margin-top:15px">' +
+            '<h4>SDK开发包 <small class="label label-success">beta</small></h4>' +
+            '<div role="tabpanel">' +
+            '<ul class="nav nav-tabs" role="tablist">' +
+            '<li role="presentation" class="active">' +
+            '<a href="#packages_npm" aria-controls="packages_npm" role="tab" data-toggle="tab">NPM</a>' +
+            '</li>' +
+            '</ul>' +
+            '<div class="tab-content tab-content-boxed">' +
+            '<div role="tabpanel" class="tab-pane active" id="packages_npm">' +
+            '<div style="padding:20px" id="packagesContainer">' +
+            '<table class="table">'+
+                '<thead>'+
+                    '<tr>'+
+                        '<th>包</th>'+
+                        '<th>版本号</th>'+
+                        '<th>下载次数</th>'+
+                        '<th>作者</th>'+
+                    '</tr>'+
+                '</thead>'+
+                '<tbody>'+
+            itemsStr+
+                '</tbody>'+
+            '</table>'+
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+
+        $('#DocumentationOperationDetails').append(_layer);
+    }
+
     function ShowSubscription() {
         var _layer =
             '<button id="btnShowSubscription"' +
             'type="button"' +
-            'class="btn btn-default" style="float:right;margin-left: 5px">' +
-            '<span class="glyphicon glyphicon-star-empty"></span> 订阅' +
+            'class="btn btn-default" style="float:right;margin-left: 5px" onclick="sub_Modal()">' +
+            '<span class="glyphicon glyphicon-star"></span> 订阅' +
             '</button>';
 
         $('#apiMenu').parent().before(_layer);
@@ -96,8 +143,7 @@
         $("#languageoptions").html(eles.join(''));
         $('#CodegenModal').modal('show');
     }
-    window.codegen_clientGen = function (ele)
-    {
+    window.codegen_clientGen = function (ele) {
         var data = {
             options: {},
             swaggerUrl: location.href.substr(0, location.href.indexOf('/operations/')) + '/export?DocumentFormat=Swagger',
@@ -125,6 +171,37 @@
             var htmlcode = '<h4>code</h4><input type="text" class="form-control" value="' + r.code + '" /><h4>link</h4><input type="text" class="form-control" value="' + r.link + '" />';
             $("#CodePackageResult").html(htmlcode);
             $("#CodePackageModal").modal('show');
+        }).fail(r => {
+            alert(JSON.stringify(r));
+        });
+    }
+
+    window.sub_Modal = function () {
+        $('#subModal').modal('show');
+    }
+
+    window.postSubscriber = function () {
+        var emailTest = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+        var email = $('#subscriberEmail').val();
+        if (!emailTest.test(email)) {
+            alert('邮箱格式错误');
+            return;
+        }
+        $('#subModal').modal('hide');
+        var apiId = location.href.replace(location.protocol + '//' + location.host + '/docs/services/', '').split('/')[0];
+
+        $.ajax({
+            type: "POST",
+            url: "https://openapis.ixingban.com/identity/ApiResource/" + apiId + "/Subscriptions/VerifyEmail",
+            data: JSON.stringify({ email: email }),
+            datatype: "json",
+            headers: {
+                "Ocp-Apim-Subscription-Key": swaggerCodeGenSubscriptionKey,
+                "Authorization": "Bearer " + swaggerCodeGenToken
+            },
+            contentType: "application/json; charset=utf-8"
+        }).done(r => {
+            alert('请前往邮箱激活订阅即可。');
         }).fail(r => {
             alert(JSON.stringify(r));
         });
@@ -168,6 +245,28 @@
                           </div>
                       </div>
                   </div>
+
+                    <div id="subModal" class="modal fade">
+                      <div class="modal-dialog">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                  <h4 class="modal-title">订阅服务动态</h4>
+                              </div>
+                              <div class="modal-body">
+                                  <div class="form-group">
+                                        <label>邮箱地址</label>
+                                        <input type="text" name="subscriberEmail" class="form-control" id="subscriberEmail">
+                                        <p class="help-block">提交后，将会发送1封验证邮件到您的邮箱。</p>
+                                  </div>
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                  <button type="button" class="btn btn-success" onclick="postSubscriber()">确认</button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
               </div>`;
 
     $(function () {
@@ -200,5 +299,28 @@
         }
 
         ShowSubscription();
+
+
+        var apiId = location.href.replace(location.protocol + '//' + location.host + '/docs/services/', '').split('/')[0];
+
+        $.ajax({
+            type: "GET",
+            url: "https://openapis.ixingban.com/identity/ApiResource/" + apiId + "/Packages",
+            datatype: "json",
+            headers: {
+                "Ocp-Apim-Subscription-Key": swaggerCodeGenSubscriptionKey,
+                "Authorization": "Bearer " + swaggerCodeGenToken
+            },
+            contentType: "application/json; charset=utf-8"
+        }).done(r => {
+
+            if (r.code == 200) {
+                ShowPackages(r.data);
+            }
+
+        }).fail(r => {
+            alert(JSON.stringify(r));
+        });
+
     });
 })();

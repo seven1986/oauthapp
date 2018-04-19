@@ -35,11 +35,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="compilerconfig.json" />
     <Content Remove="package-lock.json" />
     <Content Remove="wwwroot\js\codegen.min.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="compilerconfig.json.defaults" />
     <None Remove="Properties\PublishProfiles\IdentityServer4MicroService20180208121002 - Web Deploy.pubxml" />
     <None Remove="Properties\PublishProfiles\IdentityServer4MicroService20180209105301 - Web Deploy.pubxml" />
     <None Remove="Properties\PublishProfiles\IdentityServer4MicroService20180209110348 - Web Deploy.pubxml" />

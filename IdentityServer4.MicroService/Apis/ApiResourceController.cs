@@ -1406,7 +1406,7 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 微服务 - 包市场 - 列表
         /// <summary>
-        /// 代码生成 - 包市场 - 列表
+        /// 微服务 - 包市场 - 列表
         /// </summary>
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
@@ -1418,6 +1418,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("ApiResource/Packages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePackages)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePackages)]
+        [ResponseCache(Duration = 3600)]
         public async Task<PagingResult<ApiResourceSDKEntity>> Packages(string id)
         {
             var tb = await storageService.CreateTableAsync("ApiResourcePackages");
@@ -1439,7 +1440,7 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 微服务 - 包市场 - 添加
         /// <summary>
-        /// 代码生成 - 包市场 - 添加
+        /// 微服务 - 包市场 - 添加
         /// </summary>
         /// <param name="id">微服务的ID</param>
         /// <param name="value"></param>
@@ -1497,7 +1498,7 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 微服务 - 包市场 - 删除
         /// <summary>
-        /// 代码生成 - 包市场 - 删除
+        /// 微服务 - 包市场 - 删除
         /// </summary>
         /// <param name="id">微服务的ID</param>
         /// <param name="packageId">包的ID</param>
