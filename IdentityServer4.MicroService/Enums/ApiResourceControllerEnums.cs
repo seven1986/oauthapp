@@ -101,5 +101,17 @@ namespace IdentityServer4.MicroService.Enums
         /// </summary>
         [Description("邮箱已存在订阅列表")]
         VerifyEmail_AddEmailFailed = 300013,
+
+        /// <summary>
+        /// 添加包失败
+        /// </summary>
+        [Description("添加包失败")]
+        Packages_PostFailed = 300014,
+
+        /// <summary>
+        /// 删除包失败
+        /// </summary>
+        [Description("删除包失败")]
+        Packages_DelPackageFailed = 300015,
     }
 }
