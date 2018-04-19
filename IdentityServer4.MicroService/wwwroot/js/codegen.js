@@ -1,11 +1,11 @@
-﻿; (function () {
+﻿﻿; (function () {
     var clientSDKs = [];
     var serverSDKs = [];
     window.swaggerCodeGenSubscriptionKey = '35a0672e5ff94b72a2e658e3debb2237';
     /**
      * token expiredAt 1555560241
      */
-    window.swaggerCodeGenToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQxQjg0RkEwRTM4MEVGMzVEMTkxREFGNjczQjFENkMwRTgzQUY0RkYiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJRYmhQb09PQTd6WFJrZHIyYzdIV3dPZzY5UDgifQ.eyJuYmYiOjE1MjQwMjQyNDEsImV4cCI6MTU1NTU2MDI0MSwiaXNzIjoiaHR0cHM6Ly9pZHMuaml4aXVjbG91ZC5jbiIsImF1ZCI6WyJodHRwczovL2lkcy5qaXhpdWNsb3VkLmNuL3Jlc291cmNlcyIsImlkczQubXMiXSwiY2xpZW50X2lkIjoidGVzdCIsInN1YiI6IjIiLCJhdXRoX3RpbWUiOjE1MjQwMjQxNDcsImlkcCI6ImxvY2FsIiwicGVybWlzc2lvbiI6ImlkczQubXMuY2xpZW50Lmlzc3VldG9rZW4saWRzNC5tcy5hcGlyZXNvdXJjZS52ZXJpZnllbWFpbCIsInJvbGUiOlsidXNlcnMiLCJkZXZlbG9wZXIiXSwiY2xpZW50X3RlbmFudCI6eyJpZCI6MSwibmFtZSI6IuWQieengCIsImNsYWltcyI6e319LCJzY29wZSI6WyJvcGVuaWQiLCJwcm9maWxlIiwiaWRzNC5tcy5hbGwiXSwiYW1yIjpbInB3ZCJdfQ.NH0I1Cgl0bVecmbzM9LWR_7xp5anxNQJNm_eaEBWITw13IOddzxhf4YO2zBsLcXkL6c_gmgtosClo22_6zuCsQw-XZFUOQe6KhOsg71Hd_jpsF-S_JYswdzbsP0hcp3Yf66kuK_n6HHykwOby7A8WkjTShlvIbbTGSl37R11MGOIGogtQWP5F3zvild55CtwyzI5aN6zG8Dj0WKV4aUEj-aUFM3874LHcujXp-TNStnJGnjD2FBqCnxMVCxUnLe9qUPcVbenLM7Pz3SdzceIV2ZoGhSooiVtFetaL_qUZQHLN2O_vVbeKKReA9er993GB6l8OMW3WJkLff7vy7bbXg';
+    window.swaggerCodeGenToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQxQjg0RkEwRTM4MEVGMzVEMTkxREFGNjczQjFENkMwRTgzQUY0RkYiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJRYmhQb09PQTd6WFJrZHIyYzdIV3dPZzY5UDgifQ.eyJuYmYiOjE1MjQxMjg5MTMsImV4cCI6MTU1NTY2NDkxMywiaXNzIjoiaHR0cHM6Ly9pZHMuaml4aXVjbG91ZC5jbiIsImF1ZCI6WyJodHRwczovL2lkcy5qaXhpdWNsb3VkLmNuL3Jlc291cmNlcyIsImlkczQubXMiXSwiY2xpZW50X2lkIjoidGVzdCIsInN1YiI6IjIiLCJhdXRoX3RpbWUiOjE1MjQxMjg4ODgsImlkcCI6ImxvY2FsIiwicGVybWlzc2lvbiI6ImlkczQubXMuY2xpZW50Lmlzc3VldG9rZW4saWRzNC5tcy5hcGlyZXNvdXJjZS52ZXJpZnllbWFpbCxpZHM0Lm1zLmFwaXJlc291cmNlLnBhY2thZ2VzIiwicm9sZSI6WyJ1c2VycyIsImRldmVsb3BlciJdLCJjbGllbnRfdGVuYW50Ijp7ImlkIjoxLCJuYW1lIjoi5ZCJ56eAIiwiY2xhaW1zIjp7fX0sInNjb3BlIjpbIm9wZW5pZCIsInByb2ZpbGUiLCJpZHM0Lm1zLmFsbCJdLCJhbXIiOlsicHdkIl19.U6nOAUl65PwYJ5NceVmvHmMz2088fmzY8WWzvp1EEtWJWCRMgsj8iw4FaqgFe7F8oufR1v7_Ex7OkoudrtRRpnApGz0oG6AK8lOCqYDxBpMjAkaKVGJsThK0UnH6VsQl_x5LjCYh2gAunJipjC1yhsR6YxA69bHvDSH3-sDLg08VGJYZt6PLmrQRby3OheK8TGqLnzNkglPqJ1b7kcoAkmvCsh7jx3r55RkmjTe1eY2aXaVghbEUYvFwnK42K_w2iLkyGU9Kaqi1GKW7Hhb9n4Hk88O7bDbZzTUFtlr8sbV3D3PDNDSeYlfpn0hhZG6Z99ifDrqozt6vC-9PxGypmg';
     window.swaggerCodeGenCurrentItem = {};
     window.swaggerCodeGenCurrentItemIsServer = {};
 
@@ -31,7 +31,6 @@
         $('#apiMenu').parent().after(_layer);
     }
     function ShowServerSDKs() {
-
         var _layer = '<div class="btn-group pull-right" role="group" style="margin-right:5px">' +
             '<button id="btnGroupClientsSDKDrop"' +
             'type="button"' +
@@ -51,6 +50,51 @@
             '</div>';
 
         $('#apiMenu').parent().after(_layer);
+    }
+
+     function ShowPackages(packageItems) {
+         if (packageItems.length < 1) { return; }
+
+        var itemsStr= packageItems.map(x => {
+            return '<tr>' +
+                '<td><a href="' + x.link + '" target="_blank">' + x.rowKey + '</a></td>' +
+                '<td><a href="' + x.link + '" target="_blank"><img src="https://img.shields.io/npm/v/' + x.icon + '.svg" /></a></td>' +
+                '<td><img src="https://img.shields.io/npm/dw/' + x.icon + '.svg" /></td>' +
+                '<td>' + x.publisher + '</td>' +
+                '</tr>';
+         }).join('');
+
+        var _layer = '<div class="panel" style="margin-top:15px">' +
+            '<h4>SDK开发包 <small class="label label-success">beta</small></h4>' +
+            '<div role="tabpanel">' +
+            '<ul class="nav nav-tabs" role="tablist">' +
+            '<li role="presentation" class="active">' +
+            '<a href="#packages_npm" aria-controls="packages_npm" role="tab" data-toggle="tab">NPM</a>' +
+            '</li>' +
+            '</ul>' +
+            '<div class="tab-content tab-content-boxed">' +
+            '<div role="tabpanel" class="tab-pane active" id="packages_npm">' +
+            '<div style="padding:20px" id="packagesContainer">' +
+            '<table class="table">'+
+                '<thead>'+
+                    '<tr>'+
+                        '<th>包</th>'+
+                        '<th>版本号</th>'+
+                        '<th>下载次数</th>'+
+                        '<th>作者</th>'+
+                    '</tr>'+
+                '</thead>'+
+                '<tbody>'+
+            itemsStr+
+                '</tbody>'+
+            '</table>'+
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+
+        $('#DocumentationOperationDetails').append(_layer);
     }
 
     function ShowSubscription() {
@@ -99,8 +143,7 @@
         $("#languageoptions").html(eles.join(''));
         $('#CodegenModal').modal('show');
     }
-    window.codegen_clientGen = function (ele)
-    {
+    window.codegen_clientGen = function (ele) {
         var data = {
             options: {},
             swaggerUrl: location.href.substr(0, location.href.indexOf('/operations/')) + '/export?DocumentFormat=Swagger',
@@ -147,7 +190,7 @@
         }
         $('#subModal').modal('hide');
         var apiId = location.href.replace(location.protocol + '//' + location.host + '/docs/services/', '').split('/')[0];
-        
+
         $.ajax({
             type: "POST",
             url: "https://openapis.ixingban.com/identity/ApiResource/" + apiId + "/Subscriptions/VerifyEmail",
@@ -257,5 +300,28 @@
         }
 
         ShowSubscription();
+
+
+        var apiId = location.href.replace(location.protocol + '//' + location.host + '/docs/services/', '').split('/')[0];
+
+        $.ajax({
+            type: "GET",
+            url: "https://openapis.ixingban.com/identity/ApiResource/" + apiId + "/Packages",
+            datatype: "json",
+            headers: {
+                "Ocp-Apim-Subscription-Key": swaggerCodeGenSubscriptionKey,
+                "Authorization": "Bearer " + swaggerCodeGenToken
+            },
+            contentType: "application/json; charset=utf-8"
+        }).done(r => {
+
+            if (r.code == 200) {
+                ShowPackages(r.data);
+            }
+
+        }).fail(r => {
+            alert(JSON.stringify(r));
+        });
+
     });
 })();
