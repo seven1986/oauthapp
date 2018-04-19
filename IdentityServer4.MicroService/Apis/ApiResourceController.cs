@@ -1404,6 +1404,157 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
+        #region 微服务 - 包市场 - 列表
+        /// <summary>
+        /// 代码生成 - 包市场 - 列表
+        /// </summary>
+        /// <param name="id">微服务的ID</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.packages</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.packages</code>
+        /// </remarks>
+        [HttpGet("{id}/Packages")]
+        [SwaggerOperation("ApiResource/Packages")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePackages)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePackages)]
+        public async Task<PagingResult<ApiResourceSDKEntity>> Packages(string id)
+        {
+            var tb = await storageService.CreateTableAsync("ApiResourcePackages");
+
+            var query = new TableQuery<ApiResourceSDKEntity>().Where(
+                TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, id));
+
+            var result = await storageService.ExecuteQueryAsync(tb, query);
+
+            return new PagingResult<ApiResourceSDKEntity>()
+            {
+                data = result,
+                skip = 0,
+                take = result.Count,
+                total = result.Count
+            };
+        }
+        #endregion
+
+        #region 微服务 - 包市场 - 添加
+        /// <summary>
+        /// 代码生成 - 包市场 - 添加
+        /// </summary>
+        /// <param name="id">微服务的ID</param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.postpackages</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.postpackages</code>
+        /// </remarks>
+        [HttpPost("{id}/Packages")]
+        [SwaggerOperation("ApiResource/PostPackage")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePostPackage)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePostPackage)]
+        public async Task<ApiResult<bool>> PostPackage(string id,[FromBody]ApiResourceSDKRequest value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            var tb = await storageService.CreateTableAsync("ApiResourcePackages");
+
+            try
+            {
+                var Entity = new ApiResourceSDKEntity(id.ToString(), value.name)
+                {
+                    Description = value.Description,
+                    Icon = value.Icon,
+                    Language = value.Language,
+                    Link = value.Link,
+                    PackagePlatform = value.PackagePlatform,
+                    Publisher = value.Publisher,
+                    ShowIndex = value.ShowIndex,
+                    Tags = value.Tags
+                };
+
+                var result = await storageService.TableInsertAsync(tb, Entity);
+
+                if (result.FirstOrDefault().Result != null)
+                {
+                    return new ApiResult<bool>(true);
+                }
+
+                else
+                {
+                    return new ApiResult<bool>(l, ApiResourceControllerEnums.Packages_PostFailed);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, ApiResourceControllerEnums.Packages_PostFailed, ex.Message);
+            }
+        }
+        #endregion
+
+        #region 微服务 - 包市场 - 删除
+        /// <summary>
+        /// 代码生成 - 包市场 - 删除
+        /// </summary>
+        /// <param name="id">微服务的ID</param>
+        /// <param name="packageId">包的ID</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.deletepackage</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.deletepackage</code>
+        /// </remarks>
+        [HttpDelete("{id}/Packages/{packageId}")]
+        [SwaggerOperation("ApiResource/DeletePackage")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceDeletePackage)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceDeletePackage)]
+        public async Task<ApiResult<bool>> DeletePackage(string id,string packageId)
+        {
+            if (string.IsNullOrWhiteSpace(packageId))
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    "无效的包ID");
+            }
+
+            var tb = await storageService.CreateTableAsync("ApiResourcePackages");
+
+            try
+            {
+                var retrieveOperation = TableOperation.Retrieve<ApiResourceSDKEntity>(id.ToString(), packageId);
+
+                var retrievedResult = await tb.ExecuteAsync(retrieveOperation);
+
+                if (retrievedResult.Result != null)
+                {
+                    var deleteEntity = (ApiResourceSDKEntity)retrievedResult.Result;
+
+                    var deleteOperation = TableOperation.Delete(deleteEntity);
+
+                    var result = await tb.ExecuteAsync(deleteOperation);
+
+                    if (result.Result != null)
+                    {
+                        return new ApiResult<bool>(true);
+                    }
+
+                    else
+                    {
+                        return new ApiResult<bool>(l, ApiResourceControllerEnums.Packages_DelPackageFailed);
+                    }
+                }
+
+                return new ApiResult<bool>(true);
+
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, ApiResourceControllerEnums.Packages_DelPackageFailed, ex.Message);
+            }
+        }
+        #endregion
+
         #region 微服务 - 错误码表
         /// <summary>
         /// 微服务 - 错误码表
