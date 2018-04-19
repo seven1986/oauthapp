@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer4.MicroService.SDKGen", "IdentityServer4.MicroService.SDKGen\IdentityServer4.MicroService.SDKGen.csproj", "{F5305B1A-41D1-4E51-8250-7CF3C4AC2CE4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer4.MicroService.AzureJobs", "IdentityServer4.MicroService.AzureJobs\IdentityServer4.MicroService.AzureJobs.csproj", "{F5305B1A-41D1-4E51-8250-7CF3C4AC2CE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

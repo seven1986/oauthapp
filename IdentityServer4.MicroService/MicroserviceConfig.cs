@@ -194,6 +194,33 @@ namespace IdentityServer4.MicroService
                    MicroServiceName + ".all")]
             public const string ApiResourceVerifyEmail = "scope:apiresource.verifyemail";
             #endregion
+
+            #region 微服务 - 包市场 - 列表
+            [Description(" 微服务 - 包市场 - 列表")]
+            [PolicyClaimValues(true,
+                   MicroServiceName + ".apiresource.packages",
+                   MicroServiceName + ".apiresource.all",
+                   MicroServiceName + ".all")]
+            public const string ApiResourcePackages = "scope:apiresource.packages";
+            #endregion
+
+            #region 微服务 - 包市场 - 添加
+            [Description(" 微服务 - 包市场 - 添加")]
+            [PolicyClaimValues(true,
+                   MicroServiceName + ".apiresource.postpackages",
+                   MicroServiceName + ".apiresource.all",
+                   MicroServiceName + ".all")]
+            public const string ApiResourcePostPackage = "scope:apiresource.postpackages";
+            #endregion
+
+            #region 微服务 - 包市场 - 删除
+            [Description(" 微服务 - 包市场 - 删除")]
+            [PolicyClaimValues(true,
+                   MicroServiceName + ".apiresource.deletepackage",
+                   MicroServiceName + ".apiresource.all",
+                   MicroServiceName + ".all")]
+            public const string ApiResourceDeletePackage = "scope:apiresource.deletepackage";
+            #endregion
             #endregion
 
             #region ClientController
@@ -723,6 +750,33 @@ namespace IdentityServer4.MicroService
                    MicroServiceName + ".apiresource.all",
                    MicroServiceName + ".all")]
             public const string ApiResourceVerifyEmail = "permission:apiresource.verifyemail";
+            #endregion
+
+            #region 微服务 - 包市场 - 列表
+            [Description(" 微服务 - 包市场 - 列表")]
+            [PolicyClaimValues(true,
+                   MicroServiceName + ".apiresource.packages",
+                   MicroServiceName + ".apiresource.all",
+                   MicroServiceName + ".all")]
+            public const string ApiResourcePackages = "permission:apiresource.packages";
+            #endregion
+
+            #region 微服务 - 包市场 - 添加
+            [Description(" 微服务 - 包市场 - 添加")]
+            [PolicyClaimValues(true,
+                   MicroServiceName + ".apiresource.postpackages",
+                   MicroServiceName + ".apiresource.all",
+                   MicroServiceName + ".all")]
+            public const string ApiResourcePostPackage = "permission:apiresource.postpackages";
+            #endregion
+
+            #region 微服务 - 包市场 - 删除
+            [Description(" 微服务 - 包市场 - 删除")]
+            [PolicyClaimValues(true,
+                   MicroServiceName + ".apiresource.deletepackage",
+                   MicroServiceName + ".apiresource.all",
+                   MicroServiceName + ".all")]
+            public const string ApiResourceDeletePackage = "permission:apiresource.deletepackage";
             #endregion
             #endregion
 

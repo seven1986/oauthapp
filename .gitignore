@@ -11,7 +11,7 @@
 /IdentityServer4.MicroService/IdentityServer4.MicroService.csproj.user
 
 /packages
-/IdentityServer4.MicroService.SDKGen/bin
-/IdentityServer4.MicroService.SDKGen/obj
-/IdentityServer4.MicroService.SDKGen/Properties/PublishProfiles
-/IdentityServer4.MicroService.SDKGen/IdentityServer4.MicroService.SDKGen.csproj.user
+/IdentityServer4.MicroService.AzureJobs/bin
+/IdentityServer4.MicroService.AzureJobs/obj
+/IdentityServer4.MicroService.AzureJobs/Properties/PublishProfiles
+/IdentityServer4.MicroService.AzureJobs/IdentityServer4.MicroService.AzureJobs.csproj.user

@@ -381,7 +381,7 @@ namespace IdentityServer4.MicroService.Controllers
 
                 var result = await _emailSender.SendEmailAsync(
                     SendCloudMailTemplates.reset_password,
-                    model.Email,
+                    new string[] { model.Email },
                      new Dictionary<string, string[]>()
                      {
                          { "%callbackUrl%",new string[] { callbackUrl }}
@@ -498,7 +498,7 @@ namespace IdentityServer4.MicroService.Controllers
 
                 var result = await _emailSender.SendEmailAsync(
                     SendCloudMailTemplates.security_code,
-                    await _userManager.GetEmailAsync(user),
+                    new string[] { await _userManager.GetEmailAsync(user) },
                     new Dictionary<string, string[]>()
                     {
                         { "%code%",new string[] { code }}
@@ -678,7 +678,7 @@ namespace IdentityServer4.MicroService.Controllers
 
             var sendEmailResult = await _emailSender.SendEmailAsync(
                 SendCloudMailTemplates.test_template_active,
-                user.Email,
+                new string[] { user.Email },
                 new Dictionary<string, string[]>()
                 {
                         { "%name%", new string[] { user.Email } },
