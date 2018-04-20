@@ -108,6 +108,7 @@
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\IdentityServer4MicroService - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\IdentityServer4MicroService - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\jobserver - Web Deploy.pubxml" />
     <None Include="Properties\webjob-publish-settings.json" />
   </ItemGroup>
   <ItemGroup>
