@@ -206,7 +206,7 @@ namespace IdentityServer4.MicroService
 
             #region 微服务 - 包市场 - 添加
             [Description("微服务 - 包市场 - 添加")]
-            [PolicyClaimValues(true,
+            [PolicyClaimValues(
                    MicroServiceName + ".apiresource.postpackages",
                    MicroServiceName + ".apiresource.all",
                    MicroServiceName + ".all")]
@@ -215,7 +215,7 @@ namespace IdentityServer4.MicroService
 
             #region 微服务 - 包市场 - 删除
             [Description("微服务 - 包市场 - 删除")]
-            [PolicyClaimValues(true,
+            [PolicyClaimValues(
                    MicroServiceName + ".apiresource.deletepackage",
                    MicroServiceName + ".apiresource.all",
                    MicroServiceName + ".all")]

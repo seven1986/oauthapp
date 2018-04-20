@@ -1,11 +1,9 @@
 ﻿﻿; (function () {
+
     var clientSDKs = [];
     var serverSDKs = [];
-    window.swaggerCodeGenSubscriptionKey = '35a0672e5ff94b72a2e658e3debb2237';
-    /**
-     * token expiredAt 1555560241
-     */
-    window.swaggerCodeGenToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQxQjg0RkEwRTM4MEVGMzVEMTkxREFGNjczQjFENkMwRTgzQUY0RkYiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJRYmhQb09PQTd6WFJrZHIyYzdIV3dPZzY5UDgifQ.eyJuYmYiOjE1MjQxMjg5MTMsImV4cCI6MTU1NTY2NDkxMywiaXNzIjoiaHR0cHM6Ly9pZHMuaml4aXVjbG91ZC5jbiIsImF1ZCI6WyJodHRwczovL2lkcy5qaXhpdWNsb3VkLmNuL3Jlc291cmNlcyIsImlkczQubXMiXSwiY2xpZW50X2lkIjoidGVzdCIsInN1YiI6IjIiLCJhdXRoX3RpbWUiOjE1MjQxMjg4ODgsImlkcCI6ImxvY2FsIiwicGVybWlzc2lvbiI6ImlkczQubXMuY2xpZW50Lmlzc3VldG9rZW4saWRzNC5tcy5hcGlyZXNvdXJjZS52ZXJpZnllbWFpbCxpZHM0Lm1zLmFwaXJlc291cmNlLnBhY2thZ2VzIiwicm9sZSI6WyJ1c2VycyIsImRldmVsb3BlciJdLCJjbGllbnRfdGVuYW50Ijp7ImlkIjoxLCJuYW1lIjoi5ZCJ56eAIiwiY2xhaW1zIjp7fX0sInNjb3BlIjpbIm9wZW5pZCIsInByb2ZpbGUiLCJpZHM0Lm1zLmFsbCJdLCJhbXIiOlsicHdkIl19.U6nOAUl65PwYJ5NceVmvHmMz2088fmzY8WWzvp1EEtWJWCRMgsj8iw4FaqgFe7F8oufR1v7_Ex7OkoudrtRRpnApGz0oG6AK8lOCqYDxBpMjAkaKVGJsThK0UnH6VsQl_x5LjCYh2gAunJipjC1yhsR6YxA69bHvDSH3-sDLg08VGJYZt6PLmrQRby3OheK8TGqLnzNkglPqJ1b7kcoAkmvCsh7jx3r55RkmjTe1eY2aXaVghbEUYvFwnK42K_w2iLkyGU9Kaqi1GKW7Hhb9n4Hk88O7bDbZzTUFtlr8sbV3D3PDNDSeYlfpn0hhZG6Z99ifDrqozt6vC-9PxGypmg';
+    window.swaggerCodeGenSubscriptionKey = '28f9cac6b28348a0b3950603eee5b2ec';
+    window.swaggerCodeGenToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQxQjg0RkEwRTM4MEVGMzVEMTkxREFGNjczQjFENkMwRTgzQUY0RkYiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJRYmhQb09PQTd6WFJrZHIyYzdIV3dPZzY5UDgifQ.eyJuYmYiOjE1MjQyMDY0NjYsImV4cCI6MTU1NTc0MjQ2NiwiaXNzIjoiaHR0cHM6Ly9pZHMuc2hpbmdzb3UuY29tIiwiYXVkIjpbImh0dHBzOi8vaWRzLnNoaW5nc291LmNvbS9yZXNvdXJjZXMiLCJpZHM0Lm1zIl0sImNsaWVudF9pZCI6InRlc3QiLCJzdWIiOiIyIiwiYXV0aF90aW1lIjoxNTI0MjA2NDYxLCJpZHAiOiJsb2NhbCIsInBlcm1pc3Npb24iOiJpZHM0Lm1zLmFwaXJlc291cmNlLnZlcmlmeWVtYWlsLGlkczQubXMuYXBpcmVzb3VyY2UucGFja2FnZXMsaWRzNC5tcy5hcGlyZXNvdXJjZS5wb3N0cGFja2FnZXMsaWRzNC5tcy5hcGlyZXNvdXJjZS5kZWxldGVwYWNrYWdlLGlkczQubXMuY2xpZW50Lmlzc3VldG9rZW4iLCJyb2xlIjpbInVzZXJzIiwiZGV2ZWxvcGVyIl0sImNsaWVudF90ZW5hbnQiOnsiaWQiOjEsIm5hbWUiOiLml63lrofnianogZTnvZEiLCJjbGFpbXMiOnt9fSwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsImlkczQubXMuYWxsIl0sImFtciI6WyJwd2QiXX0.PWb5Wp79rc_N50Q0erbvqIpdlbzGo0958bfH_lNqO78_cOFtgpLm-pl-gGwMWKNEl5ZdgeZpJz2lfhY8syIaRh-hZmS3RY_9z4DcpbIc2Cmeyv2Y2xOjQ0DRhIgfgc89p0cIWtIl0oF7gpV76raP4ka0yI1WXKUdddprqTinfDegiZRXwLkSsLiir8IzwvtHqJP_GAufJWOGAy886JDL2QcX1zp-JrtDibawPyOpOpJhlV21TjWJ0EcYhooKuuNP9SmBBXRtODO5-qcbK0oVaf_UhSZ1h6Fqjbjf0C1Z0a_UDzMuiXpy7Ya3EsuFcaHIVxQTDjvUbuuJnGqTvjPXIg';
     window.swaggerCodeGenCurrentItem = {};
     window.swaggerCodeGenCurrentItemIsServer = {};
 
@@ -94,7 +92,7 @@
             '</div>' +
             '</div>';
 
-        $('#DocumentationOperationDetails').append(_layer);
+         $('#codegen_azure').before(_layer);
     }
 
     function ShowSubscription() {
@@ -102,7 +100,7 @@
             '<button id="btnShowSubscription"' +
             'type="button"' +
             'class="btn btn-default" style="float:right;margin-left: 5px" onclick="sub_Modal()">' +
-            '<span class="glyphicon glyphicon-star"></span> 订阅' +
+            '<span class="glyphicon glyphicon-star"></span>' +
             '</button>';
 
         $('#apiMenu').parent().before(_layer);
@@ -182,6 +180,9 @@
     }
 
     window.postSubscriber = function () {
+         var doc = Customization.dataModel['DocumentationOperationDetails'].operation;
+         var requestHost = doc.scheme + '//' + doc.host;
+
         var emailTest = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
         var email = $('#subscriberEmail').val();
         if (!emailTest.test(email)) {
@@ -193,7 +194,7 @@
 
         $.ajax({
             type: "POST",
-            url: "https://openapis.ixingban.com/identity/ApiResource/" + apiId + "/Subscriptions/VerifyEmail",
+            url: requestHost + "/identity/ApiResource/" + apiId + "/Subscriptions/VerifyEmail",
             data: JSON.stringify({ email: email }),
             datatype: "json",
             headers: {
@@ -207,8 +208,6 @@
             alert(JSON.stringify(r));
         });
     }
-
-    //var hosturl = location.protocol + location.host;
 
     const _template_codegen_azure = `<div>
                   <div id="CodegenModal" class="modal fade">
@@ -270,58 +269,81 @@
                   </div>
               </div>`;
 
-    $(function () {
-        $('#codegen_azure').html(_template_codegen_azure);
+     $(function ()
+     {
+         if ($('#apiMenu').length > 0)
+         {
+             var doc = Customization.dataModel['DocumentationOperationDetails'].operation,
+                 codeGenClients = "https://" + doc.host + "/identity/CodeGen/Clients",
+                 codeGenServers = "https://" + doc.host + "/identity/CodeGen/Servers",
+                 apiResourcePackages = "https://" + doc.host + "/identity/ApiResource/" + doc.api.id + "/Packages";
 
-        var codegenClientsData = localStorage.getItem('codegenClientsData');
-        if (codegenClientsData == null) {
-            $.getJSON("https://ids.jixiucloud.cn/CodeGen/Clients").then(r => {
-                clientSDKs = r.data;
-                ShowClientSDKs();
-                localStorage.setItem('codegenClientsData', JSON.stringify(clientSDKs));
-            });
-        }
-        else {
-            clientSDKs = JSON.parse(codegenClientsData);
-            ShowClientSDKs();
-        }
+             $('#codegen_azure').html(_template_codegen_azure);
 
-        var codegenServersData = localStorage.getItem('codegenServersData');
-        if (codegenServersData == null) {
-            $.getJSON("https://ids.jixiucloud.cn/CodeGen/Servers").then(r => {
-                serverSDKs = r.data;
-                ShowServerSDKs();
-                localStorage.setItem('codegenServersData', JSON.stringify(serverSDKs));
-            });
-        }
-        else {
-            serverSDKs = JSON.parse(codegenServersData);
-            ShowServerSDKs();
-        }
+             var codegenClientsData = localStorage.getItem('codegenClientsData');
+             if (codegenClientsData == null) {
+                 $.ajax({
+                     type: "GET",
+                     url: codeGenClients,
+                     datatype: "json",
+                     headers: {
+                         "Ocp-Apim-Subscription-Key": swaggerCodeGenSubscriptionKey,
+                         "Authorization": "Bearer " + swaggerCodeGenToken
+                     },
+                     contentType: "application/json; charset=utf-8"
+                 }).then(r => {
+                     clientSDKs = r.data;
+                     ShowClientSDKs();
+                     localStorage.setItem('codegenClientsData', JSON.stringify(clientSDKs));
+                 });
+             }
+             else {
+                 clientSDKs = JSON.parse(codegenClientsData);
+                 ShowClientSDKs();
+             }
 
-        ShowSubscription();
+             var codegenServersData = localStorage.getItem('codegenServersData');
+             if (codegenServersData == null) {
+                 $.ajax({
+                     type: "GET",
+                     url: codeGenServers,
+                     datatype: "json",
+                     headers: {
+                         "Ocp-Apim-Subscription-Key": swaggerCodeGenSubscriptionKey,
+                         "Authorization": "Bearer " + swaggerCodeGenToken
+                     },
+                     contentType: "application/json; charset=utf-8"
+                 }).then(r => {
+                     serverSDKs = r.data;
+                     ShowServerSDKs();
+                     localStorage.setItem('codegenServersData', JSON.stringify(serverSDKs));
+                 });
+             }
+             else {
+                 serverSDKs = JSON.parse(codegenServersData);
+                 ShowServerSDKs();
+             }
 
+             ShowSubscription();
 
-        var apiId = location.href.replace(location.protocol + '//' + location.host + '/docs/services/', '').split('/')[0];
+             $.ajax({
+                 type: "GET",
+                 url: apiResourcePackages,
+                 datatype: "json",
+                 headers: {
+                     "Ocp-Apim-Subscription-Key": swaggerCodeGenSubscriptionKey,
+                     "Authorization": "Bearer " + swaggerCodeGenToken
+                 },
+                 contentType: "application/json; charset=utf-8"
+             }).done(r => {
 
-        $.ajax({
-            type: "GET",
-            url: "https://openapis.ixingban.com/identity/ApiResource/" + apiId + "/Packages",
-            datatype: "json",
-            headers: {
-                "Ocp-Apim-Subscription-Key": swaggerCodeGenSubscriptionKey,
-                "Authorization": "Bearer " + swaggerCodeGenToken
-            },
-            contentType: "application/json; charset=utf-8"
-        }).done(r => {
+                 if (r.code == 200) {
+                     ShowPackages(r.data);
+                 }
 
-            if (r.code == 200) {
-                ShowPackages(r.data);
-            }
-
-        }).fail(r => {
-            alert(JSON.stringify(r));
-        });
-
+             }).fail(r => {
+                 alert(JSON.stringify(r));
+             });
+         }
     });
 })();
