@@ -174,7 +174,8 @@
         });
     }
 
-    window.sub_Modal = function () {
+    window.sub_Modal = function ()
+    {
         $('#subModal').modal('show');
     }
 
