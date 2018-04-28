@@ -33,14 +33,15 @@ namespace IdentityServer4.MicroService.Controllers
 
         public IActionResult Index()
         {
-            var cul = System.Globalization.CultureInfo.CurrentCulture.Name;
-
-            var ll = l["无效的登录尝试"];
-
             return View();
         }
 
         public IActionResult Error()
+        {
+            return View();
+        }
+
+        public IActionResult About()
         {
             return View();
         }

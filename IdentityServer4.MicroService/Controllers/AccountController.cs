@@ -22,6 +22,7 @@ using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.MicroService.Models.Views.Account;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 using static IdentityServer4.MicroService.AppDefaultData;
+using IdentityServer4.Events;
 
 namespace IdentityServer4.MicroService.Controllers
 {
@@ -59,6 +60,7 @@ namespace IdentityServer4.MicroService.Controllers
         private readonly AccountService _account;
         private readonly IdentityDbContext _userContext;
         private readonly ConfigurationDbContext _configDbContext;
+        private readonly IEventService _events;
         #endregion
 
         #region 构造函数
@@ -74,7 +76,8 @@ namespace IdentityServer4.MicroService.Controllers
             ILogger<AccountController> logger,
             IdentityDbContext userContext,
             TenantService _tenantService,
-            TenantDbContext _tenantDb)
+            TenantDbContext _tenantDb,
+            IEventService events)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -87,6 +90,8 @@ namespace IdentityServer4.MicroService.Controllers
 
             tenantService = _tenantService;
             tenantDb = _tenantDb;
+
+            _events = events;
         } 
         #endregion
 
@@ -120,7 +125,7 @@ namespace IdentityServer4.MicroService.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
-                    
+
                     return RedirectToLocal(returnUrl, model.Email, model.Password);
                 }
                 if (result.RequiresTwoFactor)
@@ -246,13 +251,16 @@ namespace IdentityServer4.MicroService.Controllers
             {
                 return RedirectToAction(nameof(Login));
             }
-
+            
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
             if (result.Succeeded)
             {
+                var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+
                 _logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
-                return RedirectToLocal(returnUrl,null,null);
+
+                return RedirectToLocal(returnUrl, user.Email, null);
             }
             if (result.RequiresTwoFactor)
             {
@@ -290,6 +298,23 @@ namespace IdentityServer4.MicroService.Controllers
                 }
 
                 var user = new AppUser { UserName = model.Email, Email = model.Email };
+
+                /*以存在的邮箱账号，但没有验证通过*/
+                var existedUser = await _userManager.FindByEmailAsync(model.Email);
+
+                if (existedUser != null)
+                {
+                    var IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(existedUser);
+
+                    if (!IsEmailConfirmed)
+                    {
+                        await SendActiveEmail(existedUser);
+                    }
+
+                    ModelState.AddModelError(string.Empty, "已存在的账号");
+
+                    return View(model);
+                }
 
                 var result = await CreateUser(user);
 
@@ -686,16 +711,16 @@ namespace IdentityServer4.MicroService.Controllers
                 });
 
             return sendEmailResult;
-        } 
+        }
         #endregion
 
-        private IActionResult RedirectToLocal(string returnUrl,string email,string password)
+        private IActionResult RedirectToLocal(string returnUrl, string email, string password = "666666")
         {
             if (string.IsNullOrWhiteSpace(returnUrl))
             {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
-
+            
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);

@@ -11,7 +11,7 @@ using System;
 namespace IdentityServer4.MicroService.Data.Migrations.IdentityServer.ConfigurationDb
 {
     [DbContext(typeof(ConfigurationDbContext))]
-    [Migration("20180409054310_InitialIdentityServerConfigurationDbMigration")]
+    [Migration("20180423053616_InitialIdentityServerConfigurationDbMigration")]
     partial class InitialIdentityServerConfigurationDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

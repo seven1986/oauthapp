@@ -11,14 +11,14 @@ using System;
 namespace IdentityServer4.MicroService.Data.Migrations.Tenant
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20180309033236_InitialTenantDbMigration")]
+    [Migration("20180423053657_InitialTenantDbMigration")]
     partial class InitialTenantDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
+                .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("IdentityServer4.MicroService.Tenant.AppTenant", b =>
