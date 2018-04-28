@@ -704,6 +704,5 @@ namespace IdentityServer4.MicroService
             });
             #endregion
         }
-
     }
 }
