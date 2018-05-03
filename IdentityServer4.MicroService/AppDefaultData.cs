@@ -478,8 +478,6 @@ namespace IdentityServer4.MicroService
             /// %SubscritionUrl%
             /// %DelSubscritionUrl%
             /// %apiId%
-            /// %npmjQuery%
-            /// %npmAngular2%
             /// %serviceName%
             /// </summary>
             [SendCloudTemplate("验证邮箱")]

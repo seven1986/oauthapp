@@ -2,10 +2,11 @@
 
     var clientSDKs = [];
     var serverSDKs = [];
-    window.swaggerCodeGenSubscriptionKey = '28f9cac6b28348a0b3950603eee5b2ec';
-    window.swaggerCodeGenToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQxQjg0RkEwRTM4MEVGMzVEMTkxREFGNjczQjFENkMwRTgzQUY0RkYiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJRYmhQb09PQTd6WFJrZHIyYzdIV3dPZzY5UDgifQ.eyJuYmYiOjE1MjQyMDY0NjYsImV4cCI6MTU1NTc0MjQ2NiwiaXNzIjoiaHR0cHM6Ly9pZHMuc2hpbmdzb3UuY29tIiwiYXVkIjpbImh0dHBzOi8vaWRzLnNoaW5nc291LmNvbS9yZXNvdXJjZXMiLCJpZHM0Lm1zIl0sImNsaWVudF9pZCI6InRlc3QiLCJzdWIiOiIyIiwiYXV0aF90aW1lIjoxNTI0MjA2NDYxLCJpZHAiOiJsb2NhbCIsInBlcm1pc3Npb24iOiJpZHM0Lm1zLmFwaXJlc291cmNlLnZlcmlmeWVtYWlsLGlkczQubXMuYXBpcmVzb3VyY2UucGFja2FnZXMsaWRzNC5tcy5hcGlyZXNvdXJjZS5wb3N0cGFja2FnZXMsaWRzNC5tcy5hcGlyZXNvdXJjZS5kZWxldGVwYWNrYWdlLGlkczQubXMuY2xpZW50Lmlzc3VldG9rZW4iLCJyb2xlIjpbInVzZXJzIiwiZGV2ZWxvcGVyIl0sImNsaWVudF90ZW5hbnQiOnsiaWQiOjEsIm5hbWUiOiLml63lrofnianogZTnvZEiLCJjbGFpbXMiOnt9fSwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsImlkczQubXMuYWxsIl0sImFtciI6WyJwd2QiXX0.PWb5Wp79rc_N50Q0erbvqIpdlbzGo0958bfH_lNqO78_cOFtgpLm-pl-gGwMWKNEl5ZdgeZpJz2lfhY8syIaRh-hZmS3RY_9z4DcpbIc2Cmeyv2Y2xOjQ0DRhIgfgc89p0cIWtIl0oF7gpV76raP4ka0yI1WXKUdddprqTinfDegiZRXwLkSsLiir8IzwvtHqJP_GAufJWOGAy886JDL2QcX1zp-JrtDibawPyOpOpJhlV21TjWJ0EcYhooKuuNP9SmBBXRtODO5-qcbK0oVaf_UhSZ1h6Fqjbjf0C1Z0a_UDzMuiXpy7Ya3EsuFcaHIVxQTDjvUbuuJnGqTvjPXIg';
+     window.swaggerCodeGenSubscriptionKey = '35a0672e5ff94b72a2e658e3debb2237';
+     window.swaggerCodeGenToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQxQjg0RkEwRTM4MEVGMzVEMTkxREFGNjczQjFENkMwRTgzQUY0RkYiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJRYmhQb09PQTd6WFJrZHIyYzdIV3dPZzY5UDgifQ.eyJuYmYiOjE1MjQxMjg5MTMsImV4cCI6MTU1NTY2NDkxMywiaXNzIjoiaHR0cHM6Ly9pZHMuaml4aXVjbG91ZC5jbiIsImF1ZCI6WyJodHRwczovL2lkcy5qaXhpdWNsb3VkLmNuL3Jlc291cmNlcyIsImlkczQubXMiXSwiY2xpZW50X2lkIjoidGVzdCIsInN1YiI6IjIiLCJhdXRoX3RpbWUiOjE1MjQxMjg4ODgsImlkcCI6ImxvY2FsIiwicGVybWlzc2lvbiI6ImlkczQubXMuY2xpZW50Lmlzc3VldG9rZW4saWRzNC5tcy5hcGlyZXNvdXJjZS52ZXJpZnllbWFpbCxpZHM0Lm1zLmFwaXJlc291cmNlLnBhY2thZ2VzIiwicm9sZSI6WyJ1c2VycyIsImRldmVsb3BlciJdLCJjbGllbnRfdGVuYW50Ijp7ImlkIjoxLCJuYW1lIjoi5ZCJ56eAIiwiY2xhaW1zIjp7fX0sInNjb3BlIjpbIm9wZW5pZCIsInByb2ZpbGUiLCJpZHM0Lm1zLmFsbCJdLCJhbXIiOlsicHdkIl19.U6nOAUl65PwYJ5NceVmvHmMz2088fmzY8WWzvp1EEtWJWCRMgsj8iw4FaqgFe7F8oufR1v7_Ex7OkoudrtRRpnApGz0oG6AK8lOCqYDxBpMjAkaKVGJsThK0UnH6VsQl_x5LjCYh2gAunJipjC1yhsR6YxA69bHvDSH3-sDLg08VGJYZt6PLmrQRby3OheK8TGqLnzNkglPqJ1b7kcoAkmvCsh7jx3r55RkmjTe1eY2aXaVghbEUYvFwnK42K_w2iLkyGU9Kaqi1GKW7Hhb9n4Hk88O7bDbZzTUFtlr8sbV3D3PDNDSeYlfpn0hhZG6Z99ifDrqozt6vC-9PxGypmg';
     window.swaggerCodeGenCurrentItem = {};
-    window.swaggerCodeGenCurrentItemIsServer = {};
+     window.swaggerCodeGenCurrentItemIsServer = {};
+     var portalurl = "https://openapis.ixingban.com";
 
     function ShowClientSDKs() {
         var _layer = '<div class="btn-group pull-right" role="group" style="margin-right:5px">' +
@@ -50,16 +51,19 @@
         $('#apiMenu').parent().after(_layer);
     }
 
-     function ShowPackages(packageItems) {
+    function ShowPackages(packageItems) {
+
          if (packageItems.length < 1) { return; }
 
-        var itemsStr= packageItems.map(x => {
-            return '<tr>' +
-                '<td><a href="' + x.link + '" target="_blank">' + x.rowKey + '</a></td>' +
-                '<td><a href="' + x.link + '" target="_blank"><img src="https://img.shields.io/npm/v/' + x.icon + '.svg" /></a></td>' +
-                '<td><img src="https://img.shields.io/npm/dw/' + x.icon + '.svg" /></td>' +
-                '<td>' + x.publisher + '</td>' +
-                '</tr>';
+         var itemsStr = packageItems.filter(function (x) { return x.packagePlatform == 'npm' }).map(function (x) {
+
+             return '<tr>' +
+                 '<td><a href="' + x.link + '" target="_blank">' + x.rowKey + '</a></td>' +
+                 '<td><a href="' + x.link + '" target="_blank"><img src="https://img.shields.io/npm/v/' + x.icon + '.svg" /></a></td>' +
+                 '<td><img src="https://img.shields.io/npm/dw/' + x.icon + '.svg" /></td>' +
+                 '<td>' + x.publisher + '</td>' +
+                 '</tr>';
+
          }).join('');
 
         var _layer = '<div class="panel" style="margin-top:15px">' +
@@ -93,6 +97,27 @@
             '</div>';
 
          $('#codegen_azure').before(_layer);
+
+
+        var postmanBtn = '';
+        var postmanChrome = packageItems.filter(x => x.packagePlatform == 'postman.chrome');
+        var postmanPC = packageItems.filter(x => x.packagePlatform == 'postman.pc');
+        if (postmanChrome.length == 1)
+        {
+            postmanBtn += '<li><a href="' + postmanChrome[0].link + '" target="_blank">Postman for Chrome</a></li>';
+        }
+
+        if (postmanPC.length == 1)
+        {
+            postmanBtn += '<li><a href="' + postmanPC[0].link + '" target="_blank">Postman for Windows</a></li>';
+        }
+
+        if (postmanBtn != '')
+        {
+            postmanBtn = '<div class="btn-group" role="group" style="margin-left:5px"><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Postman <span class="caret"></span> </button><ul class="dropdown-menu">' + postmanBtn + '</ul></div>';
+
+            $('#btnOpenConsole').after(postmanBtn);
+        }
     }
 
     function ShowSubscription() {
@@ -100,7 +125,7 @@
             '<button id="btnShowSubscription"' +
             'type="button"' +
             'class="btn btn-default" style="float:right;margin-left: 5px" onclick="sub_Modal()">' +
-            '<span class="glyphicon glyphicon-star"></span>' +
+            '<span>订阅</span>' +
             '</button>';
 
         $('#apiMenu').parent().before(_layer);
@@ -180,9 +205,6 @@
     }
 
     window.postSubscriber = function () {
-         var doc = Customization.dataModel['DocumentationOperationDetails'].operation;
-         var requestHost = doc.scheme + '//' + doc.host;
-
         var emailTest = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
         var email = $('#subscriberEmail').val();
         if (!emailTest.test(email)) {
@@ -194,7 +216,7 @@
 
         $.ajax({
             type: "POST",
-            url: requestHost + "/identity/ApiResource/" + apiId + "/Subscriptions/VerifyEmail",
+            url: portalurl + "/identity/ApiResource/" + apiId + "/Subscriptions/VerifyEmail",
             data: JSON.stringify({ email: email }),
             datatype: "json",
             headers: {
@@ -273,10 +295,9 @@
      {
          if ($('#apiMenu').length > 0)
          {
-             var doc = Customization.dataModel['DocumentationOperationDetails'].operation,
-                 codeGenClients = "https://" + doc.host + "/identity/CodeGen/Clients",
-                 codeGenServers = "https://" + doc.host + "/identity/CodeGen/Servers",
-                 apiResourcePackages = "https://" + doc.host + "/identity/ApiResource/" + doc.api.id + "/Packages";
+             var codeGenClients = portalurl + "/identity/CodeGen/Clients",
+                 codeGenServers = portalurl + "/identity/CodeGen/Servers",
+                 apiResourcePackages = portalurl + "/identity/ApiResource/" + location.href.split('/')[5] + "/Packages";
 
              $('#codegen_azure').html(_template_codegen_azure);
 

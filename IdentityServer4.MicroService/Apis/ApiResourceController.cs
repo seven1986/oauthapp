@@ -1315,24 +1315,6 @@ namespace IdentityServer4.MicroService.Apis
                           protocol: HttpContext.Request.Scheme);
                 #endregion
 
-                #region npmAngular2
-                var angular2NpmOptions = await GetNpmOptions(Language.angular2, id.ToString());
-                var npmAngular2 = string.Empty;
-                if (angular2NpmOptions != null && !string.IsNullOrWhiteSpace(angular2NpmOptions.name))
-                {
-                    npmAngular2 = angular2NpmOptions.name;
-                }
-                #endregion
-
-                #region npmjQuery
-                var jQueryNpmOptions = await GetNpmOptions(Language.jQuery, id.ToString());
-                string npmjQuery = string.Empty;
-                if (jQueryNpmOptions != null && !string.IsNullOrWhiteSpace(jQueryNpmOptions.name))
-                {
-                    npmjQuery = jQueryNpmOptions.name;
-                }
-                #endregion
-
                 #region serviceName
                 var serviceName = string.Empty;
                 var pubConfig = await _PublishConfiguration(id);
@@ -1358,8 +1340,6 @@ namespace IdentityServer4.MicroService.Apis
                         { "%SubscritionUrl%", new string[] { callbackUrl } },
                         { "%DelSubscritionUrl%", new string[] { DelSubscritionUrl } },
                         { "%apiId%", new string[] { id.ToString() } },
-                        { "%npmjQuery%", new string[] { npmjQuery } },
-                        { "%npmAngular2%", new string[] { npmAngular2 } },
                         { "%serviceName%", new string[] { serviceName } },
                     });
 
@@ -1378,29 +1358,6 @@ namespace IdentityServer4.MicroService.Apis
             {
                 return new ApiResult<bool>(l, ApiResourceControllerEnums.Subscription_VerifyEmailFailed, ex.Message);
             }
-        }
-        async Task<CodeGenNpmOptionsModel> GetNpmOptions(Language lan, string id)
-        {
-            var key = CodeGenControllerKeys.NpmOptions + Enum.GetName(typeof(Language), lan) + ":" + id;
-
-            var cacheResult = await redis.GetAsync(key);
-
-            if (!string.IsNullOrWhiteSpace(cacheResult))
-            {
-                try
-                {
-                    var result = JsonConvert.DeserializeObject<CodeGenNpmOptionsModel>(cacheResult);
-
-                    return result;
-                }
-
-                catch
-                {
-                    return null;
-                }
-            }
-
-            return null;
         }
         #endregion
 

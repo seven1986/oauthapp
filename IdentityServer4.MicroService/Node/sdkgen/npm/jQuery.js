@@ -81,8 +81,9 @@ var IGenerator = function (doc, opts) {
              * 特殊处理，当前网关无法导入file的operation.parameters
              * 所以维护一个静态集合，如果是存在就自动添加model参数
              */
+            debugger
             if (['fileimage', 'filepost'].indexOf(methodName.toLocaleLowerCase()) > -1) {
-                bodyParams = 'model';
+                bodyParams = 'formData';
             }
 
             fn += `    */\r\n`;
@@ -114,7 +115,12 @@ var IGenerator = function (doc, opts) {
             }
 
             if (bodyParams != '') {
-                fn += `      return openapis._request({url:url,data:JSON.stringify(model),method:'${method.toUpperCase()}'});`;
+                if (bodyParams != 'formData') {
+                    fn += `      return openapis._request({url:url,data:JSON.stringify(model),method:'${method.toUpperCase()}'});`;
+                }
+                else {
+                    fn += `      return openapis._request({url:url,processData: false,contentType: false,data:formData,method:'${method.toUpperCase()}'});`;
+                }
             }
             else {
                 fn += `      return openapis._request({url:url,method:'${method.toUpperCase()}'});`;
@@ -127,12 +133,15 @@ var IGenerator = function (doc, opts) {
     });
 
     var fnStr = `;(function () {
-    var sdk = new Object();\r\n
-    sdk.basepath = function(){ return openapis._settings.server_endpoint + '${doc.basePath}'; }\r\n\r\n` +
+      var sdk = new Object();
+          sdk.basepath = function()
+            { 
+              return openapis._settings.server_endpoint + '${doc.basePath}'; 
+            };\r\n\r\n` +
         fns.join('\n\n') +
         `\r\n
-    window.openapis.${sdkName} = sdk;
-    })()`;
+            window.openapis.${sdkName} = sdk;
+            })()`;
 
     return fnStr;
 }

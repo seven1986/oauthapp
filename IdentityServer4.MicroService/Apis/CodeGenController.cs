@@ -19,7 +19,6 @@ using IdentityServer4.MicroService.Models.Apis.CodeGenController;
 using IdentityServer4.MicroService.CacheKeys;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
-using Microsoft.WindowsAzure.Storage.Table;
 
 namespace IdentityServer4.MicroService.Apis
 {
