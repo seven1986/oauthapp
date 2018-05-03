@@ -36,7 +36,7 @@ namespace IdentityServer4.MicroService.Models.Apis.CodeGenController
 
         /// <summary>
         /// 包平台
-        /// npm/nuget/gradle/spm
+        /// npm/nuget/gradle/spm/postman
         /// </summary>
         public string PackagePlatform { get; set; }
 
