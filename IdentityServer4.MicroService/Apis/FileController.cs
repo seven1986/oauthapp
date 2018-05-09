@@ -31,11 +31,11 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 构造函数
         public FileController(
-            AzureStorageService _azure,
-            IStringLocalizer<FileController> localizer)
+            Lazy<AzureStorageService> _azure,
+            Lazy<IStringLocalizer<FileController>> localizer)
         {
-            azure = _azure;
-            l = localizer;
+            azure = _azure.Value;
+            l = localizer.Value;
         } 
         #endregion
 

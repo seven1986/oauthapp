@@ -16,6 +16,7 @@ namespace IdentityServer4.MicroService.AzureJobs
     public class Functions
     {
         readonly static AzureStorageService storage = new AzureStorageService();
+
         readonly static EmailService mail = new EmailService();
 
         public static async Task ReleasePackage_NPM([QueueTrigger("publish-package-npm")] string packageUrl, TextWriter log)

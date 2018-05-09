@@ -54,29 +54,30 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 构造函数
         public UserController(
-            IdentityDbContext _db,
-            RedisService _redis,
-            IStringLocalizer<UserController> _localizer,
-            ISmsSender _sms,
-            EmailService _email,
-            UserManager<AppUser> _userManager,
-            TenantDbContext _tenantDbContext,
-            ConfigurationDbContext _configDbContext,
-            IDataProtectionProvider _provider)
+            Lazy<IdentityDbContext> _db,
+            Lazy<RedisService> _redis,
+            Lazy<IStringLocalizer<UserController>> _localizer,
+            Lazy<ISmsSender> _sms,
+            Lazy<EmailService> _email,
+            Lazy<UserManager<AppUser>> _userManager,
+            Lazy<TenantDbContext> _tenantDbContext,
+            Lazy<ConfigurationDbContext> _configDbContext,
+            Lazy<IDataProtectionProvider> _provider)
         {
             // 多语言
-            l = _localizer;
-            db = _db;
-            redis = _redis;
-            sms = _sms;
-            email = _email;
-            userManager = _userManager;
-            tenantDbContext = _tenantDbContext;
-            configDbContext = _configDbContext;
-            protector = _provider.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
+            l = _localizer.Value;
+            db = _db.Value;
+            redis = _redis.Value;
+            sms = _sms.Value;
+            email = _email.Value;
+            userManager = _userManager.Value;
+            tenantDbContext = _tenantDbContext.Value;
+            configDbContext = _configDbContext.Value;
+            protector = _provider.Value.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
         }
         #endregion
 
+        #region 用户
         #region 用户 - 列表
         /// <summary>
         /// 用户 - 列表
@@ -166,7 +167,7 @@ namespace IdentityServer4.MicroService.Apis
              });
 
             return result;
-        } 
+        }
         #endregion
 
         #region 用户 - 详情
@@ -202,7 +203,7 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             return new ApiResult<AppUser>(entity);
-        } 
+        }
         #endregion
 
         #region 用户 - 创建
@@ -574,9 +575,30 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 用户 - 注册
+        #region 用户 - 错误码表
         /// <summary>
-        /// 用户 - 注册
+        /// 用户 - 错误码表
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        /// 用户代码对照表
+        /// </remarks>
+        [HttpGet("Codes")]
+        [AllowAnonymous]
+        [SwaggerOperation("User/Codes")]
+        public List<ErrorCodeModel> Codes()
+        {
+            var result = _Codes<UserControllerEnums>();
+
+            return result;
+        }
+        #endregion
+        #endregion
+
+        #region 用户 - 注册
+        #region 用户 - 注册 - 提交
+        /// <summary>
+        /// 用户 - 注册 - 提交
         /// </summary>
         /// <returns></returns>
         /// <remarks>
@@ -875,8 +897,8 @@ namespace IdentityServer4.MicroService.Apis
             #region 发送验证码
             var verifyCode = random.Next(111111, 999999).ToString();
 
-                verifyCode = Protect(verifyCode,
-                    TimeSpan.FromSeconds(UserControllerKeys.VerifyCode_Expire_Email));
+            verifyCode = Protect(verifyCode,
+                TimeSpan.FromSeconds(UserControllerKeys.VerifyCode_Expire_Email));
 
             await email.SendEmailAsync(
                 SendCloudMailTemplates.verify_email,
@@ -893,26 +915,8 @@ namespace IdentityServer4.MicroService.Apis
             await redis.IncrementAsync(dailyLimitKey);
 
             return new ApiResult<string>();
-        } 
-        #endregion
-
-        #region 用户 - 错误码表
-        /// <summary>
-        /// 用户 - 错误码表
-        /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// 用户代码对照表
-        /// </remarks>
-        [HttpGet("Codes")]
-        [AllowAnonymous]
-        [SwaggerOperation("User/Codes")]
-        public List<ErrorCodeModel> Codes()
-        {
-            var result = _Codes<UserControllerEnums>();
-
-            return result;
         }
+        #endregion 
         #endregion
     }
 }

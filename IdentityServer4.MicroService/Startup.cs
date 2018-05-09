@@ -240,6 +240,9 @@ namespace IdentityServer4.MicroService
             });
 
             services.AddScoped<IPasswordHasher<AppUser>, IdentityMD5PasswordHasher>();
+
+            //注册Lazy
+            services.AddTransient(typeof(Lazy<>));
             #endregion
 
             #region SwaggerGen

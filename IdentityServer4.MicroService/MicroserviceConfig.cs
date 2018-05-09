@@ -69,8 +69,17 @@ namespace IdentityServer4.MicroService
             public const string ApiResourceDelete = "scope:apiresource.delete";
             #endregion
 
-            #region 微服务 - 发布/更新
-            [Description("微服务 - 发布/更新")]
+            #region 微服务 - 权限代码
+            [Description("微服务 - 权限代码")]
+            [PolicyClaimValues(
+                    MicroServiceName + ".apiresource.scopes",
+                    MicroServiceName + ".apiresource.all",
+                    MicroServiceName + ".all")]
+            public const string ApiResourceScopes = "scope:apiresource.scopes";
+            #endregion
+
+            #region 微服务 - 网关 - 发布或更新版本
+            [Description("微服务 - 网关 - 发布或更新版本")]
             [PolicyClaimValues(
                     MicroServiceName + ".apiresource.publish",
                     MicroServiceName + ".apiresource.all",
@@ -78,8 +87,8 @@ namespace IdentityServer4.MicroService
             public const string ApiResourcePublish = "scope:apiresource.publish";
             #endregion
 
-            #region 微服务 - 创建修订版
-            [Description("微服务 - 创建修订版")]
+            #region 微服务 - 网关 - 创建修订版
+            [Description("微服务 - 网关 - 创建修订版")]
             [PolicyClaimValues(
                     MicroServiceName + ".apiresource.publishrevision",
                     MicroServiceName + ".apiresource.all",
@@ -87,8 +96,8 @@ namespace IdentityServer4.MicroService
             public const string ApiResourcePublishRevision = "scope:apiresource.publishrevision";
             #endregion
 
-            #region 微服务 - 创建新版本
-            [Description("微服务 - 创建新版本")]
+            #region 微服务 - 网关 - 创建新版本
+            [Description("微服务 - 网关 - 创建新版本")]
             [PolicyClaimValues(
                     MicroServiceName + ".apiresource.publishversion",
                     MicroServiceName + ".apiresource.all",
@@ -96,8 +105,8 @@ namespace IdentityServer4.MicroService
             public const string ApiResourcePublishVersion = "scope:apiresource.publishversion";
             #endregion
 
-            #region 微服务 - 上次发布配置
-            [Description("微服务 - 上次发布配置")]
+            #region 微服务 - 网关 - 上次发布配置
+            [Description("微服务 - 网关 - 上次发布配置")]
             [PolicyClaimValues(
                     MicroServiceName + ".apiresource.publishconfiguration",
                     MicroServiceName + ".apiresource.all",
@@ -105,8 +114,8 @@ namespace IdentityServer4.MicroService
             public const string ApiResourcePublishConfiguration = "scope:apiresource.publishconfiguration";
             #endregion
 
-            #region 微服务 - 版本列表
-            [Description("微服务 - 版本列表")]
+            #region 微服务 - 网关 - 版本列表
+            [Description("微服务 - 网关 - 版本列表")]
             [PolicyClaimValues(
                     MicroServiceName + ".apiresource.versions",
                     MicroServiceName + ".apiresource.all",
@@ -114,13 +123,31 @@ namespace IdentityServer4.MicroService
             public const string ApiResourceVersions = "scope:apiresource.versions";
             #endregion
 
-            #region 微服务 - 上线指定版本
-            [Description("微服务 - 上线指定版本")]
+            #region 微服务 - 网关 - 上线指定版本
+            [Description("微服务 - 网关 - 上线指定版本")]
             [PolicyClaimValues(
                     MicroServiceName + ".apiresource.setonlineversion",
                     MicroServiceName + ".apiresource.all",
                     MicroServiceName + ".all")]
             public const string ApiResourceSetOnlineVersion = "scope:apiresource.setonlineversion";
+            #endregion
+
+            #region 微服务 - 网关 - OAuthServers
+            [Description("微服务 - 网关 - OAuthServers")]
+            [PolicyClaimValues(
+                    MicroServiceName + ".apiresource.authservers",
+                    MicroServiceName + ".apiresource.all",
+                    MicroServiceName + ".all")]
+            public const string ApiResourceAuthServers = "scope:apiresource.authservers";
+            #endregion
+
+            #region 微服务 - 网关 - 产品组
+            [Description("微服务 - 网关 - 产品组")]
+            [PolicyClaimValues(
+                    MicroServiceName + ".apiresource.products",
+                    MicroServiceName + ".apiresource.all",
+                    MicroServiceName + ".all")]
+            public const string ApiResourceProducts = "scope:apiresource.products";
             #endregion
 
             #region 微服务 - 修订内容 - 列表
@@ -157,24 +184,6 @@ namespace IdentityServer4.MicroService
                    MicroServiceName + ".apiresource.all",
                    MicroServiceName + ".all")]
             public const string ApiResourceDeleteRelease = "scope:apiresource.deleterelease";
-            #endregion
-
-            #region 微服务 - OAuthServers
-            [Description("微服务 - OAuthServers")]
-            [PolicyClaimValues(
-                    MicroServiceName + ".apiresource.authservers",
-                    MicroServiceName + ".apiresource.all",
-                    MicroServiceName + ".all")]
-            public const string ApiResourceAuthServers = "scope:apiresource.authservers";
-            #endregion
-
-            #region 微服务 - 产品组
-            [Description("微服务 - 产品组")]
-            [PolicyClaimValues(
-                    MicroServiceName + ".apiresource.products",
-                    MicroServiceName + ".apiresource.all",
-                    MicroServiceName + ".all")]
-            public const string ApiResourceProducts = "scope:apiresource.products";
             #endregion
 
             #region 微服务 - 订阅者 - 列表
@@ -519,13 +528,13 @@ namespace IdentityServer4.MicroService
                         MicroServiceName + ".user.verifyemail",
                         MicroServiceName + ".user.all",
                         MicroServiceName + ".all")]
-            public const string UserVerifyEmail = "scope:user.verifyemail"; 
+            public const string UserVerifyEmail = "scope:user.verifyemail";
             #endregion
             #endregion
 
             #region CodeGenController
-            #region 代码生成 - 客户端
-            [Description("代码生成 - 客户端")]
+            #region 代码生成 - 客户端列表
+            [Description("代码生成 - 客户端列表")]
             [PolicyClaimValues(
                         MicroServiceName + ".codegen.get",
                         MicroServiceName + ".codegen.all",
@@ -533,8 +542,8 @@ namespace IdentityServer4.MicroService
             public const string CodeGenClients = "scope:codegen.get";
             #endregion
 
-            #region 代码生成 - 服务端
-            [Description("代码生成 - 服务端")]
+            #region 代码生成 - 服务端列表
+            [Description("代码生成 - 服务端列表")]
             [PolicyClaimValues(
                         MicroServiceName + ".codegen.servers",
                         MicroServiceName + ".codegen.all",
@@ -626,8 +635,17 @@ namespace IdentityServer4.MicroService
             public const string ApiResourceDelete = "permission:apiresource.delete";
             #endregion
 
-            #region 微服务 - 发布/更新
-            [Description("微服务 - 发布/更新")]
+            #region 微服务 - 权限代码
+            [Description("微服务 - 权限代码")]
+            [PolicyClaimValues(
+                    MicroServiceName + ".apiresource.scopes",
+                    MicroServiceName + ".apiresource.all",
+                    MicroServiceName + ".all")]
+            public const string ApiResourceScopes = "permission:apiresource.scopes";
+            #endregion
+
+            #region 微服务 - 网关 - 发布或更新版本
+            [Description("微服务 - 网关 - 发布或更新版本")]
             [PolicyClaimValues(
                     MicroServiceName + ".apiresource.publish",
                     MicroServiceName + ".apiresource.all",
@@ -635,8 +653,8 @@ namespace IdentityServer4.MicroService
             public const string ApiResourcePublish = "permission:apiresource.publish";
             #endregion
 
-            #region 微服务 - 创建修订版
-            [Description("微服务 - 创建修订版")]
+            #region 微服务 - 网关 - 创建修订版
+            [Description("微服务 - 网关 - 创建修订版")]
             [PolicyClaimValues(
                     MicroServiceName + ".apiresource.publishrevision",
                     MicroServiceName + ".apiresource.all",
@@ -644,8 +662,8 @@ namespace IdentityServer4.MicroService
             public const string ApiResourcePublishRevision = "permission:apiresource.publishrevision";
             #endregion
 
-            #region 微服务 - 创建新版本
-            [Description("微服务 - 创建新版本")]
+            #region 微服务 - 网关 - 创建新版本
+            [Description("微服务 - 网关 - 创建新版本")]
             [PolicyClaimValues(
                     MicroServiceName + ".apiresource.publishversion",
                     MicroServiceName + ".apiresource.all",
@@ -653,8 +671,8 @@ namespace IdentityServer4.MicroService
             public const string ApiResourcePublishVersion = "permission:apiresource.publishversion";
             #endregion
 
-            #region 微服务 - 上次发布配置
-            [Description("微服务 - 上次发布配置")]
+            #region 微服务 - 网关 - 上次发布配置
+            [Description("微服务 - 网关 - 上次发布配置")]
             [PolicyClaimValues(
                     MicroServiceName + ".apiresource.publishconfiguration",
                     MicroServiceName + ".apiresource.all",
@@ -662,8 +680,8 @@ namespace IdentityServer4.MicroService
             public const string ApiResourcePublishConfiguration = "permission:apiresource.publishconfiguration";
             #endregion
 
-            #region 微服务 - 版本列表
-            [Description("微服务 - 版本列表")]
+            #region 微服务 - 网关 - 版本列表
+            [Description("微服务 - 网关 - 版本列表")]
             [PolicyClaimValues(
                     MicroServiceName + ".apiresource.versions",
                     MicroServiceName + ".apiresource.all",
@@ -671,13 +689,31 @@ namespace IdentityServer4.MicroService
             public const string ApiResourceVersions = "permission:apiresource.versions";
             #endregion
 
-            #region 微服务 - 上线指定版本
-            [Description("微服务 - 上线指定版本")]
+            #region 微服务 - 网关 - 上线指定版本
+            [Description("微服务 - 网关 - 上线指定版本")]
             [PolicyClaimValues(
                     MicroServiceName + ".apiresource.setonlineversion",
                     MicroServiceName + ".apiresource.all",
                     MicroServiceName + ".all")]
             public const string ApiResourceSetOnlineVersion = "permission:apiresource.setonlineversion";
+            #endregion
+
+            #region 微服务 - 网关 - OAuthServers
+            [Description("微服务 - 网关 - OAuthServers")]
+            [PolicyClaimValues(
+                    MicroServiceName + ".apiresource.authservers",
+                    MicroServiceName + ".apiresource.all",
+                    MicroServiceName + ".all")]
+            public const string ApiResourceAuthServers = "permission:apiresource.authservers";
+            #endregion
+
+            #region 微服务 - 网关 - 产品组
+            [Description("微服务 - 网关 - 产品组")]
+            [PolicyClaimValues(
+                    MicroServiceName + ".apiresource.products",
+                    MicroServiceName + ".apiresource.all",
+                    MicroServiceName + ".all")]
+            public const string ApiResourceProducts = "permission:apiresource.products";
             #endregion
 
             #region 微服务 - 修订内容 - 列表
@@ -714,24 +750,6 @@ namespace IdentityServer4.MicroService
                    MicroServiceName + ".apiresource.all",
                    MicroServiceName + ".all")]
             public const string ApiResourceDeleteRelease = "permission:apiresource.deleterelease";
-            #endregion
-
-            #region 微服务 - OAuthServers
-            [Description("微服务 - OAuthServers")]
-            [PolicyClaimValues(
-                    MicroServiceName + ".apiresource.authservers",
-                    MicroServiceName + ".apiresource.all",
-                    MicroServiceName + ".all")]
-            public const string ApiResourceAuthServers = "permission:apiresource.authservers";
-            #endregion
-
-            #region 微服务 - 产品组
-            [Description("微服务 - 产品组")]
-            [PolicyClaimValues(
-                    MicroServiceName + ".apiresource.products",
-                    MicroServiceName + ".apiresource.all",
-                    MicroServiceName + ".all")]
-            public const string ApiResourceProducts = "permission:apiresource.products";
             #endregion
 
             #region 微服务 - 订阅者 - 列表

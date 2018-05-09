@@ -22,7 +22,6 @@ using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.MicroService.Models.Views.Account;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 using static IdentityServer4.MicroService.AppDefaultData;
-using IdentityServer4.Events;
 
 namespace IdentityServer4.MicroService.Controllers
 {
@@ -65,33 +64,33 @@ namespace IdentityServer4.MicroService.Controllers
 
         #region 构造函数
         public AccountController(
-            IIdentityServerInteractionService interaction,
-            IHttpContextAccessor httpContextAccessor,
-            IClientStore clientStore,
-            UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager,
-            ConfigurationDbContext configDbContext,
-            EmailService emailSender,
-            ISmsSender smsSender,
-            ILogger<AccountController> logger,
-            IdentityDbContext userContext,
-            TenantService _tenantService,
-            TenantDbContext _tenantDb,
-            IEventService events)
+            Lazy<IIdentityServerInteractionService> interaction,
+            Lazy<IHttpContextAccessor> httpContextAccessor,
+            Lazy<IClientStore> clientStore,
+            Lazy<UserManager<AppUser>> userManager,
+            Lazy<SignInManager<AppUser>> signInManager,
+            Lazy<ConfigurationDbContext> configDbContext,
+            Lazy<EmailService> emailSender,
+            Lazy<ISmsSender> smsSender,
+            Lazy<ILogger<AccountController>> logger,
+            Lazy<IdentityDbContext> userContext,
+            Lazy<TenantService> _tenantService,
+            Lazy<TenantDbContext> _tenantDb,
+            Lazy<IEventService> events)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _emailSender = emailSender;
-            _smsSender = smsSender;
-            _logger = logger;
-            _account = new AccountService(interaction, httpContextAccessor, clientStore);
-            _userContext = userContext;
-            _configDbContext = configDbContext;
+            _userManager = userManager.Value;
+            _signInManager = signInManager.Value;
+            _emailSender = emailSender.Value;
+            _smsSender = smsSender.Value;
+            _logger = logger.Value;
+            _account = new AccountService(interaction.Value, httpContextAccessor.Value, clientStore.Value);
+            _userContext = userContext.Value;
+            _configDbContext = configDbContext.Value;
 
-            tenantService = _tenantService;
-            tenantDb = _tenantDb;
+            tenantService = _tenantService.Value;
+            tenantDb = _tenantDb.Value;
 
-            _events = events;
+            _events = events.Value;
         } 
         #endregion
 

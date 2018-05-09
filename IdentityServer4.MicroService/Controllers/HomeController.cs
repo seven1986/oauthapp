@@ -19,16 +19,16 @@ namespace IdentityServer4.MicroService.Controllers
         private readonly SignInManager<AppUser> _signInManager;
 
         public HomeController(
-            IStringLocalizer<HomeController> localizer,
-            SignInManager<AppUser> signInManager,
-            TenantService _tenantService,
-            TenantDbContext _tenantDb
+            Lazy<IStringLocalizer<HomeController>> localizer,
+            Lazy<SignInManager<AppUser>> signInManager,
+            Lazy<TenantService> _tenantService,
+            Lazy<TenantDbContext> _tenantDb
             )
         {
-            l = localizer;
-            _signInManager = signInManager;
-            tenantService = _tenantService;
-            tenantDb = _tenantDb;
+            l = localizer.Value;
+            _signInManager = signInManager.Value;
+            tenantService = _tenantService.Value;
+            tenantDb = _tenantDb.Value;
         }
 
         public IActionResult Index()

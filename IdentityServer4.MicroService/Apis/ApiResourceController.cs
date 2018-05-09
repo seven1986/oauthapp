@@ -53,30 +53,31 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 构造函数
         public ApiResourceController(
-            ConfigurationDbContext _db,
-            IdentityDbContext _userDb,
-            IStringLocalizer<ApiResourceController> localizer,
-            TenantService _tenantService,
-            TenantDbContext _tenantDb,
-            RedisService _redis,
-            SwaggerCodeGenService _swagerCodeGen,
-            AzureStorageService _storageService,
-            EmailService _email,
-            IDataProtectionProvider _provider)
+            Lazy<ConfigurationDbContext> _db,
+            Lazy<IdentityDbContext> _userDb,
+            Lazy<IStringLocalizer<ApiResourceController>> localizer,
+            Lazy<TenantService> _tenantService,
+            Lazy<TenantDbContext> _tenantDb,
+            Lazy<RedisService> _redis,
+            Lazy<SwaggerCodeGenService> _swagerCodeGen,
+            Lazy<AzureStorageService> _storageService,
+            Lazy<EmailService> _email,
+            Lazy<IDataProtectionProvider> _provider)
         {
-            db = _db;
-            userDb = _userDb;
-            l = localizer;
-            tenantDb = _tenantDb;
-            tenantService = _tenantService;
-            redis = _redis;
-            swagerCodeGen = _swagerCodeGen;
-            storageService = _storageService;
-            email = _email;
-            protector = _provider.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
+            db = _db.Value;
+            userDb = _userDb.Value;
+            l = localizer.Value;
+            tenantDb = _tenantDb.Value;
+            tenantService = _tenantService.Value;
+            redis = _redis.Value;
+            swagerCodeGen = _swagerCodeGen.Value;
+            storageService = _storageService.Value;
+            email = _email.Value;
+            protector = _provider.Value.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
         }
         #endregion
 
+        #region 微服务
         #region 微服务 - 列表
         /// <summary>
         /// 微服务 - 列表
@@ -566,9 +567,86 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 发布/更新
+        #region 微服务 - 权限代码
         /// <summary>
-        /// 微服务 - 发布/更新
+        /// 微服务 - 权限代码
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.scopes</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.scopes</code>
+        /// </remarks>
+        [HttpGet("Scopes")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceDelete)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceDelete)]
+        [SwaggerOperation("ApiResource/Scopes")]
+        public async Task<ApiResult<Dictionary<string, List<ApiResourceScopeResponse>>>> Scopes()
+        {
+            var entities = new List<ApiResourceScopeEntity>();
+
+            var cmd = @"SELECT 
+            B.[Name] as API, 
+            A.[Name] as Code,
+            A.DisplayName as [Name],
+            A.[Description],
+            A.Emphasize 
+            FROM [dbo].[ApiScopes] A
+            INNER JOIN ApiResources B ON A.ApiResourceId = B.Id
+            WHERE ShowInDiscoveryDocument = 1";
+
+            using (var r = await userDb.ExecuteReaderAsync(cmd))
+            {
+                while (r.Read())
+                {
+                    var item = new ApiResourceScopeEntity()
+                    {
+                        Api = r["Api"].ToString(),
+                        Code = r["Code"].ToString(),
+                        Description = r["Description"].ToString(),
+                        Emphasize = bool.Parse(r["Emphasize"].ToString()),
+                        Name = r["Name"].ToString()
+                    };
+
+                    entities.Add(item);
+                }
+            }
+
+            var result = entities.GroupBy(x => x.Api).ToDictionary(
+                k => k.Key,
+                v => v.Select(x => new ApiResourceScopeResponse()
+                {
+                    Code = x.Code,
+                    Description = x.Description,
+                    Emphasize = x.Emphasize,
+                    Name = x.Name
+                }).ToList());
+
+
+            return new ApiResult<Dictionary<string, List<ApiResourceScopeResponse>>>(result);
+        }
+        #endregion
+
+        #region 微服务 - 错误码表
+        /// <summary>
+        /// 微服务 - 错误码表
+        /// </summary>
+        /// <remarks>微服务代码对照表</remarks>
+        [HttpGet("Codes")]
+        [AllowAnonymous]
+        [SwaggerOperation("ApiResource/Codes")]
+        public List<ErrorCodeModel> Codes()
+        {
+            var result = _Codes<ApiResourceControllerEnums>();
+
+            return result;
+        }
+        #endregion
+        #endregion
+
+        #region 微服务 - 网关
+        #region 微服务 - 网关 - 发布或更新版本
+        /// <summary>
+        /// 微服务 - 网关 - 发布或更新版本
         /// </summary>
         /// <param name="id">微服务的ID</param>
         /// <param name="value"></param>
@@ -642,7 +720,7 @@ namespace IdentityServer4.MicroService.Apis
 
                     body["name"] = value.name;
 
-                    if(!string.IsNullOrWhiteSpace(value.description))
+                    if (!string.IsNullOrWhiteSpace(value.description))
                     {
                         body["description"] = value.description;
                     }
@@ -659,7 +737,7 @@ namespace IdentityServer4.MicroService.Apis
                 #endregion
 
                 #region Publish message to subscribers
-                await storageService.AddMessageAsync("apiresource-publish", id.ToString()); 
+                await storageService.AddMessageAsync("apiresource-publish", id.ToString());
                 #endregion
 
                 return new ApiResult<bool>(true);
@@ -674,9 +752,9 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 创建修订版
+        #region 微服务 - 网关 - 创建修订版
         /// <summary>
-        /// 微服务 - 创建修订版
+        /// 微服务 - 网关 - 创建修订版
         /// </summary>
         /// <param name="id">微服务的ID</param>
         /// <param name="value"></param>
@@ -730,9 +808,9 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 创建新版本
+        #region 微服务 - 网关 - 创建新版本
         /// <summary>
-        /// 微服务 - 创建新版本
+        /// 微服务 - 网关 - 创建新版本
         /// </summary>
         /// <param name="id">微服务的ID</param>
         /// <param name="value"></param>
@@ -764,7 +842,7 @@ namespace IdentityServer4.MicroService.Apis
 
             var pcts = AzureApim.Products.GetAsync(value.revisionId).Result;
 
-            foreach(var v in pcts.value)
+            foreach (var v in pcts.value)
             {
                 bool resultx = await AzureApim.Products.AddApiAsync(v.id, newApiId);
             }
@@ -773,9 +851,9 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 上次发布配置
+        #region 微服务 - 网关 - 上次发布配置
         /// <summary>
-        /// 微服务 - 上次发布配置
+        /// 微服务 - 网关 - 上次发布配置
         /// </summary>
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
@@ -816,9 +894,9 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 版本列表
+        #region 微服务 - 网关 - 版本列表
         /// <summary>
-        /// 微服务 - 版本列表
+        /// 微服务 - 网关 - 版本列表
         /// </summary>
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
@@ -871,9 +949,9 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 上线指定版本
+        #region 微服务 - 网关 - 上线指定版本
         /// <summary>
-        /// 微服务 - 上线指定版本
+        /// 微服务 - 网关 - 上线指定版本
         /// </summary>
         /// <param name="id"></param>
         /// <param name="revisionId"></param>
@@ -906,6 +984,50 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
+        #region 微服务 - 网关 - OAuthServers
+        /// <summary>
+        /// 微服务 - 网关 - OAuthServers
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.authservers</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.authservers</code>
+        /// </remarks>
+        [HttpGet("AuthServers")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceAuthServers)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceAuthServers)]
+        [SwaggerOperation("ApiResource/AuthServers")]
+        public async Task<ApiResult<AzureApiManagementEntities<AzureApiManagementAuthorizationServerEntity>>> AuthServers()
+        {
+            var result = await AzureApim.AuthorizationServers.GetAsync();
+
+            return new ApiResult<AzureApiManagementEntities<AzureApiManagementAuthorizationServerEntity>>(result);
+        }
+        #endregion
+
+        #region 微服务 - 网关 - 产品组
+        /// <summary>
+        /// 微服务 - 网关 - 产品组
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.products</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.products</code>
+        /// </remarks>
+        [HttpGet("Products")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceProducts)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceProducts)]
+        [SwaggerOperation("ApiResource/Products")]
+        public async Task<ApiResult<AzureApiManagementEntities<AzureApiManagementProductEntity>>> Products()
+        {
+            var result = await AzureApim.Products.GetAsync();
+
+            return new ApiResult<AzureApiManagementEntities<AzureApiManagementProductEntity>>(result);
+        }
+        #endregion
+        #endregion
+
+        #region 微服务 - 修订内容
         #region 微服务 - 修订内容 - 列表
         /// <summary>
         /// 微服务 - 修订内容 - 列表
@@ -991,7 +1113,7 @@ namespace IdentityServer4.MicroService.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePutRelease)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePutRelease)]
         [SwaggerOperation("ApiResource/PutRelease")]
-        public async Task<ApiResult<bool>> PutRelease(long id, string releaseId,[FromBody]ApiResourcePutReleaseRequest value)
+        public async Task<ApiResult<bool>> PutRelease(long id, string releaseId, [FromBody]ApiResourcePutReleaseRequest value)
         {
             if (!ModelState.IsValid)
             {
@@ -1039,49 +1161,9 @@ namespace IdentityServer4.MicroService.Apis
             return new ApiResult<bool>(result);
         }
         #endregion
-
-        #region 微服务 - OAuthServers
-        /// <summary>
-        /// 微服务 - OAuthServers
-        /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.authservers</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.authservers</code>
-        /// </remarks>
-        [HttpGet("AuthServers")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceAuthServers)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceAuthServers)]
-        [SwaggerOperation("ApiResource/AuthServers")]
-        public async Task<ApiResult<AzureApiManagementEntities<AzureApiManagementAuthorizationServerEntity>>> AuthServers()
-        {
-            var result = await AzureApim.AuthorizationServers.GetAsync();
-
-            return new ApiResult<AzureApiManagementEntities<AzureApiManagementAuthorizationServerEntity>>(result);
-        }
         #endregion
 
-        #region 微服务 - 产品组
-        /// <summary>
-        /// 微服务 - 产品组
-        /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.products</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.products</code>
-        /// </remarks>
-        [HttpGet("Products")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceProducts)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceProducts)]
-        [SwaggerOperation("ApiResource/Products")]
-        public async Task<ApiResult<AzureApiManagementEntities<AzureApiManagementProductEntity>>> Products()
-        {
-            var result = await AzureApim.Products.GetAsync();
-
-            return new ApiResult<AzureApiManagementEntities<AzureApiManagementProductEntity>>(result);
-        }
-        #endregion
-
+        #region 微服务 - 订阅者
         #region 微服务 - 订阅者 - 列表
         /// <summary>
         /// 微服务 - 订阅者 - 列表
@@ -1166,7 +1248,7 @@ namespace IdentityServer4.MicroService.Apis
                     return new ApiResult<bool>(l, ApiResourceControllerEnums.Subscription_PostFailed);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new ApiResult<bool>(l, ApiResourceControllerEnums.Subscription_PostFailed, ex.Message);
             }
@@ -1360,7 +1442,9 @@ namespace IdentityServer4.MicroService.Apis
             }
         }
         #endregion
+        #endregion
 
+        #region 微服务 - 包市场
         #region 微服务 - 包市场 - 列表
         /// <summary>
         /// 微服务 - 包市场 - 列表
@@ -1410,7 +1494,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("ApiResource/PostPackage")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePostPackage)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePostPackage)]
-        public async Task<ApiResult<bool>> PostPackage(string id,[FromBody]ApiResourceSDKRequest value)
+        public async Task<ApiResult<bool>> PostPackage(string id, [FromBody]ApiResourceSDKRequest value)
         {
             if (!ModelState.IsValid)
             {
@@ -1468,7 +1552,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("ApiResource/DeletePackage")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceDeletePackage)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceDeletePackage)]
-        public async Task<ApiResult<bool>> DeletePackage(string id,string packageId)
+        public async Task<ApiResult<bool>> DeletePackage(string id, string packageId)
         {
             if (string.IsNullOrWhiteSpace(packageId))
             {
@@ -1511,22 +1595,7 @@ namespace IdentityServer4.MicroService.Apis
                 return new ApiResult<bool>(l, ApiResourceControllerEnums.Packages_DelPackageFailed, ex.Message);
             }
         }
-        #endregion
-
-        #region 微服务 - 错误码表
-        /// <summary>
-        /// 微服务 - 错误码表
-        /// </summary>
-        /// <remarks>微服务代码对照表</remarks>
-        [HttpGet("Codes")]
-        [AllowAnonymous]
-        [SwaggerOperation("ApiResource/Codes")]
-        public List<ErrorCodeModel> Codes()
-        {
-            var result = _Codes<ApiResourceControllerEnums>();
-
-            return result;
-        }
+        #endregion 
         #endregion
 
         #region 辅助方法
