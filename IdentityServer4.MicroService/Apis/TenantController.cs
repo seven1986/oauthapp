@@ -36,17 +36,17 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 构造函数
         public TenantController(
-            TenantDbContext _db,
-            RedisService _redis,
-            IStringLocalizer<TenantController> _localizer,
-            TenantService _tenantService
+            Lazy<TenantDbContext> _db,
+            Lazy<RedisService> _redis,
+            Lazy<IStringLocalizer<TenantController>> _localizer,
+            Lazy<TenantService> _tenantService
             )
         {
             // 多语言
-            l = _localizer;
-            redis = _redis;
-            db = _db;
-            tenantService = _tenantService;
+            l = _localizer.Value;
+            redis = _redis.Value;
+            db = _db.Value;
+            tenantService = _tenantService.Value;
         }
         #endregion
 

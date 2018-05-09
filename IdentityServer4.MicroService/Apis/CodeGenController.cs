@@ -38,23 +38,23 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 构造函数
         public CodeGenController(
-            AzureStorageService _storageService,
-            IStringLocalizer<CodeGenController> localizer,
-            SwaggerCodeGenService _swagerCodeGen,
-            INodeServices _nodeServices,
-            RedisService _redis)
+            Lazy<AzureStorageService> _storageService,
+            Lazy<IStringLocalizer<CodeGenController>> localizer,
+            Lazy<SwaggerCodeGenService> _swagerCodeGen,
+            Lazy<INodeServices> _nodeServices,
+            Lazy<RedisService> _redis)
         {
-            l = localizer;
-            swagerCodeGen = _swagerCodeGen;
-            nodeServices = _nodeServices;
-            storageService = _storageService;
-            redis = _redis;
+            l = localizer.Value;
+            swagerCodeGen = _swagerCodeGen.Value;
+            nodeServices = _nodeServices.Value;
+            storageService = _storageService.Value;
+            redis = _redis.Value;
         }
         #endregion
 
-        #region 代码生成 - 客户端
+        #region 代码生成 - 客户端列表
         /// <summary>
-        /// 代码生成 - 客户端
+        /// 代码生成 - 客户端列表
         /// </summary>
         /// <remarks>支持生成的客户端集合</remarks>
         /// <returns></returns>
@@ -72,9 +72,9 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 代码生成 - 服务端
+        #region 代码生成 - 服务端列表
         /// <summary>
-        /// 代码生成 - 服务端
+        /// 代码生成 - 服务端列表
         /// </summary>
         /// <remarks>支持生成的服务端集合</remarks>
         /// <returns></returns>
@@ -301,9 +301,11 @@ namespace IdentityServer4.MicroService.Apis
             var readmeFilePath = templateDirectory + "/README.md";
             if (!string.IsNullOrWhiteSpace(options.README))
             {
+                var releaseREAME =  options.README.Replace("<%SdkCode%>", SdkCode);
+
                 using (var sw = new StreamWriter(readmeFilePath, false, Encoding.UTF8))
                 {
-                    await sw.WriteLineAsync(options.README);
+                    await sw.WriteLineAsync(releaseREAME);
                 }
             }
 

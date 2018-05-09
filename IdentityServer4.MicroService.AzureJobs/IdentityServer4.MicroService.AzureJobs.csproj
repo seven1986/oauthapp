@@ -100,6 +100,7 @@
     <Compile Include="Functions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EmailService.cs" />
+    <Compile Include="Services\GithubService.cs" />
     <Compile Include="Services\RedisService.cs" />
     <Compile Include="Services\AzureStorageService.cs" />
   </ItemGroup>
