@@ -10,6 +10,7 @@ using IdentityServer4.MicroService.AzureJobs.Models;
 using IdentityServer4.MicroService.AzureJobs.Services;
 using Microsoft.Azure.WebJobs;
 using Microsoft.WindowsAzure.Storage.Table;
+using Newtonsoft.Json;
 
 namespace IdentityServer4.MicroService.AzureJobs
 {
@@ -19,6 +20,12 @@ namespace IdentityServer4.MicroService.AzureJobs
 
         readonly static EmailService mail = new EmailService();
 
+        /// <summary>
+        /// 发布NPM包
+        /// </summary>
+        /// <param name="packageUrl"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
         public static async Task ReleasePackage_NPM([QueueTrigger("publish-package-npm")] string packageUrl, TextWriter log)
         {
             log.WriteLine(packageUrl);
@@ -85,6 +92,12 @@ namespace IdentityServer4.MicroService.AzureJobs
             }
         }
 
+        /// <summary>
+        /// 发送邮件通知给订阅者
+        /// </summary>
+        /// <param name="apiId"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
         public static async Task ApiresourcePublishNotify([QueueTrigger("apiresource-publish")] string apiId, TextWriter log)
         {
             log.WriteLine(apiId);
@@ -107,7 +120,7 @@ namespace IdentityServer4.MicroService.AzureJobs
 
             var vars = new Dictionary<string, string[]>();
             vars.Add("%apiId%", new string[mails.Count]);
-            for(var i=0;i<mails.Count;i++)
+            for (var i = 0; i < mails.Count; i++)
             {
                 vars["%apiId%"][i] = apiId;
             }
@@ -120,9 +133,43 @@ namespace IdentityServer4.MicroService.AzureJobs
                     mails.ToArray(),
                     vars);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 同步Github标签
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
+        public static async Task ApiresourcePublishGithub([QueueTrigger("apiresource-publish-github")] GithubQueueModel value, TextWriter log)
+        {
+            log.WriteLine(JsonConvert.SerializeObject(value));
+
+            var client = new GithubService(value.userAgent, value.owner, value.repo, value.token);
+
+            var labels = await client.LabelsAsync();
+
+            var operations = await client.OperationsAsync(value.swaggerUrl);
+
+            foreach (var o in operations)
+            {
+                if (labels.Any(x => x.name.Equals(o.Key)))
+                {
+                    continue;
+                }
+
+                var result = await client.LabelPostAsync(o.Key, o.Value);
+
+                if (!result.IsSuccessStatusCode)
+                {
+                    var ReasonPhrase = result.ReasonPhrase;
+
+                    var RequestMessage = result.Content.ReadAsStringAsync().Result;
+                }
             }
         }
     }

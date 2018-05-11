@@ -740,6 +740,14 @@ namespace IdentityServer4.MicroService.Apis
                 await storageService.AddMessageAsync("apiresource-publish", id.ToString());
                 #endregion
 
+                #region Publish message to github repo if need sync labels
+                var githubConfiguration = await _PublishGithubConfiguration(id);
+                if (githubConfiguration != null)
+                {
+                    await storageService.AddMessageAsync("apiresource-publish-github", JsonConvert.SerializeObject(githubConfiguration));
+                }
+                #endregion
+
                 return new ApiResult<bool>(true);
             }
 
@@ -749,6 +757,22 @@ namespace IdentityServer4.MicroService.Apis
 
                 return new ApiResult<bool>(l, ApiResourceControllerEnums.Publish_PublishFailed, errorMessage);
             }
+        }
+
+        async Task<ApiResourceGithubPublishRequest> _PublishGithubConfiguration(long id)
+        {
+            ApiResourceGithubPublishRequest result = null;
+
+            var publishKey = CodeGenControllerKeys.GithubOptions + id;
+
+            var resultCache = await redis.GetAsync(publishKey);
+
+            if (!string.IsNullOrWhiteSpace(resultCache))
+            {
+                result = JsonConvert.DeserializeObject<ApiResourceGithubPublishRequest>(resultCache);
+            }
+
+            return result;
         }
         #endregion
 
@@ -1005,9 +1029,9 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 网关 - 产品组
+        #region 微服务 - 网关 - 产品包列表
         /// <summary>
-        /// 微服务 - 网关 - 产品组
+        /// 微服务 - 网关 - 产品包列表
         /// </summary>
         /// <returns></returns>
         /// <remarks>

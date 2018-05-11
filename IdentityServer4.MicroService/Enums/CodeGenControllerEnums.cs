@@ -15,5 +15,11 @@ namespace IdentityServer4.MicroService.Enums
         /// </summary>
         [Description("不存在的配置")]
         NpmOptions_GetOptionsFialed = 200002,
+
+        /// <summary>
+        /// 不存在的配置
+        /// </summary>
+        [Description("不存在的配置")]
+        GithubOptions_GetOptionsFialed = 200003,
     }
 }
