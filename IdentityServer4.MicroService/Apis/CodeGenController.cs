@@ -19,6 +19,7 @@ using IdentityServer4.MicroService.Models.Apis.CodeGenController;
 using IdentityServer4.MicroService.CacheKeys;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+using IdentityServer4.MicroService.Models.Apis.ApiResourceController;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -437,6 +438,98 @@ namespace IdentityServer4.MicroService.Apis
         async Task<bool> SetNpmOptions(string id, Language lan, CodeGenNpmOptionsModel value)
         {
             var key = CodeGenControllerKeys.NpmOptions + Enum.GetName(typeof(Language), lan) + ":" + id;
+
+            var cacheResult = JsonConvert.SerializeObject(value);
+
+            var result = await redis.SetAsync(key, cacheResult, null);
+
+            return result;
+        }
+        #endregion
+
+        #region 代码生成 - Github设置
+        /// <summary>
+        ///  代码生成 - Github设置
+        /// </summary>
+        /// <param name="id">微服务ID</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.githuboptions</code>
+        /// </remarks>
+        [HttpGet("{id}/GithubOptions")]
+        [SwaggerOperation("CodeGen/GithubOptions")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenGithubOptions)]
+        public async Task<ApiResult<ApiResourceGithubPublishRequest>> GithubOptions(string id)
+        {
+            var result = await GetGithubOptions(id);
+
+            var key = CodeGenControllerKeys.GithubOptions + id;
+
+            var cacheResult = await redis.GetAsync(key);
+
+            if (result != null)
+            {
+                return new ApiResult<ApiResourceGithubPublishRequest>(result);
+            }
+            else
+            {
+                return new ApiResult<ApiResourceGithubPublishRequest>(l, CodeGenControllerEnums.GithubOptions_GetOptionsFialed);
+            }
+        }
+        async Task<ApiResourceGithubPublishRequest> GetGithubOptions(string id)
+        {
+            var key = CodeGenControllerKeys.GithubOptions + id;
+
+            var cacheResult = await redis.GetAsync(key);
+
+            if (!string.IsNullOrWhiteSpace(cacheResult))
+            {
+                try
+                {
+                    var result = JsonConvert.DeserializeObject<ApiResourceGithubPublishRequest>(cacheResult);
+
+                    return result;
+                }
+
+                catch
+                {
+                    return null;
+                }
+            }
+
+            return null;
+        }
+        #endregion
+
+        #region 代码生成 - 更新Github设置
+        /// <summary>
+        ///  代码生成 - 更新Github设置
+        /// </summary>
+        /// <param name="id">微服务ID</param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.putgithuboptions</code>
+        /// 更新微服务的Github发布设置
+        /// </remarks>
+        [HttpPut("{id}/GithubOptions")]
+        [SwaggerOperation("CodeGen/PutGithubOptions")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenPutGithubOptions)]
+        public async Task<ApiResult<bool>> GithubOptions(string id, [FromBody]ApiResourceGithubPublishRequest value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            var result = await SetGithubOptions(id, value);
+
+            return new ApiResult<bool>(result);
+        }
+        async Task<bool> SetGithubOptions(string id, ApiResourceGithubPublishRequest value)
+        {
+            var key = CodeGenControllerKeys.GithubOptions + id;
 
             var cacheResult = JsonConvert.SerializeObject(value);
 

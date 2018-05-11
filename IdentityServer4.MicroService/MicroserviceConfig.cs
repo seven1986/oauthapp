@@ -577,6 +577,24 @@ namespace IdentityServer4.MicroService
                         MicroServiceName + ".all")]
             public const string CodeGenPutNpmOptions = "scope:codegen.putnpmoptions";
             #endregion
+
+            #region 代码生成 - Github设置
+            [Description("代码生成 - Github设置")]
+            [PolicyClaimValues(
+                        MicroServiceName + ".codegen.githuboptions",
+                        MicroServiceName + ".codegen.all",
+                        MicroServiceName + ".all")]
+            public const string CodeGenGithubOptions = "scope:codegen.githuboptions";
+            #endregion
+
+            #region 代码生成 - 更新Github设置
+            [Description("代码生成 - 更新Github设置")]
+            [PolicyClaimValues(
+                        MicroServiceName + ".codegen.putgithuboptions",
+                        MicroServiceName + ".codegen.all",
+                        MicroServiceName + ".all")]
+            public const string CodeGenPutGithubOptions = "scope:codegen.putgithuboptions";
+            #endregion
             #endregion
         }
 

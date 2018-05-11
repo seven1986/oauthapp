@@ -30,6 +30,7 @@
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
     <Content Remove="package-lock.json" />
+    <Content Remove="wwwroot\favicon.ico" />
     <Content Remove="wwwroot\js\codegen.min.js" />
   </ItemGroup>
 
@@ -99,6 +100,7 @@
     <None Include="Views\Shared\_ValidationSummary.cshtml" />
     <None Include="Views\_ViewImports.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
+    <None Include="wwwroot\favicon.ico" />
     <None Include="wwwroot\js\codegen.min.js" />
     <None Include="wwwroot\sdkgenrender\index.html" />
   </ItemGroup>
