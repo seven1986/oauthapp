@@ -676,7 +676,7 @@ namespace IdentityServer4.MicroService.Apis
                 value.apiId,
                 value.suffix,
                 value.swaggerUrl,
-                new string[] { value.productId },
+                value.productIds,
                 value.authorizationServerId,
                 new List<string>() { "https" },
                 value.scope,

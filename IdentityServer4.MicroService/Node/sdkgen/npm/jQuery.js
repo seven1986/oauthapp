@@ -81,8 +81,7 @@ var IGenerator = function (doc, opts) {
              * 特殊处理，当前网关无法导入file的operation.parameters
              * 所以维护一个静态集合，如果是存在就自动添加model参数
              */
-            debugger
-            if (['fileimage', 'filepost'].indexOf(methodName.toLocaleLowerCase()) > -1) {
+            if (['fileimage', 'filepost','generaluploadimage'].indexOf(methodName.toLocaleLowerCase()) > -1) {
                 bodyParams = 'formData';
             }
 
@@ -98,8 +97,10 @@ var IGenerator = function (doc, opts) {
             }
 
             fn += `    sdk.${methodName} = function(${methodParamsStr.join(",")}) {\r\n`;
-
-            fn += '      var url = this.basepath() +\'' + requestUrl + '\';\r\n';
+            var requestUrl2 = requestUrl.replace(/\$\{/g, '\'+').replace(/\}/g, '+\'');
+            requestUrl2 = '      var url = this.basepath() +\'' + requestUrl2 + '\';';
+            requestUrl2 = requestUrl2.replace("+''", '');
+            fn += requestUrl2 + '\r\n';
 
             if (httpParams.length > 0) {
                 fn += `      var params = {};\r\n`;
@@ -125,6 +126,7 @@ var IGenerator = function (doc, opts) {
             else {
                 fn += `      return openapis._request({url:url,method:'${method.toUpperCase()}'});`;
             }
+
 
             fn += ` \r\n    }`;
 

@@ -35,7 +35,7 @@ namespace IdentityServer4.MicroService.Models.Apis.ApiResourceController
         /// <summary>
         /// 服务所属产品组
         /// </summary>
-        public string productId { get; set; }
+        public string[] productIds { get; set; }
 
         /// <summary>
         /// 使用的Oauth服务ID，从网关创建得来，可空
