@@ -18,6 +18,7 @@ using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.ClientController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+using IdentityServer4.Models;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -829,6 +830,33 @@ namespace IdentityServer4.MicroService.Apis
             var token = await _tools.IssueJwtAsync(value.lifetime, claims);
 
             return new ApiResult<string>(token);
+        }
+        #endregion
+
+        #region 客户端 - 生成密钥
+        /// <summary>
+        /// 客户端 - 生成密钥
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.client.postsecretkey</code>
+        /// <label>User Permissions：</label><code>ids4.ms.client.postsecretkey</code>
+        /// </remarks>
+        [HttpPost("{id}/Secretkey")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientPostSecretkey)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientPostSecretkey)]
+        [SwaggerOperation("Client/PostSecretkey")]
+        public async Task<ApiResult<string>> PostSecretkey(int id)
+        {
+            if (!await exists(id))
+            {
+                return new ApiResult<string>(l, BasicControllerEnums.NotFound);
+            }
+
+            var result = Guid.NewGuid().ToString().Sha256();
+
+            return new ApiResult<string>(result);
         }
         #endregion
 
