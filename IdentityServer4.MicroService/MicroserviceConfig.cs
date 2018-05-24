@@ -286,6 +286,15 @@ namespace IdentityServer4.MicroService
                         MicroServiceName + ".all")]
             public const string ClientIssueToken = "scope:client.issuetoken";
             #endregion
+
+            #region 客户端 - 生成密钥
+            [Description("客户端 - 生成密钥")]
+            [PolicyClaimValues(
+                        MicroServiceName + ".client.postsecretkey",
+                        MicroServiceName + ".client.all",
+                        MicroServiceName + ".all")]
+            public const string ClientPostSecretkey = "scope:client.postsecretkey";
+            #endregion
             #endregion
 
             #region FileController
@@ -869,6 +878,15 @@ namespace IdentityServer4.MicroService
                         MicroServiceName + ".client.all",
                         MicroServiceName + ".all")]
             public const string ClientIssueToken = "permission:client.issuetoken";
+            #endregion
+
+            #region 客户端 - 生成密钥
+            [Description("客户端 - 生成密钥")]
+            [PolicyClaimValues(
+                        MicroServiceName + ".client.postsecretkey",
+                        MicroServiceName + ".client.all",
+                        MicroServiceName + ".all")]
+            public const string ClientPostSecretkey = "permission:client.postsecretkey";
             #endregion
             #endregion
 
