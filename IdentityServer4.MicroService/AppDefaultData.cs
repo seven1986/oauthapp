@@ -144,11 +144,17 @@ namespace IdentityServer4.MicroService
             public static ICollection<string> AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials;
 
             public static ICollection<string> RedirectUris = new string[]{
-                "http://localhost:4200/auth-callback"
+                "http://localhost:4200/auth-callback",
+                // for IdentityServer4.MicroService.UI
+                "https://localhost:44386/callback.html", 
+                "https://localhost:44386/silent_callback.html",
             };
 
             public static ICollection<string> PostLogoutRedirectUris = new string[]{
-                "http://localhost:4200/logout-callback"
+                "http://localhost:4200/logout-callback",
+
+                 // for IdentityServer4.MicroService.UI
+                "http://localhost:44386/logout.html"
             };
         }
 
