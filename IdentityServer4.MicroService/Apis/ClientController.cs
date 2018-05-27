@@ -18,7 +18,6 @@ using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.ClientController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
-using IdentityServer4.Models;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -838,6 +837,7 @@ namespace IdentityServer4.MicroService.Apis
         /// 客户端 - 生成密钥
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
         /// <label>Client Scopes：</label><code>ids4.ms.client.postsecretkey</code>
@@ -847,14 +847,26 @@ namespace IdentityServer4.MicroService.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientPostSecretkey)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientPostSecretkey)]
         [SwaggerOperation("Client/PostSecretkey")]
-        public async Task<ApiResult<string>> PostSecretkey(int id)
+        public async Task<ApiResult<string>> PostSecretkey(int id,[FromBody]ClientPostSecretkeyRequest value)
         {
             if (!await exists(id))
             {
                 return new ApiResult<string>(l, BasicControllerEnums.NotFound);
             }
 
-            var result = Guid.NewGuid().ToString().Sha256();
+            var result = string.Empty;
+
+            switch (value.keyType)
+            {
+                case SecretKeyType.Sha512:
+                    result = IdentityServer4.Models.HashExtensions.Sha512(value.plaintext);
+                    break;
+
+                case SecretKeyType.Sha256:
+                default:
+                    result = IdentityServer4.Models.HashExtensions.Sha256(value.plaintext);
+                    break;
+            }
 
             return new ApiResult<string>(result);
         }
