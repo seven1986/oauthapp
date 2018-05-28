@@ -1,8 +1,8 @@
-﻿用户中心
+﻿授权中心
 =================
 .. Note::
 
-	微服务、客户端、代码生成、文件、身份服务、角色、用户、租户管理8大功能
+	微服务、客户端、代码生成、文件、身份服务、角色、用户、租户管理8大功能。
 
 微服务
 ----------------------
@@ -535,6 +535,22 @@ OAuthServers
 	<code>ids4.ms.client.issuetoken</code>
 	<br /><br />
 	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-issuetoken">Link</a>
+	</p>
+
+|
+
+生成密钥
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	<label>Client Scopes：</label>
+	<code>ids4.ms.client.postsecretkey</code>
+	<label>User Permissions：</label>
+	<code>ids4.ms.client.postsecretkey</code>
+	<br /><br />
+	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-postsecretkey">Link</a>
 	</p>
 
 |

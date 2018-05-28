@@ -14,7 +14,7 @@
 
 .. raw:: html
 
-    <a class="btn btn-neutral" href="https://github.com/seven1986/Game5.0/issues">反馈</a>
+    <a class="btn btn-neutral" href="https://github.com/seven1986/IdentityServer4.MicroService/issues">反馈</a>
 
 
 |

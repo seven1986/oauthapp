@@ -3,18 +3,20 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to IdentityServer4.MicroService's documentation!
+Welcome to IdentityServer4.MicroService
 ========================================================
 
 .. toctree::
    :maxdepth: 1
-   :caption: Contents:
+
+   introduction
+   log
 
 .. toctree::
    :maxdepth: 1
    :caption: 开放能力
 
-   ucenter
+   IdentityServer4MicroService
 
 .. toctree::
    :maxdepth: 1
