@@ -30,8 +30,6 @@ namespace IdentityServer4.MicroService.Apis
     public class TenantController : BasicController
     {
         #region Services
-        //Database
-        readonly TenantDbContext db;
         #endregion
 
         #region 构造函数
@@ -45,7 +43,7 @@ namespace IdentityServer4.MicroService.Apis
             // 多语言
             l = _localizer.Value;
             redis = _redis.Value;
-            db = _db.Value;
+            tenantDb = _db.Value;
             tenantService = _tenantService.Value;
         }
         #endregion
@@ -75,7 +73,7 @@ namespace IdentityServer4.MicroService.Apis
                 };
             }
 
-            var query = db.Tenants.AsQueryable();
+            var query = tenantDb.Tenants.AsQueryable();
 
             query = query.Where(x => x.OwnerUserId == UserId);
 
@@ -145,7 +143,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("Tenant/Detail")]
         public async Task<ApiResult<AppTenant>> Get(int id)
         {
-            var query = db.Tenants.AsQueryable();
+            var query = tenantDb.Tenants.AsQueryable();
 
             query = query.Where(x => x.OwnerUserId == UserId);
 
@@ -231,7 +229,7 @@ namespace IdentityServer4.MicroService.Apis
                     #endregion
 
                     #region Find Entity.Source
-                    var source = await db.Tenants.Where(x => x.Id == value.Id)
+                    var source = await tenantDb.Tenants.Where(x => x.Id == value.Id)
                                      .Include(x => x.Hosts)
                                      .Include(x => x.Claims)
                                     .AsNoTracking()
@@ -419,14 +417,14 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("Tenant/Delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
-            var entity = await db.Tenants.FirstOrDefaultAsync(x => x.OwnerUserId == UserId && x.Id == id);
+            var entity = await tenantDb.Tenants.FirstOrDefaultAsync(x => x.OwnerUserId == UserId && x.Id == id);
 
             if (entity == null)
             {
                 return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
 
-            db.Tenants.Remove(entity);
+            tenantDb.Tenants.Remove(entity);
 
             await db.SaveChangesAsync();
 
@@ -447,7 +445,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("Tenant/Info")]
         public ApiResult<string> Info(string host)
         {
-            var entity = tenantService.GetTenant(db, host);
+            var entity = tenantService.GetTenant(tenantDb, host);
 
             if (entity == null)
             {

@@ -20,6 +20,7 @@ using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Shared;
 using static IdentityServer4.MicroService.AppConstant;
+using IdentityServer4.MicroService.Data;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -40,6 +41,27 @@ namespace IdentityServer4.MicroService.Apis
             get
             {
                 return long.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("sub")).Value);
+            }
+        }
+
+        private string _UserLineage;
+        public string UserLineage
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_UserLineage))
+                {
+                    var cmd = "SELECT Lineage.ToString() FROM AspNetUsers WHERE Id = " + UserId;
+
+                    var Lineage = db.ExecuteScalarAsync(cmd).Result;
+
+                    if (Lineage != null)
+                    {
+                        _UserLineage = Lineage.ToString();
+                    }
+                }
+
+                return _UserLineage;
             }
         }
 
@@ -93,6 +115,7 @@ namespace IdentityServer4.MicroService.Apis
 
         public virtual TenantService tenantService { get; set; }
         public virtual TenantDbContext tenantDb { get; set; }
+        public virtual IdentityDbContext db { get; set; }
 
         private TenantPrivateModel _tenant;
         public TenantPrivateModel Tenant
@@ -131,6 +154,8 @@ namespace IdentityServer4.MicroService.Apis
                 return _azureApim;
             }
         }
+
+
 
         /// <summary>
         /// 根据枚举，返回值与名称的字典

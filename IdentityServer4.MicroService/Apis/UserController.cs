@@ -38,8 +38,6 @@ namespace IdentityServer4.MicroService.Apis
     public class UserController : BasicController
     {
         #region Services
-        //Database
-        readonly IdentityDbContext db;
         // 短信
         readonly ISmsSender sms;
         // 邮件
@@ -62,7 +60,8 @@ namespace IdentityServer4.MicroService.Apis
             Lazy<UserManager<AppUser>> _userManager,
             Lazy<TenantDbContext> _tenantDbContext,
             Lazy<ConfigurationDbContext> _configDbContext,
-            Lazy<IDataProtectionProvider> _provider)
+            Lazy<IDataProtectionProvider> _provider,
+            Lazy<TenantService> _tenantService)
         {
             // 多语言
             l = _localizer.Value;
@@ -74,6 +73,7 @@ namespace IdentityServer4.MicroService.Apis
             tenantDbContext = _tenantDbContext.Value;
             configDbContext = _configDbContext.Value;
             protector = _provider.Value.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
+            tenantService = _tenantService.Value;
         }
         #endregion
 
@@ -114,6 +114,14 @@ namespace IdentityServer4.MicroService.Apis
                 where = (where, sqlParams) =>
                 {
                     where.Add("TenantId = " + TenantId);
+
+                    if (UserId != Tenant.OwnerUserId)
+                    {
+                        if (!User.IsInRole(Roles.Administrators))
+                        {
+                            where.Add("Lineage LIKE '%/" + UserLineage + "/%'");
+                        }
+                    }
 
                     if (!string.IsNullOrWhiteSpace(value.q.email))
                     {

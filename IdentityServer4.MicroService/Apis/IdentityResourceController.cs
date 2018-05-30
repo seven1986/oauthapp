@@ -30,15 +30,15 @@ namespace IdentityServer4.MicroService.Apis
     {
         #region Services
         //Database
-        readonly ConfigurationDbContext db;
+        readonly ConfigurationDbContext configDb;
         #endregion
 
         #region 构造函数
         public IdentityResourceController(
-            Lazy<ConfigurationDbContext> _db,
+            Lazy<ConfigurationDbContext> _configDb,
             Lazy<IStringLocalizer<IdentityResourceController>> localizer)
         {
-            db = _db.Value;
+            configDb = _configDb.Value;
             l = localizer.Value;
         }
         #endregion
@@ -68,7 +68,7 @@ namespace IdentityServer4.MicroService.Apis
                 };
             }
 
-            var query = db.IdentityResources.AsQueryable();
+            var query = configDb.IdentityResources.AsQueryable();
 
             #region filter
             if (!string.IsNullOrWhiteSpace(value.q.Name))
@@ -131,7 +131,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("IdentityResource/Detail")]
         public async Task<ApiResult<IdentityResource>> Get(int id)
         {
-            var entity = await db.IdentityResources
+            var entity = await configDb.IdentityResources
                 .Where(x => x.Id == id)
                 .Include(x => x.UserClaims)
                 .FirstOrDefaultAsync();
@@ -209,7 +209,7 @@ namespace IdentityServer4.MicroService.Apis
                     #endregion
 
                     #region Find Entity.Source
-                    var source = await db.IdentityResources.Where(x => x.Id == value.Id)
+                    var source = await configDb.IdentityResources.Where(x => x.Id == value.Id)
                                      .Include(x => x.UserClaims)
                                      .AsNoTracking()
                                      .FirstOrDefaultAsync();
@@ -296,14 +296,14 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("IdentityResource/Delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
-            var entity = await db.IdentityResources.FirstOrDefaultAsync(x => x.Id == id);
+            var entity = await configDb.IdentityResources.FirstOrDefaultAsync(x => x.Id == id);
 
             if (entity == null)
             {
                 return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
 
-            db.IdentityResources.Remove(entity);
+            configDb.IdentityResources.Remove(entity);
 
             await db.SaveChangesAsync();
 

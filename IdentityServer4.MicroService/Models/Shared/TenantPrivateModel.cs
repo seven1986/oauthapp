@@ -20,5 +20,10 @@ namespace IdentityServer4.MicroService.Models.Shared
         /// 属性
         /// </summary>
         public Dictionary<string, string> Properties { get; set; }
+
+        /// <summary>
+        /// 租户所有者ID
+        /// </summary>
+        public long OwnerUserId { get; set; }
     }
 }
