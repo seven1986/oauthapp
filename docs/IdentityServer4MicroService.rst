@@ -572,6 +572,19 @@ OAuthServers
 
 |
 
+生成
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	
+	<br /><br />
+	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-gen">Link</a>
+	</p>
+
+|
+
 Github设置
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1170,3 +1183,4 @@ NPM设置
 	</p>
 
 |
+
