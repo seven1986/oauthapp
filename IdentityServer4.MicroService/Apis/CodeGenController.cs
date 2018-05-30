@@ -538,5 +538,56 @@ namespace IdentityServer4.MicroService.Apis
             return result;
         }
         #endregion
+
+        #region 代码生成 - 生成
+        /// <summary>
+        /// 代码生成 - 生成
+        /// </summary>
+        /// <remarks></remarks>
+        /// <returns></returns>
+        /// <remarks>
+        /// </remarks>
+        [HttpPost("Gen")]
+        [SwaggerOperation("CodeGen/Gen")]
+        [AllowAnonymous]
+        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenGen)]
+        public async Task<ApiResult<string>> Gen([FromBody]CodeGenGenRequest value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<string>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            try
+            {
+                var swaggerDoc = string.Empty;
+
+                using (var hc = new HttpClient())
+                {
+                    swaggerDoc = await hc.GetStringAsync(value.swaggerUrl);
+                }
+
+                if (string.IsNullOrWhiteSpace(swaggerDoc))
+                {
+                    return new ApiResult<string>(l, CodeGenControllerEnums.GenerateClient_GetSwaggerFialed);
+                }
+
+                var platformPath = $"./Node/";
+
+                var result = await nodeServices.InvokeAsync<string>(platformPath + value.genName,
+                   swaggerDoc, new { value.swaggerUrl });
+
+                return new ApiResult<string>(result);
+            }
+
+            catch (Exception ex)
+            {
+                return new ApiResult<string>(l,
+                    BasicControllerEnums.ExpectationFailed,
+                    ex.Message);
+            }
+        }
+        #endregion
     }
 }

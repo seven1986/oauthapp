@@ -26,8 +26,6 @@ namespace IdentityServer4.MicroService.Apis
     public class RoleController : BasicController
     {
         #region Services
-        // database
-        readonly IdentityDbContext db;
         #endregion
 
         #region 构造函数

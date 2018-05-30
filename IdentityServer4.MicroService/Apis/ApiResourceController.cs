@@ -44,8 +44,7 @@ namespace IdentityServer4.MicroService.Apis
     {
         #region Services
         //Database
-        readonly ConfigurationDbContext db;
-        readonly IdentityDbContext userDb;
+        readonly ConfigurationDbContext configDb;
         readonly SwaggerCodeGenService swagerCodeGen;
         readonly AzureStorageService storageService;
         readonly EmailService email;
@@ -53,7 +52,7 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 构造函数
         public ApiResourceController(
-            Lazy<ConfigurationDbContext> _db,
+            Lazy<ConfigurationDbContext> _configDb,
             Lazy<IdentityDbContext> _userDb,
             Lazy<IStringLocalizer<ApiResourceController>> localizer,
             Lazy<TenantService> _tenantService,
@@ -64,8 +63,8 @@ namespace IdentityServer4.MicroService.Apis
             Lazy<EmailService> _email,
             Lazy<IDataProtectionProvider> _provider)
         {
-            db = _db.Value;
-            userDb = _userDb.Value;
+            configDb = _configDb.Value;
+            db = _userDb.Value;
             l = localizer.Value;
             tenantDb = _tenantDb.Value;
             tenantService = _tenantService.Value;
@@ -103,9 +102,9 @@ namespace IdentityServer4.MicroService.Apis
                 };
             }
 
-            var query = db.ApiResources.AsQueryable();
+            var query = configDb.ApiResources.AsQueryable();
 
-            var ApiResourceIds = await userDb.UserApiResources.Where(x => x.UserId == UserId)
+            var ApiResourceIds = await db.UserApiResources.Where(x => x.UserId == UserId)
               .Select(x => x.ApiResourceId).ToListAsync();
 
             if (ApiResourceIds.Count > 0)
@@ -188,7 +187,7 @@ namespace IdentityServer4.MicroService.Apis
                 return new ApiResult<ApiResource>(l, BasicControllerEnums.NotFound);
             }
 
-            var query = db.ApiResources.AsQueryable();
+            var query = configDb.ApiResources.AsQueryable();
 
             var entity = await query
                 .Where(x => x.Id == id)
@@ -232,13 +231,13 @@ namespace IdentityServer4.MicroService.Apis
 
             await db.SaveChangesAsync();
 
-            userDb.UserApiResources.Add(new AspNetUserApiResource()
+            db.UserApiResources.Add(new AspNetUserApiResource()
             {
                 ApiResourceId = value.Id,
                 UserId = UserId
             });
 
-            await userDb.SaveChangesAsync();
+            await db.SaveChangesAsync();
 
             return new ApiResult<long>(value.Id);
         }
@@ -283,7 +282,7 @@ namespace IdentityServer4.MicroService.Apis
                     #endregion
 
                     #region Find Entity.Source
-                    var source = await db.ApiResources.Where(x => x.Id == value.Id)
+                    var source = await configDb.ApiResources.Where(x => x.Id == value.Id)
                                      .Include(x => x.Scopes).ThenInclude(x => x.UserClaims)
                                      .Include(x => x.Secrets)
                                      .Include(x => x.UserClaims)
@@ -552,14 +551,14 @@ namespace IdentityServer4.MicroService.Apis
                 return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
 
-            var entity = await db.ApiResources.FirstOrDefaultAsync(x => x.Id == id);
+            var entity = await configDb.ApiResources.FirstOrDefaultAsync(x => x.Id == id);
 
             if (entity == null)
             {
                 return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
 
-            db.ApiResources.Remove(entity);
+            configDb.ApiResources.Remove(entity);
 
             await db.SaveChangesAsync();
 
@@ -594,7 +593,7 @@ namespace IdentityServer4.MicroService.Apis
             INNER JOIN ApiResources B ON A.ApiResourceId = B.Id
             WHERE ShowInDiscoveryDocument = 1";
 
-            using (var r = await userDb.ExecuteReaderAsync(cmd))
+            using (var r = await db.ExecuteReaderAsync(cmd))
             {
                 while (r.Read())
                 {
@@ -740,11 +739,18 @@ namespace IdentityServer4.MicroService.Apis
                 await storageService.AddMessageAsync("apiresource-publish", id.ToString());
                 #endregion
 
-                #region Publish message to github repo if need sync labels
+                #region Publish message for sync labels to github repo if set token 
                 var githubConfiguration = await _PublishGithubConfiguration(id);
-                if (githubConfiguration != null)
+                if (githubConfiguration != null && !string.IsNullOrWhiteSpace(githubConfiguration.token))
                 {
                     await storageService.AddMessageAsync("apiresource-publish-github", JsonConvert.SerializeObject(githubConfiguration));
+                }
+                #endregion
+
+                #region Publish message for init readthedocs configuration to github repo set token
+                if (githubConfiguration != null && !string.IsNullOrWhiteSpace(githubConfiguration.token))
+                {
+                    await storageService.AddMessageAsync("apiresource-publish-github-readthedocs", JsonConvert.SerializeObject(githubConfiguration));
                 }
                 #endregion
 
@@ -1370,7 +1376,7 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             #region 微服务是否存在
-            var apiEntity = db.ApiResources.FirstOrDefault(x => x.Id == id);
+            var apiEntity = configDb.ApiResources.FirstOrDefault(x => x.Id == id);
             if (apiEntity == null)
             {
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
@@ -1626,7 +1632,7 @@ namespace IdentityServer4.MicroService.Apis
         const string _ExistsCmd = "SELECT Id FROM AspNetUserApiResources WHERE UserId = {0} AND ApiResourceId = {1}";
         async Task<bool> exists(long id)
         {
-            var result = await userDb.ExecuteScalarAsync(string.Format(_ExistsCmd, UserId, id));
+            var result = await db.ExecuteScalarAsync(string.Format(_ExistsCmd, UserId, id));
 
             if (result != null)
             {
