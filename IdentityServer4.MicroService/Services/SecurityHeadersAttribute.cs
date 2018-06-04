@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace IdentityServer4.MicroService
+namespace IdentityServer4.MicroService.Host
 {
     public class SecurityHeadersAttribute : ActionFilterAttribute
     {

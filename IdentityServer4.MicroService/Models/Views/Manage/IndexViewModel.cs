@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
-namespace IdentityServer4.MicroService.Models.Views.Manage
+namespace IdentityServer4.MicroService.Host.Models.Views.Manage
 {
     public class IndexViewModel
     {

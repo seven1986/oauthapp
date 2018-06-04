@@ -4,9 +4,9 @@ using IdentityServer4.Services;
 using Microsoft.Extensions.Logging;
 using IdentityServer4.Models;
 using System.Linq;
-using IdentityServer4.MicroService.Models.Views.Concent;
+using IdentityServer4.MicroService.Host.Models.Views.Concent;
 
-namespace IdentityServer4.MicroService.Services
+namespace IdentityServer4.MicroService.Host.Services
 {
     public class ConsentService
     {

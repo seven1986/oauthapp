@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
-namespace IdentityServer4.MicroService.Data.Migrations.Tenant
+namespace IdentityServer4.MicroService.Host.Data.Migrations.Tenant
 {
     public partial class InitialTenantDbMigration : Migration
     {

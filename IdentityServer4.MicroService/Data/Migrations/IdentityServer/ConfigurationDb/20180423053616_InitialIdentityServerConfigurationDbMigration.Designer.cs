@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace IdentityServer4.MicroService.Data.Migrations.IdentityServer.ConfigurationDb
+namespace IdentityServer4.MicroService.Host.Data.Migrations.IdentityServer.ConfigurationDb
 {
     [DbContext(typeof(ConfigurationDbContext))]
     [Migration("20180423053616_InitialIdentityServerConfigurationDbMigration")]

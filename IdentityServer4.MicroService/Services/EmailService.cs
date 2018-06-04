@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using static IdentityServer4.MicroService.AppDefaultData;
 
-namespace IdentityServer4.MicroService.Services
+namespace IdentityServer4.MicroService.Host.Services
 {
     /// <summary>
     /// 发送邮件

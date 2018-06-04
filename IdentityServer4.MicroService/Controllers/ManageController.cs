@@ -8,10 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
 using IdentityServer4.MicroService.Services;
 using Newtonsoft.Json;
-using IdentityServer4.MicroService.Models.Views.Manage;
 using IdentityServer4.MicroService.Tenant;
+using IdentityServer4.MicroService.Host.Models.Views.Manage;
+using IdentityServer4.MicroService.Data;
 
-namespace IdentityServer4.MicroService.Controllers
+namespace IdentityServer4.MicroService.Host.Controllers
 {
     [Authorize]
     public class ManageController : BasicController

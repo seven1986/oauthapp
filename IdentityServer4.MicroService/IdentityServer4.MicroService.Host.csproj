@@ -1,32 +1,81 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.0.1</Version>
     <Authors>Seven1986</Authors>
-    <PackageProjectUrl>https://github.com/seven1986/IdentityServer4.MicroService</PackageProjectUrl>
     <RepositoryUrl>https://github.com/seven1986/IdentityServer4.MicroService</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>MicroService,IdentityServer4,Azure API Management,Swagger</PackageTags>
-    <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <AssemblyVersion>0.0.1.0</AssemblyVersion>
-    <FileVersion>0.0.1.0</FileVersion>
-    <PackageIconUrl>https://github.com/seven1986/IdentityServer4.MicroService/raw/master/id4ms.png</PackageIconUrl>
-    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
   </PropertyGroup>
-
+  
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;1705;1591;1574;1587</NoWarn>
-    <DocumentationFile>bin\Debug\netcoreapp2.0\IdentityServer4.MicroService.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp2.0\IdentityServer4.MicroService.Host.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\netcoreapp2.0\IdentityServer4.MicroService.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591;1574;1587</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Apis\**" />
+    <Compile Remove="CacheKeys\**" />
+    <Compile Remove="Enums\**" />
+    <Compile Remove="Mappers\**" />
+    <Compile Remove="Microsoft.AspNetCore.Authentication\**" />
+    <Compile Remove="Models\Apis\**" />
+    <Compile Remove="Models\Shared\**" />
+    <Compile Remove="Resources\Apis\**" />
+    <Compile Remove="Tenant\**" />
+    <Content Remove="Apis\**" />
+    <Content Remove="CacheKeys\**" />
+    <Content Remove="Enums\**" />
+    <Content Remove="Mappers\**" />
+    <Content Remove="Microsoft.AspNetCore.Authentication\**" />
+    <Content Remove="Models\Apis\**" />
+    <Content Remove="Models\Shared\**" />
+    <Content Remove="Resources\Apis\**" />
+    <Content Remove="Tenant\**" />
+    <EmbeddedResource Remove="Apis\**" />
+    <EmbeddedResource Remove="CacheKeys\**" />
+    <EmbeddedResource Remove="Enums\**" />
+    <EmbeddedResource Remove="Mappers\**" />
+    <EmbeddedResource Remove="Microsoft.AspNetCore.Authentication\**" />
+    <EmbeddedResource Remove="Models\Apis\**" />
+    <EmbeddedResource Remove="Models\Shared\**" />
+    <EmbeddedResource Remove="Resources\Apis\**" />
+    <EmbeddedResource Remove="Tenant\**" />
+    <None Remove="Apis\**" />
+    <None Remove="CacheKeys\**" />
+    <None Remove="Enums\**" />
+    <None Remove="Mappers\**" />
+    <None Remove="Microsoft.AspNetCore.Authentication\**" />
+    <None Remove="Models\Apis\**" />
+    <None Remove="Models\Shared\**" />
+    <None Remove="Resources\Apis\**" />
+    <None Remove="Tenant\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="AppConstant.cs" />
+    <Compile Remove="AppDefaultData.cs" />
+    <Compile Remove="Data\IdentityDbContext.cs" />
+    <Compile Remove="Data\IdentityMD5PasswordHasher.cs" />
+    <Compile Remove="Data\IdentityTables.cs" />
+    <Compile Remove="Data\View_IdentityUser.cs" />
+    <Compile Remove="MicroserviceConfig.cs" />
+    <Compile Remove="Services\ApiLoggerService.cs" />
+    <Compile Remove="Services\AzureApiManagementService.cs" />
+    <Compile Remove="Services\AzureStorageService.cs" />
+    <Compile Remove="Services\ConnectionStrings.cs" />
+    <Compile Remove="Services\EmailService.cs" />
+    <Compile Remove="Services\IEmailSender.cs" />
+    <Compile Remove="Services\ISmsSender.cs" />
+    <Compile Remove="Services\PagingService.cs" />
+    <Compile Remove="Services\QueryableExtension.cs" />
+    <Compile Remove="Services\RedisService.cs" />
+    <Compile Remove="Services\SwaggerCodeGenService.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
@@ -37,6 +86,7 @@
 
   <ItemGroup>
     <None Remove="compilerconfig.json.defaults" />
+    <None Remove="Data\README.md" />
     <None Remove="Properties\PublishProfiles\IdentityServer4MicroService20180208121002 - Web Deploy.pubxml" />
     <None Remove="Properties\PublishProfiles\IdentityServer4MicroService20180209105301 - Web Deploy.pubxml" />
     <None Remove="Properties\PublishProfiles\IdentityServer4MicroService20180209110348 - Web Deploy.pubxml" />
@@ -47,20 +97,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdentityServer4" Version="2.2.0" />
-    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
-    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.1.0" />
-    <PackageReference Include="IdentityServer4.EntityFramework" Version="2.1.1" />
+    <PackageReference Include="IdentityServer4MicroService" Version="0.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="2.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="2.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="2.4.0" />
-    <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
@@ -114,27 +159,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Update="Resources\Apis\ApiResourceController.en.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Apis\ClientController.en.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Apis\CodeGenController.en.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Apis\FileController.en.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Apis\IdentityResourceController.en.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Apis\RoleController.en.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Apis\TenantController.en.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Controllers\AccountController.en.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>

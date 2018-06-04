@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using IdentityServer4.MicroService.Data;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
-namespace IdentityServer4.MicroService.Data.Migrations.Identity
+namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
 {
     public partial class InitialIdentityDbMigration : Migration
     {

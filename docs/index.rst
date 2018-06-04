@@ -14,6 +14,13 @@ Welcome to IdentityServer4.MicroService
 
 .. toctree::
    :maxdepth: 1
+   :caption: 开始
+
+   startserver
+   startazurejob
+
+.. toctree::
+   :maxdepth: 1
    :caption: 开放能力
 
    IdentityServer4MicroService
