@@ -248,7 +248,7 @@ namespace IdentityServer4.MicroService.Host
                         Scopes = new Dictionary<string, string>(){
                             { "openid","用户标识" },
                             { "profile","用户资料" },
-                            { MicroServiceName+ ".all","所有接口权限"},
+                            { MicroserviceConfig.MicroServiceName+ ".all","所有接口权限"},
                         }
                     });
 

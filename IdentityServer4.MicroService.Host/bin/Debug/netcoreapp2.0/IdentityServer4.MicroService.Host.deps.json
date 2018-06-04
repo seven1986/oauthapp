@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "e575924d769fe2e03e48af14e4ff1c0028ff6098"
+    "signature": "b6016c1d6c388decef029019bd5fd57623c7025b"
   },
   "compilationOptions": {
     "defines": [
@@ -21,9 +21,9 @@
   },
   "targets": {
     ".NETCoreApp,Version=v2.0": {
-      "IdentityServer4.MicroService.Host/0.0.1": {
+      "IdentityServer4.MicroService.Host/1.0.0": {
         "dependencies": {
-          "IdentityServer4MicroService": "0.0.2",
+          "IdentityServer4MicroService": "0.0.3",
           "Microsoft.AspNetCore.All": "2.0.7",
           "Microsoft.AspNetCore.Mvc.Versioning": "2.2.0",
           "Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer": "2.2.0",
@@ -150,6 +150,40 @@
         },
         "compile": {
           "lib/netstandard2.0/IdentityServer4.EntityFramework.dll": {}
+        }
+      },
+      "IdentityServer4MicroService/0.0.3": {
+        "dependencies": {
+          "IdentityServer4": "2.2.0",
+          "IdentityServer4.AccessTokenValidation": "2.6.0",
+          "IdentityServer4.AspNetIdentity": "2.1.0",
+          "IdentityServer4.EntityFramework": "2.1.1",
+          "Microsoft.AspNetCore.Authentication": "2.0.4",
+          "Microsoft.AspNetCore.Authentication.Facebook": "2.0.4",
+          "Microsoft.AspNetCore.Authentication.Google": "2.0.4",
+          "Microsoft.AspNetCore.Authentication.MicrosoftAccount": "2.0.4",
+          "Microsoft.AspNetCore.Authentication.Twitter": "2.0.4",
+          "Microsoft.AspNetCore.DataProtection.Extensions": "2.0.3",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "2.0.2",
+          "Microsoft.AspNetCore.NodeServices": "2.0.4",
+          "Microsoft.EntityFrameworkCore.Design": "2.0.3",
+          "Microsoft.EntityFrameworkCore.SqlServer": "2.0.3",
+          "StackExchange.Redis": "1.2.6",
+          "Swashbuckle.AspNetCore": "2.4.0",
+          "System.Data.SqlClient": "4.5.0",
+          "System.IO.Compression.ZipFile": "4.3.0",
+          "WindowsAzure.Storage": "9.2.0"
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/IdentityServer4.MicroService.dll": {}
+        },
+        "resources": {
+          "lib/netcoreapp2.0/en/IdentityServer4.MicroService.resources.dll": {
+            "locale": "en"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp2.0/IdentityServer4.MicroService.dll": {}
         }
       },
       "Libuv/1.10.0": {
@@ -4171,40 +4205,6 @@
           "lib/netstandard1.3/Microsoft.WindowsAzure.Storage.dll": {}
         }
       },
-      "IdentityServer4MicroService/0.0.2": {
-        "dependencies": {
-          "IdentityServer4": "2.2.0",
-          "IdentityServer4.AccessTokenValidation": "2.6.0",
-          "IdentityServer4.AspNetIdentity": "2.1.0",
-          "IdentityServer4.EntityFramework": "2.1.1",
-          "Microsoft.AspNetCore.Authentication": "2.0.4",
-          "Microsoft.AspNetCore.Authentication.Facebook": "2.0.4",
-          "Microsoft.AspNetCore.Authentication.Google": "2.0.4",
-          "Microsoft.AspNetCore.Authentication.MicrosoftAccount": "2.0.4",
-          "Microsoft.AspNetCore.Authentication.Twitter": "2.0.4",
-          "Microsoft.AspNetCore.DataProtection.Extensions": "2.0.3",
-          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "2.0.2",
-          "Microsoft.AspNetCore.NodeServices": "2.0.4",
-          "Microsoft.EntityFrameworkCore.Design": "2.0.3",
-          "Microsoft.EntityFrameworkCore.SqlServer": "2.0.3",
-          "StackExchange.Redis": "1.2.6",
-          "Swashbuckle.AspNetCore": "2.4.0",
-          "System.Data.SqlClient": "4.5.0",
-          "System.IO.Compression.ZipFile": "4.3.0",
-          "WindowsAzure.Storage": "9.2.0"
-        },
-        "runtime": {
-          "IdentityServer4.MicroService.dll": {}
-        },
-        "resources": {
-          "en/IdentityServer4.MicroService.resources.dll": {
-            "locale": "en"
-          }
-        },
-        "compile": {
-          "IdentityServer4.MicroService.dll": {}
-        }
-      },
       "Microsoft.NETCore.App/2.0.0": {
         "dependencies": {
           "Microsoft.NETCore.DotNetHostPolicy": "2.0.0",
@@ -4383,7 +4383,7 @@
     }
   },
   "libraries": {
-    "IdentityServer4.MicroService.Host/0.0.1": {
+    "IdentityServer4.MicroService.Host/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -4436,6 +4436,13 @@
       "sha512": "sha512-tBOdL2VPE/PjXnYHCz31SNsH39tASCBE65mFXq6dQN2LDHk5iJ0e7umCY6DhbLPJRoSTRBeiKVytwWfw4GHeLQ==",
       "path": "identityserver4.entityframework/2.1.1",
       "hashPath": "identityserver4.entityframework.2.1.1.nupkg.sha512"
+    },
+    "IdentityServer4MicroService/0.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HOnnwF0whwawAyatGIh40vQGMvFtMOczxOPzPQ+XwJjeeOJelLqBBQY367ewW9REw0vFA4467TgiQ6DQZyZCWA==",
+      "path": "identityserver4microservice/0.0.3",
+      "hashPath": "identityserver4microservice.0.0.3.nupkg.sha512"
     },
     "Libuv/1.10.0": {
       "type": "package",
@@ -6606,11 +6613,6 @@
       "sha512": "sha512-YmHeWLre+xKUp9mf3QtP00Z3vqgIjc2al5V336A+EulSAXgOYBJduJ0VTiVN0v8iB46VfBvFz5V5nz9D1hqaTg==",
       "path": "windowsazure.storage/9.2.0",
       "hashPath": "windowsazure.storage.9.2.0.nupkg.sha512"
-    },
-    "IdentityServer4MicroService/0.0.2": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
     },
     "Microsoft.NETCore.App/2.0.0": {
       "type": "package",

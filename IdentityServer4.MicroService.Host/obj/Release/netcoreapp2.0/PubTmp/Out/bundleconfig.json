@@ -1,8 +1,0 @@
-[
-  {
-    "outputFileName": "wwwroot/js/codegen.min.js",
-    "inputFiles": [
-      "wwwroot/js/codegen.js"
-    ]
-  }
-]
