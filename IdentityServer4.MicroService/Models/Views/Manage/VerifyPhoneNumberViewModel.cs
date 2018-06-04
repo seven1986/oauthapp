@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IdentityServer4.MicroService.Models.Views.Manage
+namespace IdentityServer4.MicroService.Host.Models.Views.Manage
 {
     public class VerifyPhoneNumberViewModel
     {

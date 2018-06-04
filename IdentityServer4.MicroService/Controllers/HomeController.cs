@@ -9,9 +9,10 @@ using System.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using IdentityServer4.MicroService.Tenant;
+using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.CacheKeys;
 
-namespace IdentityServer4.MicroService.Controllers
+namespace IdentityServer4.MicroService.Host.Controllers
 {
     public class HomeController : BasicController
     {

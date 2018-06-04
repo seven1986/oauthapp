@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IdentityServer4.MicroService.Models.Views.Concent
+namespace IdentityServer4.MicroService.Host.Models.Views.Concent
 {
     public class ConsentOptions
     {

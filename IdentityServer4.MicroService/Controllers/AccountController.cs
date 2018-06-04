@@ -19,11 +19,12 @@ using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.MicroService.Models.Views.Account;
+using IdentityServer4.MicroService.Host.Models.Views.Account;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 using static IdentityServer4.MicroService.AppDefaultData;
+using IdentityServer4.MicroService.Attributes;
 
-namespace IdentityServer4.MicroService.Controllers
+namespace IdentityServer4.MicroService.Host.Controllers
 {
     [Authorize]
     public class AccountController : BasicController
@@ -668,7 +669,7 @@ namespace IdentityServer4.MicroService.Controllers
 
             var tenantIds = tenantDb.Tenants.Select(x => x.Id).ToList();
 
-            var result = await AccountService.CreateUser(
+            var result = await AppUserService.CreateUser(
                 pvtTenant.Id,
                 _userManager,
                 _userContext,

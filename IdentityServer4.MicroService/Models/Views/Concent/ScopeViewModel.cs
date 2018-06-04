@@ -1,4 +1,4 @@
-﻿namespace IdentityServer4.MicroService.Models.Views.Concent
+﻿namespace IdentityServer4.MicroService.Host.Models.Views.Concent
 {
     public class ScopeViewModel
     {

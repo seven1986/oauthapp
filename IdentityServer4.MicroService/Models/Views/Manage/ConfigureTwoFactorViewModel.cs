@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace IdentityServer4.MicroService.Models.Views.Manage
+namespace IdentityServer4.MicroService.Host.Models.Views.Manage
 {
     public class ConfigureTwoFactorViewModel
     {

@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
-using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.Models.Views.Concent;
+using IdentityServer4.MicroService.Host.Services;
+using IdentityServer4.MicroService.Host.Models.Views.Concent;
 using IdentityServer4.MicroService.Tenant;
 using System;
 
-namespace IdentityServer4.MicroService.Controllers
+namespace IdentityServer4.MicroService.Host.Controllers
 {
     public class ConsentController: BasicController
     {

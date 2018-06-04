@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using System.Text;
 
-namespace IdentityServer4.MicroService.Services
+namespace IdentityServer4.MicroService.Host.Services
 {
     public interface IEmailSender
     {

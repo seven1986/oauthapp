@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore;
 
-namespace IdentityServer4.MicroService
+namespace IdentityServer4.MicroService.Host
 {
     public class Program
     {

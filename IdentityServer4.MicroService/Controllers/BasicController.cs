@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.Models.Shared;
 
-namespace IdentityServer4.MicroService.Controllers
+namespace IdentityServer4.MicroService.Host.Controllers
 {
     [SecurityHeaders]
     public class BasicController : Controller

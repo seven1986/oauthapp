@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IdentityServer4.MicroService.Models.Views.Account
+namespace IdentityServer4.MicroService.Host.Models.Views.Account
 {
     public class AccountOptions
     {

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>IdentityServer4MicroService</id>
+    <version>0.0.1</version>
+    <authors>seven1986</authors>
+    <owners>seven1986</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/seven1986/IdentityServer4.MicroService/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/seven1986/IdentityServer4.MicroService</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/seven1986/IdentityServer4.MicroService/master/id4ms.png</iconUrl>
+    <description>Package Description</description>
+    <tags>IdentityServer4 MicroService Azure Api Management</tags>
+    <repository url="https://github.com/seven1986/IdentityServer4.MicroService" />
+    <dependencies>
+      <group targetFramework=".NETCoreApp2.0">
+        <dependency id="IdentityServer4" version="2.2.0" exclude="Build,Analyzers" />
+        <dependency id="IdentityServer4.AccessTokenValidation" version="2.6.0" exclude="Build,Analyzers" />
+        <dependency id="IdentityServer4.AspNetIdentity" version="2.1.0" exclude="Build,Analyzers" />
+        <dependency id="IdentityServer4.EntityFramework" version="2.1.1" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Authentication" version="2.1.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Authentication.Facebook" version="2.1.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Authentication.Google" version="2.1.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Authentication.MicrosoftAccount" version="2.1.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Authentication.Twitter" version="2.1.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.DataProtection.Extensions" version="2.1.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Identity.EntityFrameworkCore" version="2.1.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.NodeServices" version="2.1.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore.Design" version="2.1.0" exclude="Build,Analyzers" />
+        <dependency id="StackExchange.Redis" version="1.2.6" exclude="Build,Analyzers" />
+        <dependency id="Swashbuckle.AspNetCore" version="2.4.0" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SqlClient" version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="WindowsAzure.Storage" version="9.2.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\IdentityServer4.MicroService.Core\bin\Release\netcoreapp2.0\en\IdentityServer4.MicroService.Core.resources.dll" target="lib\netcoreapp2.0\en\IdentityServer4.MicroService.Core.resources.dll" />
+    <file src="C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\IdentityServer4.MicroService.Core\bin\Release\netcoreapp2.0\IdentityServer4.MicroService.Core.runtimeconfig.json" target="lib\netcoreapp2.0\IdentityServer4.MicroService.Core.runtimeconfig.json" />
+    <file src="C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\IdentityServer4.MicroService.Core\bin\Release\netcoreapp2.0\IdentityServer4.MicroService.Core.dll" target="lib\netcoreapp2.0\IdentityServer4.MicroService.Core.dll" />
+  </files>
+</package>

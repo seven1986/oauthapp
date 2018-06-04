@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace IdentityServer4.MicroService.Data.Migrations.Identity
+namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
 {
     [DbContext(typeof(IdentityDbContext))]
     [Migration("20180423053745_InitialIdentityDbMigration")]

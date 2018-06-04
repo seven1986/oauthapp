@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Globalization;
@@ -25,14 +24,12 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Swashbuckle.AspNetCore.Swagger;
-using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.Services;
+using IdentityServer4.MicroService.Host.Services;
 using IdentityServer4.MicroService.Tenant;
-using static IdentityServer4.MicroService.AppConstant;
-using static IdentityServer4.MicroService.MicroserviceConfig;
+using IdentityServer4.MicroService.Data;
+using Swashbuckle.AspNetCore.Swagger;
 
-namespace IdentityServer4.MicroService
+namespace IdentityServer4.MicroService.Host
 {
     public class Startup
     {
@@ -107,8 +104,8 @@ namespace IdentityServer4.MicroService
             #endregion
 
             var assemblyName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-            var connSection = Configuration.GetSection("ConnectionStrings");
-            var DBConnection = connSection["DataBaseConnection"];
+
+            var DBConnection = Configuration["ConnectionStrings:DataBaseConnection"];
 
             #region DbContext
             // Add TenantDbContext.
@@ -126,28 +123,23 @@ namespace IdentityServer4.MicroService
             })
             .AddEntityFrameworkStores<IdentityDbContext>()
             .AddDefaultTokenProviders();
-            services.Configure<ConnectionStrings>(connSection);
             #endregion
 
             #region 联合登陆
-            // https://github.com/aspnet/Security/issues/1576
-            // https://docs.microsoft.com/zh-cn/aspnet/core/security/authentication/social/microsoft-logins
-            // https://docs.microsoft.com/zh-cn/aspnet/core/security/authentication/social/facebook-logins
-            // https://docs.microsoft.com/zh-cn/aspnet/core/security/authentication/social/google-logins
-            // https://docs.microsoft.com/zh-cn/aspnet/core/security/authentication/social/twitter-logins
-            var authBuilder = services.AddAuthentication(options => {
+            //Authentication 
+            services.AddAuthentication(options => {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-            });
-
-            authBuilder.AddIdentityServerAuthentication(AppAuthenScheme, isAuth =>
+            })
+            //IdentityServerAuthentication
+            .AddIdentityServerAuthentication(AppConstant.AppAuthenScheme, isAuth =>
             {
                 isAuth.Authority = "https://" + Configuration["IdentityServer"];
-                isAuth.ApiName = MicroServiceName;
+                isAuth.ApiName = MicroserviceConfig.MicroServiceName;
                 isAuth.RequireHttpsMetadata = true;
-            });
-
-            authBuilder.AddOAuths();
+            })
+            //OAuths Login
+            .AddIdentityServer4MicroServiceOAuths();
             #endregion
 
             //for now, no need
@@ -220,11 +212,6 @@ namespace IdentityServer4.MicroService
                 o.AssumeDefaultVersionWhenUnspecified = true;
                 o.ReportApiVersions = true;
             });
-
-            services.AddScoped<IPasswordHasher<AppUser>, IdentityMD5PasswordHasher>();
-
-            //注册Lazy
-            services.AddTransient(typeof(Lazy<>));
             #endregion
 
             #region SwaggerGen
@@ -297,72 +284,7 @@ namespace IdentityServer4.MicroService
             });
             #endregion
 
-            #region MessageSender
-            services.Configure<SmsSenderOptions>(Configuration.GetSection("MessageSender:Sms"));
-            services.Configure<EmailSenderOptions>(Configuration.GetSection("MessageSender:Email"));
-            services.AddTransient<IEmailSender, EmailSender>();
-            services.AddTransient<ISmsSender, SmsSender>();
-            services.AddTransient<EmailService>();
-            #endregion
-
-            services.AddSingleton<RedisService>();
-            services.AddSingleton<TenantService>();
-            services.AddSingleton<SwaggerCodeGenService>();
-            services.AddSingleton<AzureStorageService>();
-            services.AddScoped<ApiLoggerService>();
-
-            #region 权限定义
-            services.AddAuthorization(options =>
-                {
-                    #region Client的权限策略
-                    var scopes = typeof(ClientScopes).GetFields();
-
-                    foreach (var scope in scopes)
-                    {
-                        var scopeName = scope.GetRawConstantValue().ToString();
-
-                        var scopeValues = scope.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues;
-
-                        options.AddPolicy(scopeName,policy => policy.RequireClaim(ClaimTypes.ClientScope, scopeValues));
-                    }
-                    #endregion
-
-                    #region User的权限策略
-                    var permissions = typeof(UserPermissions).GetFields();
-
-                    foreach (var permission in permissions)
-                    {
-                        var permissionName = permission.GetRawConstantValue().ToString();
-
-                        var permissionValues = permission.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues;
-
-                        options.AddPolicy(permissionName,
-                            policy => policy.RequireAssertion(context =>
-                            {
-                                var userPermissionClaim = context.User.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.UserPermission));
-
-                                if (userPermissionClaim != null && !string.IsNullOrWhiteSpace(userPermissionClaim.Value))
-                                {
-                                    var userPermissionClaimValue = userPermissionClaim.Value.ToLower().Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-
-                                    if (userPermissionClaimValue != null && userPermissionClaimValue.Length > 0)
-                                    {
-                                        foreach (var userPermissionItem in userPermissionClaimValue)
-                                        {
-                                            if (permissionValues.Contains(userPermissionItem))
-                                            {
-                                                return true;
-                                            }
-                                        }
-                                    }
-                                }
-
-                                return false;
-                            }));
-                    }
-                    #endregion
-                });
-            #endregion
+            services.AddIdentityServer4MicroService(Configuration);
 
             #region IdentityServer
             X509Certificate2 cert = null;
@@ -471,7 +393,8 @@ namespace IdentityServer4.MicroService
 
             app.UseStaticFiles();
 
-            app.UseMutitenancy();
+            // do not change the order here
+            app.UseIdentityServer4MicroService();
 
             app.UseAuthentication();
 

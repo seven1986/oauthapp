@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using System.Threading;
 
-namespace IdentityServer4.MicroService.Services
+namespace IdentityServer4.MicroService.Host.Services
 {
     public interface ISmsSender
     {
