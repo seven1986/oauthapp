@@ -3,12 +3,12 @@
 ################################################################################
 
 /.vs
-/IdentityServer4.MicroService/.vs
-/IdentityServer4.MicroService/obj
-/IdentityServer4.MicroService/bin
-/IdentityServer4.MicroService/Properties/PublishProfiles
-/IdentityServer4.MicroService/node_modules
-/IdentityServer4.MicroService/IdentityServer4.MicroService.csproj.user
+/IdentityServer4.MicroService.Host/.vs
+/IdentityServer4.MicroService.Host/obj
+/IdentityServer4.MicroService.Host/bin
+/IdentityServer4.MicroService.Host/Properties/PublishProfiles
+/IdentityServer4.MicroService.Host/node_modules
+/IdentityServer4.MicroService.Host/IdentityServer4.MicroService.Host.csproj.user
 
 /packages
 /IdentityServer4.MicroService.AzureJobs/bin
@@ -16,3 +16,6 @@
 /IdentityServer4.MicroService.AzureJobs/Properties/PublishProfiles
 /IdentityServer4.MicroService.AzureJobs/IdentityServer4.MicroService.AzureJobs.csproj.user
 /docs/_build/html
+/IdentityServer4.MicroService/bin
+/IdentityServer4.MicroService/obj
+/IdentityServer4.MicroService/IdentityServer4.MicroService.csproj.user
