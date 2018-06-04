@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Http;
-using IdentityServer4.Validation;
+using System.Threading.Tasks;
 
 namespace IdentityServer4.MicroService.Tenant
 {

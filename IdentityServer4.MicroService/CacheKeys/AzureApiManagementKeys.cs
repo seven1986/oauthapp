@@ -1,6 +1,6 @@
 ﻿namespace IdentityServer4.MicroService.CacheKeys
 {
-    internal class AzureApiManagementKeys
+    public class AzureApiManagementKeys
     {
         /// <summary>
         /// Security>>Credentials.Management API URL

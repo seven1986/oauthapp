@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage.Queue;
 using System.Threading;
+using IdentityServer4.MicroService.AppSettings;
 
 namespace IdentityServer4.MicroService.Services
 {

@@ -1,6 +1,5 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
-using IdentityServer4;
+﻿using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace IdentityServer4.MicroService.Tenant
 {

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace IdentityServer4.MicroService.Tenant
 {
-    public class TenantDbContext: DbContext
+    public class TenantDbContext : DbContext
     {
         public TenantDbContext(DbContextOptions<TenantDbContext> options)
            : base(options)
@@ -125,7 +125,7 @@ namespace IdentityServer4.MicroService.Tenant
         /// <summary>
         /// 租户数据缓存时长，单位秒
         /// </summary>
-        public long CacheDuration { get; set; } = 60L; 
+        public long CacheDuration { get; set; } = 60L;
 
         /// <summary>
         /// 所有者用户Id

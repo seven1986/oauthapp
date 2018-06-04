@@ -14,12 +14,12 @@ using Newtonsoft.Json.Linq;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Services;
+using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.CodeGenController;
-using IdentityServer4.MicroService.CacheKeys;
+using IdentityServer4.MicroService.Models.Apis.ApiResourceController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
-using IdentityServer4.MicroService.Models.Apis.ApiResourceController;
 
 namespace IdentityServer4.MicroService.Apis
 {

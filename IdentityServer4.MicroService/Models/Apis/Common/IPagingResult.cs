@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace IdentityServer4.MicroService.Models.Apis.Common
+﻿namespace IdentityServer4.MicroService.Models.Apis.Common
 {
    public interface IPagingResult
     {

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
 
-namespace IdentityServer4.MicroService
+namespace IdentityServer4.MicroService.Data
 {
     public class AppUser : IdentityUser<long>
     {

@@ -1,5 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using IdentityServer4.MicroService.Attributes;
 
 namespace IdentityServer4.MicroService
 {
@@ -239,7 +239,7 @@ namespace IdentityServer4.MicroService
                         MicroServiceName + ".client.get",
                         MicroServiceName + ".client.all",
                         MicroServiceName + ".all")]
-            public const string ClientGet = "scope:client.get"; 
+            public const string ClientGet = "scope:client.get";
             #endregion
 
             #region 客户端 - 详情
@@ -248,7 +248,7 @@ namespace IdentityServer4.MicroService
                         MicroServiceName + ".client.detail",
                         MicroServiceName + ".client.all",
                         MicroServiceName + ".all")]
-            public const string ClientDetail = "scope:client.detail"; 
+            public const string ClientDetail = "scope:client.detail";
             #endregion
 
             #region 客户端 - 创建
@@ -257,7 +257,7 @@ namespace IdentityServer4.MicroService
                         MicroServiceName + ".client.post",
                         MicroServiceName + ".client.all",
                         MicroServiceName + ".all")]
-            public const string ClientPost = "scope:client.post"; 
+            public const string ClientPost = "scope:client.post";
             #endregion
 
             #region 客户端 - 更新
@@ -266,7 +266,7 @@ namespace IdentityServer4.MicroService
                         MicroServiceName + ".client.put",
                         MicroServiceName + ".client.all",
                         MicroServiceName + ".all")]
-            public const string ClientPut = "scope:client.put"; 
+            public const string ClientPut = "scope:client.put";
             #endregion
 
             #region 客户端 - 删除
@@ -275,7 +275,7 @@ namespace IdentityServer4.MicroService
                         MicroServiceName + ".client.delete",
                         MicroServiceName + ".client.all",
                         MicroServiceName + ".all")]
-            public const string ClientDelete = "scope:client.delete"; 
+            public const string ClientDelete = "scope:client.delete";
             #endregion
 
             #region 客户端 - 创建令牌
@@ -1139,7 +1139,7 @@ namespace IdentityServer4.MicroService
                         MicroServiceName + ".user.verifyemail",
                         MicroServiceName + ".user.all",
                         MicroServiceName + ".all")]
-            public const string UserVerifyEmail = "permission:user.verifyemail"; 
+            public const string UserVerifyEmail = "permission:user.verifyemail";
             #endregion
             #endregion
         }
@@ -1188,27 +1188,6 @@ namespace IdentityServer4.MicroService
             /// for client
             /// </summary>
             public const string ClientScope = "scope";
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
-    public class PolicyClaimValuesAttribute : Attribute
-    {
-        public string[] ClaimsValues { get; set; }
-
-        /// <summary>
-        /// 默认权限，用户注册后将获取该权限
-        /// </summary>
-        public bool IsDefault { get; set; }
-
-        public PolicyClaimValuesAttribute(bool isDefault, params string[] claimsValues) {
-            IsDefault = isDefault;
-            ClaimsValues = claimsValues;
-        }
-
-        public PolicyClaimValuesAttribute(params string[] ClaimsValues):this(false, ClaimsValues)
-        {
-
         }
     }
 }
