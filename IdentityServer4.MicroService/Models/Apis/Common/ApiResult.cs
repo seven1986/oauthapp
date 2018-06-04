@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using Microsoft.Extensions.Localization;
 using IdentityServer4.MicroService.Enums;
+using Microsoft.Extensions.Localization;
 
 namespace IdentityServer4.MicroService.Models.Apis.Common
 {

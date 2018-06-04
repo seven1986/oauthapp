@@ -1,20 +1,11 @@
 ﻿using System.Threading.Tasks;
-using System.Collections.Generic;
 using IdentityServer4.Configuration;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.Weixin;
-using Microsoft.AspNetCore.Authentication.Weibo;
-using Microsoft.AspNetCore.Authentication.GitHub;
-using Microsoft.AspNetCore.Authentication.QQ;
-using Microsoft.AspNetCore.Authentication.Twitter;
-using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
-using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Authentication.Facebook;
-using IdentityServer4.MicroService.Models.Shared;
 using Microsoft.AspNetCore.Authentication;
 using System.Linq;
+using IdentityServer4.MicroService.Models.Shared;
 
 namespace IdentityServer4.MicroService.Tenant
 {
@@ -35,7 +26,7 @@ namespace IdentityServer4.MicroService.Tenant
         }
 
         public Task Invoke(
-            HttpContext context, 
+            HttpContext context,
             TenantDbContext _db)
         {
             var tenant = _tenantService.GetTenant(_db,

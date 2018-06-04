@@ -1,0 +1,27 @@
+{
+  "name": "identityserver4.microservice",
+  "version": "1.0.0",
+  "scripts": {
+    "InitialIdentityServerPersistedGrantDbMigration": "dotnet ef migrations add InitialIdentityServerPersistedGrantDbMigration -c PersistedGrantDbContext -o Data/Migrations/IdentityServer/PersistedGrantDb",
+    "InitialIdentityServerConfigurationDbMigration": "dotnet ef migrations add InitialIdentityServerConfigurationDbMigration -c ConfigurationDbContext -o Data/Migrations/IdentityServer/ConfigurationDb",
+    "InitialIdentityDbMigration": "dotnet ef migrations add InitialIdentityDbMigration -c IdentityDbContext -o Data/Migrations/Identity",
+    "InitialTenantDbMigration": "dotnet ef migrations add InitialTenantDbMigration -c TenantDbContext -o Data/Migrations/Tenant"
+  },
+  "dependencies": {
+    "angular": "1.6.9",
+    "bootstrap": "4.0.0",
+    "jquery": "3.3.1",
+    "jquery-validation": "1.17.0",
+    "jquery-validation-unobtrusive": "^3.2.6",
+    "swiper": "4.1.6"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-uglify": "^3.0.0",
+    "merge-stream": "^1.0.1",
+    "gulp-clean": "0.4.0",
+    "gulp-sequence": "1.0.0"
+  }
+}

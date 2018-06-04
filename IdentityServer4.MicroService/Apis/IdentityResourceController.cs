@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.MicroService.Enums;
-using IdentityServer4.MicroService.Services;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.MicroService.Models.Apis.Common;

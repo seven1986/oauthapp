@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using IdentityServer4.MicroService.Mappers;
+using IdentityServer4.MicroService.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.Mappers;
+using System;
+using System.Linq;
 
 namespace IdentityServer4.MicroService.Tenant
 {
@@ -17,12 +17,12 @@ namespace IdentityServer4.MicroService.Tenant
             _redis = redis;
         }
 
-        public Tuple<string, string> GetTenant(TenantDbContext _db,string host)
+        public Tuple<string, string> GetTenant(TenantDbContext _db, string host)
         {
             #region 设置缓存Key
             // for client use
             var Unique_TenantPublic_CacheKey = $"{TenantConstant.CacheKey}:{host}:pub";
-            
+
             // for server config
             var Unique_TenantPrivate_CacheKey = $"{TenantConstant.CacheKey}:{host}:pvt";
             #endregion

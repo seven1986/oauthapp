@@ -1,0 +1,1 @@
+var app=angular.module("app",[]);$(function(){new Swiper("#youdaoBanner",{centeredSlides:!0,slidesPerView:"auto",spaceBetween:40,initialSlide:3,navigation:{nextEl:".swiper-button-next",prevEl:".swiper-button-prev"}})});

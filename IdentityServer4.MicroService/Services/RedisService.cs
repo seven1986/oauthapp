@@ -1,7 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using StackExchange.Redis;
+﻿using IdentityServer4.MicroService.AppSettings;
 using Microsoft.Extensions.Options;
+using StackExchange.Redis;
+using System;
+using System.Threading.Tasks;
 
 namespace IdentityServer4.MicroService.Services
 {

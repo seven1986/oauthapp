@@ -1,13 +1,13 @@
-﻿using System.Data;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace IdentityServer4.MicroService.Data
 {
-    public class IdentityDbContext : IdentityDbContext<AppUser,AppRole,long,AppUserClaim,AppUserRole,AppUserLogin, AppRoleClaim, AppUserToken>
+    public class IdentityDbContext : IdentityDbContext<AppUser, AppRole, long, AppUserClaim, AppUserRole, AppUserLogin, AppRoleClaim, AppUserToken>
     {
         public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
             : base(options)
@@ -130,7 +130,7 @@ namespace IdentityServer4.MicroService.Data
 
         public DbSet<AspNetUserTenant> UserTenants { get; set; }
 
-        public async Task<object> ExecuteScalarAsync(string sql, CommandType cmdType = CommandType.Text,params SqlParameter[] sqlParams)
+        public async Task<object> ExecuteScalarAsync(string sql, CommandType cmdType = CommandType.Text, params SqlParameter[] sqlParams)
         {
             var con = Database.GetDbConnection();
 

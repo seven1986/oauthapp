@@ -13,12 +13,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
-using IdentityServer4.MicroService.Enums;
+using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.MicroService.Data;
+using IdentityServer4.MicroService.Enums;
+using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.CacheKeys;
-using IdentityServer4.MicroService.Tenant;
-using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.MicroService.Attributes;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.UserController;
 using static IdentityServer4.MicroService.AppConstant;
@@ -245,7 +246,7 @@ namespace IdentityServer4.MicroService.Apis
             var tenantIds = tenantDb.Tenants.Select(x => x.Id).ToList();
             try
             {
-                var result = await AccountService.CreateUser(
+                var result = await AppUserService.CreateUser(
                     TenantId,
                     userManager,
                     db,
@@ -731,7 +732,7 @@ namespace IdentityServer4.MicroService.Apis
 
             var tenantIds = tenantDbContext.Tenants.Select(x => x.Id).ToList();
 
-            var result = await AccountService.CreateUser(TenantId,
+            var result = await AppUserService.CreateUser(TenantId,
                 userManager,
                 db,
                 user,

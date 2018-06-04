@@ -1,6 +1,6 @@
-﻿using System.Text;
+﻿using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography;
-using Microsoft.AspNetCore.Identity;
+using System.Text;
 
 namespace IdentityServer4.MicroService.Data
 {

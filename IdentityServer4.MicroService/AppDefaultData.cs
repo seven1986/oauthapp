@@ -28,11 +28,12 @@ using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using IdentityServer4.Models;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
+using static IdentityServer4.MicroService.MicroserviceConfig;
 using IdentityServer4.MicroService.Data;
+using IdentityServer4.MicroService.Tenant;
+using IdentityServer4.MicroService.Attributes;
 using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.Tenant;
-using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace IdentityServer4.MicroService
 {
@@ -146,7 +147,7 @@ namespace IdentityServer4.MicroService
             public static ICollection<string> RedirectUris = new string[]{
                 "http://localhost:4200/auth-callback",
                 // for IdentityServer4.MicroService.UI
-                "https://localhost:44386/callback.html", 
+                "https://localhost:44386/callback.html",
                 "https://localhost:44386/silent_callback.html",
             };
 
@@ -397,7 +398,7 @@ namespace IdentityServer4.MicroService
                     tenantDbContext.Tenants.Add(tenant);
                     tenantDbContext.SaveChanges();
                     #endregion
-                } 
+                }
                 #endregion
 
                 var userContext = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
@@ -425,7 +426,7 @@ namespace IdentityServer4.MicroService
 
                     foreach (var _user in GetUsers())
                     {
-                        var r = AccountService.CreateUser(AppConstant.seedTenantId,
+                        var r = AppUserService.CreateUser(AppConstant.seedTenantId,
                              userManager,
                              userContext,
                              _user,
@@ -473,7 +474,7 @@ namespace IdentityServer4.MicroService
             /// 用户注册 - 邮箱验证
             /// 变量：%code%
             /// </summary>
-            [SendCloudTemplate("邮箱验证")]
+            [EmailConfig("邮箱验证")]
             verify_email,
             #endregion
 
@@ -486,7 +487,7 @@ namespace IdentityServer4.MicroService
             /// %apiId%
             /// %serviceName%
             /// </summary>
-            [SendCloudTemplate("验证邮箱")]
+            [EmailConfig("验证邮箱")]
             verify_apiresource_subscription,
             #endregion
 
@@ -495,7 +496,7 @@ namespace IdentityServer4.MicroService
             /// 忘记密码
             /// 变量：%callbackUrl%
             /// </summary>
-            [SendCloudTemplate("reset password")]
+            [EmailConfig("reset password")]
             reset_password,
             #endregion
 
@@ -504,7 +505,7 @@ namespace IdentityServer4.MicroService
             /// 用户登录 - 邮箱安全码
             /// 变量：%code%
             /// </summary>
-            [SendCloudTemplate("登录验证码")]
+            [EmailConfig("登录验证码")]
             security_code,
             #endregion
 
@@ -513,7 +514,7 @@ namespace IdentityServer4.MicroService
             /// 用户注册 - 激活邮箱
             /// 变量：%name%,%url%
             /// </summary>
-            [SendCloudTemplate("%name%请激活您的邮箱")]
+            [EmailConfig("%name%请激活您的邮箱")]
             test_template_active,
             #endregion
         }
