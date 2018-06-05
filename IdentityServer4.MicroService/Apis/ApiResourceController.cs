@@ -739,20 +739,29 @@ namespace IdentityServer4.MicroService.Apis
                 await storageService.AddMessageAsync("apiresource-publish", id.ToString());
                 #endregion
 
-                #region Publish message for sync labels to github repo if set token 
+
+                #region Github Sync
                 var githubConfiguration = await _PublishGithubConfiguration(id);
                 if (githubConfiguration != null && !string.IsNullOrWhiteSpace(githubConfiguration.token))
                 {
-                    await storageService.AddMessageAsync("apiresource-publish-github", JsonConvert.SerializeObject(githubConfiguration));
-                }
+                    #region sync labels to github repo
+                    if (githubConfiguration.syncLabels)
+                    {
+                        await storageService.AddMessageAsync("apiresource-publish-github",
+                            JsonConvert.SerializeObject(githubConfiguration));
+                    }
+                    #endregion
+
+                    #region sync readthedocs to github repo
+                    if (githubConfiguration.syncDocs)
+                    {
+                        await storageService.AddMessageAsync("apiresource-publish-github-readthedocs",
+                            JsonConvert.SerializeObject(githubConfiguration));
+                    }
+                    #endregion
+                } 
                 #endregion
 
-                #region Publish message for init readthedocs configuration to github repo set token
-                if (githubConfiguration != null && !string.IsNullOrWhiteSpace(githubConfiguration.token))
-                {
-                    await storageService.AddMessageAsync("apiresource-publish-github-readthedocs", JsonConvert.SerializeObject(githubConfiguration));
-                }
-                #endregion
 
                 return new ApiResult<bool>(true);
             }

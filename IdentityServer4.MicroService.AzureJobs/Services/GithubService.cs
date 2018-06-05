@@ -23,7 +23,7 @@ namespace IdentityServer4.MicroService.AzureJobs.Services
             {
                 return colorHex[rd.Next(0, colorHex.Count - 1)];
             }
-        } 
+        }
         #endregion
 
         public string userAgent { get; set; }
@@ -46,7 +46,7 @@ namespace IdentityServer4.MicroService.AzureJobs.Services
         public static string apiServer = "https://api.github.com";
 
         #region construct
-        public GithubService(string _userAgent,  string _owner, string _repo, string _token)
+        public GithubService(string _userAgent, string _owner, string _repo, string _token)
         {
             userAgent = _userAgent;
             owner = _owner;
@@ -83,7 +83,7 @@ namespace IdentityServer4.MicroService.AzureJobs.Services
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
 
             return labels;
@@ -140,7 +140,7 @@ namespace IdentityServer4.MicroService.AzureJobs.Services
 
                 return result;
             }
-        } 
+        }
         #endregion
 
         public async Task<Dictionary<string, string>> OperationsAsync(string swaggerUrl)
@@ -166,9 +166,27 @@ namespace IdentityServer4.MicroService.AzureJobs.Services
                 {
                     foreach (JProperty method in v.Value)
                     {
-                        result.Add(
-                            swaggerTitle + "." + method.Value["operationId"].Value<string>(),
-                            method.Value["description"].Value<string>());
+                        try
+                        {
+                            var operationId = method.Value["operationId"].Value<string>();
+
+                            var description = string.Empty;
+
+                            if (method.Value["description"] != null)
+                            {
+                                description = method.Value["description"].Value<string>();
+                            }
+                            else if (method.Value["summary"] != null)
+                            {
+                                description = method.Value["summary"].Value<string>();
+                            }
+
+                            result.Add(swaggerTitle + "." + operationId, description);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                     }
                 }
             }
@@ -277,7 +295,7 @@ namespace IdentityServer4.MicroService.AzureJobs.Services
         /// <param name="sha"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> FilePutAsync(string path, string content,string sha, string message = "updated")
+        public async Task<HttpResponseMessage> FilePutAsync(string path, string content, string sha, string message = "updated")
         {
             using (var wc = new HttpClient())
             {

@@ -26,7 +26,7 @@ namespace IdentityServer4.MicroService.AzureJobs.Services
             sendCloudfromName = ConfigurationManager.AppSettings["sendCloudfromName"];
         }
 
-        private async Task<bool> Send(string subject, string templateInvokeName, string xsmtpapi, string from="", string fromName="")
+        private async Task<bool> Send(string subject, string templateInvokeName, string xsmtpapi, string from = "", string fromName = "")
         {
             if (string.IsNullOrWhiteSpace(from))
             {
@@ -126,13 +126,13 @@ namespace IdentityServer4.MicroService.AzureJobs.Services
 
             try
             {
-               await Send(TemplateEntity.subject,
-                    templateKey,
-                    xsmtpapi);
+                await Send(TemplateEntity.subject,
+                     templateKey,
+                     xsmtpapi);
 
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -228,5 +228,4 @@ namespace IdentityServer4.MicroService.AzureJobs.Services
         apiresource_published_notify,
         #endregion
     }
-
 }

@@ -26,5 +26,15 @@
         /// swaggerUrl
         /// </summary>
         public string swaggerUrl { get; set; }
+
+        /// <summary>
+        /// 同步标签
+        /// </summary>
+        public bool syncLabels { get; set; } = true;
+
+        /// <summary>
+        /// 同步文档
+        /// </summary>
+        public bool syncDocs { get; set; } = true;
     }
 }
