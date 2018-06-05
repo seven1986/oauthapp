@@ -75,33 +75,33 @@
     </None>
     <None Include="IdentityServer4MicroService.AzureJobs.nuspec" />
     <None Include="packages.config" />
-    <None Include="Templates\readthedocs\errorcodes.rst">
+    <Content Include="contentFiles\Templates\readthedocs\errorcodes.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\readthedocs\index.rst">
+    </Content>
+    <Content Include="contentFiles\Templates\readthedocs\index.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\readthedocs\introduction.rst">
+    </Content>
+    <Content Include="contentFiles\Templates\readthedocs\introduction.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\readthedocs\issues.rst">
+    </Content>
+    <Content Include="contentFiles\Templates\readthedocs\issues.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\readthedocs\log.rst">
+    </Content>
+    <Content Include="contentFiles\Templates\readthedocs\log.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\readthedocs\make.bat">
+    </Content>
+    <Content Include="contentFiles\Templates\readthedocs\make.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\readthedocs\Makefile">
+    </Content>
+    <Content Include="contentFiles\Templates\readthedocs\Makefile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\readthedocs\permissions.rst">
+    </Content>
+    <Content Include="contentFiles\Templates\readthedocs\permissions.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Templates\readthedocs\conf.py">
+    <Content Include="contentFiles\Templates\readthedocs\conf.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

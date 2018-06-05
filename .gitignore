@@ -24,3 +24,5 @@
 /IdentityServer4.MicroService.AzureJobs.Host/obj
 /IdentityServer4.MicroService.AzureJobs.Host/Properties/PublishProfiles
 /IdentityServer4.MicroService.AzureJobs.Host/IdentityServer4.MicroService.AzureJobs.Host.csproj.user
+/IdentityServer4.MicroService.Host/appsettings.Production.json
+/IdentityServer4.MicroService.Host/appsettings.Development.json
