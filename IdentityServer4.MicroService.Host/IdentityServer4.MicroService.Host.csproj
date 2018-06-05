@@ -25,7 +25,6 @@
     <Compile Remove="Microsoft.AspNetCore.Authentication\**" />
     <Compile Remove="Models\Apis\**" />
     <Compile Remove="Models\Shared\**" />
-    <Compile Remove="Properties\PublishProfiles\**" />
     <Compile Remove="Resources\Apis\**" />
     <Compile Remove="Tenant\**" />
     <Content Remove="Apis\**" />
@@ -35,7 +34,6 @@
     <Content Remove="Microsoft.AspNetCore.Authentication\**" />
     <Content Remove="Models\Apis\**" />
     <Content Remove="Models\Shared\**" />
-    <Content Remove="Properties\PublishProfiles\**" />
     <Content Remove="Resources\Apis\**" />
     <Content Remove="Tenant\**" />
     <EmbeddedResource Remove="Apis\**" />
@@ -45,7 +43,6 @@
     <EmbeddedResource Remove="Microsoft.AspNetCore.Authentication\**" />
     <EmbeddedResource Remove="Models\Apis\**" />
     <EmbeddedResource Remove="Models\Shared\**" />
-    <EmbeddedResource Remove="Properties\PublishProfiles\**" />
     <EmbeddedResource Remove="Resources\Apis\**" />
     <EmbeddedResource Remove="Tenant\**" />
     <None Remove="Apis\**" />
@@ -55,7 +52,6 @@
     <None Remove="Microsoft.AspNetCore.Authentication\**" />
     <None Remove="Models\Apis\**" />
     <None Remove="Models\Shared\**" />
-    <None Remove="Properties\PublishProfiles\**" />
     <None Remove="Resources\Apis\**" />
     <None Remove="Tenant\**" />
   </ItemGroup>
@@ -115,6 +111,7 @@
     <Folder Include="Data\Migrations\IdentityServer\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\IdentityServer4MicroService - Web Deploy.pubxml.user" />
     <None Include="Views\Account\AccessDenied.cshtml" />
     <None Include="Views\Account\ConfirmEmail.cshtml" />
     <None Include="Views\Account\ExternalLoginConfirmation.cshtml" />

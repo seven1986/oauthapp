@@ -177,7 +177,7 @@ namespace IdentityServer4.MicroService.AzureJobs
 
             foreach (var o in operations)
             {
-                if (labels.Any(x => x.name.Equals(o.Key)))
+                if (labels.Any(x => x.name.ToLower().Equals(o.Key.ToLower())))
                 {
                     continue;
                 }
@@ -366,7 +366,7 @@ namespace IdentityServer4.MicroService.AzureJobs
 
                     log.WriteLine(ReasonPhrase + ":" + ResponseMessage);
                 }
-            } 
+            }
             #endregion
         }
 
