@@ -1,8 +1,11 @@
 ﻿# IdentityServer4.MicroService
 
-[![NuGet](https://img.shields.io/nuget/v/identityserver4microservice.svg)](https://github.com/seven1986/IdentityServer4.MicroService)
-
 IdentityServer4.MicroService是一个免费开源的微服务框架，基于IdentityServer4、Azure API Management构建。 
+
+IdentityServer4.MicroService | IdentityServer4.MicroService.AzureJobs
+--------------- | ---------------
+[![NuGet](https://img.shields.io/nuget/v/identityserver4microservice.svg)](https://github.com/seven1986/IdentityServer4.MicroService)|[![NuGet](https://img.shields.io/nuget/v/IdentityServer4MicroService.AzureJobs.svg)](https://github.com/seven1986/IdentityServer4.MicroService)
+
 
 核心功能
 --
