@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp2.0\IdentityServer4.MicroService.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netcoreapp2.0\IdentityServer4.MicroService.Host.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591;1574;1587</NoWarn>
   </PropertyGroup>
 
@@ -94,7 +94,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdentityServer4MicroService" Version="0.0.6" />
+    <PackageReference Include="IdentityServer4MicroService" Version="0.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="2.2.0" />

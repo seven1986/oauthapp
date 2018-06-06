@@ -7,8 +7,8 @@
     <ProjectGuid>{F5305B1A-41D1-4E51-8250-7CF3C4AC2CE4}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IdentityServer4.MicroService.AzureJobs</RootNamespace>
-    <AssemblyName>IdentityServer4.MicroService.AzureJobs</AssemblyName>
+    <RootNamespace>IdentityServer4.MicroService.AzureJobs.Host</RootNamespace>
+    <AssemblyName>IdentityServer4.MicroService.AzureJobs.Host</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -107,30 +107,30 @@
     </None>
     <None Include="Properties\PublishProfiles\IdentityServer4MicroService - Web Deploy.pubxml" />
     <None Include="Properties\webjob-publish-settings.json" />
-    <None Include="Templates\readthedocs\errorcodes.rst">
+    <Content Include="Templates\readthedocs\errorcodes.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\readthedocs\index.rst">
+    </Content>
+    <Content Include="Templates\readthedocs\index.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\readthedocs\introduction.rst">
+    </Content>
+    <Content Include="Templates\readthedocs\introduction.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\readthedocs\issues.rst">
+    </Content>
+    <Content Include="Templates\readthedocs\issues.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\readthedocs\log.rst">
+    </Content>
+    <Content Include="Templates\readthedocs\log.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\readthedocs\make.bat">
+    </Content>
+    <Content Include="Templates\readthedocs\make.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\readthedocs\Makefile">
+    </Content>
+    <Content Include="Templates\readthedocs\Makefile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\readthedocs\permissions.rst">
+    </Content>
+    <Content Include="Templates\readthedocs\permissions.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
