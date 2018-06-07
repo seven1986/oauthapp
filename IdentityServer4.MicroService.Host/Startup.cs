@@ -281,6 +281,8 @@ namespace IdentityServer4.MicroService.Host
                 var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, assemblyName + ".xml");
 
                 c.IncludeXmlComments(filePath);
+
+                c.IncludeXmlComments(Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "IdentityServer4.MicroService.xml"));
             });
             #endregion
 
