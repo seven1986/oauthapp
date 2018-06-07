@@ -51,7 +51,10 @@ var IGenerator = function (doc, opts) {
 
             let fn = '';
             fn += `   /**\r\n`;
-            fn += `    * @name ${operation.description}\r\n`;
+            fn += `    * @name ${operation.summary}\r\n`;
+            if (operation.description) {
+                fn += `    * @description ${operation.description.replace(/\r\n/g, '')}\r\n`;
+            }
 
             let methodParams = [];
             let httpParams = [];
@@ -81,7 +84,7 @@ var IGenerator = function (doc, opts) {
              * 特殊处理，当前网关无法导入file的operation.parameters
              * 所以维护一个静态集合，如果是存在就自动添加model参数
              */
-            if (['fileimage', 'filepost','generaluploadimage'].indexOf(methodName.toLocaleLowerCase()) > -1) {
+            if (['fileimage', 'filepost', 'generaluploadimage'].indexOf(methodName.toLocaleLowerCase()) > -1) {
                 bodyParams = 'formData';
             }
 
