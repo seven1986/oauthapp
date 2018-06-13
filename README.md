@@ -1,4 +1,7 @@
-﻿# IdentityServer4.MicroService
+﻿
+[![Build status](https://ci.appveyor.com/api/projects/status/x51ob7f1p5ihff2i?svg=true)](https://ci.appveyor.com/project/seven1986/identityserver4-microservice)
+
+# IdentityServer4.MicroService
 
 IdentityServer4.MicroService是一个免费开源的微服务框架，基于IdentityServer4、Azure API Management构建。 
 

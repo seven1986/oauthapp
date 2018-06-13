@@ -90,7 +90,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdentityServer4MicroService" Version="0.0.11" />
+    <PackageReference Include="IdentityServer4MicroService" Version="0.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="2.2.0" />
@@ -154,6 +154,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\identityserver4microservice\0.0.10\contentFiles\any\netcoreapp2.0\wwwroot\identityserver4.microservice.pfx" Link="identityserver4.microservice.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\identityserver4microservice\0.0.12\contentFiles\any\netcoreapp2.0\identityserver4.microservice.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\identityserver4microservice\0.0.12\contentFiles\any\netcoreapp2.0\IdentityServer4.MicroService.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\identityserver4microservice\0.0.9\contentFiles\any\netcoreapp2.0\IdentityServer4.MicroService.xml">
