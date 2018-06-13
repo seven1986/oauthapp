@@ -846,13 +846,8 @@ namespace IdentityServer4.MicroService.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientPostSecretkey)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientPostSecretkey)]
         [SwaggerOperation("Client/PostSecretkey")]
-        public async Task<ApiResult<string>> PostSecretkey(int id,[FromBody]ClientPostSecretkeyRequest value)
+        public ApiResult<string> PostSecretkey(int id,[FromBody]ClientPostSecretkeyRequest value)
         {
-            if (!await exists(id))
-            {
-                return new ApiResult<string>(l, BasicControllerEnums.NotFound);
-            }
-
             var result = string.Empty;
 
             switch (value.keyType)

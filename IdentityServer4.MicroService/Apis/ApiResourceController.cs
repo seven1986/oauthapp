@@ -227,9 +227,9 @@ namespace IdentityServer4.MicroService.Apis
                     ModelErrors());
             }
 
-            db.Add(value);
+            configDb.Add(value);
 
-            await db.SaveChangesAsync();
+            await configDb.SaveChangesAsync();
 
             db.UserApiResources.Add(new AspNetUserApiResource()
             {
@@ -271,14 +271,14 @@ namespace IdentityServer4.MicroService.Apis
                 return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
 
-            using (var tran = db.Database.BeginTransaction(IsolationLevel.ReadCommitted))
+            using (var tran = configDb.Database.BeginTransaction(IsolationLevel.ReadCommitted))
             {
                 try
                 {
                     #region Update Entity
                     // 需要先更新value，否则更新如claims等属性会有并发问题
-                    db.Update(value);
-                    db.SaveChanges();
+                    configDb.Update(value);
+                    configDb.SaveChanges();
                     #endregion
 
                     #region Find Entity.Source
@@ -739,7 +739,6 @@ namespace IdentityServer4.MicroService.Apis
                 await storageService.AddMessageAsync("apiresource-publish", id.ToString());
                 #endregion
 
-
                 #region Github Sync
                 var githubConfiguration = await _PublishGithubConfiguration(id);
                 if (githubConfiguration != null && !string.IsNullOrWhiteSpace(githubConfiguration.token))
@@ -761,7 +760,6 @@ namespace IdentityServer4.MicroService.Apis
                     #endregion
                 } 
                 #endregion
-
 
                 return new ApiResult<bool>(true);
             }
