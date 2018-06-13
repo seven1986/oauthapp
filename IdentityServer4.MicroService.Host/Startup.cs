@@ -9,7 +9,6 @@ using Microsoft.Azure.KeyVault;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
@@ -90,6 +89,8 @@ namespace IdentityServer4.MicroService.Host
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var assemblyName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
             #region Cors
             services.AddCors(options =>
                 {
@@ -103,29 +104,7 @@ namespace IdentityServer4.MicroService.Host
                 }); 
             #endregion
 
-            var assemblyName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-
-            var DBConnection = Configuration["ConnectionStrings:DataBaseConnection"];
-
-            #region DbContext
-            // Add TenantDbContext.
-            services.AddDbContext<TenantDbContext>(options =>
-                options.UseSqlServer(DBConnection));
-
-            // Add ApplicationDbContext.
-            services.AddDbContext<IdentityDbContext>(options =>
-                options.UseSqlServer(DBConnection));
-
-            services.AddIdentity<AppUser, AppRole>(opts =>
-            {
-                opts.SignIn.RequireConfirmedEmail = true;
-                //opts.SignIn.RequireConfirmedPhoneNumber = true;
-            })
-            .AddEntityFrameworkStores<IdentityDbContext>()
-            .AddDefaultTokenProviders();
-            #endregion
-
-            #region 联合登陆
+            #region Authentication & OAuth
             //Authentication 
             services.AddAuthentication(options => {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -141,17 +120,6 @@ namespace IdentityServer4.MicroService.Host
             //OAuths Login
             .AddIdentityServer4MicroServiceOAuths();
             #endregion
-
-            //for now, no need
-            //var RedisConnection = Configuration["ConnectionStrings:RedisConnection"];
-            //if (!string.IsNullOrWhiteSpace(RedisConnection))
-            //{
-            //    services.AddDistributedRedisCache(options =>
-            //    {
-            //        options.Configuration = RedisConnection;
-            //        options.InstanceName = assemblyName + ":";
-            //    });
-            //}
 
             #region Mvc + localization
             // Configure supported cultures and localization options
@@ -286,7 +254,18 @@ namespace IdentityServer4.MicroService.Host
             });
             #endregion
 
-            services.AddIdentityServer4MicroService(Configuration);
+            #region DbContextOptions
+            var DBConnection = Configuration["ConnectionStrings:DataBaseConnection"];
+            var DbContextOptions = new Action<DbContextOptionsBuilder>(x =>
+            x.UseSqlServer(DBConnection,
+            opts => opts.MigrationsAssembly(assemblyName)));
+            #endregion
+
+            #region IdentityServer4MicroService
+            services.AddIdentityServer4MicroService(Configuration)
+                    .AddTenantStore(DbContextOptions)
+                    .AddIdentityStore(DbContextOptions);
+            #endregion
 
             #region IdentityServer
             X509Certificate2 cert = null;
@@ -332,7 +311,8 @@ namespace IdentityServer4.MicroService.Host
                     if (!string.IsNullOrWhiteSpace(certFilePath) && 
                         !string.IsNullOrWhiteSpace(certPassword))
                     {
-                        var certPath = _env.WebRootPath + "\\" + certFilePath;
+                        var certPath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, certFilePath);
+
                         cert = new X509Certificate2(certPath, certPassword,
                             X509KeyStorageFlags.MachineKeySet |
                             X509KeyStorageFlags.PersistKeySet |
@@ -340,10 +320,6 @@ namespace IdentityServer4.MicroService.Host
                     }
                 }
             }
-
-            var IdentityServerStore = new Action<DbContextOptionsBuilder>(x =>
-            x.UseSqlServer(DBConnection,
-            opts => opts.MigrationsAssembly(assemblyName)));
 
             services.AddIdentityServer(config =>
             {
@@ -355,8 +331,8 @@ namespace IdentityServer4.MicroService.Host
               .AddSigningCredential(cert)
               .AddCustomAuthorizeRequestValidator<TenantAuthorizeRequestValidator>()
               .AddCustomTokenRequestValidator<TenantTokenRequestValidator>()
-              .AddConfigurationStore(builder => builder.ConfigureDbContext = IdentityServerStore)
-              .AddOperationalStore(builder => builder.ConfigureDbContext = IdentityServerStore)
+              .AddConfigurationStore(builder => builder.ConfigureDbContext = DbContextOptions)
+              .AddOperationalStore(builder => builder.ConfigureDbContext = DbContextOptions)
               .AddAspNetIdentity<AppUser>();
             #endregion
 
