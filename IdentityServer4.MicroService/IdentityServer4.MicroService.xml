@@ -2752,6 +2752,22 @@
             <param name="configuration">The config.</param>
             <returns></returns>
         </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddTenantStore(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">
+            <summary>
+            Configures EF implementation of IPersistedGrantStore with IdentityServer.
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="storeOptionsAction">The store options action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityStore(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">
+            <summary>
+            Configures EF implementation of IPersistedGrantStore with IdentityServer.
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="storeOptionsAction">The store options action.</param>
+            <returns></returns>
+        </member>
         <member name="P:Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder.Services">
             <summary>
             Gets the services.

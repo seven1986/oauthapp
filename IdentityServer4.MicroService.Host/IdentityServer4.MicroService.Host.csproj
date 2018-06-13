@@ -90,7 +90,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdentityServer4MicroService" Version="0.0.9" />
+    <PackageReference Include="IdentityServer4MicroService" Version="0.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="2.2.0" />
@@ -139,7 +139,7 @@
     <None Include="Views\Shared\_ValidationSummary.cshtml" />
     <None Include="Views\_ViewImports.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
-    <None Include="wwwroot\favicon.ico" />
+    <EmbeddedResource Include="wwwroot\favicon.ico" />
     <None Include="wwwroot\js\codegen.min.js" />
     <None Include="wwwroot\sdkgenrender\index.html" />
   </ItemGroup>
@@ -149,6 +149,12 @@
     </Content>
     <Content Update="appsettings.Production.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\identityserver4microservice\0.0.10\contentFiles\any\netcoreapp2.0\IdentityServer4.MicroService.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\identityserver4microservice\0.0.10\contentFiles\any\netcoreapp2.0\wwwroot\identityserver4.microservice.pfx" Link="identityserver4.microservice.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\identityserver4microservice\0.0.9\contentFiles\any\netcoreapp2.0\IdentityServer4.MicroService.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
