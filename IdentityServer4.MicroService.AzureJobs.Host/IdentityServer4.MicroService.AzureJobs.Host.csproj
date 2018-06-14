@@ -51,7 +51,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IdentityServer4.MicroService.AzureJobs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityServer4MicroService.AzureJobs.0.0.2\lib\net45\IdentityServer4.MicroService.AzureJobs.dll</HintPath>
+      <HintPath>..\packages\IdentityServer4MicroService.AzureJobs.0.0.4\lib\net45\IdentityServer4.MicroService.AzureJobs.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=9.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAzure.Storage.9.2.0\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
@@ -97,6 +97,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Functions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -106,30 +107,14 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\webjob-publish-settings.json" />
-    <Content Include="Templates\readthedocs\errorcodes.rst">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Templates\readthedocs\index.rst">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Templates\readthedocs\introduction.rst">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Templates\readthedocs\issues.rst">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Templates\readthedocs\log.rst">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Templates\readthedocs\make.bat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Templates\readthedocs\Makefile">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Templates\readthedocs\permissions.rst">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Templates\readthedocs\errorcodes.rst" />
+    <Content Include="Templates\readthedocs\index.rst" />
+    <Content Include="Templates\readthedocs\introduction.rst" />
+    <Content Include="Templates\readthedocs\issues.rst" />
+    <Content Include="Templates\readthedocs\log.rst" />
+    <Content Include="Templates\readthedocs\make.bat" />
+    <Content Include="Templates\readthedocs\Makefile" />
+    <Content Include="Templates\readthedocs\permissions.rst" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -139,9 +124,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Templates\readthedocs\conf.py">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Templates\readthedocs\conf.py" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.1.0\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.1.0\tools\webjobs.targets')" />

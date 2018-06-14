@@ -75,33 +75,33 @@
     </None>
     <None Include="IdentityServer4MicroService.AzureJobs.nuspec" />
     <None Include="packages.config" />
-    <Content Include="contentFiles\Templates\readthedocs\errorcodes.rst">
+    <Content Include="Templates\readthedocs\errorcodes.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="contentFiles\Templates\readthedocs\index.rst">
+    <Content Include="Templates\readthedocs\index.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="contentFiles\Templates\readthedocs\introduction.rst">
+    <Content Include="Templates\readthedocs\introduction.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="contentFiles\Templates\readthedocs\issues.rst">
+    <Content Include="Templates\readthedocs\issues.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="contentFiles\Templates\readthedocs\log.rst">
+    <Content Include="Templates\readthedocs\log.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="contentFiles\Templates\readthedocs\make.bat">
+    <Content Include="Templates\readthedocs\make.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="contentFiles\Templates\readthedocs\Makefile">
+    <Content Include="Templates\readthedocs\Makefile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="contentFiles\Templates\readthedocs\permissions.rst">
+    <Content Include="Templates\readthedocs\permissions.rst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="contentFiles\Templates\readthedocs\conf.py">
+    <Content Include="Templates\readthedocs\conf.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
