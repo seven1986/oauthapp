@@ -1,12 +1,11 @@
-﻿﻿; (function () {
-
+﻿﻿;(function () {
+    var portalurl = '';
     var clientSDKs = [];
     var serverSDKs = [];
-     window.swaggerCodeGenSubscriptionKey = '35a0672e5ff94b72a2e658e3debb2237';
-     window.swaggerCodeGenToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQxQjg0RkEwRTM4MEVGMzVEMTkxREFGNjczQjFENkMwRTgzQUY0RkYiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJRYmhQb09PQTd6WFJrZHIyYzdIV3dPZzY5UDgifQ.eyJuYmYiOjE1MjQxMjg5MTMsImV4cCI6MTU1NTY2NDkxMywiaXNzIjoiaHR0cHM6Ly9pZHMuaml4aXVjbG91ZC5jbiIsImF1ZCI6WyJodHRwczovL2lkcy5qaXhpdWNsb3VkLmNuL3Jlc291cmNlcyIsImlkczQubXMiXSwiY2xpZW50X2lkIjoidGVzdCIsInN1YiI6IjIiLCJhdXRoX3RpbWUiOjE1MjQxMjg4ODgsImlkcCI6ImxvY2FsIiwicGVybWlzc2lvbiI6ImlkczQubXMuY2xpZW50Lmlzc3VldG9rZW4saWRzNC5tcy5hcGlyZXNvdXJjZS52ZXJpZnllbWFpbCxpZHM0Lm1zLmFwaXJlc291cmNlLnBhY2thZ2VzIiwicm9sZSI6WyJ1c2VycyIsImRldmVsb3BlciJdLCJjbGllbnRfdGVuYW50Ijp7ImlkIjoxLCJuYW1lIjoi5ZCJ56eAIiwiY2xhaW1zIjp7fX0sInNjb3BlIjpbIm9wZW5pZCIsInByb2ZpbGUiLCJpZHM0Lm1zLmFsbCJdLCJhbXIiOlsicHdkIl19.U6nOAUl65PwYJ5NceVmvHmMz2088fmzY8WWzvp1EEtWJWCRMgsj8iw4FaqgFe7F8oufR1v7_Ex7OkoudrtRRpnApGz0oG6AK8lOCqYDxBpMjAkaKVGJsThK0UnH6VsQl_x5LjCYh2gAunJipjC1yhsR6YxA69bHvDSH3-sDLg08VGJYZt6PLmrQRby3OheK8TGqLnzNkglPqJ1b7kcoAkmvCsh7jx3r55RkmjTe1eY2aXaVghbEUYvFwnK42K_w2iLkyGU9Kaqi1GKW7Hhb9n4Hk88O7bDbZzTUFtlr8sbV3D3PDNDSeYlfpn0hhZG6Z99ifDrqozt6vC-9PxGypmg';
+    window.swaggerCodeGenSubscriptionKey = '';
+    window.swaggerCodeGenToken = '';
     window.swaggerCodeGenCurrentItem = {};
-     window.swaggerCodeGenCurrentItemIsServer = {};
-     var portalurl = "https://openapis.ixingban.com";
+    window.swaggerCodeGenCurrentItemIsServer = {};
 
     function ShowClientSDKs() {
         var _layer = '<div class="btn-group pull-right" role="group" style="margin-right:5px">' +
@@ -50,7 +49,6 @@
 
         $('#apiMenu').parent().after(_layer);
     }
-
     function ShowPackages(packageItems) {
 
          if (packageItems.length < 1) { return; }
@@ -136,7 +134,6 @@
              $('#cus_operationname').prepend('<a class="pull-right" href="https://github.com/' + link + '/labels/' + issuesBadge + '" target="_blank"><img onerror="this.src=\'' + onerrorsrc + '\'" src="https://img.shields.io/github/issues-raw/' + link + '/' + issuesBadge + '.svg" /></a>');
          }
      }
-
     function ShowSubscription() {
         var _layer =
             '<button id="btnShowSubscription"' +
@@ -233,7 +230,7 @@
 
         $.ajax({
             type: "POST",
-            url: portalurl + "/identity/ApiResource/" + apiId + "/Subscriptions/VerifyEmail",
+            url: portalurl + "/ApiResource/" + apiId + "/Subscriptions/VerifyEmail",
             data: JSON.stringify({ email: email }),
             datatype: "json",
             headers: {
@@ -312,9 +309,9 @@
      {
          if ($('#apiMenu').length > 0)
          {
-             var codeGenClients = portalurl + "/identity/CodeGen/Clients",
-                 codeGenServers = portalurl + "/identity/CodeGen/Servers",
-                 apiResourcePackages = portalurl + "/identity/ApiResource/" + location.href.split('/')[5] + "/Packages";
+             var codeGenClients = portalurl + "/CodeGen/Clients",
+                 codeGenServers = portalurl + "/CodeGen/Servers",
+                 apiResourcePackages = portalurl + "/ApiResource/" + location.href.split('/')[5] + "/Packages";
 
              $('#codegen_azure').html(_template_codegen_azure);
 

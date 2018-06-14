@@ -12,14 +12,13 @@ using System.Text;
 using System.Threading.Tasks;
 using IdentityServer4.MicroService.AzureJobs.Models;
 using IdentityServer4.MicroService.AzureJobs.Services;
-using Microsoft.Azure.WebJobs;
 using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace IdentityServer4.MicroService.AzureJobs
 {
-    public class Functions
+    public class Fns
     {
         readonly static AzureStorageService storage = new AzureStorageService();
 
@@ -31,7 +30,7 @@ namespace IdentityServer4.MicroService.AzureJobs
         /// <param name="packageUrl"></param>
         /// <param name="log"></param>
         /// <returns></returns>
-        public static async Task ReleasePackage_NPM([QueueTrigger("publish-package-npm")] string packageUrl, TextWriter log)
+        public static async Task ReleasePackage_NPM(string packageUrl, TextWriter log)
         {
             log.WriteLine(packageUrl);
 
@@ -103,7 +102,7 @@ namespace IdentityServer4.MicroService.AzureJobs
         /// <param name="apiId"></param>
         /// <param name="log"></param>
         /// <returns></returns>
-        public static async Task ApiresourcePublishNotify([QueueTrigger("apiresource-publish")] string apiId, TextWriter log)
+        public static async Task ApiresourcePublishNotify(string apiId, TextWriter log)
         {
             log.WriteLine(apiId);
 
@@ -150,7 +149,7 @@ namespace IdentityServer4.MicroService.AzureJobs
         /// <param name="value"></param>
         /// <param name="log"></param>
         /// <returns></returns>
-        public static async Task ApiresourcePublishGithub([QueueTrigger("apiresource-publish-github")] GithubQueueModel value, TextWriter log)
+        public static async Task ApiresourcePublishGithub(GithubQueueModel value, TextWriter log)
         {
             log.WriteLine(JsonConvert.SerializeObject(value));
 
@@ -167,8 +166,6 @@ namespace IdentityServer4.MicroService.AzureJobs
                 var ResponseMessage = await exists.Content.ReadAsStringAsync();
 
                 log.WriteLine(ReasonPhrase + ":" + ResponseMessage);
-
-                return;
             }
 
             var labels = await client.LabelsAsync();
@@ -199,7 +196,7 @@ namespace IdentityServer4.MicroService.AzureJobs
         /// <param name="value"></param>
         /// <param name="log"></param>
         /// <returns></returns>
-        public static async Task ApiresourcePublishGithubReadthedocs([QueueTrigger("apiresource-publish-github-readthedocs")] GithubQueueModel value, TextWriter log)
+        public static async Task ApiresourcePublishGithubReadthedocs(GithubQueueModel value, TextWriter log)
         {
             log.WriteLine(JsonConvert.SerializeObject(value));
 
@@ -217,8 +214,6 @@ namespace IdentityServer4.MicroService.AzureJobs
                 var ResponseMessage = await exists.Content.ReadAsStringAsync();
 
                 log.WriteLine(ReasonPhrase + ":" + ResponseMessage);
-
-                return;
             }
             #endregion
 
