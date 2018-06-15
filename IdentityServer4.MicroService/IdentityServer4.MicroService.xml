@@ -10,6 +10,21 @@
             </summary>
             <remarks>为微服务提供版本管理、网关集成都功能。</remarks>
         </member>
+        <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.#ctor(System.Lazy{IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext},System.Lazy{IdentityServer4.MicroService.Data.IdentityDbContext},System.Lazy{Microsoft.Extensions.Localization.IStringLocalizer{IdentityServer4.MicroService.Apis.ApiResourceController}},System.Lazy{IdentityServer4.MicroService.Tenant.TenantService},System.Lazy{IdentityServer4.MicroService.Tenant.TenantDbContext},System.Lazy{IdentityServer4.MicroService.Services.RedisService},System.Lazy{IdentityServer4.MicroService.Services.SwaggerCodeGenService},System.Lazy{IdentityServer4.MicroService.Services.AzureStorageService},System.Lazy{IdentityServer4.MicroService.Services.EmailService},System.Lazy{Microsoft.AspNetCore.DataProtection.IDataProtectionProvider})">
+            <summary>
+            构造函数
+            </summary>
+            <param name="_configDb"></param>
+            <param name="_userDb"></param>
+            <param name="localizer"></param>
+            <param name="_tenantService"></param>
+            <param name="_tenantDb"></param>
+            <param name="_redis"></param>
+            <param name="_swagerCodeGen"></param>
+            <param name="_storageService"></param>
+            <param name="_email"></param>
+            <param name="_provider"></param>
+        </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Get(IdentityServer4.MicroService.Models.Apis.Common.PagingRequest{IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceGetRequest})">
             <summary>
             微服务 - 列表
@@ -294,6 +309,19 @@
             <label>User Permissions：</label><code>ids4.ms.apiresource.deletepackage</code>
             </remarks>
         </member>
+        <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.PutPackage(System.String,System.String,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceSDKRequest)">
+            <summary>
+            微服务 - 包市场 - 更新
+            </summary>
+            <param name="id">微服务的ID</param>
+            <param name="packageId">包的ID</param>
+            <param name="value"></param>
+            <returns></returns>
+            <remarks>
+            <label>Client Scopes：</label><code>ids4.ms.apiresource.deletepackage</code>
+            <label>User Permissions：</label><code>ids4.ms.apiresource.deletepackage</code>
+            </remarks>
+        </member>
         <member name="P:IdentityServer4.MicroService.Apis.BasicController.TenantId">
             <summary>
             租户信息 from client access token
@@ -504,6 +532,17 @@
             <remarks></remarks>
             <returns></returns>
             <remarks>
+            </remarks>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.SyncGithub(System.String)">
+            <summary>
+             代码生成 - 同步Github
+            </summary>
+            <param name="id">微服务ID</param>
+            <returns></returns>
+            <remarks>
+            <label>Client Scopes：</label><code>ids4.ms.codegen.putgithuboptions</code>
+            更新微服务的Github发布设置
             </remarks>
         </member>
         <member name="T:IdentityServer4.MicroService.Apis.FileController">
@@ -1424,6 +1463,11 @@
             删除包失败
             </summary>
         </member>
+        <member name="F:IdentityServer4.MicroService.Enums.ApiResourceControllerEnums.Packages_PutPackageFailed">
+            <summary>
+            更新包失败
+            </summary>
+        </member>
         <member name="T:IdentityServer4.MicroService.Enums.BasicControllerEnums">
             <summary>
             公用接口业务代码常量表
@@ -2154,6 +2198,16 @@
         <member name="P:IdentityServer4.MicroService.Models.Shared.TenantPrivateModel.OwnerUserId">
             <summary>
             租户所有者ID
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Models.Shared.TenantPublicModel">
+            <summary>
+            TenantPublicModel
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Shared.TenantPublicModel.id">
+            <summary>
+            id
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Shared.TenantPublicModel.name">

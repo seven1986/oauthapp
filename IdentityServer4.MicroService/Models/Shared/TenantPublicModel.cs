@@ -2,8 +2,14 @@
 
 namespace IdentityServer4.MicroService.Models.Shared
 {
+    /// <summary>
+    /// TenantPublicModel
+    /// </summary>
     public class TenantPublicModel
     {
+        /// <summary>
+        /// id
+        /// </summary>
         public long id { get; set; }
 
         /// <summary>

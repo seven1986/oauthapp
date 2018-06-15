@@ -230,6 +230,15 @@ namespace IdentityServer4.MicroService
                    MicroServiceName + ".all")]
             public const string ApiResourceDeletePackage = "scope:apiresource.deletepackage";
             #endregion
+
+            #region 微服务 - 包市场 - 更新
+            [Description("微服务 - 包市场 - 更新")]
+            [PolicyClaimValues(
+                   MicroServiceName + ".apiresource.putpackage",
+                   MicroServiceName + ".apiresource.all",
+                   MicroServiceName + ".all")]
+            public const string ApiResourcePutPackage = "scope:apiresource.putpackage";
+            #endregion
             #endregion
 
             #region ClientController
@@ -605,6 +614,15 @@ namespace IdentityServer4.MicroService
             public const string CodeGenPutGithubOptions = "scope:codegen.putgithuboptions";
             #endregion
 
+            #region 代码生成 - 同步Github
+            [Description("代码生成 - 同步Github")]
+            [PolicyClaimValues(
+                        MicroServiceName + ".codegen.syncgithub",
+                        MicroServiceName + ".codegen.all",
+                        MicroServiceName + ".all")]
+            public const string CodeGenSyncGithub = "scope:codegen.syncgithub";
+            #endregion
+
             #region 代码生成 - 生成
             [Description("代码生成 - 生成")]
             [PolicyClaimValues(
@@ -831,6 +849,15 @@ namespace IdentityServer4.MicroService
                    MicroServiceName + ".apiresource.all",
                    MicroServiceName + ".all")]
             public const string ApiResourceDeletePackage = "permission:apiresource.deletepackage";
+            #endregion
+
+            #region 微服务 - 包市场 - 更新
+            [Description("微服务 - 包市场 - 更新")]
+            [PolicyClaimValues(
+                   MicroServiceName + ".apiresource.putpackage",
+                   MicroServiceName + ".apiresource.all",
+                   MicroServiceName + ".all")]
+            public const string ApiResourcePutPackage = "permission:apiresource.putpackage";
             #endregion
             #endregion
 

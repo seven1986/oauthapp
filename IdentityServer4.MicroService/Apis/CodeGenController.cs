@@ -589,5 +589,48 @@ namespace IdentityServer4.MicroService.Apis
             }
         }
         #endregion
+
+        #region 代码生成 - 同步Github
+        /// <summary>
+        ///  代码生成 - 同步Github
+        /// </summary>
+        /// <param name="id">微服务ID</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.putgithuboptions</code>
+        /// 更新微服务的Github发布设置
+        /// </remarks>
+        [HttpPut("{id}/SyncGithub")]
+        [SwaggerOperation("CodeGen/SyncGithub")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenSyncGithub)]
+        public async Task<ApiResult<bool>> SyncGithub(string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            var githubConfiguration = await GetGithubOptions(id);
+
+            if (githubConfiguration != null && !string.IsNullOrWhiteSpace(githubConfiguration.token))
+            {
+                if (githubConfiguration.syncLabels)
+                {
+                    await storageService.AddMessageAsync("apiresource-publish-github",
+                        JsonConvert.SerializeObject(githubConfiguration));
+                }
+
+                if (githubConfiguration.syncDocs)
+                {
+                    await storageService.AddMessageAsync("apiresource-publish-github-readthedocs",
+                        JsonConvert.SerializeObject(githubConfiguration));
+                }
+            }
+
+            return new ApiResult<bool>(true);
+        }
+      
+        #endregion
     }
 }
