@@ -102,19 +102,38 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\jixiu.jobserver - Web Deploy.pubxml" />
     <None Include="Properties\webjob-publish-settings.json" />
-    <Content Include="Templates\readthedocs\errorcodes.rst" />
-    <Content Include="Templates\readthedocs\index.rst" />
-    <Content Include="Templates\readthedocs\introduction.rst" />
-    <Content Include="Templates\readthedocs\issues.rst" />
-    <Content Include="Templates\readthedocs\log.rst" />
-    <Content Include="Templates\readthedocs\make.bat" />
-    <Content Include="Templates\readthedocs\Makefile" />
-    <Content Include="Templates\readthedocs\permissions.rst" />
+    <Content Include="Templates\readthedocs\errorcodes.rst">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\readthedocs\index.rst">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\readthedocs\introduction.rst">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\readthedocs\issues.rst">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\readthedocs\log.rst">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\readthedocs\make.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\readthedocs\Makefile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\readthedocs\permissions.rst">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -124,7 +143,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Templates\readthedocs\conf.py" />
+    <Content Include="Templates\readthedocs\conf.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.1.0\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.1.0\tools\webjobs.targets')" />

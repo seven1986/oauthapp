@@ -113,5 +113,11 @@ namespace IdentityServer4.MicroService.Enums
         /// </summary>
         [Description("删除包失败")]
         Packages_DelPackageFailed = 300015,
+
+        /// <summary>
+        /// 更新包失败
+        /// </summary>
+        [Description("更新包失败")]
+        Packages_PutPackageFailed = 300016,
     }
 }

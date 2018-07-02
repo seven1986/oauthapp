@@ -12,18 +12,19 @@
     <FileVersion>0.0.11.0</FileVersion>
     <PackageLicenseUrl>https://github.com/seven1986/IdentityServer4.MicroService/blob/master/LICENSE</PackageLicenseUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/seven1986/IdentityServer4.MicroService/master/id4ms.png</PackageIconUrl>
-    <Version>0.0.12</Version>
+    <Version>0.0.13</Version>
     <Product>IdentityServer4.MicroService</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.0\IdentityServer4.MicroService.xml</DocumentationFile>
+    <DocumentationFile>IdentityServer4.MicroService.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591;1574;1587</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>IdentityServer4.MicroService.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;1591;1574</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -73,7 +74,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.3" />
     <PackageReference Include="StackExchange.Redis" Version="1.2.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="2.5.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.5.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.2.0" />
   </ItemGroup>

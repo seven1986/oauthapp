@@ -24,18 +24,6 @@ namespace IdentityServer4.MicroService.Models.Apis.CodeGenController
         public string apiId { get; set; }
 
         /// <summary>
-        /// 模板名称
-        /// </summary>
-        //[Required(ErrorMessage = "请填写模板名称")]
-        //public string template { get; set; }
-
-        /// <summary>
-        /// SDK生成设置
-        /// </summary>
-        //[Required(ErrorMessage = "请填写包配置信息")]
-        //public string packageOptions { get; set; }
-
-        /// <summary>
         /// swagger 文档地址
         /// </summary>
         [Required(ErrorMessage ="请填写swagger文档地址")]

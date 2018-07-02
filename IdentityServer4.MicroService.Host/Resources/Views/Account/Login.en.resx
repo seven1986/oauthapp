@@ -132,7 +132,7 @@
   <data name="密码" xml:space="preserve">
     <value>Password</value>
   </data>
-  <data name="邮箱" xml:space="preserve">
-    <value>Email</value>
+  <data name="邮箱/账号/手机号" xml:space="preserve">
+    <value>Email/Account/Phone</value>
   </data>
 </root>

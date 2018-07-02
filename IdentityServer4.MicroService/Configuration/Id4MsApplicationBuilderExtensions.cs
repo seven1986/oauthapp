@@ -76,18 +76,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="storeOptionsAction">The store options action.</param>
+        /// <param name="identityOptions">The identity options action.</param>
         /// <returns></returns>
         public static IId4MsServiceBuilder AddIdentityStore(
             this IId4MsServiceBuilder builder,
-            Action<DbContextOptionsBuilder> storeOptionsAction = null)
+            Action<DbContextOptionsBuilder> storeOptionsAction = null, Action<IdentityOptions> identityOptions = null)
         {
             builder.Services.AddDbContext<IdentityDbContext>(storeOptionsAction);
             builder.Services.AddScoped<IdentityDbContext>();
 
-            builder.Services.AddIdentity<AppUser, AppRole>(opts =>
-            {
-                opts.SignIn.RequireConfirmedEmail = true;
-            })
+            builder.Services.AddIdentity<AppUser, AppRole>(identityOptions)
             .AddEntityFrameworkStores<IdentityDbContext>()
             .AddDefaultTokenProviders();
 

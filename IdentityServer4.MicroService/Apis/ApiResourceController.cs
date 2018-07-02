@@ -51,6 +51,19 @@ namespace IdentityServer4.MicroService.Apis
         #endregion
 
         #region 构造函数
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="_configDb"></param>
+        /// <param name="_userDb"></param>
+        /// <param name="localizer"></param>
+        /// <param name="_tenantService"></param>
+        /// <param name="_tenantDb"></param>
+        /// <param name="_redis"></param>
+        /// <param name="_swagerCodeGen"></param>
+        /// <param name="_storageService"></param>
+        /// <param name="_email"></param>
+        /// <param name="_provider"></param>
         public ApiResourceController(
             Lazy<ConfigurationDbContext> _configDb,
             Lazy<IdentityDbContext> _userDb,
@@ -620,7 +633,6 @@ namespace IdentityServer4.MicroService.Apis
                     Name = x.Name
                 }).ToList());
 
-
             return new ApiResult<Dictionary<string, List<ApiResourceScopeResponse>>>(result);
         }
         #endregion
@@ -739,28 +751,6 @@ namespace IdentityServer4.MicroService.Apis
                 await storageService.AddMessageAsync("apiresource-publish", id.ToString());
                 #endregion
 
-                #region Github Sync
-                var githubConfiguration = await _PublishGithubConfiguration(id);
-                if (githubConfiguration != null && !string.IsNullOrWhiteSpace(githubConfiguration.token))
-                {
-                    #region sync labels to github repo
-                    if (githubConfiguration.syncLabels)
-                    {
-                        await storageService.AddMessageAsync("apiresource-publish-github",
-                            JsonConvert.SerializeObject(githubConfiguration));
-                    }
-                    #endregion
-
-                    #region sync readthedocs to github repo
-                    if (githubConfiguration.syncDocs)
-                    {
-                        await storageService.AddMessageAsync("apiresource-publish-github-readthedocs",
-                            JsonConvert.SerializeObject(githubConfiguration));
-                    }
-                    #endregion
-                } 
-                #endregion
-
                 return new ApiResult<bool>(true);
             }
 
@@ -770,22 +760,6 @@ namespace IdentityServer4.MicroService.Apis
 
                 return new ApiResult<bool>(l, ApiResourceControllerEnums.Publish_PublishFailed, errorMessage);
             }
-        }
-
-        async Task<ApiResourceGithubPublishRequest> _PublishGithubConfiguration(long id)
-        {
-            ApiResourceGithubPublishRequest result = null;
-
-            var publishKey = CodeGenControllerKeys.GithubOptions + id;
-
-            var resultCache = await redis.GetAsync(publishKey);
-
-            if (!string.IsNullOrWhiteSpace(resultCache))
-            {
-                result = JsonConvert.DeserializeObject<ApiResourceGithubPublishRequest>(resultCache);
-            }
-
-            return result;
         }
         #endregion
 
@@ -1630,6 +1604,76 @@ namespace IdentityServer4.MicroService.Apis
             catch (Exception ex)
             {
                 return new ApiResult<bool>(l, ApiResourceControllerEnums.Packages_DelPackageFailed, ex.Message);
+            }
+        }
+        #endregion 
+
+        #region 微服务 - 包市场 - 更新
+        /// <summary>
+        /// 微服务 - 包市场 - 更新
+        /// </summary>
+        /// <param name="id">微服务的ID</param>
+        /// <param name="packageId">包的ID</param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.deletepackage</code>
+        /// <label>User Permissions：</label><code>ids4.ms.apiresource.deletepackage</code>
+        /// </remarks>
+        [HttpPut("{id}/Packages/{packageId}")]
+        [SwaggerOperation("ApiResource/PutPackage")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePutPackage)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePutPackage)]
+        public async Task<ApiResult<bool>> PutPackage(string id, string packageId, [FromBody]ApiResourceSDKRequest value)
+        {
+            if (string.IsNullOrWhiteSpace(packageId))
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    "无效的包ID");
+            }
+
+            var tb = await storageService.CreateTableAsync("ApiResourcePackages");
+
+            try
+            {
+                var retrieveOperation = TableOperation.Retrieve<ApiResourceSDKEntity>(id.ToString(), packageId);
+
+                var retrievedResult = await tb.ExecuteAsync(retrieveOperation);
+
+                if (retrievedResult.Result != null)
+                {
+                    var updateEntity = (ApiResourceSDKEntity)retrievedResult.Result;
+
+                    updateEntity.Description = value.Description;
+                    updateEntity.Language = value.Language;
+                    updateEntity.Link = value.Link;
+                    updateEntity.Icon = value.Icon;
+                    updateEntity.PackagePlatform = value.PackagePlatform;
+                    updateEntity.Publisher = value.Publisher;
+                    updateEntity.ShowIndex = value.ShowIndex;
+                    updateEntity.Tags = value.Tags;
+
+                    var updateOperation = TableOperation.Replace(updateEntity);
+
+                    var result = await tb.ExecuteAsync(updateOperation);
+
+                    if (result.Result != null)
+                    {
+                        return new ApiResult<bool>(true);
+                    }
+
+                    else
+                    {
+                        return new ApiResult<bool>(l, ApiResourceControllerEnums.Packages_PutPackageFailed);
+                    }
+                }
+
+                return new ApiResult<bool>(true);
+
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, ApiResourceControllerEnums.Packages_PutPackageFailed, ex.Message);
             }
         }
         #endregion 

@@ -5,7 +5,6 @@ namespace IdentityServer4.MicroService.Host.Models.Views.Account
     public class LoginViewModel
     {
         [Required]
-        [EmailAddress]
         public string Email { get; set; }
 
         [Required]

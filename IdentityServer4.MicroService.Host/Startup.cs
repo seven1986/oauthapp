@@ -264,7 +264,10 @@ namespace IdentityServer4.MicroService.Host
             #region IdentityServer4MicroService
             services.AddIdentityServer4MicroService(Configuration)
                     .AddTenantStore(DbContextOptions)
-                    .AddIdentityStore(DbContextOptions);
+                    .AddIdentityStore(DbContextOptions, opts =>
+                    {
+                        //opts.SignIn.RequireConfirmedEmail = true;
+                    });
             #endregion
 
             #region IdentityServer

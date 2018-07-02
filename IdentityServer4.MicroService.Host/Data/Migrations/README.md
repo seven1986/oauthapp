@@ -18,5 +18,5 @@ dotnet ef migrations add InitialTenantDbMigration -c TenantDbContext -o Data/Mig
 ```cmd
 {datetime}替换成当前时间
 dotnet ef migrations add {yyyyMMdd}UpdateIdentityDbMigration -c IdentityDbContext -o Data/Migrations/Identity
-dotnet ef migrations add {yyyyMMdd}UpdateTenantDbMigration -c MutitenancyDbContext -o Data/Migrations/Tenant
+dotnet ef migrations add {yyyyMMdd}UpdateTenantDbMigration -c TenantDbContext -o Data/Migrations/Tenant
 ```

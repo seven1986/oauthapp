@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IdentityServer4.MicroService.Data
 {
-    public class AppUser : IdentityUser<long>
+    public partial class AppUser : IdentityUser<long>
     {
         // 也是唯一的
         public Guid UserKey { get; set; } = Guid.NewGuid();
@@ -133,6 +133,48 @@ namespace IdentityServer4.MicroService.Data
         /// 最后更新日期
         /// </summary>
         public DateTime LastUpdateTime { get; set; }
+
+        /// <summary>
+        /// 权限(for screens)
+        /// </summary>
+        public string Permission { get; set; }
+    }
+
+    /// <summary>
+    /// 扩展用户表
+    /// 根据业务，扩展用户表的字段
+    /// </summary>
+    public partial class AppUser : IdentityUser<long>
+    {
+        /// <summary>
+        /// 是否锁定
+        /// </summary>
+        public bool LockFlag { get; set; }
+
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public int Status { get; set; }
+
+        /// <summary>
+        /// 流量池集合
+        /// </summary>
+        public string PoolIDs { get; set; }
+
+        /// <summary>
+        /// 流量余额
+        /// </summary>
+        public long DataAmount { get; set; }
+
+        /// <summary>
+        /// 积分余额
+        /// </summary>
+        public long Points { get; set; }
+
+        /// <summary>
+        /// 余额
+        /// </summary>
+        public decimal Money { get; set; }
     }
 
     #region identity
