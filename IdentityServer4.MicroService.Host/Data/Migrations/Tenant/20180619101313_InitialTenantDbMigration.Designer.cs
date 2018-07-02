@@ -11,7 +11,7 @@ using System;
 namespace IdentityServer4.MicroService.Host.Data.Migrations.Tenant
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20180613054630_InitialTenantDbMigration")]
+    [Migration("20180619101313_InitialTenantDbMigration")]
     partial class InitialTenantDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

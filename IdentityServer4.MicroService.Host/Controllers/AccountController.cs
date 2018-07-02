@@ -23,6 +23,7 @@ using IdentityServer4.MicroService.Host.Models.Views.Account;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 using static IdentityServer4.MicroService.AppDefaultData;
 using IdentityServer4.MicroService.Attributes;
+using System.Text.RegularExpressions;
 
 namespace IdentityServer4.MicroService.Host.Controllers
 {
@@ -107,6 +108,11 @@ namespace IdentityServer4.MicroService.Host.Controllers
             return View();
         }
 
+        public bool IsEmail(string value)
+        {
+            return Regex.IsMatch(value, @"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
+        }
+
         //
         // POST: /Account/Login
         [HttpPost]
@@ -120,27 +126,64 @@ namespace IdentityServer4.MicroService.Host.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
 
-                if (result.Succeeded)
+                // 如果是邮箱登录
+                if (IsEmail(model.Email))
                 {
-                    _logger.LogInformation(1, "User logged in.");
+                    var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
 
-                    return RedirectToLocal(returnUrl, model.Email, model.Password);
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation(1, "User logged in.");
+
+                        return RedirectToLocal(returnUrl, model.Email, model.Password);
+                    }
+                    if (result.RequiresTwoFactor)
+                    {
+                        return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, model.RememberMe });
+                    }
+                    if (result.IsLockedOut)
+                    {
+                        _logger.LogWarning(2, "User account locked out.");
+                        return View("Lockout");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        return View(model);
+                    }
                 }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl,  model.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning(2, "User account locked out.");
-                    return View("Lockout");
-                }
+
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
+                    // 按照昵称（老的账号）
+                    var user = await _userManager.FindByNameAsync(model.Email);
+
+                    if (user != null)
+                    {
+                        var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
+
+                        if (result.Succeeded)
+                        {
+                            _logger.LogInformation(1, "User logged in.");
+
+                            return RedirectToLocal(returnUrl, model.Email, model.Password);
+                        }
+                        if (result.RequiresTwoFactor)
+                        {
+                            return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, model.RememberMe });
+                        }
+                        if (result.IsLockedOut)
+                        {
+                            _logger.LogWarning(2, "User account locked out.");
+                            return View("Lockout");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                            return View(model);
+                        }
+                    }
                 }
             }
 

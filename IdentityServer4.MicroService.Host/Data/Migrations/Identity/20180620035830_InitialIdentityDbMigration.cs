@@ -1,5 +1,4 @@
-﻿using IdentityServer4.MicroService.Data;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
@@ -37,6 +36,7 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                     Birthday = table.Column<DateTime>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: false),
+                    DataAmount = table.Column<long>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
@@ -45,18 +45,24 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                     LastUpdateTime = table.Column<DateTime>(nullable: false),
                     Lineage = table.Column<string>(type: "sys.hierarchyid", nullable: true),
                     LineageIDs = table.Column<string>(nullable: true),
+                    LockFlag = table.Column<bool>(nullable: false),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    Money = table.Column<decimal>(nullable: false),
                     NickName = table.Column<string>(nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     ParentUserID = table.Column<long>(nullable: false),
                     PasswordHash = table.Column<string>(nullable: true),
+                    Permission = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    Points = table.Column<long>(nullable: false),
+                    PoolIDs = table.Column<string>(nullable: true),
                     Remark = table.Column<string>(nullable: true),
                     SecurityStamp = table.Column<string>(nullable: true),
                     Stature = table.Column<decimal>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     TypeIDs = table.Column<string>(nullable: true),
                     UserKey = table.Column<Guid>(nullable: false),
@@ -379,8 +385,6 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                 name: "IX_AspNetUserTenants_UserId",
                 table: "AspNetUserTenants",
                 column: "UserId");
-
-            migrationBuilder.Sql(View_IdentityUser.SQL);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -423,8 +427,6 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(View_IdentityUser.Name);
         }
     }
 }

@@ -1141,6 +1141,12 @@
              used for replace Identity sha1 password haser
             </summary>
         </member>
+        <member name="T:IdentityServer4.MicroService.Data.AppUser">
+            <summary>
+            扩展用户表
+            根据业务，扩展用户表的字段
+            </summary>
+        </member>
         <member name="P:IdentityServer4.MicroService.Data.AppUser.IsDeleted">
             <summary>
             是否已删除账号
@@ -1249,6 +1255,41 @@
         <member name="P:IdentityServer4.MicroService.Data.AppUser.LastUpdateTime">
             <summary>
             最后更新日期
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Data.AppUser.Permission">
+            <summary>
+            权限(for screens)
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Data.AppUser.LockFlag">
+            <summary>
+            是否锁定
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Data.AppUser.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Data.AppUser.PoolIDs">
+            <summary>
+            流量池集合
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Data.AppUser.DataAmount">
+            <summary>
+            流量余额
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Data.AppUser.Points">
+            <summary>
+            积分余额
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Data.AppUser.Money">
+            <summary>
+            余额
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Data.AppRole.Claims">
@@ -2814,12 +2855,13 @@
             <param name="storeOptionsAction">The store options action.</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityStore(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityStore(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})">
             <summary>
             Configures EF implementation of IPersistedGrantStore with IdentityServer.
             </summary>
             <param name="builder">The builder.</param>
             <param name="storeOptionsAction">The store options action.</param>
+            <param name="identityOptions">The identity options action.</param>
             <returns></returns>
         </member>
         <member name="P:Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder.Services">

@@ -90,8 +90,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="IdentityServer4MicroService" Version="0.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.3" />
@@ -101,9 +102,6 @@
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\Migrations\IdentityServer\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\IdentityServer4MicroService - Web Deploy.pubxml.user" />
@@ -143,9 +141,6 @@
     <None Include="wwwroot\sdkgenrender\index.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IdentityServer4.MicroService\IdentityServer4.MicroService.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Update="appsettings.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -162,6 +157,24 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\identityserver4microservice\0.0.12\contentFiles\any\netcoreapp2.0\IdentityServer4.MicroService.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\identityserver4microservice\0.0.13\contentFiles\any\netcoreapp2.0\identityserver4.microservice.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\identityserver4microservice\0.0.13\contentFiles\any\netcoreapp2.0\IdentityServer4.MicroService.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\identityserver4microservice\0.0.13\contentFiles\any\netcoreapp2.0\Node\readthedocs.gen.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\identityserver4microservice\0.0.13\contentFiles\any\netcoreapp2.0\Node\sdkgen\npm\angular2.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\identityserver4microservice\0.0.13\contentFiles\any\netcoreapp2.0\Node\sdkgen\npm\jQuery.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\identityserver4microservice\0.0.13\contentFiles\any\netcoreapp2.0\Node\sdkgen\npm\mustache.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\identityserver4microservice\0.0.9\contentFiles\any\netcoreapp2.0\IdentityServer4.MicroService.xml">
