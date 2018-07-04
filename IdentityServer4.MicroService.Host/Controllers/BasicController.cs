@@ -55,7 +55,7 @@ namespace IdentityServer4.MicroService.Host.Controllers
                 {
                     var tenantCache = tenantService.GetTenant(tenantDb, HttpContext.Request.Host.Value);
 
-                    _pvtTenant = JsonConvert.DeserializeObject<TenantPrivateModel>(tenantCache.Item2);
+                    _pvtTenant = tenantCache.Item2;
                 }
 
                 return _pvtTenant;

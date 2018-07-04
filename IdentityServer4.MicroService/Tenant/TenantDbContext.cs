@@ -2,6 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace IdentityServer4.MicroService.Tenant
 {
@@ -21,6 +25,63 @@ namespace IdentityServer4.MicroService.Tenant
         public DbSet<AppTenant> Tenants { get; set; }
 
         public DbSet<AppTenantHost> TenantHosts { get; set; }
+
+        public async Task<object> ExecuteScalarAsync(string sql, CommandType cmdType = CommandType.Text, params SqlParameter[] sqlParams)
+        {
+            var con = Database.GetDbConnection();
+
+            if (con.State != ConnectionState.Open)
+            {
+                con.Open();
+            }
+
+            using (var cmd = con.CreateCommand())
+            {
+                cmd.CommandText = sql;
+
+                cmd.Parameters.AddRange(sqlParams);
+
+                return await cmd.ExecuteScalarAsync();
+            }
+        }
+
+        public async Task<int> ExecuteNonQueryAsync(string sql, CommandType cmdType = CommandType.Text, params SqlParameter[] sqlParams)
+        {
+            var con = Database.GetDbConnection();
+
+            if (con.State != ConnectionState.Open)
+            {
+                con.Open();
+            }
+
+            using (var cmd = con.CreateCommand())
+            {
+                cmd.CommandText = sql;
+
+                cmd.Parameters.AddRange(sqlParams);
+
+                return await cmd.ExecuteNonQueryAsync();
+            }
+        }
+
+        public async Task<DbDataReader> ExecuteReaderAsync(string sql, CommandType cmdType = CommandType.Text, params SqlParameter[] sqlParams)
+        {
+            var con = Database.GetDbConnection();
+
+            if (con.State != ConnectionState.Open)
+            {
+                con.Open();
+            }
+
+            using (var cmd = con.CreateCommand())
+            {
+                cmd.CommandText = sql;
+
+                cmd.Parameters.AddRange(sqlParams);
+
+                return await cmd.ExecuteReaderAsync();
+            }
+        }
     }
 
     /// <summary>
@@ -125,7 +186,7 @@ namespace IdentityServer4.MicroService.Tenant
         /// <summary>
         /// 租户数据缓存时长，单位秒
         /// </summary>
-        public long CacheDuration { get; set; } = 60L;
+        public long CacheDuration { get; set; } = 3600L;
 
         /// <summary>
         /// 所有者用户Id

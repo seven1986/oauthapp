@@ -701,14 +701,35 @@ namespace IdentityServer4.MicroService.Host.Controllers
             }
         }
 
+        #region 注册用户默认权限
+        static string _defaultUserPermissions;
+        public static string DefaultUserPermissions
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_defaultUserPermissions))
+                {
+                    var permissions = typeof(UserPermissions).GetFields()
+              .Where(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().IsDefault)
+              .Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues[0]).ToList();
+
+                    _defaultUserPermissions = string.Join(",", permissions);
+                }
+
+                return _defaultUserPermissions;
+            }
+        }
+        #endregion
+
+        static List<long> DefaultUserRoleIds = new List<long>();
+
         private async Task<bool> CreateUser(AppUser user)
         {
-            var roleIds = _userContext.Roles.Where(x => x.Name.Equals(Roles.Users) || x.Name.Equals(Roles.Developer))
-                  .Select(x => x.Id).ToList();
-
-            var permissions = typeof(UserPermissions).GetFields()
-                .Where(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().IsDefault)
-                .Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues[0]).ToList();
+            if (DefaultUserRoleIds.Count < 1)
+            {
+                DefaultUserRoleIds = _userContext.Roles.Where(x => x.Name.Equals(Roles.Users) || x.Name.Equals(Roles.Developer))
+                      .Select(x => x.Id).ToList();
+            }
 
             var tenantIds = tenantDb.Tenants.Select(x => x.Id).ToList();
 
@@ -717,8 +738,8 @@ namespace IdentityServer4.MicroService.Host.Controllers
                 _userManager,
                 _userContext,
                 user,
-                roleIds,
-                string.Join(",", permissions),
+                DefaultUserRoleIds,
+                DefaultUserPermissions,
                 tenantIds);
             
             if (result.Succeeded)

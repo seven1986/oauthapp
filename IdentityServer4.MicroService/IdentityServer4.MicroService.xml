@@ -2645,6 +2645,16 @@
             for Token 
             </summary>
         </member>
+        <member name="F:IdentityServer4.MicroService.Tenant.TenantConstant.SchemesReflush">
+            <summary>
+            for reflush tenant schemes
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Tenant.TenantConstant.SchemesReflushDuration">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:IdentityServer4.MicroService.Tenant.TenantDefaultProperty">
             <summary>
             租户默认属性集合

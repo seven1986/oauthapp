@@ -41,6 +41,8 @@ namespace Microsoft.Extensions.DependencyInjection
             //注册Lazy
             builder.Services.TryAddTransient(typeof(Lazy<>));
 
+            builder.Services.AddMemoryCache();
+
             builder
                 .AddAppUserMD5PasswordHasher()
                 .AddRedisService()
