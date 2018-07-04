@@ -1,23 +1,24 @@
 ﻿using IdentityServer4.MicroService.Mappers;
-using IdentityServer4.MicroService.Services;
+using IdentityServer4.MicroService.Models.Shared;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+using Microsoft.Extensions.Caching.Memory;
 using System;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace IdentityServer4.MicroService.Tenant
 {
     public class TenantService
     {
-        RedisService _redis;
+        IMemoryCache _cache;
 
         public TenantService(
-            RedisService redis)
+            IMemoryCache cache)
         {
-            _redis = redis;
+            _cache = cache;
         }
 
-        public Tuple<string, string> GetTenant(TenantDbContext _db, string host)
+        public Tuple<TenantPublicModel, TenantPrivateModel> GetTenant(TenantDbContext _db, string host)
         {
             #region 设置缓存Key
             // for client use
@@ -28,37 +29,39 @@ namespace IdentityServer4.MicroService.Tenant
             #endregion
 
             #region 根据缓存Key获取数据
-            var tenant_public = _redis.GetAsync(Unique_TenantPublic_CacheKey).Result;
-            var tenant_private = _redis.GetAsync(Unique_TenantPrivate_CacheKey).Result;
+            var tenant_public = _cache.Get<TenantPublicModel>(Unique_TenantPublic_CacheKey);
+            var tenant_private = _cache.Get<TenantPrivateModel>(Unique_TenantPrivate_CacheKey);
             #endregion
 
             // 详情和Issuer
-            if (string.IsNullOrWhiteSpace(tenant_public) ||
-                string.IsNullOrWhiteSpace(tenant_private))
+            if (tenant_public == null ||
+                tenant_private == null)
             {
-                var tenantId = _db.TenantHosts.Where(x => x.HostName.Equals(host))
-                    .Select(x => x.AppTenantId)
-                    .FirstOrDefault();
+                var _tenantId = _db.ExecuteScalarAsync(
+                    "SELECT AppTenantId FROM AppTenantHosts WHERE HostName = @HostName", System.Data.CommandType.Text,
+                    new SqlParameter("@HostName", host)).Result;
 
-                if (tenantId > 0)
+                if (_tenantId != null)
                 {
+                    var tenantId = long.Parse(_tenantId.ToString());
+
                     var tenant = _db.Tenants
                         .Include(x => x.Claims)
                         .Include(x => x.Hosts)
                         .Include(x => x.Properties)
                         .FirstOrDefault(x => x.Id == tenantId);
 
-                    tenant_public = JsonConvert.SerializeObject(tenant.ToPublicModel());
+                    tenant_public = tenant.ToPublicModel();
 
-                    tenant_private = JsonConvert.SerializeObject(tenant.ToPrivateModel());
+                    tenant_private = tenant.ToPrivateModel();
 
-                    var cacheResult = _redis.SetAsync(Unique_TenantPublic_CacheKey,
+                    _cache.Set(Unique_TenantPublic_CacheKey,
                         tenant_public,
-                        TimeSpan.FromSeconds(tenant.CacheDuration)).Result;
+                        TimeSpan.FromSeconds(tenant.CacheDuration));
 
-                    cacheResult = _redis.SetAsync(Unique_TenantPrivate_CacheKey,
+                    _cache.Set(Unique_TenantPrivate_CacheKey,
                         tenant_private,
-                        TimeSpan.FromSeconds(tenant.CacheDuration)).Result;
+                        TimeSpan.FromSeconds(tenant.CacheDuration));
                 }
             }
 

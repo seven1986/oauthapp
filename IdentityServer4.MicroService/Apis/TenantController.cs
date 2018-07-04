@@ -16,6 +16,8 @@ using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.TenantController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+using Newtonsoft.Json;
+using IdentityServer4.MicroService.Models.Shared;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -443,16 +445,16 @@ namespace IdentityServer4.MicroService.Apis
         [HttpGet("Info")]
         [AllowAnonymous]
         [SwaggerOperation("Tenant/Info")]
-        public ApiResult<string> Info(string host)
+        public ApiResult<TenantPublicModel> Info(string host)
         {
             var entity = tenantService.GetTenant(tenantDb, host);
 
             if (entity == null)
             {
-                return new ApiResult<string>(l, BasicControllerEnums.NotFound);
+                return new ApiResult<TenantPublicModel>(l, BasicControllerEnums.NotFound);
             }
 
-            return new ApiResult<string>(entity.Item1);
+            return new ApiResult<TenantPublicModel>(entity.Item1);
         } 
         #endregion
 

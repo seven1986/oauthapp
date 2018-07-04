@@ -16,6 +16,7 @@
                 <div class="text-center mb-4">
                     <h5 class="h3 mb-3 font-weight-normal">@Localizer["注册账号"]</h5>
                 </div>
+
                 <div class="form-label-group">
                     <input type="email" name="Email" id="Email" class="form-control" placeholder="@Localizer["邮箱"]" />
                     <span asp-validation-for="Email" class="text-danger"></span>
@@ -29,6 +30,11 @@
                 <div class="form-label-group">
                     <input type="password" name="ConfirmPassword" id="ConfirmPassword" class="form-control" placeholder="@Localizer["确认密码"]" />
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+
+                <div class="form-label-group">
+                    <input type="number" name="ParentUserID" id="ParentUserID" class="form-control" placeholder="@Localizer["推荐人ID"]" />
+                    <span asp-validation-for="ParentUserID" class="text-danger"></span>
                 </div>
 
                 <button class="btn btn-lg btn-success btn-block" type="submit">@Localizer["注册"]</button>

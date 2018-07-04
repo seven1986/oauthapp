@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication;
 using System.Linq;
 using IdentityServer4.MicroService.Models.Shared;
+using System;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace IdentityServer4.MicroService.Tenant
 {
@@ -14,15 +16,22 @@ namespace IdentityServer4.MicroService.Tenant
         readonly RequestDelegate _next;
         readonly TenantService _tenantService;
         readonly IAuthenticationSchemeProvider _oauthProvider;
+        readonly IMemoryCache _memoryCache;
+        readonly IdentityServerOptions _identityServerOptions;
+
         public TenantMiddleware(
             RequestDelegate next,
-            TenantService tenantService,
-            IAuthenticationSchemeProvider oauthProvider
+            Lazy<TenantService> tenantService,
+            Lazy<IAuthenticationSchemeProvider> oauthProvider,
+            Lazy<IMemoryCache> memoryCache,
+            Lazy<IdentityServerOptions> identityServerOptions
             )
         {
             _next = next;
-            _tenantService = tenantService;
-            _oauthProvider = oauthProvider;
+            _tenantService = tenantService.Value;
+            _oauthProvider = oauthProvider.Value;
+            _memoryCache = memoryCache.Value;
+            _identityServerOptions = identityServerOptions.Value;
         }
 
         public Task Invoke(
@@ -32,19 +41,21 @@ namespace IdentityServer4.MicroService.Tenant
             var tenant = _tenantService.GetTenant(_db,
                 context.Request.Host.Value);
 
-            if (!string.IsNullOrWhiteSpace(tenant.Item1))
+            if (tenant.Item1 != null)
             {
                 context.Items[TenantConstant.CacheKey] = tenant.Item1;
             }
 
-            if (!string.IsNullOrWhiteSpace(tenant.Item2))
+            var reflushFlagCacheKey = TenantConstant.SchemesReflush + context.Request.Host.Value;
+
+            var reflushFlag = _memoryCache.Get<string>(reflushFlagCacheKey);
+
+            if (string.IsNullOrWhiteSpace(reflushFlag) && tenant.Item2 != null)
             {
-                var pvtModel = JsonConvert
-                            .DeserializeObject<TenantPrivateModel>(tenant.Item2);
+                var pvtModel = tenant.Item2;
 
                 #region IssuerUri
-                var IdServerOptions = context.RequestServices.GetRequiredService<IdentityServerOptions>();
-                IdServerOptions.IssuerUri = context.Request.Scheme + "://" + pvtModel.IdentityServerIssuerUri;
+                _identityServerOptions.IssuerUri = context.Request.Scheme + "://" + tenant.Item2.IdentityServerIssuerUri;
                 #endregion
 
                 #region ResetOAuthOptions
@@ -53,32 +64,39 @@ namespace IdentityServer4.MicroService.Tenant
                     // 获取当前所有OAuth Scheme
                     var AllSchemes = _oauthProvider.GetAllSchemesAsync().Result.Select(x => x.Name).ToList();
 
-                    foreach (var v in AppDefaultData.Tenant.OAuthHandlers)
+                    var TenantSchemes = AppDefaultData.Tenant.OAuthHandlers.Select(x => x.Key).ToList();
+
+                    foreach (var scheme in TenantSchemes)
                     {
-                        var ClientIdKey = $"{v.Key}:ClientId";
+                        var ClientIdKey = $"{scheme}:ClientId";
                         var ClientIdValue = pvtModel.Properties[ClientIdKey];
 
-                        var ClientSecretKey = $"{v.Key}:ClientSecret";
+                        var ClientSecretKey = $"{scheme}:ClientSecret";
                         var ClientSecretValue = pvtModel.Properties[ClientSecretKey];
 
                         if (string.IsNullOrWhiteSpace(ClientIdValue) ||
                             string.IsNullOrWhiteSpace(ClientSecretValue))
                         {
-                            _oauthProvider.RemoveScheme(v.Key);
+                            _oauthProvider.RemoveScheme(scheme);
                             continue;
                         }
 
                         AppDefaultData.Tenant.TenantProperties[ClientIdKey] = ClientIdValue;
                         AppDefaultData.Tenant.TenantProperties[ClientSecretKey] = ClientSecretValue;
 
-                        if (!AllSchemes.Contains(v.Key))
+                        if (!AllSchemes.Contains(scheme))
                         {
-                            var authScheme = new AuthenticationScheme(v.Key,
-                               v.Key, AppDefaultData.Tenant.OAuthHandlers[v.Key]);
+                            var authScheme = new AuthenticationScheme(scheme,
+                               scheme, AppDefaultData.Tenant.OAuthHandlers[scheme]);
 
                             _oauthProvider.AddScheme(authScheme);
                         }
                     }
+
+
+                    _memoryCache.Set(reflushFlagCacheKey,
+                        "1",
+                        TimeSpan.FromSeconds(TenantConstant.SchemesReflushDuration));
                 }
                 #endregion
             }

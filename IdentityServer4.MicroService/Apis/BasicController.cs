@@ -126,7 +126,7 @@ namespace IdentityServer4.MicroService.Apis
                 {
                     var tenantCache = tenantService.GetTenant(tenantDb, HttpContext.Request.Host.Value);
 
-                    _tenant = JsonConvert.DeserializeObject<TenantPrivateModel>(tenantCache.Item2);
+                    _tenant = tenantCache.Item2;
                 }
 
                 return _tenant;
@@ -154,8 +154,6 @@ namespace IdentityServer4.MicroService.Apis
                 return _azureApim;
             }
         }
-
-
 
         /// <summary>
         /// 根据枚举，返回值与名称的字典

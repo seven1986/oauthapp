@@ -20,16 +20,10 @@ namespace IdentityServer4.MicroService.Microsoft.AspNetCore.Authentication
 
         protected override Task InitializeHandlerAsync()
         {
-            var ClientId = AppDefaultData.Tenant.TenantProperties[$"{Scheme.Name}:ClientId"];
+            Options.ClientId = AppDefaultData.Tenant.TenantProperties[$"{Scheme.Name}:ClientId"];
 
-            var ClientSecret = AppDefaultData.Tenant.TenantProperties[$"{Scheme.Name}:ClientSecret"];
+            Options.ClientSecret = AppDefaultData.Tenant.TenantProperties[$"{Scheme.Name}:ClientSecret"];
 
-            if (!string.IsNullOrWhiteSpace(ClientId) &&
-               !string.IsNullOrWhiteSpace(ClientSecret))
-            {
-                Options.ClientId = ClientId;
-                Options.ClientSecret = ClientSecret;
-            }
             return base.InitializeHandlerAsync();
         }
     }
