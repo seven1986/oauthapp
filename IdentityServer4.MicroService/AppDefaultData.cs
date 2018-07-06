@@ -413,52 +413,52 @@ namespace IdentityServer4.MicroService
                     userContext.SaveChanges();
                 }
 
-                //if (!userContext.Users.Any())
-                //{
-                //    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+                if (!userContext.Users.Any())
+                {
+                    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 
-                //    var roleIds = userContext.Roles.Select(x => x.Id).ToList();
+                    var roleIds = userContext.Roles.Select(x => x.Id).ToList();
 
-                //    var permissions = typeof(UserPermissions).GetFields().Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues[0]).ToList();
-                //    permissions.Add(MicroServiceName + ".all");
+                    var permissions = typeof(UserPermissions).GetFields().Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues[0]).ToList();
+                    permissions.Add(MicroServiceName + ".all");
 
-                //    var tenantIds = tenantDbContext.Tenants.Select(x => x.Id).ToList();
+                    var tenantIds = tenantDbContext.Tenants.Select(x => x.Id).ToList();
 
-                //    foreach (var _user in GetUsers())
-                //    {
-                //        var r = AppUserService.CreateUser(AppConstant.seedTenantId,
-                //             userManager,
-                //             userContext,
-                //             _user,
-                //             roleIds,
-                //            string.Join(",", permissions),
-                //            tenantIds).Result;
+                    foreach (var _user in GetUsers())
+                    {
+                        var r = AppUserService.CreateUser(AppConstant.seedTenantId,
+                             userManager,
+                             userContext,
+                             _user,
+                             roleIds,
+                            string.Join(",", permissions),
+                            tenantIds).Result;
 
-                //        #region User Clients
-                //        var clientIds = context.Clients.Select(x => x.Id).ToList();
-                //        foreach (var cid in clientIds)
-                //        {
-                //            _user.Clients.Add(new AspNetUserClient()
-                //            {
-                //                ClientId = cid
-                //            });
-                //        }
-                //        #endregion
+                        #region User Clients
+                        var clientIds = context.Clients.Select(x => x.Id).ToList();
+                        foreach (var cid in clientIds)
+                        {
+                            _user.Clients.Add(new AspNetUserClient()
+                            {
+                                ClientId = cid
+                            });
+                        }
+                        #endregion
 
-                //        #region User ApiResources
-                //        var apiIds = context.ApiResources.Select(x => x.Id).ToList();
-                //        foreach (var apiId in apiIds)
-                //        {
-                //            _user.ApiResources.Add(new AspNetUserApiResource()
-                //            {
-                //                ApiResourceId = apiId,
-                //            });
-                //        }
-                //        #endregion
+                        #region User ApiResources
+                        var apiIds = context.ApiResources.Select(x => x.Id).ToList();
+                        foreach (var apiId in apiIds)
+                        {
+                            _user.ApiResources.Add(new AspNetUserApiResource()
+                            {
+                                ApiResourceId = apiId,
+                            });
+                        }
+                        #endregion
 
-                //        userContext.SaveChanges();
-                //    }
-                //}
+                        userContext.SaveChanges();
+                    }
+                }
             }
         }
 

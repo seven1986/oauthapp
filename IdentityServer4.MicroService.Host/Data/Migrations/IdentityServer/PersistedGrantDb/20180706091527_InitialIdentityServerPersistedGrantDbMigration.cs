@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IdentityServer4.MicroService.Host.Data.Migrations.IdentityServer.PersistedGrantDb
 {
@@ -13,12 +12,12 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.IdentityServer.Persi
                 columns: table => new
                 {
                     Key = table.Column<string>(maxLength: 200, nullable: false),
+                    Type = table.Column<string>(maxLength: 50, nullable: false),
+                    SubjectId = table.Column<string>(maxLength: 200, nullable: true),
                     ClientId = table.Column<string>(maxLength: 200, nullable: false),
                     CreationTime = table.Column<DateTime>(nullable: false),
-                    Data = table.Column<string>(maxLength: 50000, nullable: false),
                     Expiration = table.Column<DateTime>(nullable: true),
-                    SubjectId = table.Column<string>(maxLength: 200, nullable: true),
-                    Type = table.Column<string>(maxLength: 50, nullable: false)
+                    Data = table.Column<string>(maxLength: 50000, nullable: false)
                 },
                 constraints: table =>
                 {

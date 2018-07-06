@@ -6,7 +6,7 @@ using IdentityServer4.MicroService.Models.Shared;
 
 namespace IdentityServer4.MicroService.Host.Controllers
 {
-    [SecurityHeaders]
+    //[SecurityHeaders]
     public class BasicController : Controller
     {
         protected virtual TenantDbContext tenantDb { get; set; }

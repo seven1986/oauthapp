@@ -8,11 +8,11 @@
     <PackageProjectUrl>https://github.com/seven1986/IdentityServer4.MicroService</PackageProjectUrl>
     <RepositoryUrl>https://github.com/seven1986/IdentityServer4.MicroService</RepositoryUrl>
     <PackageTags>IdentityServer4 MicroService AzureApiManagement</PackageTags>
-    <AssemblyVersion>0.0.14.0</AssemblyVersion>
-    <FileVersion>0.0.14.0</FileVersion>
+    <AssemblyVersion>0.0.15.0</AssemblyVersion>
+    <FileVersion>0.0.15.0</FileVersion>
     <PackageLicenseUrl>https://github.com/seven1986/IdentityServer4.MicroService/blob/master/LICENSE</PackageLicenseUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/seven1986/IdentityServer4.MicroService/master/id4ms.png</PackageIconUrl>
-    <Version>0.0.14</Version>
+    <Version>0.0.15</Version>
     <Product>IdentityServer4.MicroService</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
   </PropertyGroup>
@@ -68,15 +68,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="2.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="2.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Extensions" Version="2.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="2.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.3" />
     <PackageReference Include="StackExchange.Redis" Version="1.2.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="2.5.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
-    <PackageReference Include="WindowsAzure.Storage" Version="9.2.0" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.3.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,11 +1,8 @@
 ﻿using System.Threading.Tasks;
 using IdentityServer4.Configuration;
-using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication;
 using System.Linq;
-using IdentityServer4.MicroService.Models.Shared;
 using System;
 using Microsoft.Extensions.Caching.Memory;
 
