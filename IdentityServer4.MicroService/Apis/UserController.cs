@@ -53,28 +53,28 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 构造函数
         public UserController(
-            Lazy<IdentityDbContext> _db,
-            Lazy<RedisService> _redis,
-            Lazy<IStringLocalizer<UserController>> _localizer,
-            Lazy<ISmsSender> _sms,
-            Lazy<EmailService> _email,
-            Lazy<UserManager<AppUser>> _userManager,
-            Lazy<TenantDbContext> _tenantDbContext,
-            Lazy<ConfigurationDbContext> _configDbContext,
-            Lazy<IDataProtectionProvider> _provider,
-            Lazy<TenantService> _tenantService)
+            IdentityDbContext _db,
+            RedisService _redis,
+            IStringLocalizer<UserController> _localizer,
+            ISmsSender _sms,
+            EmailService _email,
+            UserManager<AppUser> _userManager,
+            TenantDbContext _tenantDbContext,
+            ConfigurationDbContext _configDbContext,
+            IDataProtectionProvider _provider,
+            TenantService _tenantService)
         {
             // 多语言
-            l = _localizer.Value;
-            db = _db.Value;
-            redis = _redis.Value;
-            sms = _sms.Value;
-            email = _email.Value;
-            userManager = _userManager.Value;
-            tenantDbContext = _tenantDbContext.Value;
-            configDbContext = _configDbContext.Value;
-            protector = _provider.Value.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
-            tenantService = _tenantService.Value;
+            l = _localizer;
+            db = _db;
+            redis = _redis;
+            sms = _sms;
+            email = _email;
+            userManager = _userManager;
+            tenantDbContext = _tenantDbContext;
+            configDbContext = _configDbContext;
+            protector = _provider.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
+            tenantService = _tenantService;
         }
         #endregion
 

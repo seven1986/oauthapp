@@ -1,8 +1,15 @@
 ﻿@{
     TenantPrivateModel tenant = null;
-    if(ViewBag.pvtTenant == null)
+
+    var keywords = string.Empty;
+    var description = string.Empty;
+    var siteFavicon = string.Empty;
+    var siteName = string.Empty;
+    var siteTracking = string.Empty;
+
+    if (ViewBag.pvtTenant == null)
     {
-        tenant =  ViewBag.pvtTenant = new TenantPrivateModel()
+        tenant = ViewBag.pvtTenant = new TenantPrivateModel()
         {
             Id = 1,
             Name = ""
@@ -11,6 +18,13 @@
     else
     {
         tenant = ViewBag.pvtTenant;
+
+
+        keywords = tenant.Properties.GetValueOrDefault(TenantDefaultProperty.Keywords);
+        description = tenant.Properties.GetValueOrDefault(TenantDefaultProperty.Summary);
+        siteFavicon = tenant.Properties.GetValueOrDefault("Favicon");
+        siteName = tenant.Name;
+        siteTracking = tenant.Properties.GetValueOrDefault(TenantDefaultProperty.Tracking);
     }
 }
 @inject IViewLocalizer Localizer
@@ -19,26 +33,21 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="keywords" content="@Html.Raw(tenant.Properties[TenantDefaultProperty.Keywords])" />
-    <meta name="description" content="@Html.Raw(tenant.Properties[TenantDefaultProperty.Summary])" />
-    <link rel="shortcut icon" href="@tenant.Properties["Favicon"]" type="image/x-icon" />
-    <link rel="bookmark" href="@tenant.Properties["Favicon"]" type="image/x-icon" />
-    <title>@Html.Raw(tenant.Name) - @Localizer["授权中心"]</title>
-    <environment names="Development">
-        <link href="/dist/vendor.min.css" rel="stylesheet" />
-        <link href="/dist/app.css" rel="stylesheet" />
-    </environment>
-    <environment names="Staging,Production">
-        <link href="/dist/app.min.css" rel="stylesheet" asp-append-version="true" />
-    </environment>
+    <meta name="keywords" content="@Html.Raw(keywords)" />
+    <meta name="description" content="@Html.Raw(description)" />
+    <link rel="shortcut icon" href="@siteFavicon" type="image/x-icon" />
+    <link rel="bookmark" href="@siteFavicon" type="image/x-icon" />
+    <title>@Html.Raw(siteName) - @Localizer["授权中心"]</title>
+    <link href="/dist/vendor.min.css" rel="stylesheet" />
+    <link href="/dist/app.css" rel="stylesheet" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="/">
-                    <img src="@tenant.Properties["Favicon"]" width="32px" />
-                    @Html.Raw(tenant.Name)
+                    <img src="@siteFavicon" width="32px" />
+                    @Html.Raw(siteName)
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -54,14 +63,9 @@
         @RenderBody()
     </main>
 
-    <environment names="Development">
-        <script src="/dist/vendor.min.js"></script>
-        <script src="/dist/app.js"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="~/dist/app.min.js" asp-append-version="true"></script>
-    </environment>
+    <script src="/dist/vendor.min.js"></script>
+    @*<script src="/dist/app.js"></script>*@
     @RenderSection("Scripts", required: false)
-    @Html.Raw(tenant.Properties[TenantDefaultProperty.Tracking])
+    @Html.Raw(siteTracking)
 </body>
 </html>

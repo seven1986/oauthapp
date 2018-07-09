@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
 {
@@ -15,9 +14,9 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
+                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -30,44 +29,44 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    Address = table.Column<string>(nullable: true),
-                    Avatar = table.Column<string>(nullable: true),
-                    Birthday = table.Column<DateTime>(nullable: false),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    CreateDate = table.Column<DateTime>(nullable: false),
-                    DataAmount = table.Column<long>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    Gender = table.Column<string>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    LastUpdateTime = table.Column<DateTime>(nullable: false),
-                    Lineage = table.Column<string>(type: "sys.hierarchyid", nullable: true),
-                    LineageIDs = table.Column<string>(nullable: true),
-                    LockFlag = table.Column<bool>(nullable: false),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    Money = table.Column<decimal>(nullable: false),
-                    NickName = table.Column<string>(nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    ParentUserID = table.Column<long>(nullable: false),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
                     PasswordHash = table.Column<string>(nullable: true),
-                    Permission = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    Points = table.Column<long>(nullable: false),
-                    PoolIDs = table.Column<string>(nullable: true),
-                    Remark = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    Stature = table.Column<decimal>(nullable: false),
-                    Status = table.Column<int>(nullable: false),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    TypeIDs = table.Column<string>(nullable: true),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
                     UserKey = table.Column<Guid>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true),
-                    Weight = table.Column<decimal>(nullable: false)
+                    ParentUserID = table.Column<long>(nullable: false),
+                    Lineage = table.Column<string>(type: "sys.hierarchyid", nullable: true),
+                    LineageIDs = table.Column<string>(nullable: true),
+                    Avatar = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    TypeIDs = table.Column<string>(nullable: true),
+                    NickName = table.Column<string>(nullable: true),
+                    Gender = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    Birthday = table.Column<DateTime>(nullable: false),
+                    Stature = table.Column<decimal>(nullable: false),
+                    Weight = table.Column<decimal>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Remark = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastUpdateTime = table.Column<DateTime>(nullable: false),
+                    Permission = table.Column<string>(nullable: true),
+                    LockFlag = table.Column<bool>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
+                    PoolIDs = table.Column<string>(nullable: true),
+                    DataAmount = table.Column<long>(nullable: false),
+                    Points = table.Column<long>(nullable: false),
+                    Money = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,9 +79,9 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    RoleId = table.Column<long>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true),
-                    RoleId = table.Column<long>(nullable: false)
+                    ClaimValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -101,8 +100,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ApiResourceId = table.Column<long>(nullable: false),
-                    UserId = table.Column<long>(nullable: false)
+                    UserId = table.Column<long>(nullable: false),
+                    ApiResourceId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -121,9 +120,9 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<long>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true),
-                    UserId = table.Column<long>(nullable: false)
+                    ClaimValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -142,8 +141,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ClientId = table.Column<long>(nullable: false),
-                    UserId = table.Column<long>(nullable: false)
+                    UserId = table.Column<long>(nullable: false),
+                    ClientId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -162,6 +161,15 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TenantId = table.Column<long>(nullable: false),
+                    UserId = table.Column<long>(nullable: false),
+                    Members = table.Column<long>(nullable: false),
+                    MembersLastUpdate = table.Column<DateTime>(nullable: false),
+                    Sales = table.Column<decimal>(nullable: false),
+                    SalesLastUpdate = table.Column<DateTime>(nullable: false),
+                    Earned = table.Column<decimal>(nullable: false),
+                    EarnedDiff = table.Column<decimal>(nullable: false),
+                    EarnedDiffLastUpdate = table.Column<DateTime>(nullable: false),
                     Commission = table.Column<decimal>(nullable: false),
                     CommissionLastUpdate = table.Column<DateTime>(nullable: false),
                     CommissionLv1 = table.Column<decimal>(nullable: false),
@@ -169,16 +177,7 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                     CommissionLv2 = table.Column<decimal>(nullable: false),
                     CommissionLv2LastUpdate = table.Column<DateTime>(nullable: false),
                     CommissionLv3 = table.Column<decimal>(nullable: false),
-                    CommissionLv3LastUpdate = table.Column<DateTime>(nullable: false),
-                    Earned = table.Column<decimal>(nullable: false),
-                    EarnedDiff = table.Column<decimal>(nullable: false),
-                    EarnedDiffLastUpdate = table.Column<DateTime>(nullable: false),
-                    Members = table.Column<long>(nullable: false),
-                    MembersLastUpdate = table.Column<DateTime>(nullable: false),
-                    Sales = table.Column<decimal>(nullable: false),
-                    SalesLastUpdate = table.Column<DateTime>(nullable: false),
-                    TenantId = table.Column<long>(nullable: false),
-                    UserId = table.Column<long>(nullable: false)
+                    CommissionLv3LastUpdate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -197,9 +196,9 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<long>(nullable: false),
                     FileType = table.Column<int>(nullable: false),
-                    Files = table.Column<string>(nullable: true),
-                    UserId = table.Column<long>(nullable: false)
+                    Files = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -238,8 +237,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Key = table.Column<string>(nullable: true),
                     UserId = table.Column<long>(nullable: false),
+                    Key = table.Column<string>(nullable: true),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -283,8 +282,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    TenantId = table.Column<long>(nullable: false),
-                    UserId = table.Column<long>(nullable: false)
+                    UserId = table.Column<long>(nullable: false),
+                    TenantId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {

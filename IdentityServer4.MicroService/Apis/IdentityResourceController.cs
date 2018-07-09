@@ -34,11 +34,11 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 构造函数
         public IdentityResourceController(
-            Lazy<ConfigurationDbContext> _configDb,
-            Lazy<IStringLocalizer<IdentityResourceController>> localizer)
+            ConfigurationDbContext _configDb,
+            IStringLocalizer<IdentityResourceController> localizer)
         {
-            configDb = _configDb.Value;
-            l = localizer.Value;
+            configDb = _configDb;
+            l = localizer;
         }
         #endregion
 

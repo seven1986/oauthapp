@@ -73,6 +73,12 @@ namespace IdentityServer4.MicroService.Services
 
                     await userContext.ExecuteScalarAsync(sql);
 
+                    sql = $"UPDATE AspNetUsers SET LineageIDs = REPLACE(Lineage.ToString(),'/',',')  WHERE Id = {user.Id}";
+
+                    // 叠加上级关系链到 当前用户
+                    await userContext.ExecuteScalarAsync(sql);
+
+
                     // 上面加入了当前创建用户的关系，
                     // 所以这里要更新 上级用户关系链
                     sql = "DECLARE @ParentLineage hierarchyid \r\n" +
@@ -144,14 +150,14 @@ namespace IdentityServer4.MicroService.Services
                     if (ParentUserDistribution != null)
                     {
                         ParentUserDistribution.Members = Members;
-                        ParentUserDistribution.MembersLastUpdate = DateTime.UtcNow;
+                        ParentUserDistribution.MembersLastUpdate = DateTime.UtcNow.AddHours(8);
                     }
                     else
                     {
                         ParentUser.Distributors.Add(new AspNetUserDistributor()
                         {
                             Members = Members,
-                            MembersLastUpdate = DateTime.UtcNow
+                            MembersLastUpdate = DateTime.UtcNow.AddHours(8)
                         });
                     }
                     #endregion

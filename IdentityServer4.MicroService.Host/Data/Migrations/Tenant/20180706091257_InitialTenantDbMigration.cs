@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace IdentityServer4.MicroService.Host.Data.Migrations.Tenant
 {
@@ -15,14 +14,14 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Tenant
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CacheDuration = table.Column<long>(nullable: false),
-                    CreateDate = table.Column<DateTime>(nullable: false),
-                    IdentityServerIssuerUri = table.Column<string>(nullable: true),
-                    LastUpdateTime = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    OwnerUserId = table.Column<long>(nullable: false),
+                    Theme = table.Column<string>(nullable: true),
                     Status = table.Column<int>(nullable: false),
-                    Theme = table.Column<string>(nullable: true)
+                    IdentityServerIssuerUri = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastUpdateTime = table.Column<DateTime>(nullable: false),
+                    CacheDuration = table.Column<long>(nullable: false),
+                    OwnerUserId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
