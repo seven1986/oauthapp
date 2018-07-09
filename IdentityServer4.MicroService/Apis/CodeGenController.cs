@@ -39,17 +39,17 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 构造函数
         public CodeGenController(
-            Lazy<AzureStorageService> _storageService,
-            Lazy<IStringLocalizer<CodeGenController>> localizer,
-            Lazy<SwaggerCodeGenService> _swagerCodeGen,
-            Lazy<INodeServices> _nodeServices,
-            Lazy<RedisService> _redis)
+            AzureStorageService _storageService,
+            IStringLocalizer<CodeGenController> localizer,
+            SwaggerCodeGenService _swagerCodeGen,
+            INodeServices _nodeServices,
+            RedisService _redis)
         {
-            l = localizer.Value;
-            swagerCodeGen = _swagerCodeGen.Value;
-            nodeServices = _nodeServices.Value;
-            storageService = _storageService.Value;
-            redis = _redis.Value;
+            l = localizer;
+            swagerCodeGen = _swagerCodeGen;
+            nodeServices = _nodeServices;
+            storageService = _storageService;
+            redis = _redis;
         }
         #endregion
 

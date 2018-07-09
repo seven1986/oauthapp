@@ -16,7 +16,6 @@ using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.TenantController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
-using Newtonsoft.Json;
 using IdentityServer4.MicroService.Models.Shared;
 
 namespace IdentityServer4.MicroService.Apis
@@ -31,22 +30,19 @@ namespace IdentityServer4.MicroService.Apis
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class TenantController : BasicController
     {
-        #region Services
-        #endregion
-
         #region 构造函数
         public TenantController(
-            Lazy<TenantDbContext> _db,
-            Lazy<RedisService> _redis,
-            Lazy<IStringLocalizer<TenantController>> _localizer,
-            Lazy<TenantService> _tenantService
+            TenantDbContext _db,
+            RedisService _redis,
+            IStringLocalizer<TenantController> _localizer,
+            TenantService _tenantService
             )
         {
             // 多语言
-            l = _localizer.Value;
-            redis = _redis.Value;
-            tenantDb = _db.Value;
-            tenantService = _tenantService.Value;
+            l = _localizer;
+            redis = _redis;
+            tenantDb = _db;
+            tenantService = _tenantService;
         }
         #endregion
 

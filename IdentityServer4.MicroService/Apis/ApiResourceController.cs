@@ -65,27 +65,27 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="_email"></param>
         /// <param name="_provider"></param>
         public ApiResourceController(
-            Lazy<ConfigurationDbContext> _configDb,
-            Lazy<IdentityDbContext> _userDb,
-            Lazy<IStringLocalizer<ApiResourceController>> localizer,
-            Lazy<TenantService> _tenantService,
-            Lazy<TenantDbContext> _tenantDb,
-            Lazy<RedisService> _redis,
-            Lazy<SwaggerCodeGenService> _swagerCodeGen,
-            Lazy<AzureStorageService> _storageService,
-            Lazy<EmailService> _email,
-            Lazy<IDataProtectionProvider> _provider)
+            ConfigurationDbContext _configDb,
+            IdentityDbContext _userDb,
+            IStringLocalizer<ApiResourceController> localizer,
+            TenantService _tenantService,
+            TenantDbContext _tenantDb,
+            RedisService _redis,
+            SwaggerCodeGenService _swagerCodeGen,
+            AzureStorageService _storageService,
+            EmailService _email,
+            IDataProtectionProvider _provider)
         {
-            configDb = _configDb.Value;
-            db = _userDb.Value;
-            l = localizer.Value;
-            tenantDb = _tenantDb.Value;
-            tenantService = _tenantService.Value;
-            redis = _redis.Value;
-            swagerCodeGen = _swagerCodeGen.Value;
-            storageService = _storageService.Value;
-            email = _email.Value;
-            protector = _provider.Value.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
+            configDb = _configDb;
+            db = _userDb;
+            l = localizer;
+            tenantDb = _tenantDb;
+            tenantService = _tenantService;
+            redis = _redis;
+            swagerCodeGen = _swagerCodeGen;
+            storageService = _storageService;
+            email = _email;
+            protector = _provider.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
         }
         #endregion
 

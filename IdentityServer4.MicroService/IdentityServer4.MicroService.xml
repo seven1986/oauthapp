@@ -10,7 +10,7 @@
             </summary>
             <remarks>为微服务提供版本管理、网关集成都功能。</remarks>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.#ctor(System.Lazy{IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext},System.Lazy{IdentityServer4.MicroService.Data.IdentityDbContext},System.Lazy{Microsoft.Extensions.Localization.IStringLocalizer{IdentityServer4.MicroService.Apis.ApiResourceController}},System.Lazy{IdentityServer4.MicroService.Tenant.TenantService},System.Lazy{IdentityServer4.MicroService.Tenant.TenantDbContext},System.Lazy{IdentityServer4.MicroService.Services.RedisService},System.Lazy{IdentityServer4.MicroService.Services.SwaggerCodeGenService},System.Lazy{IdentityServer4.MicroService.Services.AzureStorageService},System.Lazy{IdentityServer4.MicroService.Services.EmailService},System.Lazy{Microsoft.AspNetCore.DataProtection.IDataProtectionProvider})">
+        <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,IdentityServer4.MicroService.Data.IdentityDbContext,Microsoft.Extensions.Localization.IStringLocalizer{IdentityServer4.MicroService.Apis.ApiResourceController},IdentityServer4.MicroService.Tenant.TenantService,IdentityServer4.MicroService.Tenant.TenantDbContext,IdentityServer4.MicroService.Services.RedisService,IdentityServer4.MicroService.Services.SwaggerCodeGenService,IdentityServer4.MicroService.Services.AzureStorageService,IdentityServer4.MicroService.Services.EmailService,Microsoft.AspNetCore.DataProtection.IDataProtectionProvider)">
             <summary>
             构造函数
             </summary>

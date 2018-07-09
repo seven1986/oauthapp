@@ -41,15 +41,15 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 构造函数
         public ClientController(
-            Lazy<ConfigurationDbContext> _idsDB,
-            Lazy<IdentityDbContext> _userDB,
-            Lazy<IStringLocalizer<ClientController>> localizer,
-            Lazy<IdentityServerTools> tools)
+            ConfigurationDbContext _idsDB,
+            IdentityDbContext _userDB,
+            IStringLocalizer<ClientController> localizer,
+            IdentityServerTools tools)
         {
-            userDB = _userDB.Value;
-            idsDB = _idsDB.Value;
-            l = localizer.Value;
-            _tools = tools.Value;
+            userDB = _userDB;
+            idsDB = _idsDB;
+            l = localizer;
+            _tools = tools;
         }
         #endregion
 
