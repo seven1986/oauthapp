@@ -93,9 +93,6 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
 
                     b.Property<DateTime>("LastUpdateTime");
 
-                    b.Property<string>("Lineage")
-                        .HasColumnType("sys.hierarchyid");
-
                     b.Property<string>("LineageIDs");
 
                     b.Property<bool>("LockFlag");

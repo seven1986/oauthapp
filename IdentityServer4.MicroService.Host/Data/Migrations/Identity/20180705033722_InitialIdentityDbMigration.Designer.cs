@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20180706091436_InitialIdentityDbMigration")]
+    [Migration("20180705033722_InitialIdentityDbMigration")]
     partial class InitialIdentityDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,9 +94,6 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime>("LastUpdateTime");
-
-                    b.Property<string>("Lineage")
-                        .HasColumnType("sys.hierarchyid");
 
                     b.Property<string>("LineageIDs");
 
