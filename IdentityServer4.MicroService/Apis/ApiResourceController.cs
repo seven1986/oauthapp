@@ -317,7 +317,7 @@ namespace IdentityServer4.MicroService.Apis
                                 var sql = string.Format("DELETE ApiClaims WHERE ID IN ({0})",
                                             string.Join(",", DeleteEntities));
 
-                                db.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                configDb.Database.ExecuteSqlCommand(new RawSqlString(sql));
                             }
                         }
                         #endregion
@@ -328,7 +328,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                db.Database.ExecuteSqlCommand(
+                                configDb.Database.ExecuteSqlCommand(
                                   new RawSqlString("UPDATE ApiClaims SET [Type]=@Type WHERE Id = " + x.Id),
                                   new SqlParameter("@Type", x.Type));
                             });
@@ -341,7 +341,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                db.Database.ExecuteSqlCommand(
+                                configDb.Database.ExecuteSqlCommand(
                                   new RawSqlString("INSERT INTO ApiClaims VALUES (@ApiResourceId,@Type)"),
                                   new SqlParameter("@ApiResourceId", source.Id),
                                   new SqlParameter("@Type", x.Type));
@@ -365,7 +365,7 @@ namespace IdentityServer4.MicroService.Apis
                                 var sql = string.Format("DELETE ApiSecrets WHERE ID IN ({0})",
                                             string.Join(",", DeleteEntities));
 
-                                db.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                configDb.Database.ExecuteSqlCommand(new RawSqlString(sql));
                             }
                         }
                         #endregion
@@ -390,7 +390,7 @@ namespace IdentityServer4.MicroService.Apis
 
                                 var sql = new RawSqlString("UPDATE ApiSecrets SET [Description]=@Description,[Expiration]=@Expiration,[Type]=@Type,[Value]=@Value WHERE Id = " + x.Id);
 
-                                db.Database.ExecuteSqlCommand(sql, _params);
+                                configDb.Database.ExecuteSqlCommand(sql, _params);
                             });
                         }
                         #endregion
@@ -416,7 +416,7 @@ namespace IdentityServer4.MicroService.Apis
 
                                 var sql = new RawSqlString("INSERT INTO ApiSecrets VALUES (@ApiResourceId,@Description,@Expiration,@Type,@Value)");
 
-                                db.Database.ExecuteSqlCommand(sql, _params);
+                                configDb.Database.ExecuteSqlCommand(sql, _params);
                             });
                         }
                         #endregion
@@ -437,12 +437,12 @@ namespace IdentityServer4.MicroService.Apis
                                 var sql = string.Format("DELETE ApiScopeClaims WHERE ApiScopeId IN ({0})",
                                            string.Join(",", DeleteEntities));
 
-                                db.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                configDb.Database.ExecuteSqlCommand(new RawSqlString(sql));
 
                                 sql = string.Format("DELETE ApiScopes WHERE ID IN ({0})",
                                             string.Join(",", DeleteEntities));
 
-                                db.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                configDb.Database.ExecuteSqlCommand(new RawSqlString(sql));
                             }
                         }
                         #endregion
@@ -467,14 +467,14 @@ namespace IdentityServer4.MicroService.Apis
 
                                 var sql = new RawSqlString("UPDATE ApiScopes SET [Description]=@Description,[DisplayName]=@DisplayName,[Emphasize]=@Emphasize,[Name]=@Name,[Required]=@Required,[ShowInDiscoveryDocument]=@ShowInDiscoveryDocument WHERE Id = " + x.Id);
 
-                                db.Database.ExecuteSqlCommand(sql, _params);
+                                configDb.Database.ExecuteSqlCommand(sql, _params);
 
-                                db.Database.ExecuteSqlCommand(
+                                configDb.Database.ExecuteSqlCommand(
                                     new RawSqlString("DELETE ApiScopeClaims WHERE ApiScopeId =" + x.Id));
 
                                 x.UserClaims.ForEach(claim =>
                                 {
-                                    db.Database.ExecuteSqlCommand(
+                                    configDb.Database.ExecuteSqlCommand(
                                      new RawSqlString("INSERT INTO ApiScopeClaims VALUES (@ApiScopeId,@Type)"),
                                      new SqlParameter("@ApiScopeId", x.Id),
                                      new SqlParameter("@Type", claim.Type));
@@ -506,7 +506,7 @@ namespace IdentityServer4.MicroService.Apis
                                 var sql = new RawSqlString("INSERT INTO ApiScopes VALUES (@ApiResourceId,@Description,@DisplayName,@Emphasize,@Name,@Required,@ShowInDiscoveryDocument)\r\n" +
                                   "SELECT @@identity");
 
-                                db.Database.ExecuteSqlCommand(sql, _params);
+                                configDb.Database.ExecuteSqlCommand(sql, _params);
 
                                 if (_params[_params.Length - 1].Value != null)
                                 {
@@ -514,7 +514,7 @@ namespace IdentityServer4.MicroService.Apis
 
                                     x.UserClaims.ForEach(claim =>
                                     {
-                                        db.Database.ExecuteSqlCommand(
+                                        configDb.Database.ExecuteSqlCommand(
                                         new RawSqlString("INSERT INTO ApiScopeClaims VALUES (@ApiScopeId,@Type)"),
                                         new SqlParameter("@ApiScopeId", _ApiScopeId),
                                         new SqlParameter("@Type", claim.Type));

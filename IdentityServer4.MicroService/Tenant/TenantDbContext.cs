@@ -30,8 +30,14 @@ namespace IdentityServer4.MicroService.Tenant
         {
             var con = Database.GetDbConnection();
 
-            if (con.State != ConnectionState.Open)
+            if (con.State == System.Data.ConnectionState.Closed)
             {
+                con.Open();
+            }
+
+            else if (con.State == System.Data.ConnectionState.Broken)
+            {
+                con.Close();
                 con.Open();
             }
 
@@ -49,8 +55,14 @@ namespace IdentityServer4.MicroService.Tenant
         {
             var con = Database.GetDbConnection();
 
-            if (con.State != ConnectionState.Open)
+            if (con.State == System.Data.ConnectionState.Closed)
             {
+                con.Open();
+            }
+
+            else if (con.State == System.Data.ConnectionState.Broken)
+            {
+                con.Close();
                 con.Open();
             }
 
@@ -68,8 +80,14 @@ namespace IdentityServer4.MicroService.Tenant
         {
             var con = Database.GetDbConnection();
 
-            if (con.State != ConnectionState.Open)
+            if (con.State == System.Data.ConnectionState.Closed)
             {
+                con.Open();
+            }
+
+            else if (con.State == System.Data.ConnectionState.Broken)
+            {
+                con.Close();
                 con.Open();
             }
 

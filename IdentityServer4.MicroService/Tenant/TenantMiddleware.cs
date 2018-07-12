@@ -47,7 +47,7 @@ namespace IdentityServer4.MicroService.Tenant
 
             var reflushFlag = _memoryCache.Get<string>(reflushFlagCacheKey);
 
-            if (string.IsNullOrWhiteSpace(reflushFlag) && tenant.Item2 != null)
+            if (tenant.Item2 != null)
             {
                 var pvtModel = tenant.Item2;
 
@@ -56,7 +56,7 @@ namespace IdentityServer4.MicroService.Tenant
                 #endregion
 
                 #region ResetOAuthOptions
-                if (pvtModel.Properties.Count > 0)
+                if (string.IsNullOrWhiteSpace(reflushFlag) && pvtModel.Properties.Count > 0)
                 {
                     // 获取当前所有OAuth Scheme
                     var AllSchemes = _oauthProvider.GetAllSchemesAsync().Result.Select(x => x.Name).ToList();

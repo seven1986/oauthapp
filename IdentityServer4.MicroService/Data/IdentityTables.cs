@@ -369,39 +369,42 @@ namespace IdentityServer4.MicroService.Data
     [NotMapped]
     public class View_User
     {
-        public long TenantId { get; set; }
-        public long UserId { get; set; }
+        public long ParentUserID { get; set; }
+        public string UserName { get; set; }
+        public System.DateTime CreateDate { get; set; }
+        public bool LockFlag { get; set; }
+        public long DataAmount { get; set; }
+        public int Status { get; set; }
+        public string TypeIDs { get; set; }
+        public long ID { get; set; }
+        public long UserID { get; set; }
+        public long Members { get; set; }
+        public System.DateTime MembersLastUpdate { get; set; }
+        public decimal Sales { get; set; }
+        public System.DateTime SalesLastUpdate { get; set; }
+        public decimal Earned { get; set; }
+        public decimal EarnedDiff { get; set; }
+        public System.DateTime EarnedDiffLastUpdate { get; set; }
+        public decimal Commission { get; set; }
+        public System.DateTime CommissionLastUpdate { get; set; }
+        public decimal CommissionLv1 { get; set; }
+        public System.DateTime CommissionLv1LastUpdate { get; set; }
+        public decimal CommissionLv2 { get; set; }
+        public System.DateTime CommissionLv2LastUpdate { get; set; }
+        public decimal CommissionLv3 { get; set; }
+        public System.DateTime CommissionLv3LastUpdate { get; set; }
+        public string UserPwd { get; set; }
+        public string Lineage { get; set; }
+        public string ParentUserName { get; set; }
+        public string Pools { get; set; }
+        public string PoolIDs { get; set; }
+        public string Email { get; set; }
         public List<View_User_Role> Roles { get; set; }
         public List<View_User_Claim> Claims { get; set; }
         public List<View_User_File> Files { get; set; }
         public List<View_User_Property> Properties { get; set; }
-        public string Avatar { get; set; }
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string Lineage { get; set; }
-        public long ParentUserID { get; set; }
-        public string ParentUserName { get; set; }
-        public string TypeIDs { get; set; }
-        public string PasswordHash { get; set; }
-        public bool IsDeleted { get; set; }
-        public DateTime CreateDate { get; set; }
-        public DateTime LastUpdateTime { get; set; }
-        public long DistributionID { get; set; }
-        public long Members { get; set; }
-        public DateTime MembersLastUpdate { get; set; }
-        public decimal Sales { get; set; }
-        public DateTime SalesLastUpdate { get; set; }
-        public decimal Earned { get; set; }
-        public decimal EarnedDiff { get; set; }
-        public DateTime EarnedDiffLastUpdate { get; set; }
-        public decimal Commission { get; set; }
-        public DateTime CommissionLastUpdate { get; set; }
-        public decimal CommissionLv1 { get; set; }
-        public DateTime CommissionLv1LastUpdate { get; set; }
-        public decimal CommissionLv2 { get; set; }
-        public DateTime CommissionLv2LastUpdate { get; set; }
-        public decimal CommissionLv3 { get; set; }
-        public DateTime CommissionLv3LastUpdate { get; set; }
+        public List<View_User_Tenant> Tenants { get; set; }
+       
     }
     /// <summary>
     /// used for View_User Roles property
@@ -449,6 +452,11 @@ namespace IdentityServer4.MicroService.Data
         public string Key { get; set; }
 
         public string Value { get; set; }
+    }
+
+    public class View_User_Tenant
+    {
+        public long TenantId { get; set; }
     }
     #endregion
 }

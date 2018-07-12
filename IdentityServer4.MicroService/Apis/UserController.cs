@@ -107,21 +107,18 @@ namespace IdentityServer4.MicroService.Apis
 
             if (string.IsNullOrWhiteSpace(value.orderby))
             {
-                value.orderby = "UserId";
+                value.orderby = "UserID";
             }
 
-            var q = new PagingService<View_User>(db, value, "View_IdentityUser")
+            var q = new PagingService<View_User>(db, value, "View_User")
             {
                 where = (where, sqlParams) =>
                 {
-                    where.Add("TenantId = " + TenantId);
+                    where.Add(" ( Tenants LIKE '%\"TenantId\":" + TenantId + "%') ");
 
-                    if (UserId != Tenant.OwnerUserId)
+                    if (!User.IsInRole(Roles.Administrators))
                     {
-                        if (!User.IsInRole(Roles.Administrators))
-                        {
-                            where.Add("Lineage LIKE '%/" + UserLineage + "/%'");
-                        }
+                        where.Add("Lineage.IsDescendantOf(hierarchyid::Parse ('" + UserLineage + "')) = 1");
                     }
 
                     if (!string.IsNullOrWhiteSpace(value.q.email))
@@ -169,6 +166,9 @@ namespace IdentityServer4.MicroService.Apis
 
                      case "Properties":
                          return JsonConvert.DeserializeObject<List<View_User_Property>>(val.ToString());
+
+                     case "Tenants":
+                         return JsonConvert.DeserializeObject<List<View_User_Tenant>>(val.ToString());
 
                      default:
                          return val;
