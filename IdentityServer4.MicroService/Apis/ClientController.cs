@@ -216,7 +216,14 @@ namespace IdentityServer4.MicroService.Apis
 
             idsDB.Add(value);
 
-            await idsDB.SaveChangesAsync();
+            try
+            {
+                await idsDB.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult<long>(l, BasicControllerEnums.ExpectationFailed, ex.Message + ex.StackTrace);
+            }
 
             userDB.UserClients.Add(new AspNetUserClient()
             {
