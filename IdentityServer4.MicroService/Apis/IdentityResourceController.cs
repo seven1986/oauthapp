@@ -166,9 +166,9 @@ namespace IdentityServer4.MicroService.Apis
                     ModelErrors());
             }
 
-            db.Add(value);
+            configDb.Add(value);
 
-            await db.SaveChangesAsync();
+            await configDb.SaveChangesAsync();
 
             return new ApiResult<long>(value.Id);
         }
@@ -197,14 +197,14 @@ namespace IdentityServer4.MicroService.Apis
                     ModelErrors());
             }
 
-            using (var tran = db.Database.BeginTransaction(IsolationLevel.ReadCommitted))
+            using (var tran = configDb.Database.BeginTransaction(IsolationLevel.ReadCommitted))
             {
                 try
                 {
                     #region Update Entity
                     // 需要先更新value，否则更新如claims等属性会有并发问题
-                    db.Update(value);
-                    db.SaveChanges();
+                    configDb.Update(value);
+                    configDb.SaveChanges();
                     #endregion
 
                     #region Find Entity.Source
@@ -228,7 +228,7 @@ namespace IdentityServer4.MicroService.Apis
                                 var sql = string.Format("DELETE IdentityClaims WHERE ID IN ({0})",
                                             string.Join(",", DeleteEntities));
 
-                                db.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                configDb.Database.ExecuteSqlCommand(new RawSqlString(sql));
                             }
                         }
                         #endregion
@@ -239,7 +239,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                db.Database.ExecuteSqlCommand(
+                                configDb.Database.ExecuteSqlCommand(
                                   new RawSqlString("UPDATE IdentityClaims SET [Type]=@Type WHERE Id = " + x.Id),
                                   new SqlParameter("@Type", x.Type));
                             });
@@ -252,7 +252,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                db.Database.ExecuteSqlCommand(
+                                configDb.Database.ExecuteSqlCommand(
                                   new RawSqlString("INSERT INTO IdentityClaims VALUES (@IdentityResourceId,@Type)"),
                                   new SqlParameter("@IdentityResourceId", source.Id),
                                   new SqlParameter("@Type", x.Type));
@@ -304,7 +304,7 @@ namespace IdentityServer4.MicroService.Apis
 
             configDb.IdentityResources.Remove(entity);
 
-            await db.SaveChangesAsync();
+            await configDb.SaveChangesAsync();
 
             return new ApiResult<long>(id);
         } 
