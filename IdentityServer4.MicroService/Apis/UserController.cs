@@ -382,7 +382,7 @@ namespace IdentityServer4.MicroService.Apis
 
                             if (DeleteEntities.Count() > 0)
                             {
-                                var sql = string.Format("DELETE AspNetUserFile WHERE ID IN ({0})",
+                                var sql = string.Format("DELETE AspNetUserFiles WHERE ID IN ({0})",
                                             string.Join(",", DeleteEntities));
 
                                 db.Database.ExecuteSqlCommand(new RawSqlString(sql));
@@ -397,7 +397,7 @@ namespace IdentityServer4.MicroService.Apis
                             UpdateEntities.ForEach(x =>
                             {
                                 db.Database.ExecuteSqlCommand(
-                                  new RawSqlString("UPDATE AspNetUserFile SET [FileType]=@FileType,[Files]=@Files WHERE Id = " + x.Id),
+                                  new RawSqlString("UPDATE AspNetUserFiles SET [FileType]=@FileType,[Files]=@Files WHERE Id = " + x.Id),
                                   new SqlParameter("@FileType", x.FileType),
                                   new SqlParameter("@Files", x.Files));
                             });
@@ -411,7 +411,7 @@ namespace IdentityServer4.MicroService.Apis
                             NewEntities.ForEach(x =>
                             {
                                 db.Database.ExecuteSqlCommand(
-                                  new RawSqlString("INSERT INTO AspNetUserFile VALUES (@FileType,@Files,@AppUserId)"),
+                                  new RawSqlString("INSERT INTO AspNetUserFiles VALUES (@FileType,@Files,@AppUserId)"),
                                   new SqlParameter("@FileType", x.FileType),
                                   new SqlParameter("@Files", x.Files),
                                   new SqlParameter("@AppUserId", source.Id));
