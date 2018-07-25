@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace IdentityServer4.MicroService
+﻿namespace IdentityServer4.MicroService
 {
     public class AppConstant
     {
