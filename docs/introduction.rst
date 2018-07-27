@@ -41,4 +41,8 @@ Azure API 网关
 
         常见形式：npm cli、angular cli、vue cli、react cli等等
 
+  -   产品控制台
+
+        应包含产品设置、后台管理的功能。
+
         
