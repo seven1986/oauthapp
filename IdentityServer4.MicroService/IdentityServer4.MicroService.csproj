@@ -8,11 +8,11 @@
     <PackageProjectUrl>https://github.com/seven1986/IdentityServer4.MicroService</PackageProjectUrl>
     <RepositoryUrl>https://github.com/seven1986/IdentityServer4.MicroService</RepositoryUrl>
     <PackageTags>IdentityServer4 MicroService AzureApiManagement</PackageTags>
-    <AssemblyVersion>0.0.24.0</AssemblyVersion>
-    <FileVersion>0.0.24.0</FileVersion>
+    <AssemblyVersion>0.0.25.0</AssemblyVersion>
+    <FileVersion>0.0.25.0</FileVersion>
     <PackageLicenseUrl>https://github.com/seven1986/IdentityServer4.MicroService/blob/master/LICENSE</PackageLicenseUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/seven1986/IdentityServer4.MicroService/master/id4ms.png</PackageIconUrl>
-    <Version>0.0.24</Version>
+    <Version>0.0.25</Version>
     <Product>IdentityServer4.MicroService</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
   </PropertyGroup>

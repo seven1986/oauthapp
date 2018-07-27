@@ -16,22 +16,22 @@ namespace IdentityServer4.MicroService.Host.Controllers
 {
     public class HomeController : BasicController
     {
-        private readonly IStringLocalizer<HomeController> l;
-        private readonly SignInManager<AppUser> _signInManager;
+        private readonly SignInManager<AppUser> signInManager;
 
         public HomeController(
-            Lazy<IStringLocalizer<HomeController>> localizer,
-            Lazy<SignInManager<AppUser>> signInManager,
-            Lazy<TenantService> _tenantService,
-            Lazy<TenantDbContext> _tenantDb
+           IStringLocalizer<HomeController> _l,
+           TenantService _tenantService,
+           TenantDbContext _tenantDb,
+           SignInManager<AppUser> _signInManager
             )
         {
-            l = localizer.Value;
-            _signInManager = signInManager.Value;
-            tenantService = _tenantService.Value;
-            tenantDb = _tenantDb.Value;
+            l = _l;
+            tenantService = _tenantService;
+            tenantDb = _tenantDb;
+            signInManager = _signInManager;
         }
 
+        
         public IActionResult Index()
         {
             return View();
@@ -43,6 +43,21 @@ namespace IdentityServer4.MicroService.Host.Controllers
         }
 
         public IActionResult About()
+        {
+            return View();
+        }
+        
+        public IActionResult Cooperation()
+        {
+            return View();
+        }
+        
+        public IActionResult JoinUs()
+        {
+            return View();
+        }
+        
+        public IActionResult Contact()
         {
             return View();
         }
@@ -59,12 +74,12 @@ namespace IdentityServer4.MicroService.Host.Controllers
             return LocalRedirect(returnUrl);
         }
 
-        public IActionResult apimdelegation(string operation,string returnUrl,string salt,string sig,string userId,string productId,string subscriptionId)
+        public IActionResult apimdelegation(string operation, string returnUrl, string salt, string sig, string userId, string productId, string subscriptionId)
         {
             #region SignOut
             if (operation.Equals("SignOut"))
             {
-                _signInManager.SignOutAsync().Wait();
+                signInManager.SignOutAsync().Wait();
 
                 HttpContext.SignOutAsync().Wait();
 
@@ -85,7 +100,7 @@ namespace IdentityServer4.MicroService.Host.Controllers
                         signature = Convert.ToBase64String(encoder.ComputeHash(Encoding.UTF8.GetBytes(salt + "\n" + returnUrl)));
                         break;
 
-                    case "ChangePassword": 
+                    case "ChangePassword":
                     case "ChangeProfile":
                         signature = Convert.ToBase64String(encoder.ComputeHash(Encoding.UTF8.GetBytes(salt + "\n" + userId)));
                         break;
@@ -104,7 +119,7 @@ namespace IdentityServer4.MicroService.Host.Controllers
                     //case "Renew":
                     //    break;
 
-                    default: signature = "";break;
+                    default: signature = ""; break;
                 }
             }
 
@@ -118,7 +133,7 @@ namespace IdentityServer4.MicroService.Host.Controllers
                 returnUrl = HttpUtility.UrlEncode(pvtTenant.Properties[TenantDefaultProperty.PortalSite]) + returnUrl;
 
                 return Redirect("/Account/Login?returnurl=" + returnUrl);
-            } 
+            }
             #endregion
 
             return Redirect("/home/error");

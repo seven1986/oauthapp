@@ -1,12 +1,10 @@
 ﻿@{
     TenantPrivateModel tenant = null;
-
     var keywords = string.Empty;
     var description = string.Empty;
     var siteFavicon = string.Empty;
     var siteName = string.Empty;
     var siteTracking = string.Empty;
-
     if (ViewBag.pvtTenant == null)
     {
         tenant = ViewBag.pvtTenant = new TenantPrivateModel()
@@ -18,8 +16,6 @@
     else
     {
         tenant = ViewBag.pvtTenant;
-
-
         keywords = tenant.Properties.GetValueOrDefault(TenantDefaultProperty.Keywords);
         description = tenant.Properties.GetValueOrDefault(TenantDefaultProperty.Summary);
         siteFavicon = tenant.Properties.GetValueOrDefault("Favicon");
@@ -27,7 +23,7 @@
         siteTracking = tenant.Properties.GetValueOrDefault(TenantDefaultProperty.Tracking);
     }
 }
-@inject IViewLocalizer Localizer
+@inject IViewLocalizer l
 <!DOCTYPE html>
 <html ng-app="app">
 <head>
@@ -37,9 +33,9 @@
     <meta name="description" content="@Html.Raw(description)" />
     <link rel="shortcut icon" href="@siteFavicon" type="image/x-icon" />
     <link rel="bookmark" href="@siteFavicon" type="image/x-icon" />
-    <title>@Html.Raw(siteName) - @Localizer["授权中心"]</title>
-    <link href="/dist/vendor.min.css" rel="stylesheet" />
-    <link href="/dist/app.css" rel="stylesheet" />
+    <title>@Html.Raw(siteName) - @l["授权中心"]</title>
+    <link href="/dist/vendor.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="/dist/app.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -49,22 +45,30 @@
                     <img src="@siteFavicon" width="32px" />
                     @Html.Raw(siteName)
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button"
+                        data-toggle="collapse" data-target="#navbarCollapse"
+                        aria-controls="navbarCollapse"
+                        aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
-                    @await Html.PartialAsync("_LoginPartial")
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
 
-    <main role="main">
+    <main role="main" style="min-height:500px">
         @RenderBody()
     </main>
 
-    <script src="/dist/vendor.min.js"></script>
-    @*<script src="/dist/app.js"></script>*@
+    <!-- FOOTER -->
+    <footer class="container">
+        <p class="float-right"><a href="#">@l["返回顶部"]</a></p>
+        <p><a href="/Tool">@l["获取access_token"]</a></p>
+    </footer>
+    <script src="/dist/vendor.min.js" asp-append-version="true"></script>
+    <script src="/dist/app.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
     @Html.Raw(siteTracking)
 </body>

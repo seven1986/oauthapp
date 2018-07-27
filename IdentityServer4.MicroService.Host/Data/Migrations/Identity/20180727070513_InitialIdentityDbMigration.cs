@@ -45,6 +45,7 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                     AccessFailedCount = table.Column<int>(nullable: false),
                     UserKey = table.Column<Guid>(nullable: false),
                     ParentUserID = table.Column<long>(nullable: false),
+                    Lineage = table.Column<string>(type: "sys.hierarchyid", nullable: true),
                     LineageIDs = table.Column<string>(nullable: true),
                     Avatar = table.Column<string>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
@@ -53,8 +54,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                     Gender = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
                     Birthday = table.Column<DateTime>(nullable: false),
-                    Stature = table.Column<decimal>(nullable: false),
-                    Weight = table.Column<decimal>(nullable: false),
+                    Stature = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Weight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Remark = table.Column<string>(nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: false),
@@ -65,7 +66,7 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                     PoolIDs = table.Column<string>(nullable: true),
                     DataAmount = table.Column<long>(nullable: false),
                     Points = table.Column<long>(nullable: false),
-                    Money = table.Column<decimal>(nullable: false)
+                    Money = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -164,18 +165,18 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                     UserId = table.Column<long>(nullable: false),
                     Members = table.Column<long>(nullable: false),
                     MembersLastUpdate = table.Column<DateTime>(nullable: false),
-                    Sales = table.Column<decimal>(nullable: false),
+                    Sales = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SalesLastUpdate = table.Column<DateTime>(nullable: false),
-                    Earned = table.Column<decimal>(nullable: false),
-                    EarnedDiff = table.Column<decimal>(nullable: false),
+                    Earned = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    EarnedDiff = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     EarnedDiffLastUpdate = table.Column<DateTime>(nullable: false),
-                    Commission = table.Column<decimal>(nullable: false),
+                    Commission = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CommissionLastUpdate = table.Column<DateTime>(nullable: false),
-                    CommissionLv1 = table.Column<decimal>(nullable: false),
+                    CommissionLv1 = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CommissionLv1LastUpdate = table.Column<DateTime>(nullable: false),
-                    CommissionLv2 = table.Column<decimal>(nullable: false),
+                    CommissionLv2 = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CommissionLv2LastUpdate = table.Column<DateTime>(nullable: false),
-                    CommissionLv3 = table.Column<decimal>(nullable: false),
+                    CommissionLv3 = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CommissionLv3LastUpdate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>

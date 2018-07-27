@@ -16,7 +16,8 @@ dotnet ef migrations add InitialTenantDbMigration -c TenantDbContext -o Data/Mig
 
 ##### 更新迁移代码
 ```cmd
-{datetime}替换成当前时间
-dotnet ef migrations add {yyyyMMdd}UpdateIdentityDbMigration -c IdentityDbContext -o Data/Migrations/Identity
-dotnet ef migrations add {yyyyMMdd}UpdateTenantDbMigration -c TenantDbContext -o Data/Migrations/Tenant
+dotnet ef migrations add UpdateIdentityServerPersistedGrantDbMigration -c PersistedGrantDbContext -o Data/Migrations/IdentityServer/PersistedGrantDb
+dotnet ef migrations add UpdateIdentityServerConfigurationDbMigration -c ConfigurationDbContext -o Data/Migrations/IdentityServer/ConfigurationDb
+dotnet ef migrations add UpdateIdentityDbMigration -c IdentityDbContext -o Data/Migrations/Identity
+dotnet ef migrations add UpdateTenantDbMigration -c TenantDbContext -o Data/Migrations/Tenant
 ```

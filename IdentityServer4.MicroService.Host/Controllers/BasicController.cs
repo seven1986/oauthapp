@@ -1,51 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json;
 using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.Models.Shared;
+using Microsoft.Extensions.Localization;
+using IdentityServer4.MicroService.Host.Attributes;
+using Microsoft.Extensions.Logging;
 
 namespace IdentityServer4.MicroService.Host.Controllers
 {
-    //[SecurityHeaders]
+    [SecurityHeaders]
     public class BasicController : Controller
     {
         protected virtual TenantDbContext tenantDb { get; set; }
         protected virtual TenantService tenantService { get; set; }
+        protected virtual IStringLocalizer l { get; set; }
+        protected virtual ILogger logger { get; set; }
 
-        // public used for View Pages
-        //
-        //TenantPublicModel _pubTenant;
-        //public TenantPublicModel pubTenant
-        //{
-        //    get
-        //    {
-        //        if (_pubTenant != null)
-        //        {
-        //            var currentTenant = HttpContext.Items[TenantConstant.CacheKey];
-
-        //            if (currentTenant != null)
-        //            {
-        //                var tenantString = currentTenant.ToString();
-        //                _pubTenant = JsonConvert.DeserializeObject<TenantPublicModel>(tenantString);
-        //            }
-        //            if (_pubTenant == null)
-        //            {
-        //                var DefaultTenant = tenantDb.Tenants.Include(x => x.Claims).FirstOrDefault();
-
-        //                _pubTenant = new TenantPublicModel()
-        //                {
-        //                    id = DefaultTenant.Id,
-        //                    name = DefaultTenant.Name,
-        //                    claims = DefaultTenant.Claims.ToDictionary(k => k.ClaimType, v => v.ClaimValue)
-        //                };
-        //            }
-        //        }
-
-        //        return _pubTenant;
-        //    }
-        //}
-
-        // private use
         private TenantPrivateModel _pvtTenant;
         public TenantPrivateModel pvtTenant
         {
@@ -64,7 +34,6 @@ namespace IdentityServer4.MicroService.Host.Controllers
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-
             ViewBag.pvtTenant = pvtTenant;
 
             base.OnActionExecuted(context);

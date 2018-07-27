@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Authors>Seven1986</Authors>
     <RepositoryUrl>https://github.com/seven1986/IdentityServer4.MicroService</RepositoryUrl>
@@ -74,8 +74,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="bundleconfig.json" />
     <Content Remove="compilerconfig.json" />
     <Content Remove="package-lock.json" />
+    <Content Remove="package.json" />
     <Content Remove="wwwroot\favicon.ico" />
     <Content Remove="wwwroot\js\codegen.min.js" />
   </ItemGroup>
@@ -90,15 +92,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.1" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <None Include="package.json" />
     <None Include="Properties\PublishProfiles\IdentityServer4MicroService - Web Deploy.pubxml.user" />
     <None Include="Views\Account\AccessDenied.cshtml" />
     <None Include="Views\Account\ConfirmEmail.cshtml" />
@@ -177,6 +178,9 @@
     </Content>
     <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\identityserver4microservice\0.0.9\contentFiles\any\netcoreapp2.0\IdentityServer4.MicroService.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Tool\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>
   <ItemGroup>

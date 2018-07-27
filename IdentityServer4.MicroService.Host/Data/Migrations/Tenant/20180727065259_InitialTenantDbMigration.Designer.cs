@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityServer4.MicroService.Host.Data.Migrations.Tenant
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20180705033738_InitialTenantDbMigration")]
+    [Migration("20180727065259_InitialTenantDbMigration")]
     partial class InitialTenantDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,12 +18,14 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Tenant
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("IdentityServer4.MicroService.Tenant.AppTenant", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("CacheDuration");
 
@@ -49,7 +51,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Tenant
             modelBuilder.Entity("IdentityServer4.MicroService.Tenant.AppTenantClaim", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("AppTenantId");
 
@@ -67,7 +70,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Tenant
             modelBuilder.Entity("IdentityServer4.MicroService.Tenant.AppTenantHost", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("AppTenantId");
 
@@ -83,7 +87,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Tenant
             modelBuilder.Entity("IdentityServer4.MicroService.Tenant.AppTenantProperty", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("AppTenantId");
 

@@ -1,0 +1,139 @@
+﻿@inject IViewLocalizer l
+<style>
+    .form-label-group {
+        position: relative;
+        margin-bottom: 1rem;
+    }
+</style>
+<div class="container" style="margin-top:3em;">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    @l["access_token 获取工具"]
+                </div>
+                <div class="card-body">
+                    <div id="step1">
+                        <div class="form-label-group">
+                            <input type="text" name="ClientID" id="ClientID" class="form-control" placeholder="@l["应用ID"]" />
+                        </div>
+                        <div class="form-label-group">
+                            <input type="text" name="ClientSecret" id="ClientSecret" class="form-control" placeholder="@l["应用密钥"]" />
+                        </div>
+
+                        <div class="form-label-group" style="display:none;">
+                            <input type="text" name="scope" id="scope" class="form-control" value="openid profile iot.cardservice.all iot.paymentservice.all" placeholder="@l["权限"]" />
+                        </div>
+                        <br />
+                        <button class="btn btn-lg btn-primary btn-block" type="button" onclick="RequestToken()">获取</button>
+                    </div>
+                    <br />
+                    <div id="step2" style="display:none;">
+                        <pre id="responseToken" class="alert alert-success"></pre>
+                        <a href="/tool" class="btn btn-lg btn-primary btn-block">重新获取</a>
+                    </div>
+                </div>
+            </div>
+         
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+<div id="loading" style="display:none; position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(128, 128, 128, 0.6);font-size:36px; text-align:center;color:#fff">
+    <span style="position:absolute;top:40%;">...Loading...</span>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+    var key_client_id = '__tokenTool.client_id';
+    var key_client_secret = '__tokenTool.client_secret';
+    var redirect_uri = location.origin + '/tool';
+
+    function QueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+    function RequestToken()
+    {
+        var client_id = $('#ClientID').val();
+        var client_secret = $('#ClientSecret').val();
+
+        if (client_id == "" || client_secret == "") { alert('请设置应用ID和应用密钥。'); return; }
+
+        $("#loading").show();
+
+        localStorage.setItem(key_client_id, client_id);
+        localStorage.setItem(key_client_secret, client_secret);
+
+        var scopes = $('#scope').val();
+
+        var requestCode = location.origin + '/connect/authorize/callback?' +
+            'response_type=code' +
+            '&client_id=' + client_id +
+            '&redirect_uri=' + encodeURIComponent(redirect_uri) +
+            '&scope=' + scopes +
+            '&state=' + new Date().getTime();
+
+        window.location.href = requestCode;
+    }
+
+    $(function () {
+
+        $('#ClientID').val(localStorage.getItem(key_client_id));
+        $('#ClientSecret').val(localStorage.getItem(key_client_secret));
+
+        var AuthCode = QueryString('code');
+
+        if (AuthCode == null) { return; }
+
+        $('#step1').hide();
+
+        $("#loading").show();
+
+        var client_id = $('#ClientID').val();
+        var client_secret = $('#ClientSecret').val();
+
+        var form = new FormData();
+        form.append("grant_type", "authorization_code");
+        form.append("code", AuthCode);
+        form.append("client_id", client_id);
+        form.append("client_secret", client_secret);
+        form.append("redirect_uri", redirect_uri);
+
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": location.origin + "/connect/token",
+            "method": "POST",
+            "headers": {
+                "cache-control": "no-cache",
+            },
+            "processData": false,
+            "contentType": false,
+            "mimeType": "multipart/form-data",
+            "data": form
+        }
+
+        $.ajax(settings).done(function (response)
+        {
+            $("#loading").hide();
+            var resulrJson = JSON.parse(response);
+            var result = JSON.stringify(resulrJson, '', '    ');
+            $("#responseToken").text(result)
+            $('#step2').show();
+
+        }).fail(function (err) {
+            $("#loading").hide();
+            $('#step2').show();
+            alert(err.responseText);
+            location.href = location.origin + '/tool';
+         });
+    });
+    </script>
+
+}

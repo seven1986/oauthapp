@@ -19,11 +19,12 @@ using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.MicroService.Host.Models.Views.Account;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 using static IdentityServer4.MicroService.AppDefaultData;
 using IdentityServer4.MicroService.Attributes;
 using System.Text.RegularExpressions;
+using IdentityServer4.MicroService.Host.Services;
+using IdentityServer4.MicroService.Host.Models.Views.Account;
 
 namespace IdentityServer4.MicroService.Host.Controllers
 {
@@ -61,39 +62,35 @@ namespace IdentityServer4.MicroService.Host.Controllers
         private readonly AccountService _account;
         private readonly IdentityDbContext _userContext;
         private readonly ConfigurationDbContext _configDbContext;
-        private readonly IEventService _events;
         #endregion
 
         #region 构造函数
         public AccountController(
-            Lazy<IIdentityServerInteractionService> interaction,
-            Lazy<IHttpContextAccessor> httpContextAccessor,
-            Lazy<IClientStore> clientStore,
-            Lazy<UserManager<AppUser>> userManager,
-            Lazy<SignInManager<AppUser>> signInManager,
-            Lazy<ConfigurationDbContext> configDbContext,
-            Lazy<EmailService> emailSender,
-            Lazy<ISmsSender> smsSender,
-            Lazy<ILogger<AccountController>> logger,
-            Lazy<IdentityDbContext> userContext,
-            Lazy<TenantService> _tenantService,
-            Lazy<TenantDbContext> _tenantDb,
-            Lazy<IEventService> events)
+           IIdentityServerInteractionService interaction,
+           IHttpContextAccessor httpContextAccessor,
+           IClientStore clientStore,
+           UserManager<AppUser> userManager,
+           SignInManager<AppUser> signInManager,
+           ConfigurationDbContext configDbContext,
+           EmailService emailSender,
+           ISmsSender smsSender,
+           ILogger<AccountController> logger,
+           IdentityDbContext userContext,
+           TenantService _tenantService,
+           TenantDbContext _tenantDb)
         {
-            _userManager = userManager.Value;
-            _signInManager = signInManager.Value;
-            _emailSender = emailSender.Value;
-            _smsSender = smsSender.Value;
-            _logger = logger.Value;
-            _account = new AccountService(interaction.Value, httpContextAccessor.Value, clientStore.Value);
-            _userContext = userContext.Value;
-            _configDbContext = configDbContext.Value;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _emailSender = emailSender;
+            _smsSender = smsSender;
+            _logger = logger;
+            _account = new AccountService(interaction, httpContextAccessor, clientStore);
+            _userContext = userContext;
+            _configDbContext = configDbContext;
 
-            tenantService = _tenantService.Value;
-            tenantDb = _tenantDb.Value;
-
-            _events = events.Value;
-        } 
+            tenantService = _tenantService;
+            tenantDb = _tenantDb;
+        }
         #endregion
 
         //
@@ -108,9 +105,13 @@ namespace IdentityServer4.MicroService.Host.Controllers
             return View();
         }
 
-        public bool IsEmail(string value)
+        bool IsEmail(string value)
         {
             return Regex.IsMatch(value, @"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
+        }
+        bool IsMobile(string value)
+        {
+            return Regex.IsMatch(value, @"^[1]+[1,9]+\d{9}");
         }
 
         //
@@ -151,6 +152,38 @@ namespace IdentityServer4.MicroService.Host.Controllers
                     {
                         ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                         return View(model);
+                    }
+                }
+
+                else if(IsMobile(model.Email))
+                {
+                    // 按照手机号（老的账号）
+                    var user = _userContext.Users.Where(x => x.PhoneNumberConfirmed == true && x.PhoneNumber.Equals(model.Email)).FirstOrDefault();
+
+                    if (user != null)
+                    {
+                        var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
+
+                        if (result.Succeeded)
+                        {
+                            _logger.LogInformation(1, "User logged in.");
+
+                            return RedirectToLocal(returnUrl, model.Email, model.Password);
+                        }
+                        if (result.RequiresTwoFactor)
+                        {
+                            return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, model.RememberMe });
+                        }
+                        if (result.IsLockedOut)
+                        {
+                            _logger.LogWarning(2, "User account locked out.");
+                            return View("Lockout");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                            return View(model);
+                        }
                     }
                 }
 
@@ -195,9 +228,10 @@ namespace IdentityServer4.MicroService.Host.Controllers
         // GET: /Account/Register
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
+        public IActionResult Register(string returnUrl = null, int Referee = 1)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            ViewData["Referee"] = 1;
             return View();
         }
 
@@ -219,7 +253,7 @@ namespace IdentityServer4.MicroService.Host.Controllers
                 {
                     var IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(existedUser);
 
-                    if(!IsEmailConfirmed)
+                    if (!IsEmailConfirmed)
                     {
                         await SendActiveEmail(existedUser);
                     }
@@ -235,7 +269,8 @@ namespace IdentityServer4.MicroService.Host.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     PasswordHash = model.Password,
-                    ParentUserID = model.ParentUserID
+                    ParentUserID = model.ParentUserID,
+                    Permission = "-10,1,2,3,4,5,27,-11,6,8,9,11"
                 };
 
                 var result = await CreateUser(user);
@@ -294,7 +329,7 @@ namespace IdentityServer4.MicroService.Host.Controllers
             {
                 return RedirectToAction(nameof(Login));
             }
-            
+
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
             if (result.Succeeded)
@@ -430,9 +465,9 @@ namespace IdentityServer4.MicroService.Host.Controllers
                 // Send an email with this link
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-                var callbackUrl = Url.Action(nameof(ResetPassword), 
+                var callbackUrl = Url.Action(nameof(ResetPassword),
                     "Account",
-                    new { userId = user.Id, code = code }, 
+                    new { userId = user.Id, code = code },
                     protocol: HttpContext.Request.Scheme);
 
                 //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
@@ -575,12 +610,12 @@ namespace IdentityServer4.MicroService.Host.Controllers
 
             else if (model.SelectedProvider == "Phone")
             {
-                await _smsSender.SendSmsAsync(JsonConvert.SerializeObject(new { code}),
-                    await _userManager.GetPhoneNumberAsync(user), 
+                await _smsSender.SendSmsAsync(JsonConvert.SerializeObject(new { code }),
+                    await _userManager.GetPhoneNumberAsync(user),
                     "9812");
             }
 
-            return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider,  model.ReturnUrl,  model.RememberMe });
+            return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe });
         }
 
         //
@@ -616,7 +651,7 @@ namespace IdentityServer4.MicroService.Host.Controllers
             var result = await _signInManager.TwoFactorSignInAsync(model.Provider, model.Code, model.RememberMe, model.RememberBrowser);
             if (result.Succeeded)
             {
-                return RedirectToLocal(model.ReturnUrl,null,null);
+                return RedirectToLocal(model.ReturnUrl, null, null);
             }
             if (result.IsLockedOut)
             {
@@ -721,7 +756,9 @@ namespace IdentityServer4.MicroService.Host.Controllers
         }
         #endregion
 
-        static List<long> DefaultUserRoleIds = new List<long>();
+        #region 注册用户默认角色
+        static List<long> DefaultUserRoleIds = new List<long>(); 
+        #endregion
 
         private async Task<bool> CreateUser(AppUser user)
         {
@@ -741,7 +778,7 @@ namespace IdentityServer4.MicroService.Host.Controllers
                 DefaultUserRoleIds,
                 DefaultUserPermissions,
                 tenantIds);
-            
+
             if (result.Succeeded)
             {
                 var sendResult = await SendActiveEmail(user);
@@ -784,7 +821,7 @@ namespace IdentityServer4.MicroService.Host.Controllers
             {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
-            
+
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
@@ -804,15 +841,28 @@ namespace IdentityServer4.MicroService.Host.Controllers
 
                             if (portalUris.Contains(url.Host))
                             {
-                                var userId = _userContext.Users
-                                    .Where(x => x.Email.Equals(email))
-                                    .Select(x => x.Id).FirstOrDefault().ToString();
+                                var userId = 0L;
 
-                                var addResult = AzureApim.Users.AddAsync(userId, email, password).Result;
+                                if (IsEmail(email))
+                                {
+                                    userId = _userContext.Users
+                                        .Where(x => x.Email.Equals(email))
+                                        .Select(x => x.Id).FirstOrDefault();
+                                }
+                                else
+                                {
+                                    userId = _userContext.Users
+                                       .Where(x => x.UserName.Equals(email))
+                                       .Select(x => x.Id).FirstOrDefault();
+
+                                    email += "@xxx.com";
+                                }
+
+                                var addResult = AzureApim.Users.AddAsync(userId.ToString(), email, password).Result;
 
                                 if (addResult)
                                 {
-                                    var result = AzureApim.Users.GenerateSsoUrlAsync(userId).Result;
+                                    var result = AzureApim.Users.GenerateSsoUrlAsync(userId.ToString()).Result;
 
                                     return Redirect(result);
                                 }

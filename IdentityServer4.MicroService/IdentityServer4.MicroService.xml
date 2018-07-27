@@ -1141,12 +1141,6 @@
              used for replace Identity sha1 password haser
             </summary>
         </member>
-        <member name="T:IdentityServer4.MicroService.Data.AppUser">
-            <summary>
-            扩展用户表
-            根据业务，扩展用户表的字段
-            </summary>
-        </member>
         <member name="P:IdentityServer4.MicroService.Data.AppUser.IsDeleted">
             <summary>
             是否已删除账号

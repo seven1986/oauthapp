@@ -23,10 +23,11 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using IdentityServer4.MicroService.Host.Services;
 using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.Data;
 using Swashbuckle.AspNetCore.Swagger;
+using IdentityServer4.MicroService.Host.Filters;
+using Microsoft.Net.Http.Headers;
 
 namespace IdentityServer4.MicroService.Host
 {
@@ -70,22 +71,6 @@ namespace IdentityServer4.MicroService.Host
             Configuration = builder.Build();
         }
 
-        public async Task<string> GetToken(string authority, string resource, string scope)
-        {
-            var clientCred = new ClientCredential(
-                Configuration["AzureKeyVault:ClientId"],
-                Configuration["AzureKeyVault:ClientSecret"]);
-
-                var authContext = new AuthenticationContext(authority, true);
-
-                var result = await authContext.AcquireTokenAsync(resource, clientCred);
-
-                if (result == null)
-                    throw new InvalidOperationException("Failed to obtain the JWT token");
-
-                return result.AccessToken;
-        }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -93,15 +78,15 @@ namespace IdentityServer4.MicroService.Host
 
             #region Cors
             services.AddCors(options =>
+            {
+                options.AddPolicy("default", builder =>
                 {
-                    options.AddPolicy("default", builder =>
-                    {
-                        builder.AllowAnyHeader();
-                        builder.AllowAnyMethod();
-                        builder.AllowAnyOrigin();
-                        builder.AllowCredentials();
-                    });
-                }); 
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                    //builder.AllowAnyOrigin(); this will make client cores out of order
+                    //builder.AllowCredentials();
+                });
+            });
             #endregion
 
             #region Authentication & OAuth
@@ -271,59 +256,7 @@ namespace IdentityServer4.MicroService.Host
             #endregion
 
             #region IdentityServer
-            X509Certificate2 cert = null;
-
-            var AzureKeyVaultSection = Configuration.GetSection("AzureKeyVault");
-
-            if (AzureKeyVaultSection.Exists())
-            {
-                var VaultBaseUrl = AzureKeyVaultSection["VaultBaseUrl"];
-                var certificateName = AzureKeyVaultSection["Certificate:Name"];
-                var certificateVersion = AzureKeyVaultSection["Certificate:Version"];
-
-                if (!string.IsNullOrWhiteSpace(VaultBaseUrl) &&
-                    !string.IsNullOrWhiteSpace(certificateName) &&
-                    !string.IsNullOrWhiteSpace(certificateVersion))
-                {
-                    using (var kvClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(GetToken)))
-                    {
-                        // 有公钥的证书
-                        var CertificateWithPubKey = kvClient.GetCertificateAsync(VaultBaseUrl,
-                            certificateName, certificateVersion).Result;
-
-                        // 有私钥的证书
-                        var CertificateWithPrivateKey = kvClient.GetSecretAsync(CertificateWithPubKey.SecretIdentifier.Identifier).Result;
-
-                        // 默认用的是UserKeySet，但在Azure Web App里需要MachineKeySet
-                        cert = new X509Certificate2(Convert.FromBase64String(CertificateWithPrivateKey.Value),
-                            string.Empty,
-                            X509KeyStorageFlags.MachineKeySet);
-                    }
-                }
-            }
-
-            if(cert==null)
-            {
-                var IdentityServerCertificateSection = Configuration.GetSection("IdentityServerCertificate");
-
-                if (IdentityServerCertificateSection.Exists())
-                {
-                    var certFilePath = IdentityServerCertificateSection["FilePath"];
-                    var certPassword = IdentityServerCertificateSection["CertPassword"];
-
-                    if (!string.IsNullOrWhiteSpace(certFilePath) && 
-                        !string.IsNullOrWhiteSpace(certPassword))
-                    {
-                        var certPath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, certFilePath);
-
-                        cert = new X509Certificate2(certPath, certPassword,
-                            X509KeyStorageFlags.MachineKeySet |
-                            X509KeyStorageFlags.PersistKeySet |
-                            X509KeyStorageFlags.Exportable);
-                    }
-                }
-            }
-
+            var cert = GetSigningCredential();
             services.AddIdentityServer(config =>
             {
                 // keep same Issuer for banlancer
@@ -344,13 +277,88 @@ namespace IdentityServer4.MicroService.Host
             });
         }
 
+        X509Certificate2 GetSigningCredential()
+        {
+            X509Certificate2 cert = null;
+
+            var AzureKeyVaultSection = Configuration.GetSection("AzureKeyVault");
+
+            if (AzureKeyVaultSection.Exists())
+            {
+                var VaultBaseUrl = AzureKeyVaultSection["VaultBaseUrl"];
+                var certificateName = AzureKeyVaultSection["Certificate:Name"];
+                var certificateVersion = AzureKeyVaultSection["Certificate:Version"];
+
+                if (!string.IsNullOrWhiteSpace(VaultBaseUrl) &&
+                    !string.IsNullOrWhiteSpace(certificateName) &&
+                    !string.IsNullOrWhiteSpace(certificateVersion))
+                {
+                    var getToken = new Func<string, string, string, Task<string>>((authority, resource, scope) =>
+                    {
+                        var clientCred = new ClientCredential(
+                            Configuration["AzureKeyVault:ClientId"],
+                            Configuration["AzureKeyVault:ClientSecret"]);
+
+                        var authContext = new AuthenticationContext(authority, true);
+
+                        var result = authContext.AcquireTokenAsync(resource, clientCred).Result;
+
+                        if (result == null)
+                            throw new InvalidOperationException("Failed to obtain the JWT token");
+
+                        return Task.FromResult(result.AccessToken);
+                    });
+
+                    using (var kvClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(getToken)))
+                    {
+                        // 有公钥的证书
+                        var CertificateWithPubKey = kvClient.GetCertificateAsync(VaultBaseUrl,
+                            certificateName, certificateVersion).Result;
+
+                        // 有私钥的证书
+                        var CertificateWithPrivateKey = kvClient.GetSecretAsync(CertificateWithPubKey.SecretIdentifier.Identifier).Result;
+
+                        // 默认用的是UserKeySet，但在Azure Web App里需要MachineKeySet
+                        cert = new X509Certificate2(Convert.FromBase64String(CertificateWithPrivateKey.Value),
+                            string.Empty,
+                            X509KeyStorageFlags.MachineKeySet);
+
+                    }
+                }
+            }
+
+            if (cert == null)
+            {
+                var IdentityServerCertificateSection = Configuration.GetSection("IdentityServerCertificate");
+
+                if (IdentityServerCertificateSection.Exists())
+                {
+                    var certFilePath = IdentityServerCertificateSection["FilePath"];
+                    var certPassword = IdentityServerCertificateSection["CertPassword"];
+
+                    if (!string.IsNullOrWhiteSpace(certFilePath) &&
+                        !string.IsNullOrWhiteSpace(certPassword))
+                    {
+                        var certPath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, certFilePath);
+
+                        cert = new X509Certificate2(certPath, certPassword,
+                            X509KeyStorageFlags.MachineKeySet |
+                            X509KeyStorageFlags.PersistKeySet |
+                            X509KeyStorageFlags.Exportable);
+                    }
+                }
+            }
+
+            return cert;
+        }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
             IHostingEnvironment env,
             ILoggerFactory loggerFactory,
             IApiVersionDescriptionProvider provider)
         {
-            AppDefaultData.InitializeDatabase(app,Configuration);
+            AppDefaultData.InitializeDatabase(app, Configuration);
 
             app.UseCors("default");
 
@@ -366,13 +374,37 @@ namespace IdentityServer4.MicroService.Host
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
+                app.UseSwaggerUI(c =>
+                {
+                    foreach (var description in provider.ApiVersionDescriptions)
+                    {
+                        c.SwaggerEndpoint(
+                            $"/swagger/{description.GroupName}/swagger.json",
+                            description.GroupName.ToUpperInvariant());
+
+                        c.OAuthClientId(AppDefaultData.TestClient.ClientId);
+                        c.OAuthClientSecret(AppDefaultData.TestClient.ClientSecret);
+                        c.OAuthAppName(AppDefaultData.TestClient.ClientName);
+                        c.OAuth2RedirectUrl(AppDefaultData.TestClient.RedirectUris[0]);
+                    }
+
+                    c.DocExpansion(DocExpansion.None);
+                });
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    const int durationInSeconds = 60 * 60 * 24;
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] =
+                    "public,max-age=" + durationInSeconds;
+                }
+            });
 
             // do not change the order here
             app.UseIdentityServer4MicroService();
@@ -385,12 +417,12 @@ namespace IdentityServer4.MicroService.Host
 
             #region swagger
             app.UseSwagger(x =>
+            {
+                x.PreSerializeFilters.Add((doc, req) =>
                 {
-                    x.PreSerializeFilters.Add((doc, req) =>
-                    {
-                        doc.Schemes = new[] { "https" };
-                        doc.Host = Configuration["IdentityServer"];
-                        doc.Security = new List<IDictionary<string, IEnumerable<string>>>()
+                    doc.Schemes = new[] { "https" };
+                    doc.Host = Configuration["IdentityServer"];
+                    doc.Security = new List<IDictionary<string, IEnumerable<string>>>()
                         {
                             new Dictionary<string, IEnumerable<string>>()
                             {
@@ -399,24 +431,7 @@ namespace IdentityServer4.MicroService.Host
                                 { "OAuth2", new string[]{ } },
                             }
                         };
-                    });
                 });
-
-            app.UseSwaggerUI(c =>
-            {
-                foreach (var description in provider.ApiVersionDescriptions)
-                {
-                    c.SwaggerEndpoint(
-                        $"/swagger/{description.GroupName}/swagger.json",
-                        description.GroupName.ToUpperInvariant());
-
-                    c.OAuthClientId(AppDefaultData.TestClient.ClientId);
-                    c.OAuthClientSecret(AppDefaultData.TestClient.ClientSecret);
-                    c.OAuthAppName(AppDefaultData.TestClient.ClientName);
-                    c.OAuth2RedirectUrl(AppDefaultData.TestClient.RedirectUris[0]);
-                }
-
-                c.DocExpansion(DocExpansion.None);
             });
             #endregion
         }
