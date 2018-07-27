@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20180705033722_InitialIdentityDbMigration")]
+    [Migration("20180727070513_InitialIdentityDbMigration")]
     partial class InitialIdentityDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,12 +18,14 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AppRole", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -47,7 +49,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AppRoleClaim", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType");
 
@@ -65,7 +68,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AppUser", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccessFailedCount");
 
@@ -95,6 +99,9 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
 
                     b.Property<DateTime>("LastUpdateTime");
 
+                    b.Property<string>("Lineage")
+                        .HasColumnType("sys.hierarchyid");
+
                     b.Property<string>("LineageIDs");
 
                     b.Property<bool>("LockFlag");
@@ -103,7 +110,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<decimal>("Money");
+                    b.Property<decimal>("Money")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("NickName");
 
@@ -131,7 +139,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<decimal>("Stature");
+                    b.Property<decimal>("Stature")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Status");
 
@@ -144,7 +153,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
-                    b.Property<decimal>("Weight");
+                    b.Property<decimal>("Weight")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -162,7 +172,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AppUserClaim", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType");
 
@@ -225,7 +236,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AspNetUserApiResource", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("ApiResourceId");
 
@@ -241,7 +253,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AspNetUserClient", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("ClientId");
 
@@ -257,27 +270,34 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AspNetUserDistributor", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("Commission");
+                    b.Property<decimal>("Commission")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CommissionLastUpdate");
 
-                    b.Property<decimal>("CommissionLv1");
+                    b.Property<decimal>("CommissionLv1")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CommissionLv1LastUpdate");
 
-                    b.Property<decimal>("CommissionLv2");
+                    b.Property<decimal>("CommissionLv2")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CommissionLv2LastUpdate");
 
-                    b.Property<decimal>("CommissionLv3");
+                    b.Property<decimal>("CommissionLv3")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CommissionLv3LastUpdate");
 
-                    b.Property<decimal>("Earned");
+                    b.Property<decimal>("Earned")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("EarnedDiff");
+                    b.Property<decimal>("EarnedDiff")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("EarnedDiffLastUpdate");
 
@@ -285,7 +305,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
 
                     b.Property<DateTime>("MembersLastUpdate");
 
-                    b.Property<decimal>("Sales");
+                    b.Property<decimal>("Sales")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("SalesLastUpdate");
 
@@ -303,7 +324,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AspNetUserFile", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("FileType");
 
@@ -321,7 +343,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AspNetUserProperty", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Key");
 
@@ -339,7 +362,8 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AspNetUserTenant", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("TenantId");
 

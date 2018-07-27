@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
-namespace IdentityServer4.MicroService.Host.Services
+namespace IdentityServer4.MicroService.Host.Filters
 {
     /// <summary>
     /// used for swagger ui

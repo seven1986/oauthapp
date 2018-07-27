@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IdentityServer4.MicroService.Data
 {
-    public partial class AppUser : IdentityUser<long>
+    public class AppUser : IdentityUser<long>
     {
         // 也是唯一的
         public Guid UserKey { get; set; } = Guid.NewGuid();
@@ -107,11 +107,13 @@ namespace IdentityServer4.MicroService.Data
         /// <summary>
         /// 身高
         /// </summary>
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Stature { get; set; }
 
         /// <summary>
         /// 体重
         /// </summary>
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Weight { get; set; }
 
         /// <summary>
@@ -138,14 +140,8 @@ namespace IdentityServer4.MicroService.Data
         /// 权限(for screens)
         /// </summary>
         public string Permission { get; set; }
-    }
 
-    /// <summary>
-    /// 扩展用户表
-    /// 根据业务，扩展用户表的字段
-    /// </summary>
-    public partial class AppUser : IdentityUser<long>
-    {
+        #region 根据业务，扩展用户表的字段
         /// <summary>
         /// 是否锁定
         /// </summary>
@@ -174,7 +170,9 @@ namespace IdentityServer4.MicroService.Data
         /// <summary>
         /// 余额
         /// </summary>
-        public decimal Money { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Money { get; set; } 
+        #endregion
     }
 
     #region identity
@@ -292,6 +290,7 @@ namespace IdentityServer4.MicroService.Data
         /// <summary>
         /// Sale Amount
         /// </summary>
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Sales { get; set; }
 
         /// <summary>
@@ -302,11 +301,13 @@ namespace IdentityServer4.MicroService.Data
         /// <summary>
         /// Earned
         /// </summary>
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Earned { get; set; }
 
         /// <summary>
         /// EarnedDiff
         /// </summary>
+        [Column(TypeName = "decimal(18,2)")]
         public decimal EarnedDiff { get; set; }
 
         /// <summary>
@@ -317,6 +318,7 @@ namespace IdentityServer4.MicroService.Data
         /// <summary>
         /// Commission
         /// </summary>
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Commission { get; set; }
 
         /// <summary>
@@ -327,6 +329,7 @@ namespace IdentityServer4.MicroService.Data
         /// <summary>
         /// CommissionLv1
         /// </summary>
+        [Column(TypeName = "decimal(18,2)")]
         public decimal CommissionLv1 { get; set; }
         /// <summary>
         /// CommissionLv1LastUpdate
@@ -336,6 +339,7 @@ namespace IdentityServer4.MicroService.Data
         /// <summary>
         /// CommissionLv2
         /// </summary>
+        [Column(TypeName = "decimal(18,2)")]
         public decimal CommissionLv2 { get; set; }
         /// <summary>
         /// CommissionLv2LastUpdate
@@ -345,6 +349,7 @@ namespace IdentityServer4.MicroService.Data
         /// <summary>
         /// CommissionLv3
         /// </summary>
+        [Column(TypeName = "decimal(18,2)")]
         public decimal CommissionLv3 { get; set; }
         /// <summary>
         /// CommissionLv3LastUpdate

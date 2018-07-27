@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
@@ -9,8 +8,8 @@ using Microsoft.AspNetCore.Authentication;
 using IdentityServer4.MicroService.Services;
 using Newtonsoft.Json;
 using IdentityServer4.MicroService.Tenant;
-using IdentityServer4.MicroService.Host.Models.Views.Manage;
 using IdentityServer4.MicroService.Data;
+using IdentityServer4.MicroService.Host.Models.Views.Manage;
 
 namespace IdentityServer4.MicroService.Host.Controllers
 {
@@ -24,21 +23,21 @@ namespace IdentityServer4.MicroService.Host.Controllers
         private readonly ILogger _logger;
 
         public ManageController(
-            Lazy<UserManager<AppUser>> userManager,
-            Lazy<SignInManager<AppUser>> signInManager,
-            Lazy<IEmailSender> emailSender,
-            Lazy<ISmsSender> smsSender,
-            Lazy<ILogger<ManageController>> logger,
-            Lazy<TenantService> _tenantService,
-            Lazy<TenantDbContext> _tenantDb)
+            UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager,
+            IEmailSender emailSender,
+            ISmsSender smsSender,
+            ILogger<ManageController> logger,
+            TenantService _tenantService,
+            TenantDbContext _tenantDb)
         {
-            _userManager = userManager.Value;
-            _signInManager = signInManager.Value;
-            _emailSender = emailSender.Value;
-            _smsSender = smsSender.Value;
-            _logger = logger.Value;
-            tenantService = _tenantService.Value;
-            tenantDb = _tenantDb.Value;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _emailSender = emailSender;
+            _smsSender = smsSender;
+            _logger = logger;
+            tenantService = _tenantService;
+            tenantDb = _tenantDb;
         }
 
         //
