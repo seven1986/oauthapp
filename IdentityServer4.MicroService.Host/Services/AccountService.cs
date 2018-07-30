@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using IdentityModel;
-using IdentityServer4.Stores;
 using IdentityServer4.Services;
 using IdentityServer4.MicroService.Host.Models.Views.Account;
 
@@ -9,18 +8,15 @@ namespace IdentityServer4.MicroService.Services
 {
     public class AccountService
     {
-        private readonly IClientStore _clientStore;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AccountService(
             IIdentityServerInteractionService interaction,
-            IHttpContextAccessor httpContextAccessor,
-            IClientStore clientStore)
+            IHttpContextAccessor httpContextAccessor)
         {
             _interaction = interaction;
             _httpContextAccessor = httpContextAccessor;
-            _clientStore = clientStore;
         }
 
         public async Task<LogoutViewModel> BuildLogoutViewModelAsync(string logoutId)
