@@ -20,6 +20,8 @@ using IdentityServer4.MicroService.Models.Apis.CodeGenController;
 using IdentityServer4.MicroService.Models.Apis.ApiResourceController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+using Microsoft.WindowsAzure.Storage.Table;
+using System.Linq;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -630,7 +632,179 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<bool>(true);
         }
-      
+
+        #endregion
+
+        #region 代码生成 - 基本信息设置
+        /// <summary>
+        ///  代码生成 - 基本信息设置
+        /// </summary>
+        /// <param name="id">微服务ID</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.commonoptions</code>
+        /// 生成SDK时需要的基本信息
+        /// </remarks>
+        [HttpGet("{id}/CommonOptions")]
+        [SwaggerOperation("CodeGen/CommonOptions")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenCommonOptions)]
+        public async Task<ApiResult<CodeGenCommonOptionsModel>> CommonOptions(string id)
+        {
+            var result = await _CommonOptions(id);
+
+            if (result != null)
+            {
+                return new ApiResult<CodeGenCommonOptionsModel>(result);
+            }
+            else
+            {
+                return new ApiResult<CodeGenCommonOptionsModel>(l, CodeGenControllerEnums.CommonOptions_GetOptionsFialed);
+            }
+        }
+        async Task<CodeGenCommonOptionsModel> _CommonOptions(string id)
+        {
+            var key = CodeGenControllerKeys.CommonOptions + id;
+
+            var cacheResult = await redis.GetAsync(key);
+
+            if (!string.IsNullOrWhiteSpace(cacheResult))
+            {
+                try
+                {
+                    var result = JsonConvert.DeserializeObject<CodeGenCommonOptionsModel>(cacheResult);
+
+                    return result;
+                }
+
+                catch
+                {
+                    return null;
+                }
+            }
+
+            return null;
+        }
+        #endregion
+
+        #region 代码生成 - 更新基本信息设置
+        /// <summary>
+        ///  代码生成 - 更新基本信息设置
+        /// </summary>
+        /// <param name="id">微服务ID</param>
+        /// <param name="value">package.json的内容字符串</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.putcommonoptions</code>
+        /// 更新基本信息设置
+        /// </remarks>
+        [HttpPut("{id}/CommonOptions")]
+        [SwaggerOperation("CodeGen/PutCommonOptions")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenPutCommonOptions)]
+        public async Task<ApiResult<bool>> PutCommonOptions(string id, [FromBody]CodeGenCommonOptionsModel value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            var result = await _PutCommonOptions(id, value);
+
+            return new ApiResult<bool>(result);
+        }
+        async Task<bool> _PutCommonOptions(string id, CodeGenCommonOptionsModel value)
+        {
+            var key = CodeGenControllerKeys.CommonOptions + id;
+
+            var cacheResult = JsonConvert.SerializeObject(value);
+
+            var result = await redis.SetAsync(key, cacheResult, null);
+
+            return result;
+        }
+        #endregion
+
+        #region 代码生成 - SDK生成记录
+        /// <summary>
+        /// 微服务 - SDK生成记录
+        /// </summary>
+        /// <param name="id">微服务的ID</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.history</code>
+        /// </remarks>
+        [HttpGet("{id}/History")]
+        [SwaggerOperation("CodeGen/History")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenHistory)]
+        public async Task<PagingResult<CodeGenHistoryEntity>> History(string id)
+        {
+            var tb = await storageService.CreateTableAsync("CodeGenHistories");
+
+            var query = new TableQuery<CodeGenHistoryEntity>().Where(
+                TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, id));
+
+            var result = await storageService.ExecuteQueryAsync(tb, query);
+
+            return new PagingResult<CodeGenHistoryEntity>()
+            {
+                data = result,
+                skip = 0,
+                take = result.Count,
+                total = result.Count
+            };
+        }
+        #endregion
+
+        #region 代码生成 - 添加SDK生成记录
+        /// <summary>
+        /// 代码生成 - 添加SDK生成记录
+        /// </summary>
+        /// <param name="id">微服务的ID</param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// </remarks>
+        [HttpPost("{id}/PostHistory")]
+        [SwaggerOperation("CodeGen/PostHistory")]
+        [AllowAnonymous]
+        public async Task<ApiResult<bool>> PostHistory(string id, [FromBody]CodeGenHistoryRequest value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            var tb = await storageService.CreateTableAsync("CodeGenHistories");
+
+            try
+            {
+                var Entity = new CodeGenHistoryEntity(id.ToString(), value.sdkName)
+                {
+                    language = value.language,
+                    releaseDate = value.releaseDate,
+                    swaggerUrl = value.swaggerUrl,
+                    tags = value.tags,
+                    version = value.version
+                };
+
+                var result = await storageService.TableInsertAsync(tb, Entity);
+
+                if (result.FirstOrDefault().Result != null)
+                {
+                    return new ApiResult<bool>(true);
+                }
+
+                else
+                {
+                    return new ApiResult<bool>(l, CodeGenControllerEnums.History_PostFailed);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, CodeGenControllerEnums.History_PostFailed, ex.Message);
+            }
+        }
         #endregion
     }
 }

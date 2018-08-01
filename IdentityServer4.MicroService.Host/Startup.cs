@@ -83,7 +83,7 @@ namespace IdentityServer4.MicroService.Host
                 {
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
-                    //builder.AllowAnyOrigin(); this will make client cores out of order
+                    builder.AllowAnyOrigin(); 
                     //builder.AllowCredentials();
                 });
             });

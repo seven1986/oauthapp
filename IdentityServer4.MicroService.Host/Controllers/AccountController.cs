@@ -60,7 +60,6 @@ namespace IdentityServer4.MicroService.Host.Controllers
         private readonly AccountService _account;
         private readonly IdentityDbContext _userContext;
         private readonly ConfigurationDbContext _configDbContext;
-        private readonly IdentityServerTools tools;
         #endregion
 
         #region 构造函数

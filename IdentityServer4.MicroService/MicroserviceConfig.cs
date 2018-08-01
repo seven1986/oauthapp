@@ -586,7 +586,7 @@ namespace IdentityServer4.MicroService
                         MicroServiceName + ".all")]
             public const string CodeGenNpmOptions = "scope:codegen.npmoptions";
             #endregion
-
+           
             #region 代码生成 - 更新NPM设置
             [Description("代码生成 - 更新NPM设置")]
             [PolicyClaimValues(
@@ -630,6 +630,33 @@ namespace IdentityServer4.MicroService
                         MicroServiceName + ".codegen.all",
                         MicroServiceName + ".all")]
             public const string CodeGenGen = "scope:codegen.gen";
+            #endregion
+
+            #region 代码生成 - 基本信息设置
+            [Description("代码生成 - 基本信息设置")]
+            [PolicyClaimValues(
+                        MicroServiceName + ".codegen.commonoptions",
+                        MicroServiceName + ".codegen.all",
+                        MicroServiceName + ".all")]
+            public const string CodeGenCommonOptions = "scope:codegen.commonoptions";
+            #endregion
+
+            #region 代码生成 - 更新基本信息设置
+            [Description("代码生成 - 更新基本信息设置")]
+            [PolicyClaimValues(
+                        MicroServiceName + ".codegen.putcommonoptions",
+                        MicroServiceName + ".codegen.all",
+                        MicroServiceName + ".all")]
+            public const string CodeGenPutCommonOptions = "scope:codegen.putcommonoptions";
+            #endregion
+
+            #region 代码生成 - SDK生成记录
+            [Description("代码生成 - SDK生成记录")]
+            [PolicyClaimValues(true,
+                   MicroServiceName + ".apiresource.history",
+                   MicroServiceName + ".apiresource.all",
+                   MicroServiceName + ".all")]
+            public const string CodeGenHistory = "scope:apiresource.history";
             #endregion
             #endregion
         }
