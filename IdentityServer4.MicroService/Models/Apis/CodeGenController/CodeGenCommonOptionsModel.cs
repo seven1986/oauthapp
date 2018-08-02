@@ -3,13 +3,8 @@
   public class CodeGenCommonOptionsModel
     {
         /// <summary>
-        /// 网关swagger地址
+        /// swagger地址
         /// </summary>
-        public string gatewaySwaggerUrl { get; set; }
-
-        /// <summary>
-        /// 直连swagger地址
-        /// </summary>
-        public string apiResourceSwaggerUrl { get; set; }
+        public string swaggerUrl { get; set; }
     }
 }

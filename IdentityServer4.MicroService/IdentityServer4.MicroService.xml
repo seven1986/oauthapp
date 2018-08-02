@@ -1954,14 +1954,9 @@
             语言
             </summary>
         </member>
-        <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenCommonOptionsModel.gatewaySwaggerUrl">
+        <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenCommonOptionsModel.swaggerUrl">
             <summary>
-            网关swagger地址
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenCommonOptionsModel.apiResourceSwaggerUrl">
-            <summary>
-            直连swagger地址
+            swagger地址
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenGenRequest.genName">
