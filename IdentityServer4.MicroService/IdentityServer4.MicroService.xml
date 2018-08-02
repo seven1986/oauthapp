@@ -469,19 +469,9 @@
             <label>Client Scopes：</label><code>ids4.ms.codegen.servers</code>
             </remarks>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.ReleaseSDK(IdentityServer4.MicroService.Models.Apis.CodeGenController.GenerateClientRequest)">
-            <summary>
-            代码生成 - 发布SDK
-            </summary>
-            <param name="value"></param>
-            <returns></returns>
-            <remarks>
-            <label>Client Scopes：</label><code>ids4.ms.codegen.releasesdk</code>
-            </remarks>
-        </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.NpmOptions(System.String,IdentityServer4.MicroService.Models.Apis.CodeGenController.Language)">
             <summary>
-             代码生成 - NPM设置
+             代码生成 - NPM - 设置
             </summary>
             <param name="id">微服务ID</param>
             <param name="language">语言</param>
@@ -492,7 +482,7 @@
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.NpmOptions(System.String,IdentityServer4.MicroService.Models.Apis.CodeGenController.Language,IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenNpmOptionsModel)">
             <summary>
-             代码生成 - 更新NPM设置
+             代码生成 - NPM - 更新设置
             </summary>
             <param name="id">微服务ID</param>
             <param name="language">语言</param>
@@ -505,7 +495,7 @@
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.GithubOptions(System.String)">
             <summary>
-             代码生成 - Github设置
+             代码生成 - Github - 设置
             </summary>
             <param name="id">微服务ID</param>
             <returns></returns>
@@ -515,7 +505,7 @@
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.GithubOptions(System.String,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceGithubPublishRequest)">
             <summary>
-             代码生成 - 更新Github设置
+             代码生成 - Github - 更新设置
             </summary>
             <param name="id">微服务ID</param>
             <param name="value"></param>
@@ -525,24 +515,77 @@
             更新微服务的Github发布设置
             </remarks>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.Gen(IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenGenRequest)">
-            <summary>
-            代码生成 - 生成
-            </summary>
-            <remarks></remarks>
-            <returns></returns>
-            <remarks>
-            </remarks>
-        </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.SyncGithub(System.String)">
             <summary>
-             代码生成 - 同步Github
+             代码生成 - Github - 同步
             </summary>
             <param name="id">微服务ID</param>
             <returns></returns>
             <remarks>
             <label>Client Scopes：</label><code>ids4.ms.codegen.putgithuboptions</code>
             更新微服务的Github发布设置
+            </remarks>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.CommonOptions(System.String)">
+            <summary>
+             代码生成 - 基本设置 - 获取
+            </summary>
+            <param name="id">微服务ID</param>
+            <returns></returns>
+            <remarks>
+            <label>Client Scopes：</label><code>ids4.ms.codegen.commonoptions</code>
+            生成SDK时需要的基本信息
+            </remarks>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.PutCommonOptions(System.String,IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenCommonOptionsModel)">
+            <summary>
+             代码生成 - 基本设置 - 更新
+            </summary>
+            <param name="id">微服务ID</param>
+            <param name="value">package.json的内容字符串</param>
+            <returns></returns>
+            <remarks>
+            <label>Client Scopes：</label><code>ids4.ms.codegen.putcommonoptions</code>
+            更新基本信息设置
+            </remarks>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.ReleaseSDK(IdentityServer4.MicroService.Models.Apis.CodeGenController.GenerateClientRequest)">
+            <summary>
+            代码生成 - SDK - 发布
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+            <remarks>
+            <label>Client Scopes：</label><code>ids4.ms.codegen.releasesdk</code>
+            </remarks>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.Gen(IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenGenRequest)">
+            <summary>
+            代码生成 - SDK - 预览生成代码
+            </summary>
+            <remarks></remarks>
+            <returns></returns>
+            <remarks>
+            </remarks>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.History(System.String)">
+            <summary>
+            代码生成 - SDK - 发布记录
+            </summary>
+            <param name="id">微服务的ID</param>
+            <returns></returns>
+            <remarks>
+            <label>Client Scopes：</label><code>ids4.ms.apiresource.history</code>
+            </remarks>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.PostHistory(System.String,IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenHistoryRequest)">
+            <summary>
+            代码生成 - SDK - 添加记录
+            </summary>
+            <param name="id">微服务的ID</param>
+            <param name="value"></param>
+            <returns></returns>
+            <remarks>
             </remarks>
         </member>
         <member name="T:IdentityServer4.MicroService.Apis.FileController">
@@ -1047,6 +1090,14 @@
             Value的格式： json字符串
             </summary>
         </member>
+        <member name="F:IdentityServer4.MicroService.CacheKeys.CodeGenControllerKeys.CommonOptions">
+            <summary>
+            （缓存KEY）
+            微服务CodeGen的基本信息配置
+            Key的格式：{ApiRrsourceId}
+            Value的格式： json字符串
+            </summary>
+        </member>
         <member name="F:IdentityServer4.MicroService.CacheKeys.UserControllerKeys.Limit_24Hour_Verify_Phone">
             <summary>
             （缓存KEY）
@@ -1538,6 +1589,12 @@
             不存在的配置
             </summary>
         </member>
+        <!-- 对于成员“F:IdentityServer4.MicroService.Enums.CodeGenControllerEnums.CommonOptions_GetOptionsFialed”忽略有格式错误的 XML 注释 -->
+        <member name="F:IdentityServer4.MicroService.Enums.CodeGenControllerEnums.History_PostFailed">
+            <summary>
+            添加历史记录失败
+            </summary>
+        </member>
         <member name="T:IdentityServer4.MicroService.Enums.UserControllerEnums">
             <summary>
             用户接口业务代码常量表
@@ -1897,6 +1954,11 @@
             语言
             </summary>
         </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenCommonOptionsModel.swaggerUrl">
+            <summary>
+            swagger地址
+            </summary>
+        </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenGenRequest.genName">
             <summary>
             生成器名称。当前可选（readthedocs.gen）
@@ -1905,6 +1967,68 @@
         <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenGenRequest.swaggerUrl">
             <summary>
             swagger地址
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenHistoryEntity.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="apiResourceId">微服务ID</param>
+            <param name="sdkName">sdk包的名称</param>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenHistoryEntity.swaggerUrl">
+            <summary>
+            swaggerUrl
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenHistoryEntity.version">
+            <summary>
+            版本
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenHistoryEntity.tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenHistoryEntity.releaseDate">
+            <summary>
+            发布日志
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenHistoryEntity.language">
+            <summary>
+             SDK语言
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenHistoryRequest.sdkName">
+            <summary>
+            SDK名称
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenHistoryRequest.swaggerUrl">
+            <summary>
+            swaggerUrl
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenHistoryRequest.version">
+            <summary>
+            版本
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenHistoryRequest.tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenHistoryRequest.releaseDate">
+            <summary>
+            发布日志
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenHistoryRequest.language">
+            <summary>
+             SDK语言
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenNpmOptionsModel.name">

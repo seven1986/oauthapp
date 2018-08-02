@@ -5,7 +5,7 @@ namespace IdentityServer4.MicroService.Host.Models.Views.Account
     public class LoginViewModel
     {
         [Required]
-        public string Email { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

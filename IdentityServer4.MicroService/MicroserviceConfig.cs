@@ -569,17 +569,8 @@ namespace IdentityServer4.MicroService
             public const string CodeGenServers = "scope:codegen.servers";
             #endregion
 
-            #region 代码生成 - 发布SDK
-            [Description("代码生成 - 发布SDK")]
-            [PolicyClaimValues(
-                        MicroServiceName + ".codegen.releasesdk",
-                        MicroServiceName + ".codegen.all",
-                        MicroServiceName + ".all")]
-            public const string CodeGenReleaseSDK = "scope:codegen.releasesdk";
-            #endregion
-
-            #region 代码生成 - NPM设置
-            [Description("代码生成 - NPM设置")]
+            #region 代码生成 - NPM - 设置
+            [Description("代码生成 - NPM - 设置")]
             [PolicyClaimValues(
                         MicroServiceName + ".codegen.npmoptions",
                         MicroServiceName + ".codegen.all",
@@ -587,8 +578,8 @@ namespace IdentityServer4.MicroService
             public const string CodeGenNpmOptions = "scope:codegen.npmoptions";
             #endregion
 
-            #region 代码生成 - 更新NPM设置
-            [Description("代码生成 - 更新NPM设置")]
+            #region 代码生成 - NPM - 更新设置
+            [Description("代码生成 - NPM - 更新设置")]
             [PolicyClaimValues(
                         MicroServiceName + ".codegen.putnpmoptions",
                         MicroServiceName + ".codegen.all",
@@ -596,8 +587,8 @@ namespace IdentityServer4.MicroService
             public const string CodeGenPutNpmOptions = "scope:codegen.putnpmoptions";
             #endregion
 
-            #region 代码生成 - Github设置
-            [Description("代码生成 - Github设置")]
+            #region 代码生成 - Github - 设置
+            [Description("代码生成 - Github - 设置")]
             [PolicyClaimValues(
                         MicroServiceName + ".codegen.githuboptions",
                         MicroServiceName + ".codegen.all",
@@ -605,8 +596,8 @@ namespace IdentityServer4.MicroService
             public const string CodeGenGithubOptions = "scope:codegen.githuboptions";
             #endregion
 
-            #region 代码生成 - 更新Github设置
-            [Description("代码生成 - 更新Github设置")]
+            #region 代码生成 - Github - 更新设置
+            [Description("代码生成 - Github - 更新设置")]
             [PolicyClaimValues(
                         MicroServiceName + ".codegen.putgithuboptions",
                         MicroServiceName + ".codegen.all",
@@ -614,8 +605,8 @@ namespace IdentityServer4.MicroService
             public const string CodeGenPutGithubOptions = "scope:codegen.putgithuboptions";
             #endregion
 
-            #region 代码生成 - 同步Github
-            [Description("代码生成 - 同步Github")]
+            #region 代码生成 - Github - 同步
+            [Description("代码生成 - Github - 同步")]
             [PolicyClaimValues(
                         MicroServiceName + ".codegen.syncgithub",
                         MicroServiceName + ".codegen.all",
@@ -623,13 +614,49 @@ namespace IdentityServer4.MicroService
             public const string CodeGenSyncGithub = "scope:codegen.syncgithub";
             #endregion
 
-            #region 代码生成 - 生成
-            [Description("代码生成 - 生成")]
+            #region 代码生成 - 基本设置 - 获取
+            [Description("代码生成 - 基本设置 - 获取")]
+            [PolicyClaimValues(
+                        MicroServiceName + ".codegen.commonoptions",
+                        MicroServiceName + ".codegen.all",
+                        MicroServiceName + ".all")]
+            public const string CodeGenCommonOptions = "scope:codegen.commonoptions";
+            #endregion
+
+            #region 代码生成 - 基本设置 - 更新
+            [Description("代码生成 - 基本设置 - 更新")]
+            [PolicyClaimValues(
+                        MicroServiceName + ".codegen.putcommonoptions",
+                        MicroServiceName + ".codegen.all",
+                        MicroServiceName + ".all")]
+            public const string CodeGenPutCommonOptions = "scope:codegen.putcommonoptions";
+            #endregion
+
+            #region 代码生成 - SDK - 发布
+            [Description("代码生成 - SDK - 发布")]
+            [PolicyClaimValues(
+                        MicroServiceName + ".codegen.releasesdk",
+                        MicroServiceName + ".codegen.all",
+                        MicroServiceName + ".all")]
+            public const string CodeGenReleaseSDK = "scope:codegen.releasesdk";
+            #endregion
+
+            #region 代码生成 - SDK - 预览生成代码
+            [Description("代码生成 - SDK - 预览生成代码")]
             [PolicyClaimValues(
                         MicroServiceName + ".codegen.gen",
                         MicroServiceName + ".codegen.all",
                         MicroServiceName + ".all")]
             public const string CodeGenGen = "scope:codegen.gen";
+            #endregion
+
+            #region 代码生成 - SDK - 发布记录
+            [Description("代码生成 - SDK - 发布记录")]
+            [PolicyClaimValues(true,
+                   MicroServiceName + ".apiresource.history",
+                   MicroServiceName + ".apiresource.all",
+                   MicroServiceName + ".all")]
+            public const string CodeGenHistory = "scope:apiresource.history";
             #endregion
             #endregion
         }

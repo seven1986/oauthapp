@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using IdentityServer4.Stores;
 using IdentityServer4.Services;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Services;
@@ -23,8 +22,8 @@ using static IdentityServer4.MicroService.MicroserviceConfig;
 using static IdentityServer4.MicroService.AppDefaultData;
 using IdentityServer4.MicroService.Attributes;
 using System.Text.RegularExpressions;
-using IdentityServer4.MicroService.Host.Services;
 using IdentityServer4.MicroService.Host.Models.Views.Account;
+using identity = Microsoft.AspNetCore.Identity;
 
 namespace IdentityServer4.MicroService.Host.Controllers
 {
@@ -58,7 +57,6 @@ namespace IdentityServer4.MicroService.Host.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly EmailService _emailSender;
         private readonly ISmsSender _smsSender;
-        private readonly ILogger _logger;
         private readonly AccountService _account;
         private readonly IdentityDbContext _userContext;
         private readonly ConfigurationDbContext _configDbContext;
@@ -68,28 +66,28 @@ namespace IdentityServer4.MicroService.Host.Controllers
         public AccountController(
            IIdentityServerInteractionService interaction,
            IHttpContextAccessor httpContextAccessor,
-           IClientStore clientStore,
            UserManager<AppUser> userManager,
            SignInManager<AppUser> signInManager,
-           ConfigurationDbContext configDbContext,
            EmailService emailSender,
            ISmsSender smsSender,
-           ILogger<AccountController> logger,
            IdentityDbContext userContext,
+           ConfigurationDbContext configDbContext,
            TenantService _tenantService,
-           TenantDbContext _tenantDb)
+           TenantDbContext _tenantDb,
+           ILogger<AccountController> _logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
-            _logger = logger;
-            _account = new AccountService(interaction, httpContextAccessor, clientStore);
+
+            _account = new AccountService(interaction, httpContextAccessor);
             _userContext = userContext;
             _configDbContext = configDbContext;
 
             tenantService = _tenantService;
             tenantDb = _tenantDb;
+            logger = _logger;
         }
         #endregion
 
@@ -122,101 +120,70 @@ namespace IdentityServer4.MicroService.Host.Controllers
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-
+            
             if (ModelState.IsValid)
             {
+                identity.SignInResult signinResult = null;
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
 
-                // 如果是邮箱登录
-                if (IsEmail(model.Email))
+                // 邮箱登录
+                if (IsEmail(model.Username))
                 {
-                    var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-
-                    if (result.Succeeded)
-                    {
-                        _logger.LogInformation(1, "User logged in.");
-
-                        return RedirectToLocal(returnUrl, model.Email, model.Password);
-                    }
-                    if (result.RequiresTwoFactor)
-                    {
-                        return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, model.RememberMe });
-                    }
-                    if (result.IsLockedOut)
-                    {
-                        _logger.LogWarning(2, "User account locked out.");
-                        return View("Lockout");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        return View(model);
-                    }
+                    signinResult = await _signInManager.PasswordSignInAsync(model.Username,
+                        model.Password, model.RememberMe, 
+                        lockoutOnFailure: false);
                 }
 
-                else if(IsMobile(model.Email))
+                // 手机号登录
+                else if (IsMobile(model.Username))
                 {
-                    // 按照手机号（老的账号）
-                    var user = _userContext.Users.Where(x => x.PhoneNumberConfirmed == true && x.PhoneNumber.Equals(model.Email)).FirstOrDefault();
+                    
+                    var user = _userContext.Users.Where(x => x.PhoneNumberConfirmed == true && 
+                    x.PhoneNumber.Equals(model.Username)).FirstOrDefault();
 
                     if (user != null)
                     {
-                        var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
-
-                        if (result.Succeeded)
-                        {
-                            _logger.LogInformation(1, "User logged in.");
-
-                            return RedirectToLocal(returnUrl, model.Email, model.Password);
-                        }
-                        if (result.RequiresTwoFactor)
-                        {
-                            return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, model.RememberMe });
-                        }
-                        if (result.IsLockedOut)
-                        {
-                            _logger.LogWarning(2, "User account locked out.");
-                            return View("Lockout");
-                        }
-                        else
-                        {
-                            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                            return View(model);
-                        }
+                        signinResult = await _signInManager.PasswordSignInAsync(user, model.Password, 
+                            model.RememberMe, lockoutOnFailure: false);
                     }
+                }
+
+                // 昵称登录
+                else
+                {
+                    var user = await _userManager.FindByNameAsync(model.Username);
+
+                    if (user != null)
+                    {
+                        signinResult = await _signInManager.PasswordSignInAsync(user, model.Password,
+                            model.RememberMe, lockoutOnFailure: false);
+                    }
+                }
+
+                if (signinResult.Succeeded)
+                {
+                    logger.LogInformation(1, "User logged in.");
+
+                    return RedirectToLocal(returnUrl, model.Username, model.Password);
+                }
+
+                if (signinResult.RequiresTwoFactor)
+                {
+                    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, model.RememberMe });
+                }
+
+                if (signinResult.IsLockedOut)
+                {
+                    logger.LogWarning(2, "User account locked out.");
+                    return View("Lockout");
                 }
 
                 else
                 {
-                    // 按照昵称（老的账号）
-                    var user = await _userManager.FindByNameAsync(model.Email);
-
-                    if (user != null)
-                    {
-                        var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
-
-                        if (result.Succeeded)
-                        {
-                            _logger.LogInformation(1, "User logged in.");
-
-                            return RedirectToLocal(returnUrl, model.Email, model.Password);
-                        }
-                        if (result.RequiresTwoFactor)
-                        {
-                            return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, model.RememberMe });
-                        }
-                        if (result.IsLockedOut)
-                        {
-                            _logger.LogWarning(2, "User account locked out.");
-                            return View("Lockout");
-                        }
-                        else
-                        {
-                            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                            return View(model);
-                        }
-                    }
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return View(model);
                 }
             }
 
@@ -279,7 +246,7 @@ namespace IdentityServer4.MicroService.Host.Controllers
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    _logger.LogInformation(3, "User created a new account with password.");
+                    logger.LogInformation(3, "User created a new account with password.");
 
                     return RedirectToLocal(returnUrl, model.Email, model.Password);
                 }
@@ -296,7 +263,7 @@ namespace IdentityServer4.MicroService.Host.Controllers
         public async Task<IActionResult> Logout2()
         {
             await _signInManager.SignOutAsync();
-            _logger.LogInformation(4, "User logged out.");
+            logger.LogInformation(4, "User logged out.");
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
@@ -336,7 +303,7 @@ namespace IdentityServer4.MicroService.Host.Controllers
             {
                 var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
 
-                _logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
+                logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
 
                 return RedirectToLocal(returnUrl, user.Email, null);
             }
@@ -404,7 +371,7 @@ namespace IdentityServer4.MicroService.Host.Controllers
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
 
-                        _logger.LogInformation(6, "User created an account using {Name} provider.", info.LoginProvider);
+                        logger.LogInformation(6, "User created an account using {Name} provider.", info.LoginProvider);
 
                         return RedirectToLocal(returnUrl, null, null);
                     }
@@ -655,7 +622,7 @@ namespace IdentityServer4.MicroService.Host.Controllers
             }
             if (result.IsLockedOut)
             {
-                _logger.LogWarning(7, "User account locked out.");
+                logger.LogWarning(7, "User account locked out.");
                 return View("Lockout");
             }
             else
