@@ -1470,7 +1470,6 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation("ApiResource/Packages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourcePackages)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourcePackages)]
-        [ResponseCache(Duration = 3600)]
         public async Task<PagingResult<ApiResourceSDKEntity>> Packages(string id)
         {
             var tb = await storageService.CreateTableAsync("ApiResourcePackages");

@@ -779,7 +779,7 @@ namespace IdentityServer4.MicroService.Apis
 
             try
             {
-                var Entity = new CodeGenHistoryEntity(id.ToString(), value.sdkName)
+                var Entity = new CodeGenHistoryEntity(id.ToString(), value.sdkName + "@" + value.version)
                 {
                     language = value.language,
                     releaseDate = value.releaseDate,
