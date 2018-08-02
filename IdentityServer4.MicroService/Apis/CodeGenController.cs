@@ -95,9 +95,327 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 代码生成 - 发布SDK
+        #region 代码生成 - NPM - 设置
         /// <summary>
-        /// 代码生成 - 发布SDK
+        ///  代码生成 - NPM - 设置
+        /// </summary>
+        /// <param name="id">微服务ID</param>
+        /// <param name="language">语言</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.npmoptions</code>
+        /// </remarks>
+        [HttpGet("{id}/NpmOptions/{language}")]
+        [SwaggerOperation("CodeGen/NpmOptions")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenNpmOptions)]
+        public async Task<ApiResult<CodeGenNpmOptionsModel>> NpmOptions(string id, Language language)
+        {
+            var result = await GetNpmOptions(language, id);
+
+            var key = CodeGenControllerKeys.NpmOptions + id;
+
+            var cacheResult = await redis.GetAsync(key);
+
+            if (result != null)
+            {
+                return new ApiResult<CodeGenNpmOptionsModel>(result);
+            }
+            else
+            {
+                return new ApiResult<CodeGenNpmOptionsModel>(l, CodeGenControllerEnums.NpmOptions_GetOptionsFialed);
+            }
+        }
+        async Task<CodeGenNpmOptionsModel> GetNpmOptions(Language lan, string id)
+        {
+            var key = CodeGenControllerKeys.NpmOptions + Enum.GetName(typeof(Language), lan) + ":" + id;
+
+            var cacheResult = await redis.GetAsync(key);
+
+            if (!string.IsNullOrWhiteSpace(cacheResult))
+            {
+                try
+                {
+                    var result = JsonConvert.DeserializeObject<CodeGenNpmOptionsModel>(cacheResult);
+
+                    return result;
+                }
+
+                catch
+                {
+                    return null;
+                }
+            }
+
+            return null;
+        }
+        #endregion
+
+        #region 代码生成 - NPM - 更新设置
+        /// <summary>
+        ///  代码生成 - NPM - 更新设置
+        /// </summary>
+        /// <param name="id">微服务ID</param>
+        /// <param name="language">语言</param>
+        /// <param name="value">package.json的内容字符串</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.putnpmoptions</code>
+        /// 更新微服务的NPM发布设置
+        /// </remarks>
+        [HttpPut("{id}/NpmOptions/{language}")]
+        [SwaggerOperation("CodeGen/PutNpmOptions")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenPutNpmOptions)]
+        public async Task<ApiResult<bool>> NpmOptions(string id, Language language, [FromBody]CodeGenNpmOptionsModel value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            var result = await SetNpmOptions(id, language, value);
+
+            return new ApiResult<bool>(result);
+        }
+        async Task<bool> SetNpmOptions(string id, Language lan, CodeGenNpmOptionsModel value)
+        {
+            var key = CodeGenControllerKeys.NpmOptions + Enum.GetName(typeof(Language), lan) + ":" + id;
+
+            var cacheResult = JsonConvert.SerializeObject(value);
+
+            var result = await redis.SetAsync(key, cacheResult, null);
+
+            return result;
+        }
+        #endregion
+
+        #region 代码生成 - Github - 设置
+        /// <summary>
+        ///  代码生成 - Github - 设置
+        /// </summary>
+        /// <param name="id">微服务ID</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.githuboptions</code>
+        /// </remarks>
+        [HttpGet("{id}/GithubOptions")]
+        [SwaggerOperation("CodeGen/GithubOptions")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenGithubOptions)]
+        public async Task<ApiResult<ApiResourceGithubPublishRequest>> GithubOptions(string id)
+        {
+            var result = await GetGithubOptions(id);
+
+            var key = CodeGenControllerKeys.GithubOptions + id;
+
+            var cacheResult = await redis.GetAsync(key);
+
+            if (result != null)
+            {
+                return new ApiResult<ApiResourceGithubPublishRequest>(result);
+            }
+            else
+            {
+                return new ApiResult<ApiResourceGithubPublishRequest>(l, CodeGenControllerEnums.GithubOptions_GetOptionsFialed);
+            }
+        }
+        async Task<ApiResourceGithubPublishRequest> GetGithubOptions(string id)
+        {
+            var key = CodeGenControllerKeys.GithubOptions + id;
+
+            var cacheResult = await redis.GetAsync(key);
+
+            if (!string.IsNullOrWhiteSpace(cacheResult))
+            {
+                try
+                {
+                    var result = JsonConvert.DeserializeObject<ApiResourceGithubPublishRequest>(cacheResult);
+
+                    return result;
+                }
+
+                catch
+                {
+                    return null;
+                }
+            }
+
+            return null;
+        }
+        #endregion
+
+        #region 代码生成 - Github - 更新设置
+        /// <summary>
+        ///  代码生成 - Github - 更新设置
+        /// </summary>
+        /// <param name="id">微服务ID</param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.putgithuboptions</code>
+        /// 更新微服务的Github发布设置
+        /// </remarks>
+        [HttpPut("{id}/GithubOptions")]
+        [SwaggerOperation("CodeGen/PutGithubOptions")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenPutGithubOptions)]
+        public async Task<ApiResult<bool>> GithubOptions(string id, [FromBody]ApiResourceGithubPublishRequest value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            var result = await SetGithubOptions(id, value);
+
+            return new ApiResult<bool>(result);
+        }
+        async Task<bool> SetGithubOptions(string id, ApiResourceGithubPublishRequest value)
+        {
+            var key = CodeGenControllerKeys.GithubOptions + id;
+
+            var cacheResult = JsonConvert.SerializeObject(value);
+
+            var result = await redis.SetAsync(key, cacheResult, null);
+
+            return result;
+        }
+        #endregion
+
+        #region 代码生成 - Github - 同步
+        /// <summary>
+        ///  代码生成 - Github - 同步
+        /// </summary>
+        /// <param name="id">微服务ID</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.putgithuboptions</code>
+        /// 更新微服务的Github发布设置
+        /// </remarks>
+        [HttpPut("{id}/SyncGithub")]
+        [SwaggerOperation("CodeGen/SyncGithub")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenSyncGithub)]
+        public async Task<ApiResult<bool>> SyncGithub(string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            var githubConfiguration = await GetGithubOptions(id);
+
+            if (githubConfiguration != null && !string.IsNullOrWhiteSpace(githubConfiguration.token))
+            {
+                if (githubConfiguration.syncLabels)
+                {
+                    await storageService.AddMessageAsync("apiresource-publish-github",
+                        JsonConvert.SerializeObject(githubConfiguration));
+                }
+
+                if (githubConfiguration.syncDocs)
+                {
+                    await storageService.AddMessageAsync("apiresource-publish-github-readthedocs",
+                        JsonConvert.SerializeObject(githubConfiguration));
+                }
+            }
+
+            return new ApiResult<bool>(true);
+        }
+
+        #endregion
+
+        #region 代码生成 - 基本设置 - 获取
+        /// <summary>
+        ///  代码生成 - 基本设置 - 获取
+        /// </summary>
+        /// <param name="id">微服务ID</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.commonoptions</code>
+        /// 生成SDK时需要的基本信息
+        /// </remarks>
+        [HttpGet("{id}/CommonOptions")]
+        [SwaggerOperation("CodeGen/CommonOptions")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenCommonOptions)]
+        public async Task<ApiResult<CodeGenCommonOptionsModel>> CommonOptions(string id)
+        {
+            var result = await _CommonOptions(id);
+
+            if (result != null)
+            {
+                return new ApiResult<CodeGenCommonOptionsModel>(result);
+            }
+            else
+            {
+                return new ApiResult<CodeGenCommonOptionsModel>(l, CodeGenControllerEnums.CommonOptions_GetOptionsFialed);
+            }
+        }
+        async Task<CodeGenCommonOptionsModel> _CommonOptions(string id)
+        {
+            var key = CodeGenControllerKeys.CommonOptions + id;
+
+            var cacheResult = await redis.GetAsync(key);
+
+            if (!string.IsNullOrWhiteSpace(cacheResult))
+            {
+                try
+                {
+                    var result = JsonConvert.DeserializeObject<CodeGenCommonOptionsModel>(cacheResult);
+
+                    return result;
+                }
+
+                catch
+                {
+                    return null;
+                }
+            }
+
+            return null;
+        }
+        #endregion
+
+        #region 代码生成 - 基本设置 - 更新
+        /// <summary>
+        ///  代码生成 - 基本设置 - 更新
+        /// </summary>
+        /// <param name="id">微服务ID</param>
+        /// <param name="value">package.json的内容字符串</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <label>Client Scopes：</label><code>ids4.ms.codegen.putcommonoptions</code>
+        /// 更新基本信息设置
+        /// </remarks>
+        [HttpPut("{id}/CommonOptions")]
+        [SwaggerOperation("CodeGen/PutCommonOptions")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenPutCommonOptions)]
+        public async Task<ApiResult<bool>> PutCommonOptions(string id, [FromBody]CodeGenCommonOptionsModel value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            var result = await _PutCommonOptions(id, value);
+
+            return new ApiResult<bool>(result);
+        }
+        async Task<bool> _PutCommonOptions(string id, CodeGenCommonOptionsModel value)
+        {
+            var key = CodeGenControllerKeys.CommonOptions + id;
+
+            var cacheResult = JsonConvert.SerializeObject(value);
+
+            var result = await redis.SetAsync(key, cacheResult, null);
+
+            return result;
+        }
+        #endregion
+
+        #region 代码生成 - SDK - 发布
+        /// <summary>
+        /// 代码生成 - SDK - 发布
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -304,7 +622,7 @@ namespace IdentityServer4.MicroService.Apis
             var readmeFilePath = templateDirectory + "/README.md";
             if (!string.IsNullOrWhiteSpace(options.README))
             {
-                var releaseREAME =  options.README.Replace("<%SdkCode%>", SdkCode);
+                var releaseREAME = options.README.Replace("<%SdkCode%>", SdkCode);
 
                 using (var sw = new StreamWriter(readmeFilePath, false, Encoding.UTF8))
                 {
@@ -355,195 +673,9 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 代码生成 - NPM设置
+        #region 代码生成 - SDK - 预览生成代码
         /// <summary>
-        ///  代码生成 - NPM设置
-        /// </summary>
-        /// <param name="id">微服务ID</param>
-        /// <param name="language">语言</param>
-        /// <returns></returns>
-        /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.codegen.npmoptions</code>
-        /// </remarks>
-        [HttpGet("{id}/NpmOptions/{language}")]
-        [SwaggerOperation("CodeGen/NpmOptions")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenNpmOptions)]
-        public async Task<ApiResult<CodeGenNpmOptionsModel>> NpmOptions(string id, Language language)
-        {
-            var result = await GetNpmOptions(language, id);
-
-            var key = CodeGenControllerKeys.NpmOptions + id;
-
-            var cacheResult = await redis.GetAsync(key);
-
-            if (result != null)
-            {
-                return new ApiResult<CodeGenNpmOptionsModel>(result);
-            }
-            else
-            {
-                return new ApiResult<CodeGenNpmOptionsModel>(l, CodeGenControllerEnums.NpmOptions_GetOptionsFialed);
-            }
-        }
-        async Task<CodeGenNpmOptionsModel> GetNpmOptions(Language lan, string id)
-        {
-            var key = CodeGenControllerKeys.NpmOptions + Enum.GetName(typeof(Language), lan) + ":" + id;
-
-            var cacheResult = await redis.GetAsync(key);
-
-            if (!string.IsNullOrWhiteSpace(cacheResult))
-            {
-                try
-                {
-                    var result = JsonConvert.DeserializeObject<CodeGenNpmOptionsModel>(cacheResult);
-
-                    return result;
-                }
-
-                catch
-                {
-                    return null;
-                }
-            }
-
-            return null;
-        }
-        #endregion
-
-        #region 代码生成 - 更新NPM设置
-        /// <summary>
-        ///  代码生成 - 更新NPM设置
-        /// </summary>
-        /// <param name="id">微服务ID</param>
-        /// <param name="language">语言</param>
-        /// <param name="value">package.json的内容字符串</param>
-        /// <returns></returns>
-        /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.codegen.putnpmoptions</code>
-        /// 更新微服务的NPM发布设置
-        /// </remarks>
-        [HttpPut("{id}/NpmOptions/{language}")]
-        [SwaggerOperation("CodeGen/PutNpmOptions")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenPutNpmOptions)]
-        public async Task<ApiResult<bool>> NpmOptions(string id, Language language, [FromBody]CodeGenNpmOptionsModel value)
-        {
-            if (!ModelState.IsValid)
-            {
-                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
-                    ModelErrors());
-            }
-
-            var result = await SetNpmOptions(id, language, value);
-
-            return new ApiResult<bool>(result);
-        }
-        async Task<bool> SetNpmOptions(string id, Language lan, CodeGenNpmOptionsModel value)
-        {
-            var key = CodeGenControllerKeys.NpmOptions + Enum.GetName(typeof(Language), lan) + ":" + id;
-
-            var cacheResult = JsonConvert.SerializeObject(value);
-
-            var result = await redis.SetAsync(key, cacheResult, null);
-
-            return result;
-        }
-        #endregion
-
-        #region 代码生成 - Github设置
-        /// <summary>
-        ///  代码生成 - Github设置
-        /// </summary>
-        /// <param name="id">微服务ID</param>
-        /// <returns></returns>
-        /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.codegen.githuboptions</code>
-        /// </remarks>
-        [HttpGet("{id}/GithubOptions")]
-        [SwaggerOperation("CodeGen/GithubOptions")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenGithubOptions)]
-        public async Task<ApiResult<ApiResourceGithubPublishRequest>> GithubOptions(string id)
-        {
-            var result = await GetGithubOptions(id);
-
-            var key = CodeGenControllerKeys.GithubOptions + id;
-
-            var cacheResult = await redis.GetAsync(key);
-
-            if (result != null)
-            {
-                return new ApiResult<ApiResourceGithubPublishRequest>(result);
-            }
-            else
-            {
-                return new ApiResult<ApiResourceGithubPublishRequest>(l, CodeGenControllerEnums.GithubOptions_GetOptionsFialed);
-            }
-        }
-        async Task<ApiResourceGithubPublishRequest> GetGithubOptions(string id)
-        {
-            var key = CodeGenControllerKeys.GithubOptions + id;
-
-            var cacheResult = await redis.GetAsync(key);
-
-            if (!string.IsNullOrWhiteSpace(cacheResult))
-            {
-                try
-                {
-                    var result = JsonConvert.DeserializeObject<ApiResourceGithubPublishRequest>(cacheResult);
-
-                    return result;
-                }
-
-                catch
-                {
-                    return null;
-                }
-            }
-
-            return null;
-        }
-        #endregion
-
-        #region 代码生成 - 更新Github设置
-        /// <summary>
-        ///  代码生成 - 更新Github设置
-        /// </summary>
-        /// <param name="id">微服务ID</param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.codegen.putgithuboptions</code>
-        /// 更新微服务的Github发布设置
-        /// </remarks>
-        [HttpPut("{id}/GithubOptions")]
-        [SwaggerOperation("CodeGen/PutGithubOptions")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenPutGithubOptions)]
-        public async Task<ApiResult<bool>> GithubOptions(string id, [FromBody]ApiResourceGithubPublishRequest value)
-        {
-            if (!ModelState.IsValid)
-            {
-                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
-                    ModelErrors());
-            }
-
-            var result = await SetGithubOptions(id, value);
-
-            return new ApiResult<bool>(result);
-        }
-        async Task<bool> SetGithubOptions(string id, ApiResourceGithubPublishRequest value)
-        {
-            var key = CodeGenControllerKeys.GithubOptions + id;
-
-            var cacheResult = JsonConvert.SerializeObject(value);
-
-            var result = await redis.SetAsync(key, cacheResult, null);
-
-            return result;
-        }
-        #endregion
-
-        #region 代码生成 - 生成
-        /// <summary>
-        /// 代码生成 - 生成
+        /// 代码生成 - SDK - 预览生成代码
         /// </summary>
         /// <remarks></remarks>
         /// <returns></returns>
@@ -592,141 +724,9 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 代码生成 - 同步Github
+        #region 代码生成 - SDK - 发布记录
         /// <summary>
-        ///  代码生成 - 同步Github
-        /// </summary>
-        /// <param name="id">微服务ID</param>
-        /// <returns></returns>
-        /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.codegen.putgithuboptions</code>
-        /// 更新微服务的Github发布设置
-        /// </remarks>
-        [HttpPut("{id}/SyncGithub")]
-        [SwaggerOperation("CodeGen/SyncGithub")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenSyncGithub)]
-        public async Task<ApiResult<bool>> SyncGithub(string id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
-                    ModelErrors());
-            }
-
-            var githubConfiguration = await GetGithubOptions(id);
-
-            if (githubConfiguration != null && !string.IsNullOrWhiteSpace(githubConfiguration.token))
-            {
-                if (githubConfiguration.syncLabels)
-                {
-                    await storageService.AddMessageAsync("apiresource-publish-github",
-                        JsonConvert.SerializeObject(githubConfiguration));
-                }
-
-                if (githubConfiguration.syncDocs)
-                {
-                    await storageService.AddMessageAsync("apiresource-publish-github-readthedocs",
-                        JsonConvert.SerializeObject(githubConfiguration));
-                }
-            }
-
-            return new ApiResult<bool>(true);
-        }
-
-        #endregion
-
-        #region 代码生成 - 基本信息设置
-        /// <summary>
-        ///  代码生成 - 基本信息设置
-        /// </summary>
-        /// <param name="id">微服务ID</param>
-        /// <returns></returns>
-        /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.codegen.commonoptions</code>
-        /// 生成SDK时需要的基本信息
-        /// </remarks>
-        [HttpGet("{id}/CommonOptions")]
-        [SwaggerOperation("CodeGen/CommonOptions")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenCommonOptions)]
-        public async Task<ApiResult<CodeGenCommonOptionsModel>> CommonOptions(string id)
-        {
-            var result = await _CommonOptions(id);
-
-            if (result != null)
-            {
-                return new ApiResult<CodeGenCommonOptionsModel>(result);
-            }
-            else
-            {
-                return new ApiResult<CodeGenCommonOptionsModel>(l, CodeGenControllerEnums.CommonOptions_GetOptionsFialed);
-            }
-        }
-        async Task<CodeGenCommonOptionsModel> _CommonOptions(string id)
-        {
-            var key = CodeGenControllerKeys.CommonOptions + id;
-
-            var cacheResult = await redis.GetAsync(key);
-
-            if (!string.IsNullOrWhiteSpace(cacheResult))
-            {
-                try
-                {
-                    var result = JsonConvert.DeserializeObject<CodeGenCommonOptionsModel>(cacheResult);
-
-                    return result;
-                }
-
-                catch
-                {
-                    return null;
-                }
-            }
-
-            return null;
-        }
-        #endregion
-
-        #region 代码生成 - 更新基本信息设置
-        /// <summary>
-        ///  代码生成 - 更新基本信息设置
-        /// </summary>
-        /// <param name="id">微服务ID</param>
-        /// <param name="value">package.json的内容字符串</param>
-        /// <returns></returns>
-        /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.codegen.putcommonoptions</code>
-        /// 更新基本信息设置
-        /// </remarks>
-        [HttpPut("{id}/CommonOptions")]
-        [SwaggerOperation("CodeGen/PutCommonOptions")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenPutCommonOptions)]
-        public async Task<ApiResult<bool>> PutCommonOptions(string id, [FromBody]CodeGenCommonOptionsModel value)
-        {
-            if (!ModelState.IsValid)
-            {
-                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
-                    ModelErrors());
-            }
-
-            var result = await _PutCommonOptions(id, value);
-
-            return new ApiResult<bool>(result);
-        }
-        async Task<bool> _PutCommonOptions(string id, CodeGenCommonOptionsModel value)
-        {
-            var key = CodeGenControllerKeys.CommonOptions + id;
-
-            var cacheResult = JsonConvert.SerializeObject(value);
-
-            var result = await redis.SetAsync(key, cacheResult, null);
-
-            return result;
-        }
-        #endregion
-
-        #region 代码生成 - SDK生成记录
-        /// <summary>
-        /// 微服务 - SDK生成记录
+        /// 代码生成 - SDK - 发布记录
         /// </summary>
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
@@ -755,9 +755,9 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 代码生成 - 添加SDK生成记录
+        #region 代码生成 - SDK - 添加记录
         /// <summary>
-        /// 代码生成 - 添加SDK生成记录
+        /// 代码生成 - SDK - 添加记录
         /// </summary>
         /// <param name="id">微服务的ID</param>
         /// <param name="value"></param>
