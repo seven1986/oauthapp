@@ -28,6 +28,11 @@ namespace IdentityServer4.MicroService.Models.Apis.CodeGenController
         /// </summary>
         [Required(ErrorMessage ="请填写swagger文档地址")]
         public string swaggerUrl { get; set; }
+
+        /// <summary>
+        /// 自定义标签
+        /// </summary>
+        public string tags { get; set; }
     }
 
     public enum Language

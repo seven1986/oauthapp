@@ -2101,6 +2101,11 @@
             swagger 文档地址
             </summary>
         </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.GenerateClientRequest.tags">
+            <summary>
+            自定义标签
+            </summary>
+        </member>
         <member name="F:IdentityServer4.MicroService.Models.Apis.CodeGenController.Language.angular2">
             <summary>
             angular2

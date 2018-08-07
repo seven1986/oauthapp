@@ -485,7 +485,7 @@ namespace IdentityServer4.MicroService.Apis
                 {
                     case PackagePlatform.npm:
 
-                        var PublishResult = ReleasePackage_NPM(templateDirectory, value.language, SdkCode, value.apiId);
+                        var PublishResult = ReleasePackage_NPM(templateDirectory, value.language, SdkCode, value.apiId, value.swaggerUrl, value.tags);
 
                         break;
 
@@ -505,7 +505,6 @@ namespace IdentityServer4.MicroService.Apis
                         break;
                 }
 
-
                 return new ApiResult<bool>(true);
             }
 
@@ -516,7 +515,7 @@ namespace IdentityServer4.MicroService.Apis
                     ex.Message);
             }
         }
-        async Task<bool> ReleasePackage_NPM(string templateDirectory, Language lan, string SdkCode, string apiId)
+        async Task<bool> ReleasePackage_NPM(string templateDirectory, Language lan, string SdkCode, string apiId,string swaggerUrl,string tags="")
         {
             #region 写SDK文件
             var fileName = string.Empty;
@@ -668,6 +667,16 @@ namespace IdentityServer4.MicroService.Apis
             options.version = newVersion;
 
             await SetNpmOptions(apiId, lan, options);
+
+            await PostHistory(apiId, new CodeGenHistoryRequest()
+            {
+                language = Enum.GetName(typeof(Language), lan),
+                releaseDate = DateTime.UtcNow.ToString(),
+                sdkName = options.name,
+                swaggerUrl = swaggerUrl,
+                tags = tags,
+                version = newVersion
+            });
 
             return true;
         }

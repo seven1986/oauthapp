@@ -883,9 +883,16 @@ namespace IdentityServer4.MicroService.Apis
                 return new ApiResult<ApiResourcePublishRequest>(l, BasicControllerEnums.NotFound);
             }
 
-            var result = await _PublishConfiguration(id);
+            try
+            {
+                var result = await _PublishConfiguration(id);
 
-            return new ApiResult<ApiResourcePublishRequest>(result);
+                return new ApiResult<ApiResourcePublishRequest>(result);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult<ApiResourcePublishRequest>(l, BasicControllerEnums.ExpectationFailed, ex.Message + ex.Source);
+            }
         }
 
         async Task<ApiResourcePublishRequest> _PublishConfiguration(long id)
