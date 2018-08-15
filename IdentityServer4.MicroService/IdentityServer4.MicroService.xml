@@ -1589,7 +1589,11 @@
             不存在的配置
             </summary>
         </member>
-        <!-- 对于成员“F:IdentityServer4.MicroService.Enums.CodeGenControllerEnums.CommonOptions_GetOptionsFialed”忽略有格式错误的 XML 注释 -->
+        <member name="F:IdentityServer4.MicroService.Enums.CodeGenControllerEnums.CommonOptions_GetOptionsFialed">
+            <summary>
+            不存在的配置
+            </summary>
+        </member>
         <member name="F:IdentityServer4.MicroService.Enums.CodeGenControllerEnums.History_PostFailed">
             <summary>
             添加历史记录失败

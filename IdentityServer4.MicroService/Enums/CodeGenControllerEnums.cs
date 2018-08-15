@@ -22,7 +22,7 @@ namespace IdentityServer4.MicroService.Enums
         [Description("不存在的配置")]
         GithubOptions_GetOptionsFialed = 200003,
 
-        // <summary>
+        /// <summary>
         /// 不存在的配置
         /// </summary>
         [Description("不存在的配置")]
