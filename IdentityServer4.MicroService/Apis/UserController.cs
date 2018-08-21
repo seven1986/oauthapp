@@ -332,10 +332,10 @@ namespace IdentityServer4.MicroService.Apis
 
                             if (DeleteEntities.Count() > 0)
                             {
-                                var sql = string.Format("DELETE AspNetUserClaims WHERE ID IN ({0})",
-                                            string.Join(",", DeleteEntities));
+                                //var sql = string.Format("DELETE AspNetUserClaims WHERE ID IN ({0})",
+                                //            string.Join(",", DeleteEntities));
 
-                                db.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                db.Database.ExecuteSqlCommand($"DELETE AspNetUserClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -346,10 +346,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                db.Database.ExecuteSqlCommand(
-                                  new RawSqlString("UPDATE AspNetUserClaims SET [ClaimType]=@Type,[ClaimValue]=@Value WHERE Id = " + x.Id),
-                                  new SqlParameter("@Type", x.ClaimType),
-                                  new SqlParameter("@Value", x.ClaimValue));
+                                db.Database.ExecuteSqlCommand($"UPDATE AspNetUserClaims SET [ClaimType]={x.ClaimType},[ClaimValue]={x.ClaimValue} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -360,11 +357,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                db.Database.ExecuteSqlCommand(
-                                  new RawSqlString("INSERT INTO AspNetUserClaims VALUES (@ClaimType,@ClaimValue,@UserId)"),
-                                  new SqlParameter("@ClaimType", x.ClaimType),
-                                  new SqlParameter("@ClaimValue", x.ClaimValue),
-                                  new SqlParameter("@UserId", source.Id));
+                                db.Database.ExecuteSqlCommand($"INSERT INTO AspNetUserClaims VALUES ({x.ClaimType},{x.ClaimValue},{source.Id})");
                             });
                         }
                         #endregion
@@ -382,10 +375,10 @@ namespace IdentityServer4.MicroService.Apis
 
                             if (DeleteEntities.Count() > 0)
                             {
-                                var sql = string.Format("DELETE AspNetUserFiles WHERE ID IN ({0})",
-                                            string.Join(",", DeleteEntities));
+                                //var sql = string.Format("DELETE AspNetUserFiles WHERE ID IN ({0})",
+                                //            string.Join(",", DeleteEntities));
 
-                                db.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                db.Database.ExecuteSqlCommand($"DELETE AspNetUserFiles WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -396,10 +389,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                db.Database.ExecuteSqlCommand(
-                                  new RawSqlString("UPDATE AspNetUserFiles SET [FileType]=@FileType,[Files]=@Files WHERE Id = " + x.Id),
-                                  new SqlParameter("@FileType", x.FileType),
-                                  new SqlParameter("@Files", x.Files));
+                                db.Database.ExecuteSqlCommand($"UPDATE AspNetUserFiles SET [FileType]={x.FileType},[Files]={x.Files} WHERE Id ={x.Id}");
                             });
                         }
                         #endregion
@@ -411,10 +401,7 @@ namespace IdentityServer4.MicroService.Apis
                             NewEntities.ForEach(x =>
                             {
                                 db.Database.ExecuteSqlCommand(
-                                  new RawSqlString("INSERT INTO AspNetUserFiles VALUES (@FileType,@Files,@AppUserId)"),
-                                  new SqlParameter("@FileType", x.FileType),
-                                  new SqlParameter("@Files", x.Files),
-                                  new SqlParameter("@AppUserId", source.Id));
+                                  $"INSERT INTO AspNetUserFiles VALUES ({x.FileType},{x.Files},{source.Id})");
                             });
                         }
                         #endregion
@@ -425,17 +412,15 @@ namespace IdentityServer4.MicroService.Apis
                     if (value.Roles != null && value.Roles.Count > 0)
                     {
                         #region delete
-                        var sql = $"DELETE AspNetUserRoles WHERE UserId = {source.Id}";
-                        db.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                        //var sql = $"DELETE AspNetUserRoles WHERE UserId = {source.Id}";
+                        db.Database.ExecuteSqlCommand($"DELETE AspNetUserRoles WHERE UserId = {source.Id}");
                         #endregion
 
                         #region insert
                         value.Roles.ForEach(x =>
                         {
                             db.Database.ExecuteSqlCommand(
-                              new RawSqlString("INSERT INTO AspNetUserRoles VALUES (@UserId,@RoleId)"),
-                              new SqlParameter("@UserId", source.Id),
-                              new SqlParameter("@RoleId", x.RoleId));
+                              $"INSERT INTO AspNetUserRoles VALUES ({source.Id},{x.RoleId})");
                         });
                         #endregion
                     }
@@ -452,10 +437,10 @@ namespace IdentityServer4.MicroService.Apis
 
                             if (DeleteEntities.Count() > 0)
                             {
-                                var sql = string.Format("DELETE AspNetUserProperties WHERE ID IN ({0})",
-                                            string.Join(",", DeleteEntities));
+                                //var sql = string.Format("DELETE AspNetUserProperties WHERE ID IN ({0})",
+                                //            string.Join(",", DeleteEntities));
 
-                                db.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                db.Database.ExecuteSqlCommand($"DELETE AspNetUserProperties WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -466,10 +451,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                db.Database.ExecuteSqlCommand(
-                                  new RawSqlString("UPDATE AspNetUserProperties SET [Key]=@Key,[Value]=@Value WHERE Id = " + x.Id),
-                                  new SqlParameter("@Key", x.Key),
-                                  new SqlParameter("@Value", x.Value));
+                                db.Database.ExecuteSqlCommand($"UPDATE AspNetUserProperties SET [Key]={x.Key},[Value]={x.Value} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -480,11 +462,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                db.Database.ExecuteSqlCommand(
-                                  new RawSqlString("INSERT INTO AspNetUserProperties VALUES (@Key,@UserId,@Value)"),
-                                  new SqlParameter("@Key", x.Key),
-                                  new SqlParameter("@UserId", source.Id),
-                                  new SqlParameter("@Value", x.Value));
+                                db.Database.ExecuteSqlCommand($"INSERT INTO AspNetUserProperties VALUES ({x.Key},{source.Id},{x.Value})");
                             });
                         }
                         #endregion

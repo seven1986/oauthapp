@@ -173,10 +173,10 @@ namespace IdentityServer4.MicroService.Apis
 
                             if (DeleteEntities.Count() > 0)
                             {
-                                var sql = string.Format("DELETE AspNetRoleClaims WHERE ID IN ({0})",
-                                            string.Join(",", DeleteEntities));
+                                //var sql = string.Format("DELETE AspNetRoleClaims WHERE ID IN ({0})",
+                                //            string.Join(",", DeleteEntities));
 
-                                db.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                db.Database.ExecuteSqlCommand($"DELETE AspNetRoleClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -187,18 +187,18 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                var sql = new RawSqlString("UPDATE AspNetRoleClaims SET [ClaimType]=@ClaimType,[ClaimValue]=@ClaimValue WHERE Id = " + x.Id);
+                                //var sql = new RawSqlString("UPDATE AspNetRoleClaims SET [ClaimType]=@ClaimType,[ClaimValue]=@ClaimValue WHERE Id = " + x.Id);
 
-                                var _params = new SqlParameter[]
-                                {
-                                    new SqlParameter("@ClaimType", DBNull.Value){  IsNullable=true },
-                                    new SqlParameter("@ClaimValue", DBNull.Value){  IsNullable=true },
-                                };
+                                //var _params = new SqlParameter[]
+                                //{
+                                //    new SqlParameter("@ClaimType", DBNull.Value){  IsNullable=true },
+                                //    new SqlParameter("@ClaimValue", DBNull.Value){  IsNullable=true },
+                                //};
 
-                                if (!string.IsNullOrWhiteSpace(x.ClaimType)) { _params[0].Value = x.ClaimType; }
-                                if (!string.IsNullOrWhiteSpace(x.ClaimValue)) { _params[1].Value = x.ClaimValue; }
+                                //if (!string.IsNullOrWhiteSpace(x.ClaimType)) { _params[0].Value = x.ClaimType; }
+                                //if (!string.IsNullOrWhiteSpace(x.ClaimValue)) { _params[1].Value = x.ClaimValue; }
 
-                                db.Database.ExecuteSqlCommand(sql, _params);
+                                db.Database.ExecuteSqlCommand($"UPDATE AspNetRoleClaims SET [ClaimType]={x.ClaimType},[ClaimValue]={x.ClaimValue} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -219,6 +219,7 @@ namespace IdentityServer4.MicroService.Apis
                                 };
 
                                 if (!string.IsNullOrWhiteSpace(x.ClaimType)) { _params[1].Value = x.ClaimType; }
+
                                 if (!string.IsNullOrWhiteSpace(x.ClaimValue)) { _params[2].Value = x.ClaimValue; }
 
                                 db.Database.ExecuteSqlCommand(sql, _params);

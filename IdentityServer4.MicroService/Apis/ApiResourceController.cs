@@ -314,10 +314,10 @@ namespace IdentityServer4.MicroService.Apis
 
                             if (DeleteEntities.Count() > 0)
                             {
-                                var sql = string.Format("DELETE ApiClaims WHERE ID IN ({0})",
-                                            string.Join(",", DeleteEntities));
+                                //var sql = string.Format("DELETE ApiClaims WHERE ID IN ({0})",
+                                //            string.Join(",", DeleteEntities));
 
-                                configDb.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                configDb.Database.ExecuteSqlCommand($"DELETE ApiClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -328,9 +328,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                configDb.Database.ExecuteSqlCommand(
-                                  new RawSqlString("UPDATE ApiClaims SET [Type]=@Type WHERE Id = " + x.Id),
-                                  new SqlParameter("@Type", x.Type));
+                                configDb.Database.ExecuteSqlCommand($"UPDATE ApiClaims SET [Type]={x.Type} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -341,10 +339,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                configDb.Database.ExecuteSqlCommand(
-                                  new RawSqlString("INSERT INTO ApiClaims VALUES (@ApiResourceId,@Type)"),
-                                  new SqlParameter("@ApiResourceId", source.Id),
-                                  new SqlParameter("@Type", x.Type));
+                                configDb.Database.ExecuteSqlCommand($"INSERT INTO ApiClaims VALUES ({source.Id},{x.Type})");
                             });
                         }
                         #endregion
@@ -362,10 +357,10 @@ namespace IdentityServer4.MicroService.Apis
 
                             if (DeleteEntities.Count() > 0)
                             {
-                                var sql = string.Format("DELETE ApiSecrets WHERE ID IN ({0})",
-                                            string.Join(",", DeleteEntities));
+                                //var sql = string.Format("DELETE ApiSecrets WHERE ID IN ({0})",
+                                //            string.Join(",", DeleteEntities));
 
-                                configDb.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                configDb.Database.ExecuteSqlCommand($"DELETE ApiSecrets WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -376,21 +371,21 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                var _params = new SqlParameter[] {
-                                  new SqlParameter("@Description", DBNull.Value) { IsNullable = true },
-                                  new SqlParameter("@Expiration", DBNull.Value) { IsNullable = true },
-                                  new SqlParameter("@Type",  DBNull.Value) { IsNullable = true },
-                                  new SqlParameter("@Value",  DBNull.Value) { IsNullable = true },
-                                };
+                                //var _params = new SqlParameter[] {
+                                //  new SqlParameter("@Description", DBNull.Value) { IsNullable = true },
+                                //  new SqlParameter("@Expiration", DBNull.Value) { IsNullable = true },
+                                //  new SqlParameter("@Type",  DBNull.Value) { IsNullable = true },
+                                //  new SqlParameter("@Value",  DBNull.Value) { IsNullable = true },
+                                //};
 
-                                if (!string.IsNullOrWhiteSpace(x.Description)) { _params[0].Value = x.Description; }
-                                if (x.Expiration.HasValue) { _params[1].Value = x.Expiration; }
-                                if (!string.IsNullOrWhiteSpace(x.Type)) { _params[2].Value = x.Type; }
-                                if (!string.IsNullOrWhiteSpace(x.Value)) { _params[3].Value = x.Value; }
+                                //if (!string.IsNullOrWhiteSpace(x.Description)) { _params[0].Value = x.Description; }
+                                //if (x.Expiration.HasValue) { _params[1].Value = x.Expiration; }
+                                //if (!string.IsNullOrWhiteSpace(x.Type)) { _params[2].Value = x.Type; }
+                                //if (!string.IsNullOrWhiteSpace(x.Value)) { _params[3].Value = x.Value; }
 
-                                var sql = new RawSqlString("UPDATE ApiSecrets SET [Description]=@Description,[Expiration]=@Expiration,[Type]=@Type,[Value]=@Value WHERE Id = " + x.Id);
+                                //var sql = new RawSqlString("UPDATE ApiSecrets SET [Description]=@Description,[Expiration]=@Expiration,[Type]=@Type,[Value]=@Value WHERE Id = " + x.Id);
 
-                                configDb.Database.ExecuteSqlCommand(sql, _params);
+                                configDb.Database.ExecuteSqlCommand($"UPDATE ApiSecrets SET [Description]={x.Description},[Expiration]={x.Expiration},[Type]={x.Type},[Value]={x.Value} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -401,22 +396,22 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                var _params = new SqlParameter[] {
-                                   new SqlParameter("@ApiResourceId", source.Id),
-                                   new SqlParameter("@Description", DBNull.Value) { IsNullable = true },
-                                   new SqlParameter("@Expiration", DBNull.Value) { IsNullable = true },
-                                   new SqlParameter("@Type", DBNull.Value){ IsNullable = true },
-                                   new SqlParameter("@Value", DBNull.Value){ IsNullable = true },
-                                };
+                                //var _params = new SqlParameter[] {
+                                //   new SqlParameter("@ApiResourceId", source.Id),
+                                //   new SqlParameter("@Description", DBNull.Value) { IsNullable = true },
+                                //   new SqlParameter("@Expiration", DBNull.Value) { IsNullable = true },
+                                //   new SqlParameter("@Type", DBNull.Value){ IsNullable = true },
+                                //   new SqlParameter("@Value", DBNull.Value){ IsNullable = true },
+                                //};
 
-                                if (!string.IsNullOrWhiteSpace(x.Description)) { _params[0].Value = x.Description; }
-                                if (x.Expiration.HasValue) { _params[1].Value = x.Expiration; }
-                                if (!string.IsNullOrWhiteSpace(x.Type)) { _params[2].Value = x.Type; }
-                                if (!string.IsNullOrWhiteSpace(x.Value)) { _params[3].Value = x.Value; }
+                                //if (!string.IsNullOrWhiteSpace(x.Description)) { _params[0].Value = x.Description; }
+                                //if (x.Expiration.HasValue) { _params[1].Value = x.Expiration; }
+                                //if (!string.IsNullOrWhiteSpace(x.Type)) { _params[2].Value = x.Type; }
+                                //if (!string.IsNullOrWhiteSpace(x.Value)) { _params[3].Value = x.Value; }
 
-                                var sql = new RawSqlString("INSERT INTO ApiSecrets VALUES (@ApiResourceId,@Description,@Expiration,@Type,@Value)");
+                                //var sql = new RawSqlString("INSERT INTO ApiSecrets VALUES (@ApiResourceId,@Description,@Expiration,@Type,@Value)");
 
-                                configDb.Database.ExecuteSqlCommand(sql, _params);
+                                configDb.Database.ExecuteSqlCommand($"INSERT INTO ApiSecrets VALUES ({source.Id},{x.Description},{x.Expiration},{x.Type},{x.Value})");
                             });
                         }
                         #endregion
@@ -434,15 +429,15 @@ namespace IdentityServer4.MicroService.Apis
 
                             if (DeleteEntities.Count() > 0)
                             {
-                                var sql = string.Format("DELETE ApiScopeClaims WHERE ApiScopeId IN ({0})",
-                                           string.Join(",", DeleteEntities));
+                                //var sql = string.Format("DELETE ApiScopeClaims WHERE ApiScopeId IN ({0})",
+                                //           string.Join(",", DeleteEntities));
 
-                                configDb.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                configDb.Database.ExecuteSqlCommand($"DELETE ApiScopeClaims WHERE ApiScopeId IN ({string.Join(",", DeleteEntities)})");
 
-                                sql = string.Format("DELETE ApiScopes WHERE ID IN ({0})",
-                                            string.Join(",", DeleteEntities));
+                                //sql = string.Format("DELETE ApiScopes WHERE ID IN ({0})",
+                                //            string.Join(",", DeleteEntities));
 
-                                configDb.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                configDb.Database.ExecuteSqlCommand($"DELETE ApiScopes WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -453,31 +448,27 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                var _params = new SqlParameter[] {
-                                  new SqlParameter("@Description", DBNull.Value) { IsNullable = true },
-                                  new SqlParameter("@DisplayName", DBNull.Value) { IsNullable = true },
-                                  new SqlParameter("@Emphasize", x.Emphasize),
-                                  new SqlParameter("@Name", x.Name),
-                                  new SqlParameter("@Required", x.Required),
-                                  new SqlParameter("@ShowInDiscoveryDocument", x.ShowInDiscoveryDocument)
-                                };
+                                //var _params = new SqlParameter[] {
+                                //  new SqlParameter("@Description", DBNull.Value) { IsNullable = true },
+                                //  new SqlParameter("@DisplayName", DBNull.Value) { IsNullable = true },
+                                //  new SqlParameter("@Emphasize", x.Emphasize),
+                                //  new SqlParameter("@Name", x.Name),
+                                //  new SqlParameter("@Required", x.Required),
+                                //  new SqlParameter("@ShowInDiscoveryDocument", x.ShowInDiscoveryDocument)
+                                //};
 
-                                if (!string.IsNullOrWhiteSpace(x.Description)) { _params[0].Value = x.Description; }
-                                if (!string.IsNullOrWhiteSpace(x.DisplayName)) { _params[1].Value = x.DisplayName; }
+                                //if (!string.IsNullOrWhiteSpace(x.Description)) { _params[0].Value = x.Description; }
+                                //if (!string.IsNullOrWhiteSpace(x.DisplayName)) { _params[1].Value = x.DisplayName; }
 
-                                var sql = new RawSqlString("UPDATE ApiScopes SET [Description]=@Description,[DisplayName]=@DisplayName,[Emphasize]=@Emphasize,[Name]=@Name,[Required]=@Required,[ShowInDiscoveryDocument]=@ShowInDiscoveryDocument WHERE Id = " + x.Id);
+                                //var sql = new RawSqlString("UPDATE ApiScopes SET [Description]=@Description,[DisplayName]=@DisplayName,[Emphasize]=@Emphasize,[Name]=@Name,[Required]=@Required,[ShowInDiscoveryDocument]=@ShowInDiscoveryDocument WHERE Id = " + x.Id);
 
-                                configDb.Database.ExecuteSqlCommand(sql, _params);
+                                configDb.Database.ExecuteSqlCommand($"UPDATE ApiScopes SET [Description]={x.Description},[DisplayName]={x.DisplayName},[Emphasize]={x.Emphasize},[Name]={x.Name},[Required]={x.Required},[ShowInDiscoveryDocument]={x.ShowInDiscoveryDocument} WHERE Id = {x.Id}");
 
-                                configDb.Database.ExecuteSqlCommand(
-                                    new RawSqlString("DELETE ApiScopeClaims WHERE ApiScopeId =" + x.Id));
+                                configDb.Database.ExecuteSqlCommand($"DELETE ApiScopeClaims WHERE ApiScopeId = {x.Id}");
 
                                 x.UserClaims.ForEach(claim =>
                                 {
-                                    configDb.Database.ExecuteSqlCommand(
-                                     new RawSqlString("INSERT INTO ApiScopeClaims VALUES (@ApiScopeId,@Type)"),
-                                     new SqlParameter("@ApiScopeId", x.Id),
-                                     new SqlParameter("@Type", claim.Type));
+                                    configDb.Database.ExecuteSqlCommand($"INSERT INTO ApiScopeClaims VALUES ({x.Id},{claim.Type})");
                                 });
                             });
                         }
