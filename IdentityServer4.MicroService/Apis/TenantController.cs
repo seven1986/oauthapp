@@ -245,10 +245,10 @@ namespace IdentityServer4.MicroService.Apis
 
                             if (DeleteEntities.Count() > 0)
                             {
-                                var sql = string.Format("DELETE AppTenantClaims WHERE ID IN ({0})",
-                                            string.Join(",", DeleteEntities));
+                                //var sql = string.Format("DELETE AppTenantClaims WHERE ID IN ({0})",
+                                //            string.Join(",", DeleteEntities));
 
-                                tenantDb.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                tenantDb.Database.ExecuteSqlCommand($"DELETE AppTenantClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -259,10 +259,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                tenantDb.Database.ExecuteSqlCommand(
-                                  new RawSqlString("UPDATE AppTenantClaims SET [ClaimType]=@Type,[ClaimValue]=@Value WHERE Id = " + x.Id),
-                                  new SqlParameter("@Type", x.ClaimType),
-                                  new SqlParameter("@Value", x.ClaimValue));
+                                tenantDb.Database.ExecuteSqlCommand($"UPDATE AppTenantClaims SET [ClaimType]={x.ClaimType},[ClaimValue]={x.ClaimValue} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -273,11 +270,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                tenantDb.Database.ExecuteSqlCommand(
-                                  new RawSqlString("INSERT INTO AppTenantClaims VALUES (@ClaimType,@ClaimValue,@AppTenantId)"),
-                                  new SqlParameter("@ClaimType", x.ClaimType),
-                                  new SqlParameter("@ClaimValue", x.ClaimValue),
-                                  new SqlParameter("@AppTenantId", source.Id));
+                                tenantDb.Database.ExecuteSqlCommand($"INSERT INTO AppTenantClaims VALUES ({x.ClaimType},{x.ClaimValue},{source.Id})");
                             });
                         }
                         #endregion
@@ -295,10 +288,10 @@ namespace IdentityServer4.MicroService.Apis
 
                             if (DeleteEntities.Count() > 0)
                             {
-                                var sql = string.Format("DELETE AppTenantProperties WHERE ID IN ({0})",
-                                            string.Join(",", DeleteEntities));
+                                //var sql = string.Format("DELETE AppTenantProperties WHERE ID IN ({0})",
+                                //            string.Join(",", DeleteEntities));
 
-                                tenantDb.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                tenantDb.Database.ExecuteSqlCommand($"DELETE AppTenantProperties WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -309,10 +302,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                tenantDb.Database.ExecuteSqlCommand(
-                                  new RawSqlString("UPDATE AppTenantProperties SET [Key]=@Key,[Value]=@Value WHERE Id = " + x.Id),
-                                  new SqlParameter("@Key", x.Key),
-                                  new SqlParameter("@Value", x.Value));
+                                tenantDb.Database.ExecuteSqlCommand($"UPDATE AppTenantProperties SET [Key]={x.Key},[Value]={x.Value} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -323,11 +313,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                tenantDb.Database.ExecuteSqlCommand(
-                                  new RawSqlString("INSERT INTO AppTenantProperties VALUES (@Key,@Value,@AppTenantId)"),
-                                  new SqlParameter("@Key", x.Key),
-                                  new SqlParameter("@Value", x.Value),
-                                  new SqlParameter("@AppTenantId", source.Id));
+                                tenantDb.Database.ExecuteSqlCommand($"INSERT INTO AppTenantProperties VALUES ({x.Key},{x.Value},{source.Id})");
                             });
                         }
                         #endregion
@@ -345,10 +331,10 @@ namespace IdentityServer4.MicroService.Apis
 
                             if (DeleteEntities.Count() > 0)
                             {
-                                var sql = string.Format("DELETE AppTenantHosts WHERE ID IN ({0})",
-                                            string.Join(",", DeleteEntities));
+                                //var sql = string.Format("DELETE AppTenantHosts WHERE ID IN ({0})",
+                                //            string.Join(",", DeleteEntities));
 
-                                tenantDb.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                tenantDb.Database.ExecuteSqlCommand($"DELETE AppTenantHosts WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -359,9 +345,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                tenantDb.Database.ExecuteSqlCommand(
-                                  new RawSqlString("UPDATE AppTenantHosts SET [HostName]=@HostName WHERE Id = " + x.Id),
-                                  new SqlParameter("@HostName", x.HostName));
+                                tenantDb.Database.ExecuteSqlCommand($"UPDATE AppTenantHosts SET [HostName]= {x.HostName} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -372,10 +356,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                tenantDb.Database.ExecuteSqlCommand(
-                                  new RawSqlString("INSERT INTO AppTenantHosts VALUES (@AppTenantId,@HostName)"),
-                                  new SqlParameter("@HostName", x.HostName),
-                                  new SqlParameter("@AppTenantId", source.Id));
+                                tenantDb.Database.ExecuteSqlCommand($"INSERT INTO AppTenantHosts VALUES ({source.Id},{x.HostName})");
                             });
                         }
                         #endregion
@@ -426,7 +407,7 @@ namespace IdentityServer4.MicroService.Apis
 
             await tenantDb.SaveChangesAsync();
 
-            tenantDb.Database.ExecuteSqlCommand(new RawSqlString("DELETE AspNetUserTenants WHERE AppTenantId = " + id));
+            tenantDb.Database.ExecuteSqlCommand($"DELETE AspNetUserTenants WHERE AppTenantId = {id}");
 
             return new ApiResult<long>(id);
         }

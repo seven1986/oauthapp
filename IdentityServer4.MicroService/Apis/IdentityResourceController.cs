@@ -225,10 +225,10 @@ namespace IdentityServer4.MicroService.Apis
 
                             if (DeleteEntities.Count() > 0)
                             {
-                                var sql = string.Format("DELETE IdentityClaims WHERE ID IN ({0})",
-                                            string.Join(",", DeleteEntities));
+                                //var sql = string.Format("DELETE IdentityClaims WHERE ID IN ({0})",
+                                //            string.Join(",", DeleteEntities));
 
-                                configDb.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                                configDb.Database.ExecuteSqlCommand($"DELETE IdentityClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -239,9 +239,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                configDb.Database.ExecuteSqlCommand(
-                                  new RawSqlString("UPDATE IdentityClaims SET [Type]=@Type WHERE Id = " + x.Id),
-                                  new SqlParameter("@Type", x.Type));
+                                configDb.Database.ExecuteSqlCommand($"UPDATE IdentityClaims SET [Type]={x.Type} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -252,10 +250,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                configDb.Database.ExecuteSqlCommand(
-                                  new RawSqlString("INSERT INTO IdentityClaims VALUES (@IdentityResourceId,@Type)"),
-                                  new SqlParameter("@IdentityResourceId", source.Id),
-                                  new SqlParameter("@Type", x.Type));
+                                configDb.Database.ExecuteSqlCommand($"INSERT INTO IdentityClaims VALUES ({source.Id},{x.Type})");
                             });
                         }
                         #endregion
