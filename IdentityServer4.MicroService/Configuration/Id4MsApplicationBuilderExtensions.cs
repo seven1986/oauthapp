@@ -5,7 +5,6 @@ using IdentityServer4.MicroService.Tenant;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -38,27 +37,19 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder.Services.Configure<ConnectionStrings>(ConnectionSection);
 
-            //注册Lazy
-            builder.Services.TryAddTransient(typeof(Lazy<>));
-
-            builder.Services.AddMemoryCache();
-
             builder
-                .AddAppUserMD5PasswordHasher()
-                .AddRedisService()
-                .AddTenantService()
-                .AddSwaggerCodeGenService()
-                .AddAzureStorageService()
-                .AddApiLoggerService()
+                .AddCoreService()
                 .AddAuthorization()
                 .AddEmailService(configuration.GetSection("MessageSender:Email"))
                 .AddSmsService(configuration.GetSection("MessageSender:Sms"));
+
+            builder.Services.AddMemoryCache();
 
             return builder;
         }
 
         /// <summary>
-        /// Configures EF implementation of IPersistedGrantStore with IdentityServer.
+        /// Configures EF implementation of TenantStore with IdentityServer.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="storeOptionsAction">The store options action.</param>
@@ -74,7 +65,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// Configures EF implementation of IPersistedGrantStore with IdentityServer.
+        /// Configures EF implementation of IdentityStore with IdentityServer.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="storeOptionsAction">The store options action.</param>

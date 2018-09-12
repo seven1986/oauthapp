@@ -2892,42 +2892,7 @@
             属性集合
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddAppUserMD5PasswordHasher(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder)">
-            <summary>
-            Adds the required platform services.
-            </summary>
-            <param name="builder">The builder.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddApiLoggerService(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder)">
-            <summary>
-            Adds the required platform services.
-            </summary>
-            <param name="builder">The builder.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddRedisService(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder)">
-            <summary>
-            Adds the required platform services.
-            </summary>
-            <param name="builder">The builder.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddTenantService(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder)">
-            <summary>
-            Adds the required platform services.
-            </summary>
-            <param name="builder">The builder.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddSwaggerCodeGenService(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder)">
-            <summary>
-            Adds the required platform services.
-            </summary>
-            <param name="builder">The builder.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddAzureStorageService(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddCoreService(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder)">
             <summary>
             Adds the required platform services.
             </summary>
@@ -2986,7 +2951,7 @@
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddTenantStore(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">
             <summary>
-            Configures EF implementation of IPersistedGrantStore with IdentityServer.
+            Configures EF implementation of TenantStore with IdentityServer.
             </summary>
             <param name="builder">The builder.</param>
             <param name="storeOptionsAction">The store options action.</param>
@@ -2994,7 +2959,7 @@
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityStore(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})">
             <summary>
-            Configures EF implementation of IPersistedGrantStore with IdentityServer.
+            Configures EF implementation of IdentityStore with IdentityServer.
             </summary>
             <param name="builder">The builder.</param>
             <param name="storeOptionsAction">The store options action.</param>

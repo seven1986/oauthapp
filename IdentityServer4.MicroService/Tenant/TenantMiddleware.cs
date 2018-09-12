@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication;
 using System.Linq;
 using System;
 using Microsoft.Extensions.Caching.Memory;
+using IdentityServer4.AccessTokenValidation;
+using Microsoft.Extensions.Options;
 
 namespace IdentityServer4.MicroService.Tenant
 {
@@ -18,22 +20,22 @@ namespace IdentityServer4.MicroService.Tenant
 
         public TenantMiddleware(
             RequestDelegate next,
-            Lazy<TenantService> tenantService,
-            Lazy<IAuthenticationSchemeProvider> oauthProvider,
-            Lazy<IMemoryCache> memoryCache,
-            Lazy<IdentityServerOptions> identityServerOptions
-            )
+            TenantService tenantService,
+            IAuthenticationSchemeProvider oauthProvider,
+            IMemoryCache memoryCache,
+            IdentityServerOptions identityServerOptions)
         {
             _next = next;
-            _tenantService = tenantService.Value;
-            _oauthProvider = oauthProvider.Value;
-            _memoryCache = memoryCache.Value;
-            _identityServerOptions = identityServerOptions.Value;
+            _tenantService = tenantService;
+            _oauthProvider = oauthProvider;
+            _memoryCache = memoryCache;
+            _identityServerOptions = identityServerOptions;
         }
 
         public Task Invoke(
             HttpContext context,
-            TenantDbContext _db)
+            TenantDbContext _db,
+            IOptionsMonitor<IdentityServerAuthenticationOptions> identityServerAuthenticationOptions)
         {
             var tenant = _tenantService.GetTenant(_db,
                 context.Request.Host.Value);
@@ -53,6 +55,10 @@ namespace IdentityServer4.MicroService.Tenant
 
                 #region IssuerUri
                 _identityServerOptions.IssuerUri = context.Request.Scheme + "://" + tenant.Item2.IdentityServerIssuerUri;
+                #endregion
+
+                #region AuthorityUri
+                identityServerAuthenticationOptions.CurrentValue.Authority = _identityServerOptions.IssuerUri; 
                 #endregion
 
                 #region ResetOAuthOptions
@@ -89,7 +95,6 @@ namespace IdentityServer4.MicroService.Tenant
                             _oauthProvider.AddScheme(authScheme);
                         }
                     }
-
 
                     _memoryCache.Set(reflushFlagCacheKey,
                         "1",

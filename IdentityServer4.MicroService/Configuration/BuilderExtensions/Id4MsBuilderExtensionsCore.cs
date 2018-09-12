@@ -18,70 +18,14 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <returns></returns>
-        public static IId4MsServiceBuilder AddAppUserMD5PasswordHasher(this IId4MsServiceBuilder builder)
+        public static IId4MsServiceBuilder AddCoreService(this IId4MsServiceBuilder builder)
         {
             builder.Services.AddScoped<IPasswordHasher<AppUser>, IdentityMD5PasswordHasher>();
-
-            return builder;
-        }
-
-        /// <summary>
-        /// Adds the required platform services.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <returns></returns>
-        public static IId4MsServiceBuilder AddApiLoggerService(this IId4MsServiceBuilder builder)
-        {
             builder.Services.AddScoped<ApiLoggerService>();
-
-            return builder;
-        }
-
-        /// <summary>
-        /// Adds the required platform services.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <returns></returns>
-        public static IId4MsServiceBuilder AddRedisService(this IId4MsServiceBuilder builder)
-        {
-            builder.Services.AddSingleton<RedisService>();
-
-            return builder;
-        }
-
-        /// <summary>
-        /// Adds the required platform services.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <returns></returns>
-        public static IId4MsServiceBuilder AddTenantService(this IId4MsServiceBuilder builder)
-        {
             builder.Services.AddSingleton<TenantService>();
-
-            return builder;
-        }
-
-        /// <summary>
-        /// Adds the required platform services.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <returns></returns>
-        public static IId4MsServiceBuilder AddSwaggerCodeGenService(this IId4MsServiceBuilder builder)
-        {
+            builder.Services.AddSingleton<RedisService>();
             builder.Services.AddSingleton<SwaggerCodeGenService>();
-
-            return builder;
-        }
-
-        /// <summary>
-        /// Adds the required platform services.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <returns></returns>
-        public static IId4MsServiceBuilder AddAzureStorageService(this IId4MsServiceBuilder builder)
-        {
             builder.Services.AddSingleton<AzureStorageService>();
-
             return builder;
         }
 

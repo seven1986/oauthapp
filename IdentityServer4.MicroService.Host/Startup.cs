@@ -84,7 +84,7 @@ namespace IdentityServer4.MicroService.Host
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
                     builder.AllowAnyOrigin(); 
-                    //builder.AllowCredentials();
+                    builder.AllowCredentials();
                 });
             });
             #endregion
@@ -260,7 +260,7 @@ namespace IdentityServer4.MicroService.Host
             services.AddIdentityServer(config =>
             {
                 // keep same Issuer for banlancer
-                config.IssuerUri = "https://" + Configuration["IdentityServer"];
+                // config.IssuerUri = "https://" + Configuration["IdentityServer"];
                 // config.PublicOrigin = "";
                 // config.Discovery.CustomEntries.Add("custom_endpoint", "~/api/custom");
             })
