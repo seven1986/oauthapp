@@ -26,7 +26,6 @@ using Newtonsoft.Json.Serialization;
 using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.Data;
 using Swashbuckle.AspNetCore.Swagger;
-using IdentityServer4.MicroService.Host.Filters;
 using Microsoft.Net.Http.Headers;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -207,8 +206,6 @@ namespace IdentityServer4.MicroService.Host
                             { MicroserviceConfig.MicroServiceName+ ".all","所有接口权限"},
                         }
                     });
-
-                c.OperationFilter<FormFileOperationFilter>();
 
                 var provider = services.BuildServiceProvider()
                                .GetRequiredService<IApiVersionDescriptionProvider>();
