@@ -2966,6 +2966,16 @@
             <param name="identityOptions">The identity options action.</param>
             <returns></returns>
         </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddSqlCache(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,System.String,System.String,System.String)">
+            <summary>
+            Configures SqlCache Service
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="connection">database connection string</param>
+            <param name="schemaName">table schemaName</param>
+            <param name="tableName">table name</param>
+            <returns></returns>
+        </member>
         <member name="P:Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder.Services">
             <summary>
             Gets the services.

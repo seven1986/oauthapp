@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Authorization;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace IdentityServer4.MicroService.Apis
 {

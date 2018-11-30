@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.MicroService.Data;
@@ -25,6 +24,7 @@ using IdentityServer4.MicroService.Models.Apis.UserController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 using static IdentityServer4.MicroService.AppDefaultData;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace IdentityServer4.MicroService.Apis
 {

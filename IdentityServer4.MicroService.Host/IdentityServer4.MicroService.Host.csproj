@@ -5,6 +5,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Authors>Seven1986</Authors>
     <RepositoryUrl>https://github.com/seven1986/IdentityServer4.MicroService</RepositoryUrl>
+    <UserSecretsId>c29066c6-4d72-4dbe-b918-7dcbed668f6b</UserSecretsId>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

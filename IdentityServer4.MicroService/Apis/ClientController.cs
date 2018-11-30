@@ -17,6 +17,7 @@ using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.ClientController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace IdentityServer4.MicroService.Apis
 {

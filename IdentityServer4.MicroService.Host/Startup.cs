@@ -28,6 +28,7 @@ using IdentityServer4.MicroService.Data;
 using Swashbuckle.AspNetCore.Swagger;
 using IdentityServer4.MicroService.Host.Filters;
 using Microsoft.Net.Http.Headers;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace IdentityServer4.MicroService.Host
 {
@@ -170,6 +171,8 @@ namespace IdentityServer4.MicroService.Host
             #region SwaggerGen
             services.AddSwaggerGen(c =>
             {
+                c.EnableAnnotations();
+
                 // c.TagActionsBy(x => x.RelativePath.Split('/')[0]);
 
                 c.AddSecurityDefinition("SubscriptionKey",
@@ -229,6 +232,8 @@ namespace IdentityServer4.MicroService.Host
                         // },
                         // Description = "Swagger document",
                     });
+
+                    c.CustomSchemaIds(x => x.FullName);
                 }
 
                 var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, assemblyName + ".xml");
@@ -252,7 +257,8 @@ namespace IdentityServer4.MicroService.Host
                     .AddIdentityStore(DbContextOptions, opts =>
                     {
                         //opts.SignIn.RequireConfirmedEmail = true;
-                    });
+                    })
+                    .AddSqlCache(DBConnection);
             #endregion
 
             #region IdentityServer

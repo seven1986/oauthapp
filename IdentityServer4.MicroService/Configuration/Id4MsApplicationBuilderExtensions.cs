@@ -84,5 +84,27 @@ namespace Microsoft.Extensions.DependencyInjection
 
             return builder;
         }
+
+        /// <summary>
+        /// Configures SqlCache Service
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="connection">database connection string</param>
+        /// <param name="schemaName">table schemaName</param>
+        /// <param name="tableName">table name</param>
+        /// <returns></returns>
+        public static IId4MsServiceBuilder AddSqlCache(
+           this IId4MsServiceBuilder builder,
+           string connection,string schemaName= "dbo", string tableName= "AppCache")
+        {
+            builder.Services.AddDistributedSqlServerCache(options =>
+            {
+                options.ConnectionString = connection;
+                options.SchemaName = schemaName;
+                options.TableName = tableName;
+            });
+
+            return builder;
+        }
     }
 }
