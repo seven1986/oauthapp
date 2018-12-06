@@ -2,7 +2,7 @@
 
 ##### 首先要注释Startup.cs里的下面代码！
 ```
-1，InitialDBConfig.InitializeDatabase(app);
+1，AppDefaultData.InitializeDatabase(app);
 2，app.UseIdentityServer4MicroService();
 ```
 

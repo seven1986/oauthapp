@@ -7,7 +7,7 @@ using AspNet.Security.OAuth.Reddit;
 using AspNet.Security.OAuth.Salesforce;
 using AspNet.Security.OAuth.VisualStudio;
 using AspNet.Security.OAuth.WordPress;
-using IdentityServer4.MicroService;
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Authentication.GitHub;
@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Authentication.QQ;
 using Microsoft.AspNetCore.Authentication.Twitter;
 using Microsoft.AspNetCore.Authentication.Weibo;
 using Microsoft.AspNetCore.Authentication.Weixin;
+using System.Collections.Generic;
+using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -31,182 +33,255 @@ namespace Microsoft.Extensions.DependencyInjection
         // https://docs.microsoft.com/zh-cn/aspnet/core/security/authentication/social/google-logins
         // https://docs.microsoft.com/zh-cn/aspnet/core/security/authentication/social/twitter-logins
 
+        const string unconfig = "unconfig";
+
         /// <summary>
         /// Creates a builder.
         /// </summary>
         /// <param name="authBuilder">The services.</param>
+        /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
-        public static void AddIdentityServer4MicroServiceOAuths(this AuthenticationBuilder authBuilder)
+        public static void AddIdentityServer4MicroServiceOAuths(this AuthenticationBuilder authBuilder, IConfiguration configuration)
         {
             #region Amazon (/signin-amazon)
-            authBuilder.AddAmazon(x =>
+            var amazon_options = configuration.GetSection("OAuth:Amazon").Get<AmazonAuthenticationOptions>();
+            if (amazon_options != null)
             {
-                var ClientId = $"{AmazonAuthenticationDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{AmazonAuthenticationDefaults.AuthenticationScheme}:ClientSecret";
-                x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(AmazonAuthenticationDefaults.AuthenticationScheme, typeof(AmazonAuthenticationHandler));
+
+                authBuilder.AddAmazon(x =>
+                {
+                    x.ClientId = amazon_options.ClientId ?? unconfig;
+                    x.ClientSecret = amazon_options.ClientSecret ?? unconfig;
+                });
+            }
             #endregion
 
             #region Facebook (/signin-facebook)
-            authBuilder.AddFacebook2(x =>
+            var facebook_options = configuration.GetSection("OAuth:Facebook").Get<FacebookOptions>();
+            if (facebook_options != null)
             {
-                var ClientId = $"{FacebookDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{FacebookDefaults.AuthenticationScheme}:ClientSecret";
-                x.AppId = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.AppSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(FacebookDefaults.AuthenticationScheme, typeof(FacebookHandler2));
+
+                authBuilder.AddFacebook2(x =>
+                {
+                    x.AppId = facebook_options.ClientId ?? unconfig;
+                    x.AppSecret = facebook_options.ClientSecret ?? unconfig;
+                });
+            }
             #endregion
 
             #region GitHub (/signin-github)
-            authBuilder.AddGitHub(x =>
+            var github_options = configuration.GetSection("OAuth:GitHub").Get<GitHubOptions>();
+            if (github_options != null)
             {
-                var ClientId = $"{GitHubDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{GitHubDefaults.AuthenticationScheme}:ClientSecret";
-                x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(GitHubDefaults.AuthenticationScheme, typeof(GitHubHandler));
+
+                authBuilder.AddGitHub(x =>
+                {
+                    x.ClientId = github_options.ClientId ?? unconfig;
+                    x.ClientSecret = github_options.ClientSecret ?? unconfig;
+                });
+            }
             #endregion
 
             #region Gitter (/signin-gitter)
-            authBuilder.AddGitter(x =>
+            var gitter_options = configuration.GetSection("OAuth:Gitter").Get<GitterAuthenticationOptions>();
+            if (gitter_options != null)
             {
-                var ClientId = $"{GitterAuthenticationDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{GitterAuthenticationDefaults.AuthenticationScheme}:ClientSecret";
-                x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(GitterAuthenticationDefaults.AuthenticationScheme, typeof(GitterAuthenticationHandler));
+
+                authBuilder.AddGitter(x =>
+                {
+                    x.ClientId = gitter_options.ClientId ?? unconfig;
+                    x.ClientSecret = gitter_options.ClientSecret ?? unconfig;
+                });
+            }
             #endregion
 
             #region Google (/signin-google)
-            authBuilder.AddGoogle2(x =>
+            var google_options = configuration.GetSection("OAuth:Google").Get<GoogleOptions>();
+            if (google_options != null)
             {
-                var ClientId = $"{GoogleDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{GoogleDefaults.AuthenticationScheme}:ClientSecret";
-                x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(GoogleDefaults.AuthenticationScheme, typeof(GoogleHandler2));
+
+                authBuilder.AddGoogle2(x =>
+                {
+                    x.ClientId = google_options.ClientId ?? unconfig;
+                    x.ClientSecret = google_options.ClientSecret ?? unconfig;
+                });
+            }
             #endregion
 
             #region Instagram (/signin-instagram)
-            authBuilder.AddInstagram(x =>
+            var instagram_options = configuration.GetSection("OAuth:Instagram").Get<InstagramAuthenticationOptions>();
+            if (instagram_options != null)
             {
-                var ClientId = $"{InstagramAuthenticationDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{InstagramAuthenticationDefaults.AuthenticationScheme}:ClientSecret";
-                x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(InstagramAuthenticationDefaults.AuthenticationScheme, typeof(InstagramAuthenticationHandler));
+
+                authBuilder.AddInstagram(x =>
+                {
+                    x.ClientId = instagram_options.ClientId ?? unconfig;
+                    x.ClientSecret = instagram_options.ClientSecret ?? unconfig;
+                });
+            }
             #endregion
 
             #region LinkedIn (/signin-linkedin)
-            authBuilder.AddLinkedIn(x =>
+            var linkedin_options = configuration.GetSection("OAuth:LinkedIn").Get<LinkedInAuthenticationOptions>();
+            if (linkedin_options != null)
             {
-                var ClientId = $"{LinkedInAuthenticationDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{LinkedInAuthenticationDefaults.AuthenticationScheme}:ClientSecret";
-                x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(LinkedInAuthenticationDefaults.AuthenticationScheme, typeof(LinkedInAuthenticationHandler));
+
+                authBuilder.AddLinkedIn(x =>
+                {
+                    x.ClientId = linkedin_options.ClientId ?? unconfig;
+                    x.ClientSecret = linkedin_options.ClientSecret ?? unconfig;
+                });
+            }
             #endregion
 
             #region MicrosoftAccount (/signin-microsoft)
-            authBuilder.AddMicrosoftAccount2(x =>
+            var microsoft_options = configuration.GetSection("OAuth:MicrosoftAccount").Get<MicrosoftAccountOptions>();
+            if (microsoft_options != null)
             {
-                var ClientId = $"{MicrosoftAccountDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{MicrosoftAccountDefaults.AuthenticationScheme}:ClientSecret";
-                x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(MicrosoftAccountDefaults.AuthenticationScheme, typeof(MicrosoftAccountHandler2));
+
+                authBuilder.AddMicrosoftAccount2(x =>
+                {
+                    x.ClientId = microsoft_options.ClientId ?? unconfig;
+                    x.ClientSecret = microsoft_options.ClientSecret ?? unconfig;
+                });
+            }
             #endregion
 
             #region Paypal (/signin-paypal)
-            authBuilder.AddPaypal(x =>
+            var paypal_options = configuration.GetSection("OAuth:Paypal").Get<PaypalAuthenticationOptions>();
+            if (paypal_options != null)
             {
-                var ClientId = $"{PaypalAuthenticationDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{PaypalAuthenticationDefaults.AuthenticationScheme}:ClientSecret";
-                x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(PaypalAuthenticationDefaults.AuthenticationScheme, typeof(PaypalAuthenticationHandler));
+
+                authBuilder.AddPaypal(x =>
+                {
+                    x.ClientId = paypal_options.ClientId ?? unconfig;
+                    x.ClientSecret = paypal_options.ClientSecret ?? unconfig;
+                });
+            }
             #endregion
 
             #region QQ (/signin-qq)
-            authBuilder.AddQQ(x =>
+            var qq_options = configuration.GetSection("OAuth:QQ").Get<QQOptions>();
+            if (qq_options != null)
             {
-                var ClientId = $"{QQDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{QQDefaults.AuthenticationScheme}:ClientSecret";
-                x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(QQDefaults.AuthenticationScheme, typeof(QQHandler));
+
+                authBuilder.AddQQ(x =>
+                {
+                    x.ClientId = qq_options.ClientId ?? unconfig;
+                    x.ClientSecret = qq_options.ClientSecret ?? unconfig;
+                });
+            }
             #endregion
 
             #region Reddit (/signin-reddit)
-            authBuilder.AddReddit(x =>
+            var reddit_options = configuration.GetSection("OAuth:Reddit").Get<RedditAuthenticationOptions>();
+            if (reddit_options != null)
             {
-                var ClientId = $"{RedditAuthenticationDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{RedditAuthenticationDefaults.AuthenticationScheme}:ClientSecret";
-                x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(RedditAuthenticationDefaults.AuthenticationScheme, typeof(RedditAuthenticationHandler));
+
+                authBuilder.AddReddit(x =>
+                {
+                    x.ClientId = reddit_options.ClientId ?? unconfig;
+                    x.ClientSecret = reddit_options.ClientSecret ?? unconfig;
+                });
+            }
             #endregion
 
             #region Salesforce (/signin-salesforce)
-            authBuilder.AddSalesforce(x =>
+            var salesforce_options = configuration.GetSection("OAuth:Salesforce").Get<SalesforceAuthenticationOptions>();
+            if (salesforce_options != null)
             {
-                var ClientId = $"{SalesforceAuthenticationDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{SalesforceAuthenticationDefaults.AuthenticationScheme}:ClientSecret";
-                x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(SalesforceAuthenticationDefaults.AuthenticationScheme, typeof(SalesforceAuthenticationHandler));
+
+                authBuilder.AddSalesforce(x =>
+                {
+                    x.ClientId = salesforce_options.ClientId ?? unconfig;
+                    x.ClientSecret = salesforce_options.ClientSecret ?? unconfig;
+                });
+            }
             #endregion
 
             #region Twitter (/signin-twitter)
-            authBuilder.AddTwitter2(x =>
+            var twitter_options = configuration.GetSection("OAuth:Twitter").Get<TwitterOptions>();
+            if (twitter_options != null)
             {
-                var ClientId = $"{TwitterDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{TwitterDefaults.AuthenticationScheme}:ClientSecret";
-                x.ConsumerKey = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.ConsumerSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(TwitterDefaults.AuthenticationScheme, typeof(TwitterHandler2));
+
+                authBuilder.AddTwitter2(x =>
+                {
+                    x.ConsumerKey = twitter_options.ConsumerKey ?? unconfig;
+                    x.ConsumerSecret = twitter_options.ConsumerSecret ?? unconfig;
+                });
+            }
             #endregion
 
             #region VisualStudio (/signin-visualstudio)
-            authBuilder.AddVisualStudio(x =>
+            var visualstudio_options = configuration.GetSection("OAuth:VisualStudio").Get<VisualStudioAuthenticationOptions>();
+            if (visualstudio_options != null)
             {
-                var ClientId = $"{VisualStudioAuthenticationDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{VisualStudioAuthenticationDefaults.AuthenticationScheme}:ClientSecret";
-                x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(VisualStudioAuthenticationDefaults.AuthenticationScheme, typeof(VisualStudioAuthenticationHandler));
+
+                authBuilder.AddVisualStudio(x =>
+                {
+                    x.ClientId = visualstudio_options.ClientId ?? unconfig;
+                    x.ClientSecret = visualstudio_options.ClientSecret ?? unconfig;
+                });
+            }
             #endregion
 
             #region Weibo (/signin-weibo)
-            authBuilder.AddWeibo(x =>
+            var weibo_options = configuration.GetSection("OAuth:Weibo").Get<WeiboOptions>();
+            if (weibo_options != null)
             {
-                var ClientId = $"{WeiboDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{WeiboDefaults.AuthenticationScheme}:ClientSecret";
-                x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(WeiboDefaults.AuthenticationScheme, typeof(WeiboHandler));
+
+                authBuilder.AddWeibo(x =>
+                {
+                    x.ClientId = weibo_options.ClientId ?? unconfig;
+                    x.ClientSecret = weibo_options.ClientSecret ?? unconfig;
+                });
+            }
             #endregion
 
             #region Weixin (/signin-weixin)
-            authBuilder.AddWeixin(x =>
+            var weixin_options = configuration.GetSection("OAuth:Weixin").Get<WeixinOptions>();
+            if (weixin_options != null)
             {
-                var ClientId = $"{WeixinDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{WeixinDefaults.AuthenticationScheme}:ClientSecret";
-                x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(WeixinDefaults.AuthenticationScheme, typeof(WeixinHandler));
+
+                authBuilder.AddWeixin(x =>
+                {
+                    x.ClientId = weixin_options.ClientId ?? unconfig;
+                    x.ClientSecret = weixin_options.ClientSecret ?? unconfig;
+                });
+            }
             #endregion
 
-            #region WordPress (/signin-visualstudio)
-            authBuilder.AddWordPress(x =>
+            #region WordPress (/signin-wordpress)
+            var wordpress_options = configuration.GetSection("OAuth:WordPress").Get<WordPressAuthenticationOptions>();
+            if (wordpress_options != null)
             {
-                var ClientId = $"{WordPressAuthenticationDefaults.AuthenticationScheme}:ClientId";
-                var ClientSecret = $"{WordPressAuthenticationDefaults.AuthenticationScheme}:ClientSecret";
-                x.ClientId = AppDefaultData.Tenant.TenantProperties[ClientId];
-                x.ClientSecret = AppDefaultData.Tenant.TenantProperties[ClientSecret];
-            });
+                Handlers.Add(WordPressAuthenticationDefaults.AuthenticationScheme, typeof(WordPressAuthenticationHandler));
+
+                authBuilder.AddWordPress(x =>
+                {
+                    x.ClientId = wordpress_options.ClientId ?? unconfig;
+                    x.ClientSecret = wordpress_options.ClientSecret ?? unconfig;
+                });
+            }
             #endregion
         }
+
+        public static readonly Dictionary<string, Type> Handlers = new Dictionary<string, Type>();
     }
 }

@@ -12,6 +12,7 @@ using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -75,7 +76,7 @@ namespace IdentityServer4.MicroService.Apis
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.FilePost)]
         [SwaggerOperation("File/Post")]
-        public async Task<ApiResult<string>> Post([FromForm]IFormFile value)
+        public async Task<ApiResult<string>> Post(IFormFile value)
         {
             if (value == null)
             {
@@ -143,7 +144,7 @@ namespace IdentityServer4.MicroService.Apis
         [HttpPost("Image")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.FileImage)]
         [SwaggerOperation("File/Image")]
-        public async Task<ApiResult<string>> Image([FromForm]IFormFile value)
+        public async Task<ApiResult<string>> Image(IFormFile value)
         {
             if (value == null)
             {

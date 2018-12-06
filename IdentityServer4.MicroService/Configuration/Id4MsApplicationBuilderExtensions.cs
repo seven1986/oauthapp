@@ -2,10 +2,11 @@
 using IdentityServer4.MicroService.Configuration;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Tenant;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.QQ;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -38,27 +39,19 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder.Services.Configure<ConnectionStrings>(ConnectionSection);
 
-            //注册Lazy
-            builder.Services.TryAddTransient(typeof(Lazy<>));
-
-            builder.Services.AddMemoryCache();
-
             builder
-                .AddAppUserMD5PasswordHasher()
-                .AddRedisService()
-                .AddTenantService()
-                .AddSwaggerCodeGenService()
-                .AddAzureStorageService()
-                .AddApiLoggerService()
+                .AddCoreService()
                 .AddAuthorization()
                 .AddEmailService(configuration.GetSection("MessageSender:Email"))
                 .AddSmsService(configuration.GetSection("MessageSender:Sms"));
+
+            builder.Services.AddMemoryCache();
 
             return builder;
         }
 
         /// <summary>
-        /// Configures EF implementation of IPersistedGrantStore with IdentityServer.
+        /// Configures EF implementation of TenantStore with IdentityServer.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="storeOptionsAction">The store options action.</param>
@@ -74,7 +67,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// Configures EF implementation of IPersistedGrantStore with IdentityServer.
+        /// Configures EF implementation of IdentityStore with IdentityServer.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="storeOptionsAction">The store options action.</param>
@@ -90,6 +83,28 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.AddIdentity<AppUser, AppRole>(identityOptions)
             .AddEntityFrameworkStores<IdentityDbContext>()
             .AddDefaultTokenProviders();
+
+            return builder;
+        }
+
+        /// <summary>
+        /// Configures SqlCache Service
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="connection">database connection string</param>
+        /// <param name="schemaName">table schemaName</param>
+        /// <param name="tableName">table name</param>
+        /// <returns></returns>
+        public static IId4MsServiceBuilder AddSqlCacheStore(
+           this IId4MsServiceBuilder builder,
+           string connection,string schemaName= "dbo", string tableName= "AppCache")
+        {
+            builder.Services.AddDistributedSqlServerCache(options =>
+            {
+                options.ConnectionString = connection;
+                options.SchemaName = schemaName;
+                options.TableName = tableName;
+            });
 
             return builder;
         }

@@ -165,9 +165,15 @@ namespace IdentityServer4.MicroService.Services
                             {
                                 var PropertyName = Columns[TableName][i];
 
-                                var PropertyValue = reader[PropertyName];
+                                object PropertyValue = null;
 
-                                if (PropertyValue != DBNull.Value)
+                                try
+                                {
+                                    PropertyValue = reader[PropertyName];
+                                }
+                                catch { }
+
+                                if (PropertyValue != null && PropertyValue != DBNull.Value)
                                 {
                                     var Property = entityType.GetProperty(PropertyName);
 

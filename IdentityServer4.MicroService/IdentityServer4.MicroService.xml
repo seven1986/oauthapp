@@ -1651,23 +1651,12 @@
         </member>
         <member name="T:IdentityServer4.MicroService.MicroserviceConfig.ClientScopes">
             <summary>
-            Client权限定义
-            对应Token中的claim的scope字段
-            字段名：用于controller 的 action 标记
-            字段值：策略的名称
-            字段自定义属性：策略的权限集合，
-            聚合PolicyClaimValues所有的值（除了"all"），去重后登记到IdentityServer的ApiResource中去
-            例如PolicyClaimValues("id4.ms.create", "id4.ms.all", "all"),代表
-            当前id4.ms项目的create权限，或者 id4.ms.all权限，或者all权限
+            Client权限
             </summary>
         </member>
         <member name="T:IdentityServer4.MicroService.MicroserviceConfig.UserPermissions">
             <summary>
-            User权限定义
-            对应Token中的claim的permission字段
-            字段名：用于controller 的 action 标记
-            字段值：策略的名称
-            字段自定义属性：策略的权限集合，可按需设置User表的claims的permission属性
+            User权限
             </summary>
         </member>
         <member name="T:IdentityServer4.MicroService.MicroserviceConfig.Roles">
@@ -2892,42 +2881,7 @@
             属性集合
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddAppUserMD5PasswordHasher(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder)">
-            <summary>
-            Adds the required platform services.
-            </summary>
-            <param name="builder">The builder.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddApiLoggerService(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder)">
-            <summary>
-            Adds the required platform services.
-            </summary>
-            <param name="builder">The builder.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddRedisService(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder)">
-            <summary>
-            Adds the required platform services.
-            </summary>
-            <param name="builder">The builder.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddTenantService(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder)">
-            <summary>
-            Adds the required platform services.
-            </summary>
-            <param name="builder">The builder.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddSwaggerCodeGenService(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder)">
-            <summary>
-            Adds the required platform services.
-            </summary>
-            <param name="builder">The builder.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddAzureStorageService(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddCoreService(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder)">
             <summary>
             Adds the required platform services.
             </summary>
@@ -2962,11 +2916,12 @@
             DI extension methods for adding IdentityServer
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthBuilderExtensions.AddIdentityServer4MicroServiceOAuths(Microsoft.AspNetCore.Authentication.AuthenticationBuilder)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthBuilderExtensions.AddIdentityServer4MicroServiceOAuths(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             Creates a builder.
             </summary>
             <param name="authBuilder">The services.</param>
+            <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer4MicroServiceBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
@@ -2986,7 +2941,7 @@
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddTenantStore(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">
             <summary>
-            Configures EF implementation of IPersistedGrantStore with IdentityServer.
+            Configures EF implementation of TenantStore with IdentityServer.
             </summary>
             <param name="builder">The builder.</param>
             <param name="storeOptionsAction">The store options action.</param>
@@ -2994,11 +2949,21 @@
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityStore(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})">
             <summary>
-            Configures EF implementation of IPersistedGrantStore with IdentityServer.
+            Configures EF implementation of IdentityStore with IdentityServer.
             </summary>
             <param name="builder">The builder.</param>
             <param name="storeOptionsAction">The store options action.</param>
             <param name="identityOptions">The identity options action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddSqlCacheStore(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,System.String,System.String,System.String)">
+            <summary>
+            Configures SqlCache Service
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="connection">database connection string</param>
+            <param name="schemaName">table schemaName</param>
+            <param name="tableName">table name</param>
             <returns></returns>
         </member>
         <member name="P:Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder.Services">

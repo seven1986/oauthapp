@@ -13,7 +13,6 @@ using Microsoft.Extensions.Localization;
 using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.Enums;
@@ -28,6 +27,7 @@ using IdentityServer4.MicroService.Models.Apis.CodeGenController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 using static IdentityServer4.MicroService.AppDefaultData;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace IdentityServer4.MicroService.Apis
 {

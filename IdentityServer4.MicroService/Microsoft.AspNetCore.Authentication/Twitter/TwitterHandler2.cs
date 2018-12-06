@@ -47,16 +47,8 @@ namespace Microsoft.AspNetCore.Authentication.Twitter
 
         protected override Task InitializeHandlerAsync()
         {
-            var ClientId = AppDefaultData.Tenant.TenantProperties[$"{Scheme.Name}:ClientId"];
-
-            var ClientSecret = AppDefaultData.Tenant.TenantProperties[$"{Scheme.Name}:ClientSecret"];
-
-            if (!string.IsNullOrWhiteSpace(ClientId) &&
-               !string.IsNullOrWhiteSpace(ClientSecret))
-            {
-                Options.ConsumerKey = ClientId;
-                Options.ConsumerSecret = ClientSecret;
-            }
+            Options.ConsumerKey = OptionsMonitor.CurrentValue.ConsumerKey;
+            Options.ConsumerSecret = OptionsMonitor.CurrentValue.ConsumerSecret;
             return base.InitializeHandlerAsync();
         }
 

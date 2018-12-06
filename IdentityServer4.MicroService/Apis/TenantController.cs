@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Data;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Tenant;
@@ -17,6 +15,7 @@ using IdentityServer4.MicroService.Models.Apis.TenantController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 using IdentityServer4.MicroService.Models.Shared;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace IdentityServer4.MicroService.Apis
 {
