@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20180727070513_InitialIdentityDbMigration")]
+    [Migration("20181206043617_InitialIdentityDbMigration")]
     partial class InitialIdentityDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -98,9 +98,6 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime>("LastUpdateTime");
-
-                    b.Property<string>("Lineage")
-                        .HasColumnType("sys.hierarchyid");
 
                     b.Property<string>("LineageIDs");
 

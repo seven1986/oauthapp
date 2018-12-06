@@ -355,7 +355,7 @@ namespace IdentityServer4.MicroService.Host
             ILoggerFactory loggerFactory,
             IApiVersionDescriptionProvider provider)
         {
-            AppDefaultData.InitializeDatabase(app, Configuration);
+            //AppDefaultData.InitializeDatabase(app, Configuration);
 
             app.UseCors("default");
 
@@ -406,7 +406,7 @@ namespace IdentityServer4.MicroService.Host
             });
 
             // do not change the order here
-            app.UseIdentityServer4MicroService();
+            //app.UseIdentityServer4MicroService();
 
             app.UseAuthentication();
 
