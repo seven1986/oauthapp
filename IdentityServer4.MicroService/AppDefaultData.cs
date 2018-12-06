@@ -8,32 +8,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using AspNet.Security.OAuth.Amazon;
-using AspNet.Security.OAuth.LinkedIn;
-using AspNet.Security.OAuth.Instagram;
-using AspNet.Security.OAuth.Paypal;
-using AspNet.Security.OAuth.Gitter;
-using AspNet.Security.OAuth.Reddit;
-using AspNet.Security.OAuth.VisualStudio;
-using AspNet.Security.OAuth.WordPress;
-using AspNet.Security.OAuth.Salesforce;
-using Microsoft.AspNetCore.Authentication.QQ;
-using Microsoft.AspNetCore.Authentication.Weixin;
-using Microsoft.AspNetCore.Authentication.Weibo;
-using Microsoft.AspNetCore.Authentication.GitHub;
-using Microsoft.AspNetCore.Authentication.Facebook;
-using Microsoft.AspNetCore.Authentication.Twitter;
-using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using IdentityServer4.Models;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
-using static IdentityServer4.MicroService.MicroserviceConfig;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.Attributes;
 using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.MicroService.Services;
+using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace IdentityServer4.MicroService
 {
@@ -45,6 +28,7 @@ namespace IdentityServer4.MicroService
         public class Admin
         {
             public const string Email = "1@1.com";
+
             public const string PasswordHash = "123456aA!";
         }
 
@@ -53,36 +37,6 @@ namespace IdentityServer4.MicroService
         /// </summary>
         public class Tenant
         {
-            public static void InitOAuthens()
-            {
-                //auth login
-                InsertOAuth(AmazonAuthenticationDefaults.AuthenticationScheme, typeof(AmazonAuthenticationHandler));
-                InsertOAuth(FacebookDefaults.AuthenticationScheme, typeof(FacebookHandler2));
-                InsertOAuth(GitHubDefaults.AuthenticationScheme, typeof(GitHubHandler));
-                InsertOAuth(GitterAuthenticationDefaults.AuthenticationScheme, typeof(GitterAuthenticationHandler));
-                InsertOAuth(GoogleDefaults.AuthenticationScheme, typeof(GoogleHandler2));
-                InsertOAuth(InstagramAuthenticationDefaults.AuthenticationScheme, typeof(InstagramAuthenticationHandler));
-                InsertOAuth(LinkedInAuthenticationDefaults.AuthenticationScheme, typeof(LinkedInAuthenticationHandler));
-                InsertOAuth(MicrosoftAccountDefaults.AuthenticationScheme, typeof(MicrosoftAccountHandler2));
-                InsertOAuth(PaypalAuthenticationDefaults.AuthenticationScheme, typeof(PaypalAuthenticationHandler));
-                InsertOAuth(QQDefaults.AuthenticationScheme, typeof(QQHandler));
-                InsertOAuth(RedditAuthenticationDefaults.AuthenticationScheme, typeof(RedditAuthenticationHandler));
-                InsertOAuth(SalesforceAuthenticationDefaults.AuthenticationScheme, typeof(SalesforceAuthenticationHandler));
-                InsertOAuth(TwitterDefaults.AuthenticationScheme, typeof(TwitterHandler2));
-                InsertOAuth(VisualStudioAuthenticationDefaults.AuthenticationScheme, typeof(VisualStudioAuthenticationHandler));
-                InsertOAuth(WeiboDefaults.AuthenticationScheme, typeof(WeiboHandler));
-                InsertOAuth(WeixinDefaults.AuthenticationScheme, typeof(WeixinHandler));
-                InsertOAuth(WordPressAuthenticationDefaults.AuthenticationScheme, typeof(WordPressAuthenticationHandler));
-            }
-
-            static void InsertOAuth(string scheme, Type handlerType, string clientId = "1", string clientSecret = "1")
-            {
-                TenantProperties.Add($"{scheme}:ClientId", clientId);
-                TenantProperties.Add($"{scheme}:ClientSecret", clientSecret);
-
-                OAuthHandlers.Add(scheme, handlerType);
-            }
-
             public static string IdentityServerIssuerUri = "localhost:44309";
             public static string AppHostName = "localhost:44309";
             public static string Name = "微服务";
@@ -102,7 +56,6 @@ namespace IdentityServer4.MicroService
                      { TenantDefaultProperty.WebSite, ""},
                      { TenantDefaultProperty.Favicon, "favicon.ico"},
                      
-
                     //  Azure Api Management
                     { AzureApiManagementKeys.Host, ""},
                     { AzureApiManagementKeys.ApiId, "integration"},
@@ -112,8 +65,6 @@ namespace IdentityServer4.MicroService
                     { AzureApiManagementKeys.PortalUris, ""},
                     { AzureApiManagementKeys.DelegationKey, ""},
                 };
-
-            public static Dictionary<string, Type> OAuthHandlers = new Dictionary<string, Type>();
         }
 
         /// <summary>
@@ -336,8 +287,6 @@ namespace IdentityServer4.MicroService
         /// </summary>
         public static void InitializeDatabase(IApplicationBuilder app, IConfigurationRoot config)
         {
-            Tenant.InitOAuthens();
-
             Tenant.AppHostName = config["IdentityServer"];
 
             Tenant.IdentityServerIssuerUri = Tenant.AppHostName;

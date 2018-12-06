@@ -2,6 +2,8 @@
 using IdentityServer4.MicroService.Configuration;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Tenant;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.QQ;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -93,7 +95,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="schemaName">table schemaName</param>
         /// <param name="tableName">table name</param>
         /// <returns></returns>
-        public static IId4MsServiceBuilder AddSqlCache(
+        public static IId4MsServiceBuilder AddSqlCacheStore(
            this IId4MsServiceBuilder builder,
            string connection,string schemaName= "dbo", string tableName= "AppCache")
         {

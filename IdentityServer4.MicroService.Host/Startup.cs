@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Azure.KeyVault;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Builder;
@@ -91,7 +90,8 @@ namespace IdentityServer4.MicroService.Host
 
             #region Authentication & OAuth
             //Authentication 
-            services.AddAuthentication(options => {
+            services.AddAuthentication(options =>
+            {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
@@ -103,7 +103,7 @@ namespace IdentityServer4.MicroService.Host
                 isAuth.RequireHttpsMetadata = true;
             })
             //OAuths Login
-            .AddIdentityServer4MicroServiceOAuths();
+            .AddIdentityServer4MicroServiceOAuths(Configuration); 
             #endregion
 
             #region Mvc + localization
@@ -145,13 +145,7 @@ namespace IdentityServer4.MicroService.Host
             //https://github.com/Microsoft/aspnet-api-versioning/wiki/API-Documentation#aspnet-core
             services.AddMvcCore().AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
 
-            services.AddMvc(options =>
-            {
-                // for external authentication,maybe not need
-                //options.SslPort = 44314;
-                // for production, microsoft authentication need https
-                options.Filters.Add(new RequireHttpsAttribute());
-            })
+            services.AddMvc()
             .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
             .AddDataAnnotationsLocalization()
             //https://stackoverflow.com/questions/34753498/self-referencing-loop-detected-in-asp-net-core
@@ -255,7 +249,7 @@ namespace IdentityServer4.MicroService.Host
                     {
                         //opts.SignIn.RequireConfirmedEmail = true;
                     })
-                    .AddSqlCache(DBConnection);
+                    .AddSqlCacheStore(DBConnection);
             #endregion
 
             #region IdentityServer
@@ -398,6 +392,8 @@ namespace IdentityServer4.MicroService.Host
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseHttpsRedirection();
 
             app.UseStaticFiles(new StaticFileOptions()
             {
