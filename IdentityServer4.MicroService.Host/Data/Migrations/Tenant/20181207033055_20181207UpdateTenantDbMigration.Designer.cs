@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityServer4.MicroService.Host.Data.Migrations.Tenant
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20181206043644_InitialTenantDbMigration")]
-    partial class InitialTenantDbMigration
+    [Migration("20181207033055_20181207UpdateTenantDbMigration")]
+    partial class _20181207UpdateTenantDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

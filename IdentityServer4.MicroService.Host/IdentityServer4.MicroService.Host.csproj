@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Authors>Seven1986</Authors>
     <RepositoryUrl>https://github.com/seven1986/IdentityServer4.MicroService</RepositoryUrl>
@@ -59,6 +59,7 @@
     <Compile Remove="Data\IdentityDbContext.cs" />
     <Compile Remove="Data\IdentityMD5PasswordHasher.cs" />
     <Compile Remove="Data\IdentityTables.cs" />
+    <Compile Remove="Data\Migrations\IdentityServer\PersistedGrantDb\20180727064815_InitialIdentityServerPersistedGrantDbMigration.Designer.cs" />
     <Compile Remove="Data\View_IdentityUser.cs" />
     <Compile Remove="MicroserviceConfig.cs" />
     <Compile Remove="Services\ApiLoggerService.cs" />
@@ -93,7 +94,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.0">
@@ -103,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bundleconfig.json" />
+    <None Include="Data\Migrations\IdentityServer\PersistedGrantDb\20180727064815_InitialIdentityServerPersistedGrantDbMigration.Designer.cs" />
     <None Include="package.json" />
     <None Include="Properties\PublishProfiles\IdentityServer4MicroService - Web Deploy.pubxml.user" />
     <None Include="Views\Account\AccessDenied.cshtml" />
