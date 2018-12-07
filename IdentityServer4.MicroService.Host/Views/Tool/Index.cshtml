@@ -22,8 +22,8 @@
                             <input type="text" name="ClientSecret" id="ClientSecret" class="form-control" placeholder="@l["应用密钥"]" />
                         </div>
 
-                        <div class="form-label-group" style="display:none;">
-                            <input type="text" name="scope" id="scope" class="form-control" value="openid profile iot.cardservice.all iot.paymentservice.all" placeholder="@l["权限"]" />
+                        <div class="form-label-group">
+                            <input type="text" name="scope" id="scope" class="form-control" value="openid profile" placeholder="@l["权限"]" />
                         </div>
                         <br />
                         <button class="btn btn-lg btn-primary btn-block" type="button" onclick="RequestToken()">获取</button>
@@ -48,7 +48,8 @@
 
     <script type="text/javascript">
     var key_client_id = '__tokenTool.client_id';
-    var key_client_secret = '__tokenTool.client_secret';
+        var key_client_secret = '__tokenTool.client_secret';
+        var key_client_scopes = '__tokenTool.scopes';
     var redirect_uri = location.origin + '/tool';
 
     function QueryString(name) {
@@ -62,6 +63,7 @@
     {
         var client_id = $('#ClientID').val();
         var client_secret = $('#ClientSecret').val();
+        var client_scopes = $('#scope').val();
 
         if (client_id == "" || client_secret == "") { alert('请设置应用ID和应用密钥。'); return; }
 
@@ -69,6 +71,7 @@
 
         localStorage.setItem(key_client_id, client_id);
         localStorage.setItem(key_client_secret, client_secret);
+        localStorage.setItem(key_client_scopes, client_scopes);
 
         var scopes = $('#scope').val();
 
@@ -86,6 +89,7 @@
 
         $('#ClientID').val(localStorage.getItem(key_client_id));
         $('#ClientSecret').val(localStorage.getItem(key_client_secret));
+        $('#scope').val(localStorage.getItem(key_client_scopes));
 
         var AuthCode = QueryString('code');
 

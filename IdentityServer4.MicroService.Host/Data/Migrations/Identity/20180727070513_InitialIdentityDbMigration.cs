@@ -45,6 +45,7 @@ namespace IdentityServer4.MicroService.Host.Data.Migrations.Identity
                     AccessFailedCount = table.Column<int>(nullable: false),
                     UserKey = table.Column<Guid>(nullable: false),
                     ParentUserID = table.Column<long>(nullable: false),
+                    Lineage = table.Column<string>(type: "sys.hierarchyid", nullable: true),
                     LineageIDs = table.Column<string>(nullable: true),
                     Avatar = table.Column<string>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
