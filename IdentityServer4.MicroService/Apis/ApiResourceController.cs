@@ -580,8 +580,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.apiresource.scopes</code>
         /// </remarks>
         [HttpGet("Scopes")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceDelete)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceDelete)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceScopes)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceScopes)]
         [SwaggerOperation("ApiResource/Scopes")]
         public async Task<ApiResult<Dictionary<string, List<ApiResourceScopeResponse>>>> Scopes()
         {

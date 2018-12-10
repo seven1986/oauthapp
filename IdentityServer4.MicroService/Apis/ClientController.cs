@@ -84,10 +84,10 @@ namespace IdentityServer4.MicroService.Apis
             var clientIDs = await userDB.UserClients.Where(x => x.UserId == UserId)
                .Select(x => x.ClientId).ToListAsync();
 
-            if (clientIDs.Count > 0)
-            {
+            //if (clientIDs.Count > 0)
+            //{
                 query = query.Where(x => clientIDs.Contains(x.Id));
-            }
+            //}
 
             #region filter
             if (!string.IsNullOrWhiteSpace(value.q.ClientID))
@@ -171,8 +171,11 @@ namespace IdentityServer4.MicroService.Apis
 
             var query = idsDB.Clients.AsQueryable();
 
+            var clientIDs = await userDB.UserClients.Where(x => x.UserId == UserId)
+             .Select(x => x.ClientId).ToListAsync();
+
             var entity = await query
-                .Where(x => x.Id == id)
+                .Where(x => x.Id == id && clientIDs.Contains(x.Id))
                 .Include(x => x.Claims)
                 .Include(x => x.AllowedGrantTypes)
                 .Include(x => x.AllowedScopes)
@@ -855,10 +858,7 @@ namespace IdentityServer4.MicroService.Apis
                 .Where(x => x.UserId == UserId)
                 .Select(x => x.ClientId).ToListAsync();
 
-            if (clientIDs.Count > 0)
-            {
-                query = query.Where(x => clientIDs.Contains(x.Id));
-            }
+            query = query.Where(x => clientIDs.Contains(x.Id));
 
             return query.Any(x => x.Id == id);
         }
