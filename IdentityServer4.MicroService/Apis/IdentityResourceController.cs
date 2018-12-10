@@ -23,7 +23,7 @@ namespace IdentityServer4.MicroService.Apis
     /// </summary>
     [Route("IdentityResource")]
     [Produces("application/json")]
-    [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Administrators)]
+    [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class IdentityResourceController : BasicController
     {
         #region Services
