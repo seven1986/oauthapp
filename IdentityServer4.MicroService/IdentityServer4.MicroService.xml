@@ -23,6 +23,7 @@
             <param name="_storageService"></param>
             <param name="_email"></param>
             <param name="_provider"></param>
+            <param name="_cache"></param>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Get(IdentityServer4.MicroService.Models.Apis.Common.PagingRequest{IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceGetRequest})">
             <summary>

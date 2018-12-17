@@ -71,6 +71,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="_storageService"></param>
         /// <param name="_email"></param>
         /// <param name="_provider"></param>
+        /// <param name="_cache"></param>
         public ApiResourceController(
             ConfigurationDbContext _configDb,
             IdentityDbContext _userDb,
