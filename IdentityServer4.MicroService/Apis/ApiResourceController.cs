@@ -28,6 +28,7 @@ using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 using static IdentityServer4.MicroService.AppDefaultData;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -42,12 +43,19 @@ namespace IdentityServer4.MicroService.Apis
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class ApiResourceController : BasicController
     {
+        //sql cache options
+        readonly DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
+        {
+            AbsoluteExpiration = DateTimeOffset.MaxValue
+        };
+
         #region Services
         //Database
         readonly ConfigurationDbContext configDb;
         readonly SwaggerCodeGenService swagerCodeGen;
         readonly AzureStorageService storageService;
         readonly EmailService email;
+        readonly IDistributedCache cache;
         #endregion
 
         #region 构造函数
@@ -59,7 +67,6 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="localizer"></param>
         /// <param name="_tenantService"></param>
         /// <param name="_tenantDb"></param>
-        /// <param name="_redis"></param>
         /// <param name="_swagerCodeGen"></param>
         /// <param name="_storageService"></param>
         /// <param name="_email"></param>
@@ -70,22 +77,25 @@ namespace IdentityServer4.MicroService.Apis
             IStringLocalizer<ApiResourceController> localizer,
             TenantService _tenantService,
             TenantDbContext _tenantDb,
-            RedisService _redis,
+            //RedisService _redis,
             SwaggerCodeGenService _swagerCodeGen,
             AzureStorageService _storageService,
             EmailService _email,
-            IDataProtectionProvider _provider)
+            IDataProtectionProvider _provider,
+            IDistributedCache _cache)
         {
             configDb = _configDb;
             db = _userDb;
             l = localizer;
             tenantDb = _tenantDb;
             tenantService = _tenantService;
-            redis = _redis;
+            //redis = _redis;
             swagerCodeGen = _swagerCodeGen;
             storageService = _storageService;
             email = _email;
             protector = _provider.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
+
+            cache = _cache;
         }
         #endregion
 
@@ -692,7 +702,9 @@ namespace IdentityServer4.MicroService.Apis
                 {
                     var publishKey = $"ApiResource:Publish:{id}";
 
-                    var cacheResult = await redis.SetAsync(publishKey, JsonConvert.SerializeObject(value), null);
+                    await cache.SetStringAsync(publishKey, JsonConvert.SerializeObject(value),cacheOptions); 
+
+                    //redis.SetAsync(publishKey, JsonConvert.SerializeObject(value), null);
                 }
 
                 catch (Exception ex)
@@ -892,7 +904,7 @@ namespace IdentityServer4.MicroService.Apis
 
             var publishKey = $"ApiResource:Publish:{id}";
 
-            var resultCache = await redis.GetAsync(publishKey);
+            var resultCache = await cache.GetStringAsync(publishKey); //redis.GetAsync(publishKey);
 
             if (!string.IsNullOrWhiteSpace(resultCache))
             {

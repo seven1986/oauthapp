@@ -10,7 +10,7 @@
             </summary>
             <remarks>为微服务提供版本管理、网关集成都功能。</remarks>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,IdentityServer4.MicroService.Data.IdentityDbContext,Microsoft.Extensions.Localization.IStringLocalizer{IdentityServer4.MicroService.Apis.ApiResourceController},IdentityServer4.MicroService.Tenant.TenantService,IdentityServer4.MicroService.Tenant.TenantDbContext,IdentityServer4.MicroService.Services.RedisService,IdentityServer4.MicroService.Services.SwaggerCodeGenService,IdentityServer4.MicroService.Services.AzureStorageService,IdentityServer4.MicroService.Services.EmailService,Microsoft.AspNetCore.DataProtection.IDataProtectionProvider)">
+        <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,IdentityServer4.MicroService.Data.IdentityDbContext,Microsoft.Extensions.Localization.IStringLocalizer{IdentityServer4.MicroService.Apis.ApiResourceController},IdentityServer4.MicroService.Tenant.TenantService,IdentityServer4.MicroService.Tenant.TenantDbContext,IdentityServer4.MicroService.Services.SwaggerCodeGenService,IdentityServer4.MicroService.Services.AzureStorageService,IdentityServer4.MicroService.Services.EmailService,Microsoft.AspNetCore.DataProtection.IDataProtectionProvider,Microsoft.Extensions.Caching.Distributed.IDistributedCache)">
             <summary>
             构造函数
             </summary>
@@ -19,7 +19,6 @@
             <param name="localizer"></param>
             <param name="_tenantService"></param>
             <param name="_tenantDb"></param>
-            <param name="_redis"></param>
             <param name="_swagerCodeGen"></param>
             <param name="_storageService"></param>
             <param name="_email"></param>
