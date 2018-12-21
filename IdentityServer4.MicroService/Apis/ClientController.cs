@@ -749,23 +749,34 @@ namespace IdentityServer4.MicroService.Apis
             {
                 return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
+            try
+            {
+                var entity = await idsDB.Clients.SingleOrDefaultAsync(m => m.Id == id);
 
-            var entity = await idsDB.Clients.SingleOrDefaultAsync(m => m.Id == id);
+                idsDB.Clients.Remove(entity);
 
-            idsDB.Clients.Remove(entity);
+                await idsDB.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult<long>(l, BasicControllerEnums.ExpectationFailed, ex.Message + ex.Source);
+            }
 
-            await idsDB.SaveChangesAsync();
-
-            var sql = new RawSqlString("DELETE AspNetUserClient WHERE ClientId=@ClientId AND UserId=@UserId");
+            var sql = new RawSqlString("DELETE AspNetUserClients WHERE ClientId=@ClientId AND UserId=@UserId");
 
             var _params = new SqlParameter[]
             {
                 new SqlParameter("@ClientId",id),
                 new SqlParameter("@UserId",UserId),
             };
-
-            await userDB.Database.ExecuteSqlCommandAsync(sql, _params);
-
+            try
+            {
+                await userDB.Database.ExecuteSqlCommandAsync(sql, _params);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult<long>(l, BasicControllerEnums.ExpectationFailed, ex.Message + ex.Source);
+            }
             return new ApiResult<long>(id);
         }
         #endregion
