@@ -1,5 +1,6 @@
 ﻿
-[![Build status](https://ci.appveyor.com/api/projects/status/x51ob7f1p5ihff2i?svg=true)](https://ci.appveyor.com/project/seven1986/identityserver4-microservice)
+[![Build status](https://ci.appveyor.com/api/projects/status/x51ob7f1p5ihff2i?svg=true)](https://ci.appveyor.com/project/seven1986/identityserver4-microservice)  [![readthedocs](https://img.shields.io/readthedocs/identityserver4microservice.svg)](http://identityserver4microservice.readthedocs.io)
+
 
 # IdentityServer4.MicroService
 
@@ -40,7 +41,7 @@ For run this project recommends
 * Azure SqlServer （持久存储，User、Client、ApiResource等数据）
 * Azure Storage （Table/Queue/Blob）
 * Email & Message （Send Cloud）
-* Elastic Search （请求日志）
+* Elastic Search （请求日志） 
 
 
 > 目前主要由[seven1986](https://github.com/seven1986)创建和维护。
