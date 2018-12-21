@@ -37,7 +37,7 @@ Acknowledgements
 For run this project recommends
 --
 * Azure Key Valut (统一配置，将Appsetting的配置、SSL证书迁移到Azure Key Valut等)
-* Azure Redis （缓存）
+* Azure Redis & SqlCache（缓存）
 * Azure SqlServer （持久存储，User、Client、ApiResource等数据）
 * Azure Storage （Table/Queue/Blob）
 * Email & Message （Send Cloud）
@@ -45,3 +45,5 @@ For run this project recommends
 
 
 > 目前主要由[seven1986](https://github.com/seven1986)创建和维护。
+
+* dotnet sql-cache create {sqlConnection} dbo AppCache

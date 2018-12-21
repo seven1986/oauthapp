@@ -22,6 +22,7 @@ using static IdentityServer4.MicroService.MicroserviceConfig;
 using Microsoft.WindowsAzure.Storage.Table;
 using System.Linq;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -37,6 +38,12 @@ namespace IdentityServer4.MicroService.Apis
         readonly INodeServices nodeServices;
         // azure Storage
         readonly AzureStorageService storageService;
+        readonly IDistributedCache cache;
+
+        //sql cache options
+        readonly DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions() {
+             AbsoluteExpiration = DateTimeOffset.MaxValue
+        };
         #endregion
 
         #region 构造函数
@@ -45,13 +52,15 @@ namespace IdentityServer4.MicroService.Apis
             IStringLocalizer<CodeGenController> localizer,
             SwaggerCodeGenService _swagerCodeGen,
             INodeServices _nodeServices,
-            RedisService _redis)
+            //RedisService _redis,
+            IDistributedCache _cache)
         {
             l = localizer;
             swagerCodeGen = _swagerCodeGen;
             nodeServices = _nodeServices;
             storageService = _storageService;
-            redis = _redis;
+            //redis = _redis;
+            cache = _cache;
         }
         #endregion
 
@@ -114,7 +123,7 @@ namespace IdentityServer4.MicroService.Apis
 
             var key = CodeGenControllerKeys.NpmOptions + id;
 
-            var cacheResult = await redis.GetAsync(key);
+            var cacheResult = await cache.GetStringAsync(key); //redis.GetAsync(key);
 
             if (result != null)
             {
@@ -128,8 +137,8 @@ namespace IdentityServer4.MicroService.Apis
         async Task<CodeGenNpmOptionsModel> GetNpmOptions(Language lan, string id)
         {
             var key = CodeGenControllerKeys.NpmOptions + Enum.GetName(typeof(Language), lan) + ":" + id;
-
-            var cacheResult = await redis.GetAsync(key);
+            
+            var cacheResult = await cache.GetStringAsync(key);  //await redis.GetAsync(key);
 
             if (!string.IsNullOrWhiteSpace(cacheResult))
             {
@@ -183,9 +192,9 @@ namespace IdentityServer4.MicroService.Apis
 
             var cacheResult = JsonConvert.SerializeObject(value);
 
-            var result = await redis.SetAsync(key, cacheResult, null);
+            await cache.SetStringAsync(key, cacheResult, cacheOptions); // redis.SetAsync(key, cacheResult, null);
 
-            return result;
+            return true;
         }
         #endregion
 
@@ -207,7 +216,7 @@ namespace IdentityServer4.MicroService.Apis
 
             var key = CodeGenControllerKeys.GithubOptions + id;
 
-            var cacheResult = await redis.GetAsync(key);
+            var cacheResult = await cache.GetStringAsync(key); //redis.GetAsync(key);
 
             if (result != null)
             {
@@ -222,7 +231,7 @@ namespace IdentityServer4.MicroService.Apis
         {
             var key = CodeGenControllerKeys.GithubOptions + id;
 
-            var cacheResult = await redis.GetAsync(key);
+            var cacheResult = await cache.GetStringAsync(key);// redis.GetAsync(key);
 
             if (!string.IsNullOrWhiteSpace(cacheResult))
             {
@@ -275,9 +284,9 @@ namespace IdentityServer4.MicroService.Apis
 
             var cacheResult = JsonConvert.SerializeObject(value);
 
-            var result = await redis.SetAsync(key, cacheResult, null);
+            await cache.SetStringAsync(key, cacheResult, cacheOptions); // redis.SetAsync(key, cacheResult, null);
 
-            return result;
+            return true;
         }
         #endregion
 
@@ -354,7 +363,7 @@ namespace IdentityServer4.MicroService.Apis
         {
             var key = CodeGenControllerKeys.CommonOptions + id;
 
-            var cacheResult = await redis.GetAsync(key);
+            var cacheResult = await cache.GetStringAsync(key); //redis.GetAsync(key);
 
             if (!string.IsNullOrWhiteSpace(cacheResult))
             {
@@ -407,9 +416,9 @@ namespace IdentityServer4.MicroService.Apis
 
             var cacheResult = JsonConvert.SerializeObject(value);
 
-            var result = await redis.SetAsync(key, cacheResult, null);
+            await cache.SetStringAsync(key, cacheResult, cacheOptions); //redis.SetAsync(key, cacheResult, null);
 
-            return result;
+            return true;
         }
         #endregion
 

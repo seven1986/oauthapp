@@ -84,10 +84,10 @@ namespace IdentityServer4.MicroService.Apis
             var clientIDs = await userDB.UserClients.Where(x => x.UserId == UserId)
                .Select(x => x.ClientId).ToListAsync();
 
-            if (clientIDs.Count > 0)
-            {
+            //if (clientIDs.Count > 0)
+            //{
                 query = query.Where(x => clientIDs.Contains(x.Id));
-            }
+            //}
 
             #region filter
             if (!string.IsNullOrWhiteSpace(value.q.ClientID))
@@ -171,8 +171,11 @@ namespace IdentityServer4.MicroService.Apis
 
             var query = idsDB.Clients.AsQueryable();
 
+            var clientIDs = await userDB.UserClients.Where(x => x.UserId == UserId)
+             .Select(x => x.ClientId).ToListAsync();
+
             var entity = await query
-                .Where(x => x.Id == id)
+                .Where(x => x.Id == id && clientIDs.Contains(x.Id))
                 .Include(x => x.Claims)
                 .Include(x => x.AllowedGrantTypes)
                 .Include(x => x.AllowedScopes)
@@ -746,23 +749,34 @@ namespace IdentityServer4.MicroService.Apis
             {
                 return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
+            try
+            {
+                var entity = await idsDB.Clients.SingleOrDefaultAsync(m => m.Id == id);
 
-            var entity = await idsDB.Clients.SingleOrDefaultAsync(m => m.Id == id);
+                idsDB.Clients.Remove(entity);
 
-            idsDB.Clients.Remove(entity);
+                await idsDB.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult<long>(l, BasicControllerEnums.ExpectationFailed, ex.Message + ex.Source);
+            }
 
-            await idsDB.SaveChangesAsync();
-
-            var sql = new RawSqlString("DELETE AspNetUserClient WHERE ClientId=@ClientId AND UserId=@UserId");
+            var sql = new RawSqlString("DELETE AspNetUserClients WHERE ClientId=@ClientId AND UserId=@UserId");
 
             var _params = new SqlParameter[]
             {
                 new SqlParameter("@ClientId",id),
                 new SqlParameter("@UserId",UserId),
             };
-
-            await userDB.Database.ExecuteSqlCommandAsync(sql, _params);
-
+            try
+            {
+                await userDB.Database.ExecuteSqlCommandAsync(sql, _params);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult<long>(l, BasicControllerEnums.ExpectationFailed, ex.Message + ex.Source);
+            }
             return new ApiResult<long>(id);
         }
         #endregion
@@ -855,10 +869,7 @@ namespace IdentityServer4.MicroService.Apis
                 .Where(x => x.UserId == UserId)
                 .Select(x => x.ClientId).ToListAsync();
 
-            if (clientIDs.Count > 0)
-            {
-                query = query.Where(x => clientIDs.Contains(x.Id));
-            }
+            query = query.Where(x => clientIDs.Contains(x.Id));
 
             return query.Any(x => x.Id == id);
         }
