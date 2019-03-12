@@ -1,6 +1,8 @@
-﻿using IdentityServer4.MicroService.Data;
+﻿using IdentityServer4.MicroService;
+using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Tenant;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,12 +16,25 @@ namespace Microsoft.AspNetCore.Builder
         {
             builder.Validate();
 
-            return builder.UseMiddleware<TenantMiddleware>();
+            builder.UseCors("cors-allowanonymous");
+
+            var Configuration = builder.ApplicationServices.GetService<IConfiguration>();
+
+            AppDefaultData.InitializeDatabase(builder, Configuration);
+
+            builder.UseMiddleware<TenantMiddleware>();
+
+            builder.UseAuthentication();
+
+            builder.UseIdentityServer();
+
+            return builder;
         }
 
         internal static void Validate(this IApplicationBuilder app)
         {
             var loggerFactory = app.ApplicationServices.GetService(typeof(ILoggerFactory)) as ILoggerFactory;
+
             if (loggerFactory == null) throw new ArgumentNullException(nameof(loggerFactory));
 
             var logger = loggerFactory.CreateLogger("IdentityServer4.MicroService.Startup");
@@ -30,7 +45,7 @@ namespace Microsoft.AspNetCore.Builder
             {
                 var serviceProvider = scope.ServiceProvider;
 
-                TestService(serviceProvider, typeof(IdentityDbContext), logger,
+                TestService(serviceProvider, typeof(UserDbContext), logger,
                     "No storage mechanism for Users specified. Use the 'AddIdentityStore' extension method to register a development version.");
 
                 TestService(serviceProvider, typeof(TenantDbContext), logger,

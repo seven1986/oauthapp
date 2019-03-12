@@ -26,7 +26,7 @@ namespace IdentityServer4.MicroService.Services
         public static async Task<IdentityResult> CreateUser(
             long TenantId,
             UserManager<AppUser> userManager,
-            IdentityDbContext userContext,
+            UserDbContext userContext,
             AppUser user,
             List<long> roleIds,
             string permissions,

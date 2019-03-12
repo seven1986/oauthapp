@@ -23,24 +23,58 @@ namespace IdentityServer4.MicroService
     public class AppDefaultData
     {
         /// <summary>
-        /// 初始管理员
+        /// 管理员
         /// </summary>
         public class Admin
         {
-            public const string Email = "1@1.com";
+            public const string Email = "admin@admin.com";
 
-            public const string PasswordHash = "123456aA!";
+            public const string PasswordHash = "123456";
         }
 
+        #region SwaggerClient
         /// <summary>
-        /// 初始租户
+        /// SwaggerClient - SwaggerUI使用
+        /// </summary>
+        public class SwaggerClient
+        {
+            public const string ClientId = "swagger";
+            public const string ClientName = "swagger";
+            public const string ClientSecret = "swagger";
+            public static ICollection<string> AllowedGrantTypes = GrantTypes.CodeAndClientCredentials;
+            public static List<string> RedirectUris = new List<string>();
+        }
+        #endregion
+
+        #region IdentityServer4Client
+        /// <summary>
+        /// IdentityServer4Client - 后台使用
+        /// </summary>
+        public class IdentityServer4Client
+        {
+            public const string ClientId = "identityserver4";
+
+            public const string ClientName = "identityserver4";
+
+            public const string ClientSecret = "identityserver4";
+
+            public static ICollection<string> AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials;
+
+            public static ICollection<string> RedirectUris = new List<string>();
+
+            public static ICollection<string> PostLogoutRedirectUris = new List<string>();
+        }
+        #endregion
+
+        /// <summary>
+        /// 租户
         /// </summary>
         public class Tenant
         {
+            public static string WebSite = "http://localhost:44309";
             public static string IdentityServerIssuerUri = "localhost:44309";
             public static string AppHostName = "localhost:44309";
             public static string Name = "微服务";
-            public static string WebSite = "http://localhost:44309";
 
             public static Dictionary<string, string> TenantProperties =
                     new Dictionary<string, string>()
@@ -67,102 +101,21 @@ namespace IdentityServer4.MicroService
                 };
         }
 
-        /// <summary>
-        /// 初始Client(用来测试)
-        /// </summary>
-        public class TestClient
-        {
-            public const string ClientId = "test";
-            public const string ClientName = "测试专用";
-            public const string ClientSecret = "1";
-            public static ICollection<string> AllowedGrantTypes = GrantTypes.CodeAndClientCredentials;
-            public static List<string> RedirectUris = new List<string>()
-            {
-                "https://{0}/swagger/oauth2-redirect.html"
-            };
-        }
-
-        /// <summary>
-        /// 初始Client(后台使用)
-        /// </summary>
-        public class AdminPortalClient
-        {
-            public const string ClientId = "adminportal";
-
-            public const string ClientName = "后台专用";
-
-            public const string ClientSecret = "1";
-
-            public static ICollection<string> AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials;
-
-            public static ICollection<string> RedirectUris = new string[]{
-                "http://localhost:4200/auth-callback",
-                // for IdentityServer4.MicroService.UI
-                "https://localhost:44386/callback.html",
-                "https://localhost:44386/silent_callback.html",
-            };
-
-            public static ICollection<string> PostLogoutRedirectUris = new string[]{
-                "http://localhost:4200/logout-callback",
-
-                 // for IdentityServer4.MicroService.UI
-                "http://localhost:44386/logout.html"
-            };
-        }
-
-        public static IEnumerable<AppUser> GetUsers()
-        {
-            return new List<AppUser>
-                {
-                     new AppUser()
-                     {
-                        Email=Admin.Email,
-                        UserName=Admin.Email,
-                        PasswordHash=Admin.PasswordHash,
-                        EmailConfirmed=true,
-                        ParentUserID=AppConstant.seedUserId
-                     }
-                };
-        }
-
-        public static IEnumerable<AppRole> GetRoles()
-        {
-            var result = new List<AppRole>();
-
-            var roles = typeof(Roles).GetFields();
-
-            foreach (var role in roles)
-            {
-                var roleName = role.GetRawConstantValue().ToString();
-
-                var roleDisplayName = role.GetCustomAttribute<DisplayNameAttribute>().DisplayName;
-
-                result.Add(new AppRole
-                {
-                    Name = roleName,
-                    NormalizedName = roleDisplayName,
-                    ConcurrencyStamp = Guid.NewGuid().ToString()
-                });
-            }
-
-            return result;
-        }
-
         public static IEnumerable<Client> GetClients()
         {
             // client credentials client
             return new List<Client>
                 {
-                    #region Test Client
+                    #region SwaggerClient
 		            new Client
                     {
-                        ClientId = TestClient.ClientId,
-                        ClientName = TestClient.ClientName,
-                        AllowedGrantTypes = TestClient.AllowedGrantTypes,
+                        ClientId = SwaggerClient.ClientId,
+                        ClientName = SwaggerClient.ClientName,
+                        AllowedGrantTypes = SwaggerClient.AllowedGrantTypes,
                         AllowAccessTokensViaBrowser = true,
                         ClientSecrets =
                         {
-                            new Secret(TestClient.ClientSecret.Sha256())
+                            new Secret(SwaggerClient.ClientSecret.Sha256())
                         },
                         BackChannelLogoutSessionRequired=false,
                         BackChannelLogoutUri="",
@@ -171,7 +124,7 @@ namespace IdentityServer4.MicroService
                         AlwaysSendClientClaims = true,
                         FrontChannelLogoutSessionRequired=false,
                         FrontChannelLogoutUri="",
-                        RedirectUris = TestClient.RedirectUris,
+                        //RedirectUris = SwaggerClient.RedirectUris,
                         AllowedScopes =
                         {
                             IdentityServerConstants.StandardScopes.OpenId,
@@ -182,16 +135,16 @@ namespace IdentityServer4.MicroService
                     },
 	                #endregion
 
-                    #region AdminPortal Client
+                    #region IdentityServer4Client
 		            new Client
                     {
-                        ClientId = AdminPortalClient.ClientId,
-                        ClientName = AdminPortalClient.ClientName,
-                        AllowedGrantTypes = AdminPortalClient.AllowedGrantTypes,
+                        ClientId = IdentityServer4Client.ClientId,
+                        ClientName = IdentityServer4Client.ClientName,
+                        AllowedGrantTypes = IdentityServer4Client.AllowedGrantTypes,
                         AllowAccessTokensViaBrowser = true,
                         ClientSecrets =
                         {
-                            new Secret(AdminPortalClient.ClientSecret.Sha256())
+                            new Secret(IdentityServer4Client.ClientSecret.Sha256())
                         },
                         BackChannelLogoutSessionRequired=false,
                         BackChannelLogoutUri="",
@@ -202,8 +155,8 @@ namespace IdentityServer4.MicroService
                         FrontChannelLogoutSessionRequired=false,
                         FrontChannelLogoutUri="",
 
-                        RedirectUris = AdminPortalClient.RedirectUris,
-                        PostLogoutRedirectUris = AdminPortalClient.PostLogoutRedirectUris,
+                        //RedirectUris = AdminPortalClient.RedirectUris,
+                        //PostLogoutRedirectUris = AdminPortalClient.PostLogoutRedirectUris,
 
                         AllowedScopes =
                         {
@@ -285,20 +238,24 @@ namespace IdentityServer4.MicroService
         /// <summary>
         /// 数据库初始化
         /// </summary>
-        public static void InitializeDatabase(IApplicationBuilder app, IConfigurationRoot config)
+        public static void InitializeDatabase(IApplicationBuilder app, IConfiguration config)
         {
             Tenant.AppHostName = config["IdentityServer"];
-
             Tenant.IdentityServerIssuerUri = Tenant.AppHostName;
 
-            TestClient.RedirectUris[0] = string.Format(TestClient.RedirectUris[0], Tenant.AppHostName);
-
+            SwaggerClient.RedirectUris.Add($"https://{Tenant.AppHostName}/swagger/oauth2-redirect.html");
+            IdentityServer4Client.RedirectUris.Add($"https://{Tenant.AppHostName}/tool");
+            
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                #region identityserver
-                scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+                #region PersistedGrantDb
+                scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate(); 
+                #endregion
+
                 var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+
                 context.Database.Migrate();
+
                 if (!context.Clients.Any())
                 {
                     foreach (var client in GetClients())
@@ -307,6 +264,7 @@ namespace IdentityServer4.MicroService
                     }
                     context.SaveChanges();
                 }
+
                 if (!context.IdentityResources.Any())
                 {
                     foreach (var resource in GetIdentityResources())
@@ -315,6 +273,7 @@ namespace IdentityServer4.MicroService
                     }
                     context.SaveChanges();
                 }
+
                 if (!context.ApiResources.Any())
                 {
                     foreach (var resource in GetApiResources())
@@ -323,91 +282,120 @@ namespace IdentityServer4.MicroService
                     }
                     context.SaveChanges();
                 }
-                #endregion
 
-                #region tenant
+                #region TenantDb
                 var tenantDbContext = scope.ServiceProvider.GetRequiredService<TenantDbContext>();
                 tenantDbContext.Database.Migrate();
-                if (!tenantDbContext.Tenants.Any())
+                Data_Seeding_Tenants(tenantDbContext);
+                #endregion
+
+                #region IdentityDb
+                var userContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+                userContext.Database.Migrate();
+                Data_Seeding_Users(userContext, tenantDbContext, userManager, context);
+                #endregion
+            }
+        }
+
+        static void Data_Seeding_Tenants(TenantDbContext tenantDbContext)
+        {
+            if (!tenantDbContext.Tenants.Any())
+            {
+                var tenant = new AppTenant()
                 {
-                    #region Create Default Tenant
-                    var tenant = new AppTenant()
+                    CacheDuration = 600,
+                    CreateDate = DateTime.UtcNow,
+                    IdentityServerIssuerUri = Tenant.IdentityServerIssuerUri,
+                    LastUpdateTime = DateTime.UtcNow,
+                    Name = Tenant.Name,
+                    OwnerUserId = AppConstant.seedUserId, //默认设置为1
+                    Status = TenantStatus.Enable,
+                    Theme = "default"
+                };
+                tenant.Hosts.Add(new AppTenantHost() { HostName = Tenant.AppHostName });
+                tenant.Properties.AddRange(Tenant.TenantProperties.Select(x => new AppTenantProperty() { Key = x.Key, Value = x.Value }));
+                tenantDbContext.Tenants.Add(tenant);
+                tenantDbContext.SaveChanges();
+            }
+        }
+
+        static void Data_Seeding_Users(
+            UserDbContext userContext, 
+            TenantDbContext tenantDbContext,
+            UserManager<AppUser> userManager,
+            ConfigurationDbContext identityserverDbContext)
+        {
+            if (!userContext.Roles.Any())
+            {
+                var roles = typeof(Roles).GetFields();
+
+                foreach (var role in roles)
+                {
+                    var roleName = role.GetRawConstantValue().ToString();
+
+                    var roleDisplayName = role.GetCustomAttribute<DisplayNameAttribute>().DisplayName;
+
+                    userContext.Roles.Add(new AppRole
                     {
-                        CacheDuration = 600,
-                        CreateDate = DateTime.UtcNow,
-                        IdentityServerIssuerUri = Tenant.IdentityServerIssuerUri,
-                        LastUpdateTime = DateTime.UtcNow,
-                        Name = Tenant.Name,
-                        OwnerUserId = AppConstant.seedUserId, //默认设置为1
-                        Status = TenantStatus.Enable,
-                        Theme = "default"
-                    };
-                    tenant.Hosts.Add(new AppTenantHost() { HostName = Tenant.AppHostName });
-                    tenant.Properties.AddRange(Tenant.TenantProperties.Select(x => new AppTenantProperty() { Key = x.Key, Value = x.Value }));
-                    tenantDbContext.Tenants.Add(tenant);
-                    tenantDbContext.SaveChanges();
-                    #endregion
+                        Name = roleName,
+                        NormalizedName = roleDisplayName,
+                        ConcurrencyStamp = Guid.NewGuid().ToString()
+                    });
+                }
+
+                userContext.SaveChanges();
+            }
+
+            if (!userContext.Users.Any())
+            {
+                var roleIds = userContext.Roles.Select(x => x.Id).ToList();
+
+                var permissions = typeof(UserPermissions).GetFields().Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues[0]).ToList();
+                permissions.Add(MicroServiceName + ".all");
+
+                var tenantIds = tenantDbContext.Tenants.Select(x => x.Id).ToList();
+
+                var user = new AppUser()
+                {
+                    Email = Admin.Email,
+                    UserName = Admin.Email,
+                    PasswordHash = Admin.PasswordHash,
+                    EmailConfirmed = true,
+                    ParentUserID = AppConstant.seedUserId
+                };
+
+                var r = AppUserService.CreateUser(AppConstant.seedTenantId,
+                     userManager,
+                     userContext,
+                     user,
+                     roleIds,
+                    string.Join(",", permissions),
+                    tenantIds).Result;
+
+                #region User Clients
+                var clientIds = identityserverDbContext.Clients.Select(x => x.Id).ToList();
+                foreach (var cid in clientIds)
+                {
+                    user.Clients.Add(new AspNetUserClient()
+                    {
+                        ClientId = cid
+                    });
                 }
                 #endregion
 
-                var userContext = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
-                userContext.Database.Migrate();
-
-                if (!userContext.Roles.Any())
+                #region User ApiResources
+                var apiIds = identityserverDbContext.ApiResources.Select(x => x.Id).ToList();
+                foreach (var apiId in apiIds)
                 {
-                    foreach (var role in GetRoles())
+                    user.ApiResources.Add(new AspNetUserApiResource()
                     {
-                        userContext.Roles.Add(role);
-                    }
-                    userContext.SaveChanges();
+                        ApiResourceId = apiId,
+                    });
                 }
+                #endregion
 
-                if (!userContext.Users.Any())
-                {
-                    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
-
-                    var roleIds = userContext.Roles.Select(x => x.Id).ToList();
-
-                    var permissions = typeof(UserPermissions).GetFields().Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues[0]).ToList();
-                    permissions.Add(MicroServiceName + ".all");
-
-                    var tenantIds = tenantDbContext.Tenants.Select(x => x.Id).ToList();
-
-                    foreach (var _user in GetUsers())
-                    {
-                        var r = AppUserService.CreateUser(AppConstant.seedTenantId,
-                             userManager,
-                             userContext,
-                             _user,
-                             roleIds,
-                            string.Join(",", permissions),
-                            tenantIds).Result;
-
-                        #region User Clients
-                        var clientIds = context.Clients.Select(x => x.Id).ToList();
-                        foreach (var cid in clientIds)
-                        {
-                            _user.Clients.Add(new AspNetUserClient()
-                            {
-                                ClientId = cid
-                            });
-                        }
-                        #endregion
-
-                        #region User ApiResources
-                        var apiIds = context.ApiResources.Select(x => x.Id).ToList();
-                        foreach (var apiId in apiIds)
-                        {
-                            _user.ApiResources.Add(new AspNetUserApiResource()
-                            {
-                                ApiResourceId = apiId,
-                            });
-                        }
-                        #endregion
-
-                        userContext.SaveChanges();
-                    }
-                }
+                userContext.SaveChanges();
             }
         }
 

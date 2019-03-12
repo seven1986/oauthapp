@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage.Queue;
 using System.Threading;
-using IdentityServer4.MicroService.AppSettings;
+using Microsoft.Extensions.Configuration;
 
 namespace IdentityServer4.MicroService.Services
 {
@@ -19,10 +19,10 @@ namespace IdentityServer4.MicroService.Services
         readonly ILogger<AzureStorageService> logger;
 
         public AzureStorageService(
-            IOptions<ConnectionStrings> _config,
+            IConfiguration configuration,
             ILogger<AzureStorageService> _logger)
         {
-            Connection = _config.Value.AzureStorageConnection;
+            Connection = configuration["ConnectionStrings:AzureStorageConnectionString"];
             logger = _logger;
         }
 

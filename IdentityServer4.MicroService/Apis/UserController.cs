@@ -53,7 +53,7 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 构造函数
         public UserController(
-            IdentityDbContext _db,
+            UserDbContext _db,
             RedisService _redis,
             IStringLocalizer<UserController> _localizer,
             ISmsSender _sms,

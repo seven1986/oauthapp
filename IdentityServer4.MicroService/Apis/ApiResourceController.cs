@@ -74,7 +74,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="_cache"></param>
         public ApiResourceController(
             ConfigurationDbContext _configDb,
-            IdentityDbContext _userDb,
+            UserDbContext _userDb,
             IStringLocalizer<ApiResourceController> localizer,
             TenantService _tenantService,
             TenantDbContext _tenantDb,

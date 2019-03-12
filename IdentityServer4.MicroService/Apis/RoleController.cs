@@ -30,7 +30,7 @@ namespace IdentityServer4.MicroService.Apis
 
         #region 构造函数
         public RoleController(
-           IdentityDbContext _db,
+           UserDbContext _db,
            IStringLocalizer<RoleController> localizer)
         {
             db = _db;

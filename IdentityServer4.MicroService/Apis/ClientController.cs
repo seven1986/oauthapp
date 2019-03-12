@@ -35,7 +35,7 @@ namespace IdentityServer4.MicroService.Apis
         // database for identityserver
         readonly ConfigurationDbContext idsDB;
         // database for user
-        readonly IdentityDbContext userDB;
+        readonly UserDbContext userDB;
         // IdentityServer Tools
         readonly IdentityServerTools _tools;
         #endregion
@@ -43,7 +43,7 @@ namespace IdentityServer4.MicroService.Apis
         #region 构造函数
         public ClientController(
             ConfigurationDbContext _idsDB,
-            IdentityDbContext _userDB,
+            UserDbContext _userDB,
             IStringLocalizer<ClientController> localizer,
             IdentityServerTools tools)
         {

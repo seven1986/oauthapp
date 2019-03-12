@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace IdentityServer4.MicroService.Data
 {
-    public class IdentityDbContext : IdentityDbContext<AppUser, AppRole, long, AppUserClaim, AppUserRole, AppUserLogin, AppRoleClaim, AppUserToken>
+    public class UserDbContext : IdentityDbContext<AppUser, AppRole, long, AppUserClaim, AppUserRole, AppUserLogin, AppRoleClaim, AppUserToken>
     {
-        public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
+        public UserDbContext(DbContextOptions<UserDbContext> options)
             : base(options)
         {
 

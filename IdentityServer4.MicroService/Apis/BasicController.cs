@@ -115,7 +115,7 @@ namespace IdentityServer4.MicroService.Apis
 
         public virtual TenantService tenantService { get; set; }
         public virtual TenantDbContext tenantDb { get; set; }
-        public virtual IdentityDbContext db { get; set; }
+        public virtual UserDbContext db { get; set; }
 
         private TenantPrivateModel _tenant;
         public TenantPrivateModel Tenant
