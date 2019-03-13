@@ -7,6 +7,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\WebApplication1.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;1591;1574;1587</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

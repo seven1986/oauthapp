@@ -130,6 +130,8 @@ namespace IdentityServer4.MicroService.Data
 
         public DbSet<AspNetUserTenant> UserTenants { get; set; }
 
+        public DbSet<AppCache> Caches { get; set; }
+
         public async Task<object> ExecuteScalarAsync(string sql, CommandType cmdType = CommandType.Text, params SqlParameter[] sqlParams)
         {
             var con = Database.GetDbConnection();

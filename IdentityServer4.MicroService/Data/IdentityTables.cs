@@ -15,9 +15,9 @@ namespace IdentityServer4.MicroService.Data
         //当使用efcore重新生成脚本时，取消下面的注释
         //这样生成的脚本会设置该字段对应sqlserver的sys.hierarchyid类型
         //脚本生成好以后，注释掉column属性，换成notmapped属性
-        //[Column(TypeName = "sys.hierarchyid")]
+        [Column(TypeName = "sys.hierarchyid")]
         //如果不需要生成脚本，请需要注释
-        [NotMapped]
+        //[NotMapped]
         public string Lineage { get; set; }
 
         public string LineageIDs { get; set; }

@@ -1,11 +1,14 @@
 ﻿using IdentityServer4.MicroService;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Tenant;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
+using System.Collections.Generic;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -14,19 +17,67 @@ namespace Microsoft.AspNetCore.Builder
         public static IApplicationBuilder UseIdentityServer4MicroService(
            this IApplicationBuilder builder)
         {
+            var env = builder.ApplicationServices.GetService<IHostingEnvironment>();
+
+            var Configuration = builder.ApplicationServices.GetService<IConfiguration>();
+
+            var options = builder.ApplicationServices.GetService<IdentityServer4MicroServiceOptions>();
+
+            var identityServer = options.IdentityServer.ToString();
+
+            //var httpsEndpoint = Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME");
+
             builder.Validate();
 
             builder.UseCors("cors-allowanonymous");
 
-            var Configuration = builder.ApplicationServices.GetService<IConfiguration>();
-
-            AppDefaultData.InitializeDatabase(builder, Configuration);
+            if (options.InitializeDatabase)
+            {
+                AppDefaultData.InitializeDatabase(builder, options.MicroServiceName, options.IdentityServer);
+            }
 
             builder.UseMiddleware<TenantMiddleware>();
 
             builder.UseAuthentication();
 
             builder.UseIdentityServer();
+
+            builder.UseSwagger(x =>
+            {
+                x.PreSerializeFilters.Add((doc, req) =>
+                {
+                    doc.Schemes = new[] { "https" };
+                    doc.Host = identityServer;
+                    doc.Security = new List<IDictionary<string, IEnumerable<string>>>()
+                    {
+                            new Dictionary<string, IEnumerable<string>>()
+                            {
+                                { "SubscriptionKey", new string[]{ } },
+                                { "AccessToken", new string[]{ } },
+                                { "OAuth2", new string[]{ } },
+                            }
+                    };
+                });
+            });
+
+            builder.UseSwaggerUI(c =>
+                {
+                    var provider = builder.ApplicationServices.GetService<IApiVersionDescriptionProvider>();
+
+                    foreach (var description in provider.ApiVersionDescriptions)
+                    {
+                        c.SwaggerEndpoint(
+                            $"/swagger/{description.GroupName}/swagger.json",
+                            description.GroupName.ToUpperInvariant());
+
+                        c.OAuthAppName(options.SwaggerUIClientName);
+                        c.OAuthClientId(options.SwaggerUIClientID);
+                        c.OAuthClientSecret(options.SwaggerUIClientSecret);
+                        c.OAuth2RedirectUrl($"https://{identityServer}/swagger/oauth2-redirect.html");
+                    }
+
+                    c.DocExpansion(DocExpansion.None);
+                });
 
             return builder;
         }

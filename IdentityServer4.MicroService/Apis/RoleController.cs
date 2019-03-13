@@ -25,9 +25,6 @@ namespace IdentityServer4.MicroService.Apis
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class RoleController : BasicController
     {
-        #region Services
-        #endregion
-
         #region 构造函数
         public RoleController(
            UserDbContext _db,
@@ -288,7 +285,7 @@ namespace IdentityServer4.MicroService.Apis
         [HttpGet("Codes")]
         [AllowAnonymous]
         [SwaggerOperation("Role/Codes")]
-        public List<ErrorCodeModel> Codes()
+        public List<ApiCodeModel> Codes()
         {
             var result = _Codes<RoleControllerEnums>();
 

@@ -1,4 +1,5 @@
 ﻿using IdentityServer4.MicroService;
+using IdentityServer4.MicroService.Attributes;
 using IdentityServer4.MicroService.Configuration;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Tenant;
@@ -20,7 +21,12 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
+using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -40,151 +46,275 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Creates a builder.
         /// </summary>
         /// <param name="services">The services.</param>
-        /// <param name="configuration">The config.</param>
-        /// <param name="assemblyName">The assemblyName.</param>
+        /// <param name="ids4msOptions">The Options.</param>
+        /// <param name="configuration">The Configuration.</param>
         /// <returns></returns>
         public static IId4MsServiceBuilder AddIdentityServer4MicroService(
             this IServiceCollection services,
-            IConfiguration configuration,
-            string assemblyName)
+            IdentityServer4MicroServiceOptions ids4msOptions,
+            IConfiguration configuration)
         {
             var builder = services.AddIdentityServer4MicroServiceBuilder();
 
-            #region cors-allowanonymous
-            builder.Services.AddCors(options =>
+            if (string.IsNullOrWhiteSpace(ids4msOptions.MicroServiceName))
             {
-                options.AddPolicy("cors-allowanonymous", x =>
+                ids4msOptions.MicroServiceName = "ids4.ms";
+            }
+
+            if (ids4msOptions.IdentityServer == null)
+            {
+                ids4msOptions.IdentityServer = new Uri(configuration["IdentityServer"]);
+            }
+
+            builder.Services.AddSingleton(ids4msOptions);
+
+            #region Cors
+            if (ids4msOptions.Cors)
+            {
+                builder.Services.AddCors(options =>
                 {
-                    x.AllowAnyHeader();
-                    x.AllowAnyMethod();
-                    x.AllowAnyOrigin();
-                    x.AllowCredentials();
+                    options.AddPolicy("cors-allowanonymous", x =>
+                    {
+                        x.AllowAnyHeader();
+                        x.AllowAnyMethod();
+                        x.AllowAnyOrigin();
+                        x.AllowCredentials();
+                    });
                 });
-            });
+            }
             #endregion
 
-            //var ConnectionSection = configuration.GetSection("ConnectionStrings");
-            //builder.Services.Configure<ConnectionStrings>(ConnectionSection);
-
-            #region Authentication & OAuth
-            //Authentication 
-            builder.Services.AddAuthentication(options =>
+            #region WebEncoders
+            if (ids4msOptions.WebEncoders)
             {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-            })
-            //IdentityServerAuthentication
-            .AddIdentityServerAuthentication(AppConstant.AppAuthenScheme, isAuth =>
-            {
-                isAuth.Authority = "https://" + configuration["IdentityServer"];
-                isAuth.ApiName = MicroserviceConfig.MicroServiceName;
-                isAuth.RequireHttpsMetadata = true;
-            })
-            //OAuths Login
-            .AddIdentityServer4MicroServiceOAuths(configuration);
-            #endregion
-
-            #region Mvc + localization
-            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
-            services.Configure<RequestLocalizationOptions>(options =>
-            {
-                var supportedCultures = new[]
+                services.AddWebEncoders(opt =>
                 {
-                    new CultureInfo("en-US"),
-                    new CultureInfo("zh-CN"),
-                };
-                options.DefaultRequestCulture = new RequestCulture("zh-CN", "zh-CN");
-                options.SupportedCultures = supportedCultures;
-                options.SupportedUICultures = supportedCultures;
-            });
-            services.AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
-            services.AddMvc()
-            .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-            .AddDataAnnotationsLocalization()
-            .AddJsonOptions(options =>
+                    opt.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
+                });
+            }
+            #endregion
+
+            #region AuthorizationPolicy
+            if (ids4msOptions.AuthorizationPolicy)
             {
-                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            });
-            services.AddApiVersioning(o =>
-            {
-                o.AssumeDefaultVersionWhenUnspecified = true;
-                o.ReportApiVersions = true;
-            });
+                builder.Services.AddAuthorization(options =>
+                {
+                    #region Client的权限策略
+                    var scopes = typeof(ClientScopes).GetFields();
+
+                    foreach (var scope in scopes)
+                    {
+                        var scopeName = scope.GetRawConstantValue().ToString();
+
+                        var scopeItem = scope.GetCustomAttribute<PolicyClaimValuesAttribute>();
+
+                        var scopeValues = scopeItem.PolicyValues;
+
+                        var scopeValuesList = new List<string>();
+
+                        for (var i = 0; i < scopeValues.Length; i++)
+                        {
+                            scopeValues[i] = ids4msOptions.MicroServiceName + "." + scopeValues[i];
+
+                            scopeValuesList.Add(scopeValues[i]);
+                        }
+
+                        scopeValuesList.Add(ids4msOptions.MicroServiceName + "." + scopeItem.ControllerName + ".all");
+
+                        scopeValuesList.Add(ids4msOptions.MicroServiceName + ".all");
+
+                        options.AddPolicy(scopeName, policy => policy.RequireClaim(ClaimTypes.ClientScope, scopeValuesList));
+                    }
+                    #endregion
+
+                    #region User的权限策略
+                    var permissions = typeof(UserPermissions).GetFields();
+
+                    foreach (var permission in permissions)
+                    {
+                        var permissionName = permission.GetRawConstantValue().ToString();
+
+                        var permissionItem = permission.GetCustomAttribute<PolicyClaimValuesAttribute>();
+
+                        var permissionValues = permissionItem.PolicyValues;
+
+                        var permissionValuesList = new List<string>();
+
+                        for (var i = 0; i < permissionValues.Length; i++)
+                        {
+                            permissionValues[i] = ids4msOptions.MicroServiceName + "." + permissionValues[i];
+
+                            permissionValuesList.Add(permissionValues[i]);
+                        }
+
+                        permissionValuesList.Add(ids4msOptions.MicroServiceName + "." + permissionItem.ControllerName + ".all");
+
+                        permissionValuesList.Add(ids4msOptions.MicroServiceName + ".all");
+
+                        options.AddPolicy(permissionName,
+                            policy => policy.RequireAssertion(context =>
+                            {
+                                var userPermissionClaim = context.User.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.UserPermission));
+
+                                if (userPermissionClaim != null && !string.IsNullOrWhiteSpace(userPermissionClaim.Value))
+                                {
+                                    var userPermissionClaimValue = userPermissionClaim.Value.ToLower().Split(new string[] { "," },
+                                        StringSplitOptions.RemoveEmptyEntries);
+
+                                    if (userPermissionClaimValue != null && userPermissionClaimValue.Length > 0)
+                                    {
+                                        foreach (var userPermissionItem in userPermissionClaimValue)
+                                        {
+                                            if (permissionValuesList.Contains(userPermissionItem))
+                                            {
+                                                return true;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                return false;
+                            }));
+                    }
+                    #endregion
+                });
+            }
             #endregion
 
             #region SwaggerGen
-            services.AddSwaggerGen(c =>
+            if (ids4msOptions.SwaggerGen)
             {
-                c.EnableAnnotations();
+                services.AddSwaggerGen(c =>
+                {
+                    c.EnableAnnotations();
 
-                //c.TagActionsBy(x => x.RelativePath.Split('/')[0]);
+                    //c.TagActionsBy(x => x.RelativePath.Split('/')[0]);
 
-                c.AddSecurityDefinition("SubscriptionKey",
-                    new ApiKeyScheme()
-                    {
-                        Name = "Ocp-Apim-Subscription-Key",
-                        Type = "apiKey",
-                        In = "header",
-                        Description = "从开放平台申请的Subscription Key，从网关调用接口时必需传入。",
-                    });
+                    c.AddSecurityDefinition("SubscriptionKey",
+                        new ApiKeyScheme()
+                        {
+                            Name = "Ocp-Apim-Subscription-Key",
+                            Type = "apiKey",
+                            In = "header",
+                            Description = "从开放平台申请的Subscription Key，从网关调用接口时必需传入。",
+                        });
 
-                c.AddSecurityDefinition("AccessToken",
-                    new ApiKeyScheme()
-                    {
-                        Name = "Authorization",
-                        Type = "apiKey",
-                        In = "header",
-                        Description = "从身份认证中心颁发的Token，根据接口要求决定是否传入。",
-                    });
+                    c.AddSecurityDefinition("AccessToken",
+                        new ApiKeyScheme()
+                        {
+                            Name = "Authorization",
+                            Type = "apiKey",
+                            In = "header",
+                            Description = "从身份认证中心颁发的Token，根据接口要求决定是否传入。",
+                        });
 
-                c.AddSecurityDefinition("OAuth2",
-                    new OAuth2Scheme()
-                    {
-                        Type = "oauth2",
-                        Flow = "accessCode",
-                        AuthorizationUrl = "https://" + configuration["IdentityServer"] + "/connect/authorize",
-                        TokenUrl = "https://" + configuration["IdentityServer"] + "/connect/token",
-                        Description = "勾选授权范围，获取Token",
-                        Scopes = new Dictionary<string, string>(){
+                    c.AddSecurityDefinition("OAuth2",
+                        new OAuth2Scheme()
+                        {
+                            Type = "oauth2",
+                            Flow = "accessCode",
+                            AuthorizationUrl = "https://" + ids4msOptions.IdentityServer.AbsoluteUri + "/connect/authorize",
+                            TokenUrl = "https://" + ids4msOptions.IdentityServer.AbsoluteUri + "/connect/token",
+                            Description = "勾选授权范围，获取Token",
+                            Scopes = new Dictionary<string, string>(){
                             { "openid","用户标识" },
                             { "profile","用户资料" },
-                            { MicroserviceConfig.MicroServiceName+ ".all","所有接口权限"},
-                        }
-                    });
+                            { ids4msOptions.MicroServiceName+ ".all","所有接口权限"},
+                            }
+                        });
 
-                var provider = services.BuildServiceProvider()
-                               .GetRequiredService<IApiVersionDescriptionProvider>();
+                    var provider = services.BuildServiceProvider()
+                                   .GetRequiredService<IApiVersionDescriptionProvider>();
 
-                foreach (var description in provider.ApiVersionDescriptions)
-                {
-                    c.SwaggerDoc(description.GroupName, new Info
+                    foreach (var description in provider.ApiVersionDescriptions)
                     {
-                        Title = assemblyName,
-                        Version = description.ApiVersion.ToString(),
-                        License = new License()
+                        c.SwaggerDoc(description.GroupName, new Info
                         {
-                            Name = "MIT",
-                            Url = "https://spdx.org/licenses/MIT.html"
-                        },
-                        // Contact = new Contact()
-                        // {
-                        //     Url = "",
-                        //     Name = "",
-                        //     Email = ""
-                        // },
-                        // Description = "Swagger document",
+                            Title = ids4msOptions.AssemblyName,
+                            Version = description.ApiVersion.ToString(),
+                            License = new License()
+                            {
+                                Name = "MIT",
+                                Url = "https://spdx.org/licenses/MIT.html"
+                            },
+                            // Contact = new Contact()
+                            // {
+                            //     Url = "",
+                            //     Name = "",
+                            //     Email = ""
+                            // },
+                            // Description = "Swagger document",
+                        });
+
+                        c.CustomSchemaIds(x => x.FullName);
+                    }
+
+                    var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, ids4msOptions.AssemblyName + ".xml");
+
+                    c.IncludeXmlComments(filePath);
+
+                    c.IncludeXmlComments(Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "IdentityServer4.MicroService.xml"));
+                });
+            }
+            #endregion
+
+            #region Localization
+            if (ids4msOptions.Localization)
+            {
+                builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+                services.Configure<RequestLocalizationOptions>(options =>
+                {
+                    var supportedCultures = new[]
+                    {
+                    new CultureInfo("en-US"),
+                    new CultureInfo("zh-CN"),
+                };
+                    options.DefaultRequestCulture = new RequestCulture("zh-CN", "zh-CN");
+                    options.SupportedCultures = supportedCultures;
+                    options.SupportedUICultures = supportedCultures;
+                });
+
+                builder.Services.AddMvc()
+                    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                    .AddDataAnnotationsLocalization()
+                    .AddJsonOptions(o =>
+                    {
+                        o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     });
+            }
+            #endregion
 
-                    c.CustomSchemaIds(x => x.FullName);
-                }
+            #region ApiVersioning
+            if (ids4msOptions.ApiVersioning)
+            {
+                builder.Services.AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
 
-                var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, assemblyName + ".xml");
+                builder.Services.AddApiVersioning(o =>
+                {
+                    o.AssumeDefaultVersionWhenUnspecified = true;
+                    o.ReportApiVersions = true;
+                });
+            }
+            #endregion
 
-                c.IncludeXmlComments(filePath);
-
-                c.IncludeXmlComments(Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "IdentityServer4.MicroService.xml"));
-            });
+            #region Authentication
+            if (ids4msOptions.IdentityServer != null)
+            {
+                builder.Services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                })
+                .AddIdentityServerAuthentication(AppConstant.AppAuthenScheme, isAuth =>
+                {
+                    isAuth.Authority = "https://" + ids4msOptions.IdentityServer.Host;
+                    isAuth.ApiName = ids4msOptions.MicroServiceName;
+                    isAuth.RequireHttpsMetadata = true;
+                })
+                .AddIdentityServer4MicroServiceOAuths(configuration);
+            }
             #endregion
 
             var DBConnectionString = configuration["ConnectionStrings:DataBaseConnection"];
@@ -195,7 +325,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder
                 .AddCoreService()
-                .AddAuthorization()
                 .AddEmailService(configuration.GetSection("MessageSender:Email"))
                 .AddSmsService(configuration.GetSection("MessageSender:Sms"));
 

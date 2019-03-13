@@ -9,6 +9,7 @@ C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApp
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\bin\Debug\netcoreapp2.2\WebApplication1.runtimeconfig.dev.json
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\bin\Debug\netcoreapp2.2\WebApplication1.dll
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\bin\Debug\netcoreapp2.2\WebApplication1.pdb
+C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\bin\Debug\netcoreapp2.2\WebApplication1.xml
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\bin\Debug\netcoreapp2.2\WebApplication1.Views.dll
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\bin\Debug\netcoreapp2.2\WebApplication1.Views.pdb
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\bin\Debug\netcoreapp2.2\IdentityServer4.MicroService.dll
@@ -23,11 +24,17 @@ C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApp
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\WebApplication1.TagHelpers.input.cache
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\WebApplication1.TagHelpers.output.cache
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\WebApplication1.RazorCoreGenerate.cache
+C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\Account\Login.g.cshtml.cs
+C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\Account\_ViewImports.g.cshtml.cs
+C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.g.cshtml.cs
+C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\_ViewImports.g.cshtml.cs
+C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\_ViewStart.g.cshtml.cs
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.g.cshtml.cs
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Views\Home\Privacy.g.cshtml.cs
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Error.g.cshtml.cs
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_Layout.g.cshtml.cs
+C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_LoginPartial.g.cshtml.cs
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_ValidationScriptsPartial.g.cshtml.cs
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Views\_ViewImports.g.cshtml.cs
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Views\_ViewStart.g.cshtml.cs
@@ -37,9 +44,3 @@ C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApp
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\WebApplication1.csproj.CopyComplete
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\WebApplication1.dll
 C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\WebApplication1.pdb
-C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\Account\Login.g.cshtml.cs
-C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\Account\_ViewImports.g.cshtml.cs
-C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.g.cshtml.cs
-C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\_ViewImports.g.cshtml.cs
-C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\_ViewStart.g.cshtml.cs
-C:\Users\jxsh08.DESKTOP-361U268\Source\Repos\IdentityServer4.MicroService\WebApplication1\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_LoginPartial.g.cshtml.cs

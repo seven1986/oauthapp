@@ -1,10 +1,12 @@
-﻿using IdentityServer4.MicroService.Attributes;
+﻿using IdentityServer4.MicroService;
+using IdentityServer4.MicroService.Attributes;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Tenant;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using static IdentityServer4.MicroService.MicroserviceConfig;
@@ -21,72 +23,11 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IId4MsServiceBuilder AddCoreService(this IId4MsServiceBuilder builder)
         {
             builder.Services.AddScoped<IPasswordHasher<AppUser>, IdentityMD5PasswordHasher>();
-            builder.Services.AddScoped<ApiLoggerService>();
             builder.Services.AddSingleton<TenantService>();
             builder.Services.AddSingleton<RedisService>();
             builder.Services.AddSingleton<SwaggerCodeGenService>();
             builder.Services.AddSingleton<AzureStorageService>();
-            return builder;
-        }
-
-        /// <summary>
-        /// Adds the required platform services.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <returns></returns>
-        public static IId4MsServiceBuilder AddAuthorization(this IId4MsServiceBuilder builder)
-        {
-           builder.Services.AddAuthorization(options =>
-            {
-                #region Client的权限策略
-                var scopes = typeof(ClientScopes).GetFields();
-
-                foreach (var scope in scopes)
-                {
-                    var scopeName = scope.GetRawConstantValue().ToString();
-
-                    var scopeValues = scope.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues;
-
-                    options.AddPolicy(scopeName, policy => policy.RequireClaim(ClaimTypes.ClientScope, scopeValues));
-                }
-                #endregion
-
-                #region User的权限策略
-                var permissions = typeof(UserPermissions).GetFields();
-
-                foreach (var permission in permissions)
-                {
-                    var permissionName = permission.GetRawConstantValue().ToString();
-
-                    var permissionValues = permission.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues;
-
-                    options.AddPolicy(permissionName,
-                        policy => policy.RequireAssertion(context =>
-                        {
-                            var userPermissionClaim = context.User.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.UserPermission));
-
-                            if (userPermissionClaim != null && !string.IsNullOrWhiteSpace(userPermissionClaim.Value))
-                            {
-                                var userPermissionClaimValue = userPermissionClaim.Value.ToLower().Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-
-                                if (userPermissionClaimValue != null && userPermissionClaimValue.Length > 0)
-                                {
-                                    foreach (var userPermissionItem in userPermissionClaimValue)
-                                    {
-                                        if (permissionValues.Contains(userPermissionItem))
-                                        {
-                                            return true;
-                                        }
-                                    }
-                                }
-                            }
-
-                            return false;
-                        }));
-                }
-                #endregion
-            });
-
+            //builder.Services.AddScoped<ApiLoggerService>();
             return builder;
         }
 

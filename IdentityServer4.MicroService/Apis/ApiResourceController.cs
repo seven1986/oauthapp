@@ -115,7 +115,7 @@ namespace IdentityServer4.MicroService.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ApiResourceGet)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ApiResourceGet)]
         [SwaggerOperation("ApiResource/Get")]
-        public async Task<PagingResult<ApiResource>> Get(PagingRequest<ApiResourceGetRequest> value)
+        public async Task<PagingResult<ApiResource>> Get([FromQuery]PagingRequest<ApiResourceGetRequest> value)
         {
             if (!ModelState.IsValid)
             {
@@ -647,7 +647,7 @@ namespace IdentityServer4.MicroService.Apis
         [HttpGet("Codes")]
         [AllowAnonymous]
         [SwaggerOperation("ApiResource/Codes")]
-        public List<ErrorCodeModel> Codes()
+        public List<ApiCodeModel> Codes()
         {
             var result = _Codes<ApiResourceControllerEnums>();
 

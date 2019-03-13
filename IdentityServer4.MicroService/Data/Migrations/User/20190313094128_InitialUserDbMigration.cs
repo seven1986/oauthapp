@@ -2,12 +2,27 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace IdentityServer4.MicroService.Data.Migrations.Identity
+namespace IdentityServer4.MicroService.Data.Migrations.User
 {
-    public partial class InitialIdentityDbMigration : Migration
+    public partial class InitialUserDbMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AppCache",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(449)", nullable: false),
+                    Value = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    ExpiresAtTime = table.Column<DateTimeOffset>(type: "datetimeoffset(7)", nullable: false),
+                    SlidingExpirationInSeconds = table.Column<long>(nullable: false),
+                    AbsoluteExpiration = table.Column<DateTimeOffset>(type: "datetimeoffset(7)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppCache", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -388,6 +403,9 @@ namespace IdentityServer4.MicroService.Data.Migrations.Identity
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AppCache");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 

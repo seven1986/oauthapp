@@ -17,6 +17,7 @@ using IdentityServer4.MicroService.Attributes;
 using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.MicroService.Services;
 using static IdentityServer4.MicroService.MicroserviceConfig;
+using Newtonsoft.Json;
 
 namespace IdentityServer4.MicroService
 {
@@ -42,7 +43,6 @@ namespace IdentityServer4.MicroService
             public const string ClientName = "swagger";
             public const string ClientSecret = "swagger";
             public static ICollection<string> AllowedGrantTypes = GrantTypes.CodeAndClientCredentials;
-            public static List<string> RedirectUris = new List<string>();
         }
         #endregion
 
@@ -59,8 +59,6 @@ namespace IdentityServer4.MicroService
             public const string ClientSecret = "identityserver4";
 
             public static ICollection<string> AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials;
-
-            public static ICollection<string> RedirectUris = new List<string>();
 
             public static ICollection<string> PostLogoutRedirectUris = new List<string>();
         }
@@ -101,7 +99,7 @@ namespace IdentityServer4.MicroService
                 };
         }
 
-        public static IEnumerable<Client> GetClients()
+        public static IEnumerable<Client> GetClients(string MicroServiceName,Uri ServerUrl)
         {
             // client credentials client
             return new List<Client>
@@ -124,7 +122,10 @@ namespace IdentityServer4.MicroService
                         AlwaysSendClientClaims = true,
                         FrontChannelLogoutSessionRequired=false,
                         FrontChannelLogoutUri="",
-                        //RedirectUris = SwaggerClient.RedirectUris,
+                        RedirectUris = {
+                            $"https://{ServerUrl.ToString()}/swagger/oauth2-redirect.html",
+                            $"https://{ServerUrl.ToString()}/tool"
+                        },
                         AllowedScopes =
                         {
                             IdentityServerConstants.StandardScopes.OpenId,
@@ -155,7 +156,9 @@ namespace IdentityServer4.MicroService
                         FrontChannelLogoutSessionRequired=false,
                         FrontChannelLogoutUri="",
 
-                        //RedirectUris = AdminPortalClient.RedirectUris,
+                        RedirectUris ={
+                            $"https://{ServerUrl.ToString()}/tool"
+                        },
                         //PostLogoutRedirectUris = AdminPortalClient.PostLogoutRedirectUris,
 
                         AllowedScopes =
@@ -182,55 +185,64 @@ namespace IdentityServer4.MicroService
                 };
         }
 
-        public static IEnumerable<ApiResource> GetApiResources()
+        public static IEnumerable<ApiResource> GetApiResources(string MicroServiceName)
         {
-            var ControllerScopes = new List<Scope>();
+            var ControllerActions = new List<Scope>();
 
-            var ActionScopes = typeof(ClientScopes).GetFields().Select(x =>
+            var ActionList = typeof(ClientScopes).GetFields().Select(x =>
             {
-                var permissionValues =
-                x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues;
+                var description = x.GetCustomAttribute<DescriptionAttribute>().Description;
 
-                var description =
-                x.GetCustomAttribute<DescriptionAttribute>().Description;
+                var policyItem = x.GetCustomAttribute<PolicyClaimValuesAttribute>();
 
-                var _ControllerScope = permissionValues[1];
+                var ControllerScope = MicroServiceName + "." + policyItem.ControllerName + ".all";
 
-                if (!ControllerScopes.Any(scope => scope.Name.Equals(_ControllerScope)))
+                var ActionScope = MicroServiceName + "." + policyItem.ControllerName + "." + policyItem.PolicyValues[0];
+                
+                if (!ControllerActions.Any(scope => scope.Name.Equals(ControllerScope)))
                 {
                     var ControllerDescription = description.Split(new string[] { "-" },
                         StringSplitOptions.RemoveEmptyEntries)[0].Trim();
 
-                    ControllerScopes.Add(new Scope(_ControllerScope, ControllerDescription + " - 所有权限"));
+                    ControllerActions.Add(new Scope(ControllerScope,
+                        ControllerDescription + " - 所有权限"));
                 }
 
-                return new Scope(permissionValues[0], description);
+                return new Scope(ActionScope, description);
 
             }).ToList();
 
             var ApplicationScope = new Scope(MicroServiceName + ".all", "所有权限");
 
-            ActionScopes.AddRange(ControllerScopes);
+            ActionList.AddRange(ControllerActions);
 
-            ActionScopes.Add(ApplicationScope);
+            ActionList.Add(ApplicationScope);
 
-            ActionScopes = ActionScopes.OrderBy(x => x.Name).ToList();
+            ActionList = ActionList.OrderBy(x => x.Name).ToList();
 
             return new List<ApiResource>
                 {
                     new ApiResource()
                     {
                         Enabled =true,
+
                         ApiSecrets = {},
+
                         Name = MicroServiceName,
+
                         DisplayName = MicroServiceName,
+
                         Description = MicroServiceName,
-                        Scopes = ActionScopes,
+
+                        Scopes = ActionList,
+
                         //需要使用的用户claims
                         UserClaims= {
                             ClaimTypes.UserPermission,
                             "role"
-                        }
+                        },
+
+                        Properties =new Dictionary<string,string>()
                     }
                 };
         }
@@ -238,14 +250,10 @@ namespace IdentityServer4.MicroService
         /// <summary>
         /// 数据库初始化
         /// </summary>
-        public static void InitializeDatabase(IApplicationBuilder app, IConfiguration config)
+        public static void InitializeDatabase(IApplicationBuilder app,string MicroServiceName,Uri ServerUrl)
         {
-            Tenant.AppHostName = config["IdentityServer"];
-            Tenant.IdentityServerIssuerUri = Tenant.AppHostName;
+            Tenant.IdentityServerIssuerUri = "https://"+ ServerUrl.ToString();
 
-            SwaggerClient.RedirectUris.Add($"https://{Tenant.AppHostName}/swagger/oauth2-redirect.html");
-            IdentityServer4Client.RedirectUris.Add($"https://{Tenant.AppHostName}/tool");
-            
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 #region PersistedGrantDb
@@ -258,7 +266,7 @@ namespace IdentityServer4.MicroService
 
                 if (!context.Clients.Any())
                 {
-                    foreach (var client in GetClients())
+                    foreach (var client in GetClients(MicroServiceName,ServerUrl))
                     {
                         context.Clients.Add(client.ToEntity());
                     }
@@ -276,7 +284,7 @@ namespace IdentityServer4.MicroService
 
                 if (!context.ApiResources.Any())
                 {
-                    foreach (var resource in GetApiResources())
+                    foreach (var resource in GetApiResources(MicroServiceName))
                     {
                         context.ApiResources.Add(resource.ToEntity());
                     }
@@ -293,7 +301,7 @@ namespace IdentityServer4.MicroService
                 var userContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
                 userContext.Database.Migrate();
-                Data_Seeding_Users(userContext, tenantDbContext, userManager, context);
+                Data_Seeding_Users(userContext, tenantDbContext, userManager, context, MicroServiceName);
                 #endregion
             }
         }
@@ -324,7 +332,8 @@ namespace IdentityServer4.MicroService
             UserDbContext userContext, 
             TenantDbContext tenantDbContext,
             UserManager<AppUser> userManager,
-            ConfigurationDbContext identityserverDbContext)
+            ConfigurationDbContext identityserverDbContext,
+            string MicroServiceName)
         {
             if (!userContext.Roles.Any())
             {
@@ -351,7 +360,7 @@ namespace IdentityServer4.MicroService
             {
                 var roleIds = userContext.Roles.Select(x => x.Id).ToList();
 
-                var permissions = typeof(UserPermissions).GetFields().Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues[0]).ToList();
+                var permissions = typeof(UserPermissions).GetFields().Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().PolicyValues[0]).ToList();
                 permissions.Add(MicroServiceName + ".all");
 
                 var tenantIds = tenantDbContext.Tenants.Select(x => x.Id).ToList();

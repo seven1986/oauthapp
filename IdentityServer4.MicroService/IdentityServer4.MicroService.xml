@@ -983,7 +983,7 @@
             租户
             </summary>
         </member>
-        <member name="M:IdentityServer4.MicroService.AppDefaultData.InitializeDatabase(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:IdentityServer4.MicroService.AppDefaultData.InitializeDatabase(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String,System.Uri)">
             <summary>
             数据库初始化
             </summary>
@@ -1186,6 +1186,36 @@
             <value>
             The services.
             </value>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Data.AppCache">
+            <summary>
+            数据缓存表
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Data.AppCache.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Data.AppCache.Value">
+            <summary>
+            Value
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Data.AppCache.ExpiresAtTime">
+            <summary>
+            ExpiresAtTime
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Data.AppCache.SlidingExpirationInSeconds">
+            <summary>
+            SlidingExpirationInSeconds
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Data.AppCache.AbsoluteExpiration">
+            <summary>
+            AbsoluteExpiration
+            </summary>
         </member>
         <member name="T:IdentityServer4.MicroService.Data.IdentityMD5PasswordHasher">
             <summary>
@@ -1644,9 +1674,94 @@
             发送过于频繁,请{0}秒后重试
             </summary>
         </member>
-        <member name="F:IdentityServer4.MicroService.MicroserviceConfig.MicroServiceName">
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.AssemblyName">
             <summary>
-            微服务名称
+            项目名称
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.MicroServiceName">
+            <summary>
+            微服务名称，必须是英文
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.IdentityServer">
+            <summary>
+            IdentityServer服务器地址
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.Cors">
+            <summary>
+            启用跨域
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.Localization">
+            <summary>
+            启用多语言
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.ApiVersioning">
+            <summary>
+            启用版本
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.AuthorizationPolicy">
+            <summary>
+            启用权限
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.SwaggerGen">
+            <summary>
+            启用SwaggerGen
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.SwaggerUI">
+            <summary>
+            启用SwaggerUI
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.SwaggerUIClientID">
+            <summary>
+            SwaggerUI ClientID
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.SwaggerUIClientName">
+            <summary>
+            SwaggerUI ClientName
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.SwaggerUIClientSecret">
+            <summary>
+            SwaggerUI ClientSecret
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.WebEncoders">
+            <summary>
+            启用WebEncoders
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.Scopes">
+            <summary>
+            客户端权限
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.Permissions">
+            <summary>
+            用户权限
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableResponseCaching">
+            <summary>
+            启用缓存
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.SQLCacheConnection">
+            <summary>
+            启用缓存的SQL数据库链接
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.InitializeDatabase">
+            <summary>
+            初始化数据库
             </summary>
         </member>
         <member name="T:IdentityServer4.MicroService.MicroserviceConfig.ClientScopes">
@@ -2139,6 +2254,21 @@
             密钥明文
             </summary>
         </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.Common.ApiCodeModel.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.Common.ApiCodeModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.Common.ApiCodeModel.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.Common.ApiResult`1.code">
             <summary>
             代码
@@ -2181,21 +2311,6 @@
             <param name="l">本地化服务</param>
             <param name="_message">自定义说明（将覆盖默认说明）</param>
             <param name="arguments">本地化服务的参数</param>
-        </member>
-        <member name="P:IdentityServer4.MicroService.Models.Apis.Common.ErrorCodeModel.Code">
-            <summary>
-            错误代码
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.Models.Apis.Common.ErrorCodeModel.Name">
-            <summary>
-            错误名称
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.Models.Apis.Common.ErrorCodeModel.Description">
-            <summary>
-            错误描述
-            </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.Common.PagingRequest`1.q">
             <summary>
@@ -2390,61 +2505,6 @@
             <param name="permissions">权限集合</param>
             <param name="tenantIds">平台集合</param>
             <returns></returns>
-        </member>
-        <member name="P:IdentityServer4.MicroService.Services.ApiLoggerModel.StartTime">
-            <summary>
-            Action开始执行的时间
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.Services.ApiLoggerModel.EndTime">
-            <summary>
-            Action执行完毕的时间
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.Services.ApiLoggerModel.Params">
-            <summary>
-            Request的参数
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.Services.ApiLoggerModel.Headers">
-            <summary>
-            Request Headers
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.Services.ApiLoggerModel.Method">
-            <summary>
-            Request Method
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.Services.ApiLoggerModel.ClientIp">
-            <summary>
-            Request IP
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.Services.ApiLoggerModel.UsedSeconds">
-            <summary>
-            Action耗时 （EndTime - StartTime）
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.Services.ApiLoggerModel.UserID">
-            <summary>
-            调用者ID
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.Services.ApiLoggerModel.UserName">
-            <summary>
-            调用者Name
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.Services.ApiLoggerModel.Error">
-            <summary>
-            Action报错信息
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.Services.ApiLoggerModel.claims">
-            <summary>
-            token claims
-            </summary>
         </member>
         <member name="M:IdentityServer4.MicroService.Services.AzureApiManagement.RequestAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Net.Http.HttpContent,System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
             <summary>
@@ -2888,13 +2948,6 @@
             <param name="builder">The builder.</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddAuthorization(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder)">
-            <summary>
-            Adds the required platform services.
-            </summary>
-            <param name="builder">The builder.</param>
-            <returns></returns>
-        </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddEmailService(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,Microsoft.Extensions.Configuration.IConfigurationSection)">
             <summary>
             Adds the required platform services.
@@ -2931,13 +2984,13 @@
             <param name="services">The services.</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer4MicroService(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer4MicroService(Microsoft.Extensions.DependencyInjection.IServiceCollection,IdentityServer4.MicroService.IdentityServer4MicroServiceOptions,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             Creates a builder.
             </summary>
             <param name="services">The services.</param>
-            <param name="configuration">The config.</param>
-            <param name="assemblyName">The assemblyName.</param>
+            <param name="ids4msOptions">The Options.</param>
+            <param name="configuration">The Configuration.</param>
             <returns></returns>
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddTenantStore(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">

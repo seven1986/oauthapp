@@ -25,7 +25,7 @@ namespace IdentityServer4.MicroService.Models.Apis.Common
         /// <summary>
         /// 跳过的数据条数
         /// </summary>
-        [Range(0, long.MaxValue)]
+        [Range(0, int.MaxValue)]
         [DefaultValue(0)]
         public int? skip { get; set; } = 0;
 

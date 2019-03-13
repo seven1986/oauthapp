@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.Reflection;
+using IdentityServer4.MicroService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,9 +31,11 @@ namespace WebApplication1
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            var assemblyName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+            services.AddIdentityServer4MicroService(new IdentityServer4MicroServiceOptions()
+            {
+                AssemblyName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name,
 
-            services.AddIdentityServer4MicroService(Configuration, assemblyName);
+            }, Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +48,7 @@ namespace WebApplication1
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+
                 app.UseHsts();
             }
 

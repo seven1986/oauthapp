@@ -7,19 +7,41 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace IdentityServer4.MicroService.Data.Migrations.Identity
+namespace IdentityServer4.MicroService.Data.Migrations.User
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20190221083909_InitialIdentityDbMigration")]
-    partial class InitialIdentityDbMigration
+    [Migration("20190313094128_InitialUserDbMigration")]
+    partial class InitialUserDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
+                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("IdentityServer4.MicroService.Data.AppCache", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(449)");
+
+                    b.Property<DateTimeOffset>("AbsoluteExpiration")
+                        .HasColumnType("datetimeoffset(7)");
+
+                    b.Property<DateTimeOffset>("ExpiresAtTime")
+                        .HasColumnType("datetimeoffset(7)");
+
+                    b.Property<long>("SlidingExpirationInSeconds");
+
+                    b.Property<byte[]>("Value")
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppCache");
+                });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AppRole", b =>
                 {

@@ -93,7 +93,7 @@ namespace IdentityServer4.MicroService.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserGet)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserGet)]
         [SwaggerOperation("User/Get")]
-        public async Task<PagingResult<View_User>> Get(PagingRequest<UserGetRequest> value)
+        public async Task<PagingResult<View_User>> Get([FromQuery]PagingRequest<UserGetRequest> value)
         {
             if (!ModelState.IsValid)
             {
@@ -241,7 +241,7 @@ namespace IdentityServer4.MicroService.Apis
                   .Select(x => x.Id).ToList();
 
             var permissions = typeof(UserPermissions).GetFields()
-                .Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues[0]).ToList();
+                .Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().PolicyValues[0]).ToList();
 
             var tenantIds = tenantDb.Tenants.Select(x => x.Id).ToList();
             try
@@ -573,7 +573,7 @@ namespace IdentityServer4.MicroService.Apis
         [HttpGet("Codes")]
         [AllowAnonymous]
         [SwaggerOperation("User/Codes")]
-        public List<ErrorCodeModel> Codes()
+        public List<ApiCodeModel> Codes()
         {
             var result = _Codes<UserControllerEnums>();
 
@@ -706,7 +706,7 @@ namespace IdentityServer4.MicroService.Apis
             var roleIds = db.Roles.Where(x => x.Name.Equals(Roles.Users) || x.Name.Equals(Roles.Developer))
                     .Select(x => x.Id).ToList();
 
-            var permissions = typeof(UserPermissions).GetFields().Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().ClaimsValues[0]).ToList();
+            var permissions = typeof(UserPermissions).GetFields().Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().PolicyValues[0]).ToList();
 
             var tenantIds = tenantDbContext.Tenants.Select(x => x.Id).ToList();
 
