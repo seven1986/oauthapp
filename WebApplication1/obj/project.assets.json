@@ -5068,7 +5068,7 @@
           "lib/netstandard1.3/Microsoft.WindowsAzure.Storage.dll": {}
         }
       },
-      "IdentityServer4MicroService/0.0.37": {
+      "IdentityServer4MicroService/0.1.10": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.2",
         "dependencies": {
@@ -5087,6 +5087,7 @@
           "Microsoft.AspNetCore.Identity.UI": "2.2.0",
           "Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer": "3.2.0",
           "Microsoft.AspNetCore.NodeServices": "2.2.0",
+          "Microsoft.AspNetCore.ResponseCaching": "2.2.0",
           "Microsoft.EntityFrameworkCore.Design": "2.2.3",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.3",
           "Microsoft.Extensions.Caching.SqlServer": "2.2.0",
@@ -13751,7 +13752,7 @@
         "windowsazure.storage.nuspec"
       ]
     },
-    "IdentityServer4MicroService/0.0.37": {
+    "IdentityServer4MicroService/0.1.10": {
       "type": "project",
       "path": "../IdentityServer4.MicroService/IdentityServer4.MicroService.csproj",
       "msbuildProject": "../IdentityServer4.MicroService/IdentityServer4.MicroService.csproj"
@@ -13759,7 +13760,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.2": [
-      "IdentityServer4MicroService >= 0.0.37",
+      "IdentityServer4MicroService >= 0.1.10",
       "Microsoft.AspNetCore.App >= 2.2.0",
       "Microsoft.AspNetCore.Razor.Design >= 2.2.0",
       "Microsoft.NETCore.App >= 2.2.0",
