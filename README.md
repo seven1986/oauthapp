@@ -45,5 +45,3 @@ For run this project recommends
 
 
 > 目前主要由[seven1986](https://github.com/seven1986)创建和维护。
-
-* dotnet sql-cache create {sqlConnection} dbo AppCache

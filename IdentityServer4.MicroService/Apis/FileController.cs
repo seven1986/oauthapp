@@ -189,7 +189,7 @@ namespace IdentityServer4.MicroService.Apis
         [HttpGet("Codes")]
         [AllowAnonymous]
         [SwaggerOperation("File/Codes")]
-        public List<ErrorCodeModel> Codes()
+        public List<ApiCodeModel> Codes()
         {
             var result = _Codes<FileControllerEnums>();
 

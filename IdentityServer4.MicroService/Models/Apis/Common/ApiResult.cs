@@ -5,7 +5,7 @@ using Microsoft.Extensions.Localization;
 
 namespace IdentityServer4.MicroService.Models.Apis.Common
 {
-    public class ApiResult<T>:IApiResult<T>
+    public class ApiResult<T> : IApiResult<T>
     {
         /// <summary>
         /// 代码

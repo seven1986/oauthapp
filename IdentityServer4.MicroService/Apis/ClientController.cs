@@ -35,7 +35,7 @@ namespace IdentityServer4.MicroService.Apis
         // database for identityserver
         readonly ConfigurationDbContext idsDB;
         // database for user
-        readonly IdentityDbContext userDB;
+        readonly UserDbContext userDB;
         // IdentityServer Tools
         readonly IdentityServerTools _tools;
         #endregion
@@ -43,7 +43,7 @@ namespace IdentityServer4.MicroService.Apis
         #region 构造函数
         public ClientController(
             ConfigurationDbContext _idsDB,
-            IdentityDbContext _userDB,
+            UserDbContext _userDB,
             IStringLocalizer<ClientController> localizer,
             IdentityServerTools tools)
         {
@@ -68,7 +68,7 @@ namespace IdentityServer4.MicroService.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientGet)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientGet)]
         [SwaggerOperation("Client/Get")]
-        public async Task<PagingResult<Client>> Get(PagingRequest<ClientGetRequest> value)
+        public async Task<PagingResult<Client>> Get([FromQuery]PagingRequest<ClientGetRequest> value)
         {
             if (!ModelState.IsValid)
             {
@@ -852,7 +852,7 @@ namespace IdentityServer4.MicroService.Apis
         [HttpGet("Codes")]
         [AllowAnonymous]
         [SwaggerOperation("Client/Codes")]
-        public List<ErrorCodeModel> Codes()
+        public List<ApiCodeModel> Codes()
         {
             var result = _Codes<ClientControllerEnums>();
 

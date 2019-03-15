@@ -25,6 +25,8 @@ using static IdentityServer4.MicroService.AppConstant;
 namespace IdentityServer4.MicroService.Apis
 {
     //[ServiceFilter(typeof(ApiLoggerService), IsReusable = true)]
+    [ApiController]
+    [Route("api/[controller]")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme)]
     public class BasicController : ControllerBase
     {
@@ -115,7 +117,7 @@ namespace IdentityServer4.MicroService.Apis
 
         public virtual TenantService tenantService { get; set; }
         public virtual TenantDbContext tenantDb { get; set; }
-        public virtual IdentityDbContext db { get; set; }
+        public virtual UserDbContext db { get; set; }
 
         private TenantPrivateModel _tenant;
         public TenantPrivateModel Tenant
@@ -160,14 +162,14 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        protected List<ErrorCodeModel> _Codes<T>()
+        protected List<ApiCodeModel> _Codes<T>()
         {
             var t = typeof(T);
 
             var items = t.GetFields()
                 .Where(x => x.CustomAttributes.Count() > 0).ToList();
 
-            var result = new List<ErrorCodeModel>();
+            var result = new List<ApiCodeModel>();
 
             foreach (var item in items)
             {
@@ -177,7 +179,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 var desc = item.GetCustomAttribute<DescriptionAttribute>();
 
-                var codeItem = new ErrorCodeModel()
+                var codeItem = new ApiCodeModel()
                 {
                     Code = code,
                     Name = codeName,

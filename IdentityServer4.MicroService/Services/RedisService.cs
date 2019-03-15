@@ -1,5 +1,4 @@
-﻿using IdentityServer4.MicroService.AppSettings;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Configuration;
 using StackExchange.Redis;
 using System;
 using System.Threading.Tasks;
@@ -24,9 +23,9 @@ namespace IdentityServer4.MicroService.Services
             }
         }
 
-        public RedisService(IOptions<ConnectionStrings> _config)
+        public RedisService(IConfiguration config)
         {
-            RedisConnectionString = _config.Value.RedisConnection;
+            RedisConnectionString = config["ConnectionStrings:RedisConnectionString"];
         }
 
         /// <summary>

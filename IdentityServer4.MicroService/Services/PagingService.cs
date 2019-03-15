@@ -103,7 +103,7 @@ namespace IdentityServer4.MicroService.Services
             #endregion
 
             #region orderBy
-            var OrderBy = " ID DESC ";
+            var OrderBy = Columns[TableName][0] + " DESC ";
             if (!string.IsNullOrWhiteSpace(value.orderby) &&
                 (Columns[TableName].Contains(value.orderby) ||
                  OrderByFieldsExtension.Contains(value.orderby)))

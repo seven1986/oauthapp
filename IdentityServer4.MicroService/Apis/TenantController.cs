@@ -59,7 +59,7 @@ namespace IdentityServer4.MicroService.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.TenantGet)]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.TenantGet)]
         [SwaggerOperation("Tenant/Get")]
-        public async Task<PagingResult<AppTenant>> Get(PagingRequest<TenantGetRequest> value)
+        public async Task<PagingResult<AppTenant>> Get([FromQuery]PagingRequest<TenantGetRequest> value)
         {
             if (!ModelState.IsValid)
             {
@@ -445,7 +445,7 @@ namespace IdentityServer4.MicroService.Apis
         [HttpGet("Codes")]
         [AllowAnonymous]
         [SwaggerOperation("Tenant/Codes")]
-        public List<ErrorCodeModel> Codes()
+        public List<ApiCodeModel> Codes()
         {
             var result = _Codes<TenantControllerEnums>();
 
