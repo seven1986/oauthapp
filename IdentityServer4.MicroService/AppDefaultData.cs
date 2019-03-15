@@ -6,7 +6,6 @@ using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using IdentityServer4.Models;
 using IdentityServer4.EntityFramework.DbContexts;
@@ -69,9 +68,9 @@ namespace IdentityServer4.MicroService
         /// </summary>
         public class Tenant
         {
-            public static string WebSite = "http://localhost:44309";
-            public static string IdentityServerIssuerUri = "localhost:44309";
-            public static string AppHostName = "localhost:44309";
+            public static string WebSite = "";//http://localhost:44309
+            public static string IdentityServerIssuerUri = "";//localhost:44309
+            public static string AppHostName = "";//localhost:44309
             public static string Name = "微服务";
 
             public static Dictionary<string, string> TenantProperties =
@@ -123,8 +122,8 @@ namespace IdentityServer4.MicroService
                         FrontChannelLogoutSessionRequired=false,
                         FrontChannelLogoutUri="",
                         RedirectUris = {
-                            $"https://{ServerUrl.ToString()}/swagger/oauth2-redirect.html",
-                            $"https://{ServerUrl.ToString()}/tool"
+                            $"{ServerUrl.ToString()}/swagger/oauth2-redirect.html",
+                            $"{ServerUrl.ToString()}/tool"
                         },
                         AllowedScopes =
                         {
@@ -157,7 +156,7 @@ namespace IdentityServer4.MicroService
                         FrontChannelLogoutUri="",
 
                         RedirectUris ={
-                            $"https://{ServerUrl.ToString()}/tool"
+                            $"{ServerUrl.ToString()}/tool"
                         },
                         //PostLogoutRedirectUris = AdminPortalClient.PostLogoutRedirectUris,
 
@@ -252,7 +251,9 @@ namespace IdentityServer4.MicroService
         /// </summary>
         public static void InitializeDatabase(IApplicationBuilder app,string MicroServiceName,Uri ServerUrl)
         {
-            Tenant.IdentityServerIssuerUri = "https://"+ ServerUrl.ToString();
+            Tenant.AppHostName = Tenant.IdentityServerIssuerUri = ServerUrl.Authority;
+
+            Tenant.WebSite = ServerUrl.ToString();
 
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {

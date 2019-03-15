@@ -27,3 +27,4 @@
 /IdentityServer4.MicroService.Host/appsettings.Production.json
 /IdentityServer4.MicroService.Host/appsettings.Development.json
 /WebApplication1/obj/Release/netcoreapp2.2
+/WebApplication1/bin/Release/netcoreapp2.2

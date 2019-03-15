@@ -61,11 +61,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 ids4msOptions.MicroServiceName = "ids4.ms";
             }
 
-            if (ids4msOptions.IdentityServer == null)
-            {
-                ids4msOptions.IdentityServer = new Uri(configuration["IdentityServer"]);
-            }
-
             builder.Services.AddSingleton(ids4msOptions);
 
             #region Cors
@@ -213,8 +208,8 @@ namespace Microsoft.Extensions.DependencyInjection
                         {
                             Type = "oauth2",
                             Flow = "accessCode",
-                            AuthorizationUrl = "https://" + ids4msOptions.IdentityServer.AbsoluteUri + "/connect/authorize",
-                            TokenUrl = "https://" + ids4msOptions.IdentityServer.AbsoluteUri + "/connect/token",
+                            AuthorizationUrl = ids4msOptions.IdentityServer.ToString() + "/connect/authorize",
+                            TokenUrl = ids4msOptions.IdentityServer.ToString() + "/connect/token",
                             Description = "勾选授权范围，获取Token",
                             Scopes = new Dictionary<string, string>(){
                             { "openid","用户标识" },
@@ -421,7 +416,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.AddIdentityServer(config =>
             {
                 // keep same Issuer for banlancer
-                // config.IssuerUri = "https://" + Configuration["IdentityServer"];
+                 config.IssuerUri = configuration["IdentityServer"];
                 // config.PublicOrigin = "";
                 // config.Discovery.CustomEntries.Add("custom_endpoint", "~/api/custom");
             })

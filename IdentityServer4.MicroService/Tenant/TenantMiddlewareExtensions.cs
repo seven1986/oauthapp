@@ -23,9 +23,10 @@ namespace Microsoft.AspNetCore.Builder
 
             var options = builder.ApplicationServices.GetService<IdentityServer4MicroServiceOptions>();
 
-            var identityServer = options.IdentityServer.ToString();
-
-            //var httpsEndpoint = Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME");
+            if (options.IdentityServer == null)
+            {
+                options.IdentityServer = new Uri(Configuration["IdentityServer"]);
+            }
 
             builder.Validate();
 
@@ -47,7 +48,7 @@ namespace Microsoft.AspNetCore.Builder
                 x.PreSerializeFilters.Add((doc, req) =>
                 {
                     doc.Schemes = new[] { "https" };
-                    doc.Host = identityServer;
+                    doc.Host = options.IdentityServer.Authority;
                     doc.Security = new List<IDictionary<string, IEnumerable<string>>>()
                     {
                             new Dictionary<string, IEnumerable<string>>()
@@ -73,7 +74,7 @@ namespace Microsoft.AspNetCore.Builder
                         c.OAuthAppName(options.SwaggerUIClientName);
                         c.OAuthClientId(options.SwaggerUIClientID);
                         c.OAuthClientSecret(options.SwaggerUIClientSecret);
-                        c.OAuth2RedirectUrl($"https://{identityServer}/swagger/oauth2-redirect.html");
+                        c.OAuth2RedirectUrl($"{options.IdentityServer.ToString()}/swagger/oauth2-redirect.html");
                     }
 
                     c.DocExpansion(DocExpansion.None);
