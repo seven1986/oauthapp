@@ -1704,7 +1704,7 @@
             IdentityServer服务器地址
             </summary>
         </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.Cors">
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableCors">
             <summary>
             启用跨域
             </summary>

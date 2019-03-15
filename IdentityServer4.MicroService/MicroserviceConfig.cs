@@ -886,13 +886,13 @@ namespace IdentityServer4.MicroService
             ///  用户
             /// </summary>
             [DisplayName("用户")]
-            public const string Users = "users";
+            public const string Users = "user";
 
             /// <summary>
             /// 合作商
             /// </summary>
             [DisplayName("合作商")]
-            public const string Partners = "partners";
+            public const string Partners = "partner";
 
             /// <summary>
             /// 开发者
@@ -904,7 +904,7 @@ namespace IdentityServer4.MicroService
             /// 管理员
             /// </summary>
             [DisplayName("管理员")]
-            public const string Administrators = "administrators";
+            public const string Administrators = "administrator";
         }
 
         /// <summary>

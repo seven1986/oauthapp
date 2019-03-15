@@ -64,7 +64,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.AddSingleton(ids4msOptions);
 
             #region Cors
-            if (ids4msOptions.Cors)
+            if (ids4msOptions.EnableCors)
             {
                 builder.Services.AddCors(options =>
                 {
@@ -295,23 +295,27 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region Authentication
-            if (ids4msOptions.IdentityServer != null)
+            builder.Services.AddAuthentication(options =>
             {
-                builder.Services.AddAuthentication(options =>
-                {
-                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-                })
-                .AddIdentityServerAuthentication(AppConstant.AppAuthenScheme, isAuth =>
-                {
-                    isAuth.Authority = "https://" + ids4msOptions.IdentityServer.Host;
-                    isAuth.ApiName = ids4msOptions.MicroServiceName;
-                    isAuth.RequireHttpsMetadata = true;
-                })
-                .AddIdentityServer4MicroServiceOAuths(configuration);
-            }
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+            .AddIdentityServerAuthentication(AppConstant.AppAuthenScheme, isAuth =>
+            {
+                isAuth.Authority = configuration["IdentityServer"];
+                isAuth.ApiName = ids4msOptions.MicroServiceName;
+                isAuth.RequireHttpsMetadata = true;
+            })
+            .AddIdentityServer4MicroServiceOAuths(configuration);
             #endregion
 
+            #region ApiVersioning
+            if (ids4msOptions.EnableResponseCaching)
+            {
+                builder.Services.AddResponseCaching();
+            }
+            #endregion
+           
             var DBConnectionString = configuration["ConnectionStrings:DataBaseConnection"];
 
             var DbContextOptions = new Action<DbContextOptionsBuilder>(x =>

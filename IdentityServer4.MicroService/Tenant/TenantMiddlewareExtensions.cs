@@ -30,7 +30,10 @@ namespace Microsoft.AspNetCore.Builder
 
             builder.Validate();
 
-            builder.UseCors("cors-allowanonymous");
+            if (options.EnableCors)
+            {
+                builder.UseCors("cors-allowanonymous");
+            }
 
             if (options.InitializeDatabase)
             {
@@ -43,42 +46,53 @@ namespace Microsoft.AspNetCore.Builder
 
             builder.UseIdentityServer();
 
-            builder.UseSwagger(x =>
+            if (options.SwaggerGen)
             {
-                x.PreSerializeFilters.Add((doc, req) =>
+                builder.UseSwagger(x =>
                 {
-                    doc.Schemes = new[] { "https" };
-                    doc.Host = options.IdentityServer.Authority;
-                    doc.Security = new List<IDictionary<string, IEnumerable<string>>>()
+                    x.PreSerializeFilters.Add((doc, req) =>
                     {
+                        doc.Schemes = new[] { "https" };
+                        doc.Host = options.IdentityServer.Authority;
+                        doc.Security = new List<IDictionary<string, IEnumerable<string>>>()
+                        {
                             new Dictionary<string, IEnumerable<string>>()
                             {
                                 { "SubscriptionKey", new string[]{ } },
                                 { "AccessToken", new string[]{ } },
                                 { "OAuth2", new string[]{ } },
                             }
-                    };
+                        };
+                    });
                 });
-            });
+            }
 
-            builder.UseSwaggerUI(c =>
-                {
-                    var provider = builder.ApplicationServices.GetService<IApiVersionDescriptionProvider>();
-
-                    foreach (var description in provider.ApiVersionDescriptions)
+            if (options.SwaggerUI)
+            {
+                builder.UseSwaggerUI(c =>
                     {
-                        c.SwaggerEndpoint(
-                            $"/swagger/{description.GroupName}/swagger.json",
-                            description.GroupName.ToUpperInvariant());
+                        var provider = builder.ApplicationServices.GetService<IApiVersionDescriptionProvider>();
 
-                        c.OAuthAppName(options.SwaggerUIClientName);
-                        c.OAuthClientId(options.SwaggerUIClientID);
-                        c.OAuthClientSecret(options.SwaggerUIClientSecret);
-                        c.OAuth2RedirectUrl($"{options.IdentityServer.ToString()}/swagger/oauth2-redirect.html");
-                    }
+                        foreach (var description in provider.ApiVersionDescriptions)
+                        {
+                            c.SwaggerEndpoint(
+                                $"/swagger/{description.GroupName}/swagger.json",
+                                description.GroupName.ToUpperInvariant());
 
-                    c.DocExpansion(DocExpansion.None);
-                });
+                            c.OAuthAppName(options.SwaggerUIClientName);
+                            c.OAuthClientId(options.SwaggerUIClientID);
+                            c.OAuthClientSecret(options.SwaggerUIClientSecret);
+                            c.OAuth2RedirectUrl($"{options.IdentityServer.ToString()}/swagger/oauth2-redirect.html");
+                        }
+
+                        c.DocExpansion(DocExpansion.None);
+                    });
+            }
+            
+            if (options.EnableResponseCaching)
+            {
+                builder.UseResponseCaching();
+            }
 
             return builder;
         }

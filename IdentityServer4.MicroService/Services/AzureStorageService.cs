@@ -22,7 +22,7 @@ namespace IdentityServer4.MicroService.Services
             IConfiguration configuration,
             ILogger<AzureStorageService> _logger)
         {
-            Connection = configuration["ConnectionStrings:AzureStorageConnectionString"];
+            Connection = configuration["ConnectionStrings:AzureStorageConnection"];
             logger = _logger;
         }
 

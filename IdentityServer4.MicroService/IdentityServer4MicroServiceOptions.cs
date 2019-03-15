@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace IdentityServer4.MicroService
 {
@@ -24,7 +22,7 @@ namespace IdentityServer4.MicroService
         /// <summary>
         /// 启用跨域
         /// </summary>
-        public bool Cors { get; set; } = true;
+        public bool EnableCors { get; set; } = true;
 
         /// <summary>
         /// 启用多语言
