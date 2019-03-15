@@ -1604,6 +1604,21 @@
             服务器内部错误
             </summary>
         </member>
+        <member name="F:IdentityServer4.MicroService.Enums.BasicControllerEnums.NotFound">
+            <summary>
+            未找到内容
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Enums.BasicControllerEnums.NoPermission">
+            <summary>
+            无权限进行操作
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.Enums.BasicControllerEnums.HasError">
+            <summary>
+            错误的请求
+            </summary>
+        </member>
         <member name="F:IdentityServer4.MicroService.Enums.CodeGenControllerEnums.GenerateClient_GetSwaggerFialed">
             <summary>
             获取swagger文档失败

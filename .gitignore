@@ -26,3 +26,4 @@
 /IdentityServer4.MicroService.AzureJobs.Host/IdentityServer4.MicroService.AzureJobs.Host.csproj.user
 /IdentityServer4.MicroService.Host/appsettings.Production.json
 /IdentityServer4.MicroService.Host/appsettings.Development.json
+/WebApplication1/obj/Release/netcoreapp2.2
