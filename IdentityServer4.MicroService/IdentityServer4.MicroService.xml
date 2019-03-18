@@ -921,8 +921,6 @@
             </summary>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>ids4.ms.user.register</code>
-            <label>User Permissions：</label><code>ids4.ms.user.register</code>
             需验证手机号；邮箱如果填写了，也需要验证
             </remarks>
         </member>
@@ -933,8 +931,6 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>ids4.ms.user.verifyphone</code>
-            <label>User Permissions：</label><code>ids4.ms.user.verifyphone</code>
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.VerifyEmail(IdentityServer4.MicroService.Models.Apis.UserController.UserVerifyEmailRequest)">
@@ -944,8 +940,6 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>ids4.ms.user.verifyemail</code>
-            <label>User Permissions：</label><code>ids4.ms.user.verifyemail</code>
             </remarks>
         </member>
         <member name="F:IdentityServer4.MicroService.AppConstant.AppAuthenScheme">
