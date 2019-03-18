@@ -988,47 +988,6 @@
             数据库初始化
             </summary>
         </member>
-        <member name="T:IdentityServer4.MicroService.AppDefaultData.SendCloudMailTemplates">
-            <summary>
-            邮件发送模板
-            需要对接sendcloud平台
-            https://sendcloud.sohu.com
-            </summary>
-        </member>
-        <member name="F:IdentityServer4.MicroService.AppDefaultData.SendCloudMailTemplates.verify_email">
-            <summary>
-            用户注册 - 邮箱验证
-            变量：%code%
-            </summary>
-        </member>
-        <member name="F:IdentityServer4.MicroService.AppDefaultData.SendCloudMailTemplates.verify_apiresource_subscription">
-            <summary>
-            订阅微服务 - 邮箱验证
-            变量：
-            %SubscritionUrl%
-            %DelSubscritionUrl%
-            %apiId%
-            %serviceName%
-            </summary>
-        </member>
-        <member name="F:IdentityServer4.MicroService.AppDefaultData.SendCloudMailTemplates.reset_password">
-            <summary>
-            忘记密码
-            变量：%callbackUrl%
-            </summary>
-        </member>
-        <member name="F:IdentityServer4.MicroService.AppDefaultData.SendCloudMailTemplates.security_code">
-            <summary>
-            用户登录 - 邮箱安全码
-            变量：%code%
-            </summary>
-        </member>
-        <member name="F:IdentityServer4.MicroService.AppDefaultData.SendCloudMailTemplates.test_template_active">
-            <summary>
-            用户注册 - 激活邮箱
-            变量：%name%,%url%
-            </summary>
-        </member>
         <member name="P:IdentityServer4.MicroService.Attributes.EmailConfigAttribute.subject">
             <summary>
             邮件标题
@@ -1777,6 +1736,11 @@
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.InitializeDatabase">
             <summary>
             初始化数据库
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.IdentityOptions">
+            <summary>
+            IdentityOptions
             </summary>
         </member>
         <member name="T:IdentityServer4.MicroService.MicroserviceConfig.ClientScopes">
@@ -2746,11 +2710,12 @@
             发送邮件
             </summary>
         </member>
-        <member name="M:IdentityServer4.MicroService.Services.EmailService.SendEmailAsync(IdentityServer4.MicroService.AppDefaultData.SendCloudMailTemplates,System.String[],System.Collections.Generic.Dictionary{System.String,System.String[]})">
+        <member name="M:IdentityServer4.MicroService.Services.EmailService.SendEmailAsync(System.String,System.String,System.String[],System.Collections.Generic.Dictionary{System.String,System.String[]})">
             <summary>
             发送邮件
             </summary>
-            <param name="template">邮件模板ID</param>
+            <param name="templateKey">邮件模板ID</param>
+            <param name="subject">邮件标题</param>
             <param name="emailAddress">收件地址</param>
             <param name="vars">变量集合</param>
             <returns></returns>

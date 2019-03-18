@@ -117,28 +117,27 @@ namespace IdentityServer4.MicroService.Services
         // 邮件服务
         readonly IEmailSender email;
 
-        public EmailService(
-            IEmailSender _email)
+        public EmailService(IEmailSender _email)
         {
             email = _email;
         }
 
+      
+
         /// <summary>
         /// 发送邮件
         /// </summary>
-        /// <param name="template">邮件模板ID</param>
+        /// <param name="templateKey">邮件模板ID</param>
+        /// <param name="subject">邮件标题</param>
         /// <param name="emailAddress">收件地址</param>
         /// <param name="vars">变量集合</param>
         /// <returns></returns>
         public async Task<bool> SendEmailAsync(
-            SendCloudMailTemplates template, 
-            string[] emailAddress, 
+            string templateKey,
+            string subject,
+            string[] emailAddress,
             Dictionary<string, string[]> vars)
         {
-            var templateKey = Enum.GetName(typeof(SendCloudMailTemplates), template);
-
-            var TemplateEntity = template.GetType().GetField(templateKey).GetCustomAttribute<EmailConfigAttribute>();
-
             var sub = new Dictionary<string, string[]>();
 
             foreach (var kv in vars)
@@ -158,7 +157,7 @@ namespace IdentityServer4.MicroService.Services
             try
             {
                 await email.SendEmailAsync(
-                    TemplateEntity.subject, 
+                    subject,
                     templateKey,
                     xsmtpapi);
 

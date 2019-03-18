@@ -1436,8 +1436,8 @@ namespace IdentityServer4.MicroService.Apis
                 }
                 #endregion
 
-                var result = await email.SendEmailAsync(
-                    SendCloudMailTemplates.verify_apiresource_subscription,
+                var result = await email.SendEmailAsync("verify_apiresource_subscription", "验证邮箱",
+                    //SendCloudMailTemplates.verify_apiresource_subscription,
                    new string[] { value.email },
                     new Dictionary<string, string[]>()
                     {

@@ -887,8 +887,8 @@ namespace IdentityServer4.MicroService.Apis
             verifyCode = Protect(verifyCode,
                 TimeSpan.FromSeconds(UserControllerKeys.VerifyCode_Expire_Email));
 
-            await email.SendEmailAsync(
-                SendCloudMailTemplates.verify_email,
+            await email.SendEmailAsync("verify_email", "邮箱验证",
+                //SendCloudMailTemplates.verify_email,
                new string[] { value.Email },
                 new Dictionary<string, string[]>() {
                     { "%code%", new string[] { verifyCode } }

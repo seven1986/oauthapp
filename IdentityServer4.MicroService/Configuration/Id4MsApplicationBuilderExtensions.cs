@@ -329,7 +329,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder.AddTenantStore(DbContextOptions);
 
-            builder.AddIdentityStore(DbContextOptions);
+            builder.AddIdentityStore(DbContextOptions, ids4msOptions.IdentityOptions);
 
             builder.AddSqlCacheStore(DBConnectionString);
 

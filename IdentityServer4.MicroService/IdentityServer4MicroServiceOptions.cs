@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace IdentityServer4.MicroService
 {
@@ -93,5 +94,10 @@ namespace IdentityServer4.MicroService
         /// 初始化数据库
         /// </summary>
         public bool InitializeDatabase { get; set; } = true;
+
+        /// <summary>
+        /// IdentityOptions
+        /// </summary>
+        public Action<IdentityOptions> IdentityOptions { get; set; }
     }
 }
