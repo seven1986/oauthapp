@@ -25,7 +25,7 @@ namespace IdentityServer4.MicroService.Services
 
         public RedisService(IConfiguration config)
         {
-            RedisConnectionString = config["ConnectionStrings:RedisConnectionString"];
+            RedisConnectionString = config["ConnectionStrings:RedisConnection"];
         }
 
         /// <summary>

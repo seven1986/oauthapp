@@ -244,11 +244,21 @@ namespace Microsoft.Extensions.DependencyInjection
                         c.CustomSchemaIds(x => x.FullName);
                     }
 
-                    var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, ids4msOptions.AssemblyName + ".xml");
+                    var SiteSwaggerFilePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, ids4msOptions.AssemblyName + ".xml");
 
-                    c.IncludeXmlComments(filePath);
+                    c.IncludeXmlComments(SiteSwaggerFilePath);
 
-                    c.IncludeXmlComments(Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "IdentityServer4.MicroService.xml"));
+                    var ISMSSwaggerFilePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "IdentityServer4.MicroService.xml");
+
+                    if (!File.Exists(ISMSSwaggerFilePath))
+                    {
+                        using (var sw = new StreamWriter(ISMSSwaggerFilePath))
+                        {
+                            sw.Write(AppResource.IdentityServer4_MicroService1);
+                        }
+                    }
+
+                    c.IncludeXmlComments(ISMSSwaggerFilePath);
                 });
             }
             #endregion
@@ -329,7 +339,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder.AddTenantStore(DbContextOptions);
 
-            builder.AddIdentityStore(DbContextOptions);
+            builder.AddIdentityStore(DbContextOptions, ids4msOptions.IdentityOptions);
 
             builder.AddSqlCacheStore(DBConnectionString);
 
@@ -434,26 +444,27 @@ namespace Microsoft.Extensions.DependencyInjection
             return builder;
         }
 
-       static X509Certificate2 GetSigningCredential(IConfiguration Configuration)
+        static X509Certificate2 GetSigningCredential(IConfiguration Configuration)
         {
-            var certFilePath = Configuration["IdentityServerCertificate:FilePath"];
-
-            var certPassword = Configuration["IdentityServerCertificate:CertPassword"];
-
-            if (!string.IsNullOrWhiteSpace(certFilePath) &&
-                !string.IsNullOrWhiteSpace(certPassword))
+            if (!string.IsNullOrWhiteSpace(Configuration["IdentityServerCertificate"]) &&
+                !string.IsNullOrWhiteSpace(Configuration["IdentityServerCertificate:CertPath"]) &&
+                !string.IsNullOrWhiteSpace(Configuration["IdentityServerCertificate:CertPassword"]))
             {
-                var certPath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, certFilePath);
+                var CertPath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath,
+                     Configuration["IdentityServerCertificate:CertPath"]);
 
-                var cert = new X509Certificate2(certPath, certPassword,
-                    X509KeyStorageFlags.MachineKeySet |
-                    X509KeyStorageFlags.PersistKeySet |
-                    X509KeyStorageFlags.Exportable);
+                var CertPassword = Configuration["IdentityServerCertificate:CertPassword"];
 
-                return cert;
+                return new X509Certificate2(CertPath, CertPassword,
+               X509KeyStorageFlags.MachineKeySet |
+               X509KeyStorageFlags.PersistKeySet |
+               X509KeyStorageFlags.Exportable);
             }
 
-            return null;
+            return new X509Certificate2(AppResource.identityserver4_microservice, "214480728730881",
+                X509KeyStorageFlags.MachineKeySet |
+                X509KeyStorageFlags.PersistKeySet |
+                X509KeyStorageFlags.Exportable);
         }
     }
 }

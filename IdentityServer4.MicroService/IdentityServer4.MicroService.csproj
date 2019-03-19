@@ -8,11 +8,11 @@
     <PackageProjectUrl>https://github.com/seven1986/IdentityServer4.MicroService</PackageProjectUrl>
     <RepositoryUrl>https://github.com/seven1986/IdentityServer4.MicroService</RepositoryUrl>
     <PackageTags>IdentityServer4 MicroService AzureApiManagement</PackageTags>
-    <AssemblyVersion>0.1.10.0</AssemblyVersion>
-    <FileVersion>0.1.10.0</FileVersion>
+    <AssemblyVersion>0.1.14.0</AssemblyVersion>
+    <FileVersion>0.1.14.0</FileVersion>
     <PackageLicenseUrl>https://github.com/seven1986/IdentityServer4.MicroService/blob/master/LICENSE</PackageLicenseUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/seven1986/IdentityServer4.MicroService/master/id4ms.png</PackageIconUrl>
-    <Version>0.1.10</Version>
+    <Version>0.1.14</Version>
     <Product>IdentityServer4.MicroService</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
   </PropertyGroup>
@@ -39,10 +39,8 @@
   <ItemGroup>
     <Content Include="identityserver4.microservice.pfx">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="IdentityServer4.MicroService.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <BuildAction>Content</BuildAction>
     </Content>
     <Content Include="Node\readthedocs.gen.js">
@@ -86,6 +84,21 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="AppResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AppResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="AppResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AppResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

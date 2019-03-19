@@ -589,13 +589,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.user.register</code>
-        /// <label>User Permissions：</label><code>ids4.ms.user.register</code>
         /// 需验证手机号；邮箱如果填写了，也需要验证
         /// </remarks>
         [HttpPost("Register")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserRegister)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserRegister)]
+        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserRegister)]
+        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserRegister)]
+        [AllowAnonymous]
         [SwaggerOperation("User/Register")]
         public async Task<ApiResult<string>> Register([FromBody]UserRegisterRequest value)
         {
@@ -739,12 +738,11 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.user.verifyphone</code>
-        /// <label>User Permissions：</label><code>ids4.ms.user.verifyphone</code>
         /// </remarks>
         [HttpPost("VerifyPhone")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserVerifyPhone)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserVerifyPhone)]
+        [AllowAnonymous]
+        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserVerifyPhone)]
+        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserVerifyPhone)]
         [SwaggerOperation("User/VerifyPhone")]
         public async Task<ApiResult<string>> VerifyPhone([FromBody]UserVerifyPhoneRequest value)
         {
@@ -824,12 +822,11 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.user.verifyemail</code>
-        /// <label>User Permissions：</label><code>ids4.ms.user.verifyemail</code>
         /// </remarks>
         [HttpPost("VerifyEmail")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserVerifyEmail)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserVerifyEmail)]
+        [AllowAnonymous]
+        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserVerifyEmail)]
+        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserVerifyEmail)]
         [SwaggerOperation("User/VerifyEmail")]
         public async Task<ApiResult<string>> VerifyEmail([FromBody]UserVerifyEmailRequest value)
         {
@@ -887,8 +884,8 @@ namespace IdentityServer4.MicroService.Apis
             verifyCode = Protect(verifyCode,
                 TimeSpan.FromSeconds(UserControllerKeys.VerifyCode_Expire_Email));
 
-            await email.SendEmailAsync(
-                SendCloudMailTemplates.verify_email,
+            await email.SendEmailAsync("verify_email", "邮箱验证",
+                //SendCloudMailTemplates.verify_email,
                new string[] { value.Email },
                 new Dictionary<string, string[]>() {
                     { "%code%", new string[] { verifyCode } }
