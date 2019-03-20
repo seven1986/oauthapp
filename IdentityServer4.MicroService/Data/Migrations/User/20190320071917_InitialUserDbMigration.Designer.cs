@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityServer4.MicroService.Data.Migrations.User
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20190313094128_InitialUserDbMigration")]
+    [Migration("20190320071917_InitialUserDbMigration")]
     partial class InitialUserDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,6 +103,8 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<string>("CountryCode");
 
                     b.Property<DateTime>("CreateDate");
 

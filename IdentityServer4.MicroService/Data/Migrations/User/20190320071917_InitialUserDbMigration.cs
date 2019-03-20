@@ -81,7 +81,8 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
                     PoolIDs = table.Column<string>(nullable: true),
                     DataAmount = table.Column<long>(nullable: false),
                     Points = table.Column<long>(nullable: false),
-                    Money = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Money = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CountryCode = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

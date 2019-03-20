@@ -942,6 +942,12 @@
             <remarks>
             </remarks>
         </member>
+        <member name="M:IdentityServer4.MicroService.Apis.UserController.ResetPassword(IdentityServer4.MicroService.Models.Apis.UserController.ResetPasswordRequest)">
+            <summary>
+            用户 - 忘记密码 - 手机验证码
+            </summary>
+            <returns></returns>
+        </member>
         <member name="F:IdentityServer4.MicroService.AppConstant.AppAuthenScheme">
             <summary>
             https://identityserver4.readthedocs.io/en/release/topics/add_apis.html
@@ -1358,6 +1364,11 @@
             余额
             </summary>
         </member>
+        <member name="P:IdentityServer4.MicroService.Data.AppUser.CountryCode">
+            <summary>
+            国家代码
+            </summary>
+        </member>
         <member name="P:IdentityServer4.MicroService.Data.AppRole.Claims">
             <summary>
             Navigation property for the claims this role belongs to.
@@ -1645,7 +1656,7 @@
             手机号已被注册
             </summary>
         </member>
-        <member name="F:IdentityServer4.MicroService.Enums.UserControllerEnums.Register_PhoneNumberVerifyCodeError">
+        <member name="F:IdentityServer4.MicroService.Enums.UserControllerEnums.PhoneNumberVerifyCodeError">
             <summary>
             无效的手机验证码
             </summary>
@@ -2363,6 +2374,41 @@
             站点域名
             </summary>
         </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.LoginWithMobileCodeRequest.CountryCode">
+            <summary>
+            国家代码
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.LoginWithMobileCodeRequest.PhoneNumber">
+            <summary>
+            PhoneNumber
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.LoginWithMobileCodeRequest.PhoneNumberVerifyCode">
+            <summary>
+            PhoneNumber VerifyCode
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.ResetPasswordRequest.CountryCode">
+            <summary>
+            国家代码
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.ResetPasswordRequest.PhoneNumber">
+            <summary>
+            PhoneNumber
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.ResetPasswordRequest.PhoneNumberVerifyCode">
+            <summary>
+            PhoneNumber VerifyCode
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.ResetPasswordRequest.Password">
+            <summary>
+            Password
+            </summary>
+        </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.UserDetailRequest.PhoneNumber">
             <summary>
             PhoneNumber
@@ -2386,6 +2432,11 @@
         <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.UserGetRequest.email">
             <summary>
             邮箱
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.UserRegisterRequest.CountryCode">
+            <summary>
+            国家代码
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.UserRegisterRequest.NickName">
@@ -2451,6 +2502,11 @@
         <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.UserRegisterRequest.Password">
             <summary>
             登录密码
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.UserRegisterRequest.RefereeID">
+            <summary>
+            推荐人ID
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.UserVerifyEmailRequest.Email">

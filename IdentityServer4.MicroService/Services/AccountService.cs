@@ -38,7 +38,7 @@ namespace IdentityServer4.MicroService.Services
             }
 
             IdentityResult result = null;
-
+            
             // 如果没有设置密码
             if (string.IsNullOrWhiteSpace(user.PasswordHash))
             {

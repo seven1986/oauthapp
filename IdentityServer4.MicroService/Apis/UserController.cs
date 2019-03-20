@@ -25,6 +25,7 @@ using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
 using static IdentityServer4.MicroService.AppDefaultData;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Net.Http;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -625,7 +626,7 @@ namespace IdentityServer4.MicroService.Apis
             #endregion
 
             #region 校验手机号是否重复
-            if (await db.Users.AnyAsync(x => x.PhoneNumber.Equals(value.PhoneNumber)))
+            if (await db.Users.AnyAsync(x => x.PhoneNumber.Equals(value.PhoneNumber) && x.CountryCode == value.CountryCode))
             {
                 return new ApiResult<string>(l, UserControllerEnums.Register_PhoneNumberExists);
             }
@@ -635,7 +636,7 @@ namespace IdentityServer4.MicroService.Apis
 
             if (await redis.KeyExistsAsync(PhoneNumberVerifyCodeKey) == false)
             {
-                return new ApiResult<string>(l, UserControllerEnums.Register_PhoneNumberVerifyCodeError);
+                return new ApiResult<string>(l, UserControllerEnums.PhoneNumberVerifyCodeError);
             }
 
             await redis.RemoveAsync(PhoneNumberVerifyCodeKey);
@@ -654,11 +655,13 @@ namespace IdentityServer4.MicroService.Apis
                 PhoneNumberConfirmed = true,
                 Stature = value.Stature,
                 Weight = value.Weight,
-                Description = value.Description,
+                Description = value.Description ?? "",
                 CreateDate = DateTime.UtcNow,
                 LastUpdateTime = DateTime.UtcNow,
                 EmailConfirmed = true,
-                ParentUserID = UserId
+                ParentUserID = value.RefereeID,
+                CountryCode = value.CountryCode,
+                PasswordHash = value.Password
             };
 
             #region 确认邮箱验证通过
@@ -702,14 +705,14 @@ namespace IdentityServer4.MicroService.Apis
             }
             #endregion
 
-            var roleIds = db.Roles.Where(x => x.Name.Equals(Roles.Users) || x.Name.Equals(Roles.Developer))
+            var roleIds = db.Roles.Where(x => x.Name.Equals(Roles.Users))
                     .Select(x => x.Id).ToList();
 
             var permissions = typeof(UserPermissions).GetFields().Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().PolicyValues[0]).ToList();
 
             var tenantIds = tenantDbContext.Tenants.Select(x => x.Id).ToList();
 
-            var result = await AppUserService.CreateUser(TenantId,
+            var result = await AppUserService.CreateUser(1L,
                 userManager,
                 db,
                 user,
@@ -719,7 +722,7 @@ namespace IdentityServer4.MicroService.Apis
 
             if (result.Succeeded)
             {
-                return new ApiResult<string>();
+                return new ApiResult<string>(user.Id.ToString());
             }
 
             else
@@ -901,6 +904,49 @@ namespace IdentityServer4.MicroService.Apis
             return new ApiResult<string>();
         }
         #endregion 
+
+        #region 用户 - 忘记密码 - 手机验证码
+        /// <summary>
+        /// 用户 - 忘记密码 - 手机验证码
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("ResetPassword")]
+        [AllowAnonymous]
+        [SwaggerOperation("User/ResetPassword")]
+        public async Task<ApiResult<bool>> ResetPassword([FromBody]ResetPasswordRequest value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            #region 校验手机验证码
+            var PhoneNumberVerifyCodeKey = UserControllerKeys.VerifyCode_Phone + value.PhoneNumber + ":" + value.PhoneNumberVerifyCode;
+
+            if (await redis.KeyExistsAsync(PhoneNumberVerifyCodeKey) == false)
+            {
+                return new ApiResult<bool>(l, UserControllerEnums.PhoneNumberVerifyCodeError);
+            }
+
+            await redis.RemoveAsync(PhoneNumberVerifyCodeKey);
+            #endregion
+
+            var User = await db.Users.FirstOrDefaultAsync(x =>
+            x.PhoneNumber == value.PhoneNumber && x.CountryCode == value.CountryCode);
+
+            if (User==null)
+            {
+                return new ApiResult<bool>(l, UserControllerEnums.Register_PhoneNumberExists);
+            }
+
+            User.PasswordHash = userManager.PasswordHasher.HashPassword(User, value.Password);
+
+            db.SaveChanges();
+
+            return new ApiResult<bool>(true);
+        }
+        #endregion
         #endregion
     }
 }

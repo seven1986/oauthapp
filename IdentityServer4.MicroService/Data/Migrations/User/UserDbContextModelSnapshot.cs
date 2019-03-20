@@ -102,6 +102,8 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<string>("CountryCode");
+
                     b.Property<DateTime>("CreateDate");
 
                     b.Property<long>("DataAmount");

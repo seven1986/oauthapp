@@ -7,6 +7,12 @@ namespace IdentityServer4.MicroService.Models.Apis.UserController
     public class UserRegisterRequest
     {
         /// <summary>
+        /// 国家代码
+        /// </summary>
+        [Required(ErrorMessage = "请填写国家代码")]
+        public string CountryCode { get; set; }
+
+        /// <summary>
         /// NickName
         /// </summary>
         [Required(ErrorMessage = "请填写姓名")]
@@ -95,5 +101,10 @@ namespace IdentityServer4.MicroService.Models.Apis.UserController
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         public string Password { get; set; }
+
+        /// <summary>
+        /// 推荐人ID
+        /// </summary>
+        public long RefereeID { get; set; } = 1;
     }
 }
