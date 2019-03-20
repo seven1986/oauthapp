@@ -18,7 +18,7 @@ namespace IdentityServer4.MicroService.Enums
         /// 无效的手机验证码
         /// </summary>
         [Description("无效的手机验证码")]
-        Register_PhoneNumberVerifyCodeError = 100002,
+        PhoneNumberVerifyCodeError = 100002,
 
         /// <summary>
         /// 手机号已被注册

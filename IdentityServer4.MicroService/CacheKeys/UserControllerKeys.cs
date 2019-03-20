@@ -14,7 +14,7 @@
         /// <summary>
         /// 24小时内发送短信验证码的上限
         /// </summary>
-        public const int Limit_24Hour_Verify_MAX_Phone = 10;
+        public const int Limit_24Hour_Verify_MAX_Phone = 999;
 
         /// <summary>
         /// （缓存KEY）

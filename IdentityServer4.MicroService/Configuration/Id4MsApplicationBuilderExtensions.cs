@@ -2,6 +2,7 @@
 using IdentityServer4.MicroService.Attributes;
 using IdentityServer4.MicroService.Configuration;
 using IdentityServer4.MicroService.Data;
+using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Tenant;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -325,7 +326,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 builder.Services.AddResponseCaching();
             }
             #endregion
-           
+
             var DBConnectionString = configuration["ConnectionStrings:DataBaseConnection"];
 
             var DbContextOptions = new Action<DbContextOptionsBuilder>(x =>
@@ -439,6 +440,7 @@ namespace Microsoft.Extensions.DependencyInjection
              .AddCustomTokenRequestValidator<TenantTokenRequestValidator>()
              .AddConfigurationStore(x => x.ConfigureDbContext = DbContextOptions)
              .AddOperationalStore(x => x.ConfigureDbContext = DbContextOptions)
+             .AddExtensionGrantValidator<MobileCodeGrantValidator>()
              .AddAspNetIdentity<AppUser>();
 
             return builder;
