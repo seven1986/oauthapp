@@ -655,12 +655,13 @@ namespace IdentityServer4.MicroService.Apis
                 PhoneNumberConfirmed = true,
                 Stature = value.Stature,
                 Weight = value.Weight,
-                Description = value.Description??"",
+                Description = value.Description ?? "",
                 CreateDate = DateTime.UtcNow,
                 LastUpdateTime = DateTime.UtcNow,
                 EmailConfirmed = true,
                 ParentUserID = value.RefereeID,
-                CountryCode = value.CountryCode
+                CountryCode = value.CountryCode,
+                PasswordHash = value.Password
             };
 
             #region 确认邮箱验证通过
