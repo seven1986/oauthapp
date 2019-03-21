@@ -742,12 +742,12 @@ namespace IdentityServer4.MicroService.Apis
         /// <returns></returns>
         /// <remarks>
         /// </remarks>
-        [HttpPost("VerifyPhone")]
+        [HttpPost("SmsCode")]
         [AllowAnonymous]
         //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserVerifyPhone)]
         //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserVerifyPhone)]
-        [SwaggerOperation("User/VerifyPhone")]
-        public async Task<ApiResult<string>> VerifyPhone([FromBody]UserVerifyPhoneRequest value)
+        [SwaggerOperation("User/SmsCode")]
+        public async Task<ApiResult<string>> SmsCode([FromBody]UserVerifyPhoneRequest value)
         {
             if (!ModelState.IsValid)
             {
@@ -826,12 +826,12 @@ namespace IdentityServer4.MicroService.Apis
         /// <returns></returns>
         /// <remarks>
         /// </remarks>
-        [HttpPost("VerifyEmail")]
+        [HttpPost("EmailCode")]
         [AllowAnonymous]
         //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserVerifyEmail)]
         //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserVerifyEmail)]
-        [SwaggerOperation("User/VerifyEmail")]
-        public async Task<ApiResult<string>> VerifyEmail([FromBody]UserVerifyEmailRequest value)
+        [SwaggerOperation("User/EmailCode")]
+        public async Task<ApiResult<string>> EmailCode([FromBody]UserVerifyEmailRequest value)
         {
             if (!ModelState.IsValid)
             {

@@ -924,7 +924,7 @@
             需验证手机号；邮箱如果填写了，也需要验证
             </remarks>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.UserController.VerifyPhone(IdentityServer4.MicroService.Models.Apis.UserController.UserVerifyPhoneRequest)">
+        <member name="M:IdentityServer4.MicroService.Apis.UserController.SmsCode(IdentityServer4.MicroService.Models.Apis.UserController.UserVerifyPhoneRequest)">
             <summary>
             用户 - 注册 - 发送手机验证码
             </summary>
@@ -933,7 +933,7 @@
             <remarks>
             </remarks>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.UserController.VerifyEmail(IdentityServer4.MicroService.Models.Apis.UserController.UserVerifyEmailRequest)">
+        <member name="M:IdentityServer4.MicroService.Apis.UserController.EmailCode(IdentityServer4.MicroService.Models.Apis.UserController.UserVerifyEmailRequest)">
             <summary>
             用户 - 注册 - 发送邮件验证码
             </summary>

@@ -41,7 +41,7 @@ namespace IdentityServer4.MicroService
             public const string ClientId = "swagger";
             public const string ClientName = "swagger";
             public const string ClientSecret = "swagger";
-            public static ICollection<string> AllowedGrantTypes = GrantTypes.CodeAndClientCredentials;
+            public static List<string> AllowedGrantTypes = GrantTypes.CodeAndClientCredentials.ToList();
         }
         #endregion
 
@@ -57,9 +57,9 @@ namespace IdentityServer4.MicroService
 
             public const string ClientSecret = "identityserver4";
 
-            public static ICollection<string> AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials;
+            public static List<string> AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials.ToList();
 
-            public static ICollection<string> PostLogoutRedirectUris = new List<string>();
+            public static List<string> PostLogoutRedirectUris = new List<string>();
         }
         #endregion
 
@@ -101,6 +101,9 @@ namespace IdentityServer4.MicroService
         public static IEnumerable<Client> GetClients(string MicroServiceName,Uri ServerUrl)
         {
             // client credentials client
+
+            SwaggerClient.AllowedGrantTypes.Add("mobile_code");
+            IdentityServer4Client.AllowedGrantTypes.Add("mobile_code");
             return new List<Client>
                 {
                     #region SwaggerClient

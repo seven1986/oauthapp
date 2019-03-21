@@ -45,7 +45,7 @@ namespace IdentityServer4.MicroService.Services
             #region 缓存每张表的列，用于检测orderby的合法性
             if (!Columns.ContainsKey(tableName))
             {
-                Columns[tableName] = typeof(T).GetProperties().Select(x => x.Name).ToList();
+                Columns[tableName] = typeof(T).GetProperties().Select(x => x.Name.ToLower()).ToList();
             }
             #endregion
 
@@ -104,11 +104,15 @@ namespace IdentityServer4.MicroService.Services
 
             #region orderBy
             var OrderBy = Columns[TableName][0] + " DESC ";
-            if (!string.IsNullOrWhiteSpace(value.orderby) &&
-                (Columns[TableName].Contains(value.orderby) ||
-                 OrderByFieldsExtension.Contains(value.orderby)))
+
+            if (!string.IsNullOrWhiteSpace(value.orderby))
             {
-                OrderBy = " " + value.orderby + " " + (!value.asc.Value ? "DESC" : "ASC");
+                value.orderby = value.orderby.ToLower();
+
+                if (Columns[TableName].Contains(value.orderby) || OrderByFieldsExtension.Contains(value.orderby))
+                {
+                    OrderBy = " " + value.orderby + " " + (!value.asc.Value ? "DESC" : "ASC");
+                }
             }
             #endregion
 
