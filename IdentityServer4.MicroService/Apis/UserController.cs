@@ -23,9 +23,7 @@ using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.UserController;
 using static IdentityServer4.MicroService.AppConstant;
 using static IdentityServer4.MicroService.MicroserviceConfig;
-using static IdentityServer4.MicroService.AppDefaultData;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Net.Http;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -34,7 +32,7 @@ namespace IdentityServer4.MicroService.Apis
     /// <summary>
     /// 用户
     /// </summary>
-    [Route("User")]
+    //[Route("User")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class UserController : BasicController

@@ -45,7 +45,7 @@ namespace IdentityServer4.MicroService.Services
             #region 缓存每张表的列，用于检测orderby的合法性
             if (!Columns.ContainsKey(tableName))
             {
-                Columns[tableName] = typeof(T).GetProperties().Select(x => x.Name.ToLower()).ToList();
+                Columns[tableName] = typeof(T).GetProperties().Select(x => x.Name).ToList();
             }
             #endregion
 

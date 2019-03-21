@@ -29,7 +29,7 @@ namespace IdentityServer4.MicroService.Apis
     /// <summary>
     /// 代码生成
     /// </summary>
-    [Route("CodeGen")]
+    //[Route("CodeGen")]
     [Produces("application/json")]
     public class CodeGenController : BasicController
     {

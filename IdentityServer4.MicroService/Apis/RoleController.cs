@@ -20,7 +20,7 @@ namespace IdentityServer4.MicroService.Apis
     /// <summary>
     /// 角色
     /// </summary>
-    [Route("Role")]
+    //[Route("Role")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class RoleController : BasicController
