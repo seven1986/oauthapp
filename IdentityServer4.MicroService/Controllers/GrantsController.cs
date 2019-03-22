@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using System;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace IdentityServer4.MicroService.Controllers
 {
