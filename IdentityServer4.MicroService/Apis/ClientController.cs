@@ -26,7 +26,7 @@ namespace IdentityServer4.MicroService.Apis
     /// <summary>
     /// 客户端
     /// </summary>
-    [Route("Client")]
+    //[Route("Client")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class ClientController : BasicController

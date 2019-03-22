@@ -82,7 +82,7 @@ namespace Microsoft.AspNetCore.Builder
                             c.OAuthAppName(options.SwaggerUIClientName);
                             c.OAuthClientId(options.SwaggerUIClientID);
                             c.OAuthClientSecret(options.SwaggerUIClientSecret);
-                            c.OAuth2RedirectUrl($"{options.IdentityServer.ToString()}/swagger/oauth2-redirect.html");
+                            c.OAuth2RedirectUrl($"{options.IdentityServer.OriginalString}/swagger/oauth2-redirect.html");
                         }
 
                         c.DocExpansion(DocExpansion.None);

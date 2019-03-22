@@ -924,7 +924,7 @@
             需验证手机号；邮箱如果填写了，也需要验证
             </remarks>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.UserController.VerifyPhone(IdentityServer4.MicroService.Models.Apis.UserController.UserVerifyPhoneRequest)">
+        <member name="M:IdentityServer4.MicroService.Apis.UserController.SmsCode(IdentityServer4.MicroService.Models.Apis.UserController.UserVerifyPhoneRequest)">
             <summary>
             用户 - 注册 - 发送手机验证码
             </summary>
@@ -933,7 +933,7 @@
             <remarks>
             </remarks>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.UserController.VerifyEmail(IdentityServer4.MicroService.Models.Apis.UserController.UserVerifyEmailRequest)">
+        <member name="M:IdentityServer4.MicroService.Apis.UserController.EmailCode(IdentityServer4.MicroService.Models.Apis.UserController.UserVerifyEmailRequest)">
             <summary>
             用户 - 注册 - 发送邮件验证码
             </summary>
@@ -1183,6 +1183,46 @@
             <value>
             The services.
             </value>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Controllers.ConsentController">
+            <summary>
+            This controller processes the consent UI
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Controllers.ConsentController.Index(System.String)">
+            <summary>
+            Shows the consent screen
+            </summary>
+            <param name="returnUrl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Controllers.ConsentController.Index(IdentityServer4.MicroService.Controllers.ConsentInputModel)">
+            <summary>
+            Handles the consent screen postback
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Controllers.Extensions.IsPkceClientAsync(IdentityServer4.Stores.IClientStore,System.String)">
+            <summary>
+            Determines whether the client is configured to use PKCE.
+            </summary>
+            <param name="store">The store.</param>
+            <param name="client_id">The client identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Controllers.GrantsController">
+            <summary>
+            This sample controller allows a user to revoke grants given to clients
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Controllers.GrantsController.Index">
+            <summary>
+            Show list of grants
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Controllers.GrantsController.Revoke(System.String)">
+            <summary>
+            Handle postback to revoke a client
+            </summary>
         </member>
         <member name="T:IdentityServer4.MicroService.Data.AppCache">
             <summary>

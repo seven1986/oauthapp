@@ -21,7 +21,7 @@ namespace IdentityServer4.MicroService.Apis
     /// <summary>
     /// 身份服务
     /// </summary>
-    [Route("IdentityResource")]
+    //[Route("IdentityResource")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class IdentityResourceController : BasicController

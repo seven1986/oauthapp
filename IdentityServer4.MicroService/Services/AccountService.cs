@@ -37,6 +37,11 @@ namespace IdentityServer4.MicroService.Services
                 user.ParentUserID = AppConstant.seedUserId;
             }
 
+            if (string.IsNullOrWhiteSpace(user.Email))
+            {
+                user.Email = user.UserKey.ToString("N") + "@unknow.com";
+            }
+
             IdentityResult result = null;
             
             // 如果没有设置密码

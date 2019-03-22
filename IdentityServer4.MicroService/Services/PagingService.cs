@@ -104,11 +104,15 @@ namespace IdentityServer4.MicroService.Services
 
             #region orderBy
             var OrderBy = Columns[TableName][0] + " DESC ";
-            if (!string.IsNullOrWhiteSpace(value.orderby) &&
-                (Columns[TableName].Contains(value.orderby) ||
-                 OrderByFieldsExtension.Contains(value.orderby)))
+
+            if (!string.IsNullOrWhiteSpace(value.orderby))
             {
-                OrderBy = " " + value.orderby + " " + (!value.asc.Value ? "DESC" : "ASC");
+                value.orderby = value.orderby.ToLower();
+
+                if (Columns[TableName].Contains(value.orderby) || OrderByFieldsExtension.Contains(value.orderby))
+                {
+                    OrderBy = " " + value.orderby + " " + (!value.asc.Value ? "DESC" : "ASC");
+                }
             }
             #endregion
 

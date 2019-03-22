@@ -209,8 +209,8 @@ namespace Microsoft.Extensions.DependencyInjection
                         {
                             Type = "oauth2",
                             Flow = "accessCode",
-                            AuthorizationUrl = ids4msOptions.IdentityServer.ToString() + "/connect/authorize",
-                            TokenUrl = ids4msOptions.IdentityServer.ToString() + "/connect/token",
+                            AuthorizationUrl = ids4msOptions.IdentityServer.OriginalString + "/connect/authorize",
+                            TokenUrl = ids4msOptions.IdentityServer.OriginalString + "/connect/token",
                             Description = "勾选授权范围，获取Token",
                             Scopes = new Dictionary<string, string>(){
                             { "openid","用户标识" },

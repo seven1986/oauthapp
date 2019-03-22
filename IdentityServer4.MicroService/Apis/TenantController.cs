@@ -24,7 +24,7 @@ namespace IdentityServer4.MicroService.Apis
     /// <summary>
     /// 租户
     /// </summary>
-    [Route("Tenant")]
+    //[Route("Tenant")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class TenantController : BasicController

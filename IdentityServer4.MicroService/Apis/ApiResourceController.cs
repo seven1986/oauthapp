@@ -38,7 +38,7 @@ namespace IdentityServer4.MicroService.Apis
     /// 微服务
     /// </summary>
     /// <remarks>为微服务提供版本管理、网关集成都功能。</remarks>
-    [Route("ApiResource")]
+    //[Route("ApiResource")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
     public class ApiResourceController : BasicController
