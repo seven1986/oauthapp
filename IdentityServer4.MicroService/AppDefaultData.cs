@@ -125,8 +125,8 @@ namespace IdentityServer4.MicroService
                         FrontChannelLogoutSessionRequired=false,
                         FrontChannelLogoutUri="",
                         RedirectUris = {
-                            $"{ServerUrl.ToString()}/swagger/oauth2-redirect.html",
-                            $"{ServerUrl.ToString()}/tool"
+                            $"{ServerUrl.OriginalString}/swagger/oauth2-redirect.html",
+                            $"{ServerUrl.OriginalString}/tool"
                         },
                         AllowedScopes =
                         {
@@ -159,7 +159,7 @@ namespace IdentityServer4.MicroService
                         FrontChannelLogoutUri="",
 
                         RedirectUris ={
-                            $"{ServerUrl.ToString()}/tool"
+                            $"{ServerUrl.OriginalString}/tool"
                         },
                         //PostLogoutRedirectUris = AdminPortalClient.PostLogoutRedirectUris,
 
@@ -256,7 +256,7 @@ namespace IdentityServer4.MicroService
         {
             Tenant.AppHostName = Tenant.IdentityServerIssuerUri = ServerUrl.Authority;
 
-            Tenant.WebSite = ServerUrl.ToString();
+            Tenant.WebSite = ServerUrl.OriginalString;
 
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
