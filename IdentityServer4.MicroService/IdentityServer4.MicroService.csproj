@@ -8,13 +8,17 @@
     <PackageProjectUrl>https://github.com/seven1986/IdentityServer4.MicroService</PackageProjectUrl>
     <RepositoryUrl>https://github.com/seven1986/IdentityServer4.MicroService</RepositoryUrl>
     <PackageTags>IdentityServer4 MicroService AzureApiManagement</PackageTags>
-    <AssemblyVersion>0.1.22.0</AssemblyVersion>
-    <FileVersion>0.1.22.0</FileVersion>
-    <PackageLicenseUrl>https://github.com/seven1986/IdentityServer4.MicroService/blob/master/LICENSE</PackageLicenseUrl>
+    <AssemblyVersion>0.1.27.0</AssemblyVersion>
+    <FileVersion>0.1.27.0</FileVersion>
     <PackageIconUrl>https://raw.githubusercontent.com/seven1986/IdentityServer4.MicroService/master/id4ms.png</PackageIconUrl>
-    <Version>0.1.22</Version>
+    <Version>0.1.27</Version>
     <Product>IdentityServer4.MicroService</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <!--
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">Apache-2.0</license>
+    -->
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -34,6 +38,19 @@
     <None Remove="Node\sdkgen\npm\angular2.js" />
     <None Remove="Node\sdkgen\npm\jQuery.js" />
     <None Remove="Node\sdkgen\npm\mustache.min.js" />
+    <None Remove="Views\Consent\Index.cshtml" />
+    <None Remove="Views\Device\Success.cshtml" />
+    <None Remove="Views\Device\UserCodeCapture.cshtml" />
+    <None Remove="Views\Device\UserCodeConfirmation.cshtml" />
+    <None Remove="Views\Grants\Index.cshtml" />
+    <None Remove="Views\Shared\_ScopeListItem.cshtml" />
+    <None Remove="Views\Shared\_ValidationSummary.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Views\Grants\Index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -55,13 +72,37 @@
     <Content Include="Node\sdkgen\npm\mustache.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Consent\Index.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Device\Success.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Device\UserCodeCapture.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Device\UserCodeConfirmation.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Shared\_ScopeListItem.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Shared\_ValidationSummary.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdentityServer4" Version="2.3.2" />
+    <PackageReference Include="IdentityServer4" Version="2.4.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
-    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.3.0" />
-    <PackageReference Include="IdentityServer4.EntityFramework" Version="2.3.2" />
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.4.0" />
+    <PackageReference Include="IdentityServer4.EntityFramework" Version="2.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="2.2.2" />

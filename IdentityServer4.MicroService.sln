@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer4.MicroServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer4.MicroService.AzureJobs", "IdentityServer4.MicroService.AzureJobs\IdentityServer4.MicroService.AzureJobs.csproj", "{B71B9B32-50B8-4437-BE10-230A93EC5AB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{18FDA13E-34E3-4F48-9C22-7E7C93F6C195}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{18FDA13E-34E3-4F48-9C22-7E7C93F6C195}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
