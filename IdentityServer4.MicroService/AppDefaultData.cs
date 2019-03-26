@@ -27,9 +27,9 @@ namespace IdentityServer4.MicroService
         /// </summary>
         public class Admin
         {
-            public const string Email = "admin@admin.com";
+            public static string Email = "admin@admin.com";
 
-            public const string PasswordHash = "123456aA!";
+            public static string PasswordHash = "123456aA!";
         }
 
         #region SwaggerClient
@@ -38,9 +38,9 @@ namespace IdentityServer4.MicroService
         /// </summary>
         public class SwaggerClient
         {
-            public const string ClientId = "swagger";
-            public const string ClientName = "swagger";
-            public const string ClientSecret = "swagger";
+            public static string ClientId = "swagger";
+            public static string ClientName = "swagger";
+            public static string ClientSecret = "swagger";
             public static List<string> AllowedGrantTypes = GrantTypes.CodeAndClientCredentials.ToList();
         }
         #endregion
@@ -51,11 +51,11 @@ namespace IdentityServer4.MicroService
         /// </summary>
         public class IdentityServer4Client
         {
-            public const string ClientId = "identityserver4";
+            public static string ClientId = "identityserver4";
 
-            public const string ClientName = "identityserver4";
+            public static string ClientName = "identityserver4";
 
-            public const string ClientSecret = "identityserver4";
+            public static string ClientSecret = "identityserver4";
 
             public static List<string> AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials.ToList();
 
