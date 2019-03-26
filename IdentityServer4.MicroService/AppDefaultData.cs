@@ -29,7 +29,7 @@ namespace IdentityServer4.MicroService
         {
             public const string Email = "admin@admin.com";
 
-            public const string PasswordHash = "123456";
+            public const string PasswordHash = "123456aA!";
         }
 
         #region SwaggerClient
