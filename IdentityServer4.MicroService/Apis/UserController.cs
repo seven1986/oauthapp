@@ -22,7 +22,6 @@ using IdentityServer4.MicroService.Attributes;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.UserController;
 using static IdentityServer4.MicroService.AppConstant;
-using static IdentityServer4.MicroService.MicroserviceConfig;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace IdentityServer4.MicroService.Apis
@@ -34,7 +33,7 @@ namespace IdentityServer4.MicroService.Apis
     /// </summary>
     //[Route("User")]
     [Produces("application/json")]
-    [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
+    [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     public class UserController : BasicController
     {
         #region Services
@@ -48,6 +47,8 @@ namespace IdentityServer4.MicroService.Apis
         readonly TenantDbContext tenantDbContext;
 
         readonly ConfigurationDbContext configDbContext;
+
+        readonly IdentityServer4MicroServiceOptions ismsOptions;
         #endregion
 
         #region 构造函数
@@ -61,7 +62,8 @@ namespace IdentityServer4.MicroService.Apis
             TenantDbContext _tenantDbContext,
             ConfigurationDbContext _configDbContext,
             IDataProtectionProvider _provider,
-            TenantService _tenantService)
+            TenantService _tenantService,
+            IdentityServer4MicroServiceOptions _ismsOptions)
         {
             // 多语言
             l = _localizer;
@@ -74,6 +76,7 @@ namespace IdentityServer4.MicroService.Apis
             configDbContext = _configDbContext;
             protector = _provider.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
             tenantService = _tenantService;
+            ismsOptions = _ismsOptions;
         }
         #endregion
 
@@ -89,8 +92,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.user.get</code>
         /// </remarks>
         [HttpGet]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserGet)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserGet)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.get")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.get")]
         [SwaggerOperation("User/Get")]
         public async Task<PagingResult<View_User>> Get([FromQuery]PagingRequest<UserGetRequest> value)
         {
@@ -115,7 +118,7 @@ namespace IdentityServer4.MicroService.Apis
                 {
                     where.Add(" ( Tenants LIKE '%\"TenantId\":" + TenantId + "%') ");
 
-                    if (!User.IsInRole(Roles.Administrators))
+                    if (!User.IsInRole(DefaultRoles.Administrator))
                     {
                         where.Add("Lineage.IsDescendantOf(hierarchyid::Parse ('" + UserLineage + "')) = 1");
                     }
@@ -189,8 +192,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.user.detail</code>
         /// </remarks>
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserDetail)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserDetail)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.detail")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.detail")]
         [SwaggerOperation("User/Detail")]
         public async Task<ApiResult<AppUser>> Get(int id)
         {
@@ -225,8 +228,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.user.post</code>
         /// </remarks>
         [HttpPost]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserPost)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserPost)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.post")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.post")]
         [SwaggerOperation("User/Post")]
         public async Task<ApiResult<long>> Post([FromBody]AppUser value)
         {
@@ -236,11 +239,8 @@ namespace IdentityServer4.MicroService.Apis
                     ModelErrors());
             }
 
-            var roleIds = db.Roles.Where(x => x.Name.Equals(Roles.Users) || x.Name.Equals(Roles.Developer))
+            var roleIds = db.Roles.Where(x => x.Name.Equals(DefaultRoles.User) || x.Name.Equals(DefaultRoles.Developer))
                   .Select(x => x.Id).ToList();
-
-            var permissions = typeof(UserPermissions).GetFields()
-                .Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().PolicyValues[0]).ToList();
 
             var tenantIds = tenantDb.Tenants.Select(x => x.Id).ToList();
             try
@@ -251,7 +251,7 @@ namespace IdentityServer4.MicroService.Apis
                     db,
                     value,
                     roleIds,
-                    string.Join(",", permissions),
+                    $"{ismsOptions.MicroServiceName}.all",
                     tenantIds);
 
                 db.Add(value);
@@ -288,8 +288,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.user.put</code>
         /// </remarks>
         [HttpPut]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserPut)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserPut)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.put")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.put")]
         [SwaggerOperation("User/Put")]
         public async Task<ApiResult<long>> Put([FromBody]AppUser value)
         {
@@ -496,8 +496,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.user.delete</code>
         /// </remarks>
         [HttpDelete("{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserDelete)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserDelete)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.delete")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.delete")]
         [SwaggerOperation("User/Delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
@@ -533,8 +533,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.user.head</code>
         /// </remarks>
         [HttpGet("Head")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserHead)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserHead)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.head")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.head")]
         [SwaggerOperation("User/Head")]
         public async Task<ObjectResult> Head(UserDetailRequest value)
         {
@@ -703,10 +703,8 @@ namespace IdentityServer4.MicroService.Apis
             }
             #endregion
 
-            var roleIds = db.Roles.Where(x => x.Name.Equals(Roles.Users))
+            var roleIds = db.Roles.Where(x => x.Name.Equals(DefaultRoles.User))
                     .Select(x => x.Id).ToList();
-
-            var permissions = typeof(UserPermissions).GetFields().Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().PolicyValues[0]).ToList();
 
             var tenantIds = tenantDbContext.Tenants.Select(x => x.Id).ToList();
 
@@ -715,7 +713,7 @@ namespace IdentityServer4.MicroService.Apis
                 db,
                 user,
                 roleIds,
-                string.Join(",", permissions),
+                $"{ismsOptions.MicroServiceName}.all",
                 tenantIds);
 
             if (result.Succeeded)

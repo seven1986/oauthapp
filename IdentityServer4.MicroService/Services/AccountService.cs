@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace IdentityServer4.MicroService.Services
 {
@@ -115,7 +114,7 @@ namespace IdentityServer4.MicroService.Services
                 {
                     user.Claims.Add(new AppUserClaim()
                     {
-                        ClaimType = ClaimTypes.UserPermission,
+                        ClaimType = PolicyKey.UserPermission,
                         ClaimValue = string.Join(",", permissions),
                     });
                 }

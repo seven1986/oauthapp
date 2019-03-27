@@ -8,12 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Authorization;
+using Swashbuckle.AspNetCore.Annotations;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using static IdentityServer4.MicroService.AppConstant;
-using static IdentityServer4.MicroService.MicroserviceConfig;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -22,7 +21,7 @@ namespace IdentityServer4.MicroService.Apis
     /// </summary>
     //[Route("Role")]
     [Produces("application/json")]
-    [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
+    [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     public class RoleController : BasicController
     {
         #region 构造函数
@@ -45,8 +44,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.role.get</code>
         /// </remarks>
         [HttpGet]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.RoleGet)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.RoleGet)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:role.get")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:role.get")]
         [SwaggerOperation("Role/Get")]
         public async Task<PagingResult<AppRole>> Get()
         {
@@ -71,8 +70,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.role.detail</code>
         /// </remarks>
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.RoleDetail)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.RoleDetail)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:role.detail")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:role.detail")]
         [SwaggerOperation("Role/Detail")]
         public async Task<ApiResult<AppRole>> Get(int id)
         {
@@ -100,8 +99,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.role.post</code>
         /// </remarks>
         [HttpPost]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.RolePost)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.RolePost)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:role.post")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:role.post")]
         [SwaggerOperation("Role/Post")]
         public async Task<ApiResult<long>> Post([FromBody]AppRole value)
         {
@@ -130,8 +129,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.role.put</code>
         /// </remarks>
         [HttpPut]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.RolePut)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.RolePut)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:role.put")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:role.put")]
         [SwaggerOperation("Role/Put")]
         public async Task<ApiResult<long>> Put([FromBody]AppRole value)
         {
@@ -254,8 +253,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.role.delete</code>
         /// </remarks>
         [HttpDelete("{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.RoleDelete)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.RoleDelete)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:role.delete")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:role.delete")]
         [SwaggerOperation("Role/Delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {

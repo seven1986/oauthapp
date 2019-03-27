@@ -12,10 +12,8 @@ using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Tenant;
-using IdentityServer4.MicroService.Attributes;
 using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.MicroService.Services;
-using static IdentityServer4.MicroService.MicroserviceConfig;
 using Newtonsoft.Json;
 
 namespace IdentityServer4.MicroService
@@ -27,9 +25,9 @@ namespace IdentityServer4.MicroService
         /// </summary>
         public class Admin
         {
-            public const string Email = "admin@admin.com";
+            public static string Email = "admin@admin.com";
 
-            public const string PasswordHash = "123456";
+            public static string PasswordHash = "123456aA!";
         }
 
         #region SwaggerClient
@@ -38,9 +36,9 @@ namespace IdentityServer4.MicroService
         /// </summary>
         public class SwaggerClient
         {
-            public const string ClientId = "swagger";
-            public const string ClientName = "swagger";
-            public const string ClientSecret = "swagger";
+            public static string ClientId = "swagger";
+            public static string ClientName = "swagger";
+            public static string ClientSecret = "swagger";
             public static List<string> AllowedGrantTypes = GrantTypes.CodeAndClientCredentials.ToList();
         }
         #endregion
@@ -51,11 +49,11 @@ namespace IdentityServer4.MicroService
         /// </summary>
         public class IdentityServer4Client
         {
-            public const string ClientId = "identityserver4";
+            public static string ClientId = "identityserver4";
 
-            public const string ClientName = "identityserver4";
+            public static string ClientName = "identityserver4";
 
-            public const string ClientSecret = "identityserver4";
+            public static string ClientSecret = "identityserver4";
 
             public static List<string> AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials.ToList();
 
@@ -179,7 +177,7 @@ namespace IdentityServer4.MicroService
         {
             return new List<IdentityResource>
                 {
-                    new IdentityResources.OpenId(){  UserClaims={ "role", ClaimTypes.UserPermission } },
+                    new IdentityResources.OpenId(){  UserClaims={ "role", PolicyKey.UserPermission } },
                     new IdentityResources.Profile(),
                     new IdentityResources.Address(),
                     new IdentityResources.Email(),
@@ -189,38 +187,10 @@ namespace IdentityServer4.MicroService
 
         public static IEnumerable<ApiResource> GetApiResources(string MicroServiceName)
         {
-            var ControllerActions = new List<Scope>();
-
-            var ActionList = typeof(ClientScopes).GetFields().Select(x =>
+            var ActionList = new List<Scope>()
             {
-                var description = x.GetCustomAttribute<DescriptionAttribute>().Description;
-
-                var policyItem = x.GetCustomAttribute<PolicyClaimValuesAttribute>();
-
-                var ControllerScope = MicroServiceName + "." + policyItem.ControllerName + ".all";
-
-                var ActionScope = MicroServiceName + "." + policyItem.ControllerName + "." + policyItem.PolicyValues[0];
-                
-                if (!ControllerActions.Any(scope => scope.Name.Equals(ControllerScope)))
-                {
-                    var ControllerDescription = description.Split(new string[] { "-" },
-                        StringSplitOptions.RemoveEmptyEntries)[0].Trim();
-
-                    ControllerActions.Add(new Scope(ControllerScope,
-                        ControllerDescription + " - 所有权限"));
-                }
-
-                return new Scope(ActionScope, description);
-
-            }).ToList();
-
-            var ApplicationScope = new Scope(MicroServiceName + ".all", "所有权限");
-
-            ActionList.AddRange(ControllerActions);
-
-            ActionList.Add(ApplicationScope);
-
-            ActionList = ActionList.OrderBy(x => x.Name).ToList();
+                new Scope(MicroServiceName + ".all", "所有权限")
+            };
 
             return new List<ApiResource>
                 {
@@ -240,7 +210,7 @@ namespace IdentityServer4.MicroService
 
                         //需要使用的用户claims
                         UserClaims= {
-                            ClaimTypes.UserPermission,
+                            PolicyKey.UserPermission,
                             "role"
                         },
 
@@ -341,7 +311,7 @@ namespace IdentityServer4.MicroService
         {
             if (!userContext.Roles.Any())
             {
-                var roles = typeof(Roles).GetFields();
+                var roles = typeof(DefaultRoles).GetFields();
 
                 foreach (var role in roles)
                 {
@@ -364,9 +334,6 @@ namespace IdentityServer4.MicroService
             {
                 var roleIds = userContext.Roles.Select(x => x.Id).ToList();
 
-                var permissions = typeof(UserPermissions).GetFields().Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().PolicyValues[0]).ToList();
-                permissions.Add(MicroServiceName + ".all");
-
                 var tenantIds = tenantDbContext.Tenants.Select(x => x.Id).ToList();
 
                 var user = new AppUser()
@@ -383,7 +350,7 @@ namespace IdentityServer4.MicroService
                      userContext,
                      user,
                      roleIds,
-                    string.Join(",", permissions),
+                    $"{MicroServiceName}.all",
                     tenantIds).Result;
 
                 #region User Clients

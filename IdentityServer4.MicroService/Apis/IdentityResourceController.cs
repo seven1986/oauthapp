@@ -7,14 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
+using Swashbuckle.AspNetCore.Annotations;
 using IdentityServer4.MicroService.Enums;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.IdentityResourceController;
 using static IdentityServer4.MicroService.AppConstant;
-using static IdentityServer4.MicroService.MicroserviceConfig;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -23,7 +22,7 @@ namespace IdentityServer4.MicroService.Apis
     /// </summary>
     //[Route("IdentityResource")]
     [Produces("application/json")]
-    [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
+    [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     public class IdentityResourceController : BasicController
     {
         #region Services
@@ -52,8 +51,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.identityresource.get</code>
         /// </remarks>
         [HttpGet]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.IdentityResourceGet)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.IdentityResourceGet)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:identityresource.get")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.get")]
         [SwaggerOperation("IdentityResource/Get")]
         public async Task<PagingResult<IdentityResource>> Get([FromQuery]PagingRequest<IdentityResourceGetRequest> value)
         {
@@ -124,8 +123,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.identityresource.detail</code>
         /// </remarks>
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.IdentityResourceDetail)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.IdentityResourceDetail)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:identityresource.detail")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.detail")]
         [SwaggerOperation("IdentityResource/Detail")]
         public async Task<ApiResult<IdentityResource>> Get(int id)
         {
@@ -154,8 +153,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.identityresource.post</code>
         /// </remarks>
         [HttpPost]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.IdentityResourcePost)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.IdentityResourcePost)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:identityresource.post")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.post")]
         [SwaggerOperation("IdentityResource/Post")]
         public async Task<ApiResult<long>> Post([FromBody]IdentityResource value)
         {
@@ -184,8 +183,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.identityresource.put</code>
         /// </remarks>
         [HttpPut]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.IdentityResourcePut)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.IdentityResourcePut)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:identityresource.put")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.put")]
         [SwaggerOperation("IdentityResource/Put")]
         public async Task<ApiResult<long>> Put([FromBody]IdentityResource value)
         {
@@ -284,8 +283,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.identityresource.delete</code>
         /// </remarks>
         [HttpDelete("{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.IdentityResourceDelete)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.IdentityResourceDelete)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:identityresource.delete")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.delete")]
         [SwaggerOperation("IdentityResource/Delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {

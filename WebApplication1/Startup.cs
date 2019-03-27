@@ -28,14 +28,9 @@ namespace WebApplication1
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddIdentityServer4MicroService(new IdentityServer4MicroServiceOptions()
-            {
-                AssemblyName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name,
-
-            }, Configuration);
+            services.AddIdentityServer4MicroService(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
