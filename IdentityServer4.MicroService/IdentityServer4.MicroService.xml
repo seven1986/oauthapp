@@ -963,6 +963,46 @@
             seed ID for tenant
             </summary>
         </member>
+        <member name="T:IdentityServer4.MicroService.DefaultRoles">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.DefaultRoles.User">
+            <summary>
+             用户
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.DefaultRoles.Partner">
+            <summary>
+            合作商
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.DefaultRoles.Developer">
+            <summary>
+            开发者
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.DefaultRoles.Administrator">
+            <summary>
+            管理员
+            </summary>
+        </member>
+        <member name="T:IdentityServer4.MicroService.PolicyKey">
+            <summary>
+            PolicyKey(ClaimType)
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.PolicyKey.UserPermission">
+            <summary>
+            for User
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.PolicyKey.ClientScope">
+            <summary>
+            for client
+            </summary>
+        </member>
         <member name="T:IdentityServer4.MicroService.AppDefaultData.Admin">
             <summary>
             管理员
@@ -1029,11 +1069,6 @@
         <member name="P:IdentityServer4.MicroService.Attributes.EmailConfigAttribute.subject">
             <summary>
             邮件标题
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.Attributes.PolicyClaimValuesAttribute.IsDefault">
-            <summary>
-            默认权限，用户注册后将获取该权限
             </summary>
         </member>
         <member name="F:IdentityServer4.MicroService.CacheKeys.AzureApiManagementKeys.Host">
@@ -1824,56 +1859,6 @@
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.IdentityOptions">
             <summary>
             IdentityOptions
-            </summary>
-        </member>
-        <member name="T:IdentityServer4.MicroService.MicroserviceConfig.ClientScopes">
-            <summary>
-            Client权限
-            </summary>
-        </member>
-        <member name="T:IdentityServer4.MicroService.MicroserviceConfig.UserPermissions">
-            <summary>
-            User权限
-            </summary>
-        </member>
-        <member name="T:IdentityServer4.MicroService.MicroserviceConfig.Roles">
-            <summary>
-            角色
-            </summary>
-        </member>
-        <member name="F:IdentityServer4.MicroService.MicroserviceConfig.Roles.Users">
-            <summary>
-             用户
-            </summary>
-        </member>
-        <member name="F:IdentityServer4.MicroService.MicroserviceConfig.Roles.Partners">
-            <summary>
-            合作商
-            </summary>
-        </member>
-        <member name="F:IdentityServer4.MicroService.MicroserviceConfig.Roles.Developer">
-            <summary>
-            开发者
-            </summary>
-        </member>
-        <member name="F:IdentityServer4.MicroService.MicroserviceConfig.Roles.Administrators">
-            <summary>
-            管理员
-            </summary>
-        </member>
-        <member name="T:IdentityServer4.MicroService.MicroserviceConfig.ClaimTypes">
-            <summary>
-            UserPermission,ClientScope
-            </summary>
-        </member>
-        <member name="F:IdentityServer4.MicroService.MicroserviceConfig.ClaimTypes.UserPermission">
-            <summary>
-            for User
-            </summary>
-        </member>
-        <member name="F:IdentityServer4.MicroService.MicroserviceConfig.ClaimTypes.ClientScope">
-            <summary>
-            for client
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceCreateVersionRequest.revisionId">
@@ -3092,12 +3077,12 @@
             <param name="services">The services.</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer4MicroService(Microsoft.Extensions.DependencyInjection.IServiceCollection,IdentityServer4.MicroService.IdentityServer4MicroServiceOptions,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer4MicroService(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action{IdentityServer4.MicroService.IdentityServer4MicroServiceOptions})">
             <summary>
             Creates a builder.
             </summary>
             <param name="services">The services.</param>
-            <param name="ids4msOptions">The Options.</param>
+            <param name="ismsOptions">The Options.</param>
             <param name="configuration">The Configuration.</param>
             <returns></returns>
         </member>

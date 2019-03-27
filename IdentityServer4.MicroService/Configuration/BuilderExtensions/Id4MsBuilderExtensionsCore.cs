@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

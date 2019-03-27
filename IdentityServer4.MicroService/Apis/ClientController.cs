@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.Annotations;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.MicroService.Data;
@@ -16,8 +16,6 @@ using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.ClientController;
 using static IdentityServer4.MicroService.AppConstant;
-using static IdentityServer4.MicroService.MicroserviceConfig;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -28,7 +26,7 @@ namespace IdentityServer4.MicroService.Apis
     /// </summary>
     //[Route("Client")]
     [Produces("application/json")]
-    [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = Roles.Users)]
+    [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     public class ClientController : BasicController
     {
         #region Services
@@ -65,8 +63,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.client.get</code>
         /// </remarks>
         [HttpGet]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientGet)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientGet)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.get")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.get")]
         [SwaggerOperation("Client/Get")]
         public async Task<PagingResult<Client>> Get([FromQuery]PagingRequest<ClientGetRequest> value)
         {
@@ -159,8 +157,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.client.detail</code>
         /// </remarks>
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientDetail)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientDetail)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.detail")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.detail")]
         [SwaggerOperation("Client/Detail")]
         public async Task<ApiResult<Client>> Get(int id)
         {
@@ -207,8 +205,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.client.post</code>
         /// </remarks>
         [HttpPost]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientPost)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientPost)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.post")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.post")]
         [SwaggerOperation("Client/Post")]
         public async Task<ApiResult<long>> Post([FromBody]Client value)
         {
@@ -252,8 +250,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.client.put</code>
         /// </remarks>
         [HttpPut]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientPut)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientPut)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.put")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.put")]
         [SwaggerOperation("Client/Put")]
         public async Task<ApiResult<long>> Put([FromBody]Client value)
         {
@@ -740,8 +738,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.client.delete</code>
         /// </remarks>
         [HttpDelete("{id}")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientDelete)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientDelete)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.delete")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.delete")]
         [SwaggerOperation("Client/Delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
@@ -792,8 +790,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.client.issuetoken</code>
         /// </remarks>
         [HttpPost("IssueToken")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientIssueToken)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientIssueToken)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.issuetoken")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.issuetoken")]
         [SwaggerOperation("Client/IssueToken")]
         public async Task<ApiResult<string>> IssueToken([FromBody]ClientIssueTokenRequest value)
         {
@@ -821,8 +819,8 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>User Permissions：</label><code>ids4.ms.client.postsecretkey</code>
         /// </remarks>
         [HttpPost("{id}/Secretkey")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.ClientPostSecretkey)]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.ClientPostSecretkey)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.postsecretkey")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.postsecretkey")]
         [SwaggerOperation("Client/PostSecretkey")]
         public ApiResult<string> PostSecretkey(int id,[FromBody]ClientPostSecretkeyRequest value)
         {

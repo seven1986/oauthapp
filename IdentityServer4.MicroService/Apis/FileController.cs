@@ -6,13 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Models.Apis.Common;
-using static IdentityServer4.MicroService.AppConstant;
-using static IdentityServer4.MicroService.MicroserviceConfig;
 using Swashbuckle.AspNetCore.Annotations;
+using static IdentityServer4.MicroService.AppConstant;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -28,7 +26,7 @@ namespace IdentityServer4.MicroService.Apis
         readonly AzureStorageService azure;
         #endregion
 
-        static string blobContainerName = "campaign-core-identity";
+        static string blobContainerName = "identityserver4-microservice";
 
         #region 构造函数
         public FileController(
@@ -74,7 +72,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>Client Scopes：</label><code>ids4.ms.file.post</code>
         /// </remarks>
         [HttpPost]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.FilePost)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:file.post")]
         [SwaggerOperation("File/Post")]
         public async Task<ApiResult<string>> Post(IFormFile value)
         {
@@ -142,7 +140,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <label>Client Scopes：</label><code>ids4.ms.file.image</code>
         /// </remarks>
         [HttpPost("Image")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.FileImage)]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:file.image")]
         [SwaggerOperation("File/Image")]
         public async Task<ApiResult<string>> Image(IFormFile value)
         {

@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace IdentityServer4.MicroService.Services
 {
@@ -25,18 +24,22 @@ namespace IdentityServer4.MicroService.Services
 
         private readonly RedisService _redis;
 
+        private readonly IdentityServer4MicroServiceOptions _ismsOptions;
+
         // 用户管理SDK
         private readonly UserManager<AppUser> _userManager;
 
         public MobileCodeGrantValidator(ITokenValidator validator,
             UserDbContext db,
             RedisService redis,
-            UserManager<AppUser> userManager)
+            UserManager<AppUser> userManager,
+            IdentityServer4MicroServiceOptions ismsOptions)
         {
             _validator = validator;
             _db = db;
             _redis = redis;
             _userManager = userManager;
+            _ismsOptions = ismsOptions;
         }
 
         public async Task ValidateAsync(ExtensionGrantValidationContext context)
@@ -85,11 +88,8 @@ namespace IdentityServer4.MicroService.Services
                     CountryCode = country_code
                 };
 
-                var roleIds = _db.Roles.Where(x => x.Name.Equals(Roles.Users))
+                var roleIds = _db.Roles.Where(x => x.Name.Equals(DefaultRoles.User))
                         .Select(x => x.Id).ToList();
-
-                var permissions = typeof(UserPermissions).GetFields()
-                    .Select(x => x.GetCustomAttribute<PolicyClaimValuesAttribute>().PolicyValues[0]).ToList();
 
                 //var tenantIds = tenantDbContext.Tenants.Select(x => x.Id).ToList();
 
@@ -98,7 +98,7 @@ namespace IdentityServer4.MicroService.Services
                     _db,
                     User,
                     roleIds,
-                    string.Join(",", permissions), new List<long>() { 1 });
+                    $"{_ismsOptions.MicroServiceName}.all", new List<long>() { 1 });
 
                 if (!result.Succeeded)
                 {

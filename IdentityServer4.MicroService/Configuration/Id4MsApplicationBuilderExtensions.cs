@@ -1,11 +1,11 @@
 ﻿using IdentityServer4.MicroService;
-using IdentityServer4.MicroService.Attributes;
 using IdentityServer4.MicroService.Configuration;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Tenant;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -27,7 +27,6 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using static IdentityServer4.MicroService.MicroserviceConfig;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -43,29 +42,83 @@ namespace Microsoft.Extensions.DependencyInjection
             return new Id4MsServiceBuilder(services);
         }
 
+        static List<PolicyConfig> PolicyConfigs(List<Type> types)
+        {
+            var policies = new List<PolicyConfig>();
+
+            foreach (var type in types)
+            {
+                var policyObject = policies.FirstOrDefault(x => x.ControllerName.Equals(type.Name.ToLower()));
+
+                if (policyObject == null)
+                {
+                    policyObject = new PolicyConfig()
+                    {
+                        ControllerName = type.Name.ToLower().Replace("controller", "")
+                    };
+                }
+
+                var ControllerAttributes = type.GetMethods().Select(x => x.GetCustomAttributes<AuthorizeAttribute>()).ToList();
+
+                foreach (var attr in ControllerAttributes)
+                {
+                    var ControllerPolicies = attr.Select(x => x.Policy.ToLower()).ToList();
+
+                    if (ControllerPolicies.Count > 0)
+                    {
+                        var scopes = ControllerPolicies
+                            .Where(x => x.IndexOf($"{PolicyKey.ClientScope}:") > -1).ToList();
+
+                        scopes.ForEach(x =>
+                        {
+                            policyObject.Scopes.Add(x.Replace($"{PolicyKey.ClientScope}:", ""));
+                        });
+
+                        var permissions = ControllerPolicies
+                            .Where(x => x.IndexOf($"{PolicyKey.UserPermission}:") > -1).ToList();
+
+                        permissions.ForEach(x =>
+                        {
+                            policyObject.Permissions.Add(x.Replace($"{PolicyKey.UserPermission}:", ""));
+                        });
+                    }
+                }
+
+                policies.Add(policyObject);
+            }
+        
+            return policies;
+        }
+
         /// <summary>
         /// Creates a builder.
         /// </summary>
         /// <param name="services">The services.</param>
-        /// <param name="ids4msOptions">The Options.</param>
+        /// <param name="ismsOptions">The Options.</param>
         /// <param name="configuration">The Configuration.</param>
         /// <returns></returns>
         public static IId4MsServiceBuilder AddIdentityServer4MicroService(
             this IServiceCollection services,
-            IdentityServer4MicroServiceOptions ids4msOptions,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            Action<IdentityServer4MicroServiceOptions> ismsOptions = null)
         {
-            var builder = services.AddIdentityServer4MicroServiceBuilder();
-
-            if (string.IsNullOrWhiteSpace(ids4msOptions.MicroServiceName))
+            var Options = new IdentityServer4MicroServiceOptions()
             {
-                ids4msOptions.MicroServiceName = "ids4.ms";
+                MicroServiceName = "ids4.ms",
+
+                AssemblyName = Assembly.GetEntryAssembly().GetName().Name
+            };
+
+            if (Options != null)
+            {
+                ismsOptions.Invoke(Options);
             }
 
-            builder.Services.AddSingleton(ids4msOptions);
+            var builder = services.AddIdentityServer4MicroServiceBuilder();
+            builder.Services.AddSingleton(Options);
 
             #region Cors
-            if (ids4msOptions.EnableCors)
+            if (Options.EnableCors)
             {
                 builder.Services.AddCors(options =>
                 {
@@ -81,7 +134,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region WebEncoders
-            if (ids4msOptions.WebEncoders)
+            if (Options.WebEncoders)
             {
                 services.AddWebEncoders(opt =>
                 {
@@ -91,94 +144,86 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region AuthorizationPolicy
-            if (ids4msOptions.AuthorizationPolicy)
+            if (Options.AuthorizationPolicy)
             {
                 builder.Services.AddAuthorization(options =>
                 {
-                    #region Client的权限策略
-                    var scopes = typeof(ClientScopes).GetFields();
+                    var ISMSTypes = Assembly.GetExecutingAssembly().GetTypes()
+                    .Where(x => x.BaseType != null && x.BaseType.Name.Equals("BasicController")).ToList();
 
-                    foreach (var scope in scopes)
+                    var isms_policies = PolicyConfigs(ISMSTypes);
+
+                    var EntryTypes = Assembly.GetEntryAssembly().GetTypes()
+                       .Where(x => x.BaseType != null && x.BaseType.Name.Equals("ControllerBase")).ToList();
+
+                    var entry_policies = PolicyConfigs(EntryTypes);
+
+                    isms_policies.AddRange(entry_policies);
+
+                    foreach (var policyConfig in isms_policies)
                     {
-                        var scopeName = scope.GetRawConstantValue().ToString();
-
-                        var scopeItem = scope.GetCustomAttribute<PolicyClaimValuesAttribute>();
-
-                        var scopeValues = scopeItem.PolicyValues;
-
-                        var scopeValuesList = new List<string>();
-
-                        for (var i = 0; i < scopeValues.Length; i++)
+                        #region Client的权限策略
+                        policyConfig.Scopes.ForEach(x =>
                         {
-                            scopeValues[i] = ids4msOptions.MicroServiceName + "." + scopeValues[i];
+                            var policyName = $"{PolicyKey.ClientScope}:{x}";
 
-                            scopeValuesList.Add(scopeValues[i]);
-                        }
-
-                        scopeValuesList.Add(ids4msOptions.MicroServiceName + "." + scopeItem.ControllerName + ".all");
-
-                        scopeValuesList.Add(ids4msOptions.MicroServiceName + ".all");
-
-                        options.AddPolicy(scopeName, policy => policy.RequireClaim(ClaimTypes.ClientScope, scopeValuesList));
-                    }
-                    #endregion
-
-                    #region User的权限策略
-                    var permissions = typeof(UserPermissions).GetFields();
-
-                    foreach (var permission in permissions)
-                    {
-                        var permissionName = permission.GetRawConstantValue().ToString();
-
-                        var permissionItem = permission.GetCustomAttribute<PolicyClaimValuesAttribute>();
-
-                        var permissionValues = permissionItem.PolicyValues;
-
-                        var permissionValuesList = new List<string>();
-
-                        for (var i = 0; i < permissionValues.Length; i++)
-                        {
-                            permissionValues[i] = ids4msOptions.MicroServiceName + "." + permissionValues[i];
-
-                            permissionValuesList.Add(permissionValues[i]);
-                        }
-
-                        permissionValuesList.Add(ids4msOptions.MicroServiceName + "." + permissionItem.ControllerName + ".all");
-
-                        permissionValuesList.Add(ids4msOptions.MicroServiceName + ".all");
-
-                        options.AddPolicy(permissionName,
-                            policy => policy.RequireAssertion(context =>
+                            var policyValues = new List<string>()
                             {
-                                var userPermissionClaim = context.User.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.UserPermission));
+                                $"{Options.MicroServiceName}.{x}",
+                                $"{Options.MicroServiceName}.{policyConfig.ControllerName}.all",
+                                $"{Options.MicroServiceName}.all"
+                            };
 
-                                if (userPermissionClaim != null && !string.IsNullOrWhiteSpace(userPermissionClaim.Value))
+                            options.AddPolicy(policyName,
+                                policy => policy.RequireClaim(PolicyKey.ClientScope, policyValues));
+                        });
+                        #endregion
+
+                        #region User的权限策略
+                        policyConfig.Permissions.ForEach(x =>
+                        {
+                            var policyName = $"{PolicyKey.UserPermission}:{x}";
+
+                            var policyValues = new List<string>()
+                            {
+                                $"{Options.MicroServiceName}.{x}",
+                                $"{Options.MicroServiceName}.{policyConfig.ControllerName}.all",
+                                $"{Options.MicroServiceName}.all"
+                            };
+
+                            options.AddPolicy(policyName,
+                                policy => policy.RequireAssertion(handler =>
                                 {
-                                    var userPermissionClaimValue = userPermissionClaim.Value.ToLower().Split(new string[] { "," },
-                                        StringSplitOptions.RemoveEmptyEntries);
+                                    var claim = handler.User.Claims
+                                    .FirstOrDefault(c => c.Type.Equals(PolicyKey.UserPermission));
 
-                                    if (userPermissionClaimValue != null && userPermissionClaimValue.Length > 0)
+                                    if (claim != null && !string.IsNullOrWhiteSpace(claim.Value))
                                     {
-                                        foreach (var userPermissionItem in userPermissionClaimValue)
+                                        var claimValues = claim.Value.ToLower().Split(new string[] { "," },
+                                            StringSplitOptions.RemoveEmptyEntries);
+
+                                        if (claimValues != null && claimValues.Length > 0)
                                         {
-                                            if (permissionValuesList.Contains(userPermissionItem))
+                                            foreach (var item in claimValues)
                                             {
-                                                return true;
+                                                if (policyValues.Contains(item))
+                                                {
+                                                    return true;
+                                                }
                                             }
                                         }
                                     }
-                                }
-
-                                return false;
-                            }));
+                                    return false;
+                                }));
+                        });
+                        #endregion
                     }
-                    #endregion
                 });
             }
             #endregion
 
             #region SwaggerGen
-            if (ids4msOptions.SwaggerGen)
+            if (Options.SwaggerGen)
             {
                 services.AddSwaggerGen(c =>
                 {
@@ -209,13 +254,13 @@ namespace Microsoft.Extensions.DependencyInjection
                         {
                             Type = "oauth2",
                             Flow = "accessCode",
-                            AuthorizationUrl = ids4msOptions.IdentityServer.OriginalString + "/connect/authorize",
-                            TokenUrl = ids4msOptions.IdentityServer.OriginalString + "/connect/token",
+                            AuthorizationUrl = Options.IdentityServer.OriginalString + "/connect/authorize",
+                            TokenUrl = Options.IdentityServer.OriginalString + "/connect/token",
                             Description = "勾选授权范围，获取Token",
                             Scopes = new Dictionary<string, string>(){
                             { "openid","用户标识" },
                             { "profile","用户资料" },
-                            { ids4msOptions.MicroServiceName+ ".all","所有接口权限"},
+                            { Options.MicroServiceName+ ".all","所有接口权限"},
                             }
                         });
 
@@ -226,7 +271,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     {
                         c.SwaggerDoc(description.GroupName, new Info
                         {
-                            Title = ids4msOptions.AssemblyName,
+                            Title = Options.AssemblyName,
                             Version = description.ApiVersion.ToString(),
                             License = new License()
                             {
@@ -245,9 +290,12 @@ namespace Microsoft.Extensions.DependencyInjection
                         c.CustomSchemaIds(x => x.FullName);
                     }
 
-                    var SiteSwaggerFilePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, ids4msOptions.AssemblyName + ".xml");
+                    var SiteSwaggerFilePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, Options.AssemblyName + ".xml");
 
-                    c.IncludeXmlComments(SiteSwaggerFilePath);
+                    if (File.Exists(SiteSwaggerFilePath))
+                    {
+                        c.IncludeXmlComments(SiteSwaggerFilePath);
+                    }
 
                     var ISMSSwaggerFilePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "IdentityServer4.MicroService.xml");
 
@@ -265,7 +313,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region Localization
-            if (ids4msOptions.Localization)
+            if (Options.Localization)
             {
                 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -293,7 +341,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region ApiVersioning
-            if (ids4msOptions.ApiVersioning)
+            if (Options.ApiVersioning)
             {
                 builder.Services.AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
 
@@ -314,14 +362,14 @@ namespace Microsoft.Extensions.DependencyInjection
             .AddIdentityServerAuthentication(AppConstant.AppAuthenScheme, isAuth =>
             {
                 isAuth.Authority = configuration["IdentityServer"];
-                isAuth.ApiName = ids4msOptions.MicroServiceName;
+                isAuth.ApiName = Options.MicroServiceName;
                 isAuth.RequireHttpsMetadata = true;
             })
             .AddIdentityServer4MicroServiceOAuths(configuration);
             #endregion
 
             #region ApiVersioning
-            if (ids4msOptions.EnableResponseCaching)
+            if (Options.EnableResponseCaching)
             {
                 builder.Services.AddResponseCaching();
             }
@@ -340,7 +388,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder.AddTenantStore(DbContextOptions);
 
-            builder.AddIdentityStore(DbContextOptions, ids4msOptions.IdentityOptions);
+            builder.AddIdentityStore(DbContextOptions, Options.IdentityOptions);
 
             builder.AddSqlCacheStore(DBConnectionString);
 
