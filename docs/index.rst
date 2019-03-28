@@ -17,7 +17,6 @@ Welcome to IdentityServer4.MicroService
    :caption: 开始
 
    startserver
-   startazurejob
 
 .. toctree::
    :maxdepth: 1
