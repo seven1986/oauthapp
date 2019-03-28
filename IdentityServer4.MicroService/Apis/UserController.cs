@@ -251,7 +251,7 @@ namespace IdentityServer4.MicroService.Apis
                     db,
                     value,
                     roleIds,
-                    $"{ismsOptions.MicroServiceName}.all",
+                    $"{AppConstant.MicroServiceName}.all",
                     tenantIds);
 
                 db.Add(value);
@@ -713,7 +713,7 @@ namespace IdentityServer4.MicroService.Apis
                 db,
                 user,
                 roleIds,
-                $"{ismsOptions.MicroServiceName}.all",
+                $"{AppConstant.MicroServiceName}.all",
                 tenantIds);
 
             if (result.Succeeded)

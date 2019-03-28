@@ -963,6 +963,21 @@
             seed ID for tenant
             </summary>
         </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.AssemblyName">
+            <summary>
+            项目名称
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.MicroServiceName">
+            <summary>
+            微服务名称，必须是英文
+            </summary>
+        </member>
+        <member name="F:IdentityServer4.MicroService.AppConstant.InitializeDatabase">
+            <summary>
+            初始化数据库
+            </summary>
+        </member>
         <member name="T:IdentityServer4.MicroService.DefaultRoles">
             <summary>
             角色
@@ -1003,11 +1018,6 @@
             for client
             </summary>
         </member>
-        <member name="T:IdentityServer4.MicroService.AppDefaultData.Admin">
-            <summary>
-            管理员
-            </summary>
-        </member>
         <member name="T:IdentityServer4.MicroService.AppDefaultData.SwaggerClient">
             <summary>
             SwaggerClient - SwaggerUI使用
@@ -1023,7 +1033,7 @@
             租户
             </summary>
         </member>
-        <member name="M:IdentityServer4.MicroService.AppDefaultData.InitializeDatabase(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String,System.Uri)">
+        <member name="M:IdentityServer4.MicroService.AppDefaultData.InitializeDatabase(Microsoft.AspNetCore.Builder.IApplicationBuilder,IdentityServer4.MicroService.IdentityServer4MicroServiceOptions)">
             <summary>
             数据库初始化
             </summary>
@@ -1204,14 +1214,14 @@
             发送邮箱验证码后，该验证码在服务器的有效时长（秒）
             </summary>
         </member>
-        <member name="M:IdentityServer4.MicroService.Configuration.Id4MsServiceBuilder.#ctor(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:IdentityServer4.MicroService.Configuration.ISMSServiceBuilder.#ctor(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             Initializes a new instance of the <see cref="!:IdentityServerBuilder"/> class.
             </summary>
             <param name="services">The services.</param>
             <exception cref="T:System.ArgumentNullException">services</exception>
         </member>
-        <member name="P:IdentityServer4.MicroService.Configuration.Id4MsServiceBuilder.Services">
+        <member name="P:IdentityServer4.MicroService.Configuration.ISMSServiceBuilder.Services">
             <summary>
             Gets the services.
             </summary>
@@ -1766,99 +1776,65 @@
             发送过于频繁,请{0}秒后重试
             </summary>
         </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.AssemblyName">
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.DefaultUserAccount">
             <summary>
-            项目名称
+            管理员账号，邮箱格式(默认admin@admin.com)
             </summary>
         </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.MicroServiceName">
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.DefaultUserPassword">
             <summary>
-            微服务名称，必须是英文
+            管理员密码（默认123456aA!）
             </summary>
         </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.IdentityServer">
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.IdentityServerUri">
             <summary>
-            IdentityServer服务器地址
+            当前项目的网址(默认读取IdentityServer:Host)
+            如：https://127.0.0.1（必须为https，网址结尾无需带/）
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableAuthorizationPolicy">
+            <summary>
+            启用权限（默认true）
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableSwaggerGen">
+            <summary>
+            启用SwaggerGen（默认true）
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableSwaggerUI">
+            <summary>
+            启用SwaggerUI（默认true）
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableCors">
             <summary>
-            启用跨域
+            启用跨域（默认true）
             </summary>
         </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.Localization">
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableLocalization">
             <summary>
-            启用多语言
+            启用多语言（默认true）
             </summary>
         </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.ApiVersioning">
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableApiVersioning">
             <summary>
-            启用版本
+            启用版本（默认true）
             </summary>
         </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.AuthorizationPolicy">
-            <summary>
-            启用权限
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.SwaggerGen">
-            <summary>
-            启用SwaggerGen
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.SwaggerUI">
-            <summary>
-            启用SwaggerUI
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.SwaggerUIClientID">
-            <summary>
-            SwaggerUI ClientID
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.SwaggerUIClientName">
-            <summary>
-            SwaggerUI ClientName
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.SwaggerUIClientSecret">
-            <summary>
-            SwaggerUI ClientSecret
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.WebEncoders">
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableWebEncoders">
             <summary>
             启用WebEncoders
             </summary>
         </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.Scopes">
-            <summary>
-            客户端权限
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.Permissions">
-            <summary>
-            用户权限
-            </summary>
-        </member>
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableResponseCaching">
             <summary>
-            启用缓存
+            启用缓存（默认true）
             </summary>
         </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.SQLCacheConnection">
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.AspNetCoreIdentityOptions">
             <summary>
-            启用缓存的SQL数据库链接
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.InitializeDatabase">
-            <summary>
-            初始化数据库
-            </summary>
-        </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.IdentityOptions">
-            <summary>
-            IdentityOptions
+            配置参考官方文档
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceCreateVersionRequest.revisionId">
@@ -3034,14 +3010,14 @@
             属性集合
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddCoreService(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.ISMSServiceBuilderExtensionsCore.AddCoreService(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder)">
             <summary>
             Adds the required platform services.
             </summary>
             <param name="builder">The builder.</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddEmailService(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,Microsoft.Extensions.Configuration.IConfigurationSection)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.ISMSServiceBuilderExtensionsCore.AddEmailService(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,Microsoft.Extensions.Configuration.IConfigurationSection)">
             <summary>
             Adds the required platform services.
             </summary>
@@ -3049,12 +3025,48 @@
             <param name="config">The config.</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsBuilderExtensionsCore.AddSmsService(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,Microsoft.Extensions.Configuration.IConfigurationSection)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.ISMSServiceBuilderExtensionsCore.AddSmsService(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,Microsoft.Extensions.Configuration.IConfigurationSection)">
             <summary>
             Adds the required platform services.
             </summary>
             <param name="builder">The builder.</param>
             <param name="config">The config.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ISMSServiceBuilderExtensionsCore.AddTenantStore(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">
+            <summary>
+            Configures EF implementation of TenantStore with IdentityServer.
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="DbContextOptions">The store options action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ISMSServiceBuilderExtensionsCore.AddIdentityStore(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})">
+            <summary>
+            Configures EF implementation of IdentityStore with IdentityServer.
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="DbContextOptions">The store options action.</param>
+            <param name="identityOptions">The identity options action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ISMSServiceBuilderExtensionsCore.AddSqlCacheStore(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.String,System.String,System.String)">
+            <summary>
+            Configures SqlCache Service
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="connection">database connection string</param>
+            <param name="schemaName">table schemaName</param>
+            <param name="tableName">table name</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ISMSServiceBuilderExtensionsCore.AddIdentityServer(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Configures EF implementation of TenantStore with IdentityServer.
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="DbContextOptions">The store options action.</param>
+            <param name="certificate">The certificate.</param>
             <returns></returns>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.OAuthBuilderExtensions">
@@ -3070,12 +3082,13 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer4MicroServiceBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="P:Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder.Services">
             <summary>
-            Creates a builder.
+            Gets the services.
             </summary>
-            <param name="services">The services.</param>
-            <returns></returns>
+            <value>
+            The services.
+            </value>
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer4MicroService(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action{IdentityServer4.MicroService.IdentityServer4MicroServiceOptions})">
             <summary>
@@ -3085,50 +3098,6 @@
             <param name="ismsOptions">The Options.</param>
             <param name="configuration">The Configuration.</param>
             <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddTenantStore(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">
-            <summary>
-            Configures EF implementation of TenantStore with IdentityServer.
-            </summary>
-            <param name="builder">The builder.</param>
-            <param name="DbContextOptions">The store options action.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityStore(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})">
-            <summary>
-            Configures EF implementation of IdentityStore with IdentityServer.
-            </summary>
-            <param name="builder">The builder.</param>
-            <param name="DbContextOptions">The store options action.</param>
-            <param name="identityOptions">The identity options action.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddSqlCacheStore(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,System.String,System.String,System.String)">
-            <summary>
-            Configures SqlCache Service
-            </summary>
-            <param name="builder">The builder.</param>
-            <param name="connection">database connection string</param>
-            <param name="schemaName">table schemaName</param>
-            <param name="tableName">table name</param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer(Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},Microsoft.Extensions.Configuration.IConfiguration)">
-            <summary>
-            Configures EF implementation of TenantStore with IdentityServer.
-            </summary>
-            <param name="builder">The builder.</param>
-            <param name="DbContextOptions">The store options action.</param>
-            <param name="configuration">The configuration.</param>
-            <returns></returns>
-        </member>
-        <member name="P:Microsoft.Extensions.DependencyInjection.IId4MsServiceBuilder.Services">
-            <summary>
-            Gets the services.
-            </summary>
-            <value>
-            The services.
-            </value>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.AmazonAuthenticationExtensions">
             <summary>

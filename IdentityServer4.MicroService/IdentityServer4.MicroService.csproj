@@ -8,10 +8,10 @@
     <PackageProjectUrl>https://github.com/seven1986/IdentityServer4.MicroService</PackageProjectUrl>
     <RepositoryUrl>https://github.com/seven1986/IdentityServer4.MicroService</RepositoryUrl>
     <PackageTags>IdentityServer4 MicroService AzureApiManagement</PackageTags>
-    <AssemblyVersion>0.1.31.0</AssemblyVersion>
-    <FileVersion>0.1.31.0</FileVersion>
+    <AssemblyVersion>0.1.32.0</AssemblyVersion>
+    <FileVersion>0.1.32.0</FileVersion>
     <PackageIconUrl>https://raw.githubusercontent.com/seven1986/IdentityServer4.MicroService/master/id4ms.png</PackageIconUrl>
-    <Version>0.1.31</Version>
+    <Version>0.1.32</Version>
     <Product>IdentityServer4.MicroService</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -39,7 +39,7 @@
     <None Remove="Node\sdkgen\npm\angular2.js" />
     <None Remove="Node\sdkgen\npm\jQuery.js" />
     <None Remove="Node\sdkgen\npm\mustache.min.js" />
-    <None Remove="README.txt" />
+    <None Remove="readme.txt" />
     <None Remove="Views\Consent\Index.cshtml" />
     <None Remove="Views\Device\Success.cshtml" />
     <None Remove="Views\Device\UserCodeCapture.cshtml" />
@@ -51,12 +51,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="README.txt">
+    <Content Include="readme.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Views\Grants\Index.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

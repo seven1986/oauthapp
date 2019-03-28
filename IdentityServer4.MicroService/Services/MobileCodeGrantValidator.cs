@@ -98,7 +98,7 @@ namespace IdentityServer4.MicroService.Services
                     _db,
                     User,
                     roleIds,
-                    $"{_ismsOptions.MicroServiceName}.all", new List<long>() { 1 });
+                    $"{AppConstant.MicroServiceName}.all", new List<long>() { 1 });
 
                 if (!result.Succeeded)
                 {

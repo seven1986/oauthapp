@@ -1,4 +1,6 @@
-﻿using IdentityServer4.MicroService;
+﻿using System;
+using System.Collections.Generic;
+using IdentityServer4.MicroService;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Tenant;
 using Microsoft.AspNetCore.Hosting;
@@ -7,8 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using System;
-using System.Collections.Generic;
+using static IdentityServer4.MicroService.AppDefaultData;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -23,9 +24,16 @@ namespace Microsoft.AspNetCore.Builder
 
             var options = builder.ApplicationServices.GetService<IdentityServer4MicroServiceOptions>();
 
-            if (options.IdentityServer == null)
+            if (options.IdentityServerUri == null)
             {
-                options.IdentityServer = new Uri(Configuration["IdentityServer"]);
+                try
+                {
+                    options.IdentityServerUri = new Uri(Configuration["IdentityServer:Host"]);
+                }
+                catch
+                {
+                    throw new KeyNotFoundException("appsettings.json文件，没有配置IdentityServer:Host");
+                }
             }
 
             builder.Validate();
@@ -35,9 +43,9 @@ namespace Microsoft.AspNetCore.Builder
                 builder.UseCors("cors-allowanonymous");
             }
 
-            if (options.InitializeDatabase)
+            if (AppConstant.InitializeDatabase)
             {
-                AppDefaultData.InitializeDatabase(builder, options.MicroServiceName, options.IdentityServer);
+                InitializeDatabase(builder,options);
             }
 
             builder.UseMiddleware<TenantMiddleware>();
@@ -46,14 +54,14 @@ namespace Microsoft.AspNetCore.Builder
 
             builder.UseIdentityServer();
 
-            if (options.SwaggerGen)
+            if (options.EnableSwaggerGen)
             {
                 builder.UseSwagger(x =>
                 {
                     x.PreSerializeFilters.Add((doc, req) =>
                     {
                         doc.Schemes = new[] { "https" };
-                        doc.Host = options.IdentityServer.Authority;
+                        doc.Host = options.IdentityServerUri.Authority;
                         doc.Security = new List<IDictionary<string, IEnumerable<string>>>()
                         {
                             new Dictionary<string, IEnumerable<string>>()
@@ -67,7 +75,7 @@ namespace Microsoft.AspNetCore.Builder
                 });
             }
 
-            if (options.SwaggerUI)
+            if (options.EnableSwaggerUI)
             {
                 builder.UseSwaggerUI(c =>
                     {
@@ -79,10 +87,10 @@ namespace Microsoft.AspNetCore.Builder
                                 $"/swagger/{description.GroupName}/swagger.json",
                                 description.GroupName.ToUpperInvariant());
 
-                            c.OAuthAppName(options.SwaggerUIClientName);
-                            c.OAuthClientId(options.SwaggerUIClientID);
-                            c.OAuthClientSecret(options.SwaggerUIClientSecret);
-                            c.OAuth2RedirectUrl($"{options.IdentityServer.OriginalString}/swagger/oauth2-redirect.html");
+                            c.OAuthAppName(SwaggerClient.ClientName);
+                            c.OAuthClientId(SwaggerClient.ClientId);
+                            c.OAuthClientSecret(SwaggerClient.ClientSecret);
+                            c.OAuth2RedirectUrl($"{options.IdentityServerUri.OriginalString}/swagger/oauth2-redirect.html");
                         }
 
                         c.DocExpansion(DocExpansion.None);

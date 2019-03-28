@@ -62,7 +62,6 @@ namespace IdentityServer4.MicroService.Tenant
             IAuthenticationSchemeProvider oauthProvider,
             IMemoryCache memoryCache,
             IdentityServerOptions identityServerOptions,
-
             IOptionsMonitor<AmazonAuthenticationOptions> amazonOptions,
             IOptionsMonitor<FacebookOptions> facebookOptions,
             IOptionsMonitor<GitHubOptions> githubOptions,
@@ -112,7 +111,6 @@ namespace IdentityServer4.MicroService.Tenant
             TenantDbContext _db,
             IOptionsMonitor<IdentityServerAuthenticationOptions> identityServerAuthenticationOptions)
         {
-
             var tenant = _tenantService.GetTenant(_db,
                 context.Request.Host.Value);
 
