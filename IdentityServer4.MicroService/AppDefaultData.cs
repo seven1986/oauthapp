@@ -170,7 +170,7 @@ namespace IdentityServer4.MicroService
         {
             return new List<IdentityResource>
                 {
-                    new IdentityResources.OpenId(){  UserClaims={ "role", PolicyKey.UserPermission } },
+                    new IdentityResources.OpenId(),
                     new IdentityResources.Profile(),
                     new IdentityResources.Address(),
                     new IdentityResources.Email(),
@@ -197,6 +197,9 @@ namespace IdentityServer4.MicroService
                         Scopes = new List<Scope>()
                         {
                             new Scope(AppConstant.MicroServiceName + ".all", "授权中心 - 所有权限")
+                            {
+                                   UserClaims ={ "role", PolicyKey.UserPermission }
+                            }
                         },
 
                         Properties =new Dictionary<string,string>()
