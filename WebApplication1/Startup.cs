@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using IdentityServer4.MicroService;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +28,12 @@ namespace WebApplication1
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddIdentityServer4MicroService(Configuration);
+            services.AddIdentityServer4MicroService(Configuration, options =>
+            {
+                //options.DefaultUserAccount = "admin@admin.com";
+                //options.DefaultUserPassword = "123456aA!"
+                //options.AspNetCoreIdentityOptions
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

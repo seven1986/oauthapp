@@ -400,10 +400,14 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
                 name: "IX_AspNetUserTenants_UserId",
                 table: "AspNetUserTenants",
                 column: "UserId");
+
+            migrationBuilder.Sql(SQL_View_User.SQL);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.Sql(SQL_View_User.Name);
+
             migrationBuilder.DropTable(
                 name: "AppCache");
 

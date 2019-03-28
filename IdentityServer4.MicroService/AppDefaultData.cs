@@ -14,21 +14,11 @@ using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.MicroService.Services;
-using Newtonsoft.Json;
 
 namespace IdentityServer4.MicroService
 {
     public class AppDefaultData
     {
-        /// <summary>
-        /// 管理员
-        /// </summary>
-        public class Admin
-        {
-            public static string Email = "admin@admin.com";
-
-            public static string PasswordHash = "123456aA!";
-        }
 
         #region SwaggerClient
         /// <summary>
@@ -67,8 +57,11 @@ namespace IdentityServer4.MicroService
         public class Tenant
         {
             public static string WebSite = "";//http://localhost:44309
+
             public static string IdentityServerIssuerUri = "";//localhost:44309
+
             public static string AppHostName = "";//localhost:44309
+
             public static string Name = "微服务";
 
             public static Dictionary<string, string> TenantProperties =
@@ -96,7 +89,7 @@ namespace IdentityServer4.MicroService
                 };
         }
 
-        public static IEnumerable<Client> GetClients(string MicroServiceName,Uri ServerUrl)
+        public static IEnumerable<Client> GetClients(Uri ServerUrl)
         {
             // client credentials client
 
@@ -130,7 +123,7 @@ namespace IdentityServer4.MicroService
                         {
                             IdentityServerConstants.StandardScopes.OpenId,
                             IdentityServerConstants.StandardScopes.Profile,
-                            MicroServiceName + ".all"
+                            AppConstant.MicroServiceName + ".all"
                         },
                         AllowOfflineAccess = true
                     },
@@ -165,7 +158,7 @@ namespace IdentityServer4.MicroService
                         {
                             IdentityServerConstants.StandardScopes.OpenId,
                             IdentityServerConstants.StandardScopes.Profile,
-                            MicroServiceName + ".all"
+                            AppConstant.MicroServiceName + ".all"
                         },
                         AllowOfflineAccess = true
                     }
@@ -185,33 +178,25 @@ namespace IdentityServer4.MicroService
                 };
         }
 
-        public static IEnumerable<ApiResource> GetApiResources(string MicroServiceName)
+        public static IEnumerable<ApiResource> GetApiResources()
         {
-            var ActionList = new List<Scope>()
-            {
-                new Scope(MicroServiceName + ".all", "所有权限")
-            };
-
             return new List<ApiResource>
                 {
                     new ApiResource()
                     {
-                        Enabled =true,
+                        Enabled = true,
 
                         ApiSecrets = {},
 
-                        Name = MicroServiceName,
+                        Name = AppConstant.MicroServiceName,
 
-                        DisplayName = MicroServiceName,
+                        DisplayName = AppConstant.MicroServiceName,
 
-                        Description = MicroServiceName,
+                        Description = AppConstant.MicroServiceName,
 
-                        Scopes = ActionList,
-
-                        //需要使用的用户claims
-                        UserClaims= {
-                            PolicyKey.UserPermission,
-                            "role"
+                        Scopes = new List<Scope>()
+                        {
+                            new Scope(AppConstant.MicroServiceName + ".all", "授权中心 - 所有权限")
                         },
 
                         Properties =new Dictionary<string,string>()
@@ -222,11 +207,11 @@ namespace IdentityServer4.MicroService
         /// <summary>
         /// 数据库初始化
         /// </summary>
-        public static void InitializeDatabase(IApplicationBuilder app,string MicroServiceName,Uri ServerUrl)
+        public static void InitializeDatabase(IApplicationBuilder app,IdentityServer4MicroServiceOptions options)
         {
-            Tenant.AppHostName = Tenant.IdentityServerIssuerUri = ServerUrl.Authority;
+            Tenant.AppHostName = Tenant.IdentityServerIssuerUri = options.IdentityServerUri.Authority;
 
-            Tenant.WebSite = ServerUrl.OriginalString;
+            Tenant.WebSite = options.IdentityServerUri.OriginalString;
 
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
@@ -240,7 +225,7 @@ namespace IdentityServer4.MicroService
 
                 if (!context.Clients.Any())
                 {
-                    foreach (var client in GetClients(MicroServiceName,ServerUrl))
+                    foreach (var client in GetClients(options.IdentityServerUri))
                     {
                         context.Clients.Add(client.ToEntity());
                     }
@@ -258,7 +243,7 @@ namespace IdentityServer4.MicroService
 
                 if (!context.ApiResources.Any())
                 {
-                    foreach (var resource in GetApiResources(MicroServiceName))
+                    foreach (var resource in GetApiResources())
                     {
                         context.ApiResources.Add(resource.ToEntity());
                     }
@@ -275,7 +260,7 @@ namespace IdentityServer4.MicroService
                 var userContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
                 userContext.Database.Migrate();
-                Data_Seeding_Users(userContext, tenantDbContext, userManager, context, MicroServiceName);
+                Data_Seeding_Users(userContext, tenantDbContext, userManager, context,options);
                 #endregion
             }
         }
@@ -295,8 +280,15 @@ namespace IdentityServer4.MicroService
                     Status = TenantStatus.Enable,
                     Theme = "default"
                 };
+
                 tenant.Hosts.Add(new AppTenantHost() { HostName = Tenant.AppHostName });
-                tenant.Properties.AddRange(Tenant.TenantProperties.Select(x => new AppTenantProperty() { Key = x.Key, Value = x.Value }));
+
+                tenant.Properties.AddRange(Tenant.TenantProperties.Select(x => new AppTenantProperty()
+                {
+                    Key = x.Key,
+                    Value = x.Value
+                }));
+
                 tenantDbContext.Tenants.Add(tenant);
                 tenantDbContext.SaveChanges();
             }
@@ -307,7 +299,7 @@ namespace IdentityServer4.MicroService
             TenantDbContext tenantDbContext,
             UserManager<AppUser> userManager,
             ConfigurationDbContext identityserverDbContext,
-            string MicroServiceName)
+            IdentityServer4MicroServiceOptions options)
         {
             if (!userContext.Roles.Any())
             {
@@ -338,9 +330,9 @@ namespace IdentityServer4.MicroService
 
                 var user = new AppUser()
                 {
-                    Email = Admin.Email,
-                    UserName = Admin.Email,
-                    PasswordHash = Admin.PasswordHash,
+                    Email = options.DefaultUserAccount,
+                    UserName = options.DefaultUserAccount,
+                    PasswordHash = options.DefaultUserPassword,
                     EmailConfirmed = true,
                     ParentUserID = AppConstant.seedUserId
                 };
@@ -350,7 +342,7 @@ namespace IdentityServer4.MicroService
                      userContext,
                      user,
                      roleIds,
-                    $"{MicroServiceName}.all",
+                    $"{AppConstant.MicroServiceName}.all",
                     tenantIds).Result;
 
                 #region User Clients

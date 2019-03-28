@@ -1,6 +1,6 @@
 ﻿namespace Microsoft.Extensions.DependencyInjection
 {
-   public interface IId4MsServiceBuilder
+   public interface IISMSServiceBuilder
     {
         /// <summary>
         /// Gets the services.
