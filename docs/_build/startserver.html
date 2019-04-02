@@ -1,0 +1,291 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>开始使用 &mdash; IdentityServer4.MicroService  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="授权中心" href="IdentityServer4MicroService.html" />
+    <link rel="prev" title="﻿更新日志" href="log.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> IdentityServer4.MicroService
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">﻿概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="log.html">﻿更新日志</a></li>
+</ul>
+<p class="caption"><span class="caption-text">开始</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">开始使用</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#aspnetcore-web">1，创建AspNetCore Web应用程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nuget">2，安装Nuget包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#appsetting-json">3，appsetting.json配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#startup-cs">4，Startup.cs添加并使用服务</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">5，启动并预览</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#aspnet-core-identity-ui">6，添加 AspNet Core Identity UI</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">开放能力</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="IdentityServer4MicroService.html">授权中心</a></li>
+</ul>
+<p class="caption"><span class="caption-text">其他</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="permissions.html">权限码表</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorcodes.html">错误码表</a></li>
+<li class="toctree-l1"><a class="reference internal" href="issues.html">反馈问题</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">IdentityServer4.MicroService</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>开始使用</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/startserver.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>开始使用<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">参考如下步骤，搭建身份认证中心服务器。</p>
+</div>
+<div class="section" id="aspnetcore-web">
+<h2>1，创建AspNetCore Web应用程序<a class="headerlink" href="#aspnetcore-web" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/usecase-basic-1.png" src="_images/usecase-basic-1.png" />
+<img alt="_images/usecase-basic-2.png" src="_images/usecase-basic-2.png" />
+</div>
+<div class="section" id="nuget">
+<h2>2，安装Nuget包<a class="headerlink" href="#nuget" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/usecase-basic-3.png" src="_images/usecase-basic-3.png" />
+</div>
+<div class="section" id="appsetting-json">
+<h2>3，appsetting.json配置<a class="headerlink" href="#appsetting-json" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>修改项目启动地址为https地址</li>
+<li>配置appsetting.json，Host节点为当前项目的https地址</li>
+</ul>
+</div></blockquote>
+<img alt="_images/usecase-basic-4.png" src="_images/usecase-basic-4.png" />
+<img alt="_images/usecase-basic-5.png" src="_images/usecase-basic-5.png" />
+</div>
+<div class="section" id="startup-cs">
+<h2>4，Startup.cs添加并使用服务<a class="headerlink" href="#startup-cs" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/usecase-basic-6.png" src="_images/usecase-basic-6.png" />
+</div>
+<div class="section" id="id2">
+<h2>5，启动并预览<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/usecase-basic-7.png" src="_images/usecase-basic-7.png" />
+<img alt="_images/usecase-basic-8.png" src="_images/usecase-basic-8.png" />
+<img alt="_images/usecase-basic-9.png" src="_images/usecase-basic-9.png" />
+<img alt="_images/usecase-basic-10.png" src="_images/usecase-basic-10.png" />
+<img alt="_images/usecase-basic-11.png" src="_images/usecase-basic-11.png" />
+<img alt="_images/usecase-basic-12.png" src="_images/usecase-basic-12.png" />
+<img alt="_images/usecase-basic-13.png" src="_images/usecase-basic-13.png" />
+<img alt="_images/usecase-basic-14.png" src="_images/usecase-basic-14.png" />
+</div>
+<div class="section" id="aspnet-core-identity-ui">
+<h2>6，添加 AspNet Core Identity UI<a class="headerlink" href="#aspnet-core-identity-ui" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/usecase-basic-15.png" src="_images/usecase-basic-15.png" />
+<img alt="_images/usecase-basic-16.png" src="_images/usecase-basic-16.png" />
+<img alt="_images/usecase-basic-17.png" src="_images/usecase-basic-17.png" />
+<img alt="_images/usecase-basic-18.png" src="_images/usecase-basic-18.png" />
+<img alt="_images/usecase-basic-19.png" src="_images/usecase-basic-19.png" />
+<img alt="_images/usecase-basic-20.png" src="_images/usecase-basic-20.png" />
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="IdentityServer4MicroService.html" class="btn btn-neutral float-right" title="授权中心" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="log.html" class="btn btn-neutral" title="﻿更新日志" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Seven.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
