@@ -1,9 +1,9 @@
-﻿☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆
-☆☆☆☆☆☆☆☆☆IdentityServer4.MicroService☆☆☆☆☆☆☆☆☆☆
-☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆
+﻿☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆
+☆☆☆☆☆☆☆☆☆IdentityServer4.MicroService☆☆☆☆
+☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆
 
 【使用教程】
-https://identityserver4microservice.readthedocs.io/en/latest/startserver.html
+https://github.com/seven1986/IdentityServer4.MicroService/blob/master/docs/startserver.rst
 
 【问题反馈】
 https://github.com/seven1986/IdentityServer4.MicroService/issues
