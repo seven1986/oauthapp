@@ -6,10 +6,11 @@ namespace IdentityServer4.MicroService.Models.Apis.UserController
     {
         /// <summary>
         /// 用户角色标识，多个角色用","链接
+        /// 可选值：user/partner/developer/administrator
         /// </summary>
         [RegularExpression("^[0-9,]+$", ErrorMessage = "用户角色标识格式错误")]
         public string roles { get; set; }
-
+        
         /// <summary>
         /// 手机号
         /// </summary>

@@ -59,13 +59,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.client.get</code>
-        /// <label>User Permissions：</label><code>ids4.ms.client.get</code>
+        /// <label>Client Scopes：</label><code>isms.client.get</code>
+        /// <label>User Permissions：</label><code>isms.client.get</code>
         /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.get")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.get")]
-        [SwaggerOperation("Client/Get")]
+        [SwaggerOperation(OperationId = "ClientGet")]
         public async Task<PagingResult<Client>> Get([FromQuery]PagingRequest<ClientGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -153,13 +153,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.client.detail</code>
-        /// <label>User Permissions：</label><code>ids4.ms.client.detail</code>
+        /// <label>Client Scopes：</label><code>isms.client.detail</code>
+        /// <label>User Permissions：</label><code>isms.client.detail</code>
         /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.detail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.detail")]
-        [SwaggerOperation("Client/Detail")]
+        [SwaggerOperation(OperationId = "ClientDetail")]
         public async Task<ApiResult<Client>> Get(int id)
         {
             if (!await exists(id))
@@ -201,13 +201,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.client.post</code>
-        /// <label>User Permissions：</label><code>ids4.ms.client.post</code>
+        /// <label>Client Scopes：</label><code>isms.client.post</code>
+        /// <label>User Permissions：</label><code>isms.client.post</code>
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.post")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.post")]
-        [SwaggerOperation("Client/Post")]
+        [SwaggerOperation(OperationId = "ClientPost")]
         public async Task<ApiResult<long>> Post([FromBody]Client value)
         {
             if (!ModelState.IsValid)
@@ -246,13 +246,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.client.put</code>
-        /// <label>User Permissions：</label><code>ids4.ms.client.put</code>
+        /// <label>Client Scopes：</label><code>isms.client.put</code>
+        /// <label>User Permissions：</label><code>isms.client.put</code>
         /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.put")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.put")]
-        [SwaggerOperation("Client/Put")]
+        [SwaggerOperation(OperationId = "ClientPut")]
         public async Task<ApiResult<long>> Put([FromBody]Client value)
         {
             if (!ModelState.IsValid)
@@ -734,13 +734,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.client.delete</code>
-        /// <label>User Permissions：</label><code>ids4.ms.client.delete</code>
+        /// <label>Client Scopes：</label><code>isms.client.delete</code>
+        /// <label>User Permissions：</label><code>isms.client.delete</code>
         /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.delete")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.delete")]
-        [SwaggerOperation("Client/Delete")]
+        [SwaggerOperation(OperationId = "ClientDelete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
             if (!await exists(id))
@@ -786,13 +786,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.client.issuetoken</code>
-        /// <label>User Permissions：</label><code>ids4.ms.client.issuetoken</code>
+        /// <label>Client Scopes：</label><code>isms.client.issuetoken</code>
+        /// <label>User Permissions：</label><code>isms.client.issuetoken</code>
         /// </remarks>
         [HttpPost("IssueToken")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.issuetoken")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.issuetoken")]
-        [SwaggerOperation("Client/IssueToken")]
+        [SwaggerOperation(OperationId = "ClientIssueToken")]
         public async Task<ApiResult<string>> IssueToken([FromBody]ClientIssueTokenRequest value)
         {
             if (value.lifetime < 1) { value.lifetime = 3600; }
@@ -815,13 +815,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.client.postsecretkey</code>
-        /// <label>User Permissions：</label><code>ids4.ms.client.postsecretkey</code>
+        /// <label>Client Scopes：</label><code>isms.client.postsecretkey</code>
+        /// <label>User Permissions：</label><code>isms.client.postsecretkey</code>
         /// </remarks>
         [HttpPost("{id}/Secretkey")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.postsecretkey")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.postsecretkey")]
-        [SwaggerOperation("Client/PostSecretkey")]
+        [SwaggerOperation(OperationId = "ClientPostSecretkey")]
         public ApiResult<string> PostSecretkey(int id,[FromBody]ClientPostSecretkeyRequest value)
         {
             var result = string.Empty;
@@ -849,7 +849,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <remarks>客户端代码对照表</remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
-        [SwaggerOperation("Client/Codes")]
+        [SwaggerOperation(OperationId = "ClientCodes")]
         public List<ApiCodeModel> Codes()
         {
             var result = _Codes<ClientControllerEnums>();

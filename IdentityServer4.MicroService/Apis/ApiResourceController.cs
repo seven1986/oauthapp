@@ -106,13 +106,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.get</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.get</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.get</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.get</code>
         /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.get")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.get")]
-        [SwaggerOperation("ApiResource/Get")]
+        [SwaggerOperation(OperationId = "ApiResourceGet")]
         public async Task<PagingResult<ApiResource>> Get([FromQuery]PagingRequest<ApiResourceGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -195,13 +195,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.detail</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.detail</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.detail</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.detail</code>
         /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.detail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.detail")]
-        [SwaggerOperation("ApiResource/Detail")]
+        [SwaggerOperation(OperationId = "ApiResourceDetail")]
         public async Task<ApiResult<ApiResource>> Get(long id)
         {
             if (!await exists(id))
@@ -234,13 +234,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value">ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.post</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.post</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.post</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.post</code>
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.post")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.post")]
-        [SwaggerOperation("ApiResource/Post")]
+        [SwaggerOperation(OperationId = "ApiResourcePost")]
         public async Task<ApiResult<long>> Post([FromBody]ApiResource value)
         {
             if (!ModelState.IsValid)
@@ -272,13 +272,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.put</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.put</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.put</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.put</code>
         /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.put")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.put")]
-        [SwaggerOperation("ApiResource/Put")]
+        [SwaggerOperation(OperationId = "ApiResourcePut")]
         public async Task<ApiResult<long>> Put([FromBody]ApiResource value)
         {
             if (!ModelState.IsValid)
@@ -550,13 +550,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.delete</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.delete</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.delete</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.delete</code>
         /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.delete")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.delete")]
-        [SwaggerOperation("ApiResource/Delete")]
+        [SwaggerOperation(OperationId = "ApiResourceDelete")]
         public async Task<ApiResult<long>> Delete(long id)
         {
             if (!await exists(id))
@@ -585,13 +585,13 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.scopes</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.scopes</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.scopes</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.scopes</code>
         /// </remarks>
         [HttpGet("Scopes")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.scopes")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.scopes")]
-        [SwaggerOperation("ApiResource/Scopes")]
+        [SwaggerOperation(OperationId = "ApiResourceScopes")]
         public async Task<ApiResult<Dictionary<string, List<ApiResourceScopeResponse>>>> Scopes()
         {
             var entities = new List<ApiResourceScopeEntity>();
@@ -644,7 +644,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <remarks>微服务代码对照表</remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
-        [SwaggerOperation("ApiResource/Codes")]
+        [SwaggerOperation(OperationId = "ApiResourceCodes")]
         public List<ApiCodeModel> Codes()
         {
             var result = _Codes<ApiResourceControllerEnums>();
@@ -663,13 +663,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.publish</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.publish</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.publish</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.publish</code>
         /// </remarks>
         [HttpPut("{id}/Publish")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.publish")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.publish")]
-        [SwaggerOperation("ApiResource/Publish")]
+        [SwaggerOperation(OperationId = "ApiResourcePublish")]
         public async Task<ApiResult<bool>> Publish(long id, [FromBody]ApiResourcePublishRequest value)
         {
             if (!ModelState.IsValid)
@@ -773,13 +773,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.publishrevision</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.publishrevision</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.publishrevision</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.publishrevision</code>
         /// </remarks>
         [HttpPost("{id}/PublishRevision")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.publishrevision")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.publishrevision")]
-        [SwaggerOperation("ApiResource/PublishRevision")]
+        [SwaggerOperation(OperationId = "ApiResourcePublishRevision")]
         public async Task<ApiResult<bool>> PublishRevision(long id,
             [FromBody]ApiResourcePublishRevisionsRequest value)
         {
@@ -829,13 +829,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.publishversion</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.publishversion</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.publishversion</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.publishversion</code>
         /// </remarks>
         [HttpPost("{id}/PublishVersion")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.publishversion")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.publishversion")]
-        [SwaggerOperation("ApiResource/PublishVersion")]
+        [SwaggerOperation(OperationId = "ApiResourcePublishVersion")]
         public async Task<ApiResult<bool>> PublishVersion(long id, [FromBody]ApiResourceCreateVersionRequest value)
         {
             if (!ModelState.IsValid)
@@ -871,13 +871,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.publishconfiguration</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.publishconfiguration</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.publishconfiguration</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.publishconfiguration</code>
         /// </remarks>
         [HttpGet("{id}/PublishConfiguration")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.publishconfiguration")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.publishconfiguration")]
-        [SwaggerOperation("ApiResource/PublishConfiguration")]
+        [SwaggerOperation(OperationId = "ApiResourcePublishConfiguration")]
         public async Task<ApiResult<ApiResourcePublishRequest>> PublishConfiguration(long id)
         {
             if (!await exists(id))
@@ -921,13 +921,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.versions</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.versions</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.versions</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.versions</code>
         /// </remarks>
         [HttpGet("{id}/Versions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.versions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.versions")]
-        [SwaggerOperation("ApiResource/Versions")]
+        [SwaggerOperation(OperationId = "ApiResourceVersions")]
         [ResponseCache(Duration = 60)]
         public async Task<PagingResult<ApiResourceVersionsResponse>> Versions(long id)
         {
@@ -977,13 +977,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="revisionId"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.setonlineversion</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.setonlineversion</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.setonlineversion</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.setonlineversion</code>
         /// </remarks>
         [HttpPost("{id}/Versions/{revisionId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.setonlineversion")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.setonlineversion")]
-        [SwaggerOperation("ApiResource/SetOnlineVersion")]
+        [SwaggerOperation(OperationId = "ApiResourceSetOnlineVersion")]
         public async Task<ApiResult<bool>> SetOnlineVersion(long id, string revisionId)
         {
             if (!await exists(id) || string.IsNullOrWhiteSpace(revisionId))
@@ -1010,13 +1010,13 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.authservers</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.authservers</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.authservers</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.authservers</code>
         /// </remarks>
         [HttpGet("AuthServers")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.authservers")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.authservers")]
-        [SwaggerOperation("ApiResource/AuthServers")]
+        [SwaggerOperation(OperationId = "ApiResourceAuthServers")]
         public async Task<ApiResult<AzureApiManagementEntities<AzureApiManagementAuthorizationServerEntity>>> AuthServers()
         {
             var result = await AzureApim.AuthorizationServers.GetAsync();
@@ -1031,13 +1031,13 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.products</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.products</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.products</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.products</code>
         /// </remarks>
         [HttpGet("Products")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.products")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.products")]
-        [SwaggerOperation("ApiResource/Products")]
+        [SwaggerOperation(OperationId = "ApiResourceProducts")]
         public async Task<ApiResult<AzureApiManagementEntities<AzureApiManagementProductEntity>>> Products()
         {
             var result = await AzureApim.Products.GetAsync();
@@ -1056,13 +1056,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="apiId">Api的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.releases</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.releases</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.releases</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.releases</code>
         /// </remarks>
         [HttpGet("{id}/Releases")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.releases")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.releases")]
-        [SwaggerOperation("ApiResource/Releases")]
+        [SwaggerOperation(OperationId = "ApiResourceReleases")]
         public async Task<PagingResult<AzureApiManagementReleaseEntity>> Releases(long id, string apiId)
         {
             if (string.IsNullOrWhiteSpace(apiId))
@@ -1096,13 +1096,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.postrelease</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.postrelease</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.postrelease</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.postrelease</code>
         /// </remarks>
         [HttpPost("{id}/Releases")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.postrelease")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.postrelease")]
-        [SwaggerOperation("ApiResource/PostRelease")]
+        [SwaggerOperation(OperationId = "ApiResourcePostRelease")]
         public async Task<ApiResult<bool>> PostRelease(long id, [FromBody]ApiResourcePostReleaseRequest value)
         {
             if (!ModelState.IsValid)
@@ -1126,13 +1126,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.putrelease</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.putrelease</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.putrelease</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.putrelease</code>
         /// </remarks>
         [HttpPut("{id}/Releases/{releaseId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.putrelease")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.putrelease")]
-        [SwaggerOperation("ApiResource/PutRelease")]
+        [SwaggerOperation(OperationId = "ApiResourcePutRelease")]
         public async Task<ApiResult<bool>> PutRelease(long id, string releaseId, [FromBody]ApiResourcePutReleaseRequest value)
         {
             if (!ModelState.IsValid)
@@ -1161,13 +1161,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="releaseId">修订内容的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.deleterelease</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.deleterelease</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.deleterelease</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.deleterelease</code>
         /// </remarks>
         [HttpDelete("{id}/Releases/{releaseId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.deleterelease")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.deleterelease")]
-        [SwaggerOperation("ApiResource/DeleteRelease")]
+        [SwaggerOperation(OperationId = "ApiResourceDeleteRelease")]
         public async Task<ApiResult<bool>> DeleteRelease(long id, string releaseId)
         {
             if (string.IsNullOrWhiteSpace(releaseId))
@@ -1191,13 +1191,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.subscriptions</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.subscriptions</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.subscriptions</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.subscriptions</code>
         /// </remarks>
         [HttpGet("{id}/Subscriptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.subscriptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.subscriptions")]
-        [SwaggerOperation("ApiResource/Subscriptions")]
+        [SwaggerOperation(OperationId = "ApiResourceSubscriptions")]
         public async Task<PagingResult<ApiResourceSubscriptionEntity>> Subscriptions(long id)
         {
             if (!await exists(id))
@@ -1231,7 +1231,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <returns></returns>
         [HttpGet("{id}/AddSubscription")]
         [AllowAnonymous]
-        [SwaggerOperation("ApiResource/AddSubscription")]
+        [SwaggerOperation(OperationId = "ApiResourceAddSubscription")]
         public async Task<ApiResult<bool>> AddSubscription(long id,
             [FromQuery]string code)
         {
@@ -1284,7 +1284,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <returns></returns>
         [HttpGet("{id}/DelSubscription")]
         [AllowAnonymous]
-        [SwaggerOperation("ApiResource/DelSubscription")]
+        [SwaggerOperation(OperationId = "ApiResourceDelSubscription")]
         public async Task<ApiResult<bool>> DelSubscription(long id,
             [FromQuery]string code)
         {
@@ -1350,13 +1350,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.verifyemail</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.verifyemail</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.verifyemail</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.verifyemail</code>
         /// </remarks>
         [HttpPost("{id}/Subscriptions/VerifyEmail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.verifyemail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.verifyemail")]
-        [SwaggerOperation("ApiResource/VerifyEmail")]
+        [SwaggerOperation(OperationId = "ApiResourceVerifyEmail")]
         public async Task<ApiResult<bool>> VerifyEmail(long id, [FromBody]ApiResourceSubscriptionsVerifyEmailRequest value)
         {
             if (!ModelState.IsValid)
@@ -1472,11 +1472,11 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.packages</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.packages</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.packages</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.packages</code>
         /// </remarks>
         [HttpGet("{id}/Packages")]
-        [SwaggerOperation("ApiResource/Packages")]
+        [SwaggerOperation(OperationId = "ApiResourcePackages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.packages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.packages")]
         public async Task<PagingResult<ApiResourceSDKEntity>> Packages(string id)
@@ -1506,11 +1506,11 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.postpackages</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.postpackages</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.postpackages</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.postpackages</code>
         /// </remarks>
         [HttpPost("{id}/Packages")]
-        [SwaggerOperation("ApiResource/PostPackage")]
+        [SwaggerOperation(OperationId = "ApiResourcePostPackage")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.postpackages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.postpackages")]
         public async Task<ApiResult<bool>> PostPackage(string id, [FromBody]ApiResourceSDKRequest value)
@@ -1564,11 +1564,11 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="packageId">包的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.deletepackage</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.deletepackage</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.deletepackage</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.deletepackage</code>
         /// </remarks>
         [HttpDelete("{id}/Packages/{packageId}")]
-        [SwaggerOperation("ApiResource/DeletePackage")]
+        [SwaggerOperation(OperationId = "ApiResourceDeletePackage")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.deletepackage")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.deletepackage")]
         public async Task<ApiResult<bool>> DeletePackage(string id, string packageId)
@@ -1625,11 +1625,11 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.apiresource.deletepackage</code>
-        /// <label>User Permissions：</label><code>ids4.ms.apiresource.deletepackage</code>
+        /// <label>Client Scopes：</label><code>isms.apiresource.deletepackage</code>
+        /// <label>User Permissions：</label><code>isms.apiresource.deletepackage</code>
         /// </remarks>
         [HttpPut("{id}/Packages/{packageId}")]
-        [SwaggerOperation("ApiResource/PutPackage")]
+        [SwaggerOperation(OperationId = "ApiResourcePutPackage")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.putpackage")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.putpackage")]
         public async Task<ApiResult<bool>> PutPackage(string id, string packageId, [FromBody]ApiResourceSDKRequest value)

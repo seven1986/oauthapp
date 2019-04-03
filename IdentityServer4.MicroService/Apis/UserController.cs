@@ -18,7 +18,6 @@ using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Tenant;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.CacheKeys;
-using IdentityServer4.MicroService.Attributes;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.UserController;
 using static IdentityServer4.MicroService.AppConstant;
@@ -79,7 +78,6 @@ namespace IdentityServer4.MicroService.Apis
             ismsOptions = _ismsOptions;
         }
         #endregion
-
         #region 用户
         #region 用户 - 列表
         /// <summary>
@@ -88,13 +86,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.user.get</code>
-        /// <label>User Permissions：</label><code>ids4.ms.user.get</code>
+        /// <label>Client Scopes：</label><code>isms.user.get</code>
+        /// <label>User Permissions：</label><code>isms.user.get</code>
         /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.get")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.get")]
-        [SwaggerOperation("User/Get")]
+        [SwaggerOperation(OperationId = "UserGet")]
         public async Task<PagingResult<View_User>> Get([FromQuery]PagingRequest<UserGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -118,7 +116,7 @@ namespace IdentityServer4.MicroService.Apis
                 {
                     where.Add(" ( Tenants LIKE '%\"TenantId\":" + TenantId + "%') ");
 
-                    if (!User.IsInRole(DefaultRoles.Administrator))
+                    if (!User.IsInRole(DefaultRoles.Administrator) && !string.IsNullOrWhiteSpace(UserLineage))
                     {
                         where.Add("Lineage.IsDescendantOf(hierarchyid::Parse ('" + UserLineage + "')) = 1");
                     }
@@ -188,13 +186,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.user.detail</code>
-        /// <label>User Permissions：</label><code>ids4.ms.user.detail</code>
+        /// <label>Client Scopes：</label><code>isms.user.detail</code>
+        /// <label>User Permissions：</label><code>isms.user.detail</code>
         /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.detail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.detail")]
-        [SwaggerOperation("User/Detail")]
+        [SwaggerOperation(OperationId = "UserDetail")]
         public async Task<ApiResult<AppUser>> Get(int id)
         {
             var query = db.Users.AsQueryable();
@@ -224,13 +222,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.user.post</code>
-        /// <label>User Permissions：</label><code>ids4.ms.user.post</code>
+        /// <label>Client Scopes：</label><code>isms.user.post</code>
+        /// <label>User Permissions：</label><code>isms.user.post</code>
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.post")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.post")]
-        [SwaggerOperation("User/Post")]
+        [SwaggerOperation(OperationId = "UserPost")]
         public async Task<ApiResult<long>> Post([FromBody]AppUser value)
         {
             if (!ModelState.IsValid)
@@ -284,13 +282,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.user.put</code>
-        /// <label>User Permissions：</label><code>ids4.ms.user.put</code>
+        /// <label>Client Scopes：</label><code>isms.user.put</code>
+        /// <label>User Permissions：</label><code>isms.user.put</code>
         /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.put")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.put")]
-        [SwaggerOperation("User/Put")]
+        [SwaggerOperation(OperationId = "UserPut")]
         public async Task<ApiResult<long>> Put([FromBody]AppUser value)
         {
             if (!ModelState.IsValid)
@@ -492,13 +490,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.user.delete</code>
-        /// <label>User Permissions：</label><code>ids4.ms.user.delete</code>
+        /// <label>Client Scopes：</label><code>isms.user.delete</code>
+        /// <label>User Permissions：</label><code>isms.user.delete</code>
         /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.delete")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.delete")]
-        [SwaggerOperation("User/Delete")]
+        [SwaggerOperation(OperationId = "UserDelete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
             var query = db.Users.AsQueryable();
@@ -529,13 +527,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.user.head</code>
-        /// <label>User Permissions：</label><code>ids4.ms.user.head</code>
+        /// <label>Client Scopes：</label><code>isms.user.head</code>
+        /// <label>User Permissions：</label><code>isms.user.head</code>
         /// </remarks>
         [HttpGet("Head")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.head")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.head")]
-        [SwaggerOperation("User/Head")]
+        [SwaggerOperation(OperationId = "UserHead")]
         public async Task<ObjectResult> Head(UserDetailRequest value)
         {
             if (!ModelState.IsValid)
@@ -571,7 +569,7 @@ namespace IdentityServer4.MicroService.Apis
         /// </remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
-        [SwaggerOperation("User/Codes")]
+        [SwaggerOperation(OperationId = "UserCodes")]
         public List<ApiCodeModel> Codes()
         {
             var result = _Codes<UserControllerEnums>();
@@ -594,7 +592,7 @@ namespace IdentityServer4.MicroService.Apis
         //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserRegister)]
         //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserRegister)]
         [AllowAnonymous]
-        [SwaggerOperation("User/Register")]
+        [SwaggerOperation(OperationId = "UserRegister")]
         public async Task<ApiResult<string>> Register([FromBody]UserRegisterRequest value)
         {
             if (!ModelState.IsValid)
@@ -742,7 +740,7 @@ namespace IdentityServer4.MicroService.Apis
         [AllowAnonymous]
         //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserVerifyPhone)]
         //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserVerifyPhone)]
-        [SwaggerOperation("User/SmsCode")]
+        [SwaggerOperation(OperationId = "UserSmsCode")]
         public async Task<ApiResult<string>> SmsCode([FromBody]UserVerifyPhoneRequest value)
         {
             if (!ModelState.IsValid)
@@ -826,7 +824,7 @@ namespace IdentityServer4.MicroService.Apis
         [AllowAnonymous]
         //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserVerifyEmail)]
         //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserVerifyEmail)]
-        [SwaggerOperation("User/EmailCode")]
+        [SwaggerOperation(OperationId = "UserEmailCode")]
         public async Task<ApiResult<string>> EmailCode([FromBody]UserVerifyEmailRequest value)
         {
             if (!ModelState.IsValid)
@@ -908,7 +906,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <returns></returns>
         [HttpPost("ResetPassword")]
         [AllowAnonymous]
-        [SwaggerOperation("User/ResetPassword")]
+        [SwaggerOperation(OperationId = "UserResetPassword")]
         public async Task<ApiResult<bool>> ResetPassword([FromBody]ResetPasswordRequest value)
         {
             if (!ModelState.IsValid)

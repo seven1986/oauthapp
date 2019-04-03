@@ -69,11 +69,11 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.file.post</code>
+        /// <label>Client Scopes：</label><code>isms.file.post</code>
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:file.post")]
-        [SwaggerOperation("File/Post")]
+        [SwaggerOperation(OperationId = "FilePost")]
         public async Task<ApiResult<string>> Post(IFormFile value)
         {
             if (value == null)
@@ -137,11 +137,11 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value">图片文件</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.file.image</code>
+        /// <label>Client Scopes：</label><code>isms.file.image</code>
         /// </remarks>
         [HttpPost("Image")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:file.image")]
-        [SwaggerOperation("File/Image")]
+        [SwaggerOperation(OperationId = "FileImage")]
         public async Task<ApiResult<string>> Image(IFormFile value)
         {
             if (value == null)
@@ -186,7 +186,7 @@ namespace IdentityServer4.MicroService.Apis
         /// </remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
-        [SwaggerOperation("File/Codes")]
+        [SwaggerOperation(OperationId = "FileCodes")]
         public List<ApiCodeModel> Codes()
         {
             var result = _Codes<FileControllerEnums>();

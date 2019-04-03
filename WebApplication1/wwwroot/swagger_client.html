@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html ng-app="isms">
+<head>
+    <meta charset="utf-8" />
+    <title>API查看工具</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.bootcss.com/angular.js/1.7.8/angular.min.js"></script>
+    <script src="https://cdn.bootcss.com/angular.js/1.7.8/angular-sanitize.min.js"></script>
+    <script src='https://unpkg.com/swagger-client' type='text/javascript'></script>
+</head>
+<body ng-controller="PageController" ng-cloak>
+
+    <div class="container">
+        <div class="row">
+            <div class="col mt-3">
+                <h1 class="mb-4">IdentityServer4.MicroService接口列表</h1>
+
+                <div class="d-flex justify-content-center mt-5 pt-5" ng-show="onloading">
+                    <div class="spinner-border" role="status" style="width: 4rem; height: 4rem;" >
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+
+                <select class="form-control" multiple style="height:88vh" ng-show="onloading==false">
+                    <optgroup ng-repeat="x in controllers" label="{{x.name}}">
+                        <option ng-repeat="xx in x.apis">
+                            {{xx}}
+                        </option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+
+    <script type="text/javascript">
+        var token = '';
+        var swaggerClient = new SwaggerClient('/swagger/v1/swagger.json',
+            {
+                requestInterceptor: req => {
+                    req.headers.Authorization = "Bearer " + token;
+                },
+
+                responseInterceptor: res => {
+                    if (res.status != 200) {
+                        if (typeof res.text == 'string') {
+                            //console.error(res.text);
+                        }
+                    }
+                }
+            });
+
+        angular.module('isms', [
+            'ngSanitize',
+        ]).controller('PageController', ['$scope', '$timeout', function ($scope, $timeout) {
+
+            $scope.controllers = [];
+            $scope.onloading = true;
+
+            swaggerClient.then((resolved) =>
+            {
+                $timeout(() =>
+                {
+                    var controllers = Object.keys(resolved.apis);
+                    controllers.forEach(x => {
+                        var apis = Object.keys(resolved.apis[x])
+                        $scope.controllers.push({ name: x, apis: apis });
+                    });
+
+                    $scope.onloading = false;
+                }, 1)
+            });
+        }]);
+    </script>
+</body>
+</html>
