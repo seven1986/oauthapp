@@ -54,7 +54,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 如果有配置Auth节点，就添加对应的Auth服务。
             // 如果Auth节点数据没设置，就添加默认的ClientId、ClientSecret
             #region Twitter (/signin-twitter)
-            var twitter_options = configuration.GetSection("IdentityServer:Authentication::Twitter").Get<TwitterOptions>();
+            var twitter_options = configuration.GetSection("IdentityServer:Authentication:Twitter").Get<TwitterOptions>();
             if (twitter_options != null)
             {
                 Handlers.Add(TwitterDefaults.AuthenticationScheme, typeof(TwitterHandler2));
