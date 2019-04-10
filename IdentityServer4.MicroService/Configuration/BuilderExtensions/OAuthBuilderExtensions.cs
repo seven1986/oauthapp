@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Authentication.Weibo;
 using Microsoft.AspNetCore.Authentication.Weixin;
 using System.Collections.Generic;
 using System;
+using Microsoft.AspNetCore.Authentication.OAuth;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -35,6 +36,13 @@ namespace Microsoft.Extensions.DependencyInjection
 
         const string unconfig = "unconfig";
 
+        static T Options<T>(this IConfiguration configuration, string AuthenticationName) where T : OAuthOptions
+        {
+            var result = configuration.GetSection("IdentityServer:Authentication:" + AuthenticationName).Get<T>();
+
+            return result;
+        }
+
         /// <summary>
         /// Creates a builder.
         /// </summary>
@@ -43,8 +51,24 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static void AddIdentityServer4MicroServiceOAuths(this AuthenticationBuilder authBuilder, IConfiguration configuration)
         {
+            // 如果有配置Auth节点，就添加对应的Auth服务。
+            // 如果Auth节点数据没设置，就添加默认的ClientId、ClientSecret
+            #region Twitter (/signin-twitter)
+            var twitter_options = configuration.GetSection("IdentityServer:Authentication::Twitter").Get<TwitterOptions>();
+            if (twitter_options != null)
+            {
+                Handlers.Add(TwitterDefaults.AuthenticationScheme, typeof(TwitterHandler2));
+
+                authBuilder.AddTwitter2(x =>
+                {
+                    x.ConsumerKey = twitter_options.ConsumerKey ?? unconfig;
+                    x.ConsumerSecret = twitter_options.ConsumerSecret ?? unconfig;
+                });
+            }
+            #endregion
+
             #region Amazon (/signin-amazon)
-            var amazon_options = configuration.GetSection("OAuth:Amazon").Get<AmazonAuthenticationOptions>();
+            var amazon_options = configuration.Options<AmazonAuthenticationOptions>("Amazon");
             if (amazon_options != null)
             {
                 Handlers.Add(AmazonAuthenticationDefaults.AuthenticationScheme, typeof(AmazonAuthenticationHandler));
@@ -58,7 +82,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region Facebook (/signin-facebook)
-            var facebook_options = configuration.GetSection("OAuth:Facebook").Get<FacebookOptions>();
+            var facebook_options = configuration.Options<FacebookOptions>("Facebook");
             if (facebook_options != null)
             {
                 Handlers.Add(FacebookDefaults.AuthenticationScheme, typeof(FacebookHandler2));
@@ -72,7 +96,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region GitHub (/signin-github)
-            var github_options = configuration.GetSection("OAuth:GitHub").Get<GitHubOptions>();
+            var github_options = configuration.Options<GitHubOptions>("GitHub");
             if (github_options != null)
             {
                 Handlers.Add(GitHubDefaults.AuthenticationScheme, typeof(GitHubHandler));
@@ -86,7 +110,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region Gitter (/signin-gitter)
-            var gitter_options = configuration.GetSection("OAuth:Gitter").Get<GitterAuthenticationOptions>();
+            var gitter_options = configuration.Options<GitterAuthenticationOptions>("Gitter");
             if (gitter_options != null)
             {
                 Handlers.Add(GitterAuthenticationDefaults.AuthenticationScheme, typeof(GitterAuthenticationHandler));
@@ -100,7 +124,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region Google (/signin-google)
-            var google_options = configuration.GetSection("OAuth:Google").Get<GoogleOptions>();
+            var google_options = configuration.Options<GoogleOptions>("Google");
             if (google_options != null)
             {
                 Handlers.Add(GoogleDefaults.AuthenticationScheme, typeof(GoogleHandler2));
@@ -114,7 +138,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region Instagram (/signin-instagram)
-            var instagram_options = configuration.GetSection("OAuth:Instagram").Get<InstagramAuthenticationOptions>();
+            var instagram_options = configuration.Options<InstagramAuthenticationOptions>("Instagram");
             if (instagram_options != null)
             {
                 Handlers.Add(InstagramAuthenticationDefaults.AuthenticationScheme, typeof(InstagramAuthenticationHandler));
@@ -128,7 +152,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region LinkedIn (/signin-linkedin)
-            var linkedin_options = configuration.GetSection("OAuth:LinkedIn").Get<LinkedInAuthenticationOptions>();
+            var linkedin_options = configuration.Options<LinkedInAuthenticationOptions>("LinkedIn");
             if (linkedin_options != null)
             {
                 Handlers.Add(LinkedInAuthenticationDefaults.AuthenticationScheme, typeof(LinkedInAuthenticationHandler));
@@ -142,7 +166,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region MicrosoftAccount (/signin-microsoft)
-            var microsoft_options = configuration.GetSection("OAuth:MicrosoftAccount").Get<MicrosoftAccountOptions>();
+            var microsoft_options = configuration.Options<MicrosoftAccountOptions>("MicrosoftAccount");
             if (microsoft_options != null)
             {
                 Handlers.Add(MicrosoftAccountDefaults.AuthenticationScheme, typeof(MicrosoftAccountHandler2));
@@ -156,7 +180,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region Paypal (/signin-paypal)
-            var paypal_options = configuration.GetSection("OAuth:Paypal").Get<PaypalAuthenticationOptions>();
+            var paypal_options = configuration.Options<PaypalAuthenticationOptions>("Paypal");
             if (paypal_options != null)
             {
                 Handlers.Add(PaypalAuthenticationDefaults.AuthenticationScheme, typeof(PaypalAuthenticationHandler));
@@ -170,7 +194,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region QQ (/signin-qq)
-            var qq_options = configuration.GetSection("OAuth:QQ").Get<QQOptions>();
+            var qq_options = configuration.Options<QQOptions>("QQ");
             if (qq_options != null)
             {
                 Handlers.Add(QQDefaults.AuthenticationScheme, typeof(QQHandler));
@@ -184,7 +208,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region Reddit (/signin-reddit)
-            var reddit_options = configuration.GetSection("OAuth:Reddit").Get<RedditAuthenticationOptions>();
+            var reddit_options = configuration.Options<RedditAuthenticationOptions>("Reddit");
             if (reddit_options != null)
             {
                 Handlers.Add(RedditAuthenticationDefaults.AuthenticationScheme, typeof(RedditAuthenticationHandler));
@@ -198,7 +222,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region Salesforce (/signin-salesforce)
-            var salesforce_options = configuration.GetSection("OAuth:Salesforce").Get<SalesforceAuthenticationOptions>();
+            var salesforce_options = configuration.Options<SalesforceAuthenticationOptions>("Salesforce");
             if (salesforce_options != null)
             {
                 Handlers.Add(SalesforceAuthenticationDefaults.AuthenticationScheme, typeof(SalesforceAuthenticationHandler));
@@ -211,22 +235,8 @@ namespace Microsoft.Extensions.DependencyInjection
             }
             #endregion
 
-            #region Twitter (/signin-twitter)
-            var twitter_options = configuration.GetSection("OAuth:Twitter").Get<TwitterOptions>();
-            if (twitter_options != null)
-            {
-                Handlers.Add(TwitterDefaults.AuthenticationScheme, typeof(TwitterHandler2));
-
-                authBuilder.AddTwitter2(x =>
-                {
-                    x.ConsumerKey = twitter_options.ConsumerKey ?? unconfig;
-                    x.ConsumerSecret = twitter_options.ConsumerSecret ?? unconfig;
-                });
-            }
-            #endregion
-
             #region VisualStudio (/signin-visualstudio)
-            var visualstudio_options = configuration.GetSection("OAuth:VisualStudio").Get<VisualStudioAuthenticationOptions>();
+            var visualstudio_options = configuration.Options<VisualStudioAuthenticationOptions>("VisualStudio");
             if (visualstudio_options != null)
             {
                 Handlers.Add(VisualStudioAuthenticationDefaults.AuthenticationScheme, typeof(VisualStudioAuthenticationHandler));
@@ -240,7 +250,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region Weibo (/signin-weibo)
-            var weibo_options = configuration.GetSection("OAuth:Weibo").Get<WeiboOptions>();
+            var weibo_options = configuration.Options<WeiboOptions>("Weibo");
             if (weibo_options != null)
             {
                 Handlers.Add(WeiboDefaults.AuthenticationScheme, typeof(WeiboHandler));
@@ -254,7 +264,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region Weixin (/signin-weixin)
-            var weixin_options = configuration.GetSection("OAuth:Weixin").Get<WeixinOptions>();
+            var weixin_options = configuration.Options<WeixinOptions>("Weixin");
             if (weixin_options != null)
             {
                 Handlers.Add(WeixinDefaults.AuthenticationScheme, typeof(WeixinHandler));
@@ -268,7 +278,7 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region WordPress (/signin-wordpress)
-            var wordpress_options = configuration.GetSection("OAuth:WordPress").Get<WordPressAuthenticationOptions>();
+            var wordpress_options = configuration.Options<WordPressAuthenticationOptions>("WordPress");
             if (wordpress_options != null)
             {
                 Handlers.Add(WordPressAuthenticationDefaults.AuthenticationScheme, typeof(WordPressAuthenticationHandler));
