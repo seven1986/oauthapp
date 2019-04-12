@@ -42,7 +42,14 @@ namespace IdentityServer4.MicroService.Apis
         {
             get
             {
-                return long.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("sub")).Value);
+                var subClaim = User.Claims.FirstOrDefault(x => x.Type.Equals("sub"));
+
+                if (subClaim != null)
+                {
+                    return long.Parse(subClaim.Value);
+                }
+
+                return 0L;
             }
         }
 

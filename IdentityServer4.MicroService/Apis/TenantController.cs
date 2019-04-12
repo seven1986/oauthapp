@@ -51,13 +51,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.tenant.get</code>
-        /// <label>User Permissions：</label><code>ids4.ms.tenant.get</code>
+        /// <label>Client Scopes：</label><code>isms.tenant.get</code>
+        /// <label>User Permissions：</label><code>isms.tenant.get</code>
         /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:tenant.get")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.get")]
-        [SwaggerOperation("Tenant/Get")]
+        [SwaggerOperation(OperationId = "TenantGet")]
         public async Task<PagingResult<AppTenant>> Get([FromQuery]PagingRequest<TenantGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -130,13 +130,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.tenant.detail</code>
-        /// <label>User Permissions：</label><code>ids4.ms.tenant.detail</code>
+        /// <label>Client Scopes：</label><code>isms.tenant.detail</code>
+        /// <label>User Permissions：</label><code>isms.tenant.detail</code>
         /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:tenant.detail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.detail")]
-        [SwaggerOperation("Tenant/Detail")]
+        [SwaggerOperation(OperationId = "TenantDetail")]
         public async Task<ApiResult<AppTenant>> Get(int id)
         {
             var query = tenantDb.Tenants.AsQueryable();
@@ -165,13 +165,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.tenant.post</code>
-        /// <label>User Permissions：</label><code>ids4.ms.tenant.post</code>
+        /// <label>Client Scopes：</label><code>isms.tenant.post</code>
+        /// <label>User Permissions：</label><code>isms.tenant.post</code>
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:tenant.post")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.post")]
-        [SwaggerOperation("Tenant/Post")]
+        [SwaggerOperation(OperationId = "TenantPost")]
         public async Task<ApiResult<long>> Post([FromBody]AppTenant value)
         {
             if (!ModelState.IsValid)
@@ -197,13 +197,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.tenant.put</code>
-        /// <label>User Permissions：</label><code>ids4.ms.tenant.put</code>
+        /// <label>Client Scopes：</label><code>isms.tenant.put</code>
+        /// <label>User Permissions：</label><code>isms.tenant.put</code>
         /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:tenant.put")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.put")]
-        [SwaggerOperation("Tenant/Put")]
+        [SwaggerOperation(OperationId = "TenantPut")]
         public async Task<ApiResult<long>> Put([FromBody]AppTenant value)
         {
             if (!ModelState.IsValid)
@@ -385,13 +385,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>ids4.ms.tenant.delete</code>
-        /// <label>User Permissions：</label><code>ids4.ms.tenant.delete</code>
+        /// <label>Client Scopes：</label><code>isms.tenant.delete</code>
+        /// <label>User Permissions：</label><code>isms.tenant.delete</code>
         /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:tenant.delete")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.delete")]
-        [SwaggerOperation("Tenant/Delete")]
+        [SwaggerOperation(OperationId = "TenantDelete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
             var entity = await tenantDb.Tenants.FirstOrDefaultAsync(x => x.OwnerUserId == UserId && x.Id == id);
@@ -419,7 +419,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <returns></returns>
         [HttpGet("Info")]
         [AllowAnonymous]
-        [SwaggerOperation("Tenant/Info")]
+        [SwaggerOperation(OperationId = "TenantInfo")]
         public ApiResult<TenantPublicModel> Info(string host)
         {
             var entity = tenantService.GetTenant(tenantDb, host);
@@ -443,7 +443,7 @@ namespace IdentityServer4.MicroService.Apis
         /// </remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
-        [SwaggerOperation("Tenant/Codes")]
+        [SwaggerOperation(OperationId = "TenantCodes")]
         public List<ApiCodeModel> Codes()
         {
             var result = _Codes<TenantControllerEnums>();

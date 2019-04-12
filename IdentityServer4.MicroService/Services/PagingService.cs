@@ -107,8 +107,6 @@ namespace IdentityServer4.MicroService.Services
 
             if (!string.IsNullOrWhiteSpace(value.orderby))
             {
-                value.orderby = value.orderby.ToLower();
-
                 if (Columns[TableName].Contains(value.orderby) || OrderByFieldsExtension.Contains(value.orderby))
                 {
                     OrderBy = " " + value.orderby + " " + (!value.asc.Value ? "DESC" : "ASC");

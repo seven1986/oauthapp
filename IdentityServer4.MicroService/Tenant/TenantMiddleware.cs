@@ -146,6 +146,12 @@ namespace IdentityServer4.MicroService.Tenant
 
                     foreach (var oauthScheme in SchemeProviders)
                     {
+                        if (!pvtModel.Properties.ContainsKey($"{oauthScheme}:ClientId") ||
+                            !pvtModel.Properties.ContainsKey($"{oauthScheme}:ClientSecret"))
+                        {
+                            continue;
+                        }
+
                         var ClientId_FromTenant = pvtModel.Properties[$"{oauthScheme}:ClientId"];
 
                         var ClientSecret_FromTenant = pvtModel.Properties[$"{oauthScheme}:ClientSecret"];
@@ -257,7 +263,7 @@ namespace IdentityServer4.MicroService.Tenant
 
                     _memoryCache.Set(ResetOAuthProvider_CacheKey,
                         "1",
-                        TimeSpan.FromSeconds(TenantConstant.SchemesReflushDuration));
+                        DateTime.Now.AddSeconds(TenantConstant.SchemesReflushDuration));
                 }
                 #endregion
             }
