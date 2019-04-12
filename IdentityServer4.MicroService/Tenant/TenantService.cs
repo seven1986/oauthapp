@@ -18,6 +18,18 @@ namespace IdentityServer4.MicroService.Tenant
             _cache = cache;
         }
 
+        public MemoryCacheEntryOptions CacheEntryOptions(double duration)
+        {
+            var options = new MemoryCacheEntryOptions
+            {
+                AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(duration),
+
+                SlidingExpiration = TimeSpan.FromMinutes(duration)
+            };
+
+            return options;
+        }
+
         public Tuple<TenantPublicModel, TenantPrivateModel> GetTenant(TenantDbContext _db, string host)
         {
             #region 设置缓存Key
@@ -55,13 +67,11 @@ namespace IdentityServer4.MicroService.Tenant
 
                     tenant_private = tenant.ToPrivateModel();
 
-                    _cache.Set(Unique_TenantPublic_CacheKey,
-                        tenant_public,
-                        TimeSpan.FromSeconds(tenant.CacheDuration));
+                    var cacheOptions = CacheEntryOptions(tenant.CacheDuration);
 
-                    _cache.Set(Unique_TenantPrivate_CacheKey,
-                        tenant_private,
-                        TimeSpan.FromSeconds(tenant.CacheDuration));
+                    _cache.Set(Unique_TenantPublic_CacheKey, tenant_public, cacheOptions);
+
+                    _cache.Set(Unique_TenantPrivate_CacheKey, tenant_private, cacheOptions);
                 }
             }
 

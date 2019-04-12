@@ -263,7 +263,7 @@ namespace IdentityServer4.MicroService.Tenant
 
                     _memoryCache.Set(ResetOAuthProvider_CacheKey,
                         "1",
-                        TimeSpan.FromSeconds(TenantConstant.SchemesReflushDuration));
+                        DateTime.Now.AddSeconds(TenantConstant.SchemesReflushDuration));
                 }
                 #endregion
             }
