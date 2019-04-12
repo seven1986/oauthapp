@@ -20,6 +20,6 @@
         /// <summary>
         /// 
         /// </summary>
-        public const int SchemesReflushDuration = 10;
+        public const int SchemesReflushDuration = 1;
     }
 }
