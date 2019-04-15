@@ -261,9 +261,15 @@ namespace IdentityServer4.MicroService.Tenant
                         }
                     }
 
+
+                    var MemoryCacheOptions = new MemoryCacheEntryOptions();
+
+                        MemoryCacheOptions.SetAbsoluteExpiration(
+                            TimeSpan.FromSeconds(TenantConstant.SchemesReflushDuration));
+
                     _memoryCache.Set(ResetOAuthProvider_CacheKey,
                         "1",
-                        DateTime.Now.AddSeconds(TenantConstant.SchemesReflushDuration));
+                        MemoryCacheOptions);
                 }
                 #endregion
             }

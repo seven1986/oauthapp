@@ -20,12 +20,9 @@ namespace IdentityServer4.MicroService.Tenant
 
         public MemoryCacheEntryOptions CacheEntryOptions(double duration)
         {
-            var options = new MemoryCacheEntryOptions
-            {
-                AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(duration),
+            var options = new MemoryCacheEntryOptions();
 
-                SlidingExpiration = TimeSpan.FromMinutes(duration)
-            };
+            options.SetAbsoluteExpiration(TimeSpan.FromSeconds(duration));
 
             return options;
         }
