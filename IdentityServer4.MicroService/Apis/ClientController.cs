@@ -59,8 +59,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.client.get</code>
-        /// <label>User Permissions：</label><code>isms.client.get</code>
+        /// Scope&amp;Permission：isms.client.get
         /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.get")]
@@ -153,8 +152,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.client.detail</code>
-        /// <label>User Permissions：</label><code>isms.client.detail</code>
+        /// Scope&amp;Permission：isms.client.detail
         /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.detail")]
@@ -201,8 +199,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.client.post</code>
-        /// <label>User Permissions：</label><code>isms.client.post</code>
+        /// Scope&amp;Permission：isms.client.post
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.post")]
@@ -246,8 +243,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.client.put</code>
-        /// <label>User Permissions：</label><code>isms.client.put</code>
+        /// Scope&amp;Permission：isms.client.put
         /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.put")]
@@ -734,8 +730,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.client.delete</code>
-        /// <label>User Permissions：</label><code>isms.client.delete</code>
+        /// Scope&amp;Permission：isms.client.delete
         /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.delete")]
@@ -786,8 +781,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.client.issuetoken</code>
-        /// <label>User Permissions：</label><code>isms.client.issuetoken</code>
+        /// Scope&amp;Permission：isms.client.issuetoken
         /// </remarks>
         [HttpPost("IssueToken")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.issuetoken")]
@@ -815,8 +809,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.client.postsecretkey</code>
-        /// <label>User Permissions：</label><code>isms.client.postsecretkey</code>
+        /// Scope&amp;Permission：isms.client.postsecretkey
         /// </remarks>
         [HttpPost("{id}/Secretkey")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.postsecretkey")]

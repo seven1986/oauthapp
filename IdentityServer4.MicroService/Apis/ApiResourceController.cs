@@ -106,8 +106,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.get</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.get</code>
+        /// Scope&amp;Permission：isms.apiresource.get
         /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.get")]
@@ -195,8 +194,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.detail</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.detail</code>
+        /// Scope&amp;Permission：isms.apiresource.detail
         /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.detail")]
@@ -234,8 +232,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value">ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.post</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.post</code>
+        /// Scope&amp;Permission：isms.apiresource.post
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.post")]
@@ -272,8 +269,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.put</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.put</code>
+        /// Scope&amp;Permission：isms.apiresource.put
         /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.put")]
@@ -550,8 +546,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.delete</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.delete</code>
+        /// Scope&amp;Permission：isms.apiresource.delete
         /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.delete")]
@@ -585,8 +580,7 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.scopes</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.scopes</code>
+        /// Scope&amp;Permission：isms.apiresource.scopes
         /// </remarks>
         [HttpGet("Scopes")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.scopes")]
@@ -663,8 +657,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.publish</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.publish</code>
+        /// Scope&amp;Permission：isms.apiresource.publish
         /// </remarks>
         [HttpPut("{id}/Publish")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.publish")]
@@ -773,8 +766,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.publishrevision</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.publishrevision</code>
+        /// Scope&amp;Permission：isms.apiresource.publishrevision
         /// </remarks>
         [HttpPost("{id}/PublishRevision")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.publishrevision")]
@@ -829,8 +821,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.publishversion</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.publishversion</code>
+        /// Scope&amp;Permission：isms.apiresource.publishversion
         /// </remarks>
         [HttpPost("{id}/PublishVersion")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.publishversion")]
@@ -871,8 +862,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.publishconfiguration</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.publishconfiguration</code>
+        /// Scope&amp;Permission：isms.apiresource.publishconfiguration
         /// </remarks>
         [HttpGet("{id}/PublishConfiguration")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.publishconfiguration")]
@@ -921,8 +911,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.versions</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.versions</code>
+        /// Scope&amp;Permission：isms.apiresource.versions
         /// </remarks>
         [HttpGet("{id}/Versions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.versions")]
@@ -977,8 +966,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="revisionId"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.setonlineversion</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.setonlineversion</code>
+        /// Scope&amp;Permission：isms.apiresource.setonlineversion
         /// </remarks>
         [HttpPost("{id}/Versions/{revisionId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.setonlineversion")]
@@ -1010,8 +998,7 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.authservers</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.authservers</code>
+        /// Scope&amp;Permission：isms.apiresource.authservers
         /// </remarks>
         [HttpGet("AuthServers")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.authservers")]
@@ -1031,8 +1018,7 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.products</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.products</code>
+        /// Scope&amp;Permission：isms.apiresource.products
         /// </remarks>
         [HttpGet("Products")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.products")]
@@ -1056,8 +1042,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="apiId">Api的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.releases</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.releases</code>
+        /// Scope&amp;Permission：isms.apiresource.releases
         /// </remarks>
         [HttpGet("{id}/Releases")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.releases")]
@@ -1096,8 +1081,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.postrelease</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.postrelease</code>
+        /// Scope&amp;Permission：isms.apiresource.postrelease
         /// </remarks>
         [HttpPost("{id}/Releases")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.postrelease")]
@@ -1126,8 +1110,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.putrelease</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.putrelease</code>
+        /// Scope&amp;Permission：isms.apiresource.putrelease
         /// </remarks>
         [HttpPut("{id}/Releases/{releaseId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.putrelease")]
@@ -1161,8 +1144,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="releaseId">修订内容的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.deleterelease</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.deleterelease</code>
+        /// Scope&amp;Permission：isms.apiresource.deleterelease
         /// </remarks>
         [HttpDelete("{id}/Releases/{releaseId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.deleterelease")]
@@ -1191,8 +1173,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.subscriptions</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.subscriptions</code>
+        /// Scope&amp;Permission：isms.apiresource.subscriptions
         /// </remarks>
         [HttpGet("{id}/Subscriptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.subscriptions")]
@@ -1350,8 +1331,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.verifyemail</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.verifyemail</code>
+        /// Scope&amp;Permission：isms.apiresource.verifyemail
         /// </remarks>
         [HttpPost("{id}/Subscriptions/VerifyEmail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.verifyemail")]
@@ -1472,8 +1452,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.packages</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.packages</code>
+        /// Scope&amp;Permission：isms.apiresource.packages
         /// </remarks>
         [HttpGet("{id}/Packages")]
         [SwaggerOperation(OperationId = "ApiResourcePackages")]
@@ -1506,8 +1485,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.postpackages</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.postpackages</code>
+        /// Scope&amp;Permission：isms.apiresource.postpackages
         /// </remarks>
         [HttpPost("{id}/Packages")]
         [SwaggerOperation(OperationId = "ApiResourcePostPackage")]
@@ -1564,8 +1542,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="packageId">包的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.deletepackage</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.deletepackage</code>
+        /// Scope&amp;Permission：isms.apiresource.deletepackage
         /// </remarks>
         [HttpDelete("{id}/Packages/{packageId}")]
         [SwaggerOperation(OperationId = "ApiResourceDeletePackage")]
@@ -1625,8 +1602,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.deletepackage</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.deletepackage</code>
+        /// Scope&amp;Permission：isms.apiresource.deletepackage
         /// </remarks>
         [HttpPut("{id}/Packages/{packageId}")]
         [SwaggerOperation(OperationId = "ApiResourcePutPackage")]

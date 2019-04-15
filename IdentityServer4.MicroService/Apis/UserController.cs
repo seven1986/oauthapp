@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Linq;
 using System.Data;
 using System.Data.SqlClient;
@@ -78,6 +77,7 @@ namespace IdentityServer4.MicroService.Apis
             ismsOptions = _ismsOptions;
         }
         #endregion
+
         #region 用户
         #region 用户 - 列表
         /// <summary>
@@ -86,8 +86,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.user.get</code>
-        /// <label>User Permissions：</label><code>isms.user.get</code>
+        /// Scope&amp;Permission：isms.user.get
         /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.get")]
@@ -186,8 +185,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.user.detail</code>
-        /// <label>User Permissions：</label><code>isms.user.detail</code>
+        /// Scope&amp;Permission：isms.user.detail
         /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.detail")]
@@ -222,8 +220,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.user.post</code>
-        /// <label>User Permissions：</label><code>isms.user.post</code>
+        /// Scope&amp;Permission：isms.user.post
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.post")]
@@ -282,8 +279,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.user.put</code>
-        /// <label>User Permissions：</label><code>isms.user.put</code>
+        /// Scope&amp;Permission：isms.user.put
         /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.put")]
@@ -490,8 +486,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.user.delete</code>
-        /// <label>User Permissions：</label><code>isms.user.delete</code>
+        /// Scope&amp;Permission：isms.user.delete
         /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.delete")]
@@ -527,8 +522,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.user.head</code>
-        /// <label>User Permissions：</label><code>isms.user.head</code>
+        /// Scope&amp;Permission：isms.user.head
         /// </remarks>
         [HttpGet("Head")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.head")]
@@ -589,8 +583,6 @@ namespace IdentityServer4.MicroService.Apis
         /// 需验证手机号；邮箱如果填写了，也需要验证
         /// </remarks>
         [HttpPost("Register")]
-        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserRegister)]
-        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserRegister)]
         [AllowAnonymous]
         [SwaggerOperation(OperationId = "UserRegister")]
         public async Task<ApiResult<string>> Register([FromBody]UserRegisterRequest value)
@@ -738,8 +730,6 @@ namespace IdentityServer4.MicroService.Apis
         /// </remarks>
         [HttpPost("SmsCode")]
         [AllowAnonymous]
-        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserVerifyPhone)]
-        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserVerifyPhone)]
         [SwaggerOperation(OperationId = "UserSmsCode")]
         public async Task<ApiResult<string>> SmsCode([FromBody]UserVerifyPhoneRequest value)
         {
@@ -822,8 +812,6 @@ namespace IdentityServer4.MicroService.Apis
         /// </remarks>
         [HttpPost("EmailCode")]
         [AllowAnonymous]
-        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.UserVerifyEmail)]
-        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = UserPermissions.UserVerifyEmail)]
         [SwaggerOperation(OperationId = "UserEmailCode")]
         public async Task<ApiResult<string>> EmailCode([FromBody]UserVerifyEmailRequest value)
         {

@@ -40,8 +40,7 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.role.get</code>
-        /// <label>User Permissions：</label><code>isms.role.get</code>
+        /// Scope&amp;Permission：isms.role.get
         /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:role.get")]
@@ -66,8 +65,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.role.detail</code>
-        /// <label>User Permissions：</label><code>isms.role.detail</code>
+        /// Scope&amp;Permission：isms.role.detail
         /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:role.detail")]
@@ -95,8 +93,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.role.post</code>
-        /// <label>User Permissions：</label><code>isms.role.post</code>
+        /// Scope&amp;Permission：isms.role.post
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:role.post")]
@@ -125,8 +122,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.role.put</code>
-        /// <label>User Permissions：</label><code>isms.role.put</code>
+        /// Scope&amp;Permission：isms.role.put
         /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:role.put")]
@@ -249,8 +245,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.role.delete</code>
-        /// <label>User Permissions：</label><code>isms.role.delete</code>
+        /// Scope&amp;Permission：isms.role.delete
         /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:role.delete")]
