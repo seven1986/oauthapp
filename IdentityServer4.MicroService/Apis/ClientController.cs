@@ -27,7 +27,7 @@ namespace IdentityServer4.MicroService.Apis
     //[Route("Client")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
-    public class ClientController : BasicController
+    public class ClientController : ApiControllerBase
     {
         #region Services
         // database for identityserver

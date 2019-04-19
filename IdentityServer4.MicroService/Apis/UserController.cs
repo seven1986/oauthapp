@@ -32,7 +32,7 @@ namespace IdentityServer4.MicroService.Apis
     //[Route("User")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
-    public class UserController : BasicController
+    public class UserController : ApiControllerBase
     {
         #region Services
         // 短信

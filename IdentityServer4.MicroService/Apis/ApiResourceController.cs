@@ -27,6 +27,7 @@ using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.ApiResourceController;
 using IdentityServer4.MicroService.Models.Apis.CodeGenController;
 using static IdentityServer4.MicroService.AppConstant;
+using Microsoft.AspNetCore.Http;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -39,7 +40,7 @@ namespace IdentityServer4.MicroService.Apis
     //[Route("ApiResource")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
-    public class ApiResourceController : BasicController
+    public class ApiResourceController : ApiControllerBase
     {
         //sql cache options
         readonly DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
@@ -54,6 +55,7 @@ namespace IdentityServer4.MicroService.Apis
         readonly AzureStorageService storageService;
         readonly EmailService email;
         readonly IDistributedCache cache;
+        readonly IHttpContextAccessor accessor;
         #endregion
 
         #region 构造函数
@@ -70,6 +72,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="_email"></param>
         /// <param name="_provider"></param>
         /// <param name="_cache"></param>
+        /// <param name="_accessor"></param>
         public ApiResourceController(
             ConfigurationDbContext _configDb,
             UserDbContext _userDb,
@@ -81,7 +84,8 @@ namespace IdentityServer4.MicroService.Apis
             AzureStorageService _storageService,
             EmailService _email,
             IDataProtectionProvider _provider,
-            IDistributedCache _cache)
+            IDistributedCache _cache,
+            IHttpContextAccessor _accessor)
         {
             configDb = _configDb;
             db = _userDb;
@@ -95,6 +99,8 @@ namespace IdentityServer4.MicroService.Apis
             protector = _provider.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
 
             cache = _cache;
+
+            accessor = _accessor;
         }
         #endregion
 
@@ -571,6 +577,213 @@ namespace IdentityServer4.MicroService.Apis
             await db.SaveChangesAsync();
 
             return new ApiResult<long>(id);
+        }
+        #endregion
+
+        #region 微服务 - 导入
+        /// <summary>
+        /// 微服务 - 导入
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost("Import")]
+        [AllowAnonymous]
+        [SwaggerOperation(OperationId = "ApiResourceImport")]
+        public ApiResult<bool> Import([FromBody]ApiResourceImportRequest value)
+        {
+            var data = configDb.ApiResources.Where(x => x.Name.Equals(value.MicroServiceName))
+                .Include(x => x.Scopes).FirstOrDefault();
+
+            if (data == null)
+            {
+                var entity = new ApiResource()
+                {
+                    Name = value.MicroServiceName,
+                    DisplayName = value.MicroServiceDisplayName,
+                    Description = value.MicroServiceDescription,
+                    Created = DateTime.UtcNow,
+                    LastAccessed = DateTime.UtcNow,
+                    Updated = DateTime.UtcNow,
+                    Enabled = true,
+                    Scopes = new List<ApiScope>(),
+                };
+
+                #region role、permission
+                entity.UserClaims = new List<ApiResourceClaim>()
+                {
+                    new ApiResourceClaim()
+                    {
+                        ApiResource = entity,
+                        Type = "role"
+                    },
+                    new ApiResourceClaim()
+                    {
+                        ApiResource = entity,
+                        Type = "permission"
+                    }
+                };
+                #endregion
+
+                #region scopes
+                if (value.MicroServicePolicies.Count > 0)
+                {
+                    value.MicroServicePolicies.ForEach(policy =>
+                    {
+                        policy.Scopes.ForEach(scope =>
+                        {
+                            var scopeName = $"{value.MicroServiceName}.{scope}";
+
+                            entity.Scopes.Add(new ApiScope()
+                            {
+                                ApiResource = entity,
+                                Name = scopeName,
+                                DisplayName = scopeName,
+                                Description = scopeName,
+                            });
+                        });
+
+                        var scopeControllName = $"{value.MicroServiceName}.{policy.ControllerName}.all";
+
+                        entity.Scopes.Add(new ApiScope()
+                        {
+                            ApiResource = entity,
+                            Name = scopeControllName,
+                            DisplayName = scopeControllName,
+                            Description = scopeControllName,
+                        });
+                    });
+                }
+
+                var scopeApiResourceName = $"{value.MicroServiceName}.all";
+
+                entity.Scopes.Add(new ApiScope()
+                {
+                    ApiResource = entity,
+                    Name = scopeApiResourceName,
+                    DisplayName = scopeApiResourceName,
+                    Description = scopeApiResourceName,
+                });
+                #endregion
+
+                configDb.Add(entity);
+
+                configDb.SaveChanges();
+
+                #region update user permission for new ApiResource
+                var userClaims = db.UserClaims.Where(x => x.ClaimType.Equals("permission") &&
+                        !x.ClaimValue.Contains(scopeApiResourceName)).ToList();
+
+                if (userClaims.Count > 0)
+                {
+                    userClaims.ForEach(x =>
+                    {
+                        var permissions = x.ClaimValue.Split(new string[1] { "," }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                        if (!permissions.Contains(scopeApiResourceName))
+                        {
+                            permissions.Add(scopeApiResourceName);
+
+                            x.ClaimValue = string.Join(",", permissions);
+                        }
+                    });
+
+                    db.SaveChanges();
+                }
+                #endregion
+            }
+
+            else
+            {
+                data.DisplayName = value.MicroServiceDisplayName;
+
+                data.Description = value.MicroServiceDescription;
+
+                data.Updated = DateTime.UtcNow;
+
+                data.Scopes.Clear();
+
+                value.MicroServicePolicies.ForEach(policy =>
+                {
+                    policy.Scopes.ForEach(scope =>
+                    {
+                        var scopeName = $"{value.MicroServiceName}.{scope}";
+
+                        data.Scopes.Add(new ApiScope()
+                        {
+                            ApiResource = data,
+                            Name = scopeName,
+                            DisplayName = scopeName,
+                            Description = scopeName,
+                        });
+                    });
+
+                    var scopeControllName = $"{value.MicroServiceName}.{policy.ControllerName}.all";
+
+                    data.Scopes.Add(new ApiScope()
+                    {
+                        ApiResource = data,
+                        Name = scopeControllName,
+                        DisplayName = scopeControllName,
+                        Description = scopeControllName,
+                    });
+                });
+
+                var scopeApiResourceName = $"{value.MicroServiceName}.all";
+
+                data.Scopes.Add(new ApiScope()
+                {
+                    ApiResource = data,
+                    Name = scopeApiResourceName,
+                    DisplayName = scopeApiResourceName,
+                    Description = scopeApiResourceName,
+                });
+
+                configDb.SaveChanges();
+            }
+
+            #region redirectUrl&scope for client-swagger
+            value.MicroServiceClientIDs.ForEach(clientId =>
+            {
+                var client = configDb.Clients
+                .Where(x => x.ClientName.Equals(clientId))
+                .Include(x => x.RedirectUris)
+                .Include(x => x.AllowedScopes).FirstOrDefault();
+
+                #region client redirectUrls
+                value.MicroServiceRedirectUrls.ForEach(redirectUrl =>
+                {
+                    var redirectUrlItem = client.RedirectUris
+                    .Where(x => x.RedirectUri.Equals(redirectUrl)).FirstOrDefault();
+
+                    if (redirectUrlItem == null)
+                    {
+                        client.RedirectUris.Add(new ClientRedirectUri()
+                        {
+                            RedirectUri = redirectUrl,
+                            Client = client
+                        });
+                    }
+                });
+                #endregion
+
+                #region client scope
+                var scope = $"{value.MicroServiceName}.all";
+                var scopeItem = client.AllowedScopes.FirstOrDefault(x => x.Scope.Equals(scope));
+                if (scopeItem == null)
+                {
+                    client.AllowedScopes.Add(new ClientScope()
+                    {
+                        Client = client,
+                        Scope = scope
+                    });
+                }
+                #endregion
+
+                configDb.SaveChanges();
+            });
+            #endregion
+
+            return new ApiResult<bool>(true);
         }
         #endregion
 

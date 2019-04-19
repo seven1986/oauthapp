@@ -28,7 +28,7 @@ namespace IdentityServer4.MicroService.Apis
     [ApiController]
     [Route("api/[controller]")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme)]
-    public class BasicController : ControllerBase
+    public class ApiControllerBase : ControllerBase
     {
         #region Services
         public virtual IStringLocalizer l { get; set; }

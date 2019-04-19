@@ -19,7 +19,7 @@ namespace IdentityServer4.MicroService.Apis
     /// </summary>
     [Route("File")]
     [Produces("application/json")]
-    public class FileController : BasicController
+    public class FileController : ApiControllerBase
     {
         #region Services
         // azure Storage

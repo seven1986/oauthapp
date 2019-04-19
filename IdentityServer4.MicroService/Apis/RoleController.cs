@@ -22,7 +22,7 @@ namespace IdentityServer4.MicroService.Apis
     //[Route("Role")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
-    public class RoleController : BasicController
+    public class RoleController : ApiControllerBase
     {
         #region 构造函数
         public RoleController(

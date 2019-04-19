@@ -10,7 +10,7 @@
             </summary>
             <remarks>为微服务提供版本管理、网关集成都功能。</remarks>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,IdentityServer4.MicroService.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLocalizer{IdentityServer4.MicroService.Apis.ApiResourceController},IdentityServer4.MicroService.Tenant.TenantService,IdentityServer4.MicroService.Tenant.TenantDbContext,IdentityServer4.MicroService.Services.SwaggerCodeGenService,IdentityServer4.MicroService.Services.AzureStorageService,IdentityServer4.MicroService.Services.EmailService,Microsoft.AspNetCore.DataProtection.IDataProtectionProvider,Microsoft.Extensions.Caching.Distributed.IDistributedCache)">
+        <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,IdentityServer4.MicroService.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLocalizer{IdentityServer4.MicroService.Apis.ApiResourceController},IdentityServer4.MicroService.Tenant.TenantService,IdentityServer4.MicroService.Tenant.TenantDbContext,IdentityServer4.MicroService.Services.SwaggerCodeGenService,IdentityServer4.MicroService.Services.AzureStorageService,IdentityServer4.MicroService.Services.EmailService,Microsoft.AspNetCore.DataProtection.IDataProtectionProvider,Microsoft.Extensions.Caching.Distributed.IDistributedCache,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
             <summary>
             构造函数
             </summary>
@@ -24,6 +24,7 @@
             <param name="_email"></param>
             <param name="_provider"></param>
             <param name="_cache"></param>
+            <param name="_accessor"></param>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Get(IdentityServer4.MicroService.Models.Apis.Common.PagingRequest{IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceGetRequest})">
             <summary>
@@ -74,6 +75,13 @@
             <remarks>
             Scope&amp;Permission：isms.apiresource.delete
             </remarks>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Import(IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest)">
+            <summary>
+            微服务 - 导入
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Scopes">
             <summary>
@@ -298,32 +306,32 @@
             Scope&amp;Permission：isms.apiresource.deletepackage
             </remarks>
         </member>
-        <member name="P:IdentityServer4.MicroService.Apis.BasicController.TenantId">
+        <member name="P:IdentityServer4.MicroService.Apis.ApiControllerBase.TenantId">
             <summary>
             租户信息 from client access token
             </summary>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.BasicController._Codes``1">
+        <member name="M:IdentityServer4.MicroService.Apis.ApiControllerBase._Codes``1">
             <summary>
             根据枚举，返回值与名称的字典
             </summary>
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.BasicController._MD5(System.String)">
+        <member name="M:IdentityServer4.MicroService.Apis.ApiControllerBase._MD5(System.String)">
             <summary>
             MD5
             </summary>
             <returns></returns>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.BasicController.Unprotect(System.String)">
+        <member name="M:IdentityServer4.MicroService.Apis.ApiControllerBase.Unprotect(System.String)">
             <summary>
             解密
             </summary>
             <param name="str">加密过的字符串</param>
             <returns></returns>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.BasicController.Protect(System.String,System.TimeSpan)">
+        <member name="M:IdentityServer4.MicroService.Apis.ApiControllerBase.Protect(System.String,System.TimeSpan)">
             <summary>
             加密
             </summary>
@@ -1838,6 +1846,37 @@
         <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceGithubPublishRequest.syncDocs">
             <summary>
             同步文档
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceName">
+            <summary>
+            微服务名称
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceDisplayName">
+            <summary>
+            微服务显示名称
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceDescription">
+            <summary>
+            微服务简介
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServicePolicies">
+            <summary>
+            微服务策略集
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceClientIDs">
+            <summary>
+            要关联RedirectUrls的ClientID
+            默认位swagger
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceRedirectUrls">
+            <summary>
+            合法回调地址集合
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourcePostReleaseRequest.aid">

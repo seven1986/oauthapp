@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -49,6 +50,8 @@ namespace Microsoft.Extensions.DependencyInjection
             var builder = new ISMSServiceBuilder(services);
             builder.Services.AddSingleton(Options);
 
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             #region Cors
             if (Options.EnableCors)
             {
@@ -81,12 +84,14 @@ namespace Microsoft.Extensions.DependencyInjection
                 builder.Services.AddAuthorization(options =>
                 {
                     var ISMSTypes = Assembly.GetExecutingAssembly().GetTypes()
-                    .Where(x => x.BaseType != null && x.BaseType.Name.Equals("BasicController")).ToList();
+                    .Where(x => x.BaseType != null && x.BaseType.Name.Equals("ApiControllerBase")).ToList();
 
                     var isms_policies = PolicyConfigs(ISMSTypes);
 
                     var EntryTypes = Assembly.GetEntryAssembly().GetTypes()
-                       .Where(x => x.BaseType != null && x.BaseType.Name.Equals("ControllerBase")).ToList();
+                       .Where(x => x.BaseType != null &&
+                       (x.BaseType.Name.Equals("ApiControllerBase") ||
+                       x.BaseType.Name.Equals("ControllerBase"))).ToList();
 
                     var entry_policies = PolicyConfigs(EntryTypes);
 
@@ -303,7 +308,7 @@ namespace Microsoft.Extensions.DependencyInjection
             .AddIdentityServer4MicroServiceOAuths(configuration);
             #endregion
 
-            #region ApiVersioning
+            #region ResponseCaching
             if (Options.EnableResponseCaching)
             {
                 builder.Services.AddResponseCaching();

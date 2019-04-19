@@ -30,7 +30,7 @@ namespace IdentityServer4.MicroService.Apis
     /// </summary>
     //[Route("CodeGen")]
     [Produces("application/json")]
-    public class CodeGenController : BasicController
+    public class CodeGenController : ApiControllerBase
     {
         #region Services
         readonly SwaggerCodeGenService swagerCodeGen;
