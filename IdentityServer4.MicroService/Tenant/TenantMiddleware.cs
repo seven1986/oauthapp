@@ -177,8 +177,8 @@ namespace IdentityServer4.MicroService.Tenant
                                 break;
 
                             case GitHubDefaults.AuthenticationScheme:
-                                _amazonOptions.ClientId = ClientId_FromTenant;
-                                _amazonOptions.ClientSecret = ClientSecret_FromTenant;
+                                _githubOptions.ClientId = ClientId_FromTenant;
+                                _githubOptions.ClientSecret = ClientSecret_FromTenant;
                                 break;
 
                             case GitterAuthenticationDefaults.AuthenticationScheme:
@@ -212,8 +212,8 @@ namespace IdentityServer4.MicroService.Tenant
                                 break;
 
                             case QQDefaults.AuthenticationScheme:
-                                _amazonOptions.ClientId = ClientId_FromTenant;
-                                _amazonOptions.ClientSecret = ClientSecret_FromTenant;
+                                _qqOptions.ClientId = ClientId_FromTenant;
+                                _qqOptions.ClientSecret = ClientSecret_FromTenant;
                                 break;
 
                             case RedditAuthenticationDefaults.AuthenticationScheme:
@@ -261,9 +261,15 @@ namespace IdentityServer4.MicroService.Tenant
                         }
                     }
 
+
+                    var MemoryCacheOptions = new MemoryCacheEntryOptions();
+
+                        MemoryCacheOptions.SetAbsoluteExpiration(
+                            TimeSpan.FromSeconds(TenantConstant.SchemesReflushDuration));
+
                     _memoryCache.Set(ResetOAuthProvider_CacheKey,
                         "1",
-                        DateTime.Now.AddSeconds(TenantConstant.SchemesReflushDuration));
+                        MemoryCacheOptions);
                 }
                 #endregion
             }

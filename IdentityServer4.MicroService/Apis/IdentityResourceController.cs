@@ -23,7 +23,7 @@ namespace IdentityServer4.MicroService.Apis
     //[Route("IdentityResource")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
-    public class IdentityResourceController : BasicController
+    public class IdentityResourceController : ApiControllerBase
     {
         #region Services
         //Database
@@ -47,8 +47,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.identityresource.get</code>
-        /// <label>User Permissions：</label><code>isms.identityresource.get</code>
+        /// Scope&amp;Permission：isms.identityresource.get
         /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:identityresource.get")]
@@ -119,8 +118,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.identityresource.detail</code>
-        /// <label>User Permissions：</label><code>isms.identityresource.detail</code>
+        /// Scope&amp;Permission：isms.identityresource.detail
         /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:identityresource.detail")]
@@ -149,8 +147,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.identityresource.post</code>
-        /// <label>User Permissions：</label><code>isms.identityresource.post</code>
+        /// Scope&amp;Permission：isms.identityresource.post
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:identityresource.post")]
@@ -179,8 +176,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.identityresource.put</code>
-        /// <label>User Permissions：</label><code>isms.identityresource.put</code>
+        /// Scope&amp;Permission：isms.identityresource.put
         /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:identityresource.put")]
@@ -279,8 +275,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.identityresource.delete</code>
-        /// <label>User Permissions：</label><code>isms.identityresource.delete</code>
+        /// Scope&amp;Permission：isms.identityresource.delete
         /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:identityresource.delete")]

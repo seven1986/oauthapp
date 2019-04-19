@@ -26,7 +26,7 @@ namespace IdentityServer4.MicroService.Apis
     //[Route("Tenant")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
-    public class TenantController : BasicController
+    public class TenantController : ApiControllerBase
     {
         #region 构造函数
         public TenantController(
@@ -51,8 +51,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.tenant.get</code>
-        /// <label>User Permissions：</label><code>isms.tenant.get</code>
+        /// Scope&amp;Permission：isms.tenant.get
         /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:tenant.get")]
@@ -130,8 +129,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.tenant.detail</code>
-        /// <label>User Permissions：</label><code>isms.tenant.detail</code>
+        /// Scope&amp;Permission：isms.tenant.detail
         /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:tenant.detail")]
@@ -165,8 +163,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.tenant.post</code>
-        /// <label>User Permissions：</label><code>isms.tenant.post</code>
+        /// Scope&amp;Permission：isms.tenant.post
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:tenant.post")]
@@ -197,8 +194,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.tenant.put</code>
-        /// <label>User Permissions：</label><code>isms.tenant.put</code>
+        /// Scope&amp;Permission：isms.tenant.put
         /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:tenant.put")]
@@ -385,8 +381,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.tenant.delete</code>
-        /// <label>User Permissions：</label><code>isms.tenant.delete</code>
+        /// Scope&amp;Permission：isms.tenant.delete
         /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:tenant.delete")]

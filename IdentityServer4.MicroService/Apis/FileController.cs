@@ -19,7 +19,7 @@ namespace IdentityServer4.MicroService.Apis
     /// </summary>
     [Route("File")]
     [Produces("application/json")]
-    public class FileController : BasicController
+    public class FileController : ApiControllerBase
     {
         #region Services
         // azure Storage
@@ -69,7 +69,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.file.post</code>
+        /// Scope：isms.file.post
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:file.post")]
@@ -137,7 +137,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value">图片文件</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.file.image</code>
+        /// Scope：isms.file.image
         /// </remarks>
         [HttpPost("Image")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:file.image")]

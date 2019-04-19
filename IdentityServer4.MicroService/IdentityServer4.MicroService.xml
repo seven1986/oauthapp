@@ -10,7 +10,7 @@
             </summary>
             <remarks>为微服务提供版本管理、网关集成都功能。</remarks>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,IdentityServer4.MicroService.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLocalizer{IdentityServer4.MicroService.Apis.ApiResourceController},IdentityServer4.MicroService.Tenant.TenantService,IdentityServer4.MicroService.Tenant.TenantDbContext,IdentityServer4.MicroService.Services.SwaggerCodeGenService,IdentityServer4.MicroService.Services.AzureStorageService,IdentityServer4.MicroService.Services.EmailService,Microsoft.AspNetCore.DataProtection.IDataProtectionProvider,Microsoft.Extensions.Caching.Distributed.IDistributedCache)">
+        <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,IdentityServer4.MicroService.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLocalizer{IdentityServer4.MicroService.Apis.ApiResourceController},IdentityServer4.MicroService.Tenant.TenantService,IdentityServer4.MicroService.Tenant.TenantDbContext,IdentityServer4.MicroService.Services.SwaggerCodeGenService,IdentityServer4.MicroService.Services.AzureStorageService,IdentityServer4.MicroService.Services.EmailService,Microsoft.AspNetCore.DataProtection.IDataProtectionProvider,Microsoft.Extensions.Caching.Distributed.IDistributedCache,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
             <summary>
             构造函数
             </summary>
@@ -24,6 +24,7 @@
             <param name="_email"></param>
             <param name="_provider"></param>
             <param name="_cache"></param>
+            <param name="_accessor"></param>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Get(IdentityServer4.MicroService.Models.Apis.Common.PagingRequest{IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceGetRequest})">
             <summary>
@@ -32,8 +33,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.get</code>
-            <label>User Permissions：</label><code>isms.apiresource.get</code>
+            Scope&amp;Permission：isms.apiresource.get
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Get(System.Int64)">
@@ -43,8 +43,7 @@
             <param name="id"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.detail</code>
-            <label>User Permissions：</label><code>isms.apiresource.detail</code>
+            Scope&amp;Permission：isms.apiresource.detail
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Post(IdentityServer4.EntityFramework.Entities.ApiResource)">
@@ -54,8 +53,7 @@
             <param name="value">ID</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.post</code>
-            <label>User Permissions：</label><code>isms.apiresource.post</code>
+            Scope&amp;Permission：isms.apiresource.post
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Put(IdentityServer4.EntityFramework.Entities.ApiResource)">
@@ -65,8 +63,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.put</code>
-            <label>User Permissions：</label><code>isms.apiresource.put</code>
+            Scope&amp;Permission：isms.apiresource.put
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Delete(System.Int64)">
@@ -76,9 +73,15 @@
             <param name="id">ID</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.delete</code>
-            <label>User Permissions：</label><code>isms.apiresource.delete</code>
+            Scope&amp;Permission：isms.apiresource.delete
             </remarks>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Import(IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest)">
+            <summary>
+            微服务 - 导入
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Scopes">
             <summary>
@@ -86,8 +89,7 @@
             </summary>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.scopes</code>
-            <label>User Permissions：</label><code>isms.apiresource.scopes</code>
+            Scope&amp;Permission：isms.apiresource.scopes
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Codes">
@@ -104,8 +106,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.publish</code>
-            <label>User Permissions：</label><code>isms.apiresource.publish</code>
+            Scope&amp;Permission：isms.apiresource.publish
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.PublishRevision(System.Int64,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourcePublishRevisionsRequest)">
@@ -116,8 +117,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.publishrevision</code>
-            <label>User Permissions：</label><code>isms.apiresource.publishrevision</code>
+            Scope&amp;Permission：isms.apiresource.publishrevision
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.PublishVersion(System.Int64,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceCreateVersionRequest)">
@@ -128,8 +128,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.publishversion</code>
-            <label>User Permissions：</label><code>isms.apiresource.publishversion</code>
+            Scope&amp;Permission：isms.apiresource.publishversion
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.PublishConfiguration(System.Int64)">
@@ -139,8 +138,7 @@
             <param name="id">微服务的ID</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.publishconfiguration</code>
-            <label>User Permissions：</label><code>isms.apiresource.publishconfiguration</code>
+            Scope&amp;Permission：isms.apiresource.publishconfiguration
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Versions(System.Int64)">
@@ -150,8 +148,7 @@
             <param name="id">微服务的ID</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.versions</code>
-            <label>User Permissions：</label><code>isms.apiresource.versions</code>
+            Scope&amp;Permission：isms.apiresource.versions
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.SetOnlineVersion(System.Int64,System.String)">
@@ -162,8 +159,7 @@
             <param name="revisionId"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.setonlineversion</code>
-            <label>User Permissions：</label><code>isms.apiresource.setonlineversion</code>
+            Scope&amp;Permission：isms.apiresource.setonlineversion
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.AuthServers">
@@ -172,8 +168,7 @@
             </summary>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.authservers</code>
-            <label>User Permissions：</label><code>isms.apiresource.authservers</code>
+            Scope&amp;Permission：isms.apiresource.authservers
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Products">
@@ -182,8 +177,7 @@
             </summary>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.products</code>
-            <label>User Permissions：</label><code>isms.apiresource.products</code>
+            Scope&amp;Permission：isms.apiresource.products
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Releases(System.Int64,System.String)">
@@ -194,8 +188,7 @@
             <param name="apiId">Api的ID</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.releases</code>
-            <label>User Permissions：</label><code>isms.apiresource.releases</code>
+            Scope&amp;Permission：isms.apiresource.releases
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.PostRelease(System.Int64,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourcePostReleaseRequest)">
@@ -206,8 +199,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.postrelease</code>
-            <label>User Permissions：</label><code>isms.apiresource.postrelease</code>
+            Scope&amp;Permission：isms.apiresource.postrelease
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.PutRelease(System.Int64,System.String,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourcePutReleaseRequest)">
@@ -219,8 +211,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.putrelease</code>
-            <label>User Permissions：</label><code>isms.apiresource.putrelease</code>
+            Scope&amp;Permission：isms.apiresource.putrelease
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.DeleteRelease(System.Int64,System.String)">
@@ -231,8 +222,7 @@
             <param name="releaseId">修订内容的ID</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.deleterelease</code>
-            <label>User Permissions：</label><code>isms.apiresource.deleterelease</code>
+            Scope&amp;Permission：isms.apiresource.deleterelease
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Subscriptions(System.Int64)">
@@ -242,8 +232,7 @@
             <param name="id">微服务的ID</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.subscriptions</code>
-            <label>User Permissions：</label><code>isms.apiresource.subscriptions</code>
+            Scope&amp;Permission：isms.apiresource.subscriptions
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.AddSubscription(System.Int64,System.String)">
@@ -270,8 +259,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.verifyemail</code>
-            <label>User Permissions：</label><code>isms.apiresource.verifyemail</code>
+            Scope&amp;Permission：isms.apiresource.verifyemail
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Packages(System.String)">
@@ -281,8 +269,7 @@
             <param name="id">微服务的ID</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.packages</code>
-            <label>User Permissions：</label><code>isms.apiresource.packages</code>
+            Scope&amp;Permission：isms.apiresource.packages
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.PostPackage(System.String,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceSDKRequest)">
@@ -293,8 +280,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.postpackages</code>
-            <label>User Permissions：</label><code>isms.apiresource.postpackages</code>
+            Scope&amp;Permission：isms.apiresource.postpackages
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.DeletePackage(System.String,System.String)">
@@ -305,8 +291,7 @@
             <param name="packageId">包的ID</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.deletepackage</code>
-            <label>User Permissions：</label><code>isms.apiresource.deletepackage</code>
+            Scope&amp;Permission：isms.apiresource.deletepackage
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.PutPackage(System.String,System.String,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceSDKRequest)">
@@ -318,36 +303,35 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.deletepackage</code>
-            <label>User Permissions：</label><code>isms.apiresource.deletepackage</code>
+            Scope&amp;Permission：isms.apiresource.deletepackage
             </remarks>
         </member>
-        <member name="P:IdentityServer4.MicroService.Apis.BasicController.TenantId">
+        <member name="P:IdentityServer4.MicroService.Apis.ApiControllerBase.TenantId">
             <summary>
             租户信息 from client access token
             </summary>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.BasicController._Codes``1">
+        <member name="M:IdentityServer4.MicroService.Apis.ApiControllerBase._Codes``1">
             <summary>
             根据枚举，返回值与名称的字典
             </summary>
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.BasicController._MD5(System.String)">
+        <member name="M:IdentityServer4.MicroService.Apis.ApiControllerBase._MD5(System.String)">
             <summary>
             MD5
             </summary>
             <returns></returns>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.BasicController.Unprotect(System.String)">
+        <member name="M:IdentityServer4.MicroService.Apis.ApiControllerBase.Unprotect(System.String)">
             <summary>
             解密
             </summary>
             <param name="str">加密过的字符串</param>
             <returns></returns>
         </member>
-        <member name="M:IdentityServer4.MicroService.Apis.BasicController.Protect(System.String,System.TimeSpan)">
+        <member name="M:IdentityServer4.MicroService.Apis.ApiControllerBase.Protect(System.String,System.TimeSpan)">
             <summary>
             加密
             </summary>
@@ -367,8 +351,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.client.get</code>
-            <label>User Permissions：</label><code>isms.client.get</code>
+            Scope&amp;Permission：isms.client.get
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ClientController.Get(System.Int32)">
@@ -378,8 +361,7 @@
             <param name="id"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.client.detail</code>
-            <label>User Permissions：</label><code>isms.client.detail</code>
+            Scope&amp;Permission：isms.client.detail
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ClientController.Post(IdentityServer4.EntityFramework.Entities.Client)">
@@ -389,8 +371,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.client.post</code>
-            <label>User Permissions：</label><code>isms.client.post</code>
+            Scope&amp;Permission：isms.client.post
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ClientController.Put(IdentityServer4.EntityFramework.Entities.Client)">
@@ -400,8 +381,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.client.put</code>
-            <label>User Permissions：</label><code>isms.client.put</code>
+            Scope&amp;Permission：isms.client.put
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ClientController.Delete(System.Int32)">
@@ -411,8 +391,7 @@
             <param name="id"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.client.delete</code>
-            <label>User Permissions：</label><code>isms.client.delete</code>
+            Scope&amp;Permission：isms.client.delete
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ClientController.IssueToken(IdentityServer4.MicroService.Models.Apis.ClientController.ClientIssueTokenRequest)">
@@ -422,8 +401,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.client.issuetoken</code>
-            <label>User Permissions：</label><code>isms.client.issuetoken</code>
+            Scope&amp;Permission：isms.client.issuetoken
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ClientController.PostSecretkey(System.Int32,IdentityServer4.MicroService.Models.Apis.ClientController.ClientPostSecretkeyRequest)">
@@ -434,8 +412,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.client.postsecretkey</code>
-            <label>User Permissions：</label><code>isms.client.postsecretkey</code>
+            Scope&amp;Permission：isms.client.postsecretkey
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ClientController.Codes">
@@ -456,7 +433,7 @@
             <remarks>支持生成的客户端集合</remarks>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.codegen.clients</code>
+            Scope：isms.codegen.clients
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.Servers(System.Boolean)">
@@ -466,7 +443,7 @@
             <remarks>支持生成的服务端集合</remarks>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.codegen.servers</code>
+            Scope：isms.codegen.servers
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.NpmOptions(System.String,IdentityServer4.MicroService.Models.Apis.CodeGenController.Language)">
@@ -477,7 +454,7 @@
             <param name="language">语言</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.codegen.npmoptions</code>
+            Scope：isms.codegen.npmoptions
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.NpmOptions(System.String,IdentityServer4.MicroService.Models.Apis.CodeGenController.Language,IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenNpmOptionsModel)">
@@ -489,8 +466,7 @@
             <param name="value">package.json的内容字符串</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.codegen.putnpmoptions</code>
-            更新微服务的NPM发布设置
+            Scope：isms.codegen.putnpmoptions
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.GithubOptions(System.String)">
@@ -500,7 +476,7 @@
             <param name="id">微服务ID</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.codegen.githuboptions</code>
+            Scope：isms.codegen.githuboptions
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.GithubOptions(System.String,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceGithubPublishRequest)">
@@ -511,8 +487,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.codegen.putgithuboptions</code>
-            更新微服务的Github发布设置
+            Scope：isms.codegen.putgithuboptions
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.SyncGithub(System.String)">
@@ -522,8 +497,7 @@
             <param name="id">微服务ID</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.codegen.putgithuboptions</code>
-            更新微服务的Github发布设置
+            Scope：isms.codegen.putgithuboptions
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.CommonOptions(System.String)">
@@ -533,8 +507,7 @@
             <param name="id">微服务ID</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.codegen.commonoptions</code>
-            生成SDK时需要的基本信息
+            Scope：isms.codegen.commonoptions
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.PutCommonOptions(System.String,IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenCommonOptionsModel)">
@@ -545,8 +518,7 @@
             <param name="value">package.json的内容字符串</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.codegen.putcommonoptions</code>
-            更新基本信息设置
+            Scope：isms.codegen.putcommonoptions
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.ReleaseSDK(IdentityServer4.MicroService.Models.Apis.CodeGenController.GenerateClientRequest)">
@@ -556,7 +528,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.codegen.releasesdk</code>
+            Scope：isms.codegen.releasesdk
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.Gen(IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenGenRequest)">
@@ -575,7 +547,7 @@
             <param name="id">微服务的ID</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.apiresource.history</code>
+            Scope：isms.apiresource.history
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.PostHistory(System.String,IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenHistoryRequest)">
@@ -600,7 +572,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.file.post</code>
+            Scope：isms.file.post
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.FileController.Image(Microsoft.AspNetCore.Http.IFormFile)">
@@ -610,7 +582,7 @@
             <param name="value">图片文件</param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.file.image</code>
+            Scope：isms.file.image
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.FileController.Codes">
@@ -634,8 +606,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.identityresource.get</code>
-            <label>User Permissions：</label><code>isms.identityresource.get</code>
+            Scope&amp;Permission：isms.identityresource.get
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.IdentityResourceController.Get(System.Int32)">
@@ -645,8 +616,7 @@
             <param name="id"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.identityresource.detail</code>
-            <label>User Permissions：</label><code>isms.identityresource.detail</code>
+            Scope&amp;Permission：isms.identityresource.detail
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.IdentityResourceController.Post(IdentityServer4.EntityFramework.Entities.IdentityResource)">
@@ -656,8 +626,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.identityresource.post</code>
-            <label>User Permissions：</label><code>isms.identityresource.post</code>
+            Scope&amp;Permission：isms.identityresource.post
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.IdentityResourceController.Put(IdentityServer4.EntityFramework.Entities.IdentityResource)">
@@ -667,8 +636,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.identityresource.put</code>
-            <label>User Permissions：</label><code>isms.identityresource.put</code>
+            Scope&amp;Permission：isms.identityresource.put
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.IdentityResourceController.Delete(System.Int32)">
@@ -678,8 +646,7 @@
             <param name="id"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.identityresource.delete</code>
-            <label>User Permissions：</label><code>isms.identityresource.delete</code>
+            Scope&amp;Permission：isms.identityresource.delete
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.IdentityResourceController.Codes">
@@ -702,8 +669,7 @@
             </summary>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.role.get</code>
-            <label>User Permissions：</label><code>isms.role.get</code>
+            Scope&amp;Permission：isms.role.get
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.RoleController.Get(System.Int32)">
@@ -713,8 +679,7 @@
             <param name="id"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.role.detail</code>
-            <label>User Permissions：</label><code>isms.role.detail</code>
+            Scope&amp;Permission：isms.role.detail
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.RoleController.Post(IdentityServer4.MicroService.Data.AppRole)">
@@ -724,8 +689,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.role.post</code>
-            <label>User Permissions：</label><code>isms.role.post</code>
+            Scope&amp;Permission：isms.role.post
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.RoleController.Put(IdentityServer4.MicroService.Data.AppRole)">
@@ -735,8 +699,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.role.put</code>
-            <label>User Permissions：</label><code>isms.role.put</code>
+            Scope&amp;Permission：isms.role.put
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.RoleController.Delete(System.Int32)">
@@ -746,8 +709,7 @@
             <param name="id"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.role.delete</code>
-            <label>User Permissions：</label><code>isms.role.delete</code>
+            Scope&amp;Permission：isms.role.delete
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.RoleController.Codes">
@@ -771,8 +733,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.tenant.get</code>
-            <label>User Permissions：</label><code>isms.tenant.get</code>
+            Scope&amp;Permission：isms.tenant.get
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.TenantController.Get(System.Int32)">
@@ -782,8 +743,7 @@
             <param name="id"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.tenant.detail</code>
-            <label>User Permissions：</label><code>isms.tenant.detail</code>
+            Scope&amp;Permission：isms.tenant.detail
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.TenantController.Post(IdentityServer4.MicroService.Tenant.AppTenant)">
@@ -793,8 +753,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.tenant.post</code>
-            <label>User Permissions：</label><code>isms.tenant.post</code>
+            Scope&amp;Permission：isms.tenant.post
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.TenantController.Put(IdentityServer4.MicroService.Tenant.AppTenant)">
@@ -804,8 +763,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.tenant.put</code>
-            <label>User Permissions：</label><code>isms.tenant.put</code>
+            Scope&amp;Permission：isms.tenant.put
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.TenantController.Delete(System.Int32)">
@@ -815,8 +773,7 @@
             <param name="id"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.tenant.delete</code>
-            <label>User Permissions：</label><code>isms.tenant.delete</code>
+            Scope&amp;Permission：isms.tenant.delete
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.TenantController.Info(System.String)">
@@ -847,8 +804,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.user.get</code>
-            <label>User Permissions：</label><code>isms.user.get</code>
+            Scope&amp;Permission：isms.user.get
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.Get(System.Int32)">
@@ -858,8 +814,7 @@
              <param name="id"></param>
              <returns></returns>
              <remarks>
-             <label>Client Scopes：</label><code>isms.user.detail</code>
-             <label>User Permissions：</label><code>isms.user.detail</code>
+             Scope&amp;Permission：isms.user.detail
              </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.Post(IdentityServer4.MicroService.Data.AppUser)">
@@ -869,8 +824,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.user.post</code>
-            <label>User Permissions：</label><code>isms.user.post</code>
+            Scope&amp;Permission：isms.user.post
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.Put(IdentityServer4.MicroService.Data.AppUser)">
@@ -880,8 +834,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.user.put</code>
-            <label>User Permissions：</label><code>isms.user.put</code>
+            Scope&amp;Permission：isms.user.put
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.Delete(System.Int32)">
@@ -891,8 +844,7 @@
             <param name="id"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.user.delete</code>
-            <label>User Permissions：</label><code>isms.user.delete</code>
+            Scope&amp;Permission：isms.user.delete
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.Head(IdentityServer4.MicroService.Models.Apis.UserController.UserDetailRequest)">
@@ -902,8 +854,7 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            <label>Client Scopes：</label><code>isms.user.head</code>
-            <label>User Permissions：</label><code>isms.user.head</code>
+            Scope&amp;Permission：isms.user.head
             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.Codes">
@@ -1895,6 +1846,37 @@
         <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceGithubPublishRequest.syncDocs">
             <summary>
             同步文档
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceName">
+            <summary>
+            微服务名称
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceDisplayName">
+            <summary>
+            微服务显示名称
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceDescription">
+            <summary>
+            微服务简介
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServicePolicies">
+            <summary>
+            微服务策略集
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceClientIDs">
+            <summary>
+            要关联RedirectUrls的ClientID
+            默认位swagger
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceRedirectUrls">
+            <summary>
+            合法回调地址集合
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourcePostReleaseRequest.aid">

@@ -30,7 +30,7 @@ namespace IdentityServer4.MicroService.Apis
     /// </summary>
     //[Route("CodeGen")]
     [Produces("application/json")]
-    public class CodeGenController : BasicController
+    public class CodeGenController : ApiControllerBase
     {
         #region Services
         readonly SwaggerCodeGenService swagerCodeGen;
@@ -70,7 +70,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <remarks>支持生成的客户端集合</remarks>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.codegen.clients</code>
+        /// Scope：isms.codegen.clients
         /// </remarks>
         [HttpGet("Clients")]
         [SwaggerOperation(OperationId = "CodeGenClients")]
@@ -90,7 +90,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <remarks>支持生成的服务端集合</remarks>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.codegen.servers</code>
+        /// Scope：isms.codegen.servers
         /// </remarks>
         [HttpGet("Servers")]
         [SwaggerOperation(OperationId = "CodeGenServers")]
@@ -111,7 +111,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="language">语言</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.codegen.npmoptions</code>
+        /// Scope：isms.codegen.npmoptions
         /// </remarks>
         [HttpGet("{id}/NpmOptions/{language}")]
         [SwaggerOperation(OperationId = "CodeGenNpmOptions")]
@@ -167,8 +167,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value">package.json的内容字符串</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.codegen.putnpmoptions</code>
-        /// 更新微服务的NPM发布设置
+        /// Scope：isms.codegen.putnpmoptions
         /// </remarks>
         [HttpPut("{id}/NpmOptions/{language}")]
         [SwaggerOperation(OperationId = "CodeGenPutNpmOptions")]
@@ -204,7 +203,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.codegen.githuboptions</code>
+        /// Scope：isms.codegen.githuboptions
         /// </remarks>
         [HttpGet("{id}/GithubOptions")]
         [SwaggerOperation(OperationId = "CodeGenGithubOptions")]
@@ -259,8 +258,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.codegen.putgithuboptions</code>
-        /// 更新微服务的Github发布设置
+        /// Scope：isms.codegen.putgithuboptions
         /// </remarks>
         [HttpPut("{id}/GithubOptions")]
         [SwaggerOperation(OperationId = "CodeGenPutGithubOptions")]
@@ -296,8 +294,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.codegen.putgithuboptions</code>
-        /// 更新微服务的Github发布设置
+        /// Scope：isms.codegen.putgithuboptions
         /// </remarks>
         [HttpPut("{id}/SyncGithub")]
         [SwaggerOperation(OperationId = "CodeGenSyncGithub")]
@@ -329,7 +326,6 @@ namespace IdentityServer4.MicroService.Apis
 
             return new ApiResult<bool>(true);
         }
-
         #endregion
 
         #region 代码生成 - 基本设置 - 获取
@@ -339,8 +335,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.codegen.commonoptions</code>
-        /// 生成SDK时需要的基本信息
+        /// Scope：isms.codegen.commonoptions
         /// </remarks>
         [HttpGet("{id}/CommonOptions")]
         [SwaggerOperation(OperationId = "CodeGenCommonOptions")]
@@ -391,8 +386,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value">package.json的内容字符串</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.codegen.putcommonoptions</code>
-        /// 更新基本信息设置
+        /// Scope：isms.codegen.putcommonoptions
         /// </remarks>
         [HttpPut("{id}/CommonOptions")]
         [SwaggerOperation(OperationId = "CodeGenPutCommonOptions")]
@@ -428,7 +422,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.codegen.releasesdk</code>
+        /// Scope：isms.codegen.releasesdk
         /// </remarks>
         [HttpPost("ReleaseSDK")]
         [SwaggerOperation(OperationId = "CodeGenReleaseSDK")]
@@ -748,7 +742,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.history</code>
+        /// Scope：isms.apiresource.history
         /// </remarks>
         [HttpGet("{id}/History")]
         [SwaggerOperation(OperationId = "CodeGenHistory")]

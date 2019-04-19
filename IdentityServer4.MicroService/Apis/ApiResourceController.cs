@@ -27,6 +27,7 @@ using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.ApiResourceController;
 using IdentityServer4.MicroService.Models.Apis.CodeGenController;
 using static IdentityServer4.MicroService.AppConstant;
+using Microsoft.AspNetCore.Http;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -39,7 +40,7 @@ namespace IdentityServer4.MicroService.Apis
     //[Route("ApiResource")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
-    public class ApiResourceController : BasicController
+    public class ApiResourceController : ApiControllerBase
     {
         //sql cache options
         readonly DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
@@ -54,6 +55,7 @@ namespace IdentityServer4.MicroService.Apis
         readonly AzureStorageService storageService;
         readonly EmailService email;
         readonly IDistributedCache cache;
+        readonly IHttpContextAccessor accessor;
         #endregion
 
         #region 构造函数
@@ -70,6 +72,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="_email"></param>
         /// <param name="_provider"></param>
         /// <param name="_cache"></param>
+        /// <param name="_accessor"></param>
         public ApiResourceController(
             ConfigurationDbContext _configDb,
             UserDbContext _userDb,
@@ -81,7 +84,8 @@ namespace IdentityServer4.MicroService.Apis
             AzureStorageService _storageService,
             EmailService _email,
             IDataProtectionProvider _provider,
-            IDistributedCache _cache)
+            IDistributedCache _cache,
+            IHttpContextAccessor _accessor)
         {
             configDb = _configDb;
             db = _userDb;
@@ -95,6 +99,8 @@ namespace IdentityServer4.MicroService.Apis
             protector = _provider.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
 
             cache = _cache;
+
+            accessor = _accessor;
         }
         #endregion
 
@@ -106,8 +112,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.get</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.get</code>
+        /// Scope&amp;Permission：isms.apiresource.get
         /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.get")]
@@ -195,8 +200,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.detail</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.detail</code>
+        /// Scope&amp;Permission：isms.apiresource.detail
         /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.detail")]
@@ -234,8 +238,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value">ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.post</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.post</code>
+        /// Scope&amp;Permission：isms.apiresource.post
         /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.post")]
@@ -272,8 +275,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.put</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.put</code>
+        /// Scope&amp;Permission：isms.apiresource.put
         /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.put")]
@@ -550,8 +552,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.delete</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.delete</code>
+        /// Scope&amp;Permission：isms.apiresource.delete
         /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.delete")]
@@ -579,14 +580,220 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
+        #region 微服务 - 导入
+        /// <summary>
+        /// 微服务 - 导入
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost("Import")]
+        [AllowAnonymous]
+        [SwaggerOperation(OperationId = "ApiResourceImport")]
+        public ApiResult<bool> Import([FromBody]ApiResourceImportRequest value)
+        {
+            var data = configDb.ApiResources.Where(x => x.Name.Equals(value.MicroServiceName))
+                .Include(x => x.Scopes).FirstOrDefault();
+
+            if (data == null)
+            {
+                var entity = new ApiResource()
+                {
+                    Name = value.MicroServiceName,
+                    DisplayName = value.MicroServiceDisplayName,
+                    Description = value.MicroServiceDescription,
+                    Created = DateTime.UtcNow,
+                    LastAccessed = DateTime.UtcNow,
+                    Updated = DateTime.UtcNow,
+                    Enabled = true,
+                    Scopes = new List<ApiScope>(),
+                };
+
+                #region role、permission
+                entity.UserClaims = new List<ApiResourceClaim>()
+                {
+                    new ApiResourceClaim()
+                    {
+                        ApiResource = entity,
+                        Type = "role"
+                    },
+                    new ApiResourceClaim()
+                    {
+                        ApiResource = entity,
+                        Type = "permission"
+                    }
+                };
+                #endregion
+
+                #region scopes
+                if (value.MicroServicePolicies.Count > 0)
+                {
+                    value.MicroServicePolicies.ForEach(policy =>
+                    {
+                        policy.Scopes.ForEach(scope =>
+                        {
+                            var scopeName = $"{value.MicroServiceName}.{scope}";
+
+                            entity.Scopes.Add(new ApiScope()
+                            {
+                                ApiResource = entity,
+                                Name = scopeName,
+                                DisplayName = scopeName,
+                                Description = scopeName,
+                            });
+                        });
+
+                        var scopeControllName = $"{value.MicroServiceName}.{policy.ControllerName}.all";
+
+                        entity.Scopes.Add(new ApiScope()
+                        {
+                            ApiResource = entity,
+                            Name = scopeControllName,
+                            DisplayName = scopeControllName,
+                            Description = scopeControllName,
+                        });
+                    });
+                }
+
+                var scopeApiResourceName = $"{value.MicroServiceName}.all";
+
+                entity.Scopes.Add(new ApiScope()
+                {
+                    ApiResource = entity,
+                    Name = scopeApiResourceName,
+                    DisplayName = scopeApiResourceName,
+                    Description = scopeApiResourceName,
+                });
+                #endregion
+
+                configDb.Add(entity);
+
+                configDb.SaveChanges();
+
+                #region update user permission for new ApiResource
+                var userClaims = db.UserClaims.Where(x => x.ClaimType.Equals("permission") &&
+                        !x.ClaimValue.Contains(scopeApiResourceName)).ToList();
+
+                if (userClaims.Count > 0)
+                {
+                    userClaims.ForEach(x =>
+                    {
+                        var permissions = x.ClaimValue.Split(new string[1] { "," }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                        if (!permissions.Contains(scopeApiResourceName))
+                        {
+                            permissions.Add(scopeApiResourceName);
+
+                            x.ClaimValue = string.Join(",", permissions);
+                        }
+                    });
+
+                    db.SaveChanges();
+                }
+                #endregion
+            }
+
+            else
+            {
+                data.DisplayName = value.MicroServiceDisplayName;
+
+                data.Description = value.MicroServiceDescription;
+
+                data.Updated = DateTime.UtcNow;
+
+                data.Scopes.Clear();
+
+                value.MicroServicePolicies.ForEach(policy =>
+                {
+                    policy.Scopes.ForEach(scope =>
+                    {
+                        var scopeName = $"{value.MicroServiceName}.{scope}";
+
+                        data.Scopes.Add(new ApiScope()
+                        {
+                            ApiResource = data,
+                            Name = scopeName,
+                            DisplayName = scopeName,
+                            Description = scopeName,
+                        });
+                    });
+
+                    var scopeControllName = $"{value.MicroServiceName}.{policy.ControllerName}.all";
+
+                    data.Scopes.Add(new ApiScope()
+                    {
+                        ApiResource = data,
+                        Name = scopeControllName,
+                        DisplayName = scopeControllName,
+                        Description = scopeControllName,
+                    });
+                });
+
+                var scopeApiResourceName = $"{value.MicroServiceName}.all";
+
+                data.Scopes.Add(new ApiScope()
+                {
+                    ApiResource = data,
+                    Name = scopeApiResourceName,
+                    DisplayName = scopeApiResourceName,
+                    Description = scopeApiResourceName,
+                });
+
+                configDb.SaveChanges();
+            }
+
+            #region redirectUrl&scope for client-swagger
+            value.MicroServiceClientIDs.ForEach(clientId =>
+            {
+                var client = configDb.Clients
+                .Where(x => x.ClientName.Equals(clientId))
+                .Include(x => x.RedirectUris)
+                .Include(x => x.AllowedScopes).FirstOrDefault();
+
+                #region client redirectUrls
+                value.MicroServiceRedirectUrls.ForEach(redirectUrl =>
+                {
+                    var redirectUrlItem = client.RedirectUris
+                    .Where(x => x.RedirectUri.Equals(redirectUrl)).FirstOrDefault();
+
+                    if (redirectUrlItem == null)
+                    {
+                        client.RedirectUris.Add(new ClientRedirectUri()
+                        {
+                            RedirectUri = redirectUrl,
+                            Client = client
+                        });
+                    }
+                });
+                #endregion
+
+                #region client scope
+                var scope = $"{value.MicroServiceName}.all";
+                var scopeItem = client.AllowedScopes.FirstOrDefault(x => x.Scope.Equals(scope));
+                if (scopeItem == null)
+                {
+                    client.AllowedScopes.Add(new ClientScope()
+                    {
+                        Client = client,
+                        Scope = scope
+                    });
+                }
+                #endregion
+
+                configDb.SaveChanges();
+            });
+            #endregion
+
+            return new ApiResult<bool>(true);
+        }
+        #endregion
+
         #region 微服务 - 权限代码
         /// <summary>
         /// 微服务 - 权限代码
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.scopes</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.scopes</code>
+        /// Scope&amp;Permission：isms.apiresource.scopes
         /// </remarks>
         [HttpGet("Scopes")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.scopes")]
@@ -663,8 +870,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.publish</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.publish</code>
+        /// Scope&amp;Permission：isms.apiresource.publish
         /// </remarks>
         [HttpPut("{id}/Publish")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.publish")]
@@ -773,8 +979,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.publishrevision</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.publishrevision</code>
+        /// Scope&amp;Permission：isms.apiresource.publishrevision
         /// </remarks>
         [HttpPost("{id}/PublishRevision")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.publishrevision")]
@@ -829,8 +1034,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.publishversion</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.publishversion</code>
+        /// Scope&amp;Permission：isms.apiresource.publishversion
         /// </remarks>
         [HttpPost("{id}/PublishVersion")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.publishversion")]
@@ -871,8 +1075,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.publishconfiguration</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.publishconfiguration</code>
+        /// Scope&amp;Permission：isms.apiresource.publishconfiguration
         /// </remarks>
         [HttpGet("{id}/PublishConfiguration")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.publishconfiguration")]
@@ -921,8 +1124,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.versions</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.versions</code>
+        /// Scope&amp;Permission：isms.apiresource.versions
         /// </remarks>
         [HttpGet("{id}/Versions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.versions")]
@@ -977,8 +1179,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="revisionId"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.setonlineversion</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.setonlineversion</code>
+        /// Scope&amp;Permission：isms.apiresource.setonlineversion
         /// </remarks>
         [HttpPost("{id}/Versions/{revisionId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.setonlineversion")]
@@ -1010,8 +1211,7 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.authservers</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.authservers</code>
+        /// Scope&amp;Permission：isms.apiresource.authservers
         /// </remarks>
         [HttpGet("AuthServers")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.authservers")]
@@ -1031,8 +1231,7 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.products</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.products</code>
+        /// Scope&amp;Permission：isms.apiresource.products
         /// </remarks>
         [HttpGet("Products")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.products")]
@@ -1056,8 +1255,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="apiId">Api的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.releases</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.releases</code>
+        /// Scope&amp;Permission：isms.apiresource.releases
         /// </remarks>
         [HttpGet("{id}/Releases")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.releases")]
@@ -1096,8 +1294,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.postrelease</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.postrelease</code>
+        /// Scope&amp;Permission：isms.apiresource.postrelease
         /// </remarks>
         [HttpPost("{id}/Releases")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.postrelease")]
@@ -1126,8 +1323,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.putrelease</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.putrelease</code>
+        /// Scope&amp;Permission：isms.apiresource.putrelease
         /// </remarks>
         [HttpPut("{id}/Releases/{releaseId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.putrelease")]
@@ -1161,8 +1357,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="releaseId">修订内容的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.deleterelease</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.deleterelease</code>
+        /// Scope&amp;Permission：isms.apiresource.deleterelease
         /// </remarks>
         [HttpDelete("{id}/Releases/{releaseId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.deleterelease")]
@@ -1191,8 +1386,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.subscriptions</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.subscriptions</code>
+        /// Scope&amp;Permission：isms.apiresource.subscriptions
         /// </remarks>
         [HttpGet("{id}/Subscriptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.subscriptions")]
@@ -1350,8 +1544,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.verifyemail</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.verifyemail</code>
+        /// Scope&amp;Permission：isms.apiresource.verifyemail
         /// </remarks>
         [HttpPost("{id}/Subscriptions/VerifyEmail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.verifyemail")]
@@ -1472,8 +1665,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id">微服务的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.packages</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.packages</code>
+        /// Scope&amp;Permission：isms.apiresource.packages
         /// </remarks>
         [HttpGet("{id}/Packages")]
         [SwaggerOperation(OperationId = "ApiResourcePackages")]
@@ -1506,8 +1698,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.postpackages</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.postpackages</code>
+        /// Scope&amp;Permission：isms.apiresource.postpackages
         /// </remarks>
         [HttpPost("{id}/Packages")]
         [SwaggerOperation(OperationId = "ApiResourcePostPackage")]
@@ -1564,8 +1755,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="packageId">包的ID</param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.deletepackage</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.deletepackage</code>
+        /// Scope&amp;Permission：isms.apiresource.deletepackage
         /// </remarks>
         [HttpDelete("{id}/Packages/{packageId}")]
         [SwaggerOperation(OperationId = "ApiResourceDeletePackage")]
@@ -1625,8 +1815,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>
-        /// <label>Client Scopes：</label><code>isms.apiresource.deletepackage</code>
-        /// <label>User Permissions：</label><code>isms.apiresource.deletepackage</code>
+        /// Scope&amp;Permission：isms.apiresource.deletepackage
         /// </remarks>
         [HttpPut("{id}/Packages/{packageId}")]
         [SwaggerOperation(OperationId = "ApiResourcePutPackage")]

@@ -20,12 +20,9 @@ namespace IdentityServer4.MicroService.Tenant
 
         public MemoryCacheEntryOptions CacheEntryOptions(double duration)
         {
-            var options = new MemoryCacheEntryOptions
-            {
-                AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(duration),
+            var options = new MemoryCacheEntryOptions();
 
-                SlidingExpiration = TimeSpan.FromMinutes(duration)
-            };
+            options.SetAbsoluteExpiration(TimeSpan.FromSeconds(duration));
 
             return options;
         }
@@ -49,19 +46,17 @@ namespace IdentityServer4.MicroService.Tenant
             if (tenant_public == null ||
                 tenant_private == null)
             {
-                var _tenantId = _db.ExecuteScalarAsync(
-                    "SELECT AppTenantId FROM AppTenantHosts WHERE HostName = @HostName", System.Data.CommandType.Text,
-                    new SqlParameter("@HostName", host)).Result;
+                var _tenantId = _db.TenantHosts.Where(x => x.HostName.Equals(host))
+                    .Select(x => x.AppTenantId).FirstOrDefault();
 
-                if (_tenantId != null)
+                if (_tenantId > 0)
                 {
-                    var tenantId = long.Parse(_tenantId.ToString());
-
                     var tenant = _db.Tenants
-                        .Include(x => x.Claims)
-                        .Include(x => x.Hosts)
-                        .Include(x => x.Properties)
-                        .FirstOrDefault(x => x.Id == tenantId);
+                        .Include(x => x.Claims).AsNoTracking()
+                        .Include(x => x.Hosts).AsNoTracking()
+                        .Include(x => x.Properties).AsNoTracking()
+                        .Where(x => x.Id == _tenantId).AsNoTracking()
+                        .FirstOrDefault();
 
                     tenant_public = tenant.ToPublicModel();
 

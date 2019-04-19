@@ -3,12 +3,15 @@
 ################################################################################
 
 /.vs
-/IdentityServer4.MicroService.Host/.vs
-/IdentityServer4.MicroService.Host/obj
-/IdentityServer4.MicroService.Host/bin
-/IdentityServer4.MicroService.Host/Properties/PublishProfiles
-/IdentityServer4.MicroService.Host/node_modules
-/IdentityServer4.MicroService.Host/IdentityServer4.MicroService.Host.csproj.user
+/WebApplication1/.vs
+/WebApplication1/obj
+/WebApplication1/bin
+/WebApplication1/Properties/PublishProfiles
+/WebApplication1/node_modules
+/WebApplication1/WebApplication1.csproj.user
+/WebApplication1/appsettings.Production.json
+/WebApplication1/appsettings.Development.json
+/WebApplication1/package-lock.json
 
 /packages
 /IdentityServer4.MicroService.AzureJobs/bin
@@ -19,12 +22,7 @@
 /IdentityServer4.MicroService/bin
 /IdentityServer4.MicroService/obj
 /IdentityServer4.MicroService/IdentityServer4.MicroService.csproj.user
-/IdentityServer4.MicroService.Host/package-lock.json
 /IdentityServer4.MicroService.AzureJobs.Host/bin
 /IdentityServer4.MicroService.AzureJobs.Host/obj
 /IdentityServer4.MicroService.AzureJobs.Host/Properties/PublishProfiles
 /IdentityServer4.MicroService.AzureJobs.Host/IdentityServer4.MicroService.AzureJobs.Host.csproj.user
-/IdentityServer4.MicroService.Host/appsettings.Production.json
-/IdentityServer4.MicroService.Host/appsettings.Development.json
-/WebApplication1/obj/Release/netcoreapp2.2
-/WebApplication1/bin/Release/netcoreapp2.2
