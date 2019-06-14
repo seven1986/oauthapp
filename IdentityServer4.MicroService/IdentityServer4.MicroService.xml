@@ -1753,6 +1753,11 @@
             启用SwaggerGen（默认true）
             </summary>
         </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableISMSSwaggerGen">
+            <summary>
+            启用IdentityServer4Microservice的SwaggerGen（默认true）
+            </summary>
+        </member>
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableSwaggerUI">
             <summary>
             启用SwaggerUI（默认true）
