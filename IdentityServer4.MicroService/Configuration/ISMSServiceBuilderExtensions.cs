@@ -247,7 +247,10 @@ namespace Microsoft.Extensions.DependencyInjection
                         }
                     }
 
-                    c.IncludeXmlComments(ISMSSwaggerFilePath);
+                    if (Options.EnableISMSSwaggerGen)
+                    {
+                        c.IncludeXmlComments(ISMSSwaggerFilePath);
+                    }
                 });
             }
             #endregion

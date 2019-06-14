@@ -32,6 +32,11 @@ namespace IdentityServer4.MicroService
         public bool EnableSwaggerGen { get; set; } = true;
 
         /// <summary>
+        /// 启用IdentityServer4Microservice的SwaggerGen（默认true）
+        /// </summary>
+        public bool EnableISMSSwaggerGen { get; set; } = true;
+
+        /// <summary>
         /// 启用SwaggerUI（默认true）
         /// </summary>
         public bool EnableSwaggerUI { get; set; } = true;
