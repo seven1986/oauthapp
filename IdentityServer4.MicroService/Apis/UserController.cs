@@ -32,6 +32,7 @@ namespace IdentityServer4.MicroService.Apis
     //[Route("User")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
+    [ApiExplorerSettingsDynamic("User")]
     public class UserController : ApiControllerBase
     {
         #region Services

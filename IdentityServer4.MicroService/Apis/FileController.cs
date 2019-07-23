@@ -19,6 +19,7 @@ namespace IdentityServer4.MicroService.Apis
     /// </summary>
     [Route("File")]
     [Produces("application/json")]
+    [ApiExplorerSettingsDynamic("File")]
     public class FileController : ApiControllerBase
     {
         #region Services

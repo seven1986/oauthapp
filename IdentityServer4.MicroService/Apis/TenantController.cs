@@ -26,6 +26,7 @@ namespace IdentityServer4.MicroService.Apis
     //[Route("Tenant")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
+    [ApiExplorerSettingsDynamic("Tenant")]
     public class TenantController : ApiControllerBase
     {
         #region 构造函数

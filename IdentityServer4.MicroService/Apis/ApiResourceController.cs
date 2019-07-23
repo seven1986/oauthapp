@@ -40,6 +40,7 @@ namespace IdentityServer4.MicroService.Apis
     //[Route("ApiResource")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
+    [ApiExplorerSettingsDynamic("ApiResource")]
     public class ApiResourceController : ApiControllerBase
     {
         //sql cache options
@@ -907,7 +908,7 @@ namespace IdentityServer4.MicroService.Apis
                 {
                     var publishKey = $"ApiResource:Publish:{id}";
 
-                    await cache.SetStringAsync(publishKey, JsonConvert.SerializeObject(value),cacheOptions); 
+                    await cache.SetStringAsync(publishKey, JsonConvert.SerializeObject(value), cacheOptions);
 
                     //redis.SetAsync(publishKey, JsonConvert.SerializeObject(value), null);
                 }
@@ -1628,7 +1629,7 @@ namespace IdentityServer4.MicroService.Apis
                 #endregion
 
                 var result = await email.SendEmailAsync("verify_apiresource_subscription", "验证邮箱",
-                    //SendCloudMailTemplates.verify_apiresource_subscription,
+                   //SendCloudMailTemplates.verify_apiresource_subscription,
                    new string[] { value.email },
                     new Dictionary<string, string[]>()
                     {
@@ -1804,7 +1805,7 @@ namespace IdentityServer4.MicroService.Apis
                 return new ApiResult<bool>(l, ApiResourceControllerEnums.Packages_DelPackageFailed, ex.Message);
             }
         }
-        #endregion 
+        #endregion
 
         #region 微服务 - 包市场 - 更新
         /// <summary>
@@ -1873,7 +1874,7 @@ namespace IdentityServer4.MicroService.Apis
                 return new ApiResult<bool>(l, ApiResourceControllerEnums.Packages_PutPackageFailed, ex.Message);
             }
         }
-        #endregion 
+        #endregion
         #endregion
 
         #region 辅助方法
@@ -1890,7 +1891,7 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             return false;
-        } 
+        }
         #endregion
     }
 }
