@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using IdentityServer4.MicroService;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,8 @@ namespace WebApplication1
                 //options.DefaultUserAccount = "admin@admin.com";
                 //options.DefaultUserPassword = "123456aA!"
                 //options.AspNetCoreIdentityOptions
+
+                options.HideIdentityServerDocument(IdentityServerAPIDocuments.ApiResource);
             });
         }
 

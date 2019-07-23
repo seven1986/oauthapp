@@ -1793,6 +1793,16 @@
             配置参考官方文档
             </summary>
         </member>
+        <member name="M:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.HideIdentityServerDocument">
+            <summary>
+            隐藏IdentityServer MicroserviceAPI文档
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.HideIdentityServerDocument(IdentityServer4.MicroService.IdentityServerAPIDocuments[])">
+            <summary>
+            隐藏IdentityServer MicroserviceAPI文档
+            </summary>
+        </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceCreateVersionRequest.revisionId">
             <summary>
             api 修订版的版本号

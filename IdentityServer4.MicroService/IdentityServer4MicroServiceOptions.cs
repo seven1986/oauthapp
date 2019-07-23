@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace IdentityServer4.MicroService
 {
-   public class IdentityServer4MicroServiceOptions
+    public class IdentityServer4MicroServiceOptions
     {
         /// <summary>
         /// 管理员账号，邮箱格式(默认admin@admin.com)
@@ -70,5 +71,44 @@ namespace IdentityServer4.MicroService
         /// 配置参考官方文档
         /// </summary>
         public Action<IdentityOptions> AspNetCoreIdentityOptions { get; set; }
+
+        /// <summary>
+        /// 隐藏IdentityServer MicroserviceAPI文档
+        /// </summary>
+        public void HideIdentityServerDocument()
+        {
+            ISAPIDocuments.Add(IdentityServerAPIDocuments.ALL);
+        }
+
+        /// <summary>
+        /// 隐藏IdentityServer MicroserviceAPI文档
+        /// </summary>
+        public void HideIdentityServerDocument(params IdentityServerAPIDocuments[] APIDocuments)
+        {
+            ISAPIDocuments.AddRange(APIDocuments);
+        }
+
+        internal static List<IdentityServerAPIDocuments> ISAPIDocuments { get; set; } = new List<IdentityServerAPIDocuments>();
+    }
+
+    public enum IdentityServerAPIDocuments
+    {
+        ALL = 0,
+
+        ApiResource = 1,
+
+        Client = 2,
+
+        CodeGen = 3,
+
+        File = 4,
+
+        IdentityResource = 5,
+
+        Role = 6,
+
+        Tenant = 7,
+
+        User = 8
     }
 }

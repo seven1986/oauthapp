@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "IdentityServer4.MicroService": {
+      "commandName": "Project"
+    }
+  }
+}
