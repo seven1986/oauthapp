@@ -20,6 +20,7 @@ namespace IdentityServer4.MicroService.Apis
     [Route("File")]
     [Produces("application/json")]
     [ApiExplorerSettingsDynamic("File")]
+    [SwaggerTag("文件服务")]
     public class FileController : ApiControllerBase
     {
         #region Services

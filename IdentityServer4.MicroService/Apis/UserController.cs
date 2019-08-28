@@ -33,6 +33,7 @@ namespace IdentityServer4.MicroService.Apis
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("User")]
+    [SwaggerTag("用户")]
     public class UserController : ApiControllerBase
     {
         #region Services

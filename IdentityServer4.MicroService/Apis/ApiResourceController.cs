@@ -41,6 +41,7 @@ namespace IdentityServer4.MicroService.Apis
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("ApiResource")]
+    [SwaggerTag("微服务")]
     public class ApiResourceController : ApiControllerBase
     {
         //sql cache options

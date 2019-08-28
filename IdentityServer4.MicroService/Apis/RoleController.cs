@@ -23,6 +23,7 @@ namespace IdentityServer4.MicroService.Apis
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Role")]
+    [SwaggerTag("角色")]
     public class RoleController : ApiControllerBase
     {
         #region 构造函数

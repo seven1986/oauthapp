@@ -18,12 +18,13 @@ using static IdentityServer4.MicroService.AppConstant;
 namespace IdentityServer4.MicroService.Apis
 {
     /// <summary>
-    /// 身份服务
+    /// 身份标识
     /// </summary>
     //[Route("IdentityResource")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("IdentityResource")]
+    [SwaggerTag("身份标识")]
     public class IdentityResourceController : ApiControllerBase
     {
         #region Services

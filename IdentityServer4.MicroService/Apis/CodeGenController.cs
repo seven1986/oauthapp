@@ -31,6 +31,7 @@ namespace IdentityServer4.MicroService.Apis
     //[Route("CodeGen")]
     [Produces("application/json")]
     [ApiExplorerSettingsDynamic("CodeGen")]
+    [SwaggerTag("代码生成")]
     public class CodeGenController : ApiControllerBase
     {
         #region Services

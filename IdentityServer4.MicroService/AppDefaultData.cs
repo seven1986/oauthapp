@@ -175,7 +175,9 @@ namespace IdentityServer4.MicroService
                     new IdentityResources.Address(),
                     new IdentityResources.Email(),
                     new IdentityResources.Phone(),
-                };
+                    new IdentityResource("role","Your user role",new List<string>(){ "role"}),
+                    new IdentityResource("permission","Your user permission",new List<string>(){ "permission"})
+            };
         }
 
         public static IEnumerable<ApiResource> GetApiResources()

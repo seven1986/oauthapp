@@ -27,6 +27,7 @@ namespace IdentityServer4.MicroService.Apis
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Tenant")]
+    [SwaggerTag("租户")]
     public class TenantController : ApiControllerBase
     {
         #region 构造函数

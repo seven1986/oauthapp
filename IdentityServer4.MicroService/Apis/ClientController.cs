@@ -28,6 +28,7 @@ namespace IdentityServer4.MicroService.Apis
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Client")]
+    [SwaggerTag("客户端")]
     public class ClientController : ApiControllerBase
     {
         #region Services

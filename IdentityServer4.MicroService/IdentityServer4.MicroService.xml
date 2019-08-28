@@ -596,7 +596,7 @@
         </member>
         <member name="T:IdentityServer4.MicroService.Apis.IdentityResourceController">
             <summary>
-            身份服务
+            身份标识
             </summary>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.IdentityResourceController.Get(IdentityServer4.MicroService.Models.Apis.Common.PagingRequest{IdentityServer4.MicroService.Models.Apis.IdentityResourceController.IdentityResourceGetRequest})">
