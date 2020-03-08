@@ -330,7 +330,7 @@ namespace IdentityServer4.MicroService.Apis
                                 //var sql = string.Format("DELETE ApiClaims WHERE ID IN ({0})",
                                 //            string.Join(",", DeleteEntities));
 
-                                configDb.Database.ExecuteSqlCommand($"DELETE ApiClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
+                                configDb.Database.ExecuteSqlRaw($"DELETE ApiClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -341,7 +341,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                configDb.Database.ExecuteSqlCommand($"UPDATE ApiClaims SET [Type]={x.Type} WHERE Id = {x.Id}");
+                                configDb.Database.ExecuteSqlRaw($"UPDATE ApiClaims SET [Type]={x.Type} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -352,7 +352,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                configDb.Database.ExecuteSqlCommand($"INSERT INTO ApiClaims VALUES ({source.Id},{x.Type})");
+                                configDb.Database.ExecuteSqlRaw($"INSERT INTO ApiClaims VALUES ({source.Id},{x.Type})");
                             });
                         }
                         #endregion
@@ -373,7 +373,7 @@ namespace IdentityServer4.MicroService.Apis
                                 //var sql = string.Format("DELETE ApiSecrets WHERE ID IN ({0})",
                                 //            string.Join(",", DeleteEntities));
 
-                                configDb.Database.ExecuteSqlCommand($"DELETE ApiSecrets WHERE ID IN ({string.Join(",", DeleteEntities)})");
+                                configDb.Database.ExecuteSqlRaw($"DELETE ApiSecrets WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -398,7 +398,7 @@ namespace IdentityServer4.MicroService.Apis
 
                                 //var sql = new RawSqlString("UPDATE ApiSecrets SET [Description]=@Description,[Expiration]=@Expiration,[Type]=@Type,[Value]=@Value WHERE Id = " + x.Id);
 
-                                configDb.Database.ExecuteSqlCommand($"UPDATE ApiSecrets SET [Description]={x.Description},[Expiration]={x.Expiration},[Type]={x.Type},[Value]={x.Value} WHERE Id = {x.Id}");
+                                configDb.Database.ExecuteSqlRaw($"UPDATE ApiSecrets SET [Description]={x.Description},[Expiration]={x.Expiration},[Type]={x.Type},[Value]={x.Value} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -424,7 +424,7 @@ namespace IdentityServer4.MicroService.Apis
 
                                 //var sql = new RawSqlString("INSERT INTO ApiSecrets VALUES (@ApiResourceId,@Description,@Expiration,@Type,@Value)");
 
-                                configDb.Database.ExecuteSqlCommand($"INSERT INTO ApiSecrets VALUES ({source.Id},{x.Description},{x.Expiration},{x.Type},{x.Value})");
+                                configDb.Database.ExecuteSqlRaw($"INSERT INTO ApiSecrets VALUES ({source.Id},{x.Description},{x.Expiration},{x.Type},{x.Value})");
                             });
                         }
                         #endregion
@@ -445,12 +445,12 @@ namespace IdentityServer4.MicroService.Apis
                                 //var sql = string.Format("DELETE ApiScopeClaims WHERE ApiScopeId IN ({0})",
                                 //           string.Join(",", DeleteEntities));
 
-                                configDb.Database.ExecuteSqlCommand($"DELETE ApiScopeClaims WHERE ApiScopeId IN ({string.Join(",", DeleteEntities)})");
+                                configDb.Database.ExecuteSqlRaw($"DELETE ApiScopeClaims WHERE ApiScopeId IN ({string.Join(",", DeleteEntities)})");
 
                                 //sql = string.Format("DELETE ApiScopes WHERE ID IN ({0})",
                                 //            string.Join(",", DeleteEntities));
 
-                                configDb.Database.ExecuteSqlCommand($"DELETE ApiScopes WHERE ID IN ({string.Join(",", DeleteEntities)})");
+                                configDb.Database.ExecuteSqlRaw($"DELETE ApiScopes WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -475,13 +475,13 @@ namespace IdentityServer4.MicroService.Apis
 
                                 //var sql = new RawSqlString("UPDATE ApiScopes SET [Description]=@Description,[DisplayName]=@DisplayName,[Emphasize]=@Emphasize,[Name]=@Name,[Required]=@Required,[ShowInDiscoveryDocument]=@ShowInDiscoveryDocument WHERE Id = " + x.Id);
 
-                                configDb.Database.ExecuteSqlCommand($"UPDATE ApiScopes SET [Description]={x.Description},[DisplayName]={x.DisplayName},[Emphasize]={x.Emphasize},[Name]={x.Name},[Required]={x.Required},[ShowInDiscoveryDocument]={x.ShowInDiscoveryDocument} WHERE Id = {x.Id}");
+                                configDb.Database.ExecuteSqlRaw($"UPDATE ApiScopes SET [Description]={x.Description},[DisplayName]={x.DisplayName},[Emphasize]={x.Emphasize},[Name]={x.Name},[Required]={x.Required},[ShowInDiscoveryDocument]={x.ShowInDiscoveryDocument} WHERE Id = {x.Id}");
 
-                                configDb.Database.ExecuteSqlCommand($"DELETE ApiScopeClaims WHERE ApiScopeId = {x.Id}");
+                                configDb.Database.ExecuteSqlRaw($"DELETE ApiScopeClaims WHERE ApiScopeId = {x.Id}");
 
                                 x.UserClaims.ForEach(claim =>
                                 {
-                                    configDb.Database.ExecuteSqlCommand($"INSERT INTO ApiScopeClaims VALUES ({x.Id},{claim.Type})");
+                                    configDb.Database.ExecuteSqlRaw($"INSERT INTO ApiScopeClaims VALUES ({x.Id},{claim.Type})");
                                 });
                             });
                         }
@@ -507,10 +507,10 @@ namespace IdentityServer4.MicroService.Apis
                                 if (!string.IsNullOrWhiteSpace(x.Description)) { _params[0].Value = x.Description; }
                                 if (!string.IsNullOrWhiteSpace(x.DisplayName)) { _params[1].Value = x.DisplayName; }
 
-                                var sql = new RawSqlString("INSERT INTO ApiScopes VALUES (@ApiResourceId,@Description,@DisplayName,@Emphasize,@Name,@Required,@ShowInDiscoveryDocument)\r\n" +
-                                  "SELECT @@identity");
+                                var sql = "INSERT INTO ApiScopes VALUES (@ApiResourceId,@Description,@DisplayName,@Emphasize,@Name,@Required,@ShowInDiscoveryDocument)\r\n" +
+                                  "SELECT @@identity";
 
-                                configDb.Database.ExecuteSqlCommand(sql, _params);
+                                configDb.Database.ExecuteSqlRaw(sql, _params);
 
                                 if (_params[_params.Length - 1].Value != null)
                                 {
@@ -518,8 +518,8 @@ namespace IdentityServer4.MicroService.Apis
 
                                     x.UserClaims.ForEach(claim =>
                                     {
-                                        configDb.Database.ExecuteSqlCommand(
-                                        new RawSqlString("INSERT INTO ApiScopeClaims VALUES (@ApiScopeId,@Type)"),
+                                        configDb.Database.ExecuteSqlRaw(
+                                        "INSERT INTO ApiScopeClaims VALUES (@ApiScopeId,@Type)",
                                         new SqlParameter("@ApiScopeId", _ApiScopeId),
                                         new SqlParameter("@Type", claim.Type));
                                     });

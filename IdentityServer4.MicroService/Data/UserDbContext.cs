@@ -147,11 +147,6 @@ namespace IdentityServer4.MicroService.Data
                 con.Open();
             }
 
-            //if (con.State != ConnectionState.Open)
-            //{
-            //    con.Open();
-            //}
-
             using (var cmd = con.CreateCommand())
             {
                 cmd.CommandText = sql;

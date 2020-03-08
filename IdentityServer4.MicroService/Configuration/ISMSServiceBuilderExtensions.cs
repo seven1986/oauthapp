@@ -1,20 +1,22 @@
 ﻿using IdentityServer4.MicroService;
 using IdentityServer4.MicroService.Configuration;
+using IdentityServer4.MicroService.Data;
+using IdentityServer4.MicroService.Services;
+using IdentityServer4.MicroService.Tenant;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.PlatformAbstractions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -26,19 +28,32 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 
 namespace Microsoft.Extensions.DependencyInjection
-{
+{ 
     public static class Id4MsApplicationBuilderExtensions
     {
+        private static IConfiguration configuration { get; }
+
+        static Id4MsApplicationBuilderExtensions()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true)
+                .AddJsonFile("appsettings.Development.json", true)
+                .AddJsonFile("appsettings.Staging.json", true)
+                .AddJsonFile("appsettings.Production.json", true)
+                .AddEnvironmentVariables();
+
+            configuration = builder.Build();
+        }
+
         /// <summary>
         /// Creates a builder.
         /// </summary>
         /// <param name="services">The services.</param>
         /// <param name="ismsOptions">The Options.</param>
-        /// <param name="configuration">The Configuration.</param>
         /// <returns></returns>
         public static IISMSServiceBuilder AddIdentityServer4MicroService(
             this IServiceCollection services,
-            IConfiguration configuration,
             Action<IdentityServer4MicroServiceOptions> ismsOptions = null)
         {
             var Options = new IdentityServer4MicroServiceOptions();
@@ -56,16 +71,32 @@ namespace Microsoft.Extensions.DependencyInjection
             #region Cors
             if (Options.EnableCors)
             {
-                builder.Services.AddCors(options =>
+                if (string.IsNullOrWhiteSpace(Options.Origins))
                 {
-                    options.AddPolicy("cors-allowanonymous", x =>
+                    try
                     {
-                        x.AllowAnyHeader();
-                        x.AllowAnyMethod();
-                        x.AllowAnyOrigin();
-                        x.AllowCredentials();
+                        Options.Origins = configuration["IdentityServer:Origins"];
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(Options.Origins))
+                {
+                    var Origins = Options.Origins.Split(new string[1] { "," }, StringSplitOptions.RemoveEmptyEntries);
+
+                    builder.Services.AddCors(options =>
+                    {
+                        options.AddPolicy("cors-allowanonymous", x =>
+                        {
+                            x.AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials()
+                            .WithOrigins(Origins);
+                        });
                     });
-                });
+                }
             }
             #endregion
 
@@ -173,36 +204,42 @@ namespace Microsoft.Extensions.DependencyInjection
                     //c.TagActionsBy(x => x.RelativePath.Split('/')[0]);
 
                     c.AddSecurityDefinition("SubscriptionKey",
-                        new ApiKeyScheme()
+                        new OpenApiSecurityScheme()
                         {
                             Name = "Ocp-Apim-Subscription-Key",
-                            Type = "apiKey",
-                            In = "header",
+                            Type = SecuritySchemeType.ApiKey,
+                            In = ParameterLocation.Header,
                             Description = "从开放平台申请的Subscription Key，从网关调用接口时必需传入。",
                         });
 
                     c.AddSecurityDefinition("AccessToken",
-                        new ApiKeyScheme()
+                        new OpenApiSecurityScheme()
                         {
                             Name = "Authorization",
-                            Type = "apiKey",
-                            In = "header",
+                            Type = SecuritySchemeType.ApiKey,
+                            In = ParameterLocation.Header,
                             Description = "从身份认证中心颁发的Token，根据接口要求决定是否传入。",
                         });
 
                     c.AddSecurityDefinition("OAuth2",
-                        new OAuth2Scheme()
+                        new OpenApiSecurityScheme()
                         {
-                            Type = "oauth2",
-                            Flow = "accessCode",
-                            AuthorizationUrl = Options.IdentityServerUri.OriginalString + "/connect/authorize",
-                            TokenUrl = Options.IdentityServerUri.OriginalString + "/connect/token",
-                            Description = "勾选授权范围，获取Token",
-                            Scopes = new Dictionary<string, string>(){
-                            { "openid","用户标识" },
-                            { "profile","用户资料" },
-                            { AppConstant.MicroServiceName+ ".all","所有接口权限"},
-                            }
+                            Type = SecuritySchemeType.OAuth2,
+                            Flows = new OpenApiOAuthFlows()
+                            {
+                                AuthorizationCode = new OpenApiOAuthFlow()
+                                {
+                                    AuthorizationUrl = new Uri(Options.IdentityServerUri.OriginalString + "/connect/authorize"),
+                                    TokenUrl = new Uri(Options.IdentityServerUri.OriginalString + "/connect/token"),
+                                    Scopes = new Dictionary<string, string>(){
+                                        { "openid","用户标识" },
+                                        { "profile","用户资料" },
+                                        { AppConstant.MicroServiceName+ ".all","所有接口权限"},
+                                    },
+                                }
+                            },
+
+                            Description = "勾选授权范围，获取access_token",
                         });
 
                     var provider = services.BuildServiceProvider()
@@ -210,14 +247,14 @@ namespace Microsoft.Extensions.DependencyInjection
 
                     foreach (var description in provider.ApiVersionDescriptions)
                     {
-                        c.SwaggerDoc(description.GroupName, new Info
+                        c.SwaggerDoc(description.GroupName, new OpenApiInfo
                         {
                             Title = AppConstant.AssemblyName,
                             Version = description.ApiVersion.ToString(),
-                            License = new License()
+                            License = new OpenApiLicense()
                             {
                                 Name = "MIT",
-                                Url = "https://spdx.org/licenses/MIT.html"
+                                Url = new Uri("https://spdx.org/licenses/MIT.html")
                             },
                             // Contact = new Contact()
                             // {
@@ -248,7 +285,7 @@ namespace Microsoft.Extensions.DependencyInjection
                         }
                     }
 
-                    if (Options.EnableISMSSwaggerGen)
+                    if (Options.EnableAPIDocuments)
                     {
                         c.IncludeXmlComments(ISMSSwaggerFilePath);
                     }
@@ -275,12 +312,12 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 builder.Services.AddMvc()
                     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-                    .AddDataAnnotationsLocalization()
-                    .AddJsonOptions(o =>
-                    {
-                        o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                        o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    });
+                    .AddDataAnnotationsLocalization();
+                    //.AddJsonOptions(o =>
+                    //{
+                    //    //o.JsonSerializerOptions..ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    //    //o.JsonSerializerOptions.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    //});
             }
             #endregion
 
@@ -328,6 +365,13 @@ namespace Microsoft.Extensions.DependencyInjection
             catch
             {
                 throw new KeyNotFoundException("appsettings.json文件，ConnectionStrings:DataBaseConnection");
+            }
+            finally
+            {
+                if (string.IsNullOrWhiteSpace(DBConnectionString))
+                {
+                    throw new KeyNotFoundException("appsettings.json文件，ConnectionStrings:DataBaseConnection");
+                }
             }
 
             var DbContextOptions = new Action<DbContextOptionsBuilder>(x =>
@@ -431,6 +475,132 @@ namespace Microsoft.Extensions.DependencyInjection
                    X509KeyStorageFlags.MachineKeySet |
                    X509KeyStorageFlags.PersistKeySet |
                    X509KeyStorageFlags.Exportable);
+        }
+
+        /// <summary>
+        /// Adds the required platform services.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <returns></returns>
+        static IISMSServiceBuilder AddCoreService(this IISMSServiceBuilder builder)
+        {
+            builder.Services.AddScoped<IPasswordHasher<AppUser>, IdentityMD5PasswordHasher>();
+            builder.Services.AddSingleton<TenantService>();
+            builder.Services.AddSingleton<RedisService>();
+            builder.Services.AddSingleton<SwaggerCodeGenService>();
+            builder.Services.AddSingleton<AzureStorageService>();
+            return builder;
+        }
+
+        /// <summary>
+        /// Adds the required platform services.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="config">The config.</param>
+        /// <returns></returns>
+        static IISMSServiceBuilder AddEmailService(this IISMSServiceBuilder builder, IConfigurationSection config)
+        {
+            builder.Services.Configure<EmailSenderOptions>(config);
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
+            builder.Services.AddTransient<EmailService>();
+            return builder;
+        }
+
+        /// <summary>
+        /// Adds the required platform services.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="config">The config.</param>
+        /// <returns></returns>
+        static IISMSServiceBuilder AddSmsService(this IISMSServiceBuilder builder, IConfigurationSection config)
+        {
+            builder.Services.Configure<SmsSenderOptions>(config);
+            builder.Services.AddTransient<ISmsSender, SmsSender>();
+            return builder;
+        }
+
+        /// <summary>
+        /// Configures EF implementation of TenantStore with IdentityServer.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="DbContextOptions">The store options action.</param>
+        /// <returns></returns>
+        static IISMSServiceBuilder AddTenantStore(
+            this IISMSServiceBuilder builder,
+            Action<DbContextOptionsBuilder> DbContextOptions)
+        {
+            builder.Services.AddDbContext<TenantDbContext>(DbContextOptions);
+            return builder;
+        }
+
+        /// <summary>
+        /// Configures EF implementation of IdentityStore with IdentityServer.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="DbContextOptions">The store options action.</param>
+        /// <param name="identityOptions">The identity options action.</param>
+        /// <returns></returns>
+        static IISMSServiceBuilder AddIdentityStore(
+            this IISMSServiceBuilder builder,
+            Action<DbContextOptionsBuilder> DbContextOptions,
+            Action<IdentityOptions> identityOptions = null)
+        {
+            builder.Services.AddDbContext<UserDbContext>(DbContextOptions);
+            builder.Services.AddScoped<UserDbContext>();
+            builder.Services.AddScoped<UserManager<AppUser>>();
+
+            builder.Services.AddIdentity<AppUser, AppRole>(identityOptions)
+                  .AddDefaultUI()
+                  .AddEntityFrameworkStores<UserDbContext>()
+                  .AddDefaultTokenProviders();
+
+            return builder;
+        }
+
+        /// <summary>
+        /// Configures SqlCache Service
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="connection">database connection string</param>
+        /// <param name="schemaName">table schemaName</param>
+        /// <param name="tableName">table name</param>
+        /// <returns></returns>
+        static IISMSServiceBuilder AddSqlCacheStore(
+           this IISMSServiceBuilder builder,
+           string connection, string schemaName = "dbo", string tableName = "AppCache")
+        {
+            builder.Services.AddDistributedSqlServerCache(options =>
+            {
+                options.ConnectionString = connection;
+                options.SchemaName = schemaName;
+                options.TableName = tableName;
+            });
+
+            return builder;
+        }
+
+
+        /// <summary>
+        /// Configures EF implementation of TenantStore with IdentityServer.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="DbContextOptions">The store options action.</param>
+        /// <param name="certificate">The certificate.</param>
+        /// <returns></returns>
+        static IISMSServiceBuilder AddIdentityServer(
+            this IISMSServiceBuilder builder,
+            Action<DbContextOptionsBuilder> DbContextOptions, X509Certificate2 certificate)
+        {
+            builder.Services.AddIdentityServer()
+             .AddSigningCredential(certificate)
+             .AddCustomAuthorizeRequestValidator<TenantAuthorizeRequestValidator>()
+             .AddCustomTokenRequestValidator<TenantTokenRequestValidator>()
+             .AddConfigurationStore(x => x.ConfigureDbContext = DbContextOptions)
+             .AddOperationalStore(x => x.ConfigureDbContext = DbContextOptions)
+             .AddExtensionGrantValidator<MobileCodeGrantValidator>()
+             .AddAspNetIdentity<AppUser>();
+
+            return builder;
         }
     }
 }

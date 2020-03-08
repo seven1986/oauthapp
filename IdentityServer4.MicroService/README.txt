@@ -1,12 +1,7 @@
-﻿Welcome to try IdentityServer4.MicroService!
+﻿欢迎使用IdentityServer4.MicroService
 
-How to start
+使用教程
 https://identityserver4microservice.readthedocs.io/en/latest/startserver.html
 
-
-discuss
-https://stackoverflow.com/questions/tagged/identityserver4Microservice
-
-
-issues
+问题反馈
 https://github.com/seven1986/IdentityServer4.MicroService/issues

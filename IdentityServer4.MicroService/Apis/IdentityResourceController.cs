@@ -224,7 +224,7 @@ namespace IdentityServer4.MicroService.Apis
                                 //var sql = string.Format("DELETE IdentityClaims WHERE ID IN ({0})",
                                 //            string.Join(",", DeleteEntities));
 
-                                configDb.Database.ExecuteSqlCommand($"DELETE IdentityClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
+                                configDb.Database.ExecuteSqlRaw($"DELETE IdentityClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -235,7 +235,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                configDb.Database.ExecuteSqlCommand($"UPDATE IdentityClaims SET [Type]={x.Type} WHERE Id = {x.Id}");
+                                configDb.Database.ExecuteSqlRaw($"UPDATE IdentityClaims SET [Type]={x.Type} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -246,7 +246,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                configDb.Database.ExecuteSqlCommand($"INSERT INTO IdentityClaims VALUES ({source.Id},{x.Type})");
+                                configDb.Database.ExecuteSqlRaw($"INSERT INTO IdentityClaims VALUES ({source.Id},{x.Type})");
                             });
                         }
                         #endregion
