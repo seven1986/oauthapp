@@ -3144,12 +3144,11 @@
             DI extension methods for adding IdentityServer
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthBuilderExtensions.AddIdentityServer4MicroServiceOAuths(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthBuilderExtensions.AddIdentityServer4MicroServiceOAuths(Microsoft.AspNetCore.Authentication.AuthenticationBuilder)">
             <summary>
             Creates a builder.
             </summary>
             <param name="authBuilder">The services.</param>
-            <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
     </members>

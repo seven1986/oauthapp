@@ -346,7 +346,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 isAuth.ApiName = AppConstant.MicroServiceName;
                 isAuth.RequireHttpsMetadata = true;
             })
-            .AddIdentityServer4MicroServiceOAuths(configuration);
+            .AddIdentityServer4MicroServiceOAuths();
             #endregion
 
             #region ResponseCaching

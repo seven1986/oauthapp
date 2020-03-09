@@ -18,8 +18,8 @@ namespace IdentityServer4.MicroService.Apis
     /// <summary>
     /// Blob
     /// </summary>
-    [Route("Blob")]
     [Produces("application/json")]
+    [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Blob")]
     [SwaggerTag("文件服务")]
     public class BlobController : ApiControllerBase
@@ -77,7 +77,7 @@ namespace IdentityServer4.MicroService.Apis
         /// </remarks>
         [HttpPost("File")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:blob.post")]
-        [SwaggerOperation(OperationId = "Blob/File", Description = @"视频支持：avi,quicktime,asf,wmv,flv,matroska,mp4,webm,wmv,flash,mpeg。文档支持：pdf,word,excel")]
+        [SwaggerOperation(OperationId = "BlobFile", Description = @"视频支持：avi,quicktime,asf,wmv,flv,matroska,mp4,webm,wmv,flash,mpeg。文档支持：pdf,word,excel")]
         public ApiResult<string> File(IFormFile value, [FromQuery][RegularExpression("[a-zA-Z0-9]{5,30}")]string folderName)
         {
             if (value == null)
@@ -151,7 +151,7 @@ namespace IdentityServer4.MicroService.Apis
         /// </remarks>
         [HttpPost("Image")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:blob.image")]
-        [SwaggerOperation(OperationId = "Blob/Image")]
+        [SwaggerOperation(OperationId = "BlobImage")]
         public ApiResult<string> UploadImage(IFormFile value, [FromQuery][RegularExpression("[a-zA-Z0-9]{5,30}")]string folderName)
         {
             if (value == null)
@@ -208,7 +208,7 @@ namespace IdentityServer4.MicroService.Apis
         /// <returns></returns>
         [HttpPost("Base64")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:blob.base64")]
-        [SwaggerOperation("Blob/Base64")]
+        [SwaggerOperation(OperationId = "BlobBase64")]
         public ApiResult<string> Base64([FromBody]string value, [FromQuery][RegularExpression("[a-zA-Z0-9]{5,30}")]string folderName)
         {
             try
@@ -244,7 +244,7 @@ namespace IdentityServer4.MicroService.Apis
         /// </remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
-        [SwaggerOperation(OperationId = "FileCodes")]
+        [SwaggerOperation(OperationId = "BlobCodes")]
         public List<ApiCodeModel> Codes()
         {
             var result = _Codes<FileControllerEnums>();
