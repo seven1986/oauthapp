@@ -339,6 +339,50 @@
             <param name="expiredIn">有效时间</param>
             <returns></returns>
         </member>
+        <member name="T:IdentityServer4.MicroService.Apis.BlobController">
+            <summary>
+            Blob
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.BlobController.File(Microsoft.AspNetCore.Http.IFormFile,System.String)">
+            <summary>
+            Blob - 上传视频或文档
+            </summary>
+            <param name="value">视频(小于20MB),文档文件(小于10MB)</param>
+            <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
+            <returns></returns>
+            <remarks>
+            Scope：isms.file.post
+            </remarks>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.BlobController.UploadImage(Microsoft.AspNetCore.Http.IFormFile,System.String)">
+            <summary>
+            Blob - 上传图片
+            </summary>
+            <param name="value">图片文件</param>
+            <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
+            <returns></returns>
+            <remarks>
+            Scope：isms.file.image
+            </remarks>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.BlobController.Base64(System.String,System.String)">
+            <summary>
+            Blob - 上传Base64格式的png图片
+            </summary>
+            <param name="value">base64字符串</param>
+            <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.BlobController.Codes">
+            <summary>
+            文件 - 错误码表
+            </summary>
+            <returns></returns>
+            <remarks>
+            文件代码对照表
+            </remarks>
+        </member>
         <member name="T:IdentityServer4.MicroService.Apis.ClientController">
             <summary>
             客户端
@@ -558,40 +602,6 @@
             <param name="value"></param>
             <returns></returns>
             <remarks>
-            </remarks>
-        </member>
-        <member name="T:IdentityServer4.MicroService.Apis.FileController">
-            <summary>
-            文件
-            </summary>
-        </member>
-        <member name="M:IdentityServer4.MicroService.Apis.FileController.Post(Microsoft.AspNetCore.Http.IFormFile)">
-            <summary>
-            文件 - 上传视频或文档
-            </summary>
-            <param name="value"></param>
-            <returns></returns>
-            <remarks>
-            Scope：isms.file.post
-            </remarks>
-        </member>
-        <member name="M:IdentityServer4.MicroService.Apis.FileController.Image(Microsoft.AspNetCore.Http.IFormFile)">
-            <summary>
-            文件 - 上传图片
-            </summary>
-            <param name="value">图片文件</param>
-            <returns></returns>
-            <remarks>
-            Scope：isms.file.image
-            </remarks>
-        </member>
-        <member name="M:IdentityServer4.MicroService.Apis.FileController.Codes">
-            <summary>
-            文件 - 错误码表
-            </summary>
-            <returns></returns>
-            <remarks>
-            文件代码对照表
             </remarks>
         </member>
         <member name="T:IdentityServer4.MicroService.Apis.IdentityResourceController">
