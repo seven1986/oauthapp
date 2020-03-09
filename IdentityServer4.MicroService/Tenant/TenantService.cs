@@ -3,14 +3,13 @@ using IdentityServer4.MicroService.Models.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.Data.SqlClient;
 using System.Linq;
 
 namespace IdentityServer4.MicroService.Tenant
 {
     public class TenantService
     {
-        IMemoryCache _cache;
+       readonly IMemoryCache _cache;
 
         public TenantService(
             IMemoryCache cache)
@@ -20,11 +19,12 @@ namespace IdentityServer4.MicroService.Tenant
 
         public MemoryCacheEntryOptions CacheEntryOptions(double duration)
         {
-            var options = new MemoryCacheEntryOptions();
+            var MemoryCacheOptions = new MemoryCacheEntryOptions();
 
-            options.SetAbsoluteExpiration(TimeSpan.FromSeconds(duration));
+            MemoryCacheOptions.SetAbsoluteExpiration(
+                TimeSpan.FromSeconds(duration));
 
-            return options;
+            return MemoryCacheOptions;
         }
 
         public Tuple<TenantPublicModel, TenantPrivateModel> GetTenant(TenantDbContext _db, string host)
@@ -52,17 +52,16 @@ namespace IdentityServer4.MicroService.Tenant
                 if (_tenantId > 0)
                 {
                     var tenant = _db.Tenants
-                        .Include(x => x.Claims).AsNoTracking()
-                        .Include(x => x.Hosts).AsNoTracking()
-                        .Include(x => x.Properties).AsNoTracking()
-                        .Where(x => x.Id == _tenantId).AsNoTracking()
-                        .FirstOrDefault();
+                        .Include(x => x.Claims)
+                        .Include(x => x.Hosts)
+                        .Include(x => x.Properties)
+                        .FirstOrDefault(x => x.Id == _tenantId);
 
                     tenant_public = tenant.ToPublicModel();
 
                     tenant_private = tenant.ToPrivateModel();
 
-                    var cacheOptions = CacheEntryOptions(tenant.CacheDuration);
+                    var cacheOptions = CacheEntryOptions(TenantConstant.SchemesReflushDuration);
 
                     _cache.Set(Unique_TenantPublic_CacheKey, tenant_public, cacheOptions);
 

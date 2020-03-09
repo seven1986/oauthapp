@@ -204,7 +204,7 @@ namespace IdentityServer4.MicroService.Tenant
         /// <summary>
         /// 租户数据缓存时长，单位秒
         /// </summary>
-        public long CacheDuration { get; set; } = 5L;
+        public long CacheDuration { get; set; } = 5;
 
         /// <summary>
         /// 所有者用户Id

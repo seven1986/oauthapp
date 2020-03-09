@@ -18,12 +18,13 @@ using static IdentityServer4.MicroService.AppConstant;
 namespace IdentityServer4.MicroService.Apis
 {
     /// <summary>
-    /// 身份服务
+    /// 身份标识
     /// </summary>
     //[Route("IdentityResource")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("IdentityResource")]
+    [SwaggerTag("身份标识")]
     public class IdentityResourceController : ApiControllerBase
     {
         #region Services
@@ -223,7 +224,7 @@ namespace IdentityServer4.MicroService.Apis
                                 //var sql = string.Format("DELETE IdentityClaims WHERE ID IN ({0})",
                                 //            string.Join(",", DeleteEntities));
 
-                                configDb.Database.ExecuteSqlCommand($"DELETE IdentityClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
+                                configDb.Database.ExecuteSqlRaw($"DELETE IdentityClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -234,7 +235,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                configDb.Database.ExecuteSqlCommand($"UPDATE IdentityClaims SET [Type]={x.Type} WHERE Id = {x.Id}");
+                                configDb.Database.ExecuteSqlRaw($"UPDATE IdentityClaims SET [Type]={x.Type} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -245,7 +246,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                configDb.Database.ExecuteSqlCommand($"INSERT INTO IdentityClaims VALUES ({source.Id},{x.Type})");
+                                configDb.Database.ExecuteSqlRaw($"INSERT INTO IdentityClaims VALUES ({source.Id},{x.Type})");
                             });
                         }
                         #endregion

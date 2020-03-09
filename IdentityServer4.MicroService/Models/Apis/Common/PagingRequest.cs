@@ -32,7 +32,7 @@ namespace IdentityServer4.MicroService.Models.Apis.Common
         /// <summary>
         /// 将获取的数据条数
         /// </summary>
-        [Range(1, 2000)]
+        [Range(0, int.MaxValue)]
         [DefaultValue(10)]
         public int? take { get; set; } = 10;
 

@@ -23,6 +23,7 @@ namespace IdentityServer4.MicroService.Apis
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Role")]
+    [SwaggerTag("角色")]
     public class RoleController : ApiControllerBase
     {
         #region 构造函数
@@ -169,7 +170,7 @@ namespace IdentityServer4.MicroService.Apis
                                 //var sql = string.Format("DELETE AspNetRoleClaims WHERE ID IN ({0})",
                                 //            string.Join(",", DeleteEntities));
 
-                                db.Database.ExecuteSqlCommand($"DELETE AspNetRoleClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
+                                db.Database.ExecuteSqlRaw($"DELETE AspNetRoleClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -191,7 +192,7 @@ namespace IdentityServer4.MicroService.Apis
                                 //if (!string.IsNullOrWhiteSpace(x.ClaimType)) { _params[0].Value = x.ClaimType; }
                                 //if (!string.IsNullOrWhiteSpace(x.ClaimValue)) { _params[1].Value = x.ClaimValue; }
 
-                                db.Database.ExecuteSqlCommand($"UPDATE AspNetRoleClaims SET [ClaimType]={x.ClaimType},[ClaimValue]={x.ClaimValue} WHERE Id = {x.Id}");
+                                db.Database.ExecuteSqlRaw($"UPDATE AspNetRoleClaims SET [ClaimType]={x.ClaimType},[ClaimValue]={x.ClaimValue} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -202,8 +203,6 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                var sql = new RawSqlString("INSERT INTO AspNetRoleClaims VALUES (@ClaimType,@ClaimValue,@RoleId)");
-
                                 var _params = new SqlParameter[]
                                 {
                                     new SqlParameter("@RoleId", source.Id),
@@ -215,7 +214,7 @@ namespace IdentityServer4.MicroService.Apis
 
                                 if (!string.IsNullOrWhiteSpace(x.ClaimValue)) { _params[2].Value = x.ClaimValue; }
 
-                                db.Database.ExecuteSqlCommand(sql, _params);
+                                db.Database.ExecuteSqlRaw("INSERT INTO AspNetRoleClaims VALUES (@ClaimType,@ClaimValue,@RoleId)", _params);
                             });
                         }
                         #endregion

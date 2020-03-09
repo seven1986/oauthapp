@@ -8,16 +8,16 @@ namespace IdentityServer4.MicroService
     {
         public ApiExplorerSettingsDynamic(string name)
         {
-            if (ISAPIDocuments.Count > 0 && ISAPIDocuments.Contains(IdentityServerAPIDocuments.ALL))
+            if (APIDocuments.Count > 0 && APIDocuments.Contains(APIDocumentEnums.ALL))
             {
                 IgnoreApi = true;
             }
 
             else if (!string.IsNullOrWhiteSpace(name))
             {
-                var APIDocumentEnum = Enum.Parse<IdentityServerAPIDocuments>(name);
+                var APIDocumentEnum = Enum.Parse<APIDocumentEnums>(name);
 
-                if (ISAPIDocuments.Contains(APIDocumentEnum))
+                if (APIDocuments.Contains(APIDocumentEnum))
                 {
                     IgnoreApi = true;
                 }

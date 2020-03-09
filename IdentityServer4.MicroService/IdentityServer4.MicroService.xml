@@ -339,6 +339,50 @@
             <param name="expiredIn">有效时间</param>
             <returns></returns>
         </member>
+        <member name="T:IdentityServer4.MicroService.Apis.BlobController">
+            <summary>
+            Blob
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.BlobController.File(Microsoft.AspNetCore.Http.IFormFile,System.String)">
+            <summary>
+            Blob - 上传视频或文档
+            </summary>
+            <param name="value">视频(小于20MB),文档文件(小于10MB)</param>
+            <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
+            <returns></returns>
+            <remarks>
+            Scope：isms.file.post
+            </remarks>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.BlobController.UploadImage(Microsoft.AspNetCore.Http.IFormFile,System.String)">
+            <summary>
+            Blob - 上传图片
+            </summary>
+            <param name="value">图片文件</param>
+            <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
+            <returns></returns>
+            <remarks>
+            Scope：isms.file.image
+            </remarks>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.BlobController.Base64(System.String,System.String)">
+            <summary>
+            Blob - 上传Base64格式的png图片
+            </summary>
+            <param name="value">base64字符串</param>
+            <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.BlobController.Codes">
+            <summary>
+            文件 - 错误码表
+            </summary>
+            <returns></returns>
+            <remarks>
+            文件代码对照表
+            </remarks>
+        </member>
         <member name="T:IdentityServer4.MicroService.Apis.ClientController">
             <summary>
             客户端
@@ -560,43 +604,9 @@
             <remarks>
             </remarks>
         </member>
-        <member name="T:IdentityServer4.MicroService.Apis.FileController">
-            <summary>
-            文件
-            </summary>
-        </member>
-        <member name="M:IdentityServer4.MicroService.Apis.FileController.Post(Microsoft.AspNetCore.Http.IFormFile)">
-            <summary>
-            文件 - 上传视频或文档
-            </summary>
-            <param name="value"></param>
-            <returns></returns>
-            <remarks>
-            Scope：isms.file.post
-            </remarks>
-        </member>
-        <member name="M:IdentityServer4.MicroService.Apis.FileController.Image(Microsoft.AspNetCore.Http.IFormFile)">
-            <summary>
-            文件 - 上传图片
-            </summary>
-            <param name="value">图片文件</param>
-            <returns></returns>
-            <remarks>
-            Scope：isms.file.image
-            </remarks>
-        </member>
-        <member name="M:IdentityServer4.MicroService.Apis.FileController.Codes">
-            <summary>
-            文件 - 错误码表
-            </summary>
-            <returns></returns>
-            <remarks>
-            文件代码对照表
-            </remarks>
-        </member>
         <member name="T:IdentityServer4.MicroService.Apis.IdentityResourceController">
             <summary>
-            身份服务
+            身份标识
             </summary>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.IdentityResourceController.Get(IdentityServer4.MicroService.Models.Apis.Common.PagingRequest{IdentityServer4.MicroService.Models.Apis.IdentityResourceController.IdentityResourceGetRequest})">
@@ -1027,11 +1037,6 @@
                     &lt;member name=&quot;M:IdentityServer4.MicroService.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,IdentityServe [字符串的其余部分被截断]&quot;; 的本地化字符串。
              </summary>
         </member>
-        <member name="P:IdentityServer4.MicroService.Attributes.EmailConfigAttribute.subject">
-            <summary>
-            邮件标题
-            </summary>
-        </member>
         <member name="F:IdentityServer4.MicroService.CacheKeys.AzureApiManagementKeys.Host">
             <summary>
             Security>>Credentials.Management API URL
@@ -1179,6 +1184,43 @@
             <value>
             The services.
             </value>
+        </member>
+        <member name="T:IdentityServer4.MicroService.Controllers.AccountController">
+            <summary>
+            This sample controller implements a typical login/logout/provision workflow for local and external accounts.
+            The login service encapsulates the interactions with the user data store. This data store is in-memory only and cannot be used for production!
+            The interaction service provides a way for the UI to communicate with identityserver for validation and context retrieval
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Controllers.AccountController.Login(System.String)">
+            <summary>
+            Entry point into the login workflow
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Controllers.AccountController.Login(IdentityServer4.MicroService.Controllers.LoginInputModel,System.String)">
+            <summary>
+            Handle postback from username/password login
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Controllers.AccountController.Logout(System.String)">
+            <summary>
+            Show logout page
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Controllers.AccountController.Logout(IdentityServer4.MicroService.Controllers.LogoutInputModel)">
+            <summary>
+            Handle logout page postback
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Controllers.ExternalController.Challenge(System.String,System.String)">
+            <summary>
+            initiate roundtrip to external authentication provider
+            </summary>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Controllers.ExternalController.Callback">
+            <summary>
+            Post processing of external authentication
+            </summary>
         </member>
         <member name="T:IdentityServer4.MicroService.Controllers.ConsentController">
             <summary>
@@ -1739,7 +1781,7 @@
         </member>
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.IdentityServerUri">
             <summary>
-            当前项目的网址(默认读取IdentityServer:Host)
+            当前项目的网址(默认读取配置文件的IdentityServer:Host节点)
             如：https://127.0.0.1（必须为https，网址结尾无需带/）
             </summary>
         </member>
@@ -1750,17 +1792,20 @@
         </member>
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableSwaggerGen">
             <summary>
-            启用SwaggerGen（默认true）
+            启用SwaggerGen（默认true）。
+            https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger?view=aspnetcore-3.1
             </summary>
         </member>
-        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableISMSSwaggerGen">
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableAPIDocuments">
             <summary>
-            启用IdentityServer4Microservice的SwaggerGen（默认true）
+            启用IdentityServer4Microservice的API文档（默认true）。
+            可通过IdentityServer4MicroServiceOptions.APIDocuments配置显示的接口文档
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableSwaggerUI">
             <summary>
-            启用SwaggerUI（默认true）
+            启用SwaggerUI（默认true）。
+            https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger?view=aspnetcore-3.1
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableCors">
@@ -1770,17 +1815,21 @@
         </member>
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableLocalization">
             <summary>
-            启用多语言（默认true）
+            启用多语言（默认true）。
+            https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization?view=aspnetcore-3.1
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableApiVersioning">
             <summary>
-            启用版本（默认true）
+            启用API版本号功能（默认true）。
+            https://github.com/Microsoft/aspnet-api-versioning/wiki/How-to-Version-Your-Service
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableWebEncoders">
             <summary>
-            启用WebEncoders
+            启用WebEncoders（默认true）。
+            将 HtmlEncoder、JavaScriptEncoder和UrlEncoder添加到services中。
+            https://docs.microsoft.com/zh-cn/dotnet/api/microsoft.extensions.dependencyinjection.encoderservicecollectionextensions.addwebencoders
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableResponseCaching">
@@ -1790,7 +1839,8 @@
         </member>
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.AspNetCoreIdentityOptions">
             <summary>
-            配置参考官方文档
+            配置参考官方文档。
+            https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity-configuration?view=aspnetcore-3.1
             </summary>
         </member>
         <member name="M:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.HideIdentityServerDocument">
@@ -1798,9 +1848,15 @@
             隐藏IdentityServer MicroserviceAPI文档
             </summary>
         </member>
-        <member name="M:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.HideIdentityServerDocument(IdentityServer4.MicroService.IdentityServerAPIDocuments[])">
+        <member name="M:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.HideIdentityServerDocument(IdentityServer4.MicroService.APIDocumentEnums[])">
             <summary>
             隐藏IdentityServer MicroserviceAPI文档
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.Origins">
+            <summary>
+            允许跨域的url集合(默认读取配置文件的IdentityServer:Origins节点)，多个网址有英文逗号分隔。
+            为空代表不允许任何网址跨域
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceCreateVersionRequest.revisionId">
@@ -3008,14 +3064,30 @@
             属性集合
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ISMSServiceBuilderExtensionsCore.AddCoreService(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder)">
+        <member name="P:Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder.Services">
+            <summary>
+            Gets the services.
+            </summary>
+            <value>
+            The services.
+            </value>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer4MicroService(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{IdentityServer4.MicroService.IdentityServer4MicroServiceOptions})">
+            <summary>
+            Creates a builder.
+            </summary>
+            <param name="services">The services.</param>
+            <param name="ismsOptions">The Options.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddCoreService(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder)">
             <summary>
             Adds the required platform services.
             </summary>
             <param name="builder">The builder.</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ISMSServiceBuilderExtensionsCore.AddEmailService(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,Microsoft.Extensions.Configuration.IConfigurationSection)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddEmailService(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,Microsoft.Extensions.Configuration.IConfigurationSection)">
             <summary>
             Adds the required platform services.
             </summary>
@@ -3023,7 +3095,7 @@
             <param name="config">The config.</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ISMSServiceBuilderExtensionsCore.AddSmsService(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,Microsoft.Extensions.Configuration.IConfigurationSection)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddSmsService(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,Microsoft.Extensions.Configuration.IConfigurationSection)">
             <summary>
             Adds the required platform services.
             </summary>
@@ -3031,7 +3103,7 @@
             <param name="config">The config.</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ISMSServiceBuilderExtensionsCore.AddTenantStore(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddTenantStore(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">
             <summary>
             Configures EF implementation of TenantStore with IdentityServer.
             </summary>
@@ -3039,7 +3111,7 @@
             <param name="DbContextOptions">The store options action.</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ISMSServiceBuilderExtensionsCore.AddIdentityStore(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})">
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityStore(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})">
             <summary>
             Configures EF implementation of IdentityStore with IdentityServer.
             </summary>
@@ -3048,7 +3120,7 @@
             <param name="identityOptions">The identity options action.</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ISMSServiceBuilderExtensionsCore.AddSqlCacheStore(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.String,System.String,System.String)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddSqlCacheStore(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.String,System.String,System.String)">
             <summary>
             Configures SqlCache Service
             </summary>
@@ -3058,7 +3130,7 @@
             <param name="tableName">table name</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ISMSServiceBuilderExtensionsCore.AddIdentityServer(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Security.Cryptography.X509Certificates.X509Certificate2)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Security.Cryptography.X509Certificates.X509Certificate2)">
             <summary>
             Configures EF implementation of TenantStore with IdentityServer.
             </summary>
@@ -3072,1134 +3144,12 @@
             DI extension methods for adding IdentityServer
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthBuilderExtensions.AddIdentityServer4MicroServiceOAuths(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthBuilderExtensions.AddIdentityServer4MicroServiceOAuths(Microsoft.AspNetCore.Authentication.AuthenticationBuilder)">
             <summary>
             Creates a builder.
             </summary>
             <param name="authBuilder">The services.</param>
-            <param name="configuration">The configuration.</param>
             <returns></returns>
-        </member>
-        <member name="P:Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder.Services">
-            <summary>
-            Gets the services.
-            </summary>
-            <value>
-            The services.
-            </value>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer4MicroService(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action{IdentityServer4.MicroService.IdentityServer4MicroServiceOptions})">
-            <summary>
-            Creates a builder.
-            </summary>
-            <param name="services">The services.</param>
-            <param name="ismsOptions">The Options.</param>
-            <param name="configuration">The Configuration.</param>
-            <returns></returns>
-        </member>
-        <member name="T:Microsoft.Extensions.DependencyInjection.AmazonAuthenticationExtensions">
-            <summary>
-            Extension methods to add Amazon authentication capabilities to an HTTP application pipeline.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.AmazonAuthenticationExtensions.AddAmazon(Microsoft.AspNetCore.Authentication.AuthenticationBuilder)">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Amazon.AmazonAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Amazon authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.AmazonAuthenticationExtensions.AddAmazon(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Action{AspNet.Security.OAuth.Amazon.AmazonAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Amazon.AmazonAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Amazon authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="configuration">The delegate used to configure the Amazon options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.AmazonAuthenticationExtensions.AddAmazon(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.Action{AspNet.Security.OAuth.Amazon.AmazonAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Amazon.AmazonAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Amazon authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the Amazon options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.AmazonAuthenticationExtensions.AddAmazon(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.String,System.Action{AspNet.Security.OAuth.Amazon.AmazonAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Amazon.AmazonAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Amazon authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="caption">The optional display name associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the Amazon options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="T:Microsoft.Extensions.DependencyInjection.GitHubAuthenticationExtensions">
-            <summary>
-            Extension methods to add GitHub authentication capabilities to an HTTP application pipeline.
-            </summary>
-        </member>
-        <member name="T:Microsoft.Extensions.DependencyInjection.GitterAuthenticationExtensions">
-            <summary>
-            Extension methods to add Gitter authentication capabilities to an HTTP application pipeline.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.GitterAuthenticationExtensions.AddGitter(Microsoft.AspNetCore.Authentication.AuthenticationBuilder)">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Gitter.GitterAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Gitter authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.GitterAuthenticationExtensions.AddGitter(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Action{AspNet.Security.OAuth.Gitter.GitterAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Gitter.GitterAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Gitter authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="configuration">The delegate used to configure the OpenID 2.0 options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.GitterAuthenticationExtensions.AddGitter(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.Action{AspNet.Security.OAuth.Gitter.GitterAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Gitter.GitterAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Gitter authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the Gitter options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.GitterAuthenticationExtensions.AddGitter(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.String,System.Action{AspNet.Security.OAuth.Gitter.GitterAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Gitter.GitterAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Gitter authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="caption">The optional display name associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the Gitter options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="T:Microsoft.Extensions.DependencyInjection.InstagramAuthenticationExtensions">
-            <summary>
-            Extension methods to add Instagram authentication capabilities to an HTTP application pipeline.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.InstagramAuthenticationExtensions.AddInstagram(Microsoft.AspNetCore.Authentication.AuthenticationBuilder)">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Instagram.InstagramAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Instagram authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <returns>A reference to this instance after the operation has completed.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.InstagramAuthenticationExtensions.AddInstagram(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Action{AspNet.Security.OAuth.Instagram.InstagramAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Instagram.InstagramAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Instagram authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="configuration">The delegate used to configure the OpenID 2.0 options.</param>
-            <returns>A reference to this instance after the operation has completed.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.InstagramAuthenticationExtensions.AddInstagram(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.Action{AspNet.Security.OAuth.Instagram.InstagramAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Instagram.InstagramAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Instagram authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the Instagram options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.InstagramAuthenticationExtensions.AddInstagram(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.String,System.Action{AspNet.Security.OAuth.Instagram.InstagramAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Instagram.InstagramAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Instagram authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="caption">The optional display name associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the Instagram options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="T:Microsoft.Extensions.DependencyInjection.LinkedInAuthenticationExtensions">
-            <summary>
-            Extension methods to add LinkedIn authentication capabilities to an HTTP application pipeline.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.LinkedInAuthenticationExtensions.AddLinkedIn(Microsoft.AspNetCore.Authentication.AuthenticationBuilder)">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables LinkedIn authentication capabilities.
-            </summary>
-            <param name="builder">The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/> to add the middleware to.</param>
-            <returns>A reference to this instance after the operation has completed.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.LinkedInAuthenticationExtensions.AddLinkedIn(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Action{AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables LinkedIn authentication capabilities.
-            </summary>
-            <param name="builder">The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/> to add the middleware to.</param>
-            <param name="configuration">The delegate used to configure the OpenID 2.0 options.</param>
-            <returns>A reference to this instance after the operation has completed.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.LinkedInAuthenticationExtensions.AddLinkedIn(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.Action{AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables LinkedIn authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the LinkedIn options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.LinkedInAuthenticationExtensions.AddLinkedIn(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.String,System.Action{AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables LinkedIn authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="caption">The optional display name associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the LinkedIn options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="T:Microsoft.Extensions.DependencyInjection.PaypalAuthenticationExtensions">
-            <summary>
-            Extension methods to add Paypal authentication capabilities to an HTTP application pipeline.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.PaypalAuthenticationExtensions.AddPaypal(Microsoft.AspNetCore.Authentication.AuthenticationBuilder)">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Paypal.PaypalAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Paypal authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <returns>A reference to this instance after the operation has completed.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.PaypalAuthenticationExtensions.AddPaypal(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Action{AspNet.Security.OAuth.Paypal.PaypalAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Paypal.PaypalAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Paypal authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="configuration">The delegate used to configure the OpenID 2.0 options.</param>
-            <returns>A reference to this instance after the operation has completed.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.PaypalAuthenticationExtensions.AddPaypal(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.Action{AspNet.Security.OAuth.Paypal.PaypalAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Paypal.PaypalAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Paypal authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the Paypal options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.PaypalAuthenticationExtensions.AddPaypal(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.String,System.Action{AspNet.Security.OAuth.Paypal.PaypalAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Paypal.PaypalAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Paypal authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="caption">The optional display name associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the Paypal options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="T:Microsoft.Extensions.DependencyInjection.QQExtensions">
-            <summary>
-            Extension methods to add QQ authentication capabilities to an HTTP application pipeline.
-            </summary>
-        </member>
-        <member name="T:Microsoft.Extensions.DependencyInjection.RedditAuthenticationExtensions">
-            <summary>
-            Extension methods to add Reddit authentication capabilities to an HTTP application pipeline.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.RedditAuthenticationExtensions.AddReddit(Microsoft.AspNetCore.Authentication.AuthenticationBuilder)">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Reddit.RedditAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Reddit authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <returns>A reference to this instance after the operation has completed.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.RedditAuthenticationExtensions.AddReddit(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Action{AspNet.Security.OAuth.Reddit.RedditAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Reddit.RedditAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Reddit authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="configuration">The delegate used to configure the OpenID 2.0 options.</param>
-            <returns>A reference to this instance after the operation has completed.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.RedditAuthenticationExtensions.AddReddit(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.Action{AspNet.Security.OAuth.Reddit.RedditAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Reddit.RedditAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Reddit authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the Reddit options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.RedditAuthenticationExtensions.AddReddit(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.String,System.Action{AspNet.Security.OAuth.Reddit.RedditAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Reddit.RedditAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Reddit authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="caption">The optional display name associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the Reddit options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="T:Microsoft.Extensions.DependencyInjection.SalesforceAuthenticationExtensions">
-            <summary>
-            Extension methods to add Salesforce authentication capabilities to an HTTP application pipeline.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.SalesforceAuthenticationExtensions.AddSalesforce(Microsoft.AspNetCore.Authentication.AuthenticationBuilder)">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Salesforce authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.SalesforceAuthenticationExtensions.AddSalesforce(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Action{AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Salesforce authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="configuration">The delegate used to configure the OpenID 2.0 options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.SalesforceAuthenticationExtensions.AddSalesforce(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.Action{AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Salesforce authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the Salesforce options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.SalesforceAuthenticationExtensions.AddSalesforce(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.String,System.Action{AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables Salesforce authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="caption">The optional display name associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the Salesforce options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="T:Microsoft.Extensions.DependencyInjection.VisualStudioAuthenticationExtensions">
-            <summary>
-            Extension methods to add  authentication capabilities to an HTTP application pipeline.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.VisualStudioAuthenticationExtensions.AddVisualStudio(Microsoft.AspNetCore.Authentication.AuthenticationBuilder)">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables VisualStudio authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.VisualStudioAuthenticationExtensions.AddVisualStudio(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Action{AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables VisualStudio authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="configuration">The delegate used to configure the OpenID 2.0 options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.VisualStudioAuthenticationExtensions.AddVisualStudio(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.Action{AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables VisualStudio authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the VisualStudio options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.VisualStudioAuthenticationExtensions.AddVisualStudio(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.String,System.Action{AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables VisualStudio authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="caption">The optional display name associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the VisualStudio options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="T:Microsoft.Extensions.DependencyInjection.WeiboAuthenticationExtensions">
-            <summary>
-            Extension methods to add Weibo authentication capabilities to an HTTP application pipeline.
-            </summary>
-        </member>
-        <member name="T:Microsoft.Extensions.DependencyInjection.WeixinExtensions">
-            <summary>
-            Extension methods to add Weixin authentication capabilities to an HTTP application pipeline.
-            </summary>
-        </member>
-        <member name="T:Microsoft.Extensions.DependencyInjection.WordPressAuthenticationExtensions">
-            <summary>
-            Extension methods to add WordPress authentication capabilities to an HTTP application pipeline.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.WordPressAuthenticationExtensions.AddWordPress(Microsoft.AspNetCore.Authentication.AuthenticationBuilder)">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.WordPress.WordPressAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables WordPress authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <returns>A reference to this instance after the operation has completed.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.WordPressAuthenticationExtensions.AddWordPress(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Action{AspNet.Security.OAuth.WordPress.WordPressAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.WordPress.WordPressAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables WordPress authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="configuration">The delegate used to configure the OpenID 2.0 options.</param>
-            <returns>A reference to this instance after the operation has completed.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.WordPressAuthenticationExtensions.AddWordPress(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.Action{AspNet.Security.OAuth.WordPress.WordPressAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.WordPress.WordPressAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables WordPress authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the WordPress options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.WordPressAuthenticationExtensions.AddWordPress(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.String,System.Action{AspNet.Security.OAuth.WordPress.WordPressAuthenticationOptions})">
-            <summary>
-            Adds <see cref="T:AspNet.Security.OAuth.WordPress.WordPressAuthenticationHandler"/> to the specified
-            <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>, which enables WordPress authentication capabilities.
-            </summary>
-            <param name="builder">The authentication builder.</param>
-            <param name="scheme">The authentication scheme associated with this instance.</param>
-            <param name="caption">The optional display name associated with this instance.</param>
-            <param name="configuration">The delegate used to configure the WordPress options.</param>
-            <returns>The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder"/>.</returns>
-        </member>
-        <member name="T:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults">
-            <summary>
-            Default values used by the GitHub authentication middleware.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults.AuthenticationScheme">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.Name"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults.DisplayName">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.DisplayName"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults.Issuer">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions.ClaimsIssuer"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults.CallbackPath">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults.AuthorizationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.AuthorizationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults.TokenEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.TokenEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults.UserInformationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.UserInformationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.GitHub.GitHubDefaults.UserEmailsEndpoint">
-            <summary>
-            Default value for <see cref="!:GitHubAuthenticationOptions.UserEmailsEndpoint"/>.
-            </summary>
-        </member>
-        <member name="T:Microsoft.AspNetCore.Authentication.GitHub.GitHubOptions">
-            <summary>
-            Defines a set of options used by <see cref="T:Microsoft.AspNetCore.Authentication.GitHub.GitHubHandler"/>.
-            </summary>
-        </member>
-        <member name="P:Microsoft.AspNetCore.Authentication.GitHub.GitHubOptions.UserEmailsEndpoint">
-            <summary>
-            Gets or sets the address of the endpoint exposing
-            the email addresses associated with the logged in user.
-            </summary>
-        </member>
-        <member name="T:Microsoft.AspNetCore.Authentication.QQ.QQDefaults">
-            <summary>
-            Default values for QQ authentication.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.QQ.QQDefaults.AuthenticationScheme">
-            <summary>
-            Default value for <see cref="!:AuthenticationOptions.AuthenticationScheme"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.QQ.QQDefaults.CallbackPath">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.QQ.QQDefaults.Issuer">
-            <summary>
-            Default value for <see cref="!:AuthenticationOptions.ClaimsIssuer"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.QQ.QQDefaults.AuthorizationEndpoint">
-            <summary>
-            Default value for <see cref="!:OAuthOptions.AuthorizationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.QQ.QQDefaults.TokenEndpoint">
-            <summary>
-            Default value for <see cref="!:OAuthOptions.TokenEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.QQ.QQDefaults.UserIdentificationEndpoint">
-            <summary>
-            Default value for <see cref="!:QQAuthenticationOptions.UserIdentificationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.QQ.QQDefaults.UserInformationEndpoint">
-            <summary>
-            Default value for <see cref="!:OAuthOptions.UserInformationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="T:Microsoft.AspNetCore.Authentication.QQ.QQHelper">
-            <summary>
-            Contains static methods that allow to extract user's information from a <see cref="T:Newtonsoft.Json.Linq.JObject"/>
-            instance retrieved from QQ after a successful authentication process.
-            </summary>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Authentication.QQ.QQHelper.GetNickname(Newtonsoft.Json.Linq.JObject)">
-            <summary>
-            Gets the user's nickname.
-            </summary>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Authentication.QQ.QQHelper.GetPicture(Newtonsoft.Json.Linq.JObject)">
-            <summary>
-            Gets the user's QQ profile picture URL (30px*30px).
-            </summary>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Authentication.QQ.QQHelper.GetPictureMedium(Newtonsoft.Json.Linq.JObject)">
-            <summary>
-            Gets the user's QQ profile picture URL (50px*50px).
-            </summary>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Authentication.QQ.QQHelper.GetPictureFull(Newtonsoft.Json.Linq.JObject)">
-            <summary>
-            Gets the user's QQ profile picture URL (100px*100px).
-            </summary>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Authentication.QQ.QQHelper.GetAvatar(Newtonsoft.Json.Linq.JObject)">
-            <summary>
-            Gets the user's QQ avatar URL (40px*40px).
-            </summary>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Authentication.QQ.QQHelper.GetAvatarFull(Newtonsoft.Json.Linq.JObject)">
-            <summary>
-            Gets the user's QQ space avatar URL (100px*100px).
-            </summary>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Authentication.QQ.QQHelper.GetGender(Newtonsoft.Json.Linq.JObject)">
-            <summary>
-            Gets the user's gender.
-            </summary>
-        </member>
-        <member name="T:Microsoft.AspNetCore.Authentication.QQ.QQOptions">
-            <summary>
-            Defines a set of options used by <see cref="T:Microsoft.AspNetCore.Authentication.QQ.QQHandler"/>.
-            </summary>
-        </member>
-        <member name="P:Microsoft.AspNetCore.Authentication.QQ.QQOptions.UserIdentificationEndpoint">
-            <summary>
-            Gets or sets the URL of the user identification endpoint (aka "OpenID endpoint").
-            </summary>
-        </member>
-        <member name="P:Microsoft.AspNetCore.Authentication.Twitter.TwitterHandler2.Events">
-            <summary>
-            The handler calls methods on the events which give the application control at certain points where processing is occurring.
-            If it is not provided a default instance is supplied which does nothing when the methods are called.
-            </summary>
-        </member>
-        <member name="T:Microsoft.AspNetCore.Authentication.Weibo.WeiboDefaults">
-            <summary>
-            Default values for Weibo authentication.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.Weibo.WeiboDefaults.AuthenticationScheme">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.Name"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.Weibo.WeiboDefaults.DisplayName">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.DisplayName"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.Weibo.WeiboDefaults.CallbackPath">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.Weibo.WeiboDefaults.Issuer">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions.ClaimsIssuer"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.Weibo.WeiboDefaults.AuthorizationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.AuthorizationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.Weibo.WeiboDefaults.TokenEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.TokenEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.Weibo.WeiboDefaults.UserInformationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.UserInformationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="T:Microsoft.AspNetCore.Authentication.Weibo.WeiboOptions">
-            <summary>
-            Defines a set of options used by <see cref="T:Microsoft.AspNetCore.Authentication.Weibo.WeiboHandler"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.Weixin.WeixinDefaults.AuthenticationScheme">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.Name"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.Weixin.WeixinDefaults.DisplayName">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.DisplayName"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.Weixin.WeixinDefaults.CallbackPath">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.Weixin.WeixinDefaults.Issuer">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions.ClaimsIssuer"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.Weixin.WeixinDefaults.AuthorizationEndpoint">
-            <summary>
-            Default value for <see cref="!:OAuthOptions.AuthorizationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.Weixin.WeixinDefaults.TokenEndpoint">
-            <summary>
-            Default value for <see cref="!:OAuthOptions.TokenEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:Microsoft.AspNetCore.Authentication.Weixin.WeixinDefaults.UserInformationEndpoint">
-            <summary>
-            Default value for <see cref="!:OAuthOptions.UserInformationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="T:Microsoft.AspNetCore.Authentication.Weixin.WeixinOptions">
-            <summary>
-            Defines a set of options used by <see cref="T:Microsoft.AspNetCore.Authentication.Weixin.WeixinHandler"/>.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.Amazon.AmazonAuthenticationDefaults">
-            <summary>
-            Default values used by the Amazon authentication middleware.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Amazon.AmazonAuthenticationDefaults.AuthenticationScheme">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.Name"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Amazon.AmazonAuthenticationDefaults.DisplayName">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.DisplayName"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Amazon.AmazonAuthenticationDefaults.Issuer">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions.ClaimsIssuer"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Amazon.AmazonAuthenticationDefaults.CallbackPath">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Amazon.AmazonAuthenticationDefaults.AuthorizationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.AuthorizationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Amazon.AmazonAuthenticationDefaults.TokenEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.TokenEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Amazon.AmazonAuthenticationDefaults.UserInformationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.UserInformationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.Amazon.AmazonAuthenticationOptions">
-            <summary>
-            Defines a set of options used by <see cref="T:AspNet.Security.OAuth.Amazon.AmazonAuthenticationHandler"/>.
-            </summary>
-        </member>
-        <member name="M:AspNet.Security.OAuth.Amazon.AmazonAuthenticationOptions.#ctor">
-            <summary>
-            Initialize a new instance of the <see cref="T:AspNet.Security.OAuth.Amazon.AmazonAuthenticationOptions"/> class.
-            </summary>
-        </member>
-        <member name="P:AspNet.Security.OAuth.Amazon.AmazonAuthenticationOptions.Fields">
-            <summary>
-            Gets the list of fields to retrieve from the user information endpoint.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.Gitter.GitterAuthenticationDefaults">
-            <summary>
-            Default values used by the Gitter authentication middleware.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Gitter.GitterAuthenticationDefaults.AuthenticationScheme">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.Name"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Gitter.GitterAuthenticationDefaults.DisplayName">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.DisplayName"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Gitter.GitterAuthenticationDefaults.Issuer">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions.ClaimsIssuer"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Gitter.GitterAuthenticationDefaults.CallbackPath">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Gitter.GitterAuthenticationDefaults.AuthorizationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.AuthorizationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Gitter.GitterAuthenticationDefaults.TokenEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.TokenEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Gitter.GitterAuthenticationDefaults.UserInformationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.UserInformationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.Instagram.InstagramAuthenticationDefaults">
-            <summary>
-            Default values used by the Instagram authentication middleware.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Instagram.InstagramAuthenticationDefaults.AuthenticationScheme">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.Name"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Instagram.InstagramAuthenticationDefaults.DisplayName">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.DisplayName"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Instagram.InstagramAuthenticationDefaults.Issuer">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions.ClaimsIssuer"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Instagram.InstagramAuthenticationDefaults.CallbackPath">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Instagram.InstagramAuthenticationDefaults.AuthorizationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.AuthorizationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Instagram.InstagramAuthenticationDefaults.TokenEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.TokenEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Instagram.InstagramAuthenticationDefaults.UserInformationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.UserInformationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.Instagram.InstagramAuthenticationOptions">
-            <summary>
-            Defines a set of options used by <see cref="T:AspNet.Security.OAuth.Instagram.InstagramAuthenticationHandler"/>.
-            </summary>
-        </member>
-        <member name="P:AspNet.Security.OAuth.Instagram.InstagramAuthenticationOptions.UseSignedRequests">
-            <summary>
-            Gets or sets a boolean indicating whether the userinfo requests
-            should be signed before being sent to the Instagram API.
-            Enabling this option is recommended when the client application
-            has been configured to enforce signed requests.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationDefaults">
-            <summary>
-            Default values used by the LinkedIn authentication middleware.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationDefaults.AuthenticationScheme">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.Name"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationDefaults.DisplayName">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.DisplayName"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationDefaults.Issuer">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions.ClaimsIssuer"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationDefaults.CallbackPath">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationDefaults.AuthorizationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.AuthorizationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationDefaults.TokenEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.TokenEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationDefaults.UserInformationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.UserInformationEndpoint"/>.
-            Note: the endpoint must follow the LinkedIn convention and contain a '~' to append fields to, if they are specified.
-            See https://developer.linkedin.com/docs/signin-with-linkedin for more information.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationOptions">
-            <summary>
-            Defines a set of options used by <see cref="T:AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationHandler"/>.
-            </summary>
-        </member>
-        <member name="P:AspNet.Security.OAuth.LinkedIn.LinkedInAuthenticationOptions.Fields">
-            <summary>
-            Gets the list of fields to retrieve from the user information endpoint.
-            See https://developer.linkedin.com/docs/fields/basic-profile for more information.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.Paypal.PaypalAuthenticationDefaults">
-            <summary>
-            Default values used by the Paypal authentication middleware.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Paypal.PaypalAuthenticationDefaults.AuthenticationScheme">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.Name"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Paypal.PaypalAuthenticationDefaults.DisplayName">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.DisplayName"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Paypal.PaypalAuthenticationDefaults.Issuer">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions.ClaimsIssuer"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Paypal.PaypalAuthenticationDefaults.CallbackPath">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Paypal.PaypalAuthenticationDefaults.AuthorizationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.AuthorizationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Paypal.PaypalAuthenticationDefaults.TokenEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.TokenEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Paypal.PaypalAuthenticationDefaults.UserInformationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.UserInformationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.Paypal.PaypalAuthenticationOptions">
-            <summary>
-            Defines a set of options used by <see cref="T:AspNet.Security.OAuth.Paypal.PaypalAuthenticationHandler"/>.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.Reddit.RedditAuthenticationDefaults">
-            <summary>
-            Default values used by the Reddit authentication middleware.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Reddit.RedditAuthenticationDefaults.AuthenticationScheme">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.Name"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Reddit.RedditAuthenticationDefaults.DisplayName">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.DisplayName"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Reddit.RedditAuthenticationDefaults.Issuer">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions.ClaimsIssuer"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Reddit.RedditAuthenticationDefaults.CallbackPath">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Reddit.RedditAuthenticationDefaults.AuthorizationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.AuthorizationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Reddit.RedditAuthenticationDefaults.TokenEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.TokenEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Reddit.RedditAuthenticationDefaults.UserInformationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.UserInformationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.Reddit.RedditAuthenticationOptions">
-            <summary>
-            Defines a set of options used by <see cref="T:AspNet.Security.OAuth.Reddit.RedditAuthenticationHandler"/>.
-            </summary>
-        </member>
-        <member name="P:AspNet.Security.OAuth.Reddit.RedditAuthenticationOptions.UserAgent">
-            <summary>
-            Gets or sets the user agent string to pass when sending requests to Reddit.
-            Setting this option is strongly recommended to prevent request throttling.
-            For more information, visit https://github.com/reddit/reddit/wiki/API.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationDefaults">
-            <summary>
-            Default values used by the Salesforce authentication middleware.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationDefaults.AuthenticationScheme">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.Name"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationDefaults.DisplayName">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.DisplayName"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationDefaults.Issuer">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions.ClaimsIssuer"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationDefaults.CallbackPath">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationDefaults.Environment">
-            <summary>
-            Default value for the Salesforce environment (production or test)
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationDefaults.Production.AuthorizationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.AuthorizationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationDefaults.Production.TokenEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.TokenEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationDefaults.Test.AuthorizationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.AuthorizationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationDefaults.Test.TokenEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.TokenEndpoint"/>.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationEnvironment">
-            <summary>
-            Defines a list of environments used to determine the appropriate
-            OAuth2 endpoints when communicating with Salesforce.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationEnvironment.Production">
-            <summary>
-            Use login.salesforce.com in the OAuth2 endpoints.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationEnvironment.Test">
-            <summary>
-            Uses test.salesforce.com in the OAuth2 endpoints.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationOptions">
-            <summary>
-            Defines a set of options used by <see cref="T:AspNet.Security.OAuth.Salesforce.SalesforceAuthenticationHandler"/>.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationDefaults">
-            <summary>
-            Default values used by the Visual Studio authentication middleware.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationDefaults.AuthenticationScheme">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.Name"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationDefaults.DisplayName">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.DisplayName"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationDefaults.Issuer">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions.ClaimsIssuer"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationDefaults.CallbackPath">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationDefaults.AuthorizationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.AuthorizationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationDefaults.TokenEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.TokenEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationDefaults.UserInformationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.UserInformationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationOptions">
-            <summary>
-            Defines a set of options used by <see cref="T:AspNet.Security.OAuth.VisualStudio.VisualStudioAuthenticationHandler"/>.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.WordPress.WordPressAuthenticationDefaults">
-            <summary>
-            Default values used by the WordPress authentication middleware.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.WordPress.WordPressAuthenticationDefaults.AuthenticationScheme">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.Name"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.WordPress.WordPressAuthenticationDefaults.DisplayName">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationScheme.DisplayName"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.WordPress.WordPressAuthenticationDefaults.Issuer">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions.ClaimsIssuer"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.WordPress.WordPressAuthenticationDefaults.CallbackPath">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.WordPress.WordPressAuthenticationDefaults.AuthorizationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.AuthorizationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.WordPress.WordPressAuthenticationDefaults.TokenEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.TokenEndpoint"/>.
-            </summary>
-        </member>
-        <member name="F:AspNet.Security.OAuth.WordPress.WordPressAuthenticationDefaults.UserInformationEndpoint">
-            <summary>
-            Default value for <see cref="P:Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions.UserInformationEndpoint"/>.
-            </summary>
-        </member>
-        <member name="T:AspNet.Security.OAuth.WordPress.WordPressAuthenticationOptions">
-            <summary>
-            Defines a set of options used by <see cref="T:AspNet.Security.OAuth.WordPress.WordPressAuthenticationHandler"/>.
-            </summary>
         </member>
     </members>
 </doc>

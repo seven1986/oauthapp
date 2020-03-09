@@ -15,14 +15,13 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
+                .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AppCache", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(449)");
 
                     b.Property<DateTimeOffset>("AbsoluteExpiration")
@@ -31,7 +30,8 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
                     b.Property<DateTimeOffset>("ExpiresAtTime")
                         .HasColumnType("datetimeoffset(7)");
 
-                    b.Property<long>("SlidingExpirationInSeconds");
+                    b.Property<long>("SlidingExpirationInSeconds")
+                        .HasColumnType("bigint");
 
                     b.Property<byte[]>("Value")
                         .HasColumnType("varbinary(max)");
@@ -45,15 +45,19 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
@@ -70,13 +74,17 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("RoleId");
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -89,90 +97,126 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccessFailedCount");
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Address");
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Avatar");
+                    b.Property<string>("Avatar")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Birthday");
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CountryCode");
+                    b.Property<string>("CountryCode")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateDate");
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<long>("DataAmount");
+                    b.Property<long>("DataAmount")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<bool>("EmailConfirmed");
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Gender");
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
-                    b.Property<DateTime>("LastUpdateTime");
+                    b.Property<DateTime>("LastUpdateTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Lineage")
                         .HasColumnType("sys.hierarchyid");
 
-                    b.Property<string>("LineageIDs");
+                    b.Property<string>("LineageIDs")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("LockFlag");
+                    b.Property<bool>("LockFlag")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("LockoutEnabled");
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd");
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<decimal>("Money")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("NickName");
+                    b.Property<string>("NickName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<long>("ParentUserID");
+                    b.Property<long>("ParentUserID")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("PasswordHash");
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Permission");
+                    b.Property<string>("Permission")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("PhoneNumberConfirmed");
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
 
-                    b.Property<long>("Points");
+                    b.Property<long>("Points")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("PoolIDs");
+                    b.Property<string>("PoolIDs")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Remark");
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SecurityStamp");
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Stature")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Status");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("TwoFactorEnabled");
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("TypeIDs");
+                    b.Property<string>("TypeIDs")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserKey");
+                    b.Property<Guid>("UserKey")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.Property<decimal>("Weight")
@@ -195,13 +239,17 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("UserId");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -212,13 +260,17 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AppUserLogin", b =>
                 {
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ProviderKey");
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ProviderDisplayName");
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("UserId");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -229,9 +281,11 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AppUserRole", b =>
                 {
-                    b.Property<long>("UserId");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
-                    b.Property<long>("RoleId");
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -242,13 +296,17 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AppUserToken", b =>
                 {
-                    b.Property<long>("UserId");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Value");
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -259,11 +317,14 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("ApiResourceId");
+                    b.Property<long>("ApiResourceId")
+                        .HasColumnType("bigint");
 
-                    b.Property<long>("UserId");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -276,11 +337,14 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("ClientId");
+                    b.Property<long>("ClientId")
+                        .HasColumnType("bigint");
 
-                    b.Property<long>("UserId");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -293,27 +357,32 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("Commission")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("CommissionLastUpdate");
+                    b.Property<DateTime>("CommissionLastUpdate")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("CommissionLv1")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("CommissionLv1LastUpdate");
+                    b.Property<DateTime>("CommissionLv1LastUpdate")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("CommissionLv2")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("CommissionLv2LastUpdate");
+                    b.Property<DateTime>("CommissionLv2LastUpdate")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("CommissionLv3")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("CommissionLv3LastUpdate");
+                    b.Property<DateTime>("CommissionLv3LastUpdate")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("Earned")
                         .HasColumnType("decimal(18,2)");
@@ -321,20 +390,26 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
                     b.Property<decimal>("EarnedDiff")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("EarnedDiffLastUpdate");
+                    b.Property<DateTime>("EarnedDiffLastUpdate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<long>("Members");
+                    b.Property<long>("Members")
+                        .HasColumnType("bigint");
 
-                    b.Property<DateTime>("MembersLastUpdate");
+                    b.Property<DateTime>("MembersLastUpdate")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("Sales")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("SalesLastUpdate");
+                    b.Property<DateTime>("SalesLastUpdate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<long>("TenantId");
+                    b.Property<long>("TenantId")
+                        .HasColumnType("bigint");
 
-                    b.Property<long>("UserId");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -347,13 +422,17 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("FileType");
+                    b.Property<int>("FileType")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Files");
+                    b.Property<string>("Files")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("UserId");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -366,13 +445,17 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Key");
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("UserId");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("Value");
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -385,11 +468,14 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("TenantId");
+                    b.Property<long>("TenantId")
+                        .HasColumnType("bigint");
 
-                    b.Property<long>("UserId");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -400,95 +486,107 @@ namespace IdentityServer4.MicroService.Data.Migrations.User
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AppRoleClaim", b =>
                 {
-                    b.HasOne("IdentityServer4.MicroService.Data.AppRole")
+                    b.HasOne("IdentityServer4.MicroService.Data.AppRole", null)
                         .WithMany("Claims")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AppUserClaim", b =>
                 {
-                    b.HasOne("IdentityServer4.MicroService.Data.AppUser")
+                    b.HasOne("IdentityServer4.MicroService.Data.AppUser", null)
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AppUserLogin", b =>
                 {
-                    b.HasOne("IdentityServer4.MicroService.Data.AppUser")
+                    b.HasOne("IdentityServer4.MicroService.Data.AppUser", null)
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AppUserRole", b =>
                 {
-                    b.HasOne("IdentityServer4.MicroService.Data.AppRole")
+                    b.HasOne("IdentityServer4.MicroService.Data.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("IdentityServer4.MicroService.Data.AppUser")
+                    b.HasOne("IdentityServer4.MicroService.Data.AppUser", null)
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AppUserToken", b =>
                 {
-                    b.HasOne("IdentityServer4.MicroService.Data.AppUser")
+                    b.HasOne("IdentityServer4.MicroService.Data.AppUser", null)
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AspNetUserApiResource", b =>
                 {
-                    b.HasOne("IdentityServer4.MicroService.Data.AppUser")
+                    b.HasOne("IdentityServer4.MicroService.Data.AppUser", null)
                         .WithMany("ApiResources")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AspNetUserClient", b =>
                 {
-                    b.HasOne("IdentityServer4.MicroService.Data.AppUser")
+                    b.HasOne("IdentityServer4.MicroService.Data.AppUser", null)
                         .WithMany("Clients")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AspNetUserDistributor", b =>
                 {
-                    b.HasOne("IdentityServer4.MicroService.Data.AppUser")
+                    b.HasOne("IdentityServer4.MicroService.Data.AppUser", null)
                         .WithMany("Distributors")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AspNetUserFile", b =>
                 {
-                    b.HasOne("IdentityServer4.MicroService.Data.AppUser")
+                    b.HasOne("IdentityServer4.MicroService.Data.AppUser", null)
                         .WithMany("Files")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AspNetUserProperty", b =>
                 {
-                    b.HasOne("IdentityServer4.MicroService.Data.AppUser")
+                    b.HasOne("IdentityServer4.MicroService.Data.AppUser", null)
                         .WithMany("Properties")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Data.AspNetUserTenant", b =>
                 {
-                    b.HasOne("IdentityServer4.MicroService.Data.AppUser")
+                    b.HasOne("IdentityServer4.MicroService.Data.AppUser", null)
                         .WithMany("Tenants")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

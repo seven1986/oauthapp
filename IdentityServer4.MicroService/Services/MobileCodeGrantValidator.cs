@@ -1,5 +1,4 @@
-﻿using IdentityServer4.MicroService.Attributes;
-using IdentityServer4.MicroService.CacheKeys;
+﻿using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;

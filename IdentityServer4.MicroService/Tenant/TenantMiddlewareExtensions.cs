@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.MicroService;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Tenant;
@@ -19,7 +20,7 @@ namespace Microsoft.AspNetCore.Builder
         public static IApplicationBuilder UseIdentityServer4MicroService(
            this IApplicationBuilder builder)
         {
-            var env = builder.ApplicationServices.GetService<IHostingEnvironment>();
+            var env = builder.ApplicationServices.GetService<IWebHostEnvironment>();
 
             var Configuration = builder.ApplicationServices.GetService<IConfiguration>();
 
@@ -46,7 +47,7 @@ namespace Microsoft.AspNetCore.Builder
 
             if (AppConstant.InitializeDatabase)
             {
-                InitializeDatabase(builder,options);
+                InitializeDatabase(builder, options);
             }
 
             builder.UseMiddleware<TenantMiddleware>();
@@ -54,6 +55,8 @@ namespace Microsoft.AspNetCore.Builder
             builder.UseAuthentication();
 
             builder.UseIdentityServer();
+
+            builder.UseAuthorization();
 
             if (options.EnableLocalization)
             {
@@ -66,20 +69,20 @@ namespace Microsoft.AspNetCore.Builder
             {
                 builder.UseSwagger(x =>
                 {
-                    x.PreSerializeFilters.Add((doc, req) =>
-                    {
-                        doc.Schemes = new[] { "https" };
-                        doc.Host = options.IdentityServerUri.Authority;
-                        doc.Security = new List<IDictionary<string, IEnumerable<string>>>()
-                        {
-                            new Dictionary<string, IEnumerable<string>>()
-                            {
-                                { "SubscriptionKey", new string[]{ } },
-                                { "AccessToken", new string[]{ } },
-                                { "OAuth2", new string[]{ } },
-                            }
-                        };
-                    });
+                    //x.PreSerializeFilters.Add((doc, req) =>
+                    //{
+                    //    doc.Schemes = new[] { "https" };
+                    //    doc.Host = options.IdentityServerUri.Authority;
+                    //    doc.Security = new List<IDictionary<string, IEnumerable<string>>>()
+                    //    {
+                    //        new Dictionary<string, IEnumerable<string>>()
+                    //        {
+                    //            { "SubscriptionKey", new string[]{ } },
+                    //            { "AccessToken", new string[]{ } },
+                    //            { "OAuth2", new string[]{ } },
+                    //        }
+                    //    };
+                    //});
                 });
             }
 
@@ -104,11 +107,16 @@ namespace Microsoft.AspNetCore.Builder
                         c.DocExpansion(DocExpansion.None);
                     });
             }
-            
+
             if (options.EnableResponseCaching)
             {
                 builder.UseResponseCaching();
             }
+
+            builder.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+            });
 
             return builder;
         }
@@ -132,6 +140,14 @@ namespace Microsoft.AspNetCore.Builder
 
                 TestService(serviceProvider, typeof(TenantDbContext), logger,
                     "No storage mechanism for Tenants specified. Use the 'AddTenantStore' extension method to register a development version.");
+
+                TestService(serviceProvider, typeof(ConfigurationDbContext), logger,
+                    "No storage mechanism for Users specified. Use the 'AddIdentityStore' extension method to register a development version.");
+
+
+                TestService(serviceProvider, typeof(PersistedGrantDbContext), logger,
+                    "No storage mechanism for Users specified. Use the 'AddIdentityStore' extension method to register a development version.");
+
             }
         }
 

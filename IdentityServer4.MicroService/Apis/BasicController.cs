@@ -24,7 +24,6 @@ using static IdentityServer4.MicroService.AppConstant;
 
 namespace IdentityServer4.MicroService.Apis
 {
-    //[ServiceFilter(typeof(ApiLoggerService), IsReusable = true)]
     [ApiController]
     [Route("api/[controller]")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme)]

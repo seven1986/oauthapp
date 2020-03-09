@@ -27,6 +27,7 @@ namespace IdentityServer4.MicroService.Apis
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Tenant")]
+    [SwaggerTag("租户")]
     public class TenantController : ApiControllerBase
     {
         #region 构造函数
@@ -243,7 +244,7 @@ namespace IdentityServer4.MicroService.Apis
                                 //var sql = string.Format("DELETE AppTenantClaims WHERE ID IN ({0})",
                                 //            string.Join(",", DeleteEntities));
 
-                                tenantDb.Database.ExecuteSqlCommand($"DELETE AppTenantClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
+                                tenantDb.Database.ExecuteSqlRaw($"DELETE AppTenantClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -254,7 +255,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                tenantDb.Database.ExecuteSqlCommand($"UPDATE AppTenantClaims SET [ClaimType]={x.ClaimType},[ClaimValue]={x.ClaimValue} WHERE Id = {x.Id}");
+                                tenantDb.Database.ExecuteSqlRaw($"UPDATE AppTenantClaims SET [ClaimType]={x.ClaimType},[ClaimValue]={x.ClaimValue} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -265,7 +266,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                tenantDb.Database.ExecuteSqlCommand($"INSERT INTO AppTenantClaims VALUES ({x.ClaimType},{x.ClaimValue},{source.Id})");
+                                tenantDb.Database.ExecuteSqlRaw($"INSERT INTO AppTenantClaims VALUES ({x.ClaimType},{x.ClaimValue},{source.Id})");
                             });
                         }
                         #endregion
@@ -286,7 +287,7 @@ namespace IdentityServer4.MicroService.Apis
                                 //var sql = string.Format("DELETE AppTenantProperties WHERE ID IN ({0})",
                                 //            string.Join(",", DeleteEntities));
 
-                                tenantDb.Database.ExecuteSqlCommand($"DELETE AppTenantProperties WHERE ID IN ({string.Join(",", DeleteEntities)})");
+                                tenantDb.Database.ExecuteSqlRaw($"DELETE AppTenantProperties WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -297,7 +298,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                tenantDb.Database.ExecuteSqlCommand($"UPDATE AppTenantProperties SET [Key]={x.Key},[Value]={x.Value} WHERE Id = {x.Id}");
+                                tenantDb.Database.ExecuteSqlRaw($"UPDATE AppTenantProperties SET [Key]={x.Key},[Value]={x.Value} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -308,7 +309,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                tenantDb.Database.ExecuteSqlCommand($"INSERT INTO AppTenantProperties VALUES ({x.Key},{x.Value},{source.Id})");
+                                tenantDb.Database.ExecuteSqlRaw($"INSERT INTO AppTenantProperties VALUES ({x.Key},{x.Value},{source.Id})");
                             });
                         }
                         #endregion
@@ -329,7 +330,7 @@ namespace IdentityServer4.MicroService.Apis
                                 //var sql = string.Format("DELETE AppTenantHosts WHERE ID IN ({0})",
                                 //            string.Join(",", DeleteEntities));
 
-                                tenantDb.Database.ExecuteSqlCommand($"DELETE AppTenantHosts WHERE ID IN ({string.Join(",", DeleteEntities)})");
+                                tenantDb.Database.ExecuteSqlRaw($"DELETE AppTenantHosts WHERE ID IN ({string.Join(",", DeleteEntities)})");
                             }
                         }
                         #endregion
@@ -340,7 +341,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             UpdateEntities.ForEach(x =>
                             {
-                                tenantDb.Database.ExecuteSqlCommand($"UPDATE AppTenantHosts SET [HostName]= {x.HostName} WHERE Id = {x.Id}");
+                                tenantDb.Database.ExecuteSqlRaw($"UPDATE AppTenantHosts SET [HostName]= {x.HostName} WHERE Id = {x.Id}");
                             });
                         }
                         #endregion
@@ -351,7 +352,7 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             NewEntities.ForEach(x =>
                             {
-                                tenantDb.Database.ExecuteSqlCommand($"INSERT INTO AppTenantHosts VALUES ({source.Id},{x.HostName})");
+                                tenantDb.Database.ExecuteSqlRaw($"INSERT INTO AppTenantHosts VALUES ({source.Id},{x.HostName})");
                             });
                         }
                         #endregion
@@ -401,7 +402,7 @@ namespace IdentityServer4.MicroService.Apis
 
             await tenantDb.SaveChangesAsync();
 
-            tenantDb.Database.ExecuteSqlCommand($"DELETE AspNetUserTenants WHERE AppTenantId = {id}");
+            tenantDb.Database.ExecuteSqlRaw($"DELETE AspNetUserTenants WHERE AppTenantId = {id}");
 
             return new ApiResult<long>(id);
         }

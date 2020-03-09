@@ -15,7 +15,7 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
+                .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -23,23 +23,32 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("CacheDuration");
+                    b.Property<long>("CacheDuration")
+                        .HasColumnType("bigint");
 
-                    b.Property<DateTime>("CreateDate");
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("IdentityServerIssuerUri");
+                    b.Property<string>("IdentityServerIssuerUri")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastUpdateTime");
+                    b.Property<DateTime>("LastUpdateTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("OwnerUserId");
+                    b.Property<long>("OwnerUserId")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("Status");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Theme");
+                    b.Property<string>("Theme")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -50,13 +59,17 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("AppTenantId");
+                    b.Property<long>("AppTenantId")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -69,11 +82,14 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("AppTenantId");
+                    b.Property<long>("AppTenantId")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("HostName");
+                    b.Property<string>("HostName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -86,13 +102,17 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("AppTenantId");
+                    b.Property<long>("AppTenantId")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("Key");
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Value");
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -103,26 +123,29 @@ namespace IdentityServer4.MicroService.Data.Migrations.Tenant
 
             modelBuilder.Entity("IdentityServer4.MicroService.Tenant.AppTenantClaim", b =>
                 {
-                    b.HasOne("IdentityServer4.MicroService.Tenant.AppTenant")
+                    b.HasOne("IdentityServer4.MicroService.Tenant.AppTenant", null)
                         .WithMany("Claims")
                         .HasForeignKey("AppTenantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Tenant.AppTenantHost", b =>
                 {
-                    b.HasOne("IdentityServer4.MicroService.Tenant.AppTenant")
+                    b.HasOne("IdentityServer4.MicroService.Tenant.AppTenant", null)
                         .WithMany("Hosts")
                         .HasForeignKey("AppTenantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IdentityServer4.MicroService.Tenant.AppTenantProperty", b =>
                 {
-                    b.HasOne("IdentityServer4.MicroService.Tenant.AppTenant")
+                    b.HasOne("IdentityServer4.MicroService.Tenant.AppTenant", null)
                         .WithMany("Properties")
                         .HasForeignKey("AppTenantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
