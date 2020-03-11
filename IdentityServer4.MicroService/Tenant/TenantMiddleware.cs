@@ -34,16 +34,6 @@ namespace IdentityServer4.MicroService.Tenant
         QQAuthenticationOptions _qqOptions;
         WeiboAuthenticationOptions _weiboOptions;
         WeixinAuthenticationOptions _weixinOptions;
-        //AmazonAuthenticationOptions _amazonOptions;
-        //GitterAuthenticationOptions _gitterOptions;
-        //InstagramAuthenticationOptions _instagramOptions;
-        //LinkedInAuthenticationOptions _linkedinOptions;
-        //PaypalAuthenticationOptions _paypalOptions;
-        //RedditAuthenticationOptions _redditOptions;
-        //SalesforceAuthenticationOptions _salesforceOptions;
-        //TwitterOptions _twitterOptions;
-        //VisualStudioAuthenticationOptions _visualstudioOptions;
-        //WordPressAuthenticationOptions _wordpressOptions;
         #endregion
 
         public TenantMiddleware(
@@ -59,16 +49,6 @@ namespace IdentityServer4.MicroService.Tenant
             IOptionsMonitor<QQAuthenticationOptions> qqOptions,
             IOptionsMonitor<WeiboAuthenticationOptions> weiboOptions,
             IOptionsMonitor<WeixinAuthenticationOptions> weixinOptions
-            //IOptionsMonitor<AmazonAuthenticationOptions> amazonOptions,
-            //IOptionsMonitor<GitterAuthenticationOptions> gitterOptions,
-            //IOptionsMonitor<InstagramAuthenticationOptions> instagramOptions,
-            //IOptionsMonitor<LinkedInAuthenticationOptions> linkedinOptions,
-            //IOptionsMonitor<PaypalAuthenticationOptions> paypalOptions,
-            //IOptionsMonitor<RedditAuthenticationOptions> redditOptions,
-            //IOptionsMonitor<SalesforceAuthenticationOptions> salesforceOptions,
-            //IOptionsMonitor<TwitterOptions> twitterOptions,
-            //IOptionsMonitor<VisualStudioAuthenticationOptions> visualstudioOptions,
-            //IOptionsMonitor<WordPressAuthenticationOptions> wordpressOptions
             )
         {
             _next = next;
@@ -83,17 +63,6 @@ namespace IdentityServer4.MicroService.Tenant
             _qqOptions = qqOptions.Get(QQAuthenticationDefaults.AuthenticationScheme);
             _weiboOptions = weiboOptions.Get(WeiboAuthenticationDefaults.AuthenticationScheme);
             _weixinOptions = weixinOptions.Get(WeixinAuthenticationDefaults.AuthenticationScheme);
-
-            //_amazonOptions = amazonOptions.CurrentValue;
-            //_gitterOptions = gitterOptions.CurrentValue;
-            //_instagramOptions = instagramOptions.CurrentValue;
-            //_linkedinOptions = linkedinOptions.CurrentValue;
-            //_paypalOptions = paypalOptions.CurrentValue;
-            //_redditOptions = redditOptions.CurrentValue;
-            //_salesforceOptions = salesforceOptions.CurrentValue;
-            //_twitterOptions = twitterOptions.CurrentValue;
-            //_visualstudioOptions = visualstudioOptions.CurrentValue;
-            //_wordpressOptions = wordpressOptions.CurrentValue;
         }
 
         public Task Invoke(

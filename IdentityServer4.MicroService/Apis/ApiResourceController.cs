@@ -34,14 +34,13 @@ namespace IdentityServer4.MicroService.Apis
     // ApiResource 根据 userId 来获取列表、或详情、增删改
 
     /// <summary>
-    /// 微服务
+    /// API
     /// </summary>
-    /// <remarks>为微服务提供版本管理、网关集成都功能。</remarks>
-    //[Route("ApiResource")]
+    /// <remarks>为API提供版本管理、网关集成都功能。</remarks>
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("ApiResource")]
-    [SwaggerTag("微服务")]
+    [SwaggerTag("API")]
     public class ApiResourceController : ApiControllerBase
     {
         //sql cache options
@@ -106,20 +105,20 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务
-        #region 微服务 - 列表
+        #region API
+        #region API - 列表
         /// <summary>
-        /// 微服务 - 列表
+        /// API - 列表
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.get
-        /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.get")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.get")]
-        [SwaggerOperation(OperationId = "ApiResourceGet")]
+        [SwaggerOperation(
+            OperationId = "ApiResourceGet", 
+            Summary = "API - 列表",
+            Description = "scope&permission：isms.apiresource.get")]
         public async Task<PagingResult<ApiResource>> Get([FromQuery]PagingRequest<ApiResourceGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -195,19 +194,18 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 详情
+        #region API - 详情
         /// <summary>
-        /// 微服务 - 详情
+        /// API - 详情
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.detail
-        /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.detail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.detail")]
-        [SwaggerOperation(OperationId = "ApiResourceDetail")]
+        [SwaggerOperation(OperationId = "ApiResourceDetail",
+            Summary = "API - 详情",
+            Description = "scope&permission：isms.apiresource.detail")]
         public async Task<ApiResult<ApiResource>> Get(long id)
         {
             if (!await exists(id))
@@ -233,19 +231,19 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 创建
+        #region API - 创建
         /// <summary>
-        /// 微服务 - 创建
+        /// API - 创建
         /// </summary>
         /// <param name="value">ID</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.post
-        /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.post")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.post")]
-        [SwaggerOperation(OperationId = "ApiResourcePost")]
+        [SwaggerOperation(
+            OperationId = "ApiResourcePost", 
+            Summary = "API - 创建",
+            Description = "scope&permission：isms.apiresource.post")]
         public async Task<ApiResult<long>> Post([FromBody]ApiResource value)
         {
             if (!ModelState.IsValid)
@@ -270,19 +268,19 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 更新
+        #region API - 更新
         /// <summary>
-        /// 微服务 - 更新
+        /// API - 更新
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.put
-        /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.put")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.put")]
-        [SwaggerOperation(OperationId = "ApiResourcePut")]
+        [SwaggerOperation(
+            OperationId = "ApiResourcePut",
+            Summary = "API - 更新",
+            Description = "scope&permission：isms.apiresource.put")]
         public async Task<ApiResult<long>> Put([FromBody]ApiResource value)
         {
             if (!ModelState.IsValid)
@@ -547,19 +545,19 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 删除
+        #region API - 删除
         /// <summary>
-        /// 微服务 - 删除
+        /// API - 删除
         /// </summary>
         /// <param name="id">ID</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.delete
-        /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.delete")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.delete")]
-        [SwaggerOperation(OperationId = "ApiResourceDelete")]
+        [SwaggerOperation(
+            OperationId = "ApiResourceDelete", 
+            Summary = "API - 删除",
+            Description = "scope&permission：isms.apiresource.delete")]
         public async Task<ApiResult<long>> Delete(long id)
         {
             if (!await exists(id))
@@ -582,15 +580,18 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 导入
+        #region API - 导入
         /// <summary>
-        /// 微服务 - 导入
+        /// API - 导入
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         [HttpPost("Import")]
         [AllowAnonymous]
-        [SwaggerOperation(OperationId = "ApiResourceImport")]
+        [SwaggerOperation(
+            OperationId = "ApiResourceImport", 
+            Summary = "API - 导入",
+            Description ="")]
         public ApiResult<bool> Import([FromBody]ApiResourceImportRequest value)
         {
             var data = configDb.ApiResources.Where(x => x.Name.Equals(value.MicroServiceName))
@@ -789,18 +790,18 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 权限代码
+        #region API - 权限代码
         /// <summary>
-        /// 微服务 - 权限代码
+        /// API - 权限代码
         /// </summary>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.scopes
-        /// </remarks>
         [HttpGet("Scopes")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.scopes")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.scopes")]
-        [SwaggerOperation(OperationId = "ApiResourceScopes")]
+        [SwaggerOperation(
+            OperationId = "ApiResourceScopes", 
+            Summary = "API - 权限代码",
+            Description = "scope&permission：isms.apiresource.scopes")]
         public async Task<ApiResult<Dictionary<string, List<ApiResourceScopeResponse>>>> Scopes()
         {
             var entities = new List<ApiResourceScopeEntity>();
@@ -846,14 +847,16 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 错误码表
+        #region API - 错误码表
         /// <summary>
-        /// 微服务 - 错误码表
+        /// API - 错误码表
         /// </summary>
-        /// <remarks>微服务代码对照表</remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
-        [SwaggerOperation(OperationId = "ApiResourceCodes")]
+        [SwaggerOperation(
+            OperationId = "ApiResourceCodes", 
+            Summary = "API - 错误码表",
+            Description = "API代码对照表")]
         public List<ApiCodeModel> Codes()
         {
             var result = _Codes<ApiResourceControllerEnums>();
@@ -863,21 +866,21 @@ namespace IdentityServer4.MicroService.Apis
         #endregion
         #endregion
 
-        #region 微服务 - 网关
-        #region 微服务 - 网关 - 发布或更新版本
+        #region API - 网关
+        #region API - 网关 - 发布或更新版本
         /// <summary>
-        /// 微服务 - 网关 - 发布或更新版本
+        /// API - 网关 - 发布或更新版本
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.publish
-        /// </remarks>
         [HttpPut("{id}/Publish")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.publish")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.publish")]
-        [SwaggerOperation(OperationId = "ApiResourcePublish")]
+        [SwaggerOperation(
+            OperationId = "ApiResourcePublish",
+            Summary = "API - 网关 - 发布或更新版本",
+            Description = "scope&permission：isms.apiresource.publish")]
         public async Task<ApiResult<bool>> Publish(long id, [FromBody]ApiResourcePublishRequest value)
         {
             if (!ModelState.IsValid)
@@ -901,7 +904,7 @@ namespace IdentityServer4.MicroService.Apis
                 value.scope,
                 value.openid);
 
-            // 更新微服务策略
+            // 更新API策略
             if (result.IsSuccessStatusCode)
             {
                 #region CacheConfigurations
@@ -973,20 +976,20 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 网关 - 创建修订版
+        #region API - 网关 - 创建修订版
         /// <summary>
-        /// 微服务 - 网关 - 创建修订版
+        /// API - 网关 - 创建修订版
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.publishrevision
-        /// </remarks>
         [HttpPost("{id}/PublishRevision")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.publishrevision")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.publishrevision")]
-        [SwaggerOperation(OperationId = "ApiResourcePublishRevision")]
+        [SwaggerOperation(
+            OperationId = "ApiResourcePublishRevision", 
+            Summary = "API - 网关 - 创建修订版",
+            Description = "scope&permission：isms.apiresource.publishrevision")]
         public async Task<ApiResult<bool>> PublishRevision(long id,
             [FromBody]ApiResourcePublishRevisionsRequest value)
         {
@@ -1028,20 +1031,20 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 网关 - 创建新版本
+        #region API - 网关 - 创建新版本
         /// <summary>
-        /// 微服务 - 网关 - 创建新版本
+        /// API - 网关 - 创建新版本
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.publishversion
-        /// </remarks>
         [HttpPost("{id}/PublishVersion")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.publishversion")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.publishversion")]
-        [SwaggerOperation(OperationId = "ApiResourcePublishVersion")]
+        [SwaggerOperation(
+            OperationId = "ApiResourcePublishVersion", 
+            Summary = "API - 网关 - 创建新版本",
+            Description = "scope&permission：isms.apiresource.publishversion")]
         public async Task<ApiResult<bool>> PublishVersion(long id, [FromBody]ApiResourceCreateVersionRequest value)
         {
             if (!ModelState.IsValid)
@@ -1070,19 +1073,19 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 网关 - 上次发布配置
+        #region API - 网关 - 上次发布配置
         /// <summary>
-        /// 微服务 - 网关 - 上次发布配置
+        /// API - 网关 - 上次发布配置
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.publishconfiguration
-        /// </remarks>
         [HttpGet("{id}/PublishConfiguration")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.publishconfiguration")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.publishconfiguration")]
-        [SwaggerOperation(OperationId = "ApiResourcePublishConfiguration")]
+        [SwaggerOperation(
+            OperationId = "ApiResourcePublishConfiguration", 
+            Summary = "API - 网关 - 上次发布配置",
+            Description = "scope&permission：isms.apiresource.publishconfiguration")]
         public async Task<ApiResult<ApiResourcePublishRequest>> PublishConfiguration(long id)
         {
             if (!await exists(id))
@@ -1119,19 +1122,19 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 网关 - 版本列表
+        #region API - 网关 - 版本列表
         /// <summary>
-        /// 微服务 - 网关 - 版本列表
+        /// API - 网关 - 版本列表
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.versions
-        /// </remarks>
         [HttpGet("{id}/Versions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.versions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.versions")]
-        [SwaggerOperation(OperationId = "ApiResourceVersions")]
+        [SwaggerOperation(
+            OperationId = "ApiResourceVersions", 
+            Summary = "API - 网关 - 版本列表",
+            Description = "scope&permission：isms.apiresource.versions")]
         [ResponseCache(Duration = 60)]
         public async Task<PagingResult<ApiResourceVersionsResponse>> Versions(long id)
         {
@@ -1173,20 +1176,20 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 网关 - 上线指定版本
+        #region API - 网关 - 上线指定版本
         /// <summary>
-        /// 微服务 - 网关 - 上线指定版本
+        /// API - 网关 - 上线指定版本
         /// </summary>
         /// <param name="id"></param>
         /// <param name="revisionId"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.setonlineversion
-        /// </remarks>
         [HttpPost("{id}/Versions/{revisionId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.setonlineversion")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.setonlineversion")]
-        [SwaggerOperation(OperationId = "ApiResourceSetOnlineVersion")]
+        [SwaggerOperation(
+            OperationId = "ApiResourceSetOnlineVersion",
+            Summary = "API - 网关 - 上线指定版本",
+            Description = "scope&permission：isms.apiresource.setonlineversion")]
         public async Task<ApiResult<bool>> SetOnlineVersion(long id, string revisionId)
         {
             if (!await exists(id) || string.IsNullOrWhiteSpace(revisionId))
@@ -1207,18 +1210,18 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 网关 - OAuthServers
+        #region API - 网关 - OAuthServers
         /// <summary>
-        /// 微服务 - 网关 - OAuthServers
+        /// API - 网关 - OAuthServers
         /// </summary>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.authservers
-        /// </remarks>
         [HttpGet("AuthServers")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.authservers")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.authservers")]
-        [SwaggerOperation(OperationId = "ApiResourceAuthServers")]
+        [SwaggerOperation(
+            OperationId = "ApiResourceAuthServers", 
+            Summary = "API - 网关 - OAuthServers",
+            Description = "scope&permission：isms.apiresource.authservers")]
         public async Task<ApiResult<AzureApiManagementEntities<AzureApiManagementAuthorizationServerEntity>>> AuthServers()
         {
             var result = await AzureApim.AuthorizationServers.GetAsync();
@@ -1227,18 +1230,18 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 网关 - 产品包列表
+        #region API - 网关 - 产品包列表
         /// <summary>
-        /// 微服务 - 网关 - 产品包列表
+        /// API - 网关 - 产品包列表
         /// </summary>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.products
-        /// </remarks>
         [HttpGet("Products")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.products")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.products")]
-        [SwaggerOperation(OperationId = "ApiResourceProducts")]
+        [SwaggerOperation(
+            OperationId = "ApiResourceProducts", 
+            Summary = "API - 网关 - 产品包列表",
+            Description = "scope&permission：isms.apiresource.products")]
         public async Task<ApiResult<AzureApiManagementEntities<AzureApiManagementProductEntity>>> Products()
         {
             var result = await AzureApim.Products.GetAsync();
@@ -1248,21 +1251,21 @@ namespace IdentityServer4.MicroService.Apis
         #endregion
         #endregion
 
-        #region 微服务 - 修订内容
-        #region 微服务 - 修订内容 - 列表
+        #region API - 修订内容
+        #region API - 修订内容 - 列表
         /// <summary>
-        /// 微服务 - 修订内容 - 列表
+        /// API - 修订内容 - 列表
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="apiId">Api的ID</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.releases
-        /// </remarks>
         [HttpGet("{id}/Releases")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.releases")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.releases")]
-        [SwaggerOperation(OperationId = "ApiResourceReleases")]
+        [SwaggerOperation(
+            OperationId = "ApiResourceReleases", 
+            Summary = "API - 修订内容 - 列表",
+            Description = "scope&permission：isms.apiresource.releases")]
         public async Task<PagingResult<AzureApiManagementReleaseEntity>> Releases(long id, string apiId)
         {
             if (string.IsNullOrWhiteSpace(apiId))
@@ -1288,20 +1291,20 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 修订内容 - 发布
+        #region API - 修订内容 - 发布
         /// <summary>
-        /// 微服务 - 修订内容 - 发布
+        /// API - 修订内容 - 发布
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.postrelease
-        /// </remarks>
         [HttpPost("{id}/Releases")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.postrelease")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.postrelease")]
-        [SwaggerOperation(OperationId = "ApiResourcePostRelease")]
+        [SwaggerOperation(
+            OperationId = "ApiResourcePostRelease", 
+            Summary = "API - 修订内容 - 发布",
+            Description = "scope&permission：isms.apiresource.postrelease")]
         public async Task<ApiResult<bool>> PostRelease(long id, [FromBody]ApiResourcePostReleaseRequest value)
         {
             if (!ModelState.IsValid)
@@ -1316,21 +1319,21 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 修订内容 - 更新
+        #region API - 修订内容 - 更新
         /// <summary>
-        /// 微服务 - 修订内容 - 更新
+        /// API - 修订内容 - 更新
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="releaseId">修订内容的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.putrelease
-        /// </remarks>
         [HttpPut("{id}/Releases/{releaseId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.putrelease")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.putrelease")]
-        [SwaggerOperation(OperationId = "ApiResourcePutRelease")]
+        [SwaggerOperation(
+            OperationId = "ApiResourcePutRelease", 
+            Summary = " API - 修订内容 - 更新",
+            Description = "scope&permission：isms.apiresource.putrelease")]
         public async Task<ApiResult<bool>> PutRelease(long id, string releaseId, [FromBody]ApiResourcePutReleaseRequest value)
         {
             if (!ModelState.IsValid)
@@ -1351,20 +1354,20 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 修订内容 - 删除
+        #region API - 修订内容 - 删除
         /// <summary>
-        /// 微服务 - 修订内容 - 删除
+        /// API - 修订内容 - 删除
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="releaseId">修订内容的ID</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.deleterelease
-        /// </remarks>
         [HttpDelete("{id}/Releases/{releaseId}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.deleterelease")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.deleterelease")]
-        [SwaggerOperation(OperationId = "ApiResourceDeleteRelease")]
+        [SwaggerOperation(
+            OperationId = "ApiResourceDeleteRelease", 
+            Summary = "API - 修订内容 - 删除",
+            Description = "scope&permission：isms.apiresource.deleterelease")]
         public async Task<ApiResult<bool>> DeleteRelease(long id, string releaseId)
         {
             if (string.IsNullOrWhiteSpace(releaseId))
@@ -1380,20 +1383,20 @@ namespace IdentityServer4.MicroService.Apis
         #endregion
         #endregion
 
-        #region 微服务 - 订阅者
-        #region 微服务 - 订阅者 - 列表
+        #region API - 订阅者
+        #region API - 订阅者 - 列表
         /// <summary>
-        /// 微服务 - 订阅者 - 列表
+        /// API - 订阅者 - 列表
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.subscriptions
-        /// </remarks>
         [HttpGet("{id}/Subscriptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.subscriptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.subscriptions")]
-        [SwaggerOperation(OperationId = "ApiResourceSubscriptions")]
+        [SwaggerOperation(
+            OperationId = "ApiResourceSubscriptions", 
+            Summary = "API - 订阅者 - 列表",
+            Description = "scope&permission：isms.apiresource.subscriptions")]
         public async Task<PagingResult<ApiResourceSubscriptionEntity>> Subscriptions(long id)
         {
             if (!await exists(id))
@@ -1418,16 +1421,19 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 订阅者 - 添加
+        #region API - 订阅者 - 添加
         /// <summary>
-        /// 微服务 - 订阅者 - 添加
+        /// API - 订阅者 - 添加
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="code">邮箱校验加密字符串</param>
         /// <returns></returns>
         [HttpGet("{id}/AddSubscription")]
         [AllowAnonymous]
-        [SwaggerOperation(OperationId = "ApiResourceAddSubscription")]
+        [SwaggerOperation(
+            OperationId = "ApiResourceAddSubscription", 
+            Summary = "API - 订阅者 - 添加",
+            Description ="")]
         public async Task<ApiResult<bool>> AddSubscription(long id,
             [FromQuery]string code)
         {
@@ -1471,16 +1477,16 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 订阅者 - 取消
+        #region API - 订阅者 - 取消
         /// <summary>
-        /// 微服务 - 订阅者 - 取消
+        /// API - 订阅者 - 取消
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="code">邮箱校验加密字符串</param>
         /// <returns></returns>
         [HttpGet("{id}/DelSubscription")]
         [AllowAnonymous]
-        [SwaggerOperation(OperationId = "ApiResourceDelSubscription")]
+        [SwaggerOperation(OperationId = "ApiResourceDelSubscription", Summary = "API - 订阅者 - 取消",Description ="")]
         public async Task<ApiResult<bool>> DelSubscription(long id,
             [FromQuery]string code)
         {
@@ -1538,20 +1544,20 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 订阅者 - 验证邮箱
+        #region API - 订阅者 - 验证邮箱
         /// <summary>
-        /// 微服务 - 订阅者 - 验证邮箱
+        /// API - 订阅者 - 验证邮箱
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.verifyemail
-        /// </remarks>
         [HttpPost("{id}/Subscriptions/VerifyEmail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.verifyemail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.verifyemail")]
-        [SwaggerOperation(OperationId = "ApiResourceVerifyEmail")]
+        [SwaggerOperation(
+            OperationId = "ApiResourceVerifyEmail", 
+            Summary = "API - 订阅者 - 验证邮箱",
+            Description = "scope&permission：isms.apiresource.verifyemail")]
         public async Task<ApiResult<bool>> VerifyEmail(long id, [FromBody]ApiResourceSubscriptionsVerifyEmailRequest value)
         {
             if (!ModelState.IsValid)
@@ -1560,7 +1566,7 @@ namespace IdentityServer4.MicroService.Apis
                     ModelErrors());
             }
 
-            #region 微服务是否存在
+            #region API是否存在
             var apiEntity = configDb.ApiResources.FirstOrDefault(x => x.Id == id);
             if (apiEntity == null)
             {
@@ -1659,18 +1665,18 @@ namespace IdentityServer4.MicroService.Apis
         #endregion
         #endregion
 
-        #region 微服务 - 包市场
-        #region 微服务 - 包市场 - 列表
+        #region API - 包市场
+        #region API - 包市场 - 列表
         /// <summary>
-        /// 微服务 - 包市场 - 列表
+        /// API - 包市场 - 列表
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.packages
-        /// </remarks>
         [HttpGet("{id}/Packages")]
-        [SwaggerOperation(OperationId = "ApiResourcePackages")]
+        [SwaggerOperation(
+            OperationId = "ApiResourcePackages", 
+            Summary = "API - 包市场 - 列表",
+            Description = "scope&permission：isms.apiresource.packages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.packages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.packages")]
         public async Task<PagingResult<ApiResourceSDKEntity>> Packages(string id)
@@ -1692,18 +1698,18 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 包市场 - 添加
+        #region API - 包市场 - 添加
         /// <summary>
-        /// 微服务 - 包市场 - 添加
+        /// API - 包市场 - 添加
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.postpackages
-        /// </remarks>
         [HttpPost("{id}/Packages")]
-        [SwaggerOperation(OperationId = "ApiResourcePostPackage")]
+        [SwaggerOperation(
+            OperationId = "ApiResourcePostPackage", 
+            Summary = "API - 包市场 - 添加",
+            Description = "scope&permission：isms.apiresource.postpackages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.postpackages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.postpackages")]
         public async Task<ApiResult<bool>> PostPackage(string id, [FromBody]ApiResourceSDKRequest value)
@@ -1749,20 +1755,20 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 包市场 - 删除
+        #region API - 包市场 - 删除
         /// <summary>
-        /// 微服务 - 包市场 - 删除
+        /// API - 包市场 - 删除
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="packageId">包的ID</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.deletepackage
-        /// </remarks>
         [HttpDelete("{id}/Packages/{packageId}")]
-        [SwaggerOperation(OperationId = "ApiResourceDeletePackage")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.deletepackage")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.deletepackage")]
+        [SwaggerOperation(
+            OperationId = "ApiResourceDeletePackage", 
+            Summary = "API - 包市场 - 删除",
+            Description = "scope&permission：isms.apiresource.deletepackage")]
         public async Task<ApiResult<bool>> DeletePackage(string id, string packageId)
         {
             if (string.IsNullOrWhiteSpace(packageId))
@@ -1808,21 +1814,21 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 微服务 - 包市场 - 更新
+        #region API - 包市场 - 更新
         /// <summary>
-        /// 微服务 - 包市场 - 更新
+        /// API - 包市场 - 更新
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="packageId">包的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.apiresource.deletepackage
-        /// </remarks>
         [HttpPut("{id}/Packages/{packageId}")]
-        [SwaggerOperation(OperationId = "ApiResourcePutPackage")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.putpackage")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.putpackage")]
+        [SwaggerOperation(
+            OperationId = "ApiResourcePutPackage", 
+            Summary = "API - 包市场 - 更新",
+            Description = "scope&permission：isms.apiresource.deletepackage")]
         public async Task<ApiResult<bool>> PutPackage(string id, string packageId, [FromBody]ApiResourceSDKRequest value)
         {
             if (string.IsNullOrWhiteSpace(packageId))

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +29,6 @@ namespace IdentityServer4.MicroService.Apis
     /// <summary>
     /// 用户
     /// </summary>
-    //[Route("User")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("User")]
@@ -87,13 +86,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.user.get
-        /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.get")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.get")]
-        [SwaggerOperation(OperationId = "UserGet")]
+        [SwaggerOperation(OperationId = "UserGet",
+            Summary = "用户 - 列表",
+            Description = "scope&permission：isms.user.get")]
         public async Task<PagingResult<View_User>> Get([FromQuery]PagingRequest<UserGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -186,13 +184,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.user.detail
-        /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.detail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.detail")]
-        [SwaggerOperation(OperationId = "UserDetail")]
+        [SwaggerOperation(OperationId = "UserDetail",
+            Summary = "用户 - 详情",
+            Description = "scope&permission：isms.user.detail")]
         public async Task<ApiResult<AppUser>> Get(int id)
         {
             var query = db.Users.AsQueryable();
@@ -221,13 +218,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.user.post
-        /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.post")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.post")]
-        [SwaggerOperation(OperationId = "UserPost")]
+        [SwaggerOperation(OperationId = "UserPost",
+            Summary = "用户 - 创建",
+            Description = "scope&permission：isms.user.post")]
         public async Task<ApiResult<long>> Post([FromBody]AppUser value)
         {
             if (!ModelState.IsValid)
@@ -280,13 +276,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.user.put
-        /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.put")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.put")]
-        [SwaggerOperation(OperationId = "UserPut")]
+        [SwaggerOperation(OperationId = "UserPut",
+            Summary = "用户 - 更新",
+            Description = "scope&permission：isms.user.put")]
         public async Task<ApiResult<long>> Put([FromBody]AppUser value)
         {
             if (!ModelState.IsValid)
@@ -487,13 +482,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.user.delete
-        /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.delete")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.delete")]
-        [SwaggerOperation(OperationId = "UserDelete")]
+        [SwaggerOperation(OperationId = "UserDelete",
+            Summary = "用户 - 删除",
+            Description = "scope&permission：isms.user.delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
             var query = db.Users.AsQueryable();
@@ -523,13 +517,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.user.head
-        /// </remarks>
         [HttpGet("Head")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.head")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.head")]
-        [SwaggerOperation(OperationId = "UserHead")]
+        [SwaggerOperation(OperationId = "UserHead",
+            Summary = "用户 - 是否存在",
+            Description = "scope&permission：isms.user.head")]
         public async Task<ObjectResult> Head(UserDetailRequest value)
         {
             if (!ModelState.IsValid)
@@ -560,12 +553,11 @@ namespace IdentityServer4.MicroService.Apis
         /// 用户 - 错误码表
         /// </summary>
         /// <returns></returns>
-        /// <remarks>
-        /// 用户代码对照表
-        /// </remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
-        [SwaggerOperation(OperationId = "UserCodes")]
+        [SwaggerOperation(OperationId = "UserCodes",
+            Summary = "用户 - 错误码表",
+            Description = "用户错误码对照表")]
         public List<ApiCodeModel> Codes()
         {
             var result = _Codes<UserControllerEnums>();
@@ -581,12 +573,11 @@ namespace IdentityServer4.MicroService.Apis
         /// 用户 - 注册 - 提交
         /// </summary>
         /// <returns></returns>
-        /// <remarks>
-        /// 需验证手机号；邮箱如果填写了，也需要验证
-        /// </remarks>
         [HttpPost("Register")]
         [AllowAnonymous]
-        [SwaggerOperation(OperationId = "UserRegister")]
+        [SwaggerOperation(OperationId = "UserRegister",
+            Summary = "用户 - 注册 - 提交",
+            Description = "需验证手机号；邮箱如果填写了，也需要验证")]
         public async Task<ApiResult<string>> Register([FromBody]UserRegisterRequest value)
         {
             if (!ModelState.IsValid)
@@ -728,11 +719,11 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         [HttpPost("SmsCode")]
         [AllowAnonymous]
-        [SwaggerOperation(OperationId = "UserSmsCode")]
+        [SwaggerOperation(OperationId = "UserSmsCode",
+            Summary = "用户 - 注册 - 发送手机验证码",
+            Description = "")]
         public async Task<ApiResult<string>> SmsCode([FromBody]UserVerifyPhoneRequest value)
         {
             if (!ModelState.IsValid)
@@ -810,11 +801,11 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         [HttpPost("EmailCode")]
         [AllowAnonymous]
-        [SwaggerOperation(OperationId = "UserEmailCode")]
+        [SwaggerOperation(OperationId = "UserEmailCode",
+            Summary = "用户 - 注册 - 发送邮件验证码",
+            Description = "")]
         public async Task<ApiResult<string>> EmailCode([FromBody]UserVerifyEmailRequest value)
         {
             if (!ModelState.IsValid)
@@ -896,7 +887,9 @@ namespace IdentityServer4.MicroService.Apis
         /// <returns></returns>
         [HttpPost("ResetPassword")]
         [AllowAnonymous]
-        [SwaggerOperation(OperationId = "UserResetPassword")]
+        [SwaggerOperation(OperationId = "UserResetPassword",
+            Summary = "用户 - 忘记密码 - 手机验证码",
+            Description = "")]
         public async Task<ApiResult<bool>> ResetPassword([FromBody]ResetPasswordRequest value)
         {
             if (!ModelState.IsValid)

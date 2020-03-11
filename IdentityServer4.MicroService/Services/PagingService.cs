@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

@@ -6,23 +6,23 @@ namespace IdentityServer4.MicroService.Models.Apis.ApiResourceController
     public class ApiResourceImportRequest
     {
         /// <summary>
-        /// 微服务名称
+        /// API名称
         /// </summary>
         [Required]
         public string MicroServiceName { get; set; }
 
         /// <summary>
-        /// 微服务显示名称
+        /// API显示名称
         /// </summary>
         public string MicroServiceDisplayName { get; set; }
 
         /// <summary>
-        /// 微服务简介
+        /// API简介
         /// </summary>
         public string MicroServiceDescription { get; set; }
 
         /// <summary>
-        /// 微服务策略集
+        /// API策略集
         /// </summary>
         public List<PolicyConfig> MicroServicePolicies { get; set; }
 

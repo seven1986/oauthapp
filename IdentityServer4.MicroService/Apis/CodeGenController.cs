@@ -28,7 +28,6 @@ namespace IdentityServer4.MicroService.Apis
     /// <summary>
     /// 代码生成
     /// </summary>
-    //[Route("CodeGen")]
     [Produces("application/json")]
     [ApiExplorerSettingsDynamic("CodeGen")]
     [SwaggerTag("代码生成")]
@@ -69,14 +68,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         /// 代码生成 - 客户端列表
         /// </summary>
-        /// <remarks>支持生成的客户端集合</remarks>
+        /// <param name="fromCache"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope：isms.codegen.clients
-        /// </remarks>
         [HttpGet("Clients")]
-        [SwaggerOperation(OperationId = "CodeGenClients")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.get")]
+        [SwaggerOperation(OperationId = "CodeGenClients",
+            Summary = "代码生成 - 客户端列表",
+            Description = "scope：isms.codegen.clients")]
         public ApiResult<List<SwaggerCodeGenItem>> Clients(bool fromCache = true)
         {
             var result = fromCache ? swagerCodeGen.ClientItemsCache : swagerCodeGen.ClientItems;
@@ -89,13 +87,12 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         /// 代码生成 - 服务端列表
         /// </summary>
-        /// <remarks>支持生成的服务端集合</remarks>
+        /// <param name="fromCache"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope：isms.codegen.servers
-        /// </remarks>
         [HttpGet("Servers")]
-        [SwaggerOperation(OperationId = "CodeGenServers")]
+        [SwaggerOperation(OperationId = "CodeGenServers",
+            Summary = "代码生成 - 服务端列表",
+            Description = "scope：isms.codegen.servers")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.servers")]
         public ApiResult<List<SwaggerCodeGenItem>> Servers(bool fromCache = true)
         {
@@ -109,14 +106,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         ///  代码生成 - NPM - 设置
         /// </summary>
-        /// <param name="id">微服务ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="language">语言</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope：isms.codegen.npmoptions
-        /// </remarks>
         [HttpGet("{id}/NpmOptions/{language}")]
-        [SwaggerOperation(OperationId = "CodeGenNpmOptions")]
+        [SwaggerOperation(OperationId = "CodeGenNpmOptions",
+            Summary = "代码生成 - NPM - 设置",
+            Description = "scope：isms.codegen.npmoptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.npmoptions")]
         public async Task<ApiResult<CodeGenNpmOptionsModel>> NpmOptions(string id, Language language)
         {
@@ -164,15 +160,14 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         ///  代码生成 - NPM - 更新设置
         /// </summary>
-        /// <param name="id">微服务ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="language">语言</param>
         /// <param name="value">package.json的内容字符串</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope：isms.codegen.putnpmoptions
-        /// </remarks>
         [HttpPut("{id}/NpmOptions/{language}")]
-        [SwaggerOperation(OperationId = "CodeGenPutNpmOptions")]
+        [SwaggerOperation(OperationId = "CodeGenPutNpmOptions",
+            Summary = "代码生成 - NPM - 更新设置",
+            Description = "scope：isms.codegen.putnpmoptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.putnpmoptions")]
         public async Task<ApiResult<bool>> NpmOptions(string id, Language language, [FromBody]CodeGenNpmOptionsModel value)
         {
@@ -202,13 +197,12 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         ///  代码生成 - Github - 设置
         /// </summary>
-        /// <param name="id">微服务ID</param>
+        /// <param name="id">API的ID</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope：isms.codegen.githuboptions
-        /// </remarks>
         [HttpGet("{id}/GithubOptions")]
-        [SwaggerOperation(OperationId = "CodeGenGithubOptions")]
+        [SwaggerOperation(OperationId = "CodeGenGithubOptions",
+            Summary = "代码生成 - Github - 设置",
+            Description = "scope：isms.codegen.githuboptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.githuboptions")]
         public async Task<ApiResult<ApiResourceGithubPublishRequest>> GithubOptions(string id)
         {
@@ -256,14 +250,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         ///  代码生成 - Github - 更新设置
         /// </summary>
-        /// <param name="id">微服务ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope：isms.codegen.putgithuboptions
-        /// </remarks>
         [HttpPut("{id}/GithubOptions")]
-        [SwaggerOperation(OperationId = "CodeGenPutGithubOptions")]
+        [SwaggerOperation(OperationId = "CodeGenPutGithubOptions",
+            Summary = "代码生成 - Github - 更新设置",
+            Description = "scope：isms.codegen.putgithuboptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.putgithuboptions")]
         public async Task<ApiResult<bool>> GithubOptions(string id, [FromBody]ApiResourceGithubPublishRequest value)
         {
@@ -293,13 +286,12 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         ///  代码生成 - Github - 同步
         /// </summary>
-        /// <param name="id">微服务ID</param>
+        /// <param name="id">API的ID</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope：isms.codegen.putgithuboptions
-        /// </remarks>
         [HttpPut("{id}/SyncGithub")]
-        [SwaggerOperation(OperationId = "CodeGenSyncGithub")]
+        [SwaggerOperation(OperationId = "CodeGenSyncGithub",
+            Summary = "代码生成 - Github - 同步",
+            Description = "scope：isms.codegen.putgithuboptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.syncgithub")]
         public async Task<ApiResult<bool>> SyncGithub(string id)
         {
@@ -334,13 +326,12 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         ///  代码生成 - 基本设置 - 获取
         /// </summary>
-        /// <param name="id">微服务ID</param>
+        /// <param name="id">API的ID</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope：isms.codegen.commonoptions
-        /// </remarks>
         [HttpGet("{id}/CommonOptions")]
-        [SwaggerOperation(OperationId = "CodeGenCommonOptions")]
+        [SwaggerOperation(OperationId = "CodeGenCommonOptions",
+            Summary = "代码生成 - 基本设置 - 获取",
+            Description = "scope：isms.codegen.commonoptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.commonoptions")]
         public async Task<ApiResult<CodeGenCommonOptionsModel>> CommonOptions(string id)
         {
@@ -384,14 +375,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         ///  代码生成 - 基本设置 - 更新
         /// </summary>
-        /// <param name="id">微服务ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="value">package.json的内容字符串</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope：isms.codegen.putcommonoptions
-        /// </remarks>
         [HttpPut("{id}/CommonOptions")]
-        [SwaggerOperation(OperationId = "CodeGenPutCommonOptions")]
+        [SwaggerOperation(OperationId = "CodeGenPutCommonOptions",
+            Summary = "代码生成 - 基本设置 - 更新",
+            Description = "scope：isms.codegen.putcommonoptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.putcommonoptions")]
         public async Task<ApiResult<bool>> PutCommonOptions(string id, [FromBody]CodeGenCommonOptionsModel value)
         {
@@ -423,11 +413,10 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope：isms.codegen.releasesdk
-        /// </remarks>
         [HttpPost("ReleaseSDK")]
-        [SwaggerOperation(OperationId = "CodeGenReleaseSDK")]
+        [SwaggerOperation(OperationId = "CodeGenReleaseSDK",
+            Summary = "代码生成 - SDK - 发布",
+            Description = "scope：isms.codegen.releasesdk")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.releasesdk")]
         public async Task<ApiResult<bool>> ReleaseSDK([FromBody]GenerateClientRequest value)
         {
@@ -464,7 +453,7 @@ namespace IdentityServer4.MicroService.Apis
                 }
 
                 #region 重置swagger.json >> info >> title节点
-                // 获取的文档中，info-title节点是网关上的微服务名称，
+                // 获取的文档中，info-title节点是网关上的API名称，
                 // 生成的class时，命名一般都是英文的
                 var options = await GetNpmOptions(value.language, value.apiId);
                 if (options != null && !string.IsNullOrWhiteSpace(options.sdkName))
@@ -690,12 +679,12 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         /// 代码生成 - SDK - 预览生成代码
         /// </summary>
-        /// <remarks></remarks>
+        /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         [HttpPost("Gen")]
-        [SwaggerOperation(OperationId = "CodeGenGen")]
+        [SwaggerOperation(OperationId = "CodeGenGen",
+            Summary = "代码生成 - SDK - 预览生成代码",
+            Description = "")]
         [AllowAnonymous]
         //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = ClientScopes.CodeGenGen)]
         public async Task<ApiResult<string>> Gen([FromBody]CodeGenGenRequest value)
@@ -741,13 +730,12 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         /// 代码生成 - SDK - 发布记录
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope：isms.apiresource.history
-        /// </remarks>
         [HttpGet("{id}/History")]
-        [SwaggerOperation(OperationId = "CodeGenHistory")]
+        [SwaggerOperation(OperationId = "CodeGenHistory",
+            Summary = "代码生成 - SDK - 发布记录",
+            Description = "scope：isms.apiresource.history")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.history")]
         public async Task<PagingResult<CodeGenHistoryEntity>> History(string id)
         {
@@ -772,13 +760,13 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         /// 代码生成 - SDK - 添加记录
         /// </summary>
-        /// <param name="id">微服务的ID</param>
+        /// <param name="id">API的ID</param>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         [HttpPost("{id}/PostHistory")]
-        [SwaggerOperation(OperationId = "CodeGenPostHistory")]
+        [SwaggerOperation(OperationId = "CodeGenPostHistory",
+            Summary = "代码生成 - SDK - 添加记录",
+            Description = "")]
         [AllowAnonymous]
         public async Task<ApiResult<bool>> PostHistory(string id, [FromBody]CodeGenHistoryRequest value)
         {

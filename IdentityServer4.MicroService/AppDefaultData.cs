@@ -61,7 +61,7 @@ namespace IdentityServer4.MicroService
 
             public static string AppHostName = "";//localhost:44309
 
-            public static string Name = "微服务";
+            public static string Name = "ISMS";
 
             public static Dictionary<string, string> TenantProperties =
                     new Dictionary<string, string>()

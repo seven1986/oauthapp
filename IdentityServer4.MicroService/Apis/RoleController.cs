@@ -19,7 +19,6 @@ namespace IdentityServer4.MicroService.Apis
     /// <summary>
     /// 角色
     /// </summary>
-    //[Route("Role")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Role")]
@@ -41,13 +40,12 @@ namespace IdentityServer4.MicroService.Apis
         /// 角色 - 列表
         /// </summary>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.role.get
-        /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:role.get")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:role.get")]
-        [SwaggerOperation(OperationId = "RoleGet")]
+        [SwaggerOperation(OperationId = "RoleGet",
+            Summary = "角色 - 列表",
+            Description = "scope&permission：isms.role.get")]
         public async Task<PagingResult<AppRole>> Get()
         {
             var data = await db.Roles
@@ -66,13 +64,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.role.detail
-        /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:role.detail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:role.detail")]
-        [SwaggerOperation(OperationId = "RoleDetail")]
+        [SwaggerOperation(OperationId = "RoleDetail",
+            Summary = "角色 - 详情",
+            Description = "scope&permission：isms.role.detail")]
         public async Task<ApiResult<AppRole>> Get(int id)
         {
             var entity = await db.Roles
@@ -94,13 +91,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.role.post
-        /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:role.post")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:role.post")]
-        [SwaggerOperation(OperationId = "RolePost")]
+        [SwaggerOperation(OperationId = "RolePost",
+            Summary = "角色 - 创建",
+            Description = "scope&permission：isms.role.post")]
         public async Task<ApiResult<long>> Post([FromBody]AppRole value)
         {
             if (!ModelState.IsValid)
@@ -123,13 +119,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.role.put
-        /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:role.put")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:role.put")]
-        [SwaggerOperation(OperationId = "RolePut")]
+        [SwaggerOperation(OperationId = "RolePut",
+            Summary = "角色 - 更新",
+            Description = "scope&permission：isms.role.put")]
         public async Task<ApiResult<long>> Put([FromBody]AppRole value)
         {
             if (!ModelState.IsValid)
@@ -244,13 +239,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.role.delete
-        /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:role.delete")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:role.delete")]
-        [SwaggerOperation(OperationId = "RoleDelete")]
+        [SwaggerOperation(OperationId = "RoleDelete",
+            Summary = "角色 - 删除",
+            Description = "scope&permission：isms.role.delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
             var entity = await db.Roles.FirstOrDefaultAsync(x => x.Id == id);
@@ -273,12 +267,11 @@ namespace IdentityServer4.MicroService.Apis
         /// 角色 - 错误码表
         /// </summary>
         /// <returns></returns>
-        /// <remarks>
-        /// 角色代码对照表
-        /// </remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
-        [SwaggerOperation(OperationId = "RoleCodes")]
+        [SwaggerOperation(OperationId = "RoleCodes",
+            Summary = "角色 - 错误码表",
+            Description = "角色码对照表")]
         public List<ApiCodeModel> Codes()
         {
             var result = _Codes<RoleControllerEnums>();

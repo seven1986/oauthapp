@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>1.0.0-alpha.13</Version>
+    <Version>1.0.0-alpha.18</Version>
     <Product>IdentityServer4.MicroService</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -19,7 +19,7 @@
     <PackageIcon>isms.png</PackageIcon>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <RepositoryType>github</RepositoryType>
-    <!--sphinx-autobuild . _build/-->
+    <Copyright></Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

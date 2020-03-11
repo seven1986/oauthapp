@@ -21,7 +21,7 @@
 
         /// <summary>
         /// （缓存KEY）
-        /// 微服务CodeGen的基本信息配置
+        /// API的CodeGen的基本信息配置
         /// Key的格式：{ApiRrsourceId}
         /// Value的格式： json字符串
         /// </summary>
