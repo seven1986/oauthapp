@@ -73,15 +73,12 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value">视频(小于20MB),文档文件(小于10MB)</param>
         /// <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope：isms.file.post
-        /// </remarks>
         [HttpPost("File")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:blob.post")]
         [SwaggerOperation(
             OperationId = "BlobFile", 
             Summary = "Blob - File",
-            Description = @"视频支持：avi,quicktime,asf,wmv,flv,matroska,mp4,webm,wmv,flash,mpeg。文档支持：pdf,word,excel")]
+            Description = @"视频支持：avi,quicktime,asf,wmv,flv,matroska,mp4,webm,wmv,flash,mpeg。文档支持：pdf,word,excel。scope：isms.blob.post")]
         public ApiResult<string> File(IFormFile value, [FromQuery][RegularExpression("[a-zA-Z0-9]{5,30}")]string folderName)
         {
             if (value == null)
@@ -151,12 +148,9 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="value">图片文件</param>
         /// <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope：isms.file.image
-        /// </remarks>
         [HttpPost("Image")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:blob.image")]
-        [SwaggerOperation(OperationId = "BlobImage",Summary = "Blob - Image",Description ="支持图片：jpeg,jpg,png,octet-stream，小于10MB。")]
+        [SwaggerOperation(OperationId = "BlobImage",Summary = "Blob - Image",Description = "支持图片：jpeg,jpg,png,octet-stream，小于10MB。scope：isms.blob.image")]
         public ApiResult<string> UploadImage(IFormFile value, [FromQuery][RegularExpression("[a-zA-Z0-9]{5,30}")]string folderName)
         {
             if (value == null)
@@ -217,7 +211,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation(
             OperationId = "BlobBase64", 
             Summary = "Blob - Base64",
-            Description = "上传Base64格式的png图片")]
+            Description = "上传Base64格式的png图片。scope：isms.blob.base64")]
         public ApiResult<string> Base64([FromBody]string value, [FromQuery][RegularExpression("[a-zA-Z0-9]{5,30}")]string folderName)
         {
             try
@@ -249,9 +243,6 @@ namespace IdentityServer4.MicroService.Apis
         /// Blob - 错误码表
         /// </summary>
         /// <returns></returns>
-        /// <remarks>
-        /// 
-        /// </remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
         [SwaggerOperation(

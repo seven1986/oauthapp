@@ -278,9 +278,6 @@
             <param name="value">视频(小于20MB),文档文件(小于10MB)</param>
             <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
             <returns></returns>
-            <remarks>
-            Scope：isms.file.post
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.BlobController.UploadImage(Microsoft.AspNetCore.Http.IFormFile,System.String)">
             <summary>
@@ -289,9 +286,6 @@
             <param name="value">图片文件</param>
             <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
             <returns></returns>
-            <remarks>
-            Scope：isms.file.image
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.BlobController.Base64(System.String,System.String)">
             <summary>
@@ -306,9 +300,6 @@
             Blob - 错误码表
             </summary>
             <returns></returns>
-            <remarks>
-            
-            </remarks>
         </member>
         <member name="T:IdentityServer4.MicroService.Apis.ClientController">
             <summary>
@@ -816,9 +807,9 @@
                 &lt;members&gt;
                     &lt;member name=&quot;T:IdentityServer4.MicroService.Apis.ApiResourceController&quot;&gt;
                         &lt;summary&gt;
-                        微服务
+                        API
                         &lt;/summary&gt;
-                        &lt;remarks&gt;为微服务提供版本管理、网关集成都功能。&lt;/remarks&gt;
+                        &lt;remarks&gt;为API提供版本管理、网关集成都功能。&lt;/remarks&gt;
                     &lt;/member&gt;
                     &lt;member name=&quot;M:IdentityServer4.MicroService.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,IdentityServe [字符串的其余部分被截断]&quot;; 的本地化字符串。
              </summary>

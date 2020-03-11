@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>1.0.0-alpha.18</Version>
+    <Version>1.0.0-alpha.19</Version>
     <Product>IdentityServer4.MicroService</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -28,7 +28,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>IdentityServer4.MicroService.xml</DocumentationFile>
+    <DocumentationFile>D:\Source\Repos\IdentityServer4.MicroService\IdentityServer4.MicroService\IdentityServer4.MicroService.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591;1574</NoWarn>
   </PropertyGroup>
 
@@ -91,7 +91,6 @@
     <None Remove="Areas\Identity\Pages\_ViewImports.cshtml" />
     <None Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
     <None Remove="identityserver4.microservice.pfx" />
-    <None Remove="IdentityServer4.MicroService.xml" />
     <None Remove="Node\readthedocs.gen.js" />
     <None Remove="Node\sdkgen\npm\angular2.js" />
     <None Remove="Node\sdkgen\npm\jQuery.js" />
@@ -258,10 +257,6 @@
     </Content>
     <Content Include="identityserver4.microservice.pfx">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="IdentityServer4.MicroService.xml">
-      <BuildAction>Content</BuildAction>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Node\readthedocs.gen.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
