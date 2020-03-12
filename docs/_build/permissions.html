@@ -30,7 +30,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="错误码表" href="errorcodes.html" />
-    <link rel="prev" title="授权中心" href="IdentityServer4MicroService.html" /> 
+    <link rel="prev" title="标识中心" href="IdentityServer4MicroService.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -85,15 +85,26 @@
 </ul>
 <p class="caption"><span class="caption-text">开始</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="startserver.html">创建身份认证中心</a></li>
+<li class="toctree-l1"><a class="reference internal" href="startserver.html">创建标识服务器</a></li>
 </ul>
 <p class="caption"><span class="caption-text">开放能力</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="IdentityServer4MicroService.html">授权中心</a></li>
+<li class="toctree-l1"><a class="reference internal" href="IdentityServer4MicroService.html">标识中心</a></li>
 </ul>
 <p class="caption"><span class="caption-text">其他</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">权限码表</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">权限码表</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#blob">Blob</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">客户端</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">代码生成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">标识</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">角色</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">租户</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">用户</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">其他</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="errorcodes.html">错误码表</a></li>
 <li class="toctree-l1"><a class="reference internal" href="issues.html">反馈问题</a></li>
 </ul>
@@ -162,373 +173,386 @@
             
   <div class="section" id="id1">
 <h1>权限码表<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="p">{</span>
-  <span class="s2">&quot;ids4.ms&quot;</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.user.verifyemail&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;用户 - 注册 - 发送邮件验证码&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.identityresource.delete&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;身份服务 - 删除&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.identityresource.detail&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;身份服务 - 详情&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.identityresource.get&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;身份服务 - 列表&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.identityresource.post&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;身份服务 - 创建&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.identityresource.put&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;身份服务 - 更新&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.role.all&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;角色 - 所有权限&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.role.delete&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;角色 - 删除&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.role.detail&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;角色 - 详情&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.role.get&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;角色 - 列表&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.role.post&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;角色 - 创建&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.role.put&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;角色 - 更新&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.tenant.all&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;租户 - 所有权限&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.tenant.delete&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;租户 - 删除&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.identityresource.all&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;身份服务 - 所有权限&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.tenant.get&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;租户 - 列表&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.tenant.post&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;租户 - 创建&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.tenant.put&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;租户 - 更新&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.user.all&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;用户 - 所有权限&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.user.delete&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;用户 - 删除&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.user.detail&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;用户 - 详情&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.user.get&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;用户 - 列表&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.user.head&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;用户 - 是否存在&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.user.post&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;用户 - 创建&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.user.put&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;用户 - 更新&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.user.register&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;用户 - 注册 (需验证手机号，邮箱如果填写了也需要验证)&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.user.verifyphone&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;用户 - 注册 - 发送手机验证码&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.tenant.detail&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;租户 - 详情&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.file.post&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;文件 - 上传视频或文档&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.file.all&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;文件 - 所有权限&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.all&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;微服务 - 所有权限&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.authservers&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;微服务 - OAuthServers&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.delete&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;微服务 - 删除&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.deleterelease&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot; 微服务 - 修订内容 - 删除&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.detail&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;微服务 - 详情&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.get&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;微服务 - 列表&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.post&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;微服务 - 创建&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.postrelease&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot; 微服务 - 修订内容 - 发布&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.products&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;微服务 - 产品组&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.publish&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;微服务 - 发布/更新&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.publishconfiguration&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;微服务 - 上次发布配置&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.publishrevision&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;微服务 - 创建修订版&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.file.image&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;文件 - 上传图片&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.publishversion&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;微服务 - 创建新版本&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.putrelease&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot; 微服务 - 修订内容 - 更新&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.releases&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot; 微服务 - 修订内容 - 列表&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.releases.postsubscription&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot; 微服务 - 订阅者 - 添加&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.setonlineversion&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot; 微服务 - 上线指定版本&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.subscriptions&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot; 微服务 - 订阅者 - 列表&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.versions&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot; 微服务 - 版本列表&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.client.all&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;客户端 - 所有权限&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.client.delete&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;客户端 - 删除&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.client.detail&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;客户端 - 详情&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.client.get&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;客户端 - 列表&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.client.post&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;客户端 - 创建&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.client.put&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;客户端 - 更新&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.put&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;微服务 - 更新&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.all&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;所有权限&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;ids4.ms.apiresource.scopes&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;微服务 - 权限代码&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">}</span>
-  <span class="p">],</span>
-  <span class="s2">&quot;campaign.apis&quot;</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;campaign.apis.all&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;campaign.apis.all&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;campaign.apis.all&quot;</span><span class="p">,</span>
-      <span class="s2">&quot;emphasize&quot;</span><span class="p">:</span> <span class="n">false</span>
-    <span class="p">}</span>
-  <span class="p">]</span>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">client在请求标识中心颁发token时，默认支持下面的scope。</p>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.publishrevision&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 网关 - 创建修订版&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.publishconfiguration&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 网关 - 上次发布配置&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.publish&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 网关 - 发布或更新版本&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.products&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 网关 - 产品组&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.postrelease&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 修订内容 - 发布&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.postpackages&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 包市场 - 添加&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.post&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 创建&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.publishversion&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 网关 - 创建新版本&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.packages&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 包市场 - 列表&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.get&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 列表&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.detail&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 详情&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.deleterelease&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 修订内容 - 删除&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.deletepackage&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 包市场 - 删除&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.delete&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 删除&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.authservers&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 网关 - OAuthServers&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.all&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 所有权限&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.history&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;代码生成 - SDK - 发布记录&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.put&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 更新&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.putrelease&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 修订内容 - 更新&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.putpackage&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 包市场 - 更新&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.versions&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 网关 - 版本列表&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.verifyemail&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 订阅者 - 验证邮箱&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.subscriptions&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 订阅者 - 列表&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.setonlineversion&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 网关 - 上线指定版本&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.scopes&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 权限代码&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.apiresource.releases&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;微服务 - 修订内容 - 列表&quot;</span><span class="p">,</span>
+      <span class="p">}</span>
+</pre></div>
+</div>
+<p>]</p>
+</div>
+<div class="section" id="blob">
+<h2>Blob<a class="headerlink" href="#blob" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.blob.post&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;文件 - 上传视频或文档&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.blob.image&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;文件 - 上传图片&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.blob.base64&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;文件 - 上传base64格式的png图片&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.blob.all&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;文件 - 所有权限&quot;</span><span class="p">,</span>
+      <span class="p">}</span>
+</pre></div>
+</div>
+<p>]</p>
+</div>
+<div class="section" id="id2">
+<h2>客户端<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.client.put&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;客户端 - 更新&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.client.postsecretkey&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;客户端 - 生成密钥&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.client.post&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;客户端 - 创建&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.client.issuetoken&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;客户端 - 创建令牌&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.client.get&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;客户端 - 列表&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.client.detail&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;客户端 - 详情&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.client.all&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;客户端 - 所有权限&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.client.delete&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;客户端 - 删除&quot;</span><span class="p">,</span>
+      <span class="p">}</span>
+</pre></div>
+</div>
+<p>]</p>
+</div>
+<div class="section" id="id3">
+<h2>代码生成<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.codegen.syncgithub&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;代码生成 - Github - 同步&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.codegen.servers&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;代码生成 - 服务端列表&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.codegen.releasesdk&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;代码生成 - SDK - 发布&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.codegen.putnpmoptions&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;代码生成 - NPM - 更新设置&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.codegen.putgithuboptions&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;代码生成 - Github - 更新设置&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.codegen.putcommonoptions&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;代码生成 - 基本设置 - 更新&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.codegen.npmoptions&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;代码生成 - NPM - 设置&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.codegen.githuboptions&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;代码生成 - Github - 设置&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.codegen.gen&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;代码生成 - SDK - 预览生成代码&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.codegen.get&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;代码生成 - 客户端列表&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.codegen.commonoptions&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;代码生成 - 基本设置 - 获取&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.codegen.all&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;代码生成 - 所有权限&quot;</span><span class="p">,</span>
+      <span class="p">}</span>
+</pre></div>
+</div>
+<p>]</p>
+</div>
+<div class="section" id="id4">
+<h2>标识<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.identityresource.put&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;身份服务 - 更新&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.identityresource.post&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;身份服务 - 创建&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.identityresource.get&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;身份服务 - 列表&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.identityresource.detail&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;身份服务 - 详情&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.identityresource.delete&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;身份服务 - 删除&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.identityresource.all&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;身份服务 - 所有权限&quot;</span><span class="p">,</span>
+      <span class="p">}</span>
+</pre></div>
+</div>
+<p>]</p>
+</div>
+<div class="section" id="id5">
+<h2>角色<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.role.all&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;角色 - 所有权限&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.role.delete&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;角色 - 删除&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.role.detail&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;角色 - 详情&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.role.put&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;角色 - 更新&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.role.post&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;角色 - 创建&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.role.get&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;角色 - 列表&quot;</span><span class="p">,</span>
+      <span class="p">}</span>
+</pre></div>
+</div>
+<p>]</p>
+</div>
+<div class="section" id="id6">
+<h2>租户<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.tenant.post&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;租户 - 创建&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.tenant.get&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;租户 - 列表&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.tenant.detail&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;租户 - 详情&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.tenant.delete&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;租户 - 删除&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.tenant.all&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;租户 - 所有权限&quot;</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+              <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.tenant.put&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;租户 - 更新&quot;</span><span class="p">,</span>
+      <span class="p">}</span>
+</pre></div>
+</div>
+<p>]</p>
+</div>
+<div class="section" id="id7">
+<h2>用户<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+  <span class="p">{</span>
+   <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.user.verifyemail&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;用户 - 注册 - 发送邮件验证码&quot;</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.user.register&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;用户 - 注册&quot;</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.user.put&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;用户 - 更新&quot;</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.user.post&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;用户 - 创建&quot;</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.user.head&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;用户 - 是否存在&quot;</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.user.get&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;用户 - 列表&quot;</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.user.detail&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;用户 - 详情&quot;</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.user.delete&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;用户 - 删除&quot;</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.user.verifyphone&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;用户 - 注册 - 发送手机验证码&quot;</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+   <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.user.all&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;用户 - 所有权限&quot;</span><span class="p">,</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+<p>]</p>
+</div>
+<div class="section" id="id8">
+<h2>其他<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;code&quot;</span><span class="o">:</span> <span class="s2">&quot;isms.all&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;授权中心 - 所有权限&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
+</div>
 </div>
 </div>
 
@@ -543,7 +567,7 @@
         <a href="errorcodes.html" class="btn btn-neutral float-right" title="错误码表" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="IdentityServer4MicroService.html" class="btn btn-neutral" title="授权中心" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="IdentityServer4MicroService.html" class="btn btn-neutral" title="标识中心" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -1,56 +1,13 @@
-﻿授权中心
+﻿标识中心
 =================
 .. Note::
 
-	微服务、客户端、代码生成、文件、身份服务、角色、用户、租户管理8大功能。
+	API(API Resource)、Blob、客户端（Client）、代码生成（CodeGen）、标识资源（Identity Resource）、用户(user)、角色(Role)、租户(Tenant)接口文档。	
 
-微服务
+- **scope是客户端调用API时需要的权限，permission是用户调用API时需要的权限。**
+
+API
 ----------------------
-
-错误码表
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	微服务代码对照表
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-codes">Link</a>
-	</p>
-
-|
-
-删除
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.delete</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.delete</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-delete">Link</a>
-	</p>
-
-|
-
-详情
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.detail</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.detail</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-detail">Link</a>
-	</p>
-
-|
 
 列表
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -58,12 +15,8 @@
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.get</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.get</code>
+	scope&permission：isms.apiresource.get
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-get">Link</a>
 	</p>
 
 |
@@ -74,12 +27,8 @@
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.post</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.post</code>
+	scope&permission：isms.apiresource.post
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-post">Link</a>
 	</p>
 
 |
@@ -90,12 +39,44 @@
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.put</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.put</code>
+	scope&permission：isms.apiresource.put
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-put">Link</a>
+	</p>
+
+|
+
+详情
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.apiresource.detail
+	<br /><br />
+	</p>
+
+|
+
+删除
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.apiresource.delete
+	<br /><br />
+	</p>
+
+|
+
+导入
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	
+	<br /><br />
 	</p>
 
 |
@@ -106,73 +87,20 @@
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.scopes</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.scopes</code>
+	scope&permission：isms.apiresource.scopes
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-scopes">Link</a>
 	</p>
 
 |
 
-订阅者
+错误码表
 ~~~~~~~~~~~~~~~~~~~~~~
 
-添加
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 .. raw:: html
 
 	<p>
-	微服务 - 订阅者 - 添加
+	API代码对照表
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-addsubscription">Link</a>
-	</p>
-
-|
-
-取消
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. raw:: html
-
-	<p>
-	微服务 - 订阅者 - 取消
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-delsubscription">Link</a>
-	</p>
-
-|
-
-列表
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.subscriptions</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.subscriptions</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-subscriptions">Link</a>
-	</p>
-
-|
-
-验证邮箱
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.verifyemail</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.verifyemail</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-verifyemail">Link</a>
 	</p>
 
 |
@@ -180,66 +108,14 @@
 网关
 ~~~~~~~~~~~~~~~~~~~~~~
 
-OAuthServers
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.authservers</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.authservers</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-authservers">Link</a>
-	</p>
-
-|
-
-产品包列表
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.products</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.products</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-products">Link</a>
-	</p>
-
-|
-
 发布或更新版本
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.publish</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.publish</code>
+	scope&permission：isms.apiresource.publish
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-publish">Link</a>
-	</p>
-
-|
-
-上次发布配置
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.publishconfiguration</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.publishconfiguration</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-publishconfiguration">Link</a>
 	</p>
 
 |
@@ -250,12 +126,8 @@ OAuthServers
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.publishrevision</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.publishrevision</code>
+	scope&permission：isms.apiresource.publishrevision
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-publishrevision">Link</a>
 	</p>
 
 |
@@ -266,28 +138,20 @@ OAuthServers
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.publishversion</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.publishversion</code>
+	scope&permission：isms.apiresource.publishversion
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-publishversion">Link</a>
 	</p>
 
 |
 
-上线指定版本
+上次发布配置
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.setonlineversion</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.setonlineversion</code>
+	scope&permission：isms.apiresource.publishconfiguration
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-setonlineversion">Link</a>
 	</p>
 
 |
@@ -298,63 +162,44 @@ OAuthServers
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.versions</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.versions</code>
+	scope&permission：isms.apiresource.versions
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-versions">Link</a>
 	</p>
 
 |
 
-包市场
-~~~~~~~~~~~~~~~~~~~~~~
-
-删除
+上线指定版本
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.deletepackage</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.deletepackage</code>
+	scope&permission：isms.apiresource.setonlineversion
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-deletepackage">Link</a>
 	</p>
 
 |
 
-列表
+OAuthServers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.packages</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.packages</code>
+	scope&permission：isms.apiresource.authservers
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-packages">Link</a>
 	</p>
 
 |
 
-添加
+产品包列表
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.postpackages</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.postpackages</code>
+	scope&permission：isms.apiresource.products
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-postpackage">Link</a>
 	</p>
 
 |
@@ -362,34 +207,14 @@ OAuthServers
 修订内容
 ~~~~~~~~~~~~~~~~~~~~~~
 
-删除
+列表
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.deleterelease</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.deleterelease</code>
+	scope&permission：isms.apiresource.releases
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-deleterelease">Link</a>
-	</p>
-
-|
-
-更新
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.putrelease</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.putrelease</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-putrelease">Link</a>
 	</p>
 
 |
@@ -400,15 +225,38 @@ OAuthServers
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.postrelease</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.postrelease</code>
+	scope&permission：isms.apiresource.postrelease
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-postrelease">Link</a>
 	</p>
 
 |
+
+更新
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.apiresource.putrelease
+	<br /><br />
+	</p>
+
+|
+
+删除
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.apiresource.deleterelease
+	<br /><br />
+	</p>
+
+|
+
+订阅者
+~~~~~~~~~~~~~~~~~~~~~~
 
 列表
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -416,12 +264,147 @@ OAuthServers
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.apiresource.releases</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.apiresource.releases</code>
+	scope&permission：isms.apiresource.subscriptions
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-releases">Link</a>
+	</p>
+
+|
+
+添加
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	
+	<br /><br />
+	</p>
+
+|
+
+取消
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	
+	<br /><br />
+	</p>
+
+|
+
+验证邮箱
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.apiresource.verifyemail
+	<br /><br />
+	</p>
+
+|
+
+包市场
+~~~~~~~~~~~~~~~~~~~~~~
+
+列表
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.apiresource.packages
+	<br /><br />
+	</p>
+
+|
+
+添加
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.apiresource.postpackages
+	<br /><br />
+	</p>
+
+|
+
+删除
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.apiresource.deletepackage
+	<br /><br />
+	</p>
+
+|
+
+更新
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.apiresource.deletepackage
+	<br /><br />
+	</p>
+
+|
+
+
+Blob
+----------------------
+
+File
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	视频支持：avi,quicktime,asf,wmv,flv,matroska,mp4,webm,wmv,flash,mpeg。文档支持：pdf,word,excel。scope：isms.blob.post
+	<br /><br />
+	</p>
+
+|
+
+上传图片
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	支持图片：jpeg,jpg,png,octet-stream，小于10MB。scope：isms.blob.image
+	<br /><br />
+	</p>
+
+|
+
+Base64
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	上传Base64格式的png图片。scope：isms.blob.base64
+	<br /><br />
+	</p>
+
+|
+
+错误码表
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	
+	<br /><br />
 	</p>
 
 |
@@ -430,63 +413,14 @@ OAuthServers
 客户端
 ----------------------
 
-错误码表
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	客户端代码对照表
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-codes">Link</a>
-	</p>
-
-|
-
-删除
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.client.delete</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.client.delete</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-delete">Link</a>
-	</p>
-
-|
-
-详情
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.client.detail</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.client.detail</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-detail">Link</a>
-	</p>
-
-|
-
 列表
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.client.get</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.client.get</code>
+	scope&permission：isms.client.get
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-get">Link</a>
 	</p>
 
 |
@@ -497,12 +431,8 @@ OAuthServers
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.client.post</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.client.post</code>
+	scope&permission：isms.client.post
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-post">Link</a>
 	</p>
 
 |
@@ -513,12 +443,32 @@ OAuthServers
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.client.put</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.client.put</code>
+	scope&permission：isms.client.put
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-put">Link</a>
+	</p>
+
+|
+
+详情
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.client.detail
+	<br /><br />
+	</p>
+
+|
+
+删除
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.client.delete
+	<br /><br />
 	</p>
 
 |
@@ -529,12 +479,8 @@ OAuthServers
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.client.issuetoken</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.client.issuetoken</code>
+	scope&permission：isms.client.issuetoken
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-issuetoken">Link</a>
 	</p>
 
 |
@@ -545,12 +491,20 @@ OAuthServers
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.client.postsecretkey</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.client.postsecretkey</code>
+	scope&permission：isms.client.postsecretkey
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-postsecretkey">Link</a>
+	</p>
+
+|
+
+错误码表
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	客户端代码对照表
+	<br /><br />
 	</p>
 
 |
@@ -565,94 +519,8 @@ OAuthServers
 .. raw:: html
 
 	<p>
-	支持生成的客户端集合
+	scope：isms.codegen.clients
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-clients">Link</a>
-	</p>
-
-|
-
-生成
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-gen">Link</a>
-	</p>
-
-|
-
-Github设置
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.codegen.githuboptions</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-githuboptions">Link</a>
-	</p>
-
-|
-
-更新Github设置
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.codegen.putgithuboptions</code>
-	            更新微服务的Github发布设置
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-putgithuboptions">Link</a>
-	</p>
-
-|
-
-NPM设置
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.codegen.npmoptions</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-npmoptions">Link</a>
-	</p>
-
-|
-
-更新NPM设置
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.codegen.putnpmoptions</code>
-	            更新微服务的NPM发布设置
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-putnpmoptions">Link</a>
-	</p>
-
-|
-
-发布SDK
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.codegen.releasesdk</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-releasesdk">Link</a>
 	</p>
 
 |
@@ -663,106 +531,159 @@ NPM设置
 .. raw:: html
 
 	<p>
-	支持生成的服务端集合
+	scope：isms.codegen.servers
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-servers">Link</a>
+	</p>
+
+|
+
+NPM
+~~~~~~~~~~~~~~~~~~~~~~
+
+设置
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	scope：isms.codegen.npmoptions
+	<br /><br />
+	</p>
+
+|
+
+更新设置
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	scope：isms.codegen.putnpmoptions
+	<br /><br />
+	</p>
+
+|
+
+Github
+~~~~~~~~~~~~~~~~~~~~~~
+
+设置
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	scope：isms.codegen.githuboptions
+	<br /><br />
+	</p>
+
+|
+
+更新设置
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	scope：isms.codegen.putgithuboptions
+	<br /><br />
+	</p>
+
+|
+
+同步
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	scope：isms.codegen.putgithuboptions
+	<br /><br />
+	</p>
+
+|
+
+基本设置
+~~~~~~~~~~~~~~~~~~~~~~
+
+获取
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	scope：isms.codegen.commonoptions
+	<br /><br />
+	</p>
+
+|
+
+更新
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	scope：isms.codegen.putcommonoptions
+	<br /><br />
+	</p>
+
+|
+
+SDK
+~~~~~~~~~~~~~~~~~~~~~~
+
+发布
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	scope：isms.codegen.releasesdk
+	<br /><br />
+	</p>
+
+|
+
+预览生成代码
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	
+	<br /><br />
+	</p>
+
+|
+
+发布记录
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	scope：isms.apiresource.history
+	<br /><br />
+	</p>
+
+|
+
+添加记录
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	
+	<br /><br />
 	</p>
 
 |
 
 
-文件
+标识
 ----------------------
-
-错误码表
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	文件代码对照表
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/file-codes">Link</a>
-	</p>
-
-|
-
-上传图片
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.file.image</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/file-image">Link</a>
-	</p>
-
-|
-
-上传视频或文档
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.file.post</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/file-post">Link</a>
-	</p>
-
-|
-
-
-身份服务
-----------------------
-
-错误码表
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	身份服务代码对照表
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/identityresource-codes">Link</a>
-	</p>
-
-|
-
-删除
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.identityresource.delete</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.identityresource.delete</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/identityresource-delete">Link</a>
-	</p>
-
-|
-
-详情
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.identityresource.detail</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.identityresource.detail</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/identityresource-detail">Link</a>
-	</p>
-
-|
 
 列表
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -770,12 +691,8 @@ NPM设置
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.identityresource.get</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.identityresource.get</code>
+	scope&permission：isms.identityresource.get
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/identityresource-get">Link</a>
 	</p>
 
 |
@@ -786,12 +703,8 @@ NPM设置
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.identityresource.post</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.identityresource.post</code>
+	scope&permission：isms.identityresource.post
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/identityresource-post">Link</a>
 	</p>
 
 |
@@ -802,12 +715,44 @@ NPM设置
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.identityresource.put</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.identityresource.put</code>
+	scope&permission：isms.identityresource.put
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/identityresource-put">Link</a>
+	</p>
+
+|
+
+详情
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.identityresource.detail
+	<br /><br />
+	</p>
+
+|
+
+删除
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.identityresource.delete
+	<br /><br />
+	</p>
+
+|
+
+错误码表
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	标识错误码对照表
+	<br /><br />
 	</p>
 
 |
@@ -816,63 +761,14 @@ NPM设置
 角色
 ----------------------
 
-错误码表
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	角色代码对照表
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/role-codes">Link</a>
-	</p>
-
-|
-
-删除
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.role.delete</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.role.delete</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/role-delete">Link</a>
-	</p>
-
-|
-
-详情
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.role.detail</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.role.detail</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/role-detail">Link</a>
-	</p>
-
-|
-
 列表
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.role.get</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.role.get</code>
+	scope&permission：isms.role.get
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/role-get">Link</a>
 	</p>
 
 |
@@ -883,12 +779,8 @@ NPM设置
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.role.post</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.role.post</code>
+	scope&permission：isms.role.post
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/role-post">Link</a>
 	</p>
 
 |
@@ -899,12 +791,44 @@ NPM设置
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.role.put</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.role.put</code>
+	scope&permission：isms.role.put
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/role-put">Link</a>
+	</p>
+
+|
+
+详情
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.role.detail
+	<br /><br />
+	</p>
+
+|
+
+删除
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.role.delete
+	<br /><br />
+	</p>
+
+|
+
+错误码表
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	角色码对照表
+	<br /><br />
 	</p>
 
 |
@@ -913,63 +837,14 @@ NPM设置
 租户
 ----------------------
 
-错误码表
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	租户代码对照表
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/tenant-codes">Link</a>
-	</p>
-
-|
-
-删除
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.tenant.delete</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.tenant.delete</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/tenant-delete">Link</a>
-	</p>
-
-|
-
-详情
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.tenant.detail</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.tenant.detail</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/tenant-detail">Link</a>
-	</p>
-
-|
-
 列表
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.tenant.get</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.tenant.get</code>
+	scope&permission：isms.tenant.get
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/tenant-get">Link</a>
 	</p>
 
 |
@@ -980,12 +855,8 @@ NPM设置
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.tenant.post</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.tenant.post</code>
+	scope&permission：isms.tenant.post
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/tenant-post">Link</a>
 	</p>
 
 |
@@ -996,12 +867,32 @@ NPM设置
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.tenant.put</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.tenant.put</code>
+	scope&permission：isms.tenant.put
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/tenant-put">Link</a>
+	</p>
+
+|
+
+详情
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.tenant.detail
+	<br /><br />
+	</p>
+
+|
+
+删除
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.tenant.delete
+	<br /><br />
 	</p>
 
 |
@@ -1012,9 +903,20 @@ NPM设置
 .. raw:: html
 
 	<p>
-	租户 - 详情（公共）
+	
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/tenant-info">Link</a>
+	</p>
+
+|
+
+错误码表
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	租户 - 错误码对照表
+	<br /><br />
 	</p>
 
 |
@@ -1023,63 +925,14 @@ NPM设置
 用户
 ----------------------
 
-错误码表
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	用户代码对照表
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-codes">Link</a>
-	</p>
-
-|
-
-删除
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.user.delete</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.user.delete</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-delete">Link</a>
-	</p>
-
-|
-
-详情
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.user.detail</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.user.detail</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-detail">Link</a>
-	</p>
-
-|
-
 列表
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.user.get</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.user.get</code>
+	scope&permission：isms.user.get
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-get">Link</a>
 	</p>
 
 |
@@ -1090,12 +943,8 @@ NPM设置
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.user.post</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.user.post</code>
+	scope&permission：isms.user.post
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-post">Link</a>
 	</p>
 
 |
@@ -1106,12 +955,32 @@ NPM设置
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.user.put</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.user.put</code>
+	scope&permission：isms.user.put
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-put">Link</a>
+	</p>
+
+|
+
+详情
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.user.detail
+	<br /><br />
+	</p>
+
+|
+
+删除
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	scope&permission：isms.user.delete
+	<br /><br />
 	</p>
 
 |
@@ -1122,12 +991,20 @@ NPM设置
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.user.head</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.user.head</code>
+	scope&permission：isms.user.head
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-head">Link</a>
+	</p>
+
+|
+
+错误码表
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+	<p>
+	用户错误码对照表
+	<br /><br />
 	</p>
 
 |
@@ -1141,29 +1018,8 @@ NPM设置
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.user.register</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.user.register</code>
-	            需验证手机号；邮箱如果填写了，也需要验证
+	需验证手机号；邮箱如果填写了，也需要验证
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-register">Link</a>
-	</p>
-
-|
-
-发送邮件验证码
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. raw:: html
-
-	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.user.verifyemail</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.user.verifyemail</code>
-	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-verifyemail">Link</a>
 	</p>
 
 |
@@ -1174,13 +1030,35 @@ NPM设置
 .. raw:: html
 
 	<p>
-	<label>Client Scopes：</label>
-	<code>ids4.ms.user.verifyphone</code>
-	<label>User Permissions：</label>
-	<code>ids4.ms.user.verifyphone</code>
+	
 	<br /><br />
-	<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-verifyphone">Link</a>
 	</p>
 
 |
 
+发送邮件验证码
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	
+	<br /><br />
+	</p>
+
+|
+
+忘记密码
+~~~~~~~~~~~~~~~~~~~~~~
+
+手机验证码
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+	<p>
+	
+	<br /><br />
+	</p>
+
+|

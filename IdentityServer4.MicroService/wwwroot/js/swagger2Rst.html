@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swagger2Rst</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/minireset.css/0.0.2/minireset.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        var swaggerServer = 'https://{server}';
+        var swaggerRoot = 'https://{server}/swagger/v1/swagger.json';
+
+        var API = {
+            ApiResource: {
+                name: 'API',
+                items: []
+            },
+            Blob: {
+                name: 'Blob',
+                items: []
+            },
+            Client: {
+                name: '客户端',
+                items: []
+            },
+            CodeGen: {
+                name: '代码生成',
+                items: []
+            },
+            IdentityResource: {
+                name: '标识',
+                items: []
+            },
+            Role: {
+                name: '角色',
+                items: []
+            },
+            Tenant: {
+                name: '租户',
+                items: []
+            },
+            User: {
+                name: '用户',
+                items: []
+            },
+        };
+
+        var IGenerator = function (doc, opts) {
+
+            var fns = [];
+
+            Object.keys(doc.paths).forEach(path => {
+                var APIKeys = Object.keys(doc.paths[path]);
+
+                APIKeys.filter(apikey => Object.keys(API).indexOf(doc.paths[path][apikey].tags.toString()) > -1).forEach(apikey => 
+                {
+                    var APIObject = doc.paths[path][apikey];
+
+                    var menus = APIObject.summary.split(' - ');
+
+                    var tag = doc.paths[path][apikey].tags.toString();
+
+                    if (menus.length == 2) {
+
+                        var item = {
+                            id: APIObject.operationId,
+                            name: menus[1],
+                            desc: APIObject.description,
+                            items: []
+                        };
+
+                        API[tag].items.push(item);
+                    } 
+                    else 
+                    {
+                        if (API[tag].items.filter(x=>x.name==menus[1]).length ==0) 
+                        {
+                            API[tag].items.push({
+                                id: APIObject.operationId,
+                                name: menus[1],
+                                desc: APIObject.description,
+                                items: []
+                            });
+                        }
+
+                        API[tag].items.filter(x=>x.name==menus[1])[0].items.push({
+                                id: APIObject.operationId,
+                                name: menus[2],
+                                desc: APIObject.description,
+                                items: []
+                            })
+                    }
+
+                });
+            });
+
+            Object.keys(API).forEach(tag => {
+
+                var x = API[tag];
+
+                var fn = x.name + '\r\n----------------------\r\n\r\n';
+
+                x.items.forEach(xx => {
+                    if (xx.items && xx.items.length > 0) {
+                        fn += xx.name + '\r\n~~~~~~~~~~~~~~~~~~~~~~\r\n\r\n';
+
+                        xx.items.forEach(xxx => {
+                            fn += xxx.name + '\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n\r\n';
+                            fn += '.. raw:: html\r\n\n\t';
+                            fn += '<p>\r\n\t';
+                            if (xxx.desc) {
+                                fn += xxx.desc.replace(/\n/g, '\t');
+                            }
+                            fn +=
+                                '\r\n\t<br /><br />' +
+                                '\r\n\t</p>\r\n' +
+                                '\r\n|\r\n\r\n';
+                        });
+                    } else {
+                        fn += xx.name + '\r\n~~~~~~~~~~~~~~~~~~~~~~\r\n\r\n';
+                        fn += '.. raw:: html\r\n\n\t';
+                        fn += '<p>\r\n\t';
+                        if (xx.desc) {
+                            fn += xx.desc.replace(/\n/g, '\t');
+                        }
+                        fn +=
+                            '\r\n\t<br /><br />' +
+                            '\r\n\t</p>\r\n' +
+                            '\r\n|\r\n\r\n';
+                    }
+
+                })
+
+                fns.push(fn);
+            });
+
+            var fnStr = doc.info.title +
+                '\r\n=================\r\n' +
+                '.. Note::\r\n\r\n\t' +
+                doc.info.description + '\r\n\r\n' +
+                fns.join('\r\n');
+
+            return fnStr;
+        }
+
+
+        $(function () {
+
+            $.getJSON(swaggerRoot).then(doc => {
+                window.doc = doc;
+
+                var resultSDK = IGenerator(doc);
+
+                $('#result').text(resultSDK);
+
+                hljs.initHighlighting();
+            });
+        });
+    </script>
+
+    <pre id="result"></pre>
+</body>
+</html>

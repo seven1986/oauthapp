@@ -1,10 +1,9 @@
-﻿创建身份认证中心
+﻿创建标识服务器
 ==================
 
 .. Note::
 
-	参考如下步骤，搭建身份认证中心服务器。
-
+	参考如下步骤，搭建标识服务器。请确保您已经安装了 `Visual Studio 2019 <https://visualstudio.microsoft.com/zh-hans/vs/>`_ 和 `DotNet Core 3.1 <https://dotnet.microsoft.com/download/dotnet-core/3.1>`_，以及 `SQL Server <https://www.microsoft.com/zh-cn/sql-server/sql-server-downloads>`_ 。
 
 1，创建 AspNet Core Web 应用程序
 ------------------------------
@@ -26,12 +25,15 @@
 3，配置
 ----------------------------
 
+appsetting.json
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 - 对 **项目** 点击右键——属性——调试，复制项目网址
 .. image:: ./images/usecase-basic/startserver7.png
 
 - 复制下面代码到 **appsetting.json** ，注意将Host节点替换为当前项目网址，**结尾不要带“/”**
 
-- **DataBaseConnection** 可替换为实际数据库的地址，**SMS** 和 **Email** 为sendcloud的服务，可空
+- **DataBaseConnection** 可替换为实际数据库的地址，**SMS** 和 **Email** 为 `sendcloud <https://sendcloud.sohu.com/>`_ 的服务，可空
 
 .. code-block:: javascript
   
@@ -40,7 +42,7 @@
     "AzureStorageConnection": "可空"
   	},
   "IdentityServer": {
-    "Host": "当前项目网址，结尾不要到“/”",
+    "Host": "当前项目网址，结尾不要到/",
     "SMS": {
       "apiUser": "可空",
       "apiKey": "可空"
@@ -54,14 +56,31 @@
   }
 
 |
-
 .. image:: ./images/usecase-basic/startserver8.png
 
-- 打开项目的 **Views/Shared/_Layout.cshtml** 文件，添加登陆组件，启用Identity UI。
+
+Identity UI
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- 打开项目的 **Views/Shared/_Layout.cshtml** 文件，添加登陆组件。
  
+.. code-block:: html
+
+    <partial name="_LoginPartial" />
+
+
 .. image:: ./images/usecase-basic/startserver9.png
 
-- 打开 **Startup.cs** 文件，添加如下代码。
+添加并引用服务
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- 打开 **Startup.cs** 文件，添加如下代码。( **注释app.UseAuthentication()**)
+
+.. code-block:: csharp
+
+    services.AddIdentityServer4MicroService();
+    app.UseIdentityServer4MicroService();
+
 
 .. image:: ./images/usecase-basic/startserver10.png
 
