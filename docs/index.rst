@@ -17,7 +17,6 @@ Welcome to IdentityServer4.MicroService
    :caption: 开始
 
    startserver
-   start-apiresource
 
 .. toctree::
    :maxdepth: 1
@@ -30,7 +29,6 @@ Welcome to IdentityServer4.MicroService
    :caption: 其他
 
    permissions
-   errorcodes
    issues
 
 Indices and tables

@@ -18,9 +18,9 @@ namespace IdentityServer4.MicroService.Models.Apis.CodeGenController
         public Language language { get; set; }
 
         /// <summary>
-        /// 微服务的ID
+        /// API的ID
         /// </summary>
-        [Required(ErrorMessage = "请填写微服务的ID")]
+        [Required(ErrorMessage = "请填写API的ID")]
         public string apiId { get; set; }
 
         /// <summary>

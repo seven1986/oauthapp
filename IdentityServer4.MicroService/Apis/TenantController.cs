@@ -23,7 +23,6 @@ namespace IdentityServer4.MicroService.Apis
     /// <summary>
     /// 租户
     /// </summary>
-    //[Route("Tenant")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Tenant")]
@@ -52,13 +51,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.tenant.get
-        /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:tenant.get")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.get")]
-        [SwaggerOperation(OperationId = "TenantGet")]
+        [SwaggerOperation(OperationId = "TenantGet",
+            Summary = "租户 - 列表",
+            Description = "scope&permission：isms.tenant.get")]
         public async Task<PagingResult<AppTenant>> Get([FromQuery]PagingRequest<TenantGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -130,13 +128,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.tenant.detail
-        /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:tenant.detail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.detail")]
-        [SwaggerOperation(OperationId = "TenantDetail")]
+        [SwaggerOperation(OperationId = "TenantDetail",
+            Summary = "租户 - 详情",
+            Description = "scope&permission：isms.tenant.detail")]
         public async Task<ApiResult<AppTenant>> Get(int id)
         {
             var query = tenantDb.Tenants.AsQueryable();
@@ -164,13 +161,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.tenant.post
-        /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:tenant.post")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.post")]
-        [SwaggerOperation(OperationId = "TenantPost")]
+        [SwaggerOperation(OperationId = "TenantPost",
+            Summary = "租户 - 创建",
+            Description = "scope&permission：isms.tenant.post")]
         public async Task<ApiResult<long>> Post([FromBody]AppTenant value)
         {
             if (!ModelState.IsValid)
@@ -195,13 +191,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.tenant.put
-        /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:tenant.put")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.put")]
-        [SwaggerOperation(OperationId = "TenantPut")]
+        [SwaggerOperation(OperationId = "TenantPut",
+            Summary = "租户 - 更新",
+            Description = "scope&permission：isms.tenant.put")]
         public async Task<ApiResult<long>> Put([FromBody]AppTenant value)
         {
             if (!ModelState.IsValid)
@@ -382,13 +377,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.tenant.delete
-        /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:tenant.delete")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.delete")]
-        [SwaggerOperation(OperationId = "TenantDelete")]
+        [SwaggerOperation(OperationId = "TenantDelete",
+            Summary = "租户 - 删除",
+            Description = "scope&permission：isms.tenant.delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
             var entity = await tenantDb.Tenants.FirstOrDefaultAsync(x => x.OwnerUserId == UserId && x.Id == id);
@@ -416,7 +410,9 @@ namespace IdentityServer4.MicroService.Apis
         /// <returns></returns>
         [HttpGet("Info")]
         [AllowAnonymous]
-        [SwaggerOperation(OperationId = "TenantInfo")]
+        [SwaggerOperation(OperationId = "TenantInfo",
+            Summary = "租户 - 详情（公共）",
+            Description = "")]
         public ApiResult<TenantPublicModel> Info(string host)
         {
             var entity = tenantService.GetTenant(tenantDb, host);
@@ -435,12 +431,11 @@ namespace IdentityServer4.MicroService.Apis
         /// 租户 - 错误码表
         /// </summary>
         /// <returns></returns>
-        /// <remarks>
-        /// 租户代码对照表
-        /// </remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
-        [SwaggerOperation(OperationId = "TenantCodes")]
+        [SwaggerOperation(OperationId = "TenantCodes",
+            Summary = "租户 - 错误码表",
+            Description = "租户 - 错误码对照表")]
         public List<ApiCodeModel> Codes()
         {
             var result = _Codes<TenantControllerEnums>();

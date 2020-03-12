@@ -24,7 +24,6 @@ namespace IdentityServer4.MicroService.Apis
     /// <summary>
     /// 客户端
     /// </summary>
-    //[Route("Client")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Client")]
@@ -60,13 +59,13 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.client.get
-        /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.get")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.get")]
-        [SwaggerOperation(OperationId = "ClientGet")]
+        [SwaggerOperation(
+            OperationId = "ClientGet",
+            Summary = "客户端 - 列表",
+            Description = "scope&permission：isms.client.get")]
         public async Task<PagingResult<Client>> Get([FromQuery]PagingRequest<ClientGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -153,13 +152,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.client.detail
-        /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.detail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.detail")]
-        [SwaggerOperation(OperationId = "ClientDetail")]
+        [SwaggerOperation(OperationId = "ClientDetail",
+            Summary = "客户端 - 详情",
+            Description = "scope&permission：isms.client.detail")]
         public async Task<ApiResult<Client>> Get(int id)
         {
             if (!await exists(id))
@@ -200,13 +198,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.client.post
-        /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.post")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.post")]
-        [SwaggerOperation(OperationId = "ClientPost")]
+        [SwaggerOperation(OperationId = "ClientPost",
+            Summary = "客户端 - 创建",
+            Description = "scope&permission：isms.client.post")]
         public async Task<ApiResult<long>> Post([FromBody]Client value)
         {
             if (!ModelState.IsValid)
@@ -244,13 +241,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.client.put
-        /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.put")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.put")]
-        [SwaggerOperation(OperationId = "ClientPut")]
+        [SwaggerOperation(OperationId = "ClientPut",
+            Summary = "客户端 - 更新",
+            Description = "scope&permission：isms.client.put")]
         public async Task<ApiResult<long>> Put([FromBody]Client value)
         {
             if (!ModelState.IsValid)
@@ -731,13 +727,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.client.delete
-        /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.delete")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.delete")]
-        [SwaggerOperation(OperationId = "ClientDelete")]
+        [SwaggerOperation(OperationId = "ClientDelete",
+            Summary = "客户端 - 删除",
+            Description = "scope&permission：isms.client.delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
             if (!await exists(id))
@@ -782,13 +777,12 @@ namespace IdentityServer4.MicroService.Apis
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.client.issuetoken
-        /// </remarks>
         [HttpPost("IssueToken")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.issuetoken")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.issuetoken")]
-        [SwaggerOperation(OperationId = "ClientIssueToken")]
+        [SwaggerOperation(OperationId = "ClientIssueToken",
+            Summary = "客户端 - 创建令牌",
+            Description = "scope&permission：isms.client.issuetoken")]
         public async Task<ApiResult<string>> IssueToken([FromBody]ClientIssueTokenRequest value)
         {
             if (value.lifetime < 1) { value.lifetime = 3600; }
@@ -810,13 +804,12 @@ namespace IdentityServer4.MicroService.Apis
         /// <param name="id"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.client.postsecretkey
-        /// </remarks>
         [HttpPost("{id}/Secretkey")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:client.postsecretkey")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.postsecretkey")]
-        [SwaggerOperation(OperationId = "ClientPostSecretkey")]
+        [SwaggerOperation(OperationId = "ClientPostSecretkey",
+            Summary = "客户端 - 生成密钥",
+            Description = "scope&permission：isms.client.postsecretkey")]
         public ApiResult<string> PostSecretkey(int id,[FromBody]ClientPostSecretkeyRequest value)
         {
             var result = string.Empty;
@@ -841,10 +834,11 @@ namespace IdentityServer4.MicroService.Apis
         /// <summary>
         /// 客户端 - 错误码表
         /// </summary>
-        /// <remarks>客户端代码对照表</remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
-        [SwaggerOperation(OperationId = "ClientCodes")]
+        [SwaggerOperation(OperationId = "ClientCodes",
+            Summary = "客户端 - 错误码表",
+            Description = "客户端代码对照表")]
         public List<ApiCodeModel> Codes()
         {
             var result = _Codes<ClientControllerEnums>();

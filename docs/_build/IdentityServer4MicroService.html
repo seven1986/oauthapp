@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>授权中心 &mdash; IdentityServer4.MicroService  documentation</title>
+  <title>标识中心 &mdash; IdentityServer4.MicroService  documentation</title>
   
 
   
@@ -30,7 +30,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="权限码表" href="permissions.html" />
-    <link rel="prev" title="创建微服务" href="start-apiresource.html" /> 
+    <link rel="prev" title="创建标识服务器" href="startserver.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -85,121 +85,144 @@
 </ul>
 <p class="caption"><span class="caption-text">开始</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="startserver.html">创建身份认证中心</a></li>
-<li class="toctree-l1"><a class="reference internal" href="start-apiresource.html">创建微服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="startserver.html">创建标识服务器</a></li>
 </ul>
 <p class="caption"><span class="caption-text">开放能力</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">授权中心</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">微服务</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">错误码表</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">删除</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">标识中心</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">列表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">创建</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">更新</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id5">详情</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">列表</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">创建</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">更新</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">权限代码</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">订阅者</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id11">添加</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id12">取消</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id13">列表</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id14">验证邮箱</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#id15">网关</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id6">删除</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">导入</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">权限代码</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">错误码表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">网关</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id11">发布或更新版本</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">创建修订版</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">创建新版本</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">上次发布配置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">版本列表</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">上线指定版本</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#oauthservers">OAuthServers</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id16">产品包列表</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id17">发布或更新版本</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id18">上次发布配置</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id19">创建修订版</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id20">创建新版本</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id21">上线指定版本</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id22">版本列表</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">产品包列表</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id23">包市场</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id24">删除</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id25">列表</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id26">添加</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">修订内容</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id19">列表</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">发布</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">更新</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id22">删除</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id27">修订内容</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id28">删除</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id29">更新</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id30">发布</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id31">列表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">订阅者</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id24">列表</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id25">添加</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id26">取消</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id27">验证邮箱</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">包市场</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id29">列表</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id30">添加</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id31">删除</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id32">更新</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id32">客户端</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id33">错误码表</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id34">删除</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id35">详情</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#blob">Blob</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#file">File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id33">上传图片</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#base64">Base64</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id34">错误码表</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id35">客户端</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id36">列表</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id37">创建</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id38">更新</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id39">创建令牌</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id40">生成密钥</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id39">详情</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id40">删除</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id41">创建令牌</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id42">生成密钥</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id43">错误码表</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id41">代码生成</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id42">客户端列表</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id43">生成</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#github">Github设置</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id44">更新Github设置</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#npm">NPM设置</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id45">更新NPM设置</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#sdk">发布SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id44">代码生成</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id45">客户端列表</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id46">服务端列表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#npm">NPM</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id47">设置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id48">更新设置</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id47">文件</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id48">错误码表</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id49">上传图片</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id50">上传视频或文档</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#github">Github</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id49">设置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id50">更新设置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id51">同步</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id51">身份服务</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id52">错误码表</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id53">删除</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id54">详情</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id55">列表</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id56">创建</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id57">更新</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id52">基本设置</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id53">获取</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id54">更新</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id58">角色</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id59">错误码表</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id60">删除</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id61">详情</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id62">列表</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id63">创建</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id64">更新</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sdk">SDK</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id55">发布</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id56">预览生成代码</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id57">发布记录</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id58">添加记录</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id65">租户</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id66">错误码表</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id67">删除</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id68">详情</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id69">列表</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id70">创建</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id71">更新</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id72">详情（公共）</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id73">用户</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id74">错误码表</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id75">删除</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id76">详情</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id77">列表</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id78">创建</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id79">更新</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id80">是否存在</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id81">注册</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id82">提交</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id83">发送邮件验证码</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id84">发送手机验证码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id59">标识</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id60">列表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id61">创建</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id62">更新</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id63">详情</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id64">删除</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id65">错误码表</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id66">角色</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id67">列表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id68">创建</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id69">更新</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id70">详情</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id71">删除</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id72">错误码表</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id73">租户</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id74">列表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id75">创建</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id76">更新</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id77">详情</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id78">删除</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id79">详情（公共）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id80">错误码表</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id81">用户</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id82">列表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id83">创建</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id84">更新</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id85">详情</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id86">删除</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id87">是否存在</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id88">错误码表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id89">注册</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id90">提交</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id91">发送手机验证码</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id92">发送邮件验证码</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id93">忘记密码</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id94">手机验证码</a></li>
 </ul>
 </li>
 </ul>
@@ -257,7 +280,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>授权中心</li>
+      <li>标识中心</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -277,32 +300,39 @@
            <div itemprop="articleBody">
             
   <div class="section" id="id1">
-<h1>授权中心<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<h1>标识中心<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">微服务、客户端、代码生成、文件、身份服务、角色、用户、租户管理8大功能。</p>
+<p class="last">API(API Resource)、Blob、客户端（Client）、代码生成（CodeGen）、标识资源（Identity Resource）、用户(user)、角色(Role)、租户(Tenant)接口文档。</p>
 </div>
+<ul class="simple">
+<li><strong>scope是客户端调用API时需要的权限，permission是用户调用API时需要的权限。</strong></li>
+</ul>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
-<h2>微服务<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id3">
-<h3>错误码表<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3>列表<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>
-微服务代码对照表
+scope&permission：isms.apiresource.get
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-codes">Link</a>
+</p><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>创建<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>
+scope&permission：isms.apiresource.post
+<br /><br />
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id4">
-<h3>删除<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h3>更新<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.delete</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.delete</code>
+scope&permission：isms.apiresource.put
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-delete">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -310,369 +340,287 @@
 <div class="section" id="id5">
 <h3>详情<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.detail</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.detail</code>
+scope&permission：isms.apiresource.detail
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-detail">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id6">
-<h3>列表<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<h3>删除<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.get</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.get</code>
+scope&permission：isms.apiresource.delete
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-get">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id7">
-<h3>创建<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<h3>导入<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.post</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.post</code>
+
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-post">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id8">
-<h3>更新<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<h3>权限代码<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.put</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.put</code>
+scope&permission：isms.apiresource.scopes
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-put">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id9">
-<h3>权限代码<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<h3>错误码表<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.scopes</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.scopes</code>
+API代码对照表
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-scopes">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id10">
-<h3>订阅者<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<h3>网关<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id11">
-<h4>添加<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<h4>发布或更新版本<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
 <p>
-微服务 - 订阅者 - 添加
+scope&permission：isms.apiresource.publish
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-addsubscription">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id12">
-<h4>取消<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<h4>创建修订版<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
 <p>
-微服务 - 订阅者 - 取消
+scope&permission：isms.apiresource.publishrevision
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-delsubscription">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id13">
-<h4>列表<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<h4>创建新版本<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.subscriptions</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.subscriptions</code>
+scope&permission：isms.apiresource.publishversion
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-subscriptions">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id14">
-<h4>验证邮箱<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<h4>上次发布配置<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.verifyemail</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.verifyemail</code>
+scope&permission：isms.apiresource.publishconfiguration
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-verifyemail">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
-</div>
 <div class="section" id="id15">
-<h3>网关<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="oauthservers">
-<h4>OAuthServers<a class="headerlink" href="#oauthservers" title="Permalink to this headline">¶</a></h4>
+<h4>版本列表<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.authservers</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.authservers</code>
+scope&permission：isms.apiresource.versions
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-authservers">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id16">
-<h4>产品包列表<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<h4>上线指定版本<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.products</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.products</code>
+scope&permission：isms.apiresource.setonlineversion
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-products">Link</a>
+</p><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="oauthservers">
+<h4>OAuthServers<a class="headerlink" href="#oauthservers" title="Permalink to this headline">¶</a></h4>
+<p>
+scope&permission：isms.apiresource.authservers
+<br /><br />
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id17">
-<h4>发布或更新版本<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
+<h4>产品包列表<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.publish</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.publish</code>
+scope&permission：isms.apiresource.products
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-publish">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
+</div>
 </div>
 </div>
 <div class="section" id="id18">
-<h4>上次发布配置<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
-<p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.publishconfiguration</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.publishconfiguration</code>
-<br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-publishconfiguration">Link</a>
-</p><div class="line-block">
-<div class="line"><br /></div>
-</div>
-</div>
+<h3>修订内容<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id19">
-<h4>创建修订版<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
+<h4>列表<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.publishrevision</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.publishrevision</code>
+scope&permission：isms.apiresource.releases
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-publishrevision">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id20">
-<h4>创建新版本<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h4>
+<h4>发布<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.publishversion</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.publishversion</code>
+scope&permission：isms.apiresource.postrelease
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-publishversion">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id21">
-<h4>上线指定版本<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h4>
+<h4>更新<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.setonlineversion</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.setonlineversion</code>
+scope&permission：isms.apiresource.putrelease
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-setonlineversion">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id22">
-<h4>版本列表<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h4>
+<h4>删除<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.versions</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.versions</code>
+scope&permission：isms.apiresource.deleterelease
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-versions">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 </div>
 <div class="section" id="id23">
-<h3>包市场<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<h3>订阅者<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id24">
-<h4>删除<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h4>
+<h4>列表<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.deletepackage</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.deletepackage</code>
+scope&permission：isms.apiresource.subscriptions
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-deletepackage">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id25">
-<h4>列表<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h4>
+<h4>添加<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.packages</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.packages</code>
+
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-packages">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id26">
-<h4>添加<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h4>
+<h4>取消<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.postpackages</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.postpackages</code>
+
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-postpackage">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
-</div>
 </div>
 </div>
 <div class="section" id="id27">
-<h3>修订内容<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id28">
-<h4>删除<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h4>
+<h4>验证邮箱<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.deleterelease</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.deleterelease</code>
+scope&permission：isms.apiresource.verifyemail
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-deleterelease">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
+</div>
+<div class="section" id="id28">
+<h3>包市场<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id29">
-<h4>更新<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h4>
+<h4>列表<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.putrelease</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.putrelease</code>
+scope&permission：isms.apiresource.packages
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-putrelease">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id30">
-<h4>发布<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h4>
+<h4>添加<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.postrelease</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.postrelease</code>
+scope&permission：isms.apiresource.postpackages
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-postrelease">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id31">
-<h4>列表<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h4>
+<h4>删除<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.apiresource.releases</code>
-<label>User Permissions：</label>
-<code>ids4.ms.apiresource.releases</code>
+scope&permission：isms.apiresource.deletepackage
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/apiresource-releases">Link</a>
+</p><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="id32">
+<h4>更新<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h4>
+<p>
+scope&permission：isms.apiresource.deletepackage
+<br /><br />
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 </div>
 </div>
-<div class="section" id="id32">
-<h2>客户端<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id33">
-<h3>错误码表<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="blob">
+<h2>Blob<a class="headerlink" href="#blob" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="file">
+<h3>File<a class="headerlink" href="#file" title="Permalink to this headline">¶</a></h3>
 <p>
-客户端代码对照表
+视频支持：avi,quicktime,asf,wmv,flv,matroska,mp4,webm,wmv,flash,mpeg。文档支持：pdf,word,excel。scope：isms.blob.post
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-codes">Link</a>
+</p><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="id33">
+<h3>上传图片<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
+<p>
+支持图片：jpeg,jpg,png,octet-stream，小于10MB。scope：isms.blob.image
+<br /><br />
+</p><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="base64">
+<h3>Base64<a class="headerlink" href="#base64" title="Permalink to this headline">¶</a></h3>
+<p>
+上传Base64格式的png图片。scope：isms.blob.base64
+<br /><br />
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id34">
-<h3>删除<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
+<h3>错误码表<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.client.delete</code>
-<label>User Permissions：</label>
-<code>ids4.ms.client.delete</code>
+
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-delete">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
+</div>
 </div>
 </div>
 <div class="section" id="id35">
-<h3>详情<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
-<p>
-<label>Client Scopes：</label>
-<code>ids4.ms.client.detail</code>
-<label>User Permissions：</label>
-<code>ids4.ms.client.detail</code>
-<br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-detail">Link</a>
-</p><div class="line-block">
-<div class="line"><br /></div>
-</div>
-</div>
+<h2>客户端<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id36">
 <h3>列表<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.client.get</code>
-<label>User Permissions：</label>
-<code>ids4.ms.client.get</code>
+scope&permission：isms.client.get
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-get">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -680,12 +628,8 @@
 <div class="section" id="id37">
 <h3>创建<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.client.post</code>
-<label>User Permissions：</label>
-<code>ids4.ms.client.post</code>
+scope&permission：isms.client.post
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-post">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -693,118 +637,65 @@
 <div class="section" id="id38">
 <h3>更新<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.client.put</code>
-<label>User Permissions：</label>
-<code>ids4.ms.client.put</code>
+scope&permission：isms.client.put
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-put">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id39">
-<h3>创建令牌<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h3>
+<h3>详情<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.client.issuetoken</code>
-<label>User Permissions：</label>
-<code>ids4.ms.client.issuetoken</code>
+scope&permission：isms.client.detail
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-issuetoken">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id40">
-<h3>生成密钥<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h3>
+<h3>删除<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.client.postsecretkey</code>
-<label>User Permissions：</label>
-<code>ids4.ms.client.postsecretkey</code>
+scope&permission：isms.client.delete
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/client-postsecretkey">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
-</div>
 <div class="section" id="id41">
-<h2>代码生成<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id42">
-<h3>客户端列表<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h3>
+<h3>创建令牌<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h3>
 <p>
-支持生成的客户端集合
+scope&permission：isms.client.issuetoken
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-clients">Link</a>
+</p><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="id42">
+<h3>生成密钥<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h3>
+<p>
+scope&permission：isms.client.postsecretkey
+<br /><br />
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id43">
-<h3>生成<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h3>
+<h3>错误码表<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h3>
 <p>
-
+客户端代码对照表
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-gen">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
-</div>
-<div class="section" id="github">
-<h3>Github设置<a class="headerlink" href="#github" title="Permalink to this headline">¶</a></h3>
-<p>
-<label>Client Scopes：</label>
-<code>ids4.ms.codegen.githuboptions</code>
-<br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-githuboptions">Link</a>
-</p><div class="line-block">
-<div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id44">
-<h3>更新Github设置<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h3>
-<p>
-<label>Client Scopes：</label>
-<code>ids4.ms.codegen.putgithuboptions</code>
-            更新微服务的Github发布设置
-<br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-putgithuboptions">Link</a>
-</p><div class="line-block">
-<div class="line"><br /></div>
-</div>
-</div>
-<div class="section" id="npm">
-<h3>NPM设置<a class="headerlink" href="#npm" title="Permalink to this headline">¶</a></h3>
-<p>
-<label>Client Scopes：</label>
-<code>ids4.ms.codegen.npmoptions</code>
-<br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-npmoptions">Link</a>
-</p><div class="line-block">
-<div class="line"><br /></div>
-</div>
-</div>
+<h2>代码生成<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id45">
-<h3>更新NPM设置<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h3>
+<h3>客户端列表<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.codegen.putnpmoptions</code>
-            更新微服务的NPM发布设置
+scope：isms.codegen.clients
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-putnpmoptions">Link</a>
-</p><div class="line-block">
-<div class="line"><br /></div>
-</div>
-</div>
-<div class="section" id="sdk">
-<h3>发布SDK<a class="headerlink" href="#sdk" title="Permalink to this headline">¶</a></h3>
-<p>
-<label>Client Scopes：</label>
-<code>ids4.ms.codegen.releasesdk</code>
-<br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-releasesdk">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -812,421 +703,406 @@
 <div class="section" id="id46">
 <h3>服务端列表<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h3>
 <p>
-支持生成的服务端集合
+scope：isms.codegen.servers
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/codegen-servers">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
-</div>
+<div class="section" id="npm">
+<h3>NPM<a class="headerlink" href="#npm" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id47">
-<h2>文件<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id48">
-<h3>错误码表<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h3>
+<h4>设置<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h4>
 <p>
-文件代码对照表
+scope：isms.codegen.npmoptions
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/file-codes">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="section" id="id49">
-<h3>上传图片<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id48">
+<h4>更新设置<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.file.image</code>
+scope：isms.codegen.putnpmoptions
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/file-image">Link</a>
+</p><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="github">
+<h3>Github<a class="headerlink" href="#github" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id49">
+<h4>设置<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h4>
+<p>
+scope：isms.codegen.githuboptions
+<br /><br />
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id50">
-<h3>上传视频或文档<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h3>
+<h4>更新设置<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.file.post</code>
+scope：isms.codegen.putgithuboptions
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/file-post">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
-</div>
 </div>
 </div>
 <div class="section" id="id51">
-<h2>身份服务<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id52">
-<h3>错误码表<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h3>
+<h4>同步<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h4>
 <p>
-身份服务代码对照表
+scope：isms.codegen.putgithuboptions
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/identityresource-codes">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
+</div>
+<div class="section" id="id52">
+<h3>基本设置<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id53">
-<h3>删除<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h3>
+<h4>获取<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.identityresource.delete</code>
-<label>User Permissions：</label>
-<code>ids4.ms.identityresource.delete</code>
+scope：isms.codegen.commonoptions
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/identityresource-delete">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id54">
-<h3>详情<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h3>
+<h4>更新<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.identityresource.detail</code>
-<label>User Permissions：</label>
-<code>ids4.ms.identityresource.detail</code>
+scope：isms.codegen.putcommonoptions
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/identityresource-detail">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
+</div>
+<div class="section" id="sdk">
+<h3>SDK<a class="headerlink" href="#sdk" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id55">
-<h3>列表<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h3>
+<h4>发布<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.identityresource.get</code>
-<label>User Permissions：</label>
-<code>ids4.ms.identityresource.get</code>
+scope：isms.codegen.releasesdk
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/identityresource-get">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id56">
-<h3>创建<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h3>
+<h4>预览生成代码<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.identityresource.post</code>
-<label>User Permissions：</label>
-<code>ids4.ms.identityresource.post</code>
+
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/identityresource-post">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id57">
-<h3>更新<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h3>
+<h4>发布记录<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h4>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.identityresource.put</code>
-<label>User Permissions：</label>
-<code>ids4.ms.identityresource.put</code>
+scope：isms.apiresource.history
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/identityresource-put">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
-</div>
 </div>
 </div>
 <div class="section" id="id58">
-<h2>角色<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id59">
-<h3>错误码表<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h3>
+<h4>添加记录<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h4>
 <p>
-角色代码对照表
+
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/role-codes">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
+</div>
+</div>
+<div class="section" id="id59">
+<h2>标识<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id60">
-<h3>删除<a class="headerlink" href="#id60" title="Permalink to this headline">¶</a></h3>
+<h3>列表<a class="headerlink" href="#id60" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.role.delete</code>
-<label>User Permissions：</label>
-<code>ids4.ms.role.delete</code>
+scope&permission：isms.identityresource.get
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/role-delete">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id61">
-<h3>详情<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h3>
+<h3>创建<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.role.detail</code>
-<label>User Permissions：</label>
-<code>ids4.ms.role.detail</code>
+scope&permission：isms.identityresource.post
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/role-detail">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id62">
-<h3>列表<a class="headerlink" href="#id62" title="Permalink to this headline">¶</a></h3>
+<h3>更新<a class="headerlink" href="#id62" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.role.get</code>
-<label>User Permissions：</label>
-<code>ids4.ms.role.get</code>
+scope&permission：isms.identityresource.put
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/role-get">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id63">
-<h3>创建<a class="headerlink" href="#id63" title="Permalink to this headline">¶</a></h3>
+<h3>详情<a class="headerlink" href="#id63" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.role.post</code>
-<label>User Permissions：</label>
-<code>ids4.ms.role.post</code>
+scope&permission：isms.identityresource.detail
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/role-post">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id64">
-<h3>更新<a class="headerlink" href="#id64" title="Permalink to this headline">¶</a></h3>
+<h3>删除<a class="headerlink" href="#id64" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.role.put</code>
-<label>User Permissions：</label>
-<code>ids4.ms.role.put</code>
+scope&permission：isms.identityresource.delete
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/role-put">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
-</div>
 </div>
 </div>
 <div class="section" id="id65">
-<h2>租户<a class="headerlink" href="#id65" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id66">
-<h3>错误码表<a class="headerlink" href="#id66" title="Permalink to this headline">¶</a></h3>
+<h3>错误码表<a class="headerlink" href="#id65" title="Permalink to this headline">¶</a></h3>
 <p>
-租户代码对照表
+标识错误码对照表
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/tenant-codes">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
+</div>
+<div class="section" id="id66">
+<h2>角色<a class="headerlink" href="#id66" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id67">
-<h3>删除<a class="headerlink" href="#id67" title="Permalink to this headline">¶</a></h3>
+<h3>列表<a class="headerlink" href="#id67" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.tenant.delete</code>
-<label>User Permissions：</label>
-<code>ids4.ms.tenant.delete</code>
+scope&permission：isms.role.get
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/tenant-delete">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id68">
-<h3>详情<a class="headerlink" href="#id68" title="Permalink to this headline">¶</a></h3>
+<h3>创建<a class="headerlink" href="#id68" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.tenant.detail</code>
-<label>User Permissions：</label>
-<code>ids4.ms.tenant.detail</code>
+scope&permission：isms.role.post
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/tenant-detail">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id69">
-<h3>列表<a class="headerlink" href="#id69" title="Permalink to this headline">¶</a></h3>
+<h3>更新<a class="headerlink" href="#id69" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.tenant.get</code>
-<label>User Permissions：</label>
-<code>ids4.ms.tenant.get</code>
+scope&permission：isms.role.put
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/tenant-get">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id70">
-<h3>创建<a class="headerlink" href="#id70" title="Permalink to this headline">¶</a></h3>
+<h3>详情<a class="headerlink" href="#id70" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.tenant.post</code>
-<label>User Permissions：</label>
-<code>ids4.ms.tenant.post</code>
+scope&permission：isms.role.detail
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/tenant-post">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id71">
-<h3>更新<a class="headerlink" href="#id71" title="Permalink to this headline">¶</a></h3>
+<h3>删除<a class="headerlink" href="#id71" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.tenant.put</code>
-<label>User Permissions：</label>
-<code>ids4.ms.tenant.put</code>
+scope&permission：isms.role.delete
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/tenant-put">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id72">
-<h3>详情（公共）<a class="headerlink" href="#id72" title="Permalink to this headline">¶</a></h3>
+<h3>错误码表<a class="headerlink" href="#id72" title="Permalink to this headline">¶</a></h3>
 <p>
-租户 - 详情（公共）
+角色码对照表
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/tenant-info">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 </div>
 <div class="section" id="id73">
-<h2>用户<a class="headerlink" href="#id73" title="Permalink to this headline">¶</a></h2>
+<h2>租户<a class="headerlink" href="#id73" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id74">
-<h3>错误码表<a class="headerlink" href="#id74" title="Permalink to this headline">¶</a></h3>
+<h3>列表<a class="headerlink" href="#id74" title="Permalink to this headline">¶</a></h3>
 <p>
-用户代码对照表
+scope&permission：isms.tenant.get
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-codes">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id75">
-<h3>删除<a class="headerlink" href="#id75" title="Permalink to this headline">¶</a></h3>
+<h3>创建<a class="headerlink" href="#id75" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.user.delete</code>
-<label>User Permissions：</label>
-<code>ids4.ms.user.delete</code>
+scope&permission：isms.tenant.post
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-delete">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id76">
-<h3>详情<a class="headerlink" href="#id76" title="Permalink to this headline">¶</a></h3>
+<h3>更新<a class="headerlink" href="#id76" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.user.detail</code>
-<label>User Permissions：</label>
-<code>ids4.ms.user.detail</code>
+scope&permission：isms.tenant.put
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-detail">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id77">
-<h3>列表<a class="headerlink" href="#id77" title="Permalink to this headline">¶</a></h3>
+<h3>详情<a class="headerlink" href="#id77" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.user.get</code>
-<label>User Permissions：</label>
-<code>ids4.ms.user.get</code>
+scope&permission：isms.tenant.detail
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-get">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id78">
-<h3>创建<a class="headerlink" href="#id78" title="Permalink to this headline">¶</a></h3>
+<h3>删除<a class="headerlink" href="#id78" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.user.post</code>
-<label>User Permissions：</label>
-<code>ids4.ms.user.post</code>
+scope&permission：isms.tenant.delete
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-post">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id79">
-<h3>更新<a class="headerlink" href="#id79" title="Permalink to this headline">¶</a></h3>
+<h3>详情（公共）<a class="headerlink" href="#id79" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.user.put</code>
-<label>User Permissions：</label>
-<code>ids4.ms.user.put</code>
+
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-put">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id80">
-<h3>是否存在<a class="headerlink" href="#id80" title="Permalink to this headline">¶</a></h3>
+<h3>错误码表<a class="headerlink" href="#id80" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.user.head</code>
-<label>User Permissions：</label>
-<code>ids4.ms.user.head</code>
+租户 - 错误码对照表
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-head">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
+</div>
 <div class="section" id="id81">
-<h3>注册<a class="headerlink" href="#id81" title="Permalink to this headline">¶</a></h3>
+<h2>用户<a class="headerlink" href="#id81" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id82">
-<h4>提交<a class="headerlink" href="#id82" title="Permalink to this headline">¶</a></h4>
+<h3>列表<a class="headerlink" href="#id82" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.user.register</code>
-<label>User Permissions：</label>
-<code>ids4.ms.user.register</code>
-            需验证手机号；邮箱如果填写了，也需要验证
+scope&permission：isms.user.get
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-register">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id83">
-<h4>发送邮件验证码<a class="headerlink" href="#id83" title="Permalink to this headline">¶</a></h4>
+<h3>创建<a class="headerlink" href="#id83" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.user.verifyemail</code>
-<label>User Permissions：</label>
-<code>ids4.ms.user.verifyemail</code>
+scope&permission：isms.user.post
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-verifyemail">Link</a>
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="id84">
-<h4>发送手机验证码<a class="headerlink" href="#id84" title="Permalink to this headline">¶</a></h4>
+<h3>更新<a class="headerlink" href="#id84" title="Permalink to this headline">¶</a></h3>
 <p>
-<label>Client Scopes：</label>
-<code>ids4.ms.user.verifyphone</code>
-<label>User Permissions：</label>
-<code>ids4.ms.user.verifyphone</code>
+scope&permission：isms.user.put
 <br /><br />
-<a class="btn btn-neutral" href="https://portal.ixingban.com/docs/services/1/operations/user-verifyphone">Link</a>
+</p><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="id85">
+<h3>详情<a class="headerlink" href="#id85" title="Permalink to this headline">¶</a></h3>
+<p>
+scope&permission：isms.user.detail
+<br /><br />
+</p><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="id86">
+<h3>删除<a class="headerlink" href="#id86" title="Permalink to this headline">¶</a></h3>
+<p>
+scope&permission：isms.user.delete
+<br /><br />
+</p><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="id87">
+<h3>是否存在<a class="headerlink" href="#id87" title="Permalink to this headline">¶</a></h3>
+<p>
+scope&permission：isms.user.head
+<br /><br />
+</p><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="id88">
+<h3>错误码表<a class="headerlink" href="#id88" title="Permalink to this headline">¶</a></h3>
+<p>
+用户错误码对照表
+<br /><br />
+</p><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="id89">
+<h3>注册<a class="headerlink" href="#id89" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id90">
+<h4>提交<a class="headerlink" href="#id90" title="Permalink to this headline">¶</a></h4>
+<p>
+需验证手机号；邮箱如果填写了，也需要验证
+<br /><br />
+</p><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="id91">
+<h4>发送手机验证码<a class="headerlink" href="#id91" title="Permalink to this headline">¶</a></h4>
+<p>
+
+<br /><br />
+</p><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="id92">
+<h4>发送邮件验证码<a class="headerlink" href="#id92" title="Permalink to this headline">¶</a></h4>
+<p>
+
+<br /><br />
+</p><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="id93">
+<h3>忘记密码<a class="headerlink" href="#id93" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id94">
+<h4>手机验证码<a class="headerlink" href="#id94" title="Permalink to this headline">¶</a></h4>
+<p>
+
+<br /><br />
 </p><div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -1246,7 +1122,7 @@
         <a href="permissions.html" class="btn btn-neutral float-right" title="权限码表" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="start-apiresource.html" class="btn btn-neutral" title="创建微服务" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="startserver.html" class="btn btn-neutral" title="创建标识服务器" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

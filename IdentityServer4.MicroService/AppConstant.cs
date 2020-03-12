@@ -27,7 +27,7 @@ namespace IdentityServer4.MicroService
         public static string AssemblyName = Assembly.GetEntryAssembly().GetName().Name;
 
         /// <summary>
-        /// 微服务名称，必须是英文
+        /// API名称，必须是英文
         /// </summary>
         public const string MicroServiceName = "isms";
 

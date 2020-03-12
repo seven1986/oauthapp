@@ -1,10 +1,9 @@
-﻿创建身份认证中心
+﻿创建标识服务器
 ==================
 
 .. Note::
 
-	参考如下步骤，搭建身份认证中心服务器。
-
+	参考如下步骤，搭建标识服务器。请确保您已经安装了 `Visual Studio 2019 <https://visualstudio.microsoft.com/zh-hans/vs/>`_ 和 `DotNet Core 3.1 <https://dotnet.microsoft.com/download/dotnet-core/3.1>`_，以及 `SQL Server <https://www.microsoft.com/zh-cn/sql-server/sql-server-downloads>`_ 。
 
 1，创建 AspNet Core Web 应用程序
 ------------------------------
@@ -14,22 +13,28 @@
 .. image:: ./images/usecase-basic/startserver3.png
 .. image:: ./images/usecase-basic/startserver4.png
 
-2，安装 IdentityServer4.MicroService
+2，安装 Nuget程序包
 ---------------
-
+- 对项目的 **依赖项** 点右键，选择 **管理Nuget程序包**
 .. image:: ./images/usecase-basic/startserver5.png
+
+- 输入 **IdentityServer4MicroService** ，然后点击安装
 .. image:: ./images/usecase-basic/startserver6.png
 
 
-3，配置 appsetting.json
+3，配置
 ----------------------------
 
-- 对项目点击右键——属性——调试，复制项目网址
+appsetting.json
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- 对 **项目** 点击右键——属性——调试，复制项目网址
 .. image:: ./images/usecase-basic/startserver7.png
 
-- 参考如下配置，复制到appsetting.json，注意将Host节点替换为当前项目网址，**结尾不要带“/”**
-- DataBaseConnection节点为本地测试数据库，可以替换为实际数据库的链接地址
-- SMS和Email节点为sendcloud的服务，不使用可以为空
+- 复制下面代码到 **appsetting.json** ，注意将Host节点替换为当前项目网址，**结尾不要带“/”**
+
+- **DataBaseConnection** 可替换为实际数据库的地址，**SMS** 和 **Email** 为 `sendcloud <https://sendcloud.sohu.com/>`_ 的服务，可空
+
 .. code-block:: javascript
   
   "ConnectionStrings": {
@@ -37,7 +42,7 @@
     "AzureStorageConnection": "可空"
   	},
   "IdentityServer": {
-    "Host": "当前项目网址，结尾不要到“/”",
+    "Host": "当前项目网址，结尾不要到/",
     "SMS": {
       "apiUser": "可空",
       "apiKey": "可空"
@@ -54,20 +59,38 @@
 .. image:: ./images/usecase-basic/startserver8.png
 
 
-4，添加并使用服务
-----------------------------
+Identity UI
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- 打开项目的Views/Shared/_Layout.cshtml文件，添加登陆组件，启用Identity UI。
+- 打开项目的 **Views/Shared/_Layout.cshtml** 文件，添加登陆组件。
  
+.. code-block:: html
+
+    <partial name="_LoginPartial" />
+
+
 .. image:: ./images/usecase-basic/startserver9.png
 
-- 打开Startup.cs文件，加入下图中的代码。 **系统默认的用户名：admin@admin.com，密码：123456aA!**
+添加并引用服务
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- 打开 **Startup.cs** 文件，添加如下代码。( **注释app.UseAuthentication()**)
+
+.. code-block:: csharp
+
+    services.AddIdentityServer4MicroService();
+    app.UseIdentityServer4MicroService();
+
 
 .. image:: ./images/usecase-basic/startserver10.png
 
 
-5，配置成功
+4，启动
 --------------
+
+.. Note::
+
+	启动项目并预览。默认用户账号：admin@admin.com，密码：123456aA!，拥有所有权限。
 
 .. image:: ./images/usecase-basic/startserver11.png
 .. image:: ./images/usecase-basic/startserver12.png
@@ -79,14 +102,13 @@
 --------------
 
 - 在浏览器中打开 **{项目网址}**/swagger/index.html可访问API文档。
-- **admin@admin.com默认包含所有接口权限。**
 
 .. image:: ./images/usecase-basic/startserver15.png
 .. image:: ./images/usecase-basic/startserver16.png
 .. image:: ./images/usecase-basic/startserver17.png
 .. image:: ./images/usecase-basic/startserver18.png
 
-- 可访问 **{项目网址}**/grant，撤销对指定client的授权。
+- 可访问 **{项目网址}**/grants，撤销对指定client的授权。
 
 .. image:: ./images/usecase-basic/startserver19.png
 

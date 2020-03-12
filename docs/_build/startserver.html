@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>创建身份认证中心 &mdash; IdentityServer4.MicroService  documentation</title>
+  <title>创建标识服务器 &mdash; IdentityServer4.MicroService  documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="创建微服务" href="start-apiresource.html" />
+    <link rel="next" title="标识中心" href="IdentityServer4MicroService.html" />
     <link rel="prev" title="﻿更新日志" href="log.html" /> 
 
   
@@ -85,21 +85,24 @@
 </ul>
 <p class="caption"><span class="caption-text">开始</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">创建身份认证中心</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">创建标识服务器</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#aspnet-core-web">1，创建 AspNet Core Web 应用程序</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#identityserver4-microservice">2，安装 IdentityServer4.MicroService</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#appsetting-json">3，配置 appsetting.json</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">4，添加并使用服务</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">5，配置成功</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nuget">2，安装 Nuget程序包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">3，配置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#appsetting-json">appsetting.json</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#identity-ui">Identity UI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">添加并引用服务</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">4，启动</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#swagger-ui">6，Swagger UI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#postman">7，Postman</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="start-apiresource.html">创建微服务</a></li>
 </ul>
 <p class="caption"><span class="caption-text">开放能力</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="IdentityServer4MicroService.html">授权中心</a></li>
+<li class="toctree-l1"><a class="reference internal" href="IdentityServer4MicroService.html">标识中心</a></li>
 </ul>
 <p class="caption"><span class="caption-text">其他</span></p>
 <ul>
@@ -151,7 +154,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>创建身份认证中心</li>
+      <li>创建标识服务器</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -171,10 +174,10 @@
            <div itemprop="articleBody">
             
   <div class="section" id="id1">
-<h1>创建身份认证中心<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<h1>创建标识服务器<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">参考如下步骤，搭建身份认证中心服务器。</p>
+<p class="last">参考如下步骤，搭建标识服务器。请确保您已经安装了 <a class="reference external" href="https://visualstudio.microsoft.com/zh-hans/vs/">Visual Studio 2019</a> 和 <a class="reference external" href="https://dotnet.microsoft.com/download/dotnet-core/3.1">DotNet Core 3.1</a>，以及 <a class="reference external" href="https://www.microsoft.com/zh-cn/sql-server/sql-server-downloads">SQL Server</a> 。</p>
 </div>
 <div class="section" id="aspnet-core-web">
 <h2>1，创建 AspNet Core Web 应用程序<a class="headerlink" href="#aspnet-core-web" title="Permalink to this headline">¶</a></h2>
@@ -183,28 +186,35 @@
 <img alt="_images/startserver3.png" src="_images/startserver3.png" />
 <img alt="_images/startserver4.png" src="_images/startserver4.png" />
 </div>
-<div class="section" id="identityserver4-microservice">
-<h2>2，安装 IdentityServer4.MicroService<a class="headerlink" href="#identityserver4-microservice" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="nuget">
+<h2>2，安装 Nuget程序包<a class="headerlink" href="#nuget" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>对项目的 <strong>依赖项</strong> 点右键，选择 <strong>管理Nuget程序包</strong></li>
+</ul>
 <img alt="_images/startserver5.png" src="_images/startserver5.png" />
+<ul class="simple">
+<li>输入 <strong>IdentityServer4MicroService</strong> ，然后点击安装</li>
+</ul>
 <img alt="_images/startserver6.png" src="_images/startserver6.png" />
 </div>
+<div class="section" id="id2">
+<h2>3，配置<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="appsetting-json">
-<h2>3，配置 appsetting.json<a class="headerlink" href="#appsetting-json" title="Permalink to this headline">¶</a></h2>
+<h3>appsetting.json<a class="headerlink" href="#appsetting-json" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>对项目点击右键——属性——调试，复制项目网址</li>
+<li>对 <strong>项目</strong> 点击右键——属性——调试，复制项目网址</li>
 </ul>
 <img alt="_images/startserver7.png" src="_images/startserver7.png" />
 <ul class="simple">
-<li>参考如下配置，复制到appsetting.json，注意将Host节点替换为当前项目网址，<strong>结尾不要带“/”</strong></li>
-<li>DataBaseConnection节点为本地测试数据库，可以替换为实际数据库的链接地址</li>
-<li>SMS和Email节点为sendcloud的服务，不使用可以为空</li>
+<li>复制下面代码到 <strong>appsetting.json</strong> ，注意将Host节点替换为当前项目网址，<strong>结尾不要带“/”</strong></li>
+<li><strong>DataBaseConnection</strong> 可替换为实际数据库的地址，<strong>SMS</strong> 和 <strong>Email</strong> 为 <a class="reference external" href="https://sendcloud.sohu.com/">sendcloud</a> 的服务，可空</li>
 </ul>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;ConnectionStrings&quot;</span><span class="o">:</span> <span class="p">{</span>
   <span class="s2">&quot;DataBaseConnection&quot;</span><span class="o">:</span> <span class="s2">&quot;Data Source=(localdb)\\ProjectsV13;Initial Catalog=ismsdb_demo;Integrated Security=True;Pooling=False&quot;</span><span class="p">,</span>
   <span class="s2">&quot;AzureStorageConnection&quot;</span><span class="o">:</span> <span class="s2">&quot;可空&quot;</span>
       <span class="p">},</span>
 <span class="s2">&quot;IdentityServer&quot;</span><span class="o">:</span> <span class="p">{</span>
-  <span class="s2">&quot;Host&quot;</span><span class="o">:</span> <span class="s2">&quot;当前项目网址，结尾不要到“/”&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;Host&quot;</span><span class="o">:</span> <span class="s2">&quot;当前项目网址，结尾不要到/&quot;</span><span class="p">,</span>
   <span class="s2">&quot;SMS&quot;</span><span class="o">:</span> <span class="p">{</span>
     <span class="s2">&quot;apiUser&quot;</span><span class="o">:</span> <span class="s2">&quot;可空&quot;</span><span class="p">,</span>
     <span class="s2">&quot;apiKey&quot;</span><span class="o">:</span> <span class="s2">&quot;可空&quot;</span>
@@ -223,19 +233,34 @@
 </div>
 <img alt="_images/startserver8.png" src="_images/startserver8.png" />
 </div>
-<div class="section" id="id2">
-<h2>4，添加并使用服务<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="identity-ui">
+<h3>Identity UI<a class="headerlink" href="#identity-ui" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>打开项目的Views/Shared/_Layout.cshtml文件，添加登陆组件，启用Identity UI。</li>
+<li>打开项目的 <strong>Views/Shared/_Layout.cshtml</strong> 文件，添加登陆组件。</li>
 </ul>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">partial</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;_LoginPartial&quot;</span> <span class="p">/&gt;</span>
+</pre></div>
+</div>
 <img alt="_images/startserver9.png" src="_images/startserver9.png" />
-<ul class="simple">
-<li>打开Startup.cs文件，加入下图中的代码。 <strong>系统默认的用户名：admin&#64;admin.com，密码：123456aA!</strong></li>
-</ul>
-<img alt="_images/startserver10.png" src="_images/startserver10.png" />
 </div>
 <div class="section" id="id3">
-<h2>5，配置成功<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h3>添加并引用服务<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>打开 <strong>Startup.cs</strong> 文件，添加如下代码。( <strong>注释app.UseAuthentication()</strong>)</li>
+</ul>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="n">services</span><span class="p">.</span><span class="n">AddIdentityServer4MicroService</span><span class="p">();</span>
+<span class="n">app</span><span class="p">.</span><span class="n">UseIdentityServer4MicroService</span><span class="p">();</span>
+</pre></div>
+</div>
+<img alt="_images/startserver10.png" src="_images/startserver10.png" />
+</div>
+</div>
+<div class="section" id="id4">
+<h2>4，启动<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">启动项目并预览。默认用户账号：<a class="reference external" href="mailto:admin&#37;&#52;&#48;admin&#46;com">admin<span>&#64;</span>admin<span>&#46;</span>com</a>，密码：123456aA!，拥有所有权限。</p>
+</div>
 <img alt="_images/startserver11.png" src="_images/startserver11.png" />
 <img alt="_images/startserver12.png" src="_images/startserver12.png" />
 <img alt="_images/startserver13.png" src="_images/startserver13.png" />
@@ -245,14 +270,13 @@
 <h2>6，Swagger UI<a class="headerlink" href="#swagger-ui" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>在浏览器中打开 <strong>{项目网址}</strong>/swagger/index.html可访问API文档。</li>
-<li><strong>admin&#64;admin.com默认包含所有接口权限。</strong></li>
 </ul>
 <img alt="_images/startserver15.png" src="_images/startserver15.png" />
 <img alt="_images/startserver16.png" src="_images/startserver16.png" />
 <img alt="_images/startserver17.png" src="_images/startserver17.png" />
 <img alt="_images/startserver18.png" src="_images/startserver18.png" />
 <ul class="simple">
-<li>可访问 <strong>{项目网址}</strong>/grant，撤销对指定client的授权。</li>
+<li>可访问 <strong>{项目网址}</strong>/grants，撤销对指定client的授权。</li>
 </ul>
 <img alt="_images/startserver19.png" src="_images/startserver19.png" />
 </div>
@@ -277,7 +301,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="start-apiresource.html" class="btn btn-neutral float-right" title="创建微服务" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="IdentityServer4MicroService.html" class="btn btn-neutral float-right" title="标识中心" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="log.html" class="btn btn-neutral" title="﻿更新日志" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

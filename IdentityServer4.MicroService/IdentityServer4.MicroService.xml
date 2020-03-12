@@ -6,9 +6,9 @@
     <members>
         <member name="T:IdentityServer4.MicroService.Apis.ApiResourceController">
             <summary>
-            微服务
+            API
             </summary>
-            <remarks>为微服务提供版本管理、网关集成都功能。</remarks>
+            <remarks>为API提供版本管理、网关集成都功能。</remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,IdentityServer4.MicroService.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLocalizer{IdentityServer4.MicroService.Apis.ApiResourceController},IdentityServer4.MicroService.Tenant.TenantService,IdentityServer4.MicroService.Tenant.TenantDbContext,IdentityServer4.MicroService.Services.SwaggerCodeGenService,IdentityServer4.MicroService.Services.AzureStorageService,IdentityServer4.MicroService.Services.EmailService,Microsoft.AspNetCore.DataProtection.IDataProtectionProvider,Microsoft.Extensions.Caching.Distributed.IDistributedCache,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
             <summary>
@@ -28,283 +28,210 @@
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Get(IdentityServer4.MicroService.Models.Apis.Common.PagingRequest{IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceGetRequest})">
             <summary>
-            微服务 - 列表
+            API - 列表
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.get
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Get(System.Int64)">
             <summary>
-            微服务 - 详情
+            API - 详情
             </summary>
             <param name="id"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.detail
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Post(IdentityServer4.EntityFramework.Entities.ApiResource)">
             <summary>
-            微服务 - 创建
+            API - 创建
             </summary>
             <param name="value">ID</param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.post
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Put(IdentityServer4.EntityFramework.Entities.ApiResource)">
             <summary>
-            微服务 - 更新
+            API - 更新
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.put
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Delete(System.Int64)">
             <summary>
-            微服务 - 删除
+            API - 删除
             </summary>
             <param name="id">ID</param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.delete
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Import(IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest)">
             <summary>
-            微服务 - 导入
+            API - 导入
             </summary>
             <param name="value"></param>
             <returns></returns>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Scopes">
             <summary>
-            微服务 - 权限代码
+            API - 权限代码
             </summary>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.scopes
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Codes">
             <summary>
-            微服务 - 错误码表
+            API - 错误码表
             </summary>
-            <remarks>微服务代码对照表</remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Publish(System.Int64,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourcePublishRequest)">
             <summary>
-            微服务 - 网关 - 发布或更新版本
+            API - 网关 - 发布或更新版本
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.publish
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.PublishRevision(System.Int64,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourcePublishRevisionsRequest)">
             <summary>
-            微服务 - 网关 - 创建修订版
+            API - 网关 - 创建修订版
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.publishrevision
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.PublishVersion(System.Int64,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceCreateVersionRequest)">
             <summary>
-            微服务 - 网关 - 创建新版本
+            API - 网关 - 创建新版本
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.publishversion
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.PublishConfiguration(System.Int64)">
             <summary>
-            微服务 - 网关 - 上次发布配置
+            API - 网关 - 上次发布配置
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.publishconfiguration
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Versions(System.Int64)">
             <summary>
-            微服务 - 网关 - 版本列表
+            API - 网关 - 版本列表
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.versions
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.SetOnlineVersion(System.Int64,System.String)">
             <summary>
-            微服务 - 网关 - 上线指定版本
+            API - 网关 - 上线指定版本
             </summary>
             <param name="id"></param>
             <param name="revisionId"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.setonlineversion
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.AuthServers">
             <summary>
-            微服务 - 网关 - OAuthServers
+            API - 网关 - OAuthServers
             </summary>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.authservers
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Products">
             <summary>
-            微服务 - 网关 - 产品包列表
+            API - 网关 - 产品包列表
             </summary>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.products
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Releases(System.Int64,System.String)">
             <summary>
-            微服务 - 修订内容 - 列表
+            API - 修订内容 - 列表
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <param name="apiId">Api的ID</param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.releases
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.PostRelease(System.Int64,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourcePostReleaseRequest)">
             <summary>
-            微服务 - 修订内容 - 发布
+            API - 修订内容 - 发布
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.postrelease
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.PutRelease(System.Int64,System.String,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourcePutReleaseRequest)">
             <summary>
-            微服务 - 修订内容 - 更新
+            API - 修订内容 - 更新
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <param name="releaseId">修订内容的ID</param>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.putrelease
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.DeleteRelease(System.Int64,System.String)">
             <summary>
-            微服务 - 修订内容 - 删除
+            API - 修订内容 - 删除
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <param name="releaseId">修订内容的ID</param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.deleterelease
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Subscriptions(System.Int64)">
             <summary>
-            微服务 - 订阅者 - 列表
+            API - 订阅者 - 列表
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.subscriptions
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.AddSubscription(System.Int64,System.String)">
             <summary>
-            微服务 - 订阅者 - 添加
+            API - 订阅者 - 添加
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <param name="code">邮箱校验加密字符串</param>
             <returns></returns>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.DelSubscription(System.Int64,System.String)">
             <summary>
-            微服务 - 订阅者 - 取消
+            API - 订阅者 - 取消
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <param name="code">邮箱校验加密字符串</param>
             <returns></returns>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.VerifyEmail(System.Int64,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceSubscriptionsVerifyEmailRequest)">
             <summary>
-            微服务 - 订阅者 - 验证邮箱
+            API - 订阅者 - 验证邮箱
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.verifyemail
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.Packages(System.String)">
             <summary>
-            微服务 - 包市场 - 列表
+            API - 包市场 - 列表
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.packages
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.PostPackage(System.String,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceSDKRequest)">
             <summary>
-            微服务 - 包市场 - 添加
+            API - 包市场 - 添加
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.postpackages
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.DeletePackage(System.String,System.String)">
             <summary>
-            微服务 - 包市场 - 删除
+            API - 包市场 - 删除
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <param name="packageId">包的ID</param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.deletepackage
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ApiResourceController.PutPackage(System.String,System.String,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceSDKRequest)">
             <summary>
-            微服务 - 包市场 - 更新
+            API - 包市场 - 更新
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <param name="packageId">包的ID</param>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.apiresource.deletepackage
-            </remarks>
         </member>
         <member name="P:IdentityServer4.MicroService.Apis.ApiControllerBase.TenantId">
             <summary>
@@ -346,14 +273,11 @@
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.BlobController.File(Microsoft.AspNetCore.Http.IFormFile,System.String)">
             <summary>
-            Blob - 上传视频或文档
+            Blob - File
             </summary>
             <param name="value">视频(小于20MB),文档文件(小于10MB)</param>
             <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
             <returns></returns>
-            <remarks>
-            Scope：isms.file.post
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.BlobController.UploadImage(Microsoft.AspNetCore.Http.IFormFile,System.String)">
             <summary>
@@ -362,13 +286,10 @@
             <param name="value">图片文件</param>
             <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
             <returns></returns>
-            <remarks>
-            Scope：isms.file.image
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.BlobController.Base64(System.String,System.String)">
             <summary>
-            Blob - 上传Base64格式的png图片
+            Blob - Base64
             </summary>
             <param name="value">base64字符串</param>
             <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
@@ -376,12 +297,9 @@
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.BlobController.Codes">
             <summary>
-            文件 - 错误码表
+            Blob - 错误码表
             </summary>
             <returns></returns>
-            <remarks>
-            文件代码对照表
-            </remarks>
         </member>
         <member name="T:IdentityServer4.MicroService.Apis.ClientController">
             <summary>
@@ -394,9 +312,6 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.client.get
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ClientController.Get(System.Int32)">
             <summary>
@@ -404,9 +319,6 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.client.detail
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ClientController.Post(IdentityServer4.EntityFramework.Entities.Client)">
             <summary>
@@ -414,9 +326,6 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.client.post
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ClientController.Put(IdentityServer4.EntityFramework.Entities.Client)">
             <summary>
@@ -424,9 +333,6 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.client.put
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ClientController.Delete(System.Int32)">
             <summary>
@@ -434,9 +340,6 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.client.delete
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ClientController.IssueToken(IdentityServer4.MicroService.Models.Apis.ClientController.ClientIssueTokenRequest)">
             <summary>
@@ -444,9 +347,6 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.client.issuetoken
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ClientController.PostSecretkey(System.Int32,IdentityServer4.MicroService.Models.Apis.ClientController.ClientPostSecretkeyRequest)">
             <summary>
@@ -455,15 +355,11 @@
             <param name="id"></param>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.client.postsecretkey
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.ClientController.Codes">
             <summary>
             客户端 - 错误码表
             </summary>
-            <remarks>客户端代码对照表</remarks>
         </member>
         <member name="T:IdentityServer4.MicroService.Apis.CodeGenController">
             <summary>
@@ -474,96 +370,69 @@
             <summary>
             代码生成 - 客户端列表
             </summary>
-            <remarks>支持生成的客户端集合</remarks>
+            <param name="fromCache"></param>
             <returns></returns>
-            <remarks>
-            Scope：isms.codegen.clients
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.Servers(System.Boolean)">
             <summary>
             代码生成 - 服务端列表
             </summary>
-            <remarks>支持生成的服务端集合</remarks>
+            <param name="fromCache"></param>
             <returns></returns>
-            <remarks>
-            Scope：isms.codegen.servers
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.NpmOptions(System.String,IdentityServer4.MicroService.Models.Apis.CodeGenController.Language)">
             <summary>
              代码生成 - NPM - 设置
             </summary>
-            <param name="id">微服务ID</param>
+            <param name="id">API的ID</param>
             <param name="language">语言</param>
             <returns></returns>
-            <remarks>
-            Scope：isms.codegen.npmoptions
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.NpmOptions(System.String,IdentityServer4.MicroService.Models.Apis.CodeGenController.Language,IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenNpmOptionsModel)">
             <summary>
              代码生成 - NPM - 更新设置
             </summary>
-            <param name="id">微服务ID</param>
+            <param name="id">API的ID</param>
             <param name="language">语言</param>
             <param name="value">package.json的内容字符串</param>
             <returns></returns>
-            <remarks>
-            Scope：isms.codegen.putnpmoptions
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.GithubOptions(System.String)">
             <summary>
              代码生成 - Github - 设置
             </summary>
-            <param name="id">微服务ID</param>
+            <param name="id">API的ID</param>
             <returns></returns>
-            <remarks>
-            Scope：isms.codegen.githuboptions
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.GithubOptions(System.String,IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceGithubPublishRequest)">
             <summary>
              代码生成 - Github - 更新设置
             </summary>
-            <param name="id">微服务ID</param>
+            <param name="id">API的ID</param>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope：isms.codegen.putgithuboptions
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.SyncGithub(System.String)">
             <summary>
              代码生成 - Github - 同步
             </summary>
-            <param name="id">微服务ID</param>
+            <param name="id">API的ID</param>
             <returns></returns>
-            <remarks>
-            Scope：isms.codegen.putgithuboptions
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.CommonOptions(System.String)">
             <summary>
              代码生成 - 基本设置 - 获取
             </summary>
-            <param name="id">微服务ID</param>
+            <param name="id">API的ID</param>
             <returns></returns>
-            <remarks>
-            Scope：isms.codegen.commonoptions
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.PutCommonOptions(System.String,IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenCommonOptionsModel)">
             <summary>
              代码生成 - 基本设置 - 更新
             </summary>
-            <param name="id">微服务ID</param>
+            <param name="id">API的ID</param>
             <param name="value">package.json的内容字符串</param>
             <returns></returns>
-            <remarks>
-            Scope：isms.codegen.putcommonoptions
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.ReleaseSDK(IdentityServer4.MicroService.Models.Apis.CodeGenController.GenerateClientRequest)">
             <summary>
@@ -571,102 +440,74 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope：isms.codegen.releasesdk
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.Gen(IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenGenRequest)">
             <summary>
             代码生成 - SDK - 预览生成代码
             </summary>
-            <remarks></remarks>
+            <param name="value"></param>
             <returns></returns>
-            <remarks>
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.History(System.String)">
             <summary>
             代码生成 - SDK - 发布记录
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <returns></returns>
-            <remarks>
-            Scope：isms.apiresource.history
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.CodeGenController.PostHistory(System.String,IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenHistoryRequest)">
             <summary>
             代码生成 - SDK - 添加记录
             </summary>
-            <param name="id">微服务的ID</param>
+            <param name="id">API的ID</param>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            </remarks>
         </member>
         <member name="T:IdentityServer4.MicroService.Apis.IdentityResourceController">
             <summary>
-            身份标识
+            标识
             </summary>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.IdentityResourceController.Get(IdentityServer4.MicroService.Models.Apis.Common.PagingRequest{IdentityServer4.MicroService.Models.Apis.IdentityResourceController.IdentityResourceGetRequest})">
             <summary>
-            身份服务 - 列表
+            标识 - 列表
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.identityresource.get
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.IdentityResourceController.Get(System.Int32)">
             <summary>
-            身份服务 - 详情
+             标识 - 详情
             </summary>
             <param name="id"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.identityresource.detail
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.IdentityResourceController.Post(IdentityServer4.EntityFramework.Entities.IdentityResource)">
             <summary>
-            身份服务 - 创建
+             标识 - 创建
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.identityresource.post
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.IdentityResourceController.Put(IdentityServer4.EntityFramework.Entities.IdentityResource)">
             <summary>
-            身份服务 - 更新
+             标识 - 更新
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.identityresource.put
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.IdentityResourceController.Delete(System.Int32)">
             <summary>
-            身份服务 - 删除
+             标识 - 删除
             </summary>
             <param name="id"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.identityresource.delete
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.IdentityResourceController.Codes">
             <summary>
-            身份服务 - 错误码表
+             标识 - 错误码表
             </summary>
             <returns></returns>
-            <remarks>
-            身份服务代码对照表
-            </remarks>
         </member>
         <member name="T:IdentityServer4.MicroService.Apis.RoleController">
             <summary>
@@ -678,9 +519,6 @@
             角色 - 列表
             </summary>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.role.get
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.RoleController.Get(System.Int32)">
             <summary>
@@ -688,9 +526,6 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.role.detail
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.RoleController.Post(IdentityServer4.MicroService.Data.AppRole)">
             <summary>
@@ -698,9 +533,6 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.role.post
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.RoleController.Put(IdentityServer4.MicroService.Data.AppRole)">
             <summary>
@@ -708,9 +540,6 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.role.put
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.RoleController.Delete(System.Int32)">
             <summary>
@@ -718,18 +547,12 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.role.delete
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.RoleController.Codes">
             <summary>
             角色 - 错误码表
             </summary>
             <returns></returns>
-            <remarks>
-            角色代码对照表
-            </remarks>
         </member>
         <member name="T:IdentityServer4.MicroService.Apis.TenantController">
             <summary>
@@ -742,9 +565,6 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.tenant.get
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.TenantController.Get(System.Int32)">
             <summary>
@@ -752,9 +572,6 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.tenant.detail
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.TenantController.Post(IdentityServer4.MicroService.Tenant.AppTenant)">
             <summary>
@@ -762,9 +579,6 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.tenant.post
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.TenantController.Put(IdentityServer4.MicroService.Tenant.AppTenant)">
             <summary>
@@ -772,9 +586,6 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.tenant.put
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.TenantController.Delete(System.Int32)">
             <summary>
@@ -782,9 +593,6 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.tenant.delete
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.TenantController.Info(System.String)">
             <summary>
@@ -798,9 +606,6 @@
             租户 - 错误码表
             </summary>
             <returns></returns>
-            <remarks>
-            租户代码对照表
-            </remarks>
         </member>
         <member name="T:IdentityServer4.MicroService.Apis.UserController">
             <summary>
@@ -813,9 +618,6 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.user.get
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.Get(System.Int32)">
              <summary>
@@ -823,9 +625,6 @@
              </summary>
              <param name="id"></param>
              <returns></returns>
-             <remarks>
-             Scope&amp;Permission：isms.user.detail
-             </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.Post(IdentityServer4.MicroService.Data.AppUser)">
             <summary>
@@ -833,9 +632,6 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.user.post
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.Put(IdentityServer4.MicroService.Data.AppUser)">
             <summary>
@@ -843,9 +639,6 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.user.put
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.Delete(System.Int32)">
             <summary>
@@ -853,9 +646,6 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.user.delete
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.Head(IdentityServer4.MicroService.Models.Apis.UserController.UserDetailRequest)">
             <summary>
@@ -863,27 +653,18 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            Scope&amp;Permission：isms.user.head
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.Codes">
             <summary>
             用户 - 错误码表
             </summary>
             <returns></returns>
-            <remarks>
-            用户代码对照表
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.Register(IdentityServer4.MicroService.Models.Apis.UserController.UserRegisterRequest)">
             <summary>
             用户 - 注册 - 提交
             </summary>
             <returns></returns>
-            <remarks>
-            需验证手机号；邮箱如果填写了，也需要验证
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.SmsCode(IdentityServer4.MicroService.Models.Apis.UserController.UserVerifyPhoneRequest)">
             <summary>
@@ -891,8 +672,6 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.EmailCode(IdentityServer4.MicroService.Models.Apis.UserController.UserVerifyEmailRequest)">
             <summary>
@@ -900,8 +679,6 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
-            <remarks>
-            </remarks>
         </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.ResetPassword(IdentityServer4.MicroService.Models.Apis.UserController.ResetPasswordRequest)">
             <summary>
@@ -931,7 +708,7 @@
         </member>
         <member name="F:IdentityServer4.MicroService.AppConstant.MicroServiceName">
             <summary>
-            微服务名称，必须是英文
+            API名称，必须是英文
             </summary>
         </member>
         <member name="F:IdentityServer4.MicroService.AppConstant.InitializeDatabase">
@@ -1030,9 +807,9 @@
                 &lt;members&gt;
                     &lt;member name=&quot;T:IdentityServer4.MicroService.Apis.ApiResourceController&quot;&gt;
                         &lt;summary&gt;
-                        微服务
+                        API
                         &lt;/summary&gt;
-                        &lt;remarks&gt;为微服务提供版本管理、网关集成都功能。&lt;/remarks&gt;
+                        &lt;remarks&gt;为API提供版本管理、网关集成都功能。&lt;/remarks&gt;
                     &lt;/member&gt;
                     &lt;member name=&quot;M:IdentityServer4.MicroService.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,IdentityServe [字符串的其余部分被截断]&quot;; 的本地化字符串。
              </summary>
@@ -1091,7 +868,7 @@
         <member name="F:IdentityServer4.MicroService.CacheKeys.CodeGenControllerKeys.CommonOptions">
             <summary>
             （缓存KEY）
-            微服务CodeGen的基本信息配置
+            API的CodeGen的基本信息配置
             Key的格式：{ApiRrsourceId}
             Value的格式： json字符串
             </summary>
@@ -1921,22 +1698,22 @@
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceName">
             <summary>
-            微服务名称
+            API名称
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceDisplayName">
             <summary>
-            微服务显示名称
+            API显示名称
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceDescription">
             <summary>
-            微服务简介
+            API简介
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServicePolicies">
             <summary>
-            微服务策略集
+            API策略集
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceClientIDs">
@@ -1962,12 +1739,12 @@
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourcePublishRequest.name">
             <summary>
-            微服务名称
+            API名称
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourcePublishRequest.description">
             <summary>
-            微服务功能简介
+            API功能简介
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.ApiResourceController.ApiResourcePublishRequest.apiId">
@@ -2157,7 +1934,7 @@
             <summary>
             
             </summary>
-            <param name="apiResourceId">微服务ID</param>
+            <param name="apiResourceId">API的ID</param>
             <param name="sdkName">sdk包的名称</param>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.CodeGenHistoryEntity.swaggerUrl">
@@ -2277,7 +2054,7 @@
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.GenerateClientRequest.apiId">
             <summary>
-            微服务的ID
+            API的ID
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.CodeGenController.GenerateClientRequest.swaggerUrl">

@@ -18,13 +18,12 @@ using static IdentityServer4.MicroService.AppConstant;
 namespace IdentityServer4.MicroService.Apis
 {
     /// <summary>
-    /// 身份标识
+    /// 标识
     /// </summary>
-    //[Route("IdentityResource")]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("IdentityResource")]
-    [SwaggerTag("身份标识")]
+    [SwaggerTag("标识")]
     public class IdentityResourceController : ApiControllerBase
     {
         #region Services
@@ -42,19 +41,18 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 身份服务 - 列表
+        #region 标识 - 列表
         /// <summary>
-        /// 身份服务 - 列表
+        /// 标识 - 列表
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.identityresource.get
-        /// </remarks>
         [HttpGet]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:identityresource.get")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.get")]
-        [SwaggerOperation(OperationId = "IdentityResourceGet")]
+        [SwaggerOperation(OperationId = "IdentityResourceGet",
+            Summary = "标识 - 列表",
+            Description = "scope&permission：isms.identityresource.get")]
         public async Task<PagingResult<IdentityResource>> Get([FromQuery]PagingRequest<IdentityResourceGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -113,19 +111,18 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 身份服务 - 详情
+        #region  标识 - 详情
         /// <summary>
-        /// 身份服务 - 详情
+        ///  标识 - 详情
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.identityresource.detail
-        /// </remarks>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:identityresource.detail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.detail")]
-        [SwaggerOperation(OperationId = "IdentityResourceDetail")]
+        [SwaggerOperation(OperationId = "IdentityResourceDetail",
+            Summary = " 标识 - 详情",
+            Description = "scope&permission：isms.identityresource.detail")]
         public async Task<ApiResult<IdentityResource>> Get(int id)
         {
             var entity = await configDb.IdentityResources
@@ -142,19 +139,18 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 身份服务 - 创建
+        #region  标识 - 创建
         /// <summary>
-        /// 身份服务 - 创建
+        ///  标识 - 创建
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.identityresource.post
-        /// </remarks>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:identityresource.post")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.post")]
-        [SwaggerOperation(OperationId = "IdentityResourcePost")]
+        [SwaggerOperation(OperationId = "IdentityResourcePost",
+            Summary = " 标识 - 创建",
+            Description = "scope&permission：isms.identityresource.post")]
         public async Task<ApiResult<long>> Post([FromBody]IdentityResource value)
         {
             if (!ModelState.IsValid)
@@ -171,19 +167,18 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 身份服务 - 更新
+        #region  标识 - 更新
         /// <summary>
-        /// 身份服务 - 更新
+        ///  标识 - 更新
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.identityresource.put
-        /// </remarks>
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:identityresource.put")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.put")]
-        [SwaggerOperation(OperationId = "IdentityResourcePut")]
+        [SwaggerOperation(OperationId = "IdentityResourcePut",
+            Summary = "标识 - 更新",
+            Description = "scope&permission：isms.identityresource.put")]
         public async Task<ApiResult<long>> Put([FromBody]IdentityResource value)
         {
             if (!ModelState.IsValid)
@@ -270,19 +265,18 @@ namespace IdentityServer4.MicroService.Apis
         }
         #endregion
 
-        #region 身份服务 - 删除
+        #region  标识 - 删除
         /// <summary>
-        /// 身份服务 - 删除
+        ///  标识 - 删除
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// <remarks>
-        /// Scope&amp;Permission：isms.identityresource.delete
-        /// </remarks>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:identityresource.delete")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.delete")]
-        [SwaggerOperation(OperationId = "IdentityResourceDelete")]
+        [SwaggerOperation(OperationId = "IdentityResourceDelete",
+            Summary = "标识 - 删除",
+            Description = "scope&permission：isms.identityresource.delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
             var entity = await configDb.IdentityResources.FirstOrDefaultAsync(x => x.Id == id);
@@ -300,17 +294,16 @@ namespace IdentityServer4.MicroService.Apis
         } 
         #endregion
 
-        #region 身份服务 - 错误码表
+        #region  标识 - 错误码表
         /// <summary>
-        /// 身份服务 - 错误码表
+        ///  标识 - 错误码表
         /// </summary>
         /// <returns></returns>
-        /// <remarks>
-        /// 身份服务代码对照表
-        /// </remarks>
         [HttpGet("Codes")]
         [AllowAnonymous]
-        [SwaggerOperation(OperationId = "IdentityResourceCodes")]
+        [SwaggerOperation(OperationId = "IdentityResourceCodes",
+            Summary = "标识 - 错误码表",
+            Description = "标识错误码对照表")]
         public List<ApiCodeModel> Codes()
         {
             var result = _Codes<IdentityResourceControllerEnums>();
