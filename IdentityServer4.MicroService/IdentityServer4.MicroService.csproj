@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>1.0.0</Version>
+    <Version>1.0.2</Version>
     <Product>IdentityServer4.MicroService</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -342,6 +342,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCaching" Version="2.2.0" />
