@@ -169,6 +169,9 @@ namespace IdentityServer4.MicroService.Apis
                      case "Tenants":
                          return JsonConvert.DeserializeObject<List<View_User_Tenant>>(val.ToString());
 
+                     case "Logins":
+                         return JsonConvert.DeserializeObject<List<View_User_Login>>(val.ToString());
+
                      default:
                          return val;
                  }
