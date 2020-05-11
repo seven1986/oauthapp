@@ -381,6 +381,7 @@ namespace IdentityServer4.MicroService.Data
     {
         public long ParentUserID { get; set; }
         public string UserName { get; set; }
+        public string Avatar { get; set; }
         public System.DateTime CreateDate { get; set; }
         public bool LockFlag { get; set; }
         public long DataAmount { get; set; }
@@ -409,6 +410,9 @@ namespace IdentityServer4.MicroService.Data
         public string Pools { get; set; }
         public string PoolIDs { get; set; }
         public string Email { get; set; }
+        public bool EmailConfirmed { get; set; }
+        public string PhoneNumber { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
         public List<View_User_Role> Roles { get; set; }
         public List<View_User_Claim> Claims { get; set; }
         public List<View_User_File> Files { get; set; }
