@@ -414,7 +414,9 @@ namespace IdentityServer4.MicroService.Data
         public List<View_User_File> Files { get; set; }
         public List<View_User_Property> Properties { get; set; }
         public List<View_User_Tenant> Tenants { get; set; }
-       
+
+        public List<View_User_Login> Logins { get; set; }
+
     }
     /// <summary>
     /// used for View_User Roles property
@@ -467,6 +469,16 @@ namespace IdentityServer4.MicroService.Data
     public class View_User_Tenant
     {
         public long TenantId { get; set; }
+    }
+
+    public class View_User_Login
+    {
+        public string LoginProvider { get; set; }
+        
+        public string ProviderDisplayName { get; set; }
+
+        public string ProviderKey { get; set; }
+
     }
     #endregion
 }

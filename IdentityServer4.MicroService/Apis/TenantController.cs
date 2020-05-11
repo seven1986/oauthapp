@@ -1,25 +1,23 @@
-﻿using System;
-using System.Linq;
-using System.Data;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Localization;
-using Swashbuckle.AspNetCore.Annotations;
-using IdentityServer4.MicroService.Enums;
-using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.Tenant;
-using IdentityServer4.MicroService.Models.Shared;
+﻿using IdentityServer4.MicroService.Enums;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.TenantController;
+using IdentityServer4.MicroService.Models.Shared;
+using IdentityServer4.MicroService.Services;
+using IdentityServer4.MicroService.Tenant;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using Swashbuckle.AspNetCore.Annotations;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
 using static IdentityServer4.MicroService.AppConstant;
 
 namespace IdentityServer4.MicroService.Apis
 {
-    // Tenant 根据 OwnerUserId 来获取列表、或详情、增删改
-
     /// <summary>
     /// 租户
     /// </summary>
@@ -167,7 +165,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation(OperationId = "TenantPost",
             Summary = "租户 - 创建",
             Description = "scope&permission：isms.tenant.post")]
-        public async Task<ApiResult<long>> Post([FromBody]AppTenant value)
+        public ApiResult<long> Post([FromBody]AppTenant value)
         {
             if (!ModelState.IsValid)
             {
@@ -179,7 +177,18 @@ namespace IdentityServer4.MicroService.Apis
 
             db.Add(value);
 
-            await db.SaveChangesAsync();
+            try
+            {
+                tenantDb.SaveChanges();
+            }
+
+            catch (Exception ex)
+            {
+                return new ApiResult<long>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
+                {
+                    data = 0
+                };
+            }
 
             return new ApiResult<long>(value.Id);
         }
@@ -197,177 +206,141 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation(OperationId = "TenantPut",
             Summary = "租户 - 更新",
             Description = "scope&permission：isms.tenant.put")]
-        public async Task<ApiResult<long>> Put([FromBody]AppTenant value)
+        public ApiResult<bool> Put([FromBody]AppTenant value)
         {
             if (!ModelState.IsValid)
             {
-                return new ApiResult<long>(l,
+                return new ApiResult<bool>(l,
                     BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
-            using (var tran = tenantDb.Database.BeginTransaction(IsolationLevel.ReadCommitted))
+            var Entity = tenantDb.Tenants.Where(x => x.Id == value.Id && x.OwnerUserId == UserId)
+                .Include(x => x.Hosts)
+                .Include(x => x.Claims)
+                .Include(x => x.Properties).FirstOrDefault();
+
+            if (Entity == null)
             {
-                try
-                {
-                    #region Update Entity
-                    value.OwnerUserId = UserId;
-                    // 需要先更新value，否则更新如claims等属性会有并发问题
-                    tenantDb.Update(value);
-                    tenantDb.SaveChanges();
-                    #endregion
-
-                    #region Find Entity.Source
-                    var source = await tenantDb.Tenants.Where(x => x.Id == value.Id)
-                                     .Include(x => x.Hosts)
-                                     .Include(x => x.Claims)
-                                    .AsNoTracking()
-                                    .FirstOrDefaultAsync();
-                    #endregion
-
-                    #region Update Entity.Claims
-                    if (value.Claims != null && value.Claims.Count > 0)
-                    {
-                        #region delete
-                        var EntityIDs = value.Claims.Select(x => x.Id).ToList();
-                        if (EntityIDs.Count > 0)
-                        {
-                            var DeleteEntities = source.Claims.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-                            if (DeleteEntities.Count() > 0)
-                            {
-                                //var sql = string.Format("DELETE AppTenantClaims WHERE ID IN ({0})",
-                                //            string.Join(",", DeleteEntities));
-
-                                tenantDb.Database.ExecuteSqlRaw($"DELETE AppTenantClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
-                            }
-                        }
-                        #endregion
-
-                        #region update
-                        var UpdateEntities = value.Claims.Where(x => x.Id > 0).ToList();
-                        if (UpdateEntities.Count > 0)
-                        {
-                            UpdateEntities.ForEach(x =>
-                            {
-                                tenantDb.Database.ExecuteSqlRaw($"UPDATE AppTenantClaims SET [ClaimType]={x.ClaimType},[ClaimValue]={x.ClaimValue} WHERE Id = {x.Id}");
-                            });
-                        }
-                        #endregion
-
-                        #region insert
-                        var NewEntities = value.Claims.Where(x => x.Id == 0).ToList();
-                        if (NewEntities.Count > 0)
-                        {
-                            NewEntities.ForEach(x =>
-                            {
-                                tenantDb.Database.ExecuteSqlRaw($"INSERT INTO AppTenantClaims VALUES ({x.ClaimType},{x.ClaimValue},{source.Id})");
-                            });
-                        }
-                        #endregion
-                    }
-                    #endregion
-
-                    #region Update Entity.Properties
-                    if (value.Properties != null && value.Properties.Count > 0)
-                    {
-                        #region delete
-                        var EntityIDs = value.Properties.Select(x => x.Id).ToList();
-                        if (EntityIDs.Count > 0)
-                        {
-                            var DeleteEntities = source.Properties.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-                            if (DeleteEntities.Count() > 0)
-                            {
-                                //var sql = string.Format("DELETE AppTenantProperties WHERE ID IN ({0})",
-                                //            string.Join(",", DeleteEntities));
-
-                                tenantDb.Database.ExecuteSqlRaw($"DELETE AppTenantProperties WHERE ID IN ({string.Join(",", DeleteEntities)})");
-                            }
-                        }
-                        #endregion
-
-                        #region update
-                        var UpdateEntities = value.Properties.Where(x => x.Id > 0).ToList();
-                        if (UpdateEntities.Count > 0)
-                        {
-                            UpdateEntities.ForEach(x =>
-                            {
-                                tenantDb.Database.ExecuteSqlRaw($"UPDATE AppTenantProperties SET [Key]={x.Key},[Value]={x.Value} WHERE Id = {x.Id}");
-                            });
-                        }
-                        #endregion
-
-                        #region insert
-                        var NewEntities = value.Properties.Where(x => x.Id == 0).ToList();
-                        if (NewEntities.Count > 0)
-                        {
-                            NewEntities.ForEach(x =>
-                            {
-                                tenantDb.Database.ExecuteSqlRaw($"INSERT INTO AppTenantProperties VALUES ({x.Key},{x.Value},{source.Id})");
-                            });
-                        }
-                        #endregion
-                    }
-                    #endregion
-
-                    #region Update Entity.Hosts
-                    if (value.Hosts != null && value.Hosts.Count > 0)
-                    {
-                        #region delete
-                        var EntityIDs = value.Hosts.Select(x => x.Id).ToList();
-                        if (EntityIDs.Count > 0)
-                        {
-                            var DeleteEntities = source.Hosts.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-                            if (DeleteEntities.Count() > 0)
-                            {
-                                //var sql = string.Format("DELETE AppTenantHosts WHERE ID IN ({0})",
-                                //            string.Join(",", DeleteEntities));
-
-                                tenantDb.Database.ExecuteSqlRaw($"DELETE AppTenantHosts WHERE ID IN ({string.Join(",", DeleteEntities)})");
-                            }
-                        }
-                        #endregion
-
-                        #region update
-                        var UpdateEntities = value.Hosts.Where(x => x.Id > 0).ToList();
-                        if (UpdateEntities.Count > 0)
-                        {
-                            UpdateEntities.ForEach(x =>
-                            {
-                                tenantDb.Database.ExecuteSqlRaw($"UPDATE AppTenantHosts SET [HostName]= {x.HostName} WHERE Id = {x.Id}");
-                            });
-                        }
-                        #endregion
-
-                        #region insert
-                        var NewEntities = value.Hosts.Where(x => x.Id == 0).ToList();
-                        if (NewEntities.Count > 0)
-                        {
-                            NewEntities.ForEach(x =>
-                            {
-                                tenantDb.Database.ExecuteSqlRaw($"INSERT INTO AppTenantHosts VALUES ({source.Id},{x.HostName})");
-                            });
-                        }
-                        #endregion
-                    }
-                    #endregion
-
-                    tran.Commit();
-                }
-
-                catch (Exception ex)
-                {
-                    tran.Rollback();
-
-                    return new ApiResult<long>(l,
-                        BasicControllerEnums.ExpectationFailed,
-                        ex.Message);
-                }
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
 
-            return new ApiResult<long>(value.Id);
+            #region Name
+            if (!string.IsNullOrWhiteSpace(value.Name) && !value.Name.Equals(Entity.Name))
+            {
+                Entity.Name = value.Name;
+            }
+            #endregion
+
+            #region Theme
+            if (!string.IsNullOrWhiteSpace(value.Theme) && !value.Theme.Equals(Entity.Theme))
+            {
+                Entity.Theme = value.Theme;
+            }
+            #endregion
+
+            #region IdentityServerIssuerUri
+            if (!string.IsNullOrWhiteSpace(value.IdentityServerIssuerUri) && !value.IdentityServerIssuerUri.Equals(Entity.IdentityServerIssuerUri))
+            {
+                Entity.IdentityServerIssuerUri = value.IdentityServerIssuerUri;
+            }
+            #endregion
+
+            #region Status
+            if (value.Status != Entity.Status)
+            {
+                Entity.Status = value.Status;
+            }
+            #endregion
+
+            #region CacheDuration
+            if (value.CacheDuration != Entity.CacheDuration)
+            {
+                Entity.CacheDuration = value.CacheDuration;
+            } 
+            #endregion
+
+            #region Hosts
+            if (Entity.Hosts.Count > 0)
+            {
+                tenantDb.TenantHosts.RemoveRange(Entity.Hosts);
+            }
+
+            if (value.Hosts != null && value.Hosts.Count > 0)
+            {
+                Entity.Hosts.Clear();
+
+                value.Hosts.ForEach(x =>
+                {
+                    Entity.Hosts.Add(new AppTenantHost()
+                    {
+                        HostName = x.HostName,
+                        AppTenantId = value.Id
+                    });
+                });
+            }
+            #endregion
+
+            #region Claims
+            if (Entity.Claims.Count > 0)
+            {
+                tenantDb.TenantClaims.RemoveRange(Entity.Claims);
+            }
+
+            if (value.Claims != null && value.Claims.Count > 0)
+            {
+                Entity.Claims.Clear();
+
+                value.Claims.ForEach(x =>
+                {
+                    Entity.Claims.Add(new AppTenantClaim()
+                    {
+                        ClaimType = x.ClaimType,
+                        AppTenantId = value.Id,
+                        ClaimValue = x.ClaimValue,
+                    });
+                });
+            }
+            #endregion
+
+            #region Properties
+            if (Entity.Properties.Count > 0)
+            {
+                tenantDb.TenantProperties.RemoveRange(Entity.Properties);
+            }
+
+            if (value.Properties != null && value.Properties.Count > 0)
+            {
+                Entity.Properties.Clear();
+
+                value.Properties.ForEach(x =>
+                {
+                    Entity.Properties.Add(new AppTenantProperty()
+                    {
+                        Key = x.Key,
+                        Value = x.Value,
+                        AppTenantId = value.Id
+                    });
+                });
+            }
+            #endregion
+
+            Entity.LastUpdateTime = DateTime.UtcNow.AddHours(8);
+
+            try
+            {
+                tenantDb.SaveChanges();
+            }
+
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
+                {
+                    data = false
+                };
+            }
+
+            return new ApiResult<bool>(true);
         }
         #endregion
 
@@ -383,22 +356,35 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation(OperationId = "TenantDelete",
             Summary = "租户 - 删除",
             Description = "scope&permission：isms.tenant.delete")]
-        public async Task<ApiResult<long>> Delete(int id)
+        public ApiResult<bool> Delete(int id)
         {
-            var entity = await tenantDb.Tenants.FirstOrDefaultAsync(x => x.OwnerUserId == UserId && x.Id == id);
+            var entity = tenantDb.Tenants.Where(x => x.OwnerUserId == UserId && x.Id == id)
+                .Include(x => x.Claims)
+                .Include(x => x.Properties)
+                .Include(x => x.Hosts)
+                .FirstOrDefault();
 
             if (entity == null)
             {
-                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
 
             tenantDb.Tenants.Remove(entity);
 
-            await tenantDb.SaveChangesAsync();
+            try
+            {
+                tenantDb.SaveChanges();
+            }
 
-            tenantDb.Database.ExecuteSqlRaw($"DELETE AspNetUserTenants WHERE AppTenantId = {id}");
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
+                {
+                    data = false
+                };
+            }
 
-            return new ApiResult<long>(id);
+            return new ApiResult<bool>(true);
         }
         #endregion
 
@@ -423,7 +409,7 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             return new ApiResult<TenantPublicModel>(entity.Item1);
-        } 
+        }
         #endregion
 
         #region 租户 - 错误码表
