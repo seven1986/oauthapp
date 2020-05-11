@@ -24,17 +24,20 @@ namespace IdentityServer4.MicroService.Areas.Identity.Pages.Account
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
+        private readonly UserDbContext _userDb;
 
         public ExternalLoginModel(
             SignInManager<AppUser> signInManager,
             UserManager<AppUser> userManager,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            UserDbContext userDb)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
             _emailSender = emailSender;
+            _userDb = userDb;
         }
 
         [BindProperty]
@@ -123,7 +126,12 @@ namespace IdentityServer4.MicroService.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new AppUser { UserName = Input.Email, Email = Input.Email };
-                var result = await _userManager.CreateAsync(user);
+                
+                //var result = await _userManager.CreateAsync(user);
+
+                var result = await Services.AppUserService.CreateUser(1, _userManager, _userDb,
+                  user, new List<long>(1) { 1 }, $"{AppConstant.MicroServiceName}.all", new List<long>(1) { 1 });
+
                 if (result.Succeeded)
                 {
                     result = await _userManager.AddLoginAsync(user, info);

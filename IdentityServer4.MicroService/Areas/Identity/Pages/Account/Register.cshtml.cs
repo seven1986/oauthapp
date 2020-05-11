@@ -24,17 +24,20 @@ namespace IdentityServer4.MicroService.Areas.Identity.Pages.Account
         private readonly UserManager<AppUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly UserDbContext _userDb;
 
         public RegisterModel(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            UserDbContext userDb)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _userDb = userDb;
         }
 
         [BindProperty]
@@ -76,7 +79,11 @@ namespace IdentityServer4.MicroService.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new AppUser { UserName = Input.Email, Email = Input.Email };
-                var result = await _userManager.CreateAsync(user, Input.Password);
+
+                var result = await Services.AppUserService.CreateUser(1, _userManager, _userDb, 
+                    user, new List<long>(1) { 1 }, $"{AppConstant.MicroServiceName}.all", new List<long>(1) { 1 });
+
+                //_userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
