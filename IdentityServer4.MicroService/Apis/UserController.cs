@@ -207,14 +207,14 @@ namespace IdentityServer4.MicroService.Apis
                         A.Lineage.ToString() AS Lineage
                         FROM AspNetUsers A
                         JOIN AspNetUserDistributors B ON A.ID = B.UserID
-                        WHERE A.Lineage.IsDescendantOf(hierarchyid::Parse ('{0}')) = 1";
+                        WHERE A.Lineage.IsDescendantOf(hierarchyid::Parse (@path)) = 1";
 
             if (!User.IsInRole(DefaultRoles.Administrator) && !string.IsNullOrWhiteSpace(UserLineage))
             {
                 cmd += @" AND A.Lineage.IsDescendantOf(hierarchyid::Parse ('" + UserLineage + "')) = 1";
             }
 
-            var result = db.DistributorResponse.FromSqlRaw(cmd, path).ToList();
+            var result = db.DistributorResponse.FromSqlRaw(cmd, new SqlParameter("@path", path)).ToList();
 
             return new ApiResult<List<DistributorResponse>>(result);
         }
