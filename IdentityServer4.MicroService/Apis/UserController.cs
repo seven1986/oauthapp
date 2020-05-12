@@ -21,6 +21,7 @@ using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.UserController;
 using static IdentityServer4.MicroService.AppConstant;
 using Swashbuckle.AspNetCore.Annotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -178,6 +179,44 @@ namespace IdentityServer4.MicroService.Apis
              });
 
             return result;
+        }
+        #endregion
+
+        #region 用户 - 团队
+        /// <summary>
+        /// 获取团队列表
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        [HttpGet("Distributors")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:user.distributors")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.distributors")]
+        [SwaggerOperation(OperationId = "UserDistributors",
+            Summary = "用户 - 团队",
+            Description = "scope&permission：isms.user.distributors")]
+        public ApiResult<List<DistributorResponse>> Distributors([FromQuery][Required]string path)
+        {
+            var cmd = @"SELECT
+                        A.ID,
+                        A.UserName,
+                        A.Avatar, 
+                        B.Members,
+                        B.Sales,
+                        A.ParentUserID,
+                        A.Lineage.GetLevel() AS LineageLevel,
+                        A.Lineage.ToString() AS Lineage
+                        FROM AspNetUsers A
+                        JOIN AspNetUserDistributors B ON A.ID = B.UserID
+                        WHERE A.Lineage.IsDescendantOf(hierarchyid::Parse ({0})) = 1";
+
+            if (!User.IsInRole(DefaultRoles.Administrator) && !string.IsNullOrWhiteSpace(UserLineage))
+            {
+                cmd += @" AND A.Lineage.IsDescendantOf(hierarchyid::Parse ('" + UserLineage + "')) = 1";
+            }
+
+            var result = db.DistributorResponse.FromSqlRaw(cmd, path).ToList();
+
+            return new ApiResult<List<DistributorResponse>>(result);
         }
         #endregion
 

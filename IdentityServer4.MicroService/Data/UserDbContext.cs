@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using IdentityServer4.MicroService.Models.Apis.UserController;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Data.Common;
@@ -206,5 +207,9 @@ namespace IdentityServer4.MicroService.Data
                 return await cmd.ExecuteReaderAsync();
             }
         }
+
+        #region API Models
+        public DbSet<DistributorResponse> DistributorResponse { get; set; }
+        #endregion
     }
 }

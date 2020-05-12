@@ -619,6 +619,13 @@
             <param name="value"></param>
             <returns></returns>
         </member>
+        <member name="M:IdentityServer4.MicroService.Apis.UserController.Distributors(System.String)">
+            <summary>
+            获取团队列表
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
         <member name="M:IdentityServer4.MicroService.Apis.UserController.Get(System.Int32)">
              <summary>
             用户 - 详情
