@@ -207,7 +207,7 @@ namespace IdentityServer4.MicroService.Apis
                         A.Lineage.ToString() AS Lineage
                         FROM AspNetUsers A
                         JOIN AspNetUserDistributors B ON A.ID = B.UserID
-                        WHERE A.Lineage.IsDescendantOf(hierarchyid::Parse ({0})) = 1";
+                        WHERE A.Lineage.IsDescendantOf(hierarchyid::Parse ('{0}')) = 1";
 
             if (!User.IsInRole(DefaultRoles.Administrator) && !string.IsNullOrWhiteSpace(UserLineage))
             {
