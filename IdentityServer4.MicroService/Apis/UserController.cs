@@ -199,6 +199,7 @@ namespace IdentityServer4.MicroService.Apis
             var cmd = @"SELECT
                         A.ID,
                         A.UserName,
+                        A.NickName,
                         A.Avatar, 
                         B.Members,
                         B.Sales,
@@ -502,7 +503,18 @@ namespace IdentityServer4.MicroService.Apis
             }
             #endregion
 
-       
+            try
+            {
+                db.SaveChanges();
+            }
+
+            catch (Exception ex)
+            {
+                return new ApiResult<long>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
+                {
+                    data = value.Id
+                };
+            }
             return new ApiResult<long>(value.Id);
         }
         #endregion
