@@ -3632,7 +3632,7 @@
           "lib/netstandard1.3/Microsoft.WindowsAzure.Storage.dll": {}
         }
       },
-      "IdentityServer4MicroService/1.0.13": {
+      "IdentityServer4MicroService/1.0.14": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
@@ -10967,7 +10967,7 @@
         "windowsazure.storage.nuspec"
       ]
     },
-    "IdentityServer4MicroService/1.0.13": {
+    "IdentityServer4MicroService/1.0.14": {
       "type": "project",
       "path": "../IdentityServer4.MicroService/IdentityServer4.MicroService.csproj",
       "msbuildProject": "../IdentityServer4.MicroService/IdentityServer4.MicroService.csproj"
@@ -10975,7 +10975,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "IdentityServer4MicroService >= 1.0.13"
+      "IdentityServer4MicroService >= 1.0.14"
     ]
   },
   "packageFolders": {

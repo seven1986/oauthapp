@@ -1,27 +1,27 @@
-﻿using System;
-using System.Linq;
-using System.Data;
-using Microsoft.Data.SqlClient;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Localization;
-using Newtonsoft.Json;
-using IdentityServer4.EntityFramework.DbContexts;
+﻿using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Enums;
-using IdentityServer4.MicroService.Tenant;
-using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.CacheKeys;
 using IdentityServer4.MicroService.Models.Apis.Common;
 using IdentityServer4.MicroService.Models.Apis.UserController;
-using static IdentityServer4.MicroService.AppConstant;
+using IdentityServer4.MicroService.Services;
+using IdentityServer4.MicroService.Tenant;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
+using static IdentityServer4.MicroService.AppConstant;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -324,7 +324,7 @@ namespace IdentityServer4.MicroService.Apis
         [SwaggerOperation(OperationId = "UserPut",
             Summary = "用户 - 更新",
             Description = "scope&permission：isms.user.put")]
-        public async Task<ApiResult<long>> Put([FromBody]AppUser value)
+        public ApiResult<long> Put([FromBody]AppUser value)
         {
             if (!ModelState.IsValid)
             {
@@ -333,187 +333,176 @@ namespace IdentityServer4.MicroService.Apis
                     ModelErrors());
             }
 
-            using (var tran = db.Database.BeginTransaction(IsolationLevel.ReadCommitted))
+            var Entity = db.Users.Where(x => x.Id == value.Id)
+               //.Include(x => x.Logins).Include(x => x.Tokens)
+               .Include(x => x.Claims)
+               .Include(x => x.Roles)
+               .Include(x => x.Files)
+               .Include(x => x.Properties)
+               .Include(x => x.Tenants)
+               .FirstOrDefault();
+
+            if (Entity == null)
             {
-                try
-                {
-                    #region Update Entity
-                    // 需要先更新value，否则更新如claims等属性会有并发问题
-                    db.Update(value);
-                    db.SaveChanges();
-                    #endregion
-
-                    #region Find Entity.Source
-                    var source = await db.Users.Where(x => x.Id == value.Id)
-                                     .Include(x => x.Logins)
-                                     .Include(x => x.Claims)
-                                     .Include(x => x.Roles)
-                                     .Include(x => x.Files)
-                                    .AsNoTracking()
-                                    .FirstOrDefaultAsync();
-                    #endregion
-
-                    #region Update Entity.Claims
-                    if (value.Claims != null && value.Claims.Count > 0)
-                    {
-                        #region delete
-                        var EntityIDs = value.Claims.Select(x => x.Id).ToList();
-                        if (EntityIDs.Count > 0)
-                        {
-                            var DeleteEntities = source.Claims.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-                            if (DeleteEntities.Count() > 0)
-                            {
-                                //var sql = string.Format("DELETE AspNetUserClaims WHERE ID IN ({0})",
-                                //            string.Join(",", DeleteEntities));
-
-                                db.Database.ExecuteSqlRaw($"DELETE AspNetUserClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
-                            }
-                        }
-                        #endregion
-
-                        #region update
-                        var UpdateEntities = value.Claims.Where(x => x.Id > 0).ToList();
-                        if (UpdateEntities.Count > 0)
-                        {
-                            UpdateEntities.ForEach(x =>
-                            {
-                                db.Database.ExecuteSqlRaw($"UPDATE AspNetUserClaims SET [ClaimType]={x.ClaimType},[ClaimValue]={x.ClaimValue} WHERE Id = {x.Id}");
-                            });
-                        }
-                        #endregion
-
-                        #region insert
-                        var NewEntities = value.Claims.Where(x => x.Id == 0).ToList();
-                        if (NewEntities.Count > 0)
-                        {
-                            NewEntities.ForEach(x =>
-                            {
-                                db.Database.ExecuteSqlRaw($"INSERT INTO AspNetUserClaims VALUES ({x.ClaimType},{x.ClaimValue},{source.Id})");
-                            });
-                        }
-                        #endregion
-                    }
-                    #endregion
-
-                    #region Update Entity.Files
-                    if (value.Files != null && value.Files.Count > 0)
-                    {
-                        #region delete
-                        var EntityIDs = value.Files.Select(x => x.Id).ToList();
-                        if (EntityIDs.Count > 0)
-                        {
-                            var DeleteEntities = source.Files.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-                            if (DeleteEntities.Count() > 0)
-                            {
-                                //var sql = string.Format("DELETE AspNetUserFiles WHERE ID IN ({0})",
-                                //            string.Join(",", DeleteEntities));
-
-                                db.Database.ExecuteSqlRaw($"DELETE AspNetUserFiles WHERE ID IN ({string.Join(",", DeleteEntities)})");
-                            }
-                        }
-                        #endregion
-
-                        #region update
-                        var UpdateEntities = value.Files.Where(x => x.Id > 0).ToList();
-                        if (UpdateEntities.Count > 0)
-                        {
-                            UpdateEntities.ForEach(x =>
-                            {
-                                db.Database.ExecuteSqlRaw($"UPDATE AspNetUserFiles SET [FileType]={x.FileType},[Files]={x.Files} WHERE Id ={x.Id}");
-                            });
-                        }
-                        #endregion
-
-                        #region insert
-                        var NewEntities = value.Files.Where(x => x.Id == 0).ToList();
-                        if (NewEntities.Count > 0)
-                        {
-                            NewEntities.ForEach(x =>
-                            {
-                                db.Database.ExecuteSqlRaw(
-                                  $"INSERT INTO AspNetUserFiles VALUES ({x.FileType},{x.Files},{source.Id})");
-                            });
-                        }
-                        #endregion
-                    }
-                    #endregion
-
-                    #region Update Entity.Roles
-                    if (value.Roles != null && value.Roles.Count > 0)
-                    {
-                        #region delete
-                        //var sql = $"DELETE AspNetUserRoles WHERE UserId = {source.Id}";
-                        db.Database.ExecuteSqlRaw($"DELETE AspNetUserRoles WHERE UserId = {source.Id}");
-                        #endregion
-
-                        #region insert
-                        value.Roles.ForEach(x =>
-                        {
-                            db.Database.ExecuteSqlRaw(
-                              $"INSERT INTO AspNetUserRoles VALUES ({source.Id},{x.RoleId})");
-                        });
-                        #endregion
-                    }
-                    #endregion
-
-                    #region Update Entity.Properties
-                    if (value.Properties != null && value.Properties.Count > 0)
-                    {
-                        #region delete
-                        var EntityIDs = value.Properties.Select(x => x.Id).ToList();
-                        if (EntityIDs.Count > 0)
-                        {
-                            var DeleteEntities = source.Properties.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-                            if (DeleteEntities.Count() > 0)
-                            {
-                                //var sql = string.Format("DELETE AspNetUserProperties WHERE ID IN ({0})",
-                                //            string.Join(",", DeleteEntities));
-
-                                db.Database.ExecuteSqlRaw($"DELETE AspNetUserProperties WHERE ID IN ({string.Join(",", DeleteEntities)})");
-                            }
-                        }
-                        #endregion
-
-                        #region update
-                        var UpdateEntities = value.Properties.Where(x => x.Id > 0).ToList();
-                        if (UpdateEntities.Count > 0)
-                        {
-                            UpdateEntities.ForEach(x =>
-                            {
-                                db.Database.ExecuteSqlRaw($"UPDATE AspNetUserProperties SET [Key]={x.Key},[Value]={x.Value} WHERE Id = {x.Id}");
-                            });
-                        }
-                        #endregion
-
-                        #region insert
-                        var NewEntities = value.Properties.Where(x => x.Id == 0).ToList();
-                        if (NewEntities.Count > 0)
-                        {
-                            NewEntities.ForEach(x =>
-                            {
-                                db.Database.ExecuteSqlRaw($"INSERT INTO AspNetUserProperties VALUES ({x.Key},{source.Id},{x.Value})");
-                            });
-                        }
-                        #endregion
-                    }
-                    #endregion
-
-                    tran.Commit();
-                }
-
-                catch (Exception ex)
-                {
-                    tran.Rollback();
-
-                    return new ApiResult<long>(l,
-                        BasicControllerEnums.ExpectationFailed,
-                        ex.Message);
-                }
+                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
 
+            #region Avatar
+            if (!string.IsNullOrWhiteSpace(value.Avatar) && !value.Avatar.Equals(Entity.Avatar))
+            {
+                Entity.Avatar = value.Avatar;
+            }
+            #endregion
+            #region NickName
+            if (!string.IsNullOrWhiteSpace(value.NickName) && !value.NickName.Equals(Entity.NickName))
+            {
+                Entity.NickName = value.NickName;
+            }
+            #endregion
+            #region Email
+            if (!string.IsNullOrWhiteSpace(value.Email) && !value.Email.Equals(Entity.Email))
+            {
+                Entity.Email = value.Email;
+            }
+            #endregion
+            #region PhoneNumber
+            if (!string.IsNullOrWhiteSpace(value.PhoneNumber) && !value.PhoneNumber.Equals(Entity.PhoneNumber))
+            {
+                Entity.PhoneNumber = value.PhoneNumber;
+            }
+            #endregion
+            #region LockFlag
+            if (value.LockFlag != Entity.LockFlag)
+            {
+                Entity.LockFlag = value.LockFlag;
+            }
+            #endregion
+            #region Status
+            if (value.Status != Entity.Status)
+            {
+                Entity.Status = value.Status;
+            }
+            #endregion
+            #region Money
+            if (value.Money != Entity.Money)
+            {
+                Entity.Money = value.Money;
+            }
+            #endregion
+            #region Points
+            if (value.Points != Entity.Points)
+            {
+                Entity.Points = value.Points;
+            }
+            #endregion
+            #region DataAmount
+            if (value.DataAmount != Entity.DataAmount)
+            {
+                Entity.DataAmount = value.DataAmount;
+            }
+            #endregion
+            #region Birthday
+            if (value.Birthday != Entity.Birthday)
+            {
+                Entity.Birthday = value.Birthday;
+            }
+            #endregion
+            #region Stature
+            if (value.Stature != Entity.Stature)
+            {
+                Entity.Stature = value.Stature;
+            }
+            #endregion
+            #region Weight
+            if (value.Weight != Entity.Weight)
+            {
+                Entity.Weight = value.Weight;
+            }
+            #endregion
+            #region LastUpdateTime
+            Entity.LastUpdateTime = DateTime.UtcNow.AddHours(8);
+            #endregion
+
+            #region Claims
+            if (value.Claims != null && value.Claims.Count > 0)
+            {
+                Entity.Claims.Clear();
+
+                value.Claims.ForEach(x =>
+                {
+                    Entity.Claims.Add(new AppUserClaim()
+                    {
+                        ClaimType = x.ClaimType,
+                        ClaimValue = x.ClaimValue,
+                        UserId = value.Id
+                    });
+                });
+            }
+            #endregion
+            #region Roles
+            if (value.Roles != null && value.Roles.Count > 0)
+            {
+                Entity.Roles.Clear();
+
+                value.Roles.ForEach(x =>
+                {
+                    Entity.Roles.Add(new AppUserRole()
+                    {
+                        UserId = value.Id,
+                        RoleId = x.RoleId
+                    });
+                });
+            }
+            #endregion
+            #region Files
+            if (value.Files != null && value.Files.Count > 0)
+            {
+                Entity.Files.Clear();
+
+                value.Files.ForEach(x =>
+                {
+                    Entity.Files.Add(new AspNetUserFile()
+                    {
+                        UserId = value.Id,
+                        Files = x.Files,
+                        FileType = x.FileType
+                    });
+                });
+            }
+            #endregion
+            #region Properties
+            if (value.Properties != null && value.Properties.Count > 0)
+            {
+                Entity.Properties.Clear();
+
+                value.Properties.ForEach(x =>
+                {
+                    Entity.Properties.Add(new AspNetUserProperty()
+                    {
+                        UserId = value.Id,
+                        Key = x.Key,
+                        Value = x.Value
+                    });
+                });
+            }
+            #endregion
+            #region Tenants
+            if (value.Tenants != null && value.Tenants.Count > 0)
+            {
+                Entity.Tenants.Clear();
+
+                value.Tenants.ForEach(x =>
+                {
+                    Entity.Tenants.Add(new AspNetUserTenant()
+                    {
+                        UserId = value.Id,
+                        TenantId = x.TenantId
+                    });
+                });
+            }
+            #endregion
+
+       
             return new ApiResult<long>(value.Id);
         }
         #endregion
@@ -905,7 +894,7 @@ namespace IdentityServer4.MicroService.Apis
                 TimeSpan.FromSeconds(UserControllerKeys.VerifyCode_Expire_Email));
 
             await email.SendEmailAsync("verify_email", "邮箱验证",
-                //SendCloudMailTemplates.verify_email,
+               //SendCloudMailTemplates.verify_email,
                new string[] { value.Email },
                 new Dictionary<string, string[]>() {
                     { "%code%", new string[] { verifyCode } }
@@ -954,7 +943,7 @@ namespace IdentityServer4.MicroService.Apis
             var User = await db.Users.FirstOrDefaultAsync(x =>
             x.PhoneNumber == value.PhoneNumber && x.CountryCode == value.CountryCode);
 
-            if (User==null)
+            if (User == null)
             {
                 return new ApiResult<bool>(l, UserControllerEnums.Register_PhoneNumberExists);
             }
