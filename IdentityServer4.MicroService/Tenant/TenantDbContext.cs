@@ -26,6 +26,10 @@ namespace IdentityServer4.MicroService.Tenant
 
         public DbSet<AppTenantHost> TenantHosts { get; set; }
 
+        public DbSet<AppTenantClaim> TenantClaims { get; set; }
+
+        public DbSet<AppTenantProperty> TenantProperties { get; set; }
+
         public async Task<object> ExecuteScalarAsync(string sql, CommandType cmdType = CommandType.Text, params SqlParameter[] sqlParams)
         {
             var con = Database.GetDbConnection();

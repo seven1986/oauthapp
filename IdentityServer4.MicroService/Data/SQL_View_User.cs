@@ -4,9 +4,9 @@
     {
         public const string Name = "View_User";
 
-        public const string SQL = @"CREATE VIEW View_User
+        public const string SQL = @"CREATE VIEW [dbo].[View_User]
 AS
-SELECT   A.ParentUserID, A.UserName, A.CreateDate, A.LockFlag, A.DataAmount, A.Status, A.TypeIDs, B.ID, B.UserID, 
+SELECT   A.ParentUserID,A.NickName as UserName, A.Avatar, A.CreateDate, A.LockFlag, A.DataAmount, A.Status, A.TypeIDs, B.ID, B.UserID, 
                 B.Members, 
 				B.MembersLastUpdate, 
 				B.Sales, 
@@ -26,8 +26,10 @@ SELECT   A.ParentUserID, A.UserName, A.CreateDate, A.LockFlag, A.DataAmount, A.S
                 A.Lineage.ToString() AS Lineage, C.UserName AS ParentUserName,
 				
 			  A.Email,
+			  A.EmailConfirmed,
 
 			  A.PhoneNumber,
+			  A.PhoneNumberConfirmed,
 
 			  (SELECT Q2.Id, Q2.Name, Q2.NormalizedName FROM AspNetUserRoles Q1
 			  JOIN AspNetRoles Q2 ON Q1.RoleId = Q2.Id
@@ -41,6 +43,9 @@ SELECT   A.ParentUserID, A.UserName, A.CreateDate, A.LockFlag, A.DataAmount, A.S
 			  
 			  (SELECT Q1.Id, Q1.[Key],Q1.[Value] FROM AspNetUserProperties Q1
 			  WHERE Q1.UserId = A.Id FOR JSON AUTO) as Properties,
+
+			  (SELECT Q1.LoginProvider, Q1.ProviderKey,Q1.ProviderDisplayName FROM AspNetUserLogins Q1
+			  WHERE Q1.UserId = A.Id FOR JSON AUTO) as Logins,
 
 			  (SELECT Q1.TenantId FROM AspNetUserTenants Q1
 			  WHERE Q1.UserId = A.Id FOR JSON AUTO) as Tenants

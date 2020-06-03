@@ -31,8 +31,6 @@ using Microsoft.AspNetCore.Http;
 
 namespace IdentityServer4.MicroService.Apis
 {
-    // ApiResource 根据 userId 来获取列表、或详情、增删改
-
     /// <summary>
     /// API
     /// </summary>
@@ -244,7 +242,7 @@ namespace IdentityServer4.MicroService.Apis
             OperationId = "ApiResourcePost", 
             Summary = "API - 创建",
             Description = "scope&permission：isms.apiresource.post")]
-        public async Task<ApiResult<long>> Post([FromBody]ApiResource value)
+        public ApiResult<long> Post([FromBody]ApiResource value)
         {
             if (!ModelState.IsValid)
             {
@@ -254,7 +252,18 @@ namespace IdentityServer4.MicroService.Apis
 
             configDb.Add(value);
 
-            await configDb.SaveChangesAsync();
+            try
+            {
+                configDb.SaveChanges();
+            }
+
+            catch (Exception ex)
+            {
+                return new ApiResult<long>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
+                {
+                    data = 0
+                };
+            }
 
             db.UserApiResources.Add(new AspNetUserApiResource()
             {
@@ -262,7 +271,18 @@ namespace IdentityServer4.MicroService.Apis
                 UserId = UserId
             });
 
-            await db.SaveChangesAsync();
+            try
+            {
+                db.SaveChanges();
+            }
+
+            catch (Exception ex)
+            {
+                return new ApiResult<long>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
+                {
+                    data = 0
+                };
+            }
 
             return new ApiResult<long>(value.Id);
         }
@@ -281,267 +301,150 @@ namespace IdentityServer4.MicroService.Apis
             OperationId = "ApiResourcePut",
             Summary = "API - 更新",
             Description = "scope&permission：isms.apiresource.put")]
-        public async Task<ApiResult<long>> Put([FromBody]ApiResource value)
+        public async Task<ApiResult<bool>> Put([FromBody]ApiResource value)
         {
             if (!ModelState.IsValid)
             {
-                return new ApiResult<long>(l,
+                return new ApiResult<bool>(l,
                     BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
             if (!await exists(value.Id))
             {
-                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
 
-            using (var tran = configDb.Database.BeginTransaction(IsolationLevel.ReadCommitted))
+            var Entity = configDb.ApiResources.Where(x => x.Id == value.Id)
+                .Include(x => x.Scopes).ThenInclude(x => x.UserClaims)
+                .Include(x => x.Secrets)
+                .Include(x => x.UserClaims)
+                .FirstOrDefault();
+
+            if (Entity == null)
             {
-                try
-                {
-                    #region Update Entity
-                    // 需要先更新value，否则更新如claims等属性会有并发问题
-                    configDb.Update(value);
-                    configDb.SaveChanges();
-                    #endregion
-
-                    #region Find Entity.Source
-                    var source = await configDb.ApiResources.Where(x => x.Id == value.Id)
-                                     .Include(x => x.Scopes).ThenInclude(x => x.UserClaims)
-                                     .Include(x => x.Secrets)
-                                     .Include(x => x.UserClaims)
-                                     .AsNoTracking()
-                                     .FirstOrDefaultAsync();
-                    #endregion
-
-                    #region Update Entity.Claims
-                    if (value.UserClaims != null && value.UserClaims.Count > 0)
-                    {
-                        #region delete
-                        var EntityIDs = value.UserClaims.Select(x => x.Id).ToList();
-                        if (EntityIDs.Count > 0)
-                        {
-                            var DeleteEntities = source.UserClaims.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-                            if (DeleteEntities.Count() > 0)
-                            {
-                                //var sql = string.Format("DELETE ApiClaims WHERE ID IN ({0})",
-                                //            string.Join(",", DeleteEntities));
-
-                                configDb.Database.ExecuteSqlRaw($"DELETE ApiClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
-                            }
-                        }
-                        #endregion
-
-                        #region update
-                        var UpdateEntities = value.UserClaims.Where(x => x.Id > 0).ToList();
-                        if (UpdateEntities.Count > 0)
-                        {
-                            UpdateEntities.ForEach(x =>
-                            {
-                                configDb.Database.ExecuteSqlRaw($"UPDATE ApiClaims SET [Type]={x.Type} WHERE Id = {x.Id}");
-                            });
-                        }
-                        #endregion
-
-                        #region insert
-                        var NewEntities = value.UserClaims.Where(x => x.Id == 0).ToList();
-                        if (NewEntities.Count > 0)
-                        {
-                            NewEntities.ForEach(x =>
-                            {
-                                configDb.Database.ExecuteSqlRaw($"INSERT INTO ApiClaims VALUES ({source.Id},{x.Type})");
-                            });
-                        }
-                        #endregion
-                    }
-                    #endregion
-
-                    #region Update Entity.Secrets
-                    if (value.Secrets != null && value.Secrets.Count > 0)
-                    {
-                        #region delete
-                        var EntityIDs = value.Secrets.Select(x => x.Id).ToList();
-                        if (EntityIDs.Count > 0)
-                        {
-                            var DeleteEntities = source.Secrets.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-                            if (DeleteEntities.Count() > 0)
-                            {
-                                //var sql = string.Format("DELETE ApiSecrets WHERE ID IN ({0})",
-                                //            string.Join(",", DeleteEntities));
-
-                                configDb.Database.ExecuteSqlRaw($"DELETE ApiSecrets WHERE ID IN ({string.Join(",", DeleteEntities)})");
-                            }
-                        }
-                        #endregion
-
-                        #region update
-                        var UpdateEntities = value.Secrets.Where(x => x.Id > 0).ToList();
-                        if (UpdateEntities.Count > 0)
-                        {
-                            UpdateEntities.ForEach(x =>
-                            {
-                                //var _params = new SqlParameter[] {
-                                //  new SqlParameter("@Description", DBNull.Value) { IsNullable = true },
-                                //  new SqlParameter("@Expiration", DBNull.Value) { IsNullable = true },
-                                //  new SqlParameter("@Type",  DBNull.Value) { IsNullable = true },
-                                //  new SqlParameter("@Value",  DBNull.Value) { IsNullable = true },
-                                //};
-
-                                //if (!string.IsNullOrWhiteSpace(x.Description)) { _params[0].Value = x.Description; }
-                                //if (x.Expiration.HasValue) { _params[1].Value = x.Expiration; }
-                                //if (!string.IsNullOrWhiteSpace(x.Type)) { _params[2].Value = x.Type; }
-                                //if (!string.IsNullOrWhiteSpace(x.Value)) { _params[3].Value = x.Value; }
-
-                                //var sql = new RawSqlString("UPDATE ApiSecrets SET [Description]=@Description,[Expiration]=@Expiration,[Type]=@Type,[Value]=@Value WHERE Id = " + x.Id);
-
-                                configDb.Database.ExecuteSqlRaw($"UPDATE ApiSecrets SET [Description]={x.Description},[Expiration]={x.Expiration},[Type]={x.Type},[Value]={x.Value} WHERE Id = {x.Id}");
-                            });
-                        }
-                        #endregion
-
-                        #region insert
-                        var NewEntities = value.Secrets.Where(x => x.Id == 0).ToList();
-                        if (NewEntities.Count > 0)
-                        {
-                            NewEntities.ForEach(x =>
-                            {
-                                //var _params = new SqlParameter[] {
-                                //   new SqlParameter("@ApiResourceId", source.Id),
-                                //   new SqlParameter("@Description", DBNull.Value) { IsNullable = true },
-                                //   new SqlParameter("@Expiration", DBNull.Value) { IsNullable = true },
-                                //   new SqlParameter("@Type", DBNull.Value){ IsNullable = true },
-                                //   new SqlParameter("@Value", DBNull.Value){ IsNullable = true },
-                                //};
-
-                                //if (!string.IsNullOrWhiteSpace(x.Description)) { _params[0].Value = x.Description; }
-                                //if (x.Expiration.HasValue) { _params[1].Value = x.Expiration; }
-                                //if (!string.IsNullOrWhiteSpace(x.Type)) { _params[2].Value = x.Type; }
-                                //if (!string.IsNullOrWhiteSpace(x.Value)) { _params[3].Value = x.Value; }
-
-                                //var sql = new RawSqlString("INSERT INTO ApiSecrets VALUES (@ApiResourceId,@Description,@Expiration,@Type,@Value)");
-
-                                configDb.Database.ExecuteSqlRaw($"INSERT INTO ApiSecrets VALUES ({source.Id},{x.Description},{x.Expiration},{x.Type},{x.Value})");
-                            });
-                        }
-                        #endregion
-                    }
-                    #endregion
-
-                    #region Update Entity.Scopes
-                    if (value.Scopes != null && value.Scopes.Count > 0)
-                    {
-                        #region delete
-                        var EntityIDs = value.Scopes.Select(x => x.Id).ToList();
-                        if (EntityIDs.Count > 0)
-                        {
-                            var DeleteEntities = source.Scopes.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-                            if (DeleteEntities.Count() > 0)
-                            {
-                                //var sql = string.Format("DELETE ApiScopeClaims WHERE ApiScopeId IN ({0})",
-                                //           string.Join(",", DeleteEntities));
-
-                                configDb.Database.ExecuteSqlRaw($"DELETE ApiScopeClaims WHERE ApiScopeId IN ({string.Join(",", DeleteEntities)})");
-
-                                //sql = string.Format("DELETE ApiScopes WHERE ID IN ({0})",
-                                //            string.Join(",", DeleteEntities));
-
-                                configDb.Database.ExecuteSqlRaw($"DELETE ApiScopes WHERE ID IN ({string.Join(",", DeleteEntities)})");
-                            }
-                        }
-                        #endregion
-
-                        #region update
-                        var UpdateEntities = value.Scopes.Where(x => x.Id > 0).ToList();
-                        if (UpdateEntities.Count > 0)
-                        {
-                            UpdateEntities.ForEach(x =>
-                            {
-                                //var _params = new SqlParameter[] {
-                                //  new SqlParameter("@Description", DBNull.Value) { IsNullable = true },
-                                //  new SqlParameter("@DisplayName", DBNull.Value) { IsNullable = true },
-                                //  new SqlParameter("@Emphasize", x.Emphasize),
-                                //  new SqlParameter("@Name", x.Name),
-                                //  new SqlParameter("@Required", x.Required),
-                                //  new SqlParameter("@ShowInDiscoveryDocument", x.ShowInDiscoveryDocument)
-                                //};
-
-                                //if (!string.IsNullOrWhiteSpace(x.Description)) { _params[0].Value = x.Description; }
-                                //if (!string.IsNullOrWhiteSpace(x.DisplayName)) { _params[1].Value = x.DisplayName; }
-
-                                //var sql = new RawSqlString("UPDATE ApiScopes SET [Description]=@Description,[DisplayName]=@DisplayName,[Emphasize]=@Emphasize,[Name]=@Name,[Required]=@Required,[ShowInDiscoveryDocument]=@ShowInDiscoveryDocument WHERE Id = " + x.Id);
-
-                                configDb.Database.ExecuteSqlRaw($"UPDATE ApiScopes SET [Description]={x.Description},[DisplayName]={x.DisplayName},[Emphasize]={x.Emphasize},[Name]={x.Name},[Required]={x.Required},[ShowInDiscoveryDocument]={x.ShowInDiscoveryDocument} WHERE Id = {x.Id}");
-
-                                configDb.Database.ExecuteSqlRaw($"DELETE ApiScopeClaims WHERE ApiScopeId = {x.Id}");
-
-                                x.UserClaims.ForEach(claim =>
-                                {
-                                    configDb.Database.ExecuteSqlRaw($"INSERT INTO ApiScopeClaims VALUES ({x.Id},{claim.Type})");
-                                });
-                            });
-                        }
-                        #endregion
-
-                        #region insert
-                        var NewEntities = value.Scopes.Where(x => x.Id == 0).ToList();
-                        if (NewEntities.Count > 0)
-                        {
-                            NewEntities.ForEach(x =>
-                            {
-                                var _params = new SqlParameter[]
-                                {
-                                  new SqlParameter("@Description",DBNull.Value) { IsNullable = true },
-                                  new SqlParameter("@DisplayName",DBNull.Value) { IsNullable = true },
-                                  new SqlParameter("@Emphasize",x.Emphasize),
-                                  new SqlParameter("@Name", x.Name),
-                                  new SqlParameter("@Required", x.Required),
-                                  new SqlParameter("@ShowInDiscoveryDocument", x.ShowInDiscoveryDocument),
-                                  new SqlParameter() { Direction = ParameterDirection.ReturnValue },
-                                };
-
-                                if (!string.IsNullOrWhiteSpace(x.Description)) { _params[0].Value = x.Description; }
-                                if (!string.IsNullOrWhiteSpace(x.DisplayName)) { _params[1].Value = x.DisplayName; }
-
-                                var sql = "INSERT INTO ApiScopes VALUES (@ApiResourceId,@Description,@DisplayName,@Emphasize,@Name,@Required,@ShowInDiscoveryDocument)\r\n" +
-                                  "SELECT @@identity";
-
-                                configDb.Database.ExecuteSqlRaw(sql, _params);
-
-                                if (_params[_params.Length - 1].Value != null)
-                                {
-                                    var _ApiScopeId = long.Parse(_params[_params.Length - 1].Value.ToString());
-
-                                    x.UserClaims.ForEach(claim =>
-                                    {
-                                        configDb.Database.ExecuteSqlRaw(
-                                        "INSERT INTO ApiScopeClaims VALUES (@ApiScopeId,@Type)",
-                                        new SqlParameter("@ApiScopeId", _ApiScopeId),
-                                        new SqlParameter("@Type", claim.Type));
-                                    });
-                                }
-                            });
-                        }
-                        #endregion
-                    }
-                    #endregion
-
-                    tran.Commit();
-                }
-
-                catch (Exception ex)
-                {
-                    tran.Rollback();
-
-                    return new ApiResult<long>(l,
-                        BasicControllerEnums.ExpectationFailed,
-                        ex.Message);
-                }
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
 
-            return new ApiResult<long>(value.Id);
+            #region Name
+            if (!string.IsNullOrWhiteSpace(value.Name) && !value.Name.Equals(Entity.Name))
+            {
+                Entity.Name = value.Name;
+            }
+            #endregion
+
+            #region DisplayName
+            if (!string.IsNullOrWhiteSpace(value.DisplayName) && !value.DisplayName.Equals(Entity.DisplayName))
+            {
+                Entity.DisplayName = value.DisplayName;
+            }
+            #endregion
+
+            #region Description
+            if (!string.IsNullOrWhiteSpace(value.Description) && !value.Description.Equals(Entity.Description))
+            {
+                Entity.Description = value.Description;
+            }
+            #endregion
+
+            #region Enabled
+            if (value.Enabled != Entity.Enabled)
+            {
+                Entity.Enabled = value.Enabled;
+            }
+            #endregion
+
+            #region NonEditable
+            if (value.NonEditable != Entity.NonEditable)
+            {
+                Entity.NonEditable = value.NonEditable;
+            }
+            #endregion
+
+            #region LastAccessed
+            if (value.LastAccessed != Entity.LastAccessed)
+            {
+                Entity.LastAccessed = value.LastAccessed;
+            }
+            #endregion
+
+            #region Scopes
+            if (value.Scopes != null && value.Scopes.Count > 0)
+            {
+                Entity.Scopes.Clear();
+
+                value.Scopes.ForEach(x =>
+                {
+                    Entity.Scopes.Add(new ApiScope()
+                    {
+                        ApiResource = value,
+                        ApiResourceId = x.ApiResourceId,
+                        Description = x.Description,
+                        DisplayName = x.DisplayName,
+                        Emphasize = x.Emphasize,
+                        Name = x.Name,
+                        Required = x.Required,
+                        ShowInDiscoveryDocument = x.ShowInDiscoveryDocument,
+                        UserClaims = x.UserClaims
+                    });
+                });
+            }
+            #endregion
+
+            #region Secrets
+            if (value.Secrets != null && value.Secrets.Count > 0)
+            {
+                Entity.Secrets.Clear();
+
+                value.Secrets.ForEach(x =>
+                {
+                    Entity.Secrets.Add(new ApiSecret()
+                    {
+                        ApiResource = value,
+                        ApiResourceId = x.ApiResourceId,
+                        Created = x.Created,
+                        Description = x.Description,
+                        Expiration = x.Expiration,
+                        Type = x.Type,
+                        Value = x.Value
+                    });
+                });
+            }
+            #endregion
+
+            #region UserClaims
+            if (value.UserClaims != null && value.UserClaims.Count > 0)
+            {
+                Entity.UserClaims.Clear();
+
+                value.UserClaims.ForEach(x =>
+                {
+                    Entity.UserClaims.Add(new ApiResourceClaim()
+                    {
+                        ApiResource = value,
+                        ApiResourceId = x.ApiResourceId,
+                        Type = x.Type
+                    });
+                });
+            }
+            #endregion
+
+            Entity.Updated = DateTime.UtcNow.AddHours(8);
+
+            try
+            {
+                configDb.SaveChanges();
+            }
+
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
+                {
+                    data = false
+                };
+            }
+
+            return new ApiResult<bool>(true);
         }
         #endregion
 
@@ -558,25 +461,62 @@ namespace IdentityServer4.MicroService.Apis
             OperationId = "ApiResourceDelete", 
             Summary = "API - 删除",
             Description = "scope&permission：isms.apiresource.delete")]
-        public async Task<ApiResult<long>> Delete(long id)
+        public async Task<ApiResult<bool>> Delete(long id)
         {
             if (!await exists(id))
             {
-                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
 
-            var entity = await configDb.ApiResources.FirstOrDefaultAsync(x => x.Id == id);
+            var entity = configDb.ApiResources.Where(x => x.Id == id)
+                .Include(x => x.Scopes).ThenInclude(x => x.UserClaims)
+                .Include(x => x.Secrets)
+                .Include(x => x.UserClaims)
+                .FirstOrDefault(); ;
 
             if (entity == null)
             {
-                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
 
             configDb.ApiResources.Remove(entity);
 
-            await db.SaveChangesAsync();
+            try
+            {
+                configDb.SaveChanges();
+            }
 
-            return new ApiResult<long>(id);
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
+                {
+                    data = false
+                };
+            }
+
+            #region relation
+            var relation = db.UserApiResources.Where(x => x.UserId == UserId && x.ApiResourceId == id).FirstOrDefault();
+
+            if (relation != null)
+            {
+                db.Remove(relation);
+
+                try
+                {
+                    db.SaveChanges();
+                }
+
+                catch (Exception ex)
+                {
+                    return new ApiResult<bool>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
+                    {
+                        data = false
+                    };
+                }
+            } 
+            #endregion
+
+            return new ApiResult<bool>(true);
         }
         #endregion
 

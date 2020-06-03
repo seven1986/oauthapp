@@ -17,6 +17,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -395,6 +397,17 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.AddIdentityServer(DbContextOptions, certificate);
 
             builder.Services.AddMemoryCache();
+
+            builder.Services.AddMvc().AddNewtonsoftJson(options => {
+                //设置时间格式
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                //忽略循环引用
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                //数据格式按原样输出
+                //options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                //忽略空值
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            });
 
             return builder;
         }
