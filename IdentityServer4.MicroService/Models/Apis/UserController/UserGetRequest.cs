@@ -5,11 +5,10 @@ namespace IdentityServer4.MicroService.Models.Apis.UserController
     public class UserGetRequest
     {
         /// <summary>
-        /// 用户角色标识，多个角色用","链接
+        /// 用户角色
         /// 可选值：user/partner/developer/administrator
         /// </summary>
-        [RegularExpression("^[0-9,]+$", ErrorMessage = "用户角色标识格式错误")]
-        public string roles { get; set; }
+        public string role { get; set; }
         
         /// <summary>
         /// 手机号
@@ -18,7 +17,7 @@ namespace IdentityServer4.MicroService.Models.Apis.UserController
         public string phoneNumber { get; set; }
 
         /// <summary>
-        /// 名称
+        /// 昵称
         /// </summary>
         public string name { get; set; }
 
@@ -27,5 +26,26 @@ namespace IdentityServer4.MicroService.Models.Apis.UserController
         /// </summary>
         [EmailAddress(ErrorMessage = "邮箱格式错误")]
         public string email { get; set; }
+
+        /// <summary>
+        /// 第三方登录平台名称
+        /// </summary>
+        public string providerName { get; set; }
+
+        /// <summary>
+        /// 第三方登陆平台的UserID
+        /// </summary>
+
+        public string providerKey { get; set; }
+
+        /// <summary>
+        /// claimType
+        /// </summary>
+        public string claimType { get; set; }
+
+        /// <summary>
+        /// claimValue
+        /// </summary>
+        public string claimValue { get; set; }
     }
 }

@@ -114,11 +114,14 @@ namespace IdentityServer4.MicroService.Apis
             {
                 where = (where, sqlParams) =>
                 {
-                    where.Add(" ( Tenants LIKE '%\"TenantId\":" + TenantId + "%') ");
+                    where.Add(" Tenants LIKE @TenantId");
+                    sqlParams.Add(new SqlParameter("@TenantId", $"%TenantId\":{TenantId}%"));
 
                     if (!User.IsInRole(DefaultRoles.Administrator) && !string.IsNullOrWhiteSpace(UserLineage))
                     {
-                        where.Add("Lineage.IsDescendantOf(hierarchyid::Parse ('" + UserLineage + "')) = 1");
+                        //where.Add("Lineage.IsDescendantOf(hierarchyid::Parse ('" + UserLineage + "')) = 1");
+                        where.Add("Lineage LIKE @Lineage");
+                        sqlParams.Add(new SqlParameter("@Lineage", "%" + UserLineage));
                     }
 
                     if (!string.IsNullOrWhiteSpace(value.q.email))
@@ -139,14 +142,29 @@ namespace IdentityServer4.MicroService.Apis
                         sqlParams.Add(new SqlParameter("@PhoneNumber", value.q.phoneNumber));
                     }
 
-                    if (!string.IsNullOrWhiteSpace(value.q.roles))
+                    if (!string.IsNullOrWhiteSpace(value.q.role))
                     {
-                        var roleIds = value.q.roles.Split(new string[] { "," },
-                            StringSplitOptions.RemoveEmptyEntries).ToList();
+                        where.Add("Roles LIKE @Role");
+                        sqlParams.Add(new SqlParameter("@Role", $"%Name\":\"{value.q.role}%"));
+                    }
 
-                        var rolesExpression = roleIds.Select(r => "Roles Like '%\"Id\":" + r + ",%'");
+                    if (!string.IsNullOrWhiteSpace(value.q.providerName))
+                    {
+                        where.Add("Logins LIKE @LoginProvider");
+                        sqlParams.Add(new SqlParameter("@LoginProvider", $"%LoginProvider\":\"{value.q.providerName}%"));
+                    }
 
-                        where.Add(" ( " + string.Join(" AND ", rolesExpression) + " ) ");
+                    if (!string.IsNullOrWhiteSpace(value.q.providerKey))
+                    {
+                        where.Add("Logins LIKE @ProviderKey");
+                        sqlParams.Add(new SqlParameter("@ProviderKey", $"%ProviderKey\":\"{value.q.providerKey}%"));
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(value.q.claimType)&& !string.IsNullOrWhiteSpace(value.q.claimValue))
+                    {
+                        where.Add("Claims LIKE @ClaimType AND Claims LIKE @ClaimValue");
+                        sqlParams.Add(new SqlParameter("@ClaimType", $"%ClaimType\":\"{value.q.claimType}%"));
+                        sqlParams.Add(new SqlParameter("@ClaimValue", $"%ClaimValue\":\"{value.q.claimValue}%"));
                     }
                 }
             };
@@ -431,12 +449,15 @@ namespace IdentityServer4.MicroService.Apis
 
                 value.Claims.ForEach(x =>
                 {
-                    Entity.Claims.Add(new AppUserClaim()
+                    if (!string.IsNullOrWhiteSpace(x.ClaimType))
                     {
-                        ClaimType = x.ClaimType,
-                        ClaimValue = x.ClaimValue,
-                        UserId = value.Id
-                    });
+                        Entity.Claims.Add(new AppUserClaim()
+                        {
+                            ClaimType = x.ClaimType,
+                            ClaimValue = x.ClaimValue,
+                            UserId = value.Id
+                        });
+                    }
                 });
             }
             #endregion
@@ -462,12 +483,15 @@ namespace IdentityServer4.MicroService.Apis
 
                 value.Files.ForEach(x =>
                 {
-                    Entity.Files.Add(new AspNetUserFile()
+                    if (!string.IsNullOrWhiteSpace(x.Files))
                     {
-                        UserId = value.Id,
-                        Files = x.Files,
-                        FileType = x.FileType
-                    });
+                        Entity.Files.Add(new AspNetUserFile()
+                        {
+                            UserId = value.Id,
+                            Files = x.Files,
+                            FileType = x.FileType
+                        });
+                    }
                 });
             }
             #endregion
@@ -478,12 +502,15 @@ namespace IdentityServer4.MicroService.Apis
 
                 value.Properties.ForEach(x =>
                 {
-                    Entity.Properties.Add(new AspNetUserProperty()
+                    if (!string.IsNullOrWhiteSpace(x.Key))
                     {
-                        UserId = value.Id,
-                        Key = x.Key,
-                        Value = x.Value
-                    });
+                        Entity.Properties.Add(new AspNetUserProperty()
+                        {
+                            UserId = value.Id,
+                            Key = x.Key,
+                            Value = x.Value
+                        });
+                    }
                 });
             }
             #endregion

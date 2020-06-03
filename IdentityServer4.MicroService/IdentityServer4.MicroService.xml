@@ -2252,9 +2252,9 @@
             PhoneNumber
             </summary>
         </member>
-        <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.UserGetRequest.roles">
+        <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.UserGetRequest.role">
             <summary>
-            用户角色标识，多个角色用","链接
+            用户角色
             可选值：user/partner/developer/administrator
             </summary>
         </member>
@@ -2265,12 +2265,32 @@
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.UserGetRequest.name">
             <summary>
-            名称
+            昵称
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.UserGetRequest.email">
             <summary>
             邮箱
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.UserGetRequest.providerName">
+            <summary>
+            第三方登录平台名称
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.UserGetRequest.providerKey">
+            <summary>
+            第三方登陆平台的UserID
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.UserGetRequest.claimType">
+            <summary>
+            claimType
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.UserGetRequest.claimValue">
+            <summary>
+            claimValue
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.UserController.UserRegisterRequest.CountryCode">
