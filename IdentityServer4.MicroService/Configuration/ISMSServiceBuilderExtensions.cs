@@ -611,6 +611,7 @@ namespace Microsoft.Extensions.DependencyInjection
              .AddConfigurationStore(x => x.ConfigureDbContext = DbContextOptions)
              .AddOperationalStore(x => x.ConfigureDbContext = DbContextOptions)
              .AddExtensionGrantValidator<MobileCodeGrantValidator>()
+             .AddExtensionGrantValidator<OpenIdOAuthGrantValidator>()
              .AddAspNetIdentity<AppUser>();
 
             return builder;
