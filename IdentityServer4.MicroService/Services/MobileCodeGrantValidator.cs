@@ -144,7 +144,7 @@ namespace IdentityServer4.MicroService.Services
             var SubId = await _db.UserLogins.Where(x => x.LoginProvider.Equals(provider) && x.ProviderKey.Equals(providerKey))
                 .Select(x => x.UserId).FirstOrDefaultAsync();
 
-            if (SubId != 0)
+            if (SubId == 0)
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "No record has found");
 

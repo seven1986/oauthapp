@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace IdentityServer4.MicroService
 {
@@ -103,6 +105,8 @@ namespace IdentityServer4.MicroService
         /// 为空代表不允许任何网址跨域
         /// </summary>
         public string Origins { get; set; }
+
+        public Action<IIdentityServerBuilder> IdentityBuilder { get; set; }
     }
 
     public enum APIDocumentEnums
