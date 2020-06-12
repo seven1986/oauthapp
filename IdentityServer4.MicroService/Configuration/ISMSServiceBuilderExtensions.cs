@@ -4,7 +4,6 @@ using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Services;
 using IdentityServer4.MicroService.Tenant;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -18,7 +17,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -394,7 +392,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var certificate = GetSigningCredential(configuration);
 
-            builder.AddIdentityServer(DbContextOptions, certificate);
+            builder.AddIdentityServer(DbContextOptions, certificate, Options.IdentityBuilder);
 
             builder.Services.AddMemoryCache();
 
@@ -599,19 +597,26 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="builder">The builder.</param>
         /// <param name="DbContextOptions">The store options action.</param>
         /// <param name="certificate">The certificate.</param>
+        /// <param name="identityBuilder">The identityBuilder.</param>
         /// <returns></returns>
         static IISMSServiceBuilder AddIdentityServer(
             this IISMSServiceBuilder builder,
-            Action<DbContextOptionsBuilder> DbContextOptions, X509Certificate2 certificate)
+            Action<DbContextOptionsBuilder> DbContextOptions, X509Certificate2 certificate, Action<IIdentityServerBuilder> identityBuilder)
         {
-            builder.Services.AddIdentityServer()
-             .AddSigningCredential(certificate)
-             .AddCustomAuthorizeRequestValidator<TenantAuthorizeRequestValidator>()
-             .AddCustomTokenRequestValidator<TenantTokenRequestValidator>()
-             .AddConfigurationStore(x => x.ConfigureDbContext = DbContextOptions)
-             .AddOperationalStore(x => x.ConfigureDbContext = DbContextOptions)
-             .AddExtensionGrantValidator<MobileCodeGrantValidator>()
-             .AddAspNetIdentity<AppUser>();
+            var ISBuilder = builder.Services.AddIdentityServer()
+              .AddSigningCredential(certificate)
+              .AddCustomAuthorizeRequestValidator<TenantAuthorizeRequestValidator>()
+              .AddCustomTokenRequestValidator<TenantTokenRequestValidator>()
+              .AddConfigurationStore(x => x.ConfigureDbContext = DbContextOptions)
+              .AddOperationalStore(x => x.ConfigureDbContext = DbContextOptions)
+              .AddAspNetIdentity<AppUser>()
+              .AddExtensionGrantValidator<MobileCodeGrantValidator>()
+              .AddExtensionGrantValidator<OpenIdOAuthGrantValidator>();
+
+            if (identityBuilder != null)
+            {
+                identityBuilder.Invoke(ISBuilder);
+            }
 
             return builder;
         }

@@ -2934,13 +2934,14 @@
             <param name="tableName">table name</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Security.Cryptography.X509Certificates.X509Certificate2)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Security.Cryptography.X509Certificates.X509Certificate2,System.Action{Microsoft.Extensions.DependencyInjection.IIdentityServerBuilder})">
             <summary>
             Configures EF implementation of TenantStore with IdentityServer.
             </summary>
             <param name="builder">The builder.</param>
             <param name="DbContextOptions">The store options action.</param>
             <param name="certificate">The certificate.</param>
+            <param name="identityBuilder">The identityBuilder.</param>
             <returns></returns>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.OAuthBuilderExtensions">
