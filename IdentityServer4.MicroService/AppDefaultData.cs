@@ -91,9 +91,14 @@ namespace IdentityServer4.MicroService
         public static IEnumerable<Client> GetClients(Uri ServerUrl)
         {
             // client credentials client
+            var additionGrantTypes = new List<string>() { "mobile_code", "openid_oauth" };
 
-            SwaggerClient.AllowedGrantTypes.Add("mobile_code");
-            IdentityServer4Client.AllowedGrantTypes.Add("mobile_code");
+            additionGrantTypes.ForEach(_grantType =>
+            {
+                SwaggerClient.AllowedGrantTypes.Add(_grantType);
+                IdentityServer4Client.AllowedGrantTypes.Add(_grantType);
+            });
+
             return new List<Client>
                 {
                     #region SwaggerClient
@@ -123,7 +128,7 @@ namespace IdentityServer4.MicroService
                             IdentityServerConstants.StandardScopes.OpenId,
                             IdentityServerConstants.StandardScopes.Profile,
                             AppConstant.MicroServiceName + ".all"
-                        },
+                        }, 
                         AllowOfflineAccess = true
                     },
 	                #endregion
@@ -195,13 +200,34 @@ namespace IdentityServer4.MicroService
 
                         Description = AppConstant.MicroServiceName,
 
-                        Scopes = new List<Scope>()
+                        Scopes = new List<string>()
                         {
-                            new Scope(AppConstant.MicroServiceName + ".all", "授权中心 - 所有权限")
-                            {
-                                   UserClaims ={ "role", PolicyKey.UserPermission }
-                            }
+                            $"{AppConstant.MicroServiceName}.all"
                         },
+                         
+                        Properties =new Dictionary<string,string>()
+                    }
+                };
+        }
+
+        public static IEnumerable<ApiScope> GetApiScopes()
+        {
+            return new List<ApiScope>
+                {
+                    new ApiScope()
+                    {
+                        Enabled = true,
+
+                        Name =  $"{AppConstant.MicroServiceName}.all",
+
+                        DisplayName = AppConstant.MicroServiceName,
+
+                        Description = AppConstant.MicroServiceName,
+
+                         UserClaims=new List<string>()
+                         {
+                             "role","permission"
+                         },
 
                         Properties =new Dictionary<string,string>()
                     }
@@ -211,7 +237,7 @@ namespace IdentityServer4.MicroService
         /// <summary>
         /// 数据库初始化
         /// </summary>
-        public static void InitializeDatabase(IApplicationBuilder app,IdentityServer4MicroServiceOptions options)
+        public static void InitializeDatabase(IApplicationBuilder app, IdentityServer4MicroServiceOptions options)
         {
             Tenant.AppHostName = Tenant.IdentityServerIssuerUri = options.IdentityServerUri.Authority;
 
@@ -220,7 +246,7 @@ namespace IdentityServer4.MicroService
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 #region PersistedGrantDb
-                scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate(); 
+                scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
                 #endregion
 
                 var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
@@ -254,6 +280,15 @@ namespace IdentityServer4.MicroService
                     context.SaveChanges();
                 }
 
+                if (!context.ApiScopes.Any())
+                {
+                    foreach (var resource in GetApiScopes())
+                    {
+                        context.ApiScopes.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+
                 #region TenantDb
                 var tenantDbContext = scope.ServiceProvider.GetRequiredService<TenantDbContext>();
                 tenantDbContext.Database.Migrate();
@@ -264,7 +299,7 @@ namespace IdentityServer4.MicroService
                 var userContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
                 userContext.Database.Migrate();
-                Data_Seeding_Users(userContext, tenantDbContext, userManager, context,options);
+                Data_Seeding_Users(userContext, tenantDbContext, userManager, context, options);
                 #endregion
             }
         }

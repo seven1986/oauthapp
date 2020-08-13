@@ -105,6 +105,8 @@ namespace Microsoft.AspNetCore.Builder
                         }
 
                         c.DocExpansion(DocExpansion.None);
+
+                        c.EnableValidator();
                     });
             }
 

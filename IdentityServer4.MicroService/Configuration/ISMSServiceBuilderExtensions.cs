@@ -229,8 +229,8 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 AuthorizationCode = new OpenApiOAuthFlow()
                                 {
-                                    AuthorizationUrl = new Uri(Options.IdentityServerUri.OriginalString + "/connect/authorize"),
-                                    TokenUrl = new Uri(Options.IdentityServerUri.OriginalString + "/connect/token"),
+                                    AuthorizationUrl = new Uri("/connect/authorize",UriKind.Relative),
+                                    TokenUrl = new Uri("/connect/token", UriKind.Relative),
                                     Scopes = new Dictionary<string, string>(){
                                         { "openid","用户标识" },
                                         { "profile","用户资料" },
@@ -290,6 +290,8 @@ namespace Microsoft.Extensions.DependencyInjection
                         c.IncludeXmlComments(ISMSSwaggerFilePath);
                     }
                 });
+
+                services.AddSwaggerGenNewtonsoftSupport();
             }
             #endregion
 

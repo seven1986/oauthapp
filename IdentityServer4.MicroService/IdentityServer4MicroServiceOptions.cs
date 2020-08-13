@@ -115,18 +115,20 @@ namespace IdentityServer4.MicroService
 
         ApiResource = 1,
 
-        Client = 2,
+        ApiScope = 2,
 
-        CodeGen = 3,
+        Client = 3,
 
-        Blob = 4,
+        CodeGen = 4,
 
-        IdentityResource = 5,
+        Blob = 5,
 
-        Role = 6,
+        IdentityResource = 6,
 
-        Tenant = 7,
+        Role = 7,
 
-        User = 8
+        Tenant = 8,
+
+        User = 9
     }
 }

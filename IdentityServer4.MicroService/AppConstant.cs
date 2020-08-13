@@ -27,12 +27,13 @@ namespace IdentityServer4.MicroService
         public static string AssemblyName = Assembly.GetEntryAssembly().GetName().Name;
 
         /// <summary>
-        /// API名称，必须是英文
+        /// 标识服务的scope，必须是英文
         /// </summary>
         public const string MicroServiceName = "isms";
 
         /// <summary>
-        /// 初始化数据库
+        /// 初始化数据库。
+        /// 如果初始化过数据库，可以设置为这个参数为false，优化性能。
         /// </summary>
         public static bool InitializeDatabase = true;
     }

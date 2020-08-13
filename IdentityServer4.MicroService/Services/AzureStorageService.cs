@@ -1,15 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using Microsoft.Extensions.Options;
-using Microsoft.WindowsAzure.Storage.Table;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
-using Microsoft.WindowsAzure.Storage.Queue;
 using System.Threading;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Azure.Storage.Blob;
+using Microsoft.Azure.Storage.Queue;
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Cosmos.Table;
+using CloudStorageAccount = Microsoft.Azure.Storage.CloudStorageAccount;
 
 namespace IdentityServer4.MicroService.Services
 {
@@ -65,7 +65,7 @@ namespace IdentityServer4.MicroService.Services
 
         public async Task<CloudTable> CreateTableAsync(string tableName)
         {
-            var storageAccount = CloudStorageAccount.Parse(Connection);
+            var storageAccount = Microsoft.Azure.Cosmos.Table.CloudStorageAccount.Parse(Connection);
 
             var tableClient = storageAccount.CreateCloudTableClient();
 
@@ -89,7 +89,7 @@ namespace IdentityServer4.MicroService.Services
 
                 return await table.ExecuteBatchAsync(operation);
             }
-            catch (StorageException ex)
+            catch (Microsoft.Azure.Cosmos.Table.StorageException ex)
             {
                 throw ex;
             }
@@ -117,7 +117,7 @@ namespace IdentityServer4.MicroService.Services
 
         public async Task<bool> AddMessageAsync(string queueName, string message)
         {
-            var storageAccount = CloudStorageAccount.Parse(Connection);
+            var storageAccount = Microsoft.Azure.Storage.CloudStorageAccount.Parse(Connection);
 
             // Create the queue client.
             var queueClient = storageAccount.CreateCloudQueueClient();
