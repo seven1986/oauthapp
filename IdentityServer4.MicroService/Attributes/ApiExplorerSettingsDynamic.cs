@@ -22,6 +22,10 @@ namespace IdentityServer4.MicroService
                     IgnoreApi = true;
                 }
             }
+
+            else{
+                IgnoreApi = false;
+            }
         }
     }
 }

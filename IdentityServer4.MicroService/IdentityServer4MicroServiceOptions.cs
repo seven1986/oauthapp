@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -37,9 +36,26 @@ namespace IdentityServer4.MicroService
 
         /// <summary>
         /// 启用IdentityServer4Microservice的API文档（默认true）。
-        /// 可通过IdentityServer4MicroServiceOptions.APIDocuments配置显示的接口文档
+        /// 可通过IdentityServer4MicroServiceOptions.APIDocuments配置需要屏蔽的接口文档
         /// </summary>
-        public bool EnableAPIDocuments { get; set; } = true;
+        public bool EnableAPIDocuments
+        {
+            get
+            {
+                return !APIDocuments.Contains(APIDocumentEnums.ALL);
+            }
+            set
+            {
+                if(value==true)
+                {
+                    APIDocuments.Clear();
+                }
+                else
+                {
+                    HideIdentityServerDocument(APIDocumentEnums.ALL);
+                }
+            }
+        }
 
         public static List<APIDocumentEnums> APIDocuments { get; set; } = new List<APIDocumentEnums>();
 
@@ -83,14 +99,6 @@ namespace IdentityServer4.MicroService
         /// https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity-configuration?view=aspnetcore-3.1
         /// </summary>
         public Action<IdentityOptions> AspNetCoreIdentityOptions { get; set; }
-
-        /// <summary>
-        /// 隐藏IdentityServer MicroserviceAPI文档
-        /// </summary>
-        internal void HideIdentityServerDocument()
-        {
-            APIDocuments.Add(APIDocumentEnums.ALL);
-        }
 
         /// <summary>
         /// 隐藏IdentityServer MicroserviceAPI文档
