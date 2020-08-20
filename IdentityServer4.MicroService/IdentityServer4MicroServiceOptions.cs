@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -114,7 +115,9 @@ namespace IdentityServer4.MicroService
         /// </summary>
         public string Origins { get; set; }
 
-        public Action<IIdentityServerBuilder> IdentityBuilder { get; set; }
+        public Action<IIdentityServerBuilder> IdentityServerBuilder { get; set; }
+
+        public Action<IdentityServerOptions> IdentityServerOptions { get; set; }
     }
 
     public enum APIDocumentEnums

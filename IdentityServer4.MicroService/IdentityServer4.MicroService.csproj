@@ -2,17 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <PackageId>IdentityServer4MicroService</PackageId>
+    <PackageId>oauthapp</PackageId>
     <Authors>seven1986</Authors>
     <Company>seven1986</Company>
-    <PackageProjectUrl>https://github.com/seven1986/IdentityServer4.MicroService</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/seven1986/IdentityServer4.MicroService</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/seven1986/oauthapp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/seven1986/oauthapp</RepositoryUrl>
     <PackageTags>IdentityServer4 MicroService AzureApiManagement</PackageTags>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>1.0.27-alpha6</Version>
-    <Product>IdentityServer4.MicroService</Product>
+    <Version>1.0.0</Version>
+    <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -94,9 +94,24 @@
     <None Remove="Node\sdkgen\npm\jQuery.js" />
     <None Remove="Node\sdkgen\npm\mustache.min.js" />
     <None Remove="readme.txt" />
+    <None Remove="Views\Account\AccessDenied.cshtml" />
+    <None Remove="Views\Account\LoggedOut.cshtml" />
+    <None Remove="Views\Account\Login.cshtml" />
+    <None Remove="Views\Account\Logout.cshtml" />
+    <None Remove="Views\Consent\Index.cshtml" />
+    <None Remove="Views\Device\Success.cshtml" />
+    <None Remove="Views\Device\UserCodeCapture.cshtml" />
+    <None Remove="Views\Device\UserCodeConfirmation.cshtml" />
+    <None Remove="Views\Diagnostics\Index.cshtml" />
+    <None Remove="Views\Grants\Index.cshtml" />
     <None Remove="Views\Home\Index.cshtml" />
+    <None Remove="Views\Shared\Error.cshtml" />
+    <None Remove="Views\Shared\Redirect.cshtml" />
     <None Remove="Views\Shared\_Layout.cshtml" />
+    <None Remove="Views\Shared\_LoginPartial.cshtml" />
     <None Remove="Views\Shared\_Nav.cshtml" />
+    <None Remove="Views\Shared\_ScopeListItem.cshtml" />
+    <None Remove="Views\Shared\_ValidationSummary.cshtml" />
     <None Remove="Views\_ViewImports.cshtml" />
     <None Remove="Views\_ViewStart.cshtml" />
     <None Remove="wwwroot\css\site.min.css" />
@@ -431,11 +446,11 @@
     <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="3.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCaching" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.7" />
-    <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.7" />
-    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.0" />
-    <PackageReference Include="Microsoft.Azure.Storage.Common" Version="11.2.0" />
-    <PackageReference Include="Microsoft.Azure.Storage.File" Version="11.2.0" />
-    <PackageReference Include="Microsoft.Azure.Storage.Queue" Version="11.2.0" />
+    <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />
+    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.2" />
+    <PackageReference Include="Microsoft.Azure.Storage.Common" Version="11.2.2" />
+    <PackageReference Include="Microsoft.Azure.Storage.File" Version="11.2.2" />
+    <PackageReference Include="Microsoft.Azure.Storage.Queue" Version="11.2.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

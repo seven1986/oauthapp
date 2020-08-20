@@ -1639,7 +1639,7 @@
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableAPIDocuments">
             <summary>
             启用IdentityServer4Microservice的API文档（默认true）。
-            可通过IdentityServer4MicroServiceOptions.APIDocuments配置显示的接口文档
+            可通过IdentityServer4MicroServiceOptions.APIDocuments配置需要屏蔽的接口文档
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableSwaggerUI">
@@ -1681,11 +1681,6 @@
             <summary>
             配置参考官方文档。
             https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity-configuration?view=aspnetcore-3.1
-            </summary>
-        </member>
-        <member name="M:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.HideIdentityServerDocument">
-            <summary>
-            隐藏IdentityServer MicroserviceAPI文档
             </summary>
         </member>
         <member name="M:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.HideIdentityServerDocument(IdentityServer4.MicroService.APIDocumentEnums[])">
@@ -3005,13 +3000,14 @@
             <param name="tableName">table name</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Security.Cryptography.X509Certificates.X509Certificate2,System.Action{Microsoft.Extensions.DependencyInjection.IIdentityServerBuilder})">
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Security.Cryptography.X509Certificates.X509Certificate2,System.Action{IdentityServer4.Configuration.IdentityServerOptions},System.Action{Microsoft.Extensions.DependencyInjection.IIdentityServerBuilder})">
             <summary>
             Configures EF implementation of TenantStore with IdentityServer.
             </summary>
             <param name="builder">The builder.</param>
             <param name="DbContextOptions">The store options action.</param>
             <param name="certificate">The certificate.</param>
+            <param name="identityServerOptions">The identityServerOptions.</param>
             <param name="identityBuilder">The identityBuilder.</param>
             <returns></returns>
         </member>
