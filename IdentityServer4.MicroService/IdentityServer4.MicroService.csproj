@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <PackageId>oauthapp</PackageId>
+    <PackageId>OAuthApp</PackageId>
     <Authors>seven1986</Authors>
     <Company>seven1986</Company>
     <PackageProjectUrl>https://github.com/seven1986/oauthapp</PackageProjectUrl>
@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>1.0.0</Version>
+    <Version>1.0.7</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -104,16 +104,13 @@
     <None Remove="Views\Device\UserCodeConfirmation.cshtml" />
     <None Remove="Views\Diagnostics\Index.cshtml" />
     <None Remove="Views\Grants\Index.cshtml" />
-    <None Remove="Views\Home\Index.cshtml" />
     <None Remove="Views\Shared\Error.cshtml" />
     <None Remove="Views\Shared\Redirect.cshtml" />
-    <None Remove="Views\Shared\_Layout.cshtml" />
     <None Remove="Views\Shared\_LoginPartial.cshtml" />
     <None Remove="Views\Shared\_Nav.cshtml" />
     <None Remove="Views\Shared\_ScopeListItem.cshtml" />
     <None Remove="Views\Shared\_ValidationSummary.cshtml" />
     <None Remove="Views\_ViewImports.cshtml" />
-    <None Remove="Views\_ViewStart.cshtml" />
     <None Remove="wwwroot\css\site.min.css" />
     <None Remove="wwwroot\css\site.scss" />
     <None Remove="wwwroot\favicon.ico" />
@@ -312,16 +309,10 @@
     <Content Include="Views\Grants\Index.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Home\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Views\Shared\Error.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Shared\Redirect.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\_Layout.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Shared\_LoginPartial.cshtml">
@@ -337,9 +328,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\_ViewImports.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\_ViewStart.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\css\site.min.css">
