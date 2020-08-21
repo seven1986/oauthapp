@@ -233,6 +233,63 @@
             <param name="value"></param>
             <returns></returns>
         </member>
+        <member name="T:IdentityServer4.MicroService.Apis.ApiScopeController">
+            <summary>
+            APIScope
+            </summary>
+            <remarks>权限集合。</remarks>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.ApiScopeController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,IdentityServer4.MicroService.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLocalizer{IdentityServer4.MicroService.Apis.ApiScopeController},IdentityServer4.MicroService.Tenant.TenantService,IdentityServer4.MicroService.Tenant.TenantDbContext,Microsoft.AspNetCore.DataProtection.IDataProtectionProvider)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="_configDb"></param>
+            <param name="_userDb"></param>
+            <param name="_localizer"></param>
+            <param name="_tenantService"></param>
+            <param name="_tenantDb"></param>
+            <param name="_provider"></param>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.ApiScopeController.Get(IdentityServer4.MicroService.Models.Apis.Common.PagingRequest{IdentityServer4.MicroService.Models.Apis.ApiScopeController.ApiScopeGetRequest})">
+            <summary>
+            API - 列表
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.ApiScopeController.Get(System.Int64)">
+            <summary>
+            API - 详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.ApiScopeController.Post(IdentityServer4.EntityFramework.Entities.ApiScope)">
+            <summary>
+            API - 创建
+            </summary>
+            <param name="value">ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.ApiScopeController.Put(IdentityServer4.EntityFramework.Entities.ApiScope)">
+            <summary>
+            API - 更新
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.ApiScopeController.Delete(System.Int64)">
+            <summary>
+            API - 删除
+            </summary>
+            <param name="id">ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:IdentityServer4.MicroService.Apis.ApiScopeController.Codes">
+            <summary>
+            API - 错误码表
+            </summary>
+        </member>
         <member name="P:IdentityServer4.MicroService.Apis.ApiControllerBase.TenantId">
             <summary>
             租户信息 from client access token
@@ -715,12 +772,13 @@
         </member>
         <member name="F:IdentityServer4.MicroService.AppConstant.MicroServiceName">
             <summary>
-            API名称，必须是英文
+            标识服务的scope，必须是英文
             </summary>
         </member>
         <member name="F:IdentityServer4.MicroService.AppConstant.InitializeDatabase">
             <summary>
-            初始化数据库
+            初始化数据库。
+            如果初始化过数据库，可以设置为这个参数为false，优化性能。
             </summary>
         </member>
         <member name="T:IdentityServer4.MicroService.DefaultRoles">
@@ -1023,12 +1081,10 @@
             Handles the consent screen postback
             </summary>
         </member>
-        <member name="M:IdentityServer4.MicroService.Controllers.Extensions.IsPkceClientAsync(IdentityServer4.Stores.IClientStore,System.String)">
+        <member name="M:IdentityServer4.MicroService.Controllers.Extensions.IsNativeClient(IdentityServer4.Models.AuthorizationRequest)">
             <summary>
-            Determines whether the client is configured to use PKCE.
+            Checks if the redirect URI is for a native client.
             </summary>
-            <param name="store">The store.</param>
-            <param name="client_id">The client identifier.</param>
             <returns></returns>
         </member>
         <member name="T:IdentityServer4.MicroService.Controllers.GrantsController">
@@ -1583,7 +1639,7 @@
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableAPIDocuments">
             <summary>
             启用IdentityServer4Microservice的API文档（默认true）。
-            可通过IdentityServer4MicroServiceOptions.APIDocuments配置显示的接口文档
+            可通过IdentityServer4MicroServiceOptions.APIDocuments配置需要屏蔽的接口文档
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.EnableSwaggerUI">
@@ -1625,11 +1681,6 @@
             <summary>
             配置参考官方文档。
             https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity-configuration?view=aspnetcore-3.1
-            </summary>
-        </member>
-        <member name="M:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.HideIdentityServerDocument">
-            <summary>
-            隐藏IdentityServer MicroserviceAPI文档
             </summary>
         </member>
         <member name="M:IdentityServer4.MicroService.IdentityServer4MicroServiceOptions.HideIdentityServerDocument(IdentityServer4.MicroService.APIDocumentEnums[])">
@@ -2102,6 +2153,21 @@
         <member name="F:IdentityServer4.MicroService.Models.Apis.CodeGenController.PackagePlatform.spm">
             <summary>
             IOS包平台：SPM,网址：https://swift.org/package-manager/ 
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.ApiScopeController.ApiScopeGetRequest.name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.ApiScopeController.ApiScopeGetRequest.expandProperties">
+            <summary>
+            是否展开所有Properties（默认为false）
+            </summary>
+        </member>
+        <member name="P:IdentityServer4.MicroService.Models.Apis.ApiScopeController.ApiScopeGetRequest.expandClaims">
+            <summary>
+            是否展开所有Claims（默认为false）
             </summary>
         </member>
         <member name="P:IdentityServer4.MicroService.Models.Apis.ClientController.ClientIssueTokenRequest.lifetime">
@@ -2934,13 +3000,14 @@
             <param name="tableName">table name</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Security.Cryptography.X509Certificates.X509Certificate2,System.Action{Microsoft.Extensions.DependencyInjection.IIdentityServerBuilder})">
+        <member name="M:Microsoft.Extensions.DependencyInjection.Id4MsApplicationBuilderExtensions.AddIdentityServer(Microsoft.Extensions.DependencyInjection.IISMSServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Security.Cryptography.X509Certificates.X509Certificate2,System.Action{IdentityServer4.Configuration.IdentityServerOptions},System.Action{Microsoft.Extensions.DependencyInjection.IIdentityServerBuilder})">
             <summary>
             Configures EF implementation of TenantStore with IdentityServer.
             </summary>
             <param name="builder">The builder.</param>
             <param name="DbContextOptions">The store options action.</param>
             <param name="certificate">The certificate.</param>
+            <param name="identityServerOptions">The identityServerOptions.</param>
             <param name="identityBuilder">The identityBuilder.</param>
             <returns></returns>
         </member>

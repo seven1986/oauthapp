@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using IdentityServer4.Validation;
+using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -37,9 +37,26 @@ namespace IdentityServer4.MicroService
 
         /// <summary>
         /// 启用IdentityServer4Microservice的API文档（默认true）。
-        /// 可通过IdentityServer4MicroServiceOptions.APIDocuments配置显示的接口文档
+        /// 可通过IdentityServer4MicroServiceOptions.APIDocuments配置需要屏蔽的接口文档
         /// </summary>
-        public bool EnableAPIDocuments { get; set; } = true;
+        public bool EnableAPIDocuments
+        {
+            get
+            {
+                return !APIDocuments.Contains(APIDocumentEnums.ALL);
+            }
+            set
+            {
+                if(value==true)
+                {
+                    APIDocuments.Clear();
+                }
+                else
+                {
+                    HideIdentityServerDocument(APIDocumentEnums.ALL);
+                }
+            }
+        }
 
         public static List<APIDocumentEnums> APIDocuments { get; set; } = new List<APIDocumentEnums>();
 
@@ -87,14 +104,6 @@ namespace IdentityServer4.MicroService
         /// <summary>
         /// 隐藏IdentityServer MicroserviceAPI文档
         /// </summary>
-        internal void HideIdentityServerDocument()
-        {
-            APIDocuments.Add(APIDocumentEnums.ALL);
-        }
-
-        /// <summary>
-        /// 隐藏IdentityServer MicroserviceAPI文档
-        /// </summary>
         internal void HideIdentityServerDocument(params APIDocumentEnums[] _documents)
         {
             APIDocuments.AddRange(_documents);
@@ -106,7 +115,9 @@ namespace IdentityServer4.MicroService
         /// </summary>
         public string Origins { get; set; }
 
-        public Action<IIdentityServerBuilder> IdentityBuilder { get; set; }
+        public Action<IIdentityServerBuilder> IdentityServerBuilder { get; set; }
+
+        public Action<IdentityServerOptions> IdentityServerOptions { get; set; }
     }
 
     public enum APIDocumentEnums
@@ -115,18 +126,20 @@ namespace IdentityServer4.MicroService
 
         ApiResource = 1,
 
-        Client = 2,
+        ApiScope = 2,
 
-        CodeGen = 3,
+        Client = 3,
 
-        Blob = 4,
+        CodeGen = 4,
 
-        IdentityResource = 5,
+        Blob = 5,
 
-        Role = 6,
+        IdentityResource = 6,
 
-        Tenant = 7,
+        Role = 7,
 
-        User = 8
+        Tenant = 8,
+
+        User = 9
     }
 }

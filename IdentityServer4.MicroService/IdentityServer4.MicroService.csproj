@@ -2,17 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <PackageId>IdentityServer4MicroService</PackageId>
+    <PackageId>oauthapp</PackageId>
     <Authors>seven1986</Authors>
     <Company>seven1986</Company>
-    <PackageProjectUrl>https://github.com/seven1986/IdentityServer4.MicroService</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/seven1986/IdentityServer4.MicroService</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/seven1986/oauthapp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/seven1986/oauthapp</RepositoryUrl>
     <PackageTags>IdentityServer4 MicroService AzureApiManagement</PackageTags>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>1.0.25</Version>
-    <Product>IdentityServer4.MicroService</Product>
+    <Version>1.0.0</Version>
+    <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -34,11 +34,8 @@
 
   <ItemGroup>
     <Compile Remove="Microsoft.AspNetCore.Authentication\**" />
-    <Compile Remove="Views\Home\**" />
     <EmbeddedResource Remove="Microsoft.AspNetCore.Authentication\**" />
-    <EmbeddedResource Remove="Views\Home\**" />
     <None Remove="Microsoft.AspNetCore.Authentication\**" />
-    <None Remove="Views\Home\**" />
     <Compile Remove="Attributes\EmailConfigAttribute.cs" />
     <Compile Remove="Controllers\ConsentController.cs" />
     <Compile Remove="Controllers\DeviceController.cs" />
@@ -91,6 +88,7 @@
     <None Remove="Areas\Identity\Pages\_ViewImports.cshtml" />
     <None Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
     <None Remove="identityserver4.microservice.pfx" />
+    <None Remove="IdentityServer4.MicroService.xml" />
     <None Remove="Node\readthedocs.gen.js" />
     <None Remove="Node\sdkgen\npm\angular2.js" />
     <None Remove="Node\sdkgen\npm\jQuery.js" />
@@ -106,35 +104,43 @@
     <None Remove="Views\Device\UserCodeConfirmation.cshtml" />
     <None Remove="Views\Diagnostics\Index.cshtml" />
     <None Remove="Views\Grants\Index.cshtml" />
+    <None Remove="Views\Home\Index.cshtml" />
     <None Remove="Views\Shared\Error.cshtml" />
     <None Remove="Views\Shared\Redirect.cshtml" />
     <None Remove="Views\Shared\_Layout.cshtml" />
     <None Remove="Views\Shared\_LoginPartial.cshtml" />
+    <None Remove="Views\Shared\_Nav.cshtml" />
     <None Remove="Views\Shared\_ScopeListItem.cshtml" />
     <None Remove="Views\Shared\_ValidationSummary.cshtml" />
     <None Remove="Views\_ViewImports.cshtml" />
     <None Remove="Views\_ViewStart.cshtml" />
-    <None Remove="wwwroot\css\site.css" />
+    <None Remove="wwwroot\css\site.min.css" />
+    <None Remove="wwwroot\css\site.scss" />
     <None Remove="wwwroot\favicon.ico" />
-    <None Remove="wwwroot\js\site.js" />
-    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
-    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
-    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css" />
-    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
-    <None Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
-    <None Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
-    <None Remove="wwwroot\lib\bootstrap\LICENSE" />
-    <None Remove="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
-    <None Remove="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
-    <None Remove="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
-    <None Remove="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
-    <None Remove="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
-    <None Remove="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
-    <None Remove="wwwroot\lib\jquery-validation\LICENSE.md" />
-    <None Remove="wwwroot\lib\jquery\dist\jquery.js" />
-    <None Remove="wwwroot\lib\jquery\dist\jquery.min.js" />
-    <None Remove="wwwroot\lib\jquery\dist\jquery.min.map" />
-    <None Remove="wwwroot\lib\jquery\LICENSE.txt" />
+    <None Remove="wwwroot\icon.jpg" />
+    <None Remove="wwwroot\icon.png" />
+    <None Remove="wwwroot\js\signin-redirect.js" />
+    <None Remove="wwwroot\js\signout-redirect.js" />
+    <None Remove="wwwroot\js\swagger2Rst.html" />
+    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css" />
+    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
+    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css" />
+    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css" />
+    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <None Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <None Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Remove="wwwroot\lib\bootstrap\README.md" />
+    <None Remove="wwwroot\lib\jquery\dist\jquery.slim.js" />
+    <None Remove="wwwroot\lib\jquery\dist\jquery.slim.min.js" />
+    <None Remove="wwwroot\lib\jquery\dist\jquery.slim.min.map" />
+    <None Remove="wwwroot\lib\jquery\README.md" />
   </ItemGroup>
 
   <ItemGroup>
@@ -258,6 +264,9 @@
     <Content Include="identityserver4.microservice.pfx">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="IdentityServer4.MicroService.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Node\readthedocs.gen.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -303,13 +312,22 @@
     <Content Include="Views\Grants\Index.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Home\Index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Views\Shared\Error.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Shared\Redirect.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Shared\_Layout.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Views\Shared\_LoginPartial.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Shared\_Nav.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Shared\_ScopeListItem.cshtml">
@@ -321,50 +339,137 @@
     <Content Include="Views\_ViewImports.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\_ViewStart.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\css\site.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\css\site.scss">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\icon.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\js\signin-redirect.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\js\signout-redirect.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\js\swagger2Rst.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\bootstrap\README.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\jquery\dist\jquery.slim.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\jquery\dist\jquery.slim.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\jquery\dist\jquery.slim.min.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\lib\jquery\README.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.1.1" />
-    <PackageReference Include="AspNet.Security.OAuth.QQ" Version="3.1.1" />
-    <PackageReference Include="AspNet.Security.OAuth.Weibo" Version="3.1.1" />
-    <PackageReference Include="AspNet.Security.OAuth.Weixin" Version="3.1.1" />
-    <PackageReference Include="IdentityServer4" Version="3.1.3" />
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.1.3" />
+    <PackageReference Include="AspNet.Security.OAuth.QQ" Version="3.1.3" />
+    <PackageReference Include="AspNet.Security.OAuth.Weibo" Version="3.1.3" />
+    <PackageReference Include="AspNet.Security.OAuth.Weixin" Version="3.1.3" />
+    <PackageReference Include="IdentityServer4" Version="4.0.4" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
-    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="3.1.3" />
-    <PackageReference Include="IdentityServer4.EntityFramework" Version="3.1.3" />
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.0.4" />
+    <PackageReference Include="IdentityServer4.EntityFramework" Version="4.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="3.1.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="3.1.5" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Extensions" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Extensions" Version="3.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="3.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCaching" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />
+    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.2" />
+    <PackageReference Include="Microsoft.Azure.Storage.Common" Version="11.2.2" />
+    <PackageReference Include="Microsoft.Azure.Storage.File" Version="11.2.2" />
+    <PackageReference Include="Microsoft.Azure.Storage.Queue" Version="11.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="3.1.7" />
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Utils" Version="3.1.3" />
-    <PackageReference Include="StackExchange.Redis" Version="2.1.55" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.4.1" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Utils" Version="3.1.4" />
+    <PackageReference Include="StackExchange.Redis" Version="2.1.58" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.5.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.5.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
-    <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -428,9 +533,9 @@
     <Content Include="wwwroot\lib\jquery\dist\jquery.min.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="wwwroot\lib\jquery\LICENSE.txt">
+    <Content Include="wwwroot\lib\jquery\LICENSE.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

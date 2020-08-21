@@ -1,5 +1,8 @@
-﻿namespace IdentityServer4.MicroService.Models.Apis.UserController
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace IdentityServer4.MicroService.Models.Apis.UserController
 {
+    [NotMapped]
     public class DistributorResponse
     {
         public long ID { get; set; }

@@ -1,4 +1,5 @@
-﻿using IdentityServer4.MicroService;
+﻿using IdentityServer4.Configuration;
+using IdentityServer4.MicroService;
 using IdentityServer4.MicroService.Configuration;
 using IdentityServer4.MicroService.Data;
 using IdentityServer4.MicroService.Services;
@@ -77,8 +78,9 @@ namespace Microsoft.Extensions.DependencyInjection
                     {
                         Options.Origins = configuration["IdentityServer:Origins"];
                     }
-                    catch
+                    catch(Exception ex)
                     {
+                        throw ex;
                     }
                 }
 
@@ -229,8 +231,8 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 AuthorizationCode = new OpenApiOAuthFlow()
                                 {
-                                    AuthorizationUrl = new Uri(Options.IdentityServerUri.OriginalString + "/connect/authorize"),
-                                    TokenUrl = new Uri(Options.IdentityServerUri.OriginalString + "/connect/token"),
+                                    AuthorizationUrl = new Uri("/connect/authorize",UriKind.Relative),
+                                    TokenUrl = new Uri("/connect/token", UriKind.Relative),
                                     Scopes = new Dictionary<string, string>(){
                                         { "openid","用户标识" },
                                         { "profile","用户资料" },
@@ -279,10 +281,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
                     if (!File.Exists(ISMSSwaggerFilePath))
                     {
-                        using (var sw = new StreamWriter(ISMSSwaggerFilePath))
-                        {
-                            sw.Write(AppResource.IdentityServer4_MicroService1);
-                        }
+                        using var sw = new StreamWriter(ISMSSwaggerFilePath);
+                        sw.Write(AppResource.IdentityServer4_MicroService1);
                     }
 
                     if (Options.EnableAPIDocuments)
@@ -290,6 +290,8 @@ namespace Microsoft.Extensions.DependencyInjection
                         c.IncludeXmlComments(ISMSSwaggerFilePath);
                     }
                 });
+
+                services.AddSwaggerGenNewtonsoftSupport();
             }
             #endregion
 
@@ -366,13 +368,6 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 throw new KeyNotFoundException("appsettings.json文件，ConnectionStrings:DataBaseConnection");
             }
-            finally
-            {
-                if (string.IsNullOrWhiteSpace(DBConnectionString))
-                {
-                    throw new KeyNotFoundException("appsettings.json文件，ConnectionStrings:DataBaseConnection");
-                }
-            }
 
             var DbContextOptions = new Action<DbContextOptionsBuilder>(x =>
             x.UseSqlServer(DBConnectionString,
@@ -392,7 +387,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var certificate = GetSigningCredential(configuration);
 
-            builder.AddIdentityServer(DbContextOptions, certificate, Options.IdentityBuilder);
+            builder.AddIdentityServer(DbContextOptions, certificate, Options.IdentityServerOptions, Options.IdentityServerBuilder);
 
             builder.Services.AddMemoryCache();
 
@@ -477,9 +472,9 @@ namespace Microsoft.Extensions.DependencyInjection
                    X509KeyStorageFlags.Exportable);
                 }
             }
-            catch
+            catch(Exception ex)
             {
-
+                throw ex;
             }
 
             return new X509Certificate2(AppResource.identityserver4_microservice, "214480728730881",
@@ -597,13 +592,24 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="builder">The builder.</param>
         /// <param name="DbContextOptions">The store options action.</param>
         /// <param name="certificate">The certificate.</param>
+        /// <param name="identityServerOptions">The identityServerOptions.</param>
         /// <param name="identityBuilder">The identityBuilder.</param>
         /// <returns></returns>
         static IISMSServiceBuilder AddIdentityServer(
             this IISMSServiceBuilder builder,
-            Action<DbContextOptionsBuilder> DbContextOptions, X509Certificate2 certificate, Action<IIdentityServerBuilder> identityBuilder)
+            Action<DbContextOptionsBuilder> DbContextOptions, X509Certificate2 certificate, Action<IdentityServerOptions> identityServerOptions = null, Action<IIdentityServerBuilder> identityBuilder = null)
         {
-            var ISBuilder = builder.Services.AddIdentityServer()
+            var Options = new IdentityServerOptions()
+            {
+                EmitStaticAudienceClaim = true
+            };
+
+            if (identityServerOptions != null)
+            {
+                identityServerOptions.Invoke(Options);
+            }
+
+            var ISBuilder = builder.Services.AddIdentityServer(identityServerOptions)
               .AddSigningCredential(certificate)
               .AddCustomAuthorizeRequestValidator<TenantAuthorizeRequestValidator>()
               .AddCustomTokenRequestValidator<TenantTokenRequestValidator>()

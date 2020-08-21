@@ -2,7 +2,6 @@
 using System.Text;
 using System.Linq;
 using System.Data;
-using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +10,6 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Swashbuckle.AspNetCore.Annotations;
@@ -28,6 +26,7 @@ using IdentityServer4.MicroService.Models.Apis.ApiResourceController;
 using IdentityServer4.MicroService.Models.Apis.CodeGenController;
 using static IdentityServer4.MicroService.AppConstant;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Azure.Cosmos.Table;
 
 namespace IdentityServer4.MicroService.Apis
 {
@@ -38,7 +37,7 @@ namespace IdentityServer4.MicroService.Apis
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("ApiResource")]
-    [SwaggerTag("API")]
+    [SwaggerTag("资源")]
     public class ApiResourceController : ApiControllerBase
     {
         //sql cache options
@@ -215,7 +214,7 @@ namespace IdentityServer4.MicroService.Apis
 
             var entity = await query
                 .Where(x => x.Id == id)
-                .Include(x => x.Scopes).ThenInclude(x => x.UserClaims)
+                .Include(x => x.Scopes).ThenInclude(x => x.Scope)
                 .Include(x => x.Secrets)
                 .Include(x => x.UserClaims)
                 .FirstOrDefaultAsync();
@@ -316,7 +315,7 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             var Entity = configDb.ApiResources.Where(x => x.Id == value.Id)
-                .Include(x => x.Scopes).ThenInclude(x => x.UserClaims)
+                .Include(x => x.Scopes).ThenInclude(x => x.Scope)
                 .Include(x => x.Secrets)
                 .Include(x => x.UserClaims)
                 .FirstOrDefault();
@@ -375,17 +374,11 @@ namespace IdentityServer4.MicroService.Apis
 
                 value.Scopes.ForEach(x =>
                 {
-                    Entity.Scopes.Add(new ApiScope()
+                    Entity.Scopes.Add(new ApiResourceScope()
                     {
                         ApiResource = value,
                         ApiResourceId = x.ApiResourceId,
-                        Description = x.Description,
-                        DisplayName = x.DisplayName,
-                        Emphasize = x.Emphasize,
-                        Name = x.Name,
-                        Required = x.Required,
-                        ShowInDiscoveryDocument = x.ShowInDiscoveryDocument,
-                        UserClaims = x.UserClaims
+                        Scope = x.Scope
                     });
                 });
             }
@@ -398,7 +391,7 @@ namespace IdentityServer4.MicroService.Apis
 
                 value.Secrets.ForEach(x =>
                 {
-                    Entity.Secrets.Add(new ApiSecret()
+                    Entity.Secrets.Add(new ApiResourceSecret()
                     {
                         ApiResource = value,
                         ApiResourceId = x.ApiResourceId,
@@ -469,7 +462,7 @@ namespace IdentityServer4.MicroService.Apis
             }
 
             var entity = configDb.ApiResources.Where(x => x.Id == id)
-                .Include(x => x.Scopes).ThenInclude(x => x.UserClaims)
+                .Include(x => x.Scopes).ThenInclude(x => x.Scope)
                 .Include(x => x.Secrets)
                 .Include(x => x.UserClaims)
                 .FirstOrDefault(); ;
@@ -548,7 +541,7 @@ namespace IdentityServer4.MicroService.Apis
                     LastAccessed = DateTime.UtcNow,
                     Updated = DateTime.UtcNow,
                     Enabled = true,
-                    Scopes = new List<ApiScope>(),
+                    Scopes = new List<ApiResourceScope>(),
                 };
 
                 #region role、permission
@@ -576,35 +569,29 @@ namespace IdentityServer4.MicroService.Apis
                         {
                             var scopeName = $"{value.MicroServiceName}.{scope}";
 
-                            entity.Scopes.Add(new ApiScope()
+                            entity.Scopes.Add(new ApiResourceScope()
                             {
                                 ApiResource = entity,
-                                Name = scopeName,
-                                DisplayName = scopeName,
-                                Description = scopeName,
+                                Scope = scopeName
                             });
                         });
 
                         var scopeControllName = $"{value.MicroServiceName}.{policy.ControllerName}.all";
 
-                        entity.Scopes.Add(new ApiScope()
+                        entity.Scopes.Add(new ApiResourceScope()
                         {
                             ApiResource = entity,
-                            Name = scopeControllName,
-                            DisplayName = scopeControllName,
-                            Description = scopeControllName,
+                            Scope = scopeControllName
                         });
                     });
                 }
 
                 var scopeApiResourceName = $"{value.MicroServiceName}.all";
 
-                entity.Scopes.Add(new ApiScope()
+                entity.Scopes.Add(new ApiResourceScope()
                 {
                     ApiResource = entity,
-                    Name = scopeApiResourceName,
-                    DisplayName = scopeApiResourceName,
-                    Description = scopeApiResourceName,
+                    Scope = scopeApiResourceName
                 });
                 #endregion
 
@@ -651,34 +638,28 @@ namespace IdentityServer4.MicroService.Apis
                     {
                         var scopeName = $"{value.MicroServiceName}.{scope}";
 
-                        data.Scopes.Add(new ApiScope()
+                        data.Scopes.Add(new ApiResourceScope()
                         {
                             ApiResource = data,
-                            Name = scopeName,
-                            DisplayName = scopeName,
-                            Description = scopeName,
+                            Scope = scopeName
                         });
                     });
 
                     var scopeControllName = $"{value.MicroServiceName}.{policy.ControllerName}.all";
 
-                    data.Scopes.Add(new ApiScope()
+                    data.Scopes.Add(new ApiResourceScope()
                     {
                         ApiResource = data,
-                        Name = scopeControllName,
-                        DisplayName = scopeControllName,
-                        Description = scopeControllName,
+                        Scope = scopeControllName
                     });
                 });
 
                 var scopeApiResourceName = $"{value.MicroServiceName}.all";
 
-                data.Scopes.Add(new ApiScope()
+                data.Scopes.Add(new ApiResourceScope()
                 {
                     ApiResource = data,
-                    Name = scopeApiResourceName,
-                    DisplayName = scopeApiResourceName,
-                    Description = scopeApiResourceName,
+                    Scope = scopeApiResourceName
                 });
 
                 configDb.SaveChanges();
