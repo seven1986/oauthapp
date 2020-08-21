@@ -599,18 +599,18 @@ namespace Microsoft.Extensions.DependencyInjection
             this IISMSServiceBuilder builder,
             Action<DbContextOptionsBuilder> DbContextOptions, X509Certificate2 certificate, Action<IdentityServerOptions> identityServerOptions = null, Action<IIdentityServerBuilder> identityBuilder = null)
         {
-            var Options = new IdentityServerOptions()
-            {
-                EmitStaticAudienceClaim = true
-            };
+            IIdentityServerBuilder ISBuilder = null;
 
             if (identityServerOptions != null)
             {
-                identityServerOptions.Invoke(Options);
+                ISBuilder = builder.Services.AddIdentityServer(identityServerOptions);
+            }
+            else
+            {
+                ISBuilder = builder.Services.AddIdentityServer();
             }
 
-            var ISBuilder = builder.Services.AddIdentityServer(identityServerOptions)
-              .AddSigningCredential(certificate)
+            ISBuilder.AddSigningCredential(certificate)
               .AddCustomAuthorizeRequestValidator<TenantAuthorizeRequestValidator>()
               .AddCustomTokenRequestValidator<TenantTokenRequestValidator>()
               .AddConfigurationStore(x => x.ConfigureDbContext = DbContextOptions)

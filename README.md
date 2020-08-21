@@ -1,14 +1,14 @@
 ﻿
-[![Build status](https://ci.appveyor.com/api/projects/status/x51ob7f1p5ihff2i?svg=true)](https://ci.appveyor.com/project/seven1986/identityserver4-microservice)  [![readthedocs](https://img.shields.io/readthedocs/identityserver4microservice.svg)](http://identityserver4microservice.readthedocs.io)
+[![Build status](https://ci.appveyor.com/api/projects/status/x51ob7f1p5ihff2i?svg=true)](https://ci.appveyor.com/project/seven1986/identityserver4-microservice)  [![readthedocs](https://img.shields.io/readthedocs/OAuthApp.svg)](http://OAuthApp.readthedocs.io)
 
 
-# IdentityServer4.MicroService
+# OAuthApp
 
-IdentityServer4.MicroService是一个免费开源的微服务框架，基于IdentityServer4、Azure API Management构建。 
+OAuthApp是一个免费开源的微服务框架，基于IdentityServer4、Azure API Management构建。 
 
-IdentityServer4.MicroService | IdentityServer4.MicroService.AzureJobs
+OAuthApp | OAuthApp.AzureJobs
 --------------- | ---------------
-[![NuGet](https://img.shields.io/nuget/v/identityserver4microservice.svg)](https://github.com/seven1986/IdentityServer4.MicroService)|[![NuGet](https://img.shields.io/nuget/v/IdentityServer4MicroService.AzureJobs.svg)](https://github.com/seven1986/IdentityServer4.MicroService)
+[![NuGet](https://img.shields.io/nuget/v/OAuthApp.svg)](https://www.nuget.org/packages/oauthapp/)|[![NuGet](https://img.shields.io/nuget/v/IdentityServer4MicroService.AzureJobs.svg)](https://github.com/seven1986/oauthapp)
 
 
 核心功能
@@ -27,7 +27,7 @@ IdentityServer4.MicroService | IdentityServer4.MicroService.AzureJobs
 
 Acknowledgements
 --
-  IdentityServer4.MicroService is built using the following great open source projects
+  OAuthApp is built using the following great open source projects
   
 * [IdentityServer4](https://github.com/IdentityServer)
 * [ASP.NET Core](https://github.com/aspnet)
