@@ -1,5 +1,5 @@
 # 概述
-!!! note
+!!! note "提示"
     基于Identityserver4、Azure API Management的开放平台解决方案。
     
 

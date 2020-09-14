@@ -1,6 +1,6 @@
 # 创建标识服务器
 
-!!! note
+!!! note "提示"
 	参考如下步骤，搭建标识服务器。请确保您已经安装了[Visual Studio 2019](https://visualstudio.microsoft.com/zh-hans/vs/)、[DotNet Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)、[SQL Server](https://www.microsoft.com/zh-cn/sql-server/sql-server-downloads)。
 
 ## 1，创建应用程序
@@ -12,12 +12,12 @@
 
 ## 2，安装Nuget包
 
-!!! note
+!!! note "提示"
     对项目的依赖项点右键，选择管理Nuget程序包
 
 ![5](./images/usecase-basic/startserver5.png)
 
-!!! note
+!!! note "提示"
     输入OAuthApp，然后点击安装
 
 ![6](./images/usecase-basic/startserver6.jpg)
@@ -28,12 +28,12 @@
 
 ### 3.1 appsetting.json
 
-!!! note
+!!! note "提示"
     对项目依次点击鼠标右键——属性——调试，复制项目网址.
 
 ![7](./images/usecase-basic/startserver7.png)
 
-!!! note
+!!! note "提示"
     复制下面代码到 **appsetting.json** 文件，注意将Host节点替换为当前项目网址，**结尾不要带“/”** 。
 
     **DataBaseConnection** 可替换为实际数据库的地址，**SMS** 和 **Email** 使用的是[SendCloud](https://sendcloud.sohu.com/)的服务。
@@ -64,7 +64,7 @@
 
 ### 3.2 Identity UI
 
-!!! note
+!!! note "提示"
     打开项目的 **Views/Shared/_Layout.cshtml** 文件，添加登陆组件。
  
 === "Views/Shared/_Layout.cshtml"
@@ -76,7 +76,7 @@
 
 ### 3.3 添加并引用服务
 
-!!! note
+!!! note "提示"
     打开 **Startup.cs** 文件，添加如下代码。( **注释app.UseAuthentication()**)
 
 
@@ -92,7 +92,7 @@
 
 ## 4，    启动
 
-!!! note
+!!! note "提示"
 	启动项目并预览。默认用户账号：admin@admin.com，密码：123456aA!，拥有所有权限。
 
 ![11](./images/usecase-basic/startserver11.png)
@@ -103,7 +103,7 @@
 
 ## 5，   Swagger UI
 
-!!! note
+!!! note "提示"
     在浏览器中打开 **{项目网址}** /swagger/index.html可访问API文档。
 
 ![15](./images/usecase-basic/startserver15.png)
@@ -111,14 +111,14 @@
 ![17](./images/usecase-basic/startserver17.png)
 ![18](./images/usecase-basic/startserver18.png)
 
-!!! note
+!!! note "提示"
     可访问 **{项目网址}** /grants，撤销对指定client的授权。
 
 ![19](./images/usecase-basic/startserver19.png)
 
 ## 6，Postman
 
-!!! note
+!!! note "提示"
     Postman下载地址：https://www.postman.com/downloads/
 
 ![20](./images/usecase-basic/startserver20.png)

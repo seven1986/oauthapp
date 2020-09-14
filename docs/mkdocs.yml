@@ -1,11 +1,25 @@
 site_name: OAuthApp
+repo_url: https://github.com/seven1986/OAuthApp
+repo_name: seven1986/OAuthApp
+nav:
+  - 首页: 'index.md'
+  - 开始使用:
+      - 'start-server.md'
+  - 其他:
+      - 'permissions.md'
+  - 更新日志: 'logs.md'
 theme:
   name: material
   favicon: images/oauthapp.png
+  features:
+    - navigation.collapsible
   logo: images/oauthapp.png
+  icon:
+    repo: fontawesome/brands/github
 extra:
+  disqus: mkdocs
   social:
-    - icon: fontawesome/brands/git-alt
+    - icon: fontawesome/brands/github
       link: https://github.com/seven1986/OAuthApp
     - icon: fontawesome/regular/comments
       link: https://github.com/seven1986/OAuthApp/issues
@@ -35,5 +49,9 @@ markdown_extensions:
   - pymdownx.tabbed
   - pymdownx.tilde
 plugins:
+  - git-revision-date
+  - git-revision-date-localized:
+      type: timeago
   - minify:
       minify_html: true
+  - search
