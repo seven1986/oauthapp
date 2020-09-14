@@ -1,0 +1,39 @@
+site_name: OAuthApp
+theme:
+  name: material
+  favicon: images/oauthapp.png
+  logo: images/oauthapp.png
+extra:
+  social:
+    - icon: fontawesome/brands/git-alt
+      link: https://github.com/seven1986/OAuthApp
+    - icon: fontawesome/regular/comments
+      link: https://github.com/seven1986/OAuthApp/issues
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+      linenums: true
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tabbed
+  - pymdownx.tilde
+plugins:
+  - minify:
+      minify_html: true
