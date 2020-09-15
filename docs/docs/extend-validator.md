@@ -5,8 +5,8 @@
 
 
 === "Startup.cs"
-  ``` csharp
-  public void ConfigureServices(IServiceCollection services)
+    ``` csharp
+    public void ConfigureServices(IServiceCollection services)
         {
            services.AddIdentityServer4MicroService(x =>
             {
@@ -16,10 +16,10 @@
                 };
             }
         }
-  ```
+    ```
 === "DemoGrantValidator.cs"
-  ``` csharp
-     public class DemoGrantValidator: IExtensionGrantValidator
+    ``` csharp
+    public class DemoGrantValidator: IExtensionGrantValidator
     {
         public string GrantType => "demo";
 
@@ -47,5 +47,5 @@
             return;
         }
     }
-  ```
+    ```
   
