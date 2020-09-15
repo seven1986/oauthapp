@@ -23,35 +23,34 @@
 ## 配置邮件服务
 
 === "Startup.cs"
-  ``` csharp
-  public void ConfigureServices(IServiceCollection services)
-        {
-          services.AddSingleton<IEmailSender, EmailSender>();
-        }
-  ```
+    ``` csharp
+      public void ConfigureServices(IServiceCollection services)
+          {
+            services.AddSingleton<IEmailSender, EmailSender>();
+          }
+    ```
 === "EmailSender.cs"
-  ``` csharp
+    ``` csharp
     public class EmailSender : Microsoft.AspNetCore.Identity.UI.Services.IEmailSender
-    {
-        IdentityServer4.MicroService.Services.EmailService _sender;
-
-        public EmailSender(IdentityServer4.MicroService.Services.EmailService sender)
-        {
-            _sender = sender;
-        }
-
-        public Task SendEmailAsync(string email, string subject, string message)
-        {
-            return _sender.SendEmailAsync(
-                 "邮件模板的key",
-                 subject,
-                 new string[1] { email },
-                 new Dictionary<string, string[]>()
-                 {
-                    { "%subject%",new string[1]{ subject } },
-                    { "%message%",new string[1]{ message } }
-                 });
-        }
-    }
-  ```
+      {
+          IdentityServer4.MicroService.Services.EmailService _sender;
   
+          public EmailSender(IdentityServer4.MicroService.Services.EmailService sender)
+          {
+              _sender = sender;
+          }
+  
+          public Task SendEmailAsync(string email, string subject, string message)
+          {
+              return _sender.SendEmailAsync(
+                   "邮件模板的key",
+                   subject,
+                   new string[1] { email },
+                   new Dictionary<string, string[]>()
+                   {
+                      { "%subject%",new string[1]{ subject } },
+                      { "%message%",new string[1]{ message } }
+                   });
+          }
+      }
+    ```
