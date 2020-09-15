@@ -130,6 +130,54 @@
       
       
         
+          
+
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+      <a href="/." class="md-tabs__link md-tabs__link--active">
+        首页
+      </a>
+    
+  </li>
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="/start-server/" class="md-tabs__link">
+          开始使用
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="/permissions/" class="md-tabs__link">
+          参考
+        </a>
+      
+    </li>
+  
+
+      
+        
+      
+    </ul>
+  </div>
+</nav>
+        
       
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
@@ -212,6 +260,66 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/settings/" title="配置说明" class="md-nav__link">
+      配置说明
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/azureblob/" title="使用Azure Blob服务" class="md-nav__link">
+      使用Azure Blob服务
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/sendcloud/" title="使用短信、邮件服务" class="md-nav__link">
+      使用短信、邮件服务
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/extend-validator/" title="使用现有用户颁发accessToken" class="md-nav__link">
+      使用现有用户颁发accessToken
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/saas/" title="使用Saas服务" class="md-nav__link">
+      使用Saas服务
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -227,17 +335,17 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
     
     <label class="md-nav__link" for="nav-3">
-      其他
+      参考
       <span class="md-nav__icon md-icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
       </span>
     </label>
-    <nav class="md-nav" aria-label="其他" data-md-level="1">
+    <nav class="md-nav" aria-label="参考" data-md-level="1">
       <label class="md-nav__title" for="nav-3">
         <span class="md-nav__icon md-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
         </span>
-        其他
+        参考
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -287,10 +395,6 @@
               
                 
 
-
-  <h2 id="__comments">Comments</h2>
-  <div id="disqus_thread"></div>
-  <script>var disqus_config=function(){this.page.url="",this.page.identifier=""};!function(){var e=document,i=e.createElement("script");i.src="//mkdocs.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)}()</script>
 
               
             </article>
@@ -345,7 +449,7 @@
       <script>
         app = initialize({
           base: "/",
-          features: ["navigation.collapsible"],
+          features: ["tabs"],
           search: Object.assign({
             worker: "/assets/javascripts/worker/search.c03f0417.min.js"
           }, typeof search !== "undefined" && search)

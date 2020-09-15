@@ -5,19 +5,23 @@ nav:
   - 首页: 'index.md'
   - 开始使用:
       - 'start-server.md'
-  - 其他:
+      - 'settings.md'
+      - 'azureblob.md'
+      - 'sendcloud.md'
+      - 'extend-validator.md'
+      - 'saas.md'
+  - 参考:
       - 'permissions.md'
   - 更新日志: 'logs.md'
 theme:
   name: material
   favicon: images/oauthapp.png
   features:
-    - navigation.collapsible
+    - tabs
   logo: images/oauthapp.png
   icon:
     repo: fontawesome/brands/github
 extra:
-  disqus: mkdocs
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/seven1986/OAuthApp
