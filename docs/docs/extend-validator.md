@@ -1,11 +1,11 @@
 # 使用现有用户颁发accessToken
 
 !!! note "提示"
-    自定义验证器。
+    自定义验证器，这个示例只是简单验证了userName和password非空。可参考代码如手机号+验证码等复杂验证。
 
 
 === "Startup.cs"
-    ``` csharp
+    ``` csharp linenums="1"
     public void ConfigureServices(IServiceCollection services)
         {
            services.AddIdentityServer4MicroService(x =>
@@ -18,7 +18,7 @@
         }
     ```
 === "DemoGrantValidator.cs"
-    ``` csharp
+    ``` csharp linenums="1"
     public class DemoGrantValidator: IExtensionGrantValidator
     {
         public string GrantType => "demo";

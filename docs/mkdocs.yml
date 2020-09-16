@@ -1,6 +1,7 @@
 site_name: OAuthApp
 repo_url: https://github.com/seven1986/OAuthApp
 repo_name: seven1986/OAuthApp
+copyright: Copyright © 2020 OAuthApp
 nav:
   - 首页: 'index.md'
   - 开始使用:
@@ -12,7 +13,8 @@ nav:
       - 'saas.md'
   - 参考:
       - 'permissions.md'
-  - 更新日志: 'logs.md'
+  - 更新日志: 
+      - 'logs.md'
 theme:
   name: material
   favicon: images/oauthapp.png
@@ -28,6 +30,7 @@ extra:
     - icon: fontawesome/regular/comments
       link: https://github.com/seven1986/OAuthApp/issues
 markdown_extensions:
+  - attr_list
   - admonition
   - codehilite:
       guess_lang: false

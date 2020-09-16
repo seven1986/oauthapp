@@ -1,10 +1,10 @@
 # 使用短信、邮件服务
 
-!!! note "提示"
-    当用户注册成功、找回密码、验证手机号时，可以使用[sendcloud服务](https://sendcloud.sohu.com)，并把对应的连接字符串复制到如下配置中。
+!!! note ""
+    当用户注册成功、找回密码、验证手机号时，可以使用 [SendCloud服务](https://sendcloud.sohu.com){: .md-button } 并把对应的连接字符串复制到如下配置中。
 
 === "appsettings.json"
-    ``` json
+    ``` json linenums="1"
       "IdentityServer": {
         "SMS": {
           "apiUser": "",
@@ -23,14 +23,14 @@
 ## 配置邮件服务
 
 === "Startup.cs"
-    ``` csharp
+    ``` csharp linenums="1"
       public void ConfigureServices(IServiceCollection services)
           {
             services.AddSingleton<IEmailSender, EmailSender>();
           }
     ```
 === "EmailSender.cs"
-    ``` csharp
+    ``` csharp linenums="1"
     public class EmailSender : Microsoft.AspNetCore.Identity.UI.Services.IEmailSender
       {
           IdentityServer4.MicroService.Services.EmailService _sender;

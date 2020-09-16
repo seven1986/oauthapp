@@ -1,382 +1,135 @@
 # 权限码表
 
-!!! note "提示"
-    client在请求标识中心颁发token时，默认支持下面的scope。
+!!! note ""
+    OAuthApp内置的接口权限，使用Client请求用户授权时，scope参数可参考下面的code。
 
 
-## API
+## 微服务
 
-``` json
-  [
- 	{
- 	 	"code": "isms.apiresource.publishrevision",
- 	 	"name": "微服务 - 网关 - 创建修订版",
- 	},
- 	{
- 	 	"code": "isms.apiresource.publishconfiguration",
- 	 	"name": "微服务 - 网关 - 上次发布配置",
- 	},
- 	{
- 	 	"code": "isms.apiresource.publish",
- 	 	"name": "微服务 - 网关 - 发布或更新版本",
- 	},
- 	{
- 	 	"code": "isms.apiresource.products",
- 	 	"name": "微服务 - 网关 - 产品组",
- 	},
- 	{
- 	 	"code": "isms.apiresource.postrelease",
- 	 	"name": "微服务 - 修订内容 - 发布",
- 	},
- 	{
- 	 	"code": "isms.apiresource.postpackages",
- 	 	"name": "微服务 - 包市场 - 添加",
- 	},
- 	{
- 	 	"code": "isms.apiresource.post",
- 	 	"name": "微服务 - 创建",
- 	},
- 	{
- 	 	"code": "isms.apiresource.publishversion",
- 	 	"name": "微服务 - 网关 - 创建新版本",
- 	},
- 	{
- 	 	"code": "isms.apiresource.packages",
- 	 	"name": "微服务 - 包市场 - 列表",
- 	},
- 	{
- 	 	"code": "isms.apiresource.get",
- 	 	"name": "微服务 - 列表",
- 	},
- 	{
- 	 	"code": "isms.apiresource.detail",
- 	 	"name": "微服务 - 详情",
- 	},
- 	{
- 	 	"code": "isms.apiresource.deleterelease",
- 	 	"name": "微服务 - 修订内容 - 删除",
- 	},
- 	{
- 	 	"code": "isms.apiresource.deletepackage",
- 	 	"name": "微服务 - 包市场 - 删除",
- 	},
- 	{
- 	 	"code": "isms.apiresource.delete",
- 	 	"name": "微服务 - 删除",
- 	},
- 	{
- 	 	"code": "isms.apiresource.authservers",
- 	 	"name": "微服务 - 网关 - OAuthServers",
- 	},
- 	{
- 	 	"code": "isms.apiresource.all",
- 	 	"name": "微服务 - 所有权限",
- 	},
- 	{
- 	 	"code": "isms.apiresource.history",
- 	 	"name": "代码生成 - SDK - 发布记录",
- 	},
- 	{
- 	 	"code": "isms.apiresource.put",
- 	 	"name": "微服务 - 更新",
- 	},
- 	{
- 	 	"code": "isms.apiresource.putrelease",
- 	 	"name": "微服务 - 修订内容 - 更新",
- 	},
- 	{
- 	 	"code": "isms.apiresource.putpackage",
- 	 	"name": "微服务 - 包市场 - 更新",
- 	},
- 	{
- 	 	"code": "isms.apiresource.versions",
- 	 	"name": "微服务 - 网关 - 版本列表",
- 	},
- 	{
- 	 	"code": "isms.apiresource.verifyemail",
- 	 	"name": "微服务 - 订阅者 - 验证邮箱",
- 	},
- 	{
- 	 	"code": "isms.apiresource.subscriptions",
- 	 	"name": "微服务 - 订阅者 - 列表",
- 	},
- 	{
- 	 	"code": "isms.apiresource.setonlineversion",
- 	 	"name": "微服务 - 网关 - 上线指定版本",
- 	},
- 	{
- 	 	"code": "isms.apiresource.scopes",
- 	 	"name": "微服务 - 权限代码",
- 	},
- 	{
- 	 	"code": "isms.apiresource.releases",
- 	 	"name": "微服务 - 修订内容 - 列表",
- 	}
-]
-```
+| code      | name                          |
+| ----------- | ------------------------------------ |
+| `isms.apiresource.post` | 创建 |
+| `isms.apiresource.get` | 列表 |
+| `isms.apiresource.detail` | 详情 |
+| `isms.apiresource.delete` | 删除 |
+| `isms.apiresource.put` | 更新 |
+| `isms.apiresource.scopes` | 权限代码 |
+| `isms.apiresource.publishrevision`  | 网关 - 创建修订版  |
+| `isms.apiresource.publishconfiguration` | 网关 - 上次发布配置 |
+| `isms.apiresource.publish` | 网关 - 发布或更新版本 |
+| `isms.apiresource.products` | 网关 - 产品组 |
+| `isms.apiresource.publishversion` | 网关 - 创建新版本 |
+| `isms.apiresource.authservers` | 网关 - OAuthServers |
+| `isms.apiresource.versions` | 网关 - 版本列表 |
+| `isms.apiresource.setonlineversion` | 网关 - 上线指定版本 |
+| `isms.apiresource.postrelease` | 修订内容 - 发布 |
+| `isms.apiresource.releases` | 修订内容 - 列表 |
+| `isms.apiresource.putrelease` | 修订内容 - 更新 |
+| `isms.apiresource.deleterelease` | 修订内容 - 删除 |
+| `isms.apiresource.postpackages` | 包市场 - 添加 |
+| `isms.apiresource.putpackage` | 包市场 - 更新 |
+| `isms.apiresource.packages` | 包市场 - 列表 |
+| `isms.apiresource.deletepackage` | 包市场 - 删除 |
+| `isms.apiresource.verifyemail` | 订阅者 - 验证邮箱 |
+| `isms.apiresource.subscriptions` | 订阅者 - 列表 |
+| `isms.apiresource.history` | SDK - 发布记录 |
+| `isms.apiresource.all` | 所有权限 |
 
 ## Blob
 
-``` json
-[
- 	{
- 	 	"code": "isms.blob.post",
- 	 	"name": "文件 - 上传视频或文档",
- 	},
- 	{
- 	 	"code": "isms.blob.image",
- 	 	"name": "文件 - 上传图片",
- 	},
- 	{
- 	 	"code": "isms.blob.base64",
- 	 	"name": "文件 - 上传base64格式的png图片",
- 	},
- 	{
- 	 	"code": "isms.blob.all",
- 	 	"name": "文件 - 所有权限",
- 	}
-]
-```
+| code      | name                          |
+| ----------- | ------------------------------------ |
+| `isms.blob.post` | 上传视频或文档 |
+| `isms.blob.image` | 上传图片 |
+| `isms.blob.base64` | 传base64格式的png图片 |
+| `isms.blob.all` | 所有权限 |
 
 ## 客户端
 
-``` json
-  [
- 	{
- 	 	"code": "isms.client.put",
- 	 	"name": "客户端 - 更新",
- 	},
- 	{
- 	 	"code": "isms.client.postsecretkey",
- 	 	"name": "客户端 - 生成密钥",
- 	},
- 	{
- 	 	"code": "isms.client.post",
- 	 	"name": "客户端 - 创建",
- 	},
- 	{
- 	 	"code": "isms.client.issuetoken",
- 	 	"name": "客户端 - 创建令牌",
- 	},
- 	{
- 	 	"code": "isms.client.get",
- 	 	"name": "客户端 - 列表",
- 	},
- 	{
- 	 	"code": "isms.client.detail",
- 	 	"name": "客户端 - 详情",
- 	},
- 	{
- 	 	"code": "isms.client.all",
- 	 	"name": "客户端 - 所有权限",
- 	},
- 	{
- 	 	"code": "isms.client.delete",
- 	 	"name": "客户端 - 删除",
- 	}
-]
-```
+| code      | name                          |
+| ----------- | ------------------------------------ |
+| `isms.client.put` | 更新 |
+| `isms.client.postsecretkey` | 生成密钥 |
+| `isms.client.post` | 创建 |
+| `isms.client.issuetoken` | 创建令牌 |
+| `isms.client.get` | 列表 |
+| `isms.client.detail` | 详情 |
+| `isms.client.delete` | 删除 |
+| `isms.client.all` | 所有权限 |
+
 
 ## 代码生成
 
-``` json 
-  [
- 	{
- 	 	"code": "isms.codegen.syncgithub",
- 	 	"name": "代码生成 - Github - 同步",
- 	},
- 	{
- 	 	"code": "isms.codegen.servers",
- 	 	"name": "代码生成 - 服务端列表",
- 	},
- 	{
- 	 	"code": "isms.codegen.releasesdk",
- 	 	"name": "代码生成 - SDK - 发布",
- 	},
- 	{
- 	 	"code": "isms.codegen.putnpmoptions",
- 	 	"name": "代码生成 - NPM - 更新设置",
- 	},
- 	{
- 	 	"code": "isms.codegen.putgithuboptions",
- 	 	"name": "代码生成 - Github - 更新设置",
- 	},
- 	{
- 	 	"code": "isms.codegen.putcommonoptions",
- 	 	"name": "代码生成 - 基本设置 - 更新",
- 	},
- 	{
- 	 	"code": "isms.codegen.npmoptions",
- 	 	"name": "代码生成 - NPM - 设置",
- 	},
- 	{
- 	 	"code": "isms.codegen.githuboptions",
- 	 	"name": "代码生成 - Github - 设置",
- 	},
- 	{
- 	 	"code": "isms.codegen.gen",
- 	 	"name": "代码生成 - SDK - 预览生成代码",
- 	},
- 	{
- 	 	"code": "isms.codegen.get",
- 	 	"name": "代码生成 - 客户端列表",
- 	},
- 	{
- 	 	"code": "isms.codegen.commonoptions",
- 	 	"name": "代码生成 - 基本设置 - 获取",
- 	},
- 	{
- 	 	"code": "isms.codegen.all",
- 	 	"name": "代码生成 - 所有权限",
- 	}
-]
-```
+| code      | name                          |
+| ----------- | ------------------------------------ |
+| `isms.codegen.syncgithub` | Github - 同步 |
+| `isms.codegen.servers` | 服务端列表 |
+| `isms.codegen.releasesdk` | SDK - 发布 |
+| `isms.codegen.putnpmoptions` | NPM - 更新设置 |
+| `isms.codegen.putgithuboptions` | Github - 更新设置 |
+| `isms.codegen.putcommonoptions` | 基本设置 - 更新 |
+| `isms.codegen.npmoptions` | NPM - 设置 |
+| `isms.codegen.githuboptions` | Github - 设置 |
+| `isms.codegen.gen` | SDK - 预览生成代码 |
+| `isms.codegen.get` | 客户端列表 |
+| `isms.codegen.commonoptions` | 基本设置 - 获取 |
+| `isms.codegen.all` | 所有权限 |
+
 
 ## 标识
 
-``` json
-  [
- 	{
- 	 	"code": "isms.identityresource.put",
- 	 	"name": "身份服务 - 更新",
- 	},
- 	{
- 	 	"code": "isms.identityresource.post",
- 	 	"name": "身份服务 - 创建",
- 	},
- 	{
- 	 	"code": "isms.identityresource.get",
- 	 	"name": "身份服务 - 列表",
- 	},
- 	{
- 	 	"code": "isms.identityresource.detail",
- 	 	"name": "身份服务 - 详情",
- 	},
- 	{
- 	 	"code": "isms.identityresource.delete",
- 	 	"name": "身份服务 - 删除",
- 	},
- 	{
- 	 	"code": "isms.identityresource.all",
- 	 	"name": "身份服务 - 所有权限",
- 	}
-]
-```
+| code      | name                          |
+| ----------- | ------------------------------------ |
+| `isms.identityresource.put` | 更新 |
+| `isms.identityresource.post` | 创建 |
+| `isms.identityresource.get` | 列表 |
+| `isms.identityresource.detail` | 详情 |
+| `isms.identityresource.delete` | 删除 |
+| `isms.identityresource.all` | 所有权限 |
+
 
 ## 角色
 
-``` json
-  [
- 	{
- 	 	"code": "isms.role.all",
- 	 	"name": "角色 - 所有权限",
- 	},
- 	{
- 	 	"code": "isms.role.delete",
- 	 	"name": "角色 - 删除",
- 	},
- 	{
- 	 	"code": "isms.role.detail",
- 	 	"name": "角色 - 详情",
- 	},
- 	{
- 	 	"code": "isms.role.put",
- 	 	"name": "角色 - 更新",
- 	},
- 	{
- 	 	"code": "isms.role.post",
- 	 	"name": "角色 - 创建",
- 	},
- 	{
- 	 	"code": "isms.role.get",
- 	 	"name": "角色 - 列表",
- 	}
-]
-```
+| code      | name                          |
+| ----------- | ------------------------------------ |
+| `isms.role.delete` | 删除 |
+| `isms.role.detail` | 详情 |
+| `isms.role.put` | 更新 |
+| `isms.role.post` | 创建 |
+| `isms.role.get` | 列表 |
+| `isms.role.all` | 所有权限 |
+
 
 ## 租户
 
-``` json  
-  [
- 	{
- 	 	"code": "isms.tenant.post",
- 	 	"name": "租户 - 创建",
- 	},
- 	{
- 	 	"code": "isms.tenant.get",
- 	 	"name": "租户 - 列表",
- 	},
- 	{
- 	 	"code": "isms.tenant.detail",
- 	 	"name": "租户 - 详情",
- 	},
- 	{
- 	 	"code": "isms.tenant.delete",
- 	 	"name": "租户 - 删除",
- 	},
- 	{
- 	 	"code": "isms.tenant.all",
- 	 	"name": "租户 - 所有权限",
- 	},
- 	{
- 	 	"code": "isms.tenant.put",
- 	 	"name": "租户 - 更新",
- 	}
-]
-```
+| code      | name                          |
+| ----------- | ------------------------------------ |
+| `isms.tenant.post` | 创建 |
+| `isms.tenant.get` | 列表 |
+| `isms.tenant.detail` | 详情 |
+| `isms.tenant.delete` | 删除 |
+| `isms.tenant.put` | 更新 |
+| `isms.tenant.all` | 所有权限 |
+
 
 ## 用户
 
-``` json 
-  [
-    {
-     "code": "isms.user.verifyemail",
-     "name": "用户 - 注册 - 发送邮件验证码",
-    },
-    {
-     "code": "isms.user.register",
-     "name": "用户 - 注册",
-    },
-    {
-     "code": "isms.user.put",
-     "name": "用户 - 更新",
-    },
-    {
-     "code": "isms.user.post",
-     "name": "用户 - 创建",
-    },
-    {
-     "code": "isms.user.head",
-     "name": "用户 - 是否存在",
-    },
-    {
-     "code": "isms.user.get",
-     "name": "用户 - 列表",
-    },
-    {
-     "code": "isms.user.detail",
-     "name": "用户 - 详情",
-    },
-    {
-     "code": "isms.user.delete",
-     "name": "用户 - 删除",
-    },
-    {
-     "code": "isms.user.verifyphone",
-     "name": "用户 - 注册 - 发送手机验证码",
-    },
-    {
-     "code": "isms.user.all",
-     "name": "用户 - 所有权限",
-    }
-]
-```
+| code      | name                          |
+| ----------- | ------------------------------------ |
+| `isms.user.verifyemail` | 注册 - 发送邮件验证码 |
+| `isms.user.register` | 注册 |
+| `isms.user.put` | 更新 |
+| `isms.user.post` | 创建 |
+| `isms.user.head` | 是否存在 |
+| `isms.user.get` | 列表 |
+| `isms.user.detail` | 详情 |
+| `isms.user.delete` | 删除 |
+| `isms.user.verifyphone` | 注册 - 发送手机验证码 |
+| `isms.user.all` | 所有权限 |
+
 
 ## 其他
 
-``` json
-    {
-      "code": "isms.all",
-      "name": "授权中心 - 所有权限",
-    }
-```
+| code      | name                          |
+| ----------- | ------------------------------------ |
+| `isms.all` | 所有权限 |
