@@ -12,7 +12,7 @@ nav:
       - 'extend-validator.md'
       - 'saas.md'
   - 参考:
-      - 'permissions.md'
+      - 'scopes.md'
   - 更新日志: 
       - 'logs.md'
 theme:

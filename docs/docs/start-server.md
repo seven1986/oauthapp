@@ -79,27 +79,24 @@
 ### 3.3 添加并引用服务
 
 !!! note ""
-    打开 **Startup.cs** 文件，添加如下代码。 **注释app.UseAuthentication()**
+    打开 **Startup.cs** 文件，添加如下代码。
 
 
 === "Startup.cs"
     ``` csharp linenums="1"
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddIdentityServer4MicroService(options=>
-        {
-             services.AddIdentityServer4MicroService();
-        });
+        services.AddOAuthApp();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        app.UseIdentityServer4MicroService();
+        app.UseOAuthApp();
     }
     ```
 
 
-![10](./images/usecase-basic/startserver10.png)
+![10](./images/usecase-basic/startserver10.jpg)
 
 
 ## 4，    启动
@@ -130,8 +127,7 @@
 
 ## 6，Postman
 
-!!! note ""
-    Postman下载地址：https://www.postman.com/downloads/
+使用 [Postman](https://www.postman.com/downloads){: .md-button } 测试现有接口。
 
 ![20](./images/usecase-basic/startserver20.png)
 ![21](./images/usecase-basic/startserver21.png)
