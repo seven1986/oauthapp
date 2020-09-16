@@ -1,4 +1,4 @@
-﻿namespace IdentityServer4.MicroService.CacheKeys
+﻿namespace OAuthApp.CacheKeys
 {
     internal class CodeGenControllerKeys
     {

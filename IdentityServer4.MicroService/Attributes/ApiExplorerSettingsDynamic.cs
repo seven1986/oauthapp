@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using static IdentityServer4.MicroService.IdentityServer4MicroServiceOptions;
+using static OAuthApp.OAuthAppOptions;
 
-namespace IdentityServer4.MicroService
+namespace OAuthApp
 {
     public class ApiExplorerSettingsDynamic : ApiExplorerSettingsAttribute
     {

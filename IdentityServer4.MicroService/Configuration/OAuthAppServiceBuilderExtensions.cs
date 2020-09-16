@@ -1,9 +1,9 @@
 ﻿using IdentityServer4.Configuration;
-using IdentityServer4.MicroService;
-using IdentityServer4.MicroService.Configuration;
-using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.Tenant;
+using OAuthApp;
+using OAuthApp.Configuration;
+using OAuthApp.Data;
+using OAuthApp.Services;
+using OAuthApp.Tenant;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
@@ -30,11 +30,11 @@ using System.Text.Unicode;
 
 namespace Microsoft.Extensions.DependencyInjection
 { 
-    public static class Id4MsApplicationBuilderExtensions
+    public static class OAuthAppServiceBuilderExtensions
     {
         private static IConfiguration configuration { get; }
 
-        static Id4MsApplicationBuilderExtensions()
+        static OAuthAppServiceBuilderExtensions()
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -53,18 +53,18 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">The services.</param>
         /// <param name="ismsOptions">The Options.</param>
         /// <returns></returns>
-        public static IISMSServiceBuilder AddIdentityServer4MicroService(
+        public static IOAuthAppServiceBuilder AddOAuthApp(
             this IServiceCollection services,
-            Action<IdentityServer4MicroServiceOptions> ismsOptions = null)
+            Action<OAuthAppOptions> ismsOptions = null)
         {
-            var Options = new IdentityServer4MicroServiceOptions();
+            var Options = new OAuthAppOptions();
 
             if (ismsOptions != null)
             {
                 ismsOptions.Invoke(Options);
             }
 
-            var builder = new ISMSServiceBuilder(services);
+            var builder = new OAuthAppServiceBuilder(services);
             builder.Services.AddSingleton(Options);
 
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -145,7 +145,8 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 $"{AppConstant.MicroServiceName}.{x}",
                                 $"{AppConstant.MicroServiceName}.{policyConfig.ControllerName}.all",
-                                $"{AppConstant.MicroServiceName}.all"
+                                $"{AppConstant.MicroServiceName}.all",
+                                "isms.all"
                             };
 
                             options.AddPolicy(policyName,
@@ -162,7 +163,8 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 $"{AppConstant.MicroServiceName}.{x}",
                                 $"{AppConstant.MicroServiceName}.{policyConfig.ControllerName}.all",
-                                $"{AppConstant.MicroServiceName}.all"
+                                $"{AppConstant.MicroServiceName}.all",
+                                "isms.all"
                             };
 
                             options.AddPolicy(policyName,
@@ -277,12 +279,12 @@ namespace Microsoft.Extensions.DependencyInjection
                         c.IncludeXmlComments(SiteSwaggerFilePath);
                     }
 
-                    var ISMSSwaggerFilePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "IdentityServer4.MicroService.xml");
+                    var ISMSSwaggerFilePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "OAuthApp.xml");
 
                     if (!File.Exists(ISMSSwaggerFilePath))
                     {
                         using var sw = new StreamWriter(ISMSSwaggerFilePath);
-                        sw.Write(AppResource.IdentityServer4_MicroService1);
+                        sw.Write(AppResource.OAuthApp);
                     }
 
                     if (Options.EnableAPIDocuments)
@@ -348,7 +350,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 isAuth.ApiName = AppConstant.MicroServiceName;
                 isAuth.RequireHttpsMetadata = true;
             })
-            .AddIdentityServer4MicroServiceOAuths();
+            .AddOAuthPlatforms();
             #endregion
 
             #region ResponseCaching
@@ -477,7 +479,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw ex;
             }
 
-            return new X509Certificate2(AppResource.identityserver4_microservice, "214480728730881",
+            return new X509Certificate2(AppResource.OAuthApp1, "214480728730881",
                    X509KeyStorageFlags.MachineKeySet |
                    X509KeyStorageFlags.PersistKeySet |
                    X509KeyStorageFlags.Exportable);
@@ -488,7 +490,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <returns></returns>
-        static IISMSServiceBuilder AddCoreService(this IISMSServiceBuilder builder)
+        static IOAuthAppServiceBuilder AddCoreService(this IOAuthAppServiceBuilder builder)
         {
             builder.Services.AddScoped<IPasswordHasher<AppUser>, IdentityMD5PasswordHasher>();
             builder.Services.AddSingleton<TenantService>();
@@ -504,7 +506,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="builder">The builder.</param>
         /// <param name="config">The config.</param>
         /// <returns></returns>
-        static IISMSServiceBuilder AddEmailService(this IISMSServiceBuilder builder, IConfigurationSection config)
+        static IOAuthAppServiceBuilder AddEmailService(this IOAuthAppServiceBuilder builder, IConfigurationSection config)
         {
             builder.Services.Configure<EmailSenderOptions>(config);
             builder.Services.AddTransient<IEmailSender, EmailSender>();
@@ -518,7 +520,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="builder">The builder.</param>
         /// <param name="config">The config.</param>
         /// <returns></returns>
-        static IISMSServiceBuilder AddSmsService(this IISMSServiceBuilder builder, IConfigurationSection config)
+        static IOAuthAppServiceBuilder AddSmsService(this IOAuthAppServiceBuilder builder, IConfigurationSection config)
         {
             builder.Services.Configure<SmsSenderOptions>(config);
             builder.Services.AddTransient<ISmsSender, SmsSender>();
@@ -531,8 +533,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="builder">The builder.</param>
         /// <param name="DbContextOptions">The store options action.</param>
         /// <returns></returns>
-        static IISMSServiceBuilder AddTenantStore(
-            this IISMSServiceBuilder builder,
+        static IOAuthAppServiceBuilder AddTenantStore(
+            this IOAuthAppServiceBuilder builder,
             Action<DbContextOptionsBuilder> DbContextOptions)
         {
             builder.Services.AddDbContext<TenantDbContext>(DbContextOptions);
@@ -546,8 +548,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="DbContextOptions">The store options action.</param>
         /// <param name="identityOptions">The identity options action.</param>
         /// <returns></returns>
-        static IISMSServiceBuilder AddIdentityStore(
-            this IISMSServiceBuilder builder,
+        static IOAuthAppServiceBuilder AddIdentityStore(
+            this IOAuthAppServiceBuilder builder,
             Action<DbContextOptionsBuilder> DbContextOptions,
             Action<IdentityOptions> identityOptions = null)
         {
@@ -571,8 +573,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="schemaName">table schemaName</param>
         /// <param name="tableName">table name</param>
         /// <returns></returns>
-        static IISMSServiceBuilder AddSqlCacheStore(
-           this IISMSServiceBuilder builder,
+        static IOAuthAppServiceBuilder AddSqlCacheStore(
+           this IOAuthAppServiceBuilder builder,
            string connection, string schemaName = "dbo", string tableName = "AppCache")
         {
             builder.Services.AddDistributedSqlServerCache(options =>
@@ -595,8 +597,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="identityServerOptions">The identityServerOptions.</param>
         /// <param name="identityBuilder">The identityBuilder.</param>
         /// <returns></returns>
-        static IISMSServiceBuilder AddIdentityServer(
-            this IISMSServiceBuilder builder,
+        static IOAuthAppServiceBuilder AddIdentityServer(
+            this IOAuthAppServiceBuilder builder,
             Action<DbContextOptionsBuilder> DbContextOptions, X509Certificate2 certificate, Action<IdentityServerOptions> identityServerOptions = null, Action<IIdentityServerBuilder> identityBuilder = null)
         {
             IIdentityServerBuilder ISBuilder = null;

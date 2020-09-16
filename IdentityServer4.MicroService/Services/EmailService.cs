@@ -8,9 +8,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using static IdentityServer4.MicroService.AppDefaultData;
+using static OAuthApp.AppDefaultData;
 
-namespace IdentityServer4.MicroService.Services
+namespace OAuthApp.Services
 {
     public interface IEmailSender
     {

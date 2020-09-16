@@ -1,4 +1,4 @@
-﻿namespace IdentityServer4.MicroService.Models.Apis.CodeGenController
+﻿namespace OAuthApp.Models.Apis.CodeGenController
 {
    public class CodeGenHistoryRequest
     {

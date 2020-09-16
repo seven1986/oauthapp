@@ -14,16 +14,16 @@ using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Swashbuckle.AspNetCore.Annotations;
-using IdentityServer4.MicroService.Enums;
-using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.CacheKeys;
-using IdentityServer4.MicroService.Models.Apis.Common;
-using IdentityServer4.MicroService.Models.Apis.CodeGenController;
-using IdentityServer4.MicroService.Models.Apis.ApiResourceController;
-using static IdentityServer4.MicroService.AppConstant;
+using OAuthApp.Enums;
+using OAuthApp.Services;
+using OAuthApp.CacheKeys;
+using OAuthApp.Models.Apis.Common;
+using OAuthApp.Models.Apis.CodeGenController;
+using OAuthApp.Models.Apis.ApiResourceController;
+using static OAuthApp.AppConstant;
 using Microsoft.Azure.Cosmos.Table;
 
-namespace IdentityServer4.MicroService.Apis
+namespace OAuthApp.Apis
 {
     /// <summary>
     /// 代码生成

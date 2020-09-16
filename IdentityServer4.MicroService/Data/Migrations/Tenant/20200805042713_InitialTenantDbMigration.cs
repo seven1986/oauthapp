@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace IdentityServer4.MicroService.Data.Migrations.Tenant
+namespace OAuthApp.Data.Migrations.Tenant
 {
     public partial class InitialTenantDbMigration : Migration
     {

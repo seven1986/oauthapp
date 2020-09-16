@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace IdentityServer4.MicroService.Models.Apis.UserController
+namespace OAuthApp.Models.Apis.UserController
 {
     [NotMapped]
     public class DistributorResponse

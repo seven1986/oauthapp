@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IdentityServer4.MicroService {
+namespace OAuthApp {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace IdentityServer4.MicroService {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IdentityServer4.MicroService.AppResource", typeof(AppResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("OAuthApp.AppResource", typeof(AppResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,33 +61,33 @@ namespace IdentityServer4.MicroService {
         }
         
         /// <summary>
-        ///   查找 System.Byte[] 类型的本地化资源。
-        /// </summary>
-        internal static byte[] identityserver4_microservice {
-            get {
-                object obj = ResourceManager.GetObject("identityserver4_microservice", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 &lt;?xml version=&quot;1.0&quot;?&gt;
         ///&lt;doc&gt;
         ///    &lt;assembly&gt;
-        ///        &lt;name&gt;IdentityServer4.MicroService&lt;/name&gt;
+        ///        &lt;name&gt;OAuthApp&lt;/name&gt;
         ///    &lt;/assembly&gt;
         ///    &lt;members&gt;
-        ///        &lt;member name=&quot;T:IdentityServer4.MicroService.Apis.ApiResourceController&quot;&gt;
+        ///        &lt;member name=&quot;T:OAuthApp.Apis.ApiResourceController&quot;&gt;
         ///            &lt;summary&gt;
         ///            API
         ///            &lt;/summary&gt;
         ///            &lt;remarks&gt;为API提供版本管理、网关集成都功能。&lt;/remarks&gt;
         ///        &lt;/member&gt;
-        ///        &lt;member name=&quot;M:IdentityServer4.MicroService.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,IdentityServe [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///        &lt;member name=&quot;M:OAuthApp.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,OAuthApp.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLoca [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
-        internal static string IdentityServer4_MicroService1 {
+        internal static string OAuthApp {
             get {
-                return ResourceManager.GetString("IdentityServer4_MicroService1", resourceCulture);
+                return ResourceManager.GetString("OAuthApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] OAuthApp1 {
+            get {
+                object obj = ResourceManager.GetObject("OAuthApp1", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

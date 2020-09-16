@@ -1,4 +1,4 @@
-﻿namespace IdentityServer4.MicroService.Models.Apis.IdentityResourceController
+﻿namespace OAuthApp.Models.Apis.IdentityResourceController
 {
     public class IdentityResourceGetRequest
     {

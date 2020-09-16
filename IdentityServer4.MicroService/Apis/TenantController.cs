@@ -1,9 +1,9 @@
-﻿using IdentityServer4.MicroService.Enums;
-using IdentityServer4.MicroService.Models.Apis.Common;
-using IdentityServer4.MicroService.Models.Apis.TenantController;
-using IdentityServer4.MicroService.Models.Shared;
-using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.Tenant;
+﻿using OAuthApp.Enums;
+using OAuthApp.Models.Apis.Common;
+using OAuthApp.Models.Apis.TenantController;
+using OAuthApp.Models.Shared;
+using OAuthApp.Services;
+using OAuthApp.Tenant;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +14,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using static IdentityServer4.MicroService.AppConstant;
+using static OAuthApp.AppConstant;
 
-namespace IdentityServer4.MicroService.Apis
+namespace OAuthApp.Apis
 {
     /// <summary>
     /// 租户

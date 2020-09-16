@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
-namespace IdentityServer4.MicroService.Models.Apis.CodeGenController
+namespace OAuthApp.Models.Apis.CodeGenController
 {
     public class GenerateClientRequest
     {

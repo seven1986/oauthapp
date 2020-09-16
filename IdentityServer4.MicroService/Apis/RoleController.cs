@@ -9,12 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Authorization;
 using Swashbuckle.AspNetCore.Annotations;
-using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.Enums;
-using IdentityServer4.MicroService.Models.Apis.Common;
-using static IdentityServer4.MicroService.AppConstant;
+using OAuthApp.Data;
+using OAuthApp.Enums;
+using OAuthApp.Models.Apis.Common;
+using static OAuthApp.AppConstant;
 
-namespace IdentityServer4.MicroService.Apis
+namespace OAuthApp.Apis
 {
     /// <summary>
     /// 角色

@@ -11,7 +11,7 @@ using Microsoft.Azure.Storage;
 using Microsoft.Azure.Cosmos.Table;
 using CloudStorageAccount = Microsoft.Azure.Storage.CloudStorageAccount;
 
-namespace IdentityServer4.MicroService.Services
+namespace OAuthApp.Services
 {
     public class AzureStorageService
     {

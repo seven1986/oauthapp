@@ -9,16 +9,16 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Swashbuckle.AspNetCore.Annotations;
-using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.Tenant;
-using IdentityServer4.MicroService.Enums;
+using OAuthApp.Data;
+using OAuthApp.Tenant;
+using OAuthApp.Enums;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.MicroService.Models.Apis.Common;
-using static IdentityServer4.MicroService.AppConstant;
-using IdentityServer4.MicroService.Models.Apis.ApiScopeController;
+using OAuthApp.Models.Apis.Common;
+using static OAuthApp.AppConstant;
+using OAuthApp.Models.Apis.ApiScopeController;
 
-namespace IdentityServer4.MicroService.Apis
+namespace OAuthApp.Apis
 {
     /// <summary>
     /// APIScope

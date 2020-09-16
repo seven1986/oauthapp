@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IdentityServer4.MicroService\IdentityServer4.MicroService.csproj" />
+    <ProjectReference Include="..\IdentityServer4.MicroService\OAuthApp.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.MicroService;
-using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.Tenant;
+using OAuthApp;
+using OAuthApp.Data;
+using OAuthApp.Tenant;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
@@ -11,20 +11,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using static IdentityServer4.MicroService.AppDefaultData;
+using static OAuthApp.AppDefaultData;
 
 namespace Microsoft.AspNetCore.Builder
 {
     public static class TenantExtensions
     {
-        public static IApplicationBuilder UseIdentityServer4MicroService(
+        public static IApplicationBuilder UseOAuthApp(
            this IApplicationBuilder builder)
         {
             var env = builder.ApplicationServices.GetService<IWebHostEnvironment>();
 
             var Configuration = builder.ApplicationServices.GetService<IConfiguration>();
 
-            var options = builder.ApplicationServices.GetService<IdentityServer4MicroServiceOptions>();
+            var options = builder.ApplicationServices.GetService<OAuthAppOptions>();
 
             if (options.IdentityServerUri == null)
             {

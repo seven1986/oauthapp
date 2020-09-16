@@ -1,4 +1,4 @@
-﻿using IdentityServer4.MicroService.Models.Apis.UserController;
+﻿using OAuthApp.Models.Apis.UserController;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -6,7 +6,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace IdentityServer4.MicroService.Data
+namespace OAuthApp.Data
 {
     public class UserDbContext : IdentityDbContext<AppUser, AppRole, long, AppUserClaim, AppUserRole, AppUserLogin, AppRoleClaim, AppUserToken>
     {

@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IdentityServer4.MicroService.Services
+namespace OAuthApp.Services
 {
     public class SwaggerCodeGenResult
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace IdentityServer4.MicroService.Models.Apis.UserController
+namespace OAuthApp.Models.Apis.UserController
 {
     public class UserRegisterRequest
     {

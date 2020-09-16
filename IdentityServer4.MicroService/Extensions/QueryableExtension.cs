@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace IdentityServer4.MicroService
+namespace OAuthApp
 {
     public static class QueryableExtension
     {

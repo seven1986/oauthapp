@@ -1,4 +1,4 @@
-﻿namespace IdentityServer4.MicroService.Models.Apis.TenantController
+﻿namespace OAuthApp.Models.Apis.TenantController
 {
     public class TenantGetRequest
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace IdentityServer4.MicroService.Models.Shared
+namespace OAuthApp.Models.Shared
 {
     /// <summary>
     /// TenantPublicModel

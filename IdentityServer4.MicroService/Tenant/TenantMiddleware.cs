@@ -17,7 +17,7 @@ using AspNet.Security.OAuth.Weixin;
 using AspNet.Security.OAuth.QQ;
 using AspNet.Security.OAuth.GitHub;
 
-namespace IdentityServer4.MicroService.Tenant
+namespace OAuthApp.Tenant
 {
     public class TenantMiddleware
     {

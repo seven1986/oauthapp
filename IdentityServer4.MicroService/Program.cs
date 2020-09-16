@@ -10,7 +10,7 @@
 //    //dotnet aspnet-codegenerator identity -dc IdentityServer4.MicroService.Data.UserDbContext
 
 // Step 3，取消注释
-//namespace IdentityServer4.MicroService
+//namespace OAuthApp
 //{
 //    public class Program
 //    {

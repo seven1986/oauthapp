@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace IdentityServer4.MicroService.Models.Apis.Common
+namespace OAuthApp.Models.Apis.Common
 {
     public class PagingRequest<T> : IPagingRequest where T : new()
     {

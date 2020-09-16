@@ -1,6 +1,6 @@
 ﻿namespace Microsoft.Extensions.DependencyInjection
 {
-   public interface IISMSServiceBuilder
+   public interface IOAuthAppServiceBuilder
     {
         /// <summary>
         /// Gets the services.

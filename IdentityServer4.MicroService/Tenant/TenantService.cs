@@ -1,11 +1,11 @@
-﻿using IdentityServer4.MicroService.Mappers;
-using IdentityServer4.MicroService.Models.Shared;
+﻿using OAuthApp.Mappers;
+using OAuthApp.Models.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Linq;
 
-namespace IdentityServer4.MicroService.Tenant
+namespace OAuthApp.Tenant
 {
     public class TenantService
     {

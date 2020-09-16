@@ -6,9 +6,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using IdentityServer4.MicroService.Models.Apis.Common;
+using OAuthApp.Models.Apis.Common;
 
-namespace IdentityServer4.MicroService.Services
+namespace OAuthApp.Services
 {
     public class PagingService<T> where T :  class, new()
     {

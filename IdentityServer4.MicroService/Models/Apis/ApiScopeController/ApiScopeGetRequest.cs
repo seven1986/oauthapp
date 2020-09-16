@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IdentityServer4.MicroService.Models.Apis.ApiScopeController
+namespace OAuthApp.Models.Apis.ApiScopeController
 {
    public class ApiScopeGetRequest
     {

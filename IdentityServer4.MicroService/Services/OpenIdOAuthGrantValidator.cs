@@ -1,11 +1,11 @@
-﻿using IdentityServer4.MicroService.Data;
+﻿using OAuthApp.Data;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IdentityServer4.MicroService.Services
+namespace OAuthApp.Services
 {
 
     public class OpenIdOAuthGrantValidator : IExtensionGrantValidator

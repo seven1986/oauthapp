@@ -38,7 +38,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="authBuilder">The services.</param>
         /// <returns></returns>
-        public static void AddIdentityServer4MicroServiceOAuths(this AuthenticationBuilder authBuilder)
+        public static void AddOAuthPlatforms(this AuthenticationBuilder authBuilder)
         {
             #region MicrosoftAccount (/signin-microsoft)
             var microsoft_options = new MicrosoftAccountOptions();

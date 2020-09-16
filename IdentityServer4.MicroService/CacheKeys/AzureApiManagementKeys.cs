@@ -1,4 +1,4 @@
-﻿namespace IdentityServer4.MicroService.CacheKeys
+﻿namespace OAuthApp.CacheKeys
 {
     public class AzureApiManagementKeys
     {

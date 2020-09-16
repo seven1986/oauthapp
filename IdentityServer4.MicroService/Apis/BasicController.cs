@@ -14,15 +14,15 @@ using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.DataProtection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.Tenant;
-using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.CacheKeys;
-using IdentityServer4.MicroService.Models.Apis.Common;
-using IdentityServer4.MicroService.Models.Shared;
-using static IdentityServer4.MicroService.AppConstant;
+using OAuthApp.Data;
+using OAuthApp.Tenant;
+using OAuthApp.Services;
+using OAuthApp.CacheKeys;
+using OAuthApp.Models.Apis.Common;
+using OAuthApp.Models.Shared;
+using static OAuthApp.AppConstant;
 
-namespace IdentityServer4.MicroService.Apis
+namespace OAuthApp.Apis
 {
     [ApiController]
     [Route("api/[controller]")]

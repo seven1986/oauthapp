@@ -1,15 +1,36 @@
 site_name: OAuthApp
+repo_url: https://github.com/seven1986/OAuthApp
+repo_name: seven1986/OAuthApp
+copyright: Copyright © 2020 OAuthApp
+nav:
+  - 首页: 'index.md'
+  - 开始使用:
+      - 'start-server.md'
+      - 'settings.md'
+      - 'azureblob.md'
+      - 'sendcloud.md'
+      - 'extend-validator.md'
+      - 'saas.md'
+  - 参考:
+      - 'scopes.md'
+  - 更新日志: 
+      - 'logs.md'
 theme:
   name: material
   favicon: images/oauthapp.png
+  features:
+    - tabs
   logo: images/oauthapp.png
+  icon:
+    repo: fontawesome/brands/github
 extra:
   social:
-    - icon: fontawesome/brands/git-alt
+    - icon: fontawesome/brands/github
       link: https://github.com/seven1986/OAuthApp
     - icon: fontawesome/regular/comments
       link: https://github.com/seven1986/OAuthApp/issues
 markdown_extensions:
+  - attr_list
   - admonition
   - codehilite:
       guess_lang: false
@@ -35,5 +56,9 @@ markdown_extensions:
   - pymdownx.tabbed
   - pymdownx.tilde
 plugins:
+  - git-revision-date
+  - git-revision-date-localized:
+      type: timeago
   - minify:
       minify_html: true
+  - search
