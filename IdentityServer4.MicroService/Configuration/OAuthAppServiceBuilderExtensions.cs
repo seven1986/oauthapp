@@ -145,7 +145,8 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 $"{AppConstant.MicroServiceName}.{x}",
                                 $"{AppConstant.MicroServiceName}.{policyConfig.ControllerName}.all",
-                                $"{AppConstant.MicroServiceName}.all"
+                                $"{AppConstant.MicroServiceName}.all",
+                                "isms.all"
                             };
 
                             options.AddPolicy(policyName,
@@ -162,7 +163,8 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 $"{AppConstant.MicroServiceName}.{x}",
                                 $"{AppConstant.MicroServiceName}.{policyConfig.ControllerName}.all",
-                                $"{AppConstant.MicroServiceName}.all"
+                                $"{AppConstant.MicroServiceName}.all",
+                                "isms.all"
                             };
 
                             options.AddPolicy(policyName,

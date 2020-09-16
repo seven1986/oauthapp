@@ -63,7 +63,7 @@
           "lib/netstandard2.0/AutoMapper.dll": {}
         }
       },
-      "IdentityModel/4.3.0": {
+      "IdentityModel/4.4.0": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "11.0.2",
@@ -91,11 +91,11 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "IdentityServer4/4.0.4": {
+      "IdentityServer4/4.1.0": {
         "type": "package",
         "dependencies": {
-          "IdentityModel": "4.3.0",
-          "IdentityServer4.Storage": "4.0.4",
+          "IdentityModel": "4.4.0",
+          "IdentityServer4.Storage": "4.1.0",
           "Microsoft.AspNetCore.Authentication.OpenIdConnect": "3.1.0",
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "5.6.0",
           "Newtonsoft.Json": "12.0.2"
@@ -126,10 +126,10 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "IdentityServer4.AspNetIdentity/4.0.4": {
+      "IdentityServer4.AspNetIdentity/4.1.0": {
         "type": "package",
         "dependencies": {
-          "IdentityServer4": "4.0.4"
+          "IdentityServer4": "4.1.0"
         },
         "compile": {
           "lib/netcoreapp3.1/IdentityServer4.AspNetIdentity.dll": {}
@@ -141,11 +141,11 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "IdentityServer4.EntityFramework/4.0.4": {
+      "IdentityServer4.EntityFramework/4.1.0": {
         "type": "package",
         "dependencies": {
-          "IdentityServer4": "4.0.4",
-          "IdentityServer4.EntityFramework.Storage": "4.0.4"
+          "IdentityServer4": "4.1.0",
+          "IdentityServer4.EntityFramework.Storage": "4.1.0"
         },
         "compile": {
           "lib/netcoreapp3.1/IdentityServer4.EntityFramework.dll": {}
@@ -154,11 +154,11 @@
           "lib/netcoreapp3.1/IdentityServer4.EntityFramework.dll": {}
         }
       },
-      "IdentityServer4.EntityFramework.Storage/4.0.4": {
+      "IdentityServer4.EntityFramework.Storage/4.1.0": {
         "type": "package",
         "dependencies": {
           "AutoMapper": "[10.0.0, 11.0.0)",
-          "IdentityServer4.Storage": "4.0.4",
+          "IdentityServer4.Storage": "4.1.0",
           "Microsoft.EntityFrameworkCore.Relational": "3.1.0"
         },
         "compile": {
@@ -168,10 +168,10 @@
           "lib/netstandard2.0/IdentityServer4.EntityFramework.Storage.dll": {}
         }
       },
-      "IdentityServer4.Storage/4.0.4": {
+      "IdentityServer4.Storage/4.1.0": {
         "type": "package",
         "dependencies": {
-          "IdentityModel": "4.3.0"
+          "IdentityModel": "4.4.0"
         },
         "compile": {
           "lib/netstandard2.0/IdentityServer4.Storage.dll": {}
@@ -1637,7 +1637,7 @@
           "lib/netstandard1.1/Microsoft.OData.Edm.dll": {}
         }
       },
-      "Microsoft.OpenApi/1.1.4": {
+      "Microsoft.OpenApi/1.2.3": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/Microsoft.OpenApi.dll": {}
@@ -2109,22 +2109,22 @@
           "lib/netstandard2.0/StackExchange.Redis.dll": {}
         }
       },
-      "Swashbuckle.AspNetCore/5.5.1": {
+      "Swashbuckle.AspNetCore/5.6.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.ApiDescription.Server": "3.0.0",
-          "Swashbuckle.AspNetCore.Swagger": "5.5.1",
-          "Swashbuckle.AspNetCore.SwaggerGen": "5.5.1",
-          "Swashbuckle.AspNetCore.SwaggerUI": "5.5.1"
+          "Swashbuckle.AspNetCore.Swagger": "5.6.0",
+          "Swashbuckle.AspNetCore.SwaggerGen": "5.6.0",
+          "Swashbuckle.AspNetCore.SwaggerUI": "5.6.0"
         },
         "build": {
           "build/_._": {}
         }
       },
-      "Swashbuckle.AspNetCore.Annotations/5.5.1": {
+      "Swashbuckle.AspNetCore.Annotations/5.6.0": {
         "type": "package",
         "dependencies": {
-          "Swashbuckle.AspNetCore.SwaggerGen": "5.5.1"
+          "Swashbuckle.AspNetCore.SwaggerGen": "5.6.0"
         },
         "compile": {
           "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Annotations.dll": {}
@@ -2133,11 +2133,11 @@
           "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Annotations.dll": {}
         }
       },
-      "Swashbuckle.AspNetCore.Newtonsoft/5.5.1": {
+      "Swashbuckle.AspNetCore.Newtonsoft/5.6.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "3.0.0",
-          "Swashbuckle.AspNetCore.SwaggerGen": "5.5.1"
+          "Swashbuckle.AspNetCore.SwaggerGen": "5.6.0"
         },
         "compile": {
           "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Newtonsoft.dll": {}
@@ -2146,10 +2146,10 @@
           "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Newtonsoft.dll": {}
         }
       },
-      "Swashbuckle.AspNetCore.Swagger/5.5.1": {
+      "Swashbuckle.AspNetCore.Swagger/5.6.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.OpenApi": "1.1.4"
+          "Microsoft.OpenApi": "1.2.3"
         },
         "compile": {
           "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Swagger.dll": {}
@@ -2161,10 +2161,10 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "Swashbuckle.AspNetCore.SwaggerGen/5.5.1": {
+      "Swashbuckle.AspNetCore.SwaggerGen/5.6.0": {
         "type": "package",
         "dependencies": {
-          "Swashbuckle.AspNetCore.Swagger": "5.5.1"
+          "Swashbuckle.AspNetCore.Swagger": "5.6.0"
         },
         "compile": {
           "lib/netcoreapp3.0/Swashbuckle.AspNetCore.SwaggerGen.dll": {}
@@ -2176,7 +2176,7 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "Swashbuckle.AspNetCore.SwaggerUI/5.5.1": {
+      "Swashbuckle.AspNetCore.SwaggerUI/5.6.0": {
         "type": "package",
         "compile": {
           "lib/netcoreapp3.0/Swashbuckle.AspNetCore.SwaggerUI.dll": {}
@@ -4020,7 +4020,7 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "OAuthApp/1.0.8": {
+      "OAuthApp/2.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
@@ -4028,10 +4028,10 @@
           "AspNet.Security.OAuth.QQ": "3.1.3",
           "AspNet.Security.OAuth.Weibo": "3.1.3",
           "AspNet.Security.OAuth.Weixin": "3.1.3",
-          "IdentityServer4": "4.0.4",
+          "IdentityServer4": "4.1.0",
           "IdentityServer4.AccessTokenValidation": "3.0.1",
-          "IdentityServer4.AspNetIdentity": "4.0.4",
-          "IdentityServer4.EntityFramework": "4.0.4",
+          "IdentityServer4.AspNetIdentity": "4.1.0",
+          "IdentityServer4.EntityFramework": "4.1.0",
           "Microsoft.AspNetCore.Authentication": "2.2.0",
           "Microsoft.AspNetCore.Authentication.Facebook": "3.1.8",
           "Microsoft.AspNetCore.Authentication.Google": "3.1.8",
@@ -4057,9 +4057,9 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.4",
           "Microsoft.VisualStudio.Web.CodeGeneration.Utils": "3.1.4",
           "StackExchange.Redis": "2.1.58",
-          "Swashbuckle.AspNetCore": "5.5.1",
-          "Swashbuckle.AspNetCore.Annotations": "5.5.1",
-          "Swashbuckle.AspNetCore.Newtonsoft": "5.5.1",
+          "Swashbuckle.AspNetCore": "5.6.0",
+          "Swashbuckle.AspNetCore.Annotations": "5.6.0",
+          "Swashbuckle.AspNetCore.Newtonsoft": "5.6.0",
           "System.Data.SqlClient": "4.8.2",
           "System.IO.Compression.ZipFile": "4.3.0"
         },
@@ -4068,7 +4068,10 @@
         },
         "runtime": {
           "bin/placeholder/OAuthApp.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
@@ -4145,15 +4148,15 @@
         "lib/netstandard2.0/AutoMapper.xml"
       ]
     },
-    "IdentityModel/4.3.0": {
-      "sha512": "lxVs5yhCjNdJBYyjcDU0XbllQfDv103F4cdfUlyJynKIcdB4Oz4/KGhpqrDI7t6VXNgfPOYfMOA55WM6lpf92Q==",
+    "IdentityModel/4.4.0": {
+      "sha512": "b18wrIx5wnZlMxAX7oVsE+nDtAJ4hajYlH0xPlaRvo4r/fz08K6pPeZvbiqS9nfNbzfIgLFmNX+FL9qR9ZR5PA==",
       "type": "package",
-      "path": "identitymodel/4.3.0",
+      "path": "identitymodel/4.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "icon.jpg",
-        "identitymodel.4.3.0.nupkg.sha512",
+        "identitymodel.4.4.0.nupkg.sha512",
         "identitymodel.nuspec",
         "lib/net461/IdentityModel.dll",
         "lib/net461/IdentityModel.pdb",
@@ -4181,15 +4184,15 @@
         "lib/netcoreapp3.0/IdentityModel.AspNetCore.OAuth2Introspection.xml"
       ]
     },
-    "IdentityServer4/4.0.4": {
-      "sha512": "Jx0qxfmRDPojGQnEXKiPDPoVTpk3HdabjTaxoc7ZQpN2nxCSdcNZkohceqhiX2nk40qviJ5foFT9+Z8FjB90Iw==",
+    "IdentityServer4/4.1.0": {
+      "sha512": "9+ACQd/X4JYQTcNHn+6yMNeqPI2ItKA6YmTjNRem4nqFGhHqkXXYcQpJSU3FyMlXjwTr68zTrz9lwqxSOarvNg==",
       "type": "package",
-      "path": "identityserver4/4.0.4",
+      "path": "identityserver4/4.1.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "icon.jpg",
-        "identityserver4.4.0.4.nupkg.sha512",
+        "identityserver4.4.1.0.nupkg.sha512",
         "identityserver4.nuspec",
         "lib/netcoreapp3.1/IdentityServer4.dll",
         "lib/netcoreapp3.1/IdentityServer4.pdb",
@@ -4211,60 +4214,60 @@
         "lib/netcoreapp3.0/IdentityServer4.AccessTokenValidation.xml"
       ]
     },
-    "IdentityServer4.AspNetIdentity/4.0.4": {
-      "sha512": "hJFdeVgXj0J7rD1vm1OF8YITRcmnsPRYsg6VPpnNqhUzTci5JblDLJVQwRtHWnnzxTjKr2Ifz0YWc9Bi20HDXA==",
+    "IdentityServer4.AspNetIdentity/4.1.0": {
+      "sha512": "lA10osVme40G/mVscTUAgSgUYKQlW0PC/Z9uRgN8uUnnFaqCceMw4TkpV3D0WVmiayDSRQWz86HPWNS9V0gnew==",
       "type": "package",
-      "path": "identityserver4.aspnetidentity/4.0.4",
+      "path": "identityserver4.aspnetidentity/4.1.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "icon.jpg",
-        "identityserver4.aspnetidentity.4.0.4.nupkg.sha512",
+        "identityserver4.aspnetidentity.4.1.0.nupkg.sha512",
         "identityserver4.aspnetidentity.nuspec",
         "lib/netcoreapp3.1/IdentityServer4.AspNetIdentity.dll",
         "lib/netcoreapp3.1/IdentityServer4.AspNetIdentity.pdb",
         "lib/netcoreapp3.1/IdentityServer4.AspNetIdentity.xml"
       ]
     },
-    "IdentityServer4.EntityFramework/4.0.4": {
-      "sha512": "WQUl2+d+0X+/cCsIq88G6usO64Y+x0vnJq7wkZWjEJAL+e93q+wvWrQ1egs40ibFwc5dlJJH9zTeHeXytUxIGg==",
+    "IdentityServer4.EntityFramework/4.1.0": {
+      "sha512": "bztwbCfzLGaCPPQ38mn4ZqIbNMutZXvlgfXojo3EiDrsRLfFIiQ7BJ9q62xBPzhWkUbF2dd3HCcAR0tYihWJgA==",
       "type": "package",
-      "path": "identityserver4.entityframework/4.0.4",
+      "path": "identityserver4.entityframework/4.1.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "icon.jpg",
-        "identityserver4.entityframework.4.0.4.nupkg.sha512",
+        "identityserver4.entityframework.4.1.0.nupkg.sha512",
         "identityserver4.entityframework.nuspec",
         "lib/netcoreapp3.1/IdentityServer4.EntityFramework.dll",
         "lib/netcoreapp3.1/IdentityServer4.EntityFramework.pdb",
         "lib/netcoreapp3.1/IdentityServer4.EntityFramework.xml"
       ]
     },
-    "IdentityServer4.EntityFramework.Storage/4.0.4": {
-      "sha512": "aLgJS1tv/a7z5u8YrSgPrXh1FzhHDTZWGuRPhLFZFWPDZGpWLMTEoWF25ITxo8uSfqu+rR/wAtiK71j6O/GdHw==",
+    "IdentityServer4.EntityFramework.Storage/4.1.0": {
+      "sha512": "yYbIDsgs4CJzFENrSXNIy7xVRgUzuFkpfnpm5+b67iWFcNWwkviNlUKnr4wwcPElZOLy24qiwertM8cdn23MsA==",
       "type": "package",
-      "path": "identityserver4.entityframework.storage/4.0.4",
+      "path": "identityserver4.entityframework.storage/4.1.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "icon.jpg",
-        "identityserver4.entityframework.storage.4.0.4.nupkg.sha512",
+        "identityserver4.entityframework.storage.4.1.0.nupkg.sha512",
         "identityserver4.entityframework.storage.nuspec",
         "lib/netstandard2.0/IdentityServer4.EntityFramework.Storage.dll",
         "lib/netstandard2.0/IdentityServer4.EntityFramework.Storage.pdb",
         "lib/netstandard2.0/IdentityServer4.EntityFramework.Storage.xml"
       ]
     },
-    "IdentityServer4.Storage/4.0.4": {
-      "sha512": "sirHYj1kQNrSwy4FufUlD2uIFlq9uHzLkEyVp70SXW+7qGv29YVe63uKqZ8WIwEGBMCMDBGA+zvqFNAUSeNnQQ==",
+    "IdentityServer4.Storage/4.1.0": {
+      "sha512": "qs3rohfq5UuxGXiHOWygSC1VB7XM+oGg/hu/mU+CYJcdEeGetIP3tiLg8+YO78Lbo07gRTka3LUnwHGAuVzH6A==",
       "type": "package",
-      "path": "identityserver4.storage/4.0.4",
+      "path": "identityserver4.storage/4.1.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "icon.jpg",
-        "identityserver4.storage.4.0.4.nupkg.sha512",
+        "identityserver4.storage.4.1.0.nupkg.sha512",
         "identityserver4.storage.nuspec",
         "lib/netstandard2.0/IdentityServer4.Storage.dll",
         "lib/netstandard2.0/IdentityServer4.Storage.pdb",
@@ -6076,10 +6079,10 @@
         "microsoft.odata.edm.nuspec"
       ]
     },
-    "Microsoft.OpenApi/1.1.4": {
-      "sha512": "6SW0tpbJslc8LAY1XniRfLVcJa7bJUbbwvo2/ZRqfkMbJrsqIj9045vg3STtZhDhYRKhpYgjqGU11eeW4Pzyrg==",
+    "Microsoft.OpenApi/1.2.3": {
+      "sha512": "Nug3rO+7Kl5/SBAadzSMAVgqDlfGjJZ0GenQrLywJ84XGKO0uRqkunz5Wyl0SDwcR71bAATXvSdbdzPrYRYKGw==",
       "type": "package",
-      "path": "microsoft.openapi/1.1.4",
+      "path": "microsoft.openapi/1.2.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6089,7 +6092,7 @@
         "lib/netstandard2.0/Microsoft.OpenApi.dll",
         "lib/netstandard2.0/Microsoft.OpenApi.pdb",
         "lib/netstandard2.0/Microsoft.OpenApi.xml",
-        "microsoft.openapi.1.1.4.nupkg.sha512",
+        "microsoft.openapi.1.2.3.nupkg.sha512",
         "microsoft.openapi.nuspec"
       ]
     },
@@ -7162,22 +7165,22 @@
         "stackexchange.redis.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore/5.5.1": {
-      "sha512": "M1CdrptwDw/9Es/W1twwM6w2W0I019uhMDA5q3LUQo4TYZblDipu/oO5gtUpe0tEh1UOdrxlZeQBhmJSTtAtnA==",
+    "Swashbuckle.AspNetCore/5.6.0": {
+      "sha512": "V31O2VFPk6rLlln4dd95MpV+j6mNw6EAeh1Te5L6LJFomIAeMWV8Zc5M9XJaZp47tfYzYhbd8OC0ulLPl9DL5w==",
       "type": "package",
-      "path": "swashbuckle.aspnetcore/5.5.1",
+      "path": "swashbuckle.aspnetcore/5.6.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "build/Swashbuckle.AspNetCore.props",
-        "swashbuckle.aspnetcore.5.5.1.nupkg.sha512",
+        "swashbuckle.aspnetcore.5.6.0.nupkg.sha512",
         "swashbuckle.aspnetcore.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore.Annotations/5.5.1": {
-      "sha512": "WK3ni//iAfdt6dcSYA/ZEY2q3eW9HpGNoHYd2b2vVr74H1pI36C3cliJiAzzMXopcieeFgBBzGCfHuAiUUQEhA==",
+    "Swashbuckle.AspNetCore.Annotations/5.6.0": {
+      "sha512": "4lN9TJsRitKuUmpuXxtIUcEyJ4h4zOKStZD5/DdW3kmdShuP+tcvCtH2U1pN8/gwMhieEzK/w5FLQUuZicXzSw==",
       "type": "package",
-      "path": "swashbuckle.aspnetcore.annotations/5.5.1",
+      "path": "swashbuckle.aspnetcore.annotations/5.6.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7187,14 +7190,14 @@
         "lib/netstandard2.0/Swashbuckle.AspNetCore.Annotations.dll",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.Annotations.pdb",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.Annotations.xml",
-        "swashbuckle.aspnetcore.annotations.5.5.1.nupkg.sha512",
+        "swashbuckle.aspnetcore.annotations.5.6.0.nupkg.sha512",
         "swashbuckle.aspnetcore.annotations.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore.Newtonsoft/5.5.1": {
-      "sha512": "7nMO1nVeB1lI7RbAtRlHokP+tejxNJNKB4fSXhQqa6YJtXLeB2mZWD6IXwbV/y3XzKvp4RDX4mTVhkg02pdpqg==",
+    "Swashbuckle.AspNetCore.Newtonsoft/5.6.0": {
+      "sha512": "5h9Fvrkn+ioCyIYigECAWDj+rDX2oJew1f9YUx8LZtCea03d+HB7ShFZcJaQLZ4A8mUgYJmRJMWCW827mMsGJA==",
       "type": "package",
-      "path": "swashbuckle.aspnetcore.newtonsoft/5.5.1",
+      "path": "swashbuckle.aspnetcore.newtonsoft/5.6.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7202,14 +7205,14 @@
         "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Newtonsoft.pdb",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.Newtonsoft.dll",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.Newtonsoft.pdb",
-        "swashbuckle.aspnetcore.newtonsoft.5.5.1.nupkg.sha512",
+        "swashbuckle.aspnetcore.newtonsoft.5.6.0.nupkg.sha512",
         "swashbuckle.aspnetcore.newtonsoft.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore.Swagger/5.5.1": {
-      "sha512": "YlrnRiIFQdjh+MfBtiUzPPsRwk5745dv1DeWwgNBehN3PwZjIs+gczVaS0h5KKP9ON+e8GM3ieajV6BVZtc/dQ==",
+    "Swashbuckle.AspNetCore.Swagger/5.6.0": {
+      "sha512": "efmpgY8MRxgs6eDAOI3HwMS4baEpI6H9RgYVTER/prToXMnlxZPZb5hsco0QhzRhO4WCJdQ0gahztSMq2hPSVw==",
       "type": "package",
-      "path": "swashbuckle.aspnetcore.swagger/5.5.1",
+      "path": "swashbuckle.aspnetcore.swagger/5.6.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7219,14 +7222,14 @@
         "lib/netstandard2.0/Swashbuckle.AspNetCore.Swagger.dll",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.Swagger.pdb",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.Swagger.xml",
-        "swashbuckle.aspnetcore.swagger.5.5.1.nupkg.sha512",
+        "swashbuckle.aspnetcore.swagger.5.6.0.nupkg.sha512",
         "swashbuckle.aspnetcore.swagger.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore.SwaggerGen/5.5.1": {
-      "sha512": "SftLofzIA063y73rn17YCf4dSXrgZdxLBig9E/HT4IIZ9mlsm12KmsNKUXf4U+X09KO8sVq1D29XfjVtC69eAg==",
+    "Swashbuckle.AspNetCore.SwaggerGen/5.6.0": {
+      "sha512": "VbyBPfj8eXyFnt7Kz3KMSxSGz9CwyYtqQ26Vbt07KJQX0RNxIGiPz4eDqLsdBRDO1LUrNlenISrpf8JRG5JOtA==",
       "type": "package",
-      "path": "swashbuckle.aspnetcore.swaggergen/5.5.1",
+      "path": "swashbuckle.aspnetcore.swaggergen/5.6.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7236,14 +7239,14 @@
         "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerGen.dll",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerGen.pdb",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerGen.xml",
-        "swashbuckle.aspnetcore.swaggergen.5.5.1.nupkg.sha512",
+        "swashbuckle.aspnetcore.swaggergen.5.6.0.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggergen.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore.SwaggerUI/5.5.1": {
-      "sha512": "a2Ym9DYrvTZ/Yt8GVfn6M1ZP++Ra3KAfCNe4pTtkNiHpBgWhsYWUT3T07REtFImduBh93GAHuItZpltSOZV13A==",
+    "Swashbuckle.AspNetCore.SwaggerUI/5.6.0": {
+      "sha512": "cqt40P856T60HzVuLw7JhuCf4VaQzBpv6e5PfQFGtASvk3vPjQMjjQJlsUjX6MNamTU+zBSQ/49EIbe4xbQyvg==",
       "type": "package",
-      "path": "swashbuckle.aspnetcore.swaggerui/5.5.1",
+      "path": "swashbuckle.aspnetcore.swaggerui/5.6.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7253,7 +7256,7 @@
         "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerUI.dll",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerUI.pdb",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerUI.xml",
-        "swashbuckle.aspnetcore.swaggerui.5.5.1.nupkg.sha512",
+        "swashbuckle.aspnetcore.swaggerui.5.6.0.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
     },
@@ -12140,16 +12143,16 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
-    "OAuthApp/1.0.8": {
+    "OAuthApp/2.0.0": {
       "type": "project",
-      "path": "../IdentityServer4.MicroService/IdentityServer4.MicroService.csproj",
-      "msbuildProject": "../IdentityServer4.MicroService/IdentityServer4.MicroService.csproj"
+      "path": "../IdentityServer4.MicroService/OAuthApp.csproj",
+      "msbuildProject": "../IdentityServer4.MicroService/OAuthApp.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "Microsoft.EntityFrameworkCore.Design >= 3.1.6",
-      "OAuthApp >= 1.0.8"
+      "OAuthApp >= 2.0.0"
     ]
   },
   "packageFolders": {
@@ -12185,8 +12188,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "D:\\Source\\Repos\\IdentityServer4.MicroService\\IdentityServer4.MicroService\\IdentityServer4.MicroService.csproj": {
-              "projectPath": "D:\\Source\\Repos\\IdentityServer4.MicroService\\IdentityServer4.MicroService\\IdentityServer4.MicroService.csproj"
+            "D:\\Source\\Repos\\IdentityServer4.MicroService\\IdentityServer4.MicroService\\OAuthApp.csproj": {
+              "projectPath": "D:\\Source\\Repos\\IdentityServer4.MicroService\\IdentityServer4.MicroService\\OAuthApp.csproj"
             }
           }
         }
