@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using IdentityServer4;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Security.Claims;
 
-namespace IdentityServer4.MicroService.Tenant
+namespace OAuthApp.Tenant
 {
     public static class TenantValidatorHelper
     {

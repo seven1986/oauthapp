@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Text;
 
-namespace IdentityServer4.MicroService.Controllers
+namespace OAuthApp.Controllers
 {
     public class DiagnosticsViewModel
     {

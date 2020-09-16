@@ -13,22 +13,22 @@ using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Swashbuckle.AspNetCore.Annotations;
-using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.Tenant;
-using IdentityServer4.MicroService.Enums;
-using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.Mappers;
-using IdentityServer4.MicroService.CacheKeys;
+using OAuthApp.Data;
+using OAuthApp.Tenant;
+using OAuthApp.Enums;
+using OAuthApp.Services;
+using OAuthApp.Mappers;
+using OAuthApp.CacheKeys;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.MicroService.Models.Apis.Common;
-using IdentityServer4.MicroService.Models.Apis.ApiResourceController;
-using IdentityServer4.MicroService.Models.Apis.CodeGenController;
-using static IdentityServer4.MicroService.AppConstant;
+using OAuthApp.Models.Apis.Common;
+using OAuthApp.Models.Apis.ApiResourceController;
+using OAuthApp.Models.Apis.CodeGenController;
+using static OAuthApp.AppConstant;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Cosmos.Table;
 
-namespace IdentityServer4.MicroService.Apis
+namespace OAuthApp.Apis
 {
     /// <summary>
     /// API

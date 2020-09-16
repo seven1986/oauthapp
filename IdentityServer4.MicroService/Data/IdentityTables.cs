@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace IdentityServer4.MicroService.Data
+namespace OAuthApp.Data
 {
     public class AppUser : IdentityUser<long>
     {

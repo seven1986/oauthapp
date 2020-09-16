@@ -8,14 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
 using Swashbuckle.AspNetCore.Annotations;
-using IdentityServer4.MicroService.Enums;
+using OAuthApp.Enums;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.MicroService.Models.Apis.Common;
-using IdentityServer4.MicroService.Models.Apis.IdentityResourceController;
-using static IdentityServer4.MicroService.AppConstant;
+using OAuthApp.Models.Apis.Common;
+using OAuthApp.Models.Apis.IdentityResourceController;
+using static OAuthApp.AppConstant;
 
-namespace IdentityServer4.MicroService.Apis
+namespace OAuthApp.Apis
 {
     /// <summary>
     /// 标识

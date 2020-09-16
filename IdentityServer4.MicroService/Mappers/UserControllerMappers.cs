@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace IdentityServer4.MicroService.Mappers
+namespace OAuthApp.Mappers
 {
     public class UserControllerMappers : Profile
     {

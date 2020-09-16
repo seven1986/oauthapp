@@ -3,7 +3,7 @@ using StackExchange.Redis;
 using System;
 using System.Threading.Tasks;
 
-namespace IdentityServer4.MicroService.Services
+namespace OAuthApp.Services
 {
     public class RedisService : IDisposable
     {

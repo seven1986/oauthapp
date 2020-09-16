@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace IdentityServer4.MicroService.Data.Migrations.User
+namespace OAuthApp.Data.Migrations.User
 {
     public partial class InitialUserDbMigration : Migration
     {

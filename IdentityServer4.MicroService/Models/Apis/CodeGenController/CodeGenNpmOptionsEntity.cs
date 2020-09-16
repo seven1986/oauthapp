@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IdentityServer4.MicroService.Models.Apis.CodeGenController
+namespace OAuthApp.Models.Apis.CodeGenController
 {
     public class CodeGenNpmOptionsModel
     {

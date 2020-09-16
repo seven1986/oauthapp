@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace IdentityServer4.MicroService.Enums
+namespace OAuthApp.Enums
 {
     internal enum ApiResourceControllerEnums
     {

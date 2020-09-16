@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
-using IdentityServer4.MicroService.Enums;
+using OAuthApp.Enums;
 using Microsoft.Extensions.Localization;
 
-namespace IdentityServer4.MicroService.Models.Apis.Common
+namespace OAuthApp.Models.Apis.Common
 {
     public class ApiResult<T> : IApiResult<T>
     {

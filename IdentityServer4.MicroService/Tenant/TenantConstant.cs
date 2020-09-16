@@ -1,4 +1,4 @@
-﻿namespace IdentityServer4.MicroService.Tenant
+﻿namespace OAuthApp.Tenant
 {
     public class TenantConstant
     {

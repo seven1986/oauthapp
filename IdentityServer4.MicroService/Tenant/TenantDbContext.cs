@@ -7,7 +7,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace IdentityServer4.MicroService.Tenant
+namespace OAuthApp.Tenant
 {
     public class TenantDbContext : DbContext
     {

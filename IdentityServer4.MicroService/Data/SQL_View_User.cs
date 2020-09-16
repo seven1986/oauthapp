@@ -1,4 +1,4 @@
-﻿namespace IdentityServer4.MicroService.Data
+﻿namespace OAuthApp.Data
 {
     public class SQL_View_User
     {

@@ -4,7 +4,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace IdentityServer4.MicroService.Controllers
+namespace OAuthApp.Controllers
 {
     public class LoginInputModel
     {

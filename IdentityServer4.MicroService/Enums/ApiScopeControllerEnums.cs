@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IdentityServer4.MicroService.Enums
+namespace OAuthApp.Enums
 {
     internal enum ApiScopeControllerEnums
     {

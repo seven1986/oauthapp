@@ -9,7 +9,7 @@ using System.Security.Claims;
 using System.Text.Json;
 using IdentityServer4;
 
-namespace IdentityServer4.MicroService.Controllers
+namespace OAuthApp.Controllers
 {
     public class TestUsers
     {

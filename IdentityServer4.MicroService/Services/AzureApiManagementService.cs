@@ -10,7 +10,7 @@ using System.Security.Cryptography;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace IdentityServer4.MicroService.Services
+namespace OAuthApp.Services
 {
     #region Basic
     public class AzureApiManagementEntities<T>

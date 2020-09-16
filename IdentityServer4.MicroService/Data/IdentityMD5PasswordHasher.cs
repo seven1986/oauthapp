@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace IdentityServer4.MicroService.Data
+namespace OAuthApp.Data
 {
     /// <summary>
     ///  used for replace Identity sha1 password haser

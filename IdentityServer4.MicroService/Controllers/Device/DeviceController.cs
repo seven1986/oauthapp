@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace IdentityServer4.MicroService.Controllers
+namespace OAuthApp.Controllers
 {
     [Authorize]
     [SecurityHeaders]

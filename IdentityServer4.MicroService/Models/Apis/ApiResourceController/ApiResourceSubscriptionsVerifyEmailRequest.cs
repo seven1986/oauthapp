@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IdentityServer4.MicroService.Models.Apis.ApiResourceController
+namespace OAuthApp.Models.Apis.ApiResourceController
 {
     public class ApiResourceSubscriptionsVerifyEmailRequest
     {

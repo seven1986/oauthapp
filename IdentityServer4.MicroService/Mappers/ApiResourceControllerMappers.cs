@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using IdentityServer4.MicroService.Models.Apis.ApiResourceController;
-using IdentityServer4.MicroService.Services;
+using OAuthApp.Models.Apis.ApiResourceController;
+using OAuthApp.Services;
 
-namespace IdentityServer4.MicroService.Mappers
+namespace OAuthApp.Mappers
 {
     public class ApiResourceControllerMappers : Profile
     {

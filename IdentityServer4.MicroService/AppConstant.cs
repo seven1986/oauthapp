@@ -2,7 +2,7 @@
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 
-namespace IdentityServer4.MicroService
+namespace OAuthApp
 {
     public class AppConstant
     {
@@ -29,7 +29,7 @@ namespace IdentityServer4.MicroService
         /// <summary>
         /// 标识服务的scope，必须是英文
         /// </summary>
-        public const string MicroServiceName = "isms";
+        public const string MicroServiceName = "oauthapp";
 
         /// <summary>
         /// 初始化数据库。

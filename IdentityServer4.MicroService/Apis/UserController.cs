@@ -1,11 +1,11 @@
 ﻿using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.MicroService.CacheKeys;
-using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.Enums;
-using IdentityServer4.MicroService.Models.Apis.Common;
-using IdentityServer4.MicroService.Models.Apis.UserController;
-using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.Tenant;
+using OAuthApp.CacheKeys;
+using OAuthApp.Data;
+using OAuthApp.Enums;
+using OAuthApp.Models.Apis.Common;
+using OAuthApp.Models.Apis.UserController;
+using OAuthApp.Services;
+using OAuthApp.Tenant;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
@@ -21,9 +21,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using static IdentityServer4.MicroService.AppConstant;
+using static OAuthApp.AppConstant;
 
-namespace IdentityServer4.MicroService.Apis
+namespace OAuthApp.Apis
 {
     // user 根据 tenantId 来获取列表、或详情、增删改
 
@@ -48,7 +48,7 @@ namespace IdentityServer4.MicroService.Apis
 
         readonly ConfigurationDbContext configDbContext;
 
-        readonly IdentityServer4MicroServiceOptions ismsOptions;
+        readonly OAuthAppOptions ismsOptions;
         #endregion
 
         #region 构造函数
@@ -63,7 +63,7 @@ namespace IdentityServer4.MicroService.Apis
             ConfigurationDbContext _configDbContext,
             IDataProtectionProvider _provider,
             TenantService _tenantService,
-            IdentityServer4MicroServiceOptions _ismsOptions)
+            OAuthAppOptions _ismsOptions)
         {
             // 多语言
             l = _localizer;

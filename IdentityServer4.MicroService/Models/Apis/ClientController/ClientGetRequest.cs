@@ -1,4 +1,4 @@
-﻿namespace IdentityServer4.MicroService.Models.Apis.ClientController
+﻿namespace OAuthApp.Models.Apis.ClientController
 {
     public class ClientGetRequest
     {

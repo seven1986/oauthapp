@@ -10,7 +10,7 @@
 //using Microsoft.Extensions.Logging;
 //using System.Threading.Tasks;
 
-//namespace IdentityServer4.MicroService.Controllers
+//namespace OAuthApp.Controllers
 //{
 //    [SecurityHeaders]
 //    [AllowAnonymous]

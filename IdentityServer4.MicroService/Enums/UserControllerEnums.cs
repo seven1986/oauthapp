@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace IdentityServer4.MicroService.Enums
+namespace OAuthApp.Enums
 {
     /// <summary>
     /// 用户接口业务代码常量表

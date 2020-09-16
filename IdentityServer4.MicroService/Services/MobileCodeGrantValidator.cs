@@ -1,5 +1,5 @@
-﻿using IdentityServer4.MicroService.CacheKeys;
-using IdentityServer4.MicroService.Data;
+﻿using OAuthApp.CacheKeys;
+using OAuthApp.Data;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IdentityServer4.MicroService.Services
+namespace OAuthApp.Services
 {
     public class MobileCodeGrantValidator : IExtensionGrantValidator
     {
@@ -22,7 +22,7 @@ namespace IdentityServer4.MicroService.Services
 
         private readonly RedisService _redis;
 
-        private readonly IdentityServer4MicroServiceOptions _ismsOptions;
+        private readonly OAuthAppOptions _ismsOptions;
 
         // 用户管理SDK
         private readonly UserManager<AppUser> _userManager;
@@ -31,7 +31,7 @@ namespace IdentityServer4.MicroService.Services
             UserDbContext db,
             RedisService redis,
             UserManager<AppUser> userManager,
-            IdentityServer4MicroServiceOptions ismsOptions)
+            OAuthAppOptions ismsOptions)
         {
             _validator = validator;
             _db = db;

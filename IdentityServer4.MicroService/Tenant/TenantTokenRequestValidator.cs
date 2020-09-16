@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
-namespace IdentityServer4.MicroService.Tenant
+namespace OAuthApp.Tenant
 {
     public class TenantTokenRequestValidator : ICustomTokenRequestValidator
     {

@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace IdentityServer4.MicroService.Configuration
+namespace OAuthApp.Configuration
 {
-   public class ISMSServiceBuilder : IISMSServiceBuilder
+   public class OAuthAppServiceBuilder : IOAuthAppServiceBuilder
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="IdentityServerBuilder"/> class.
         /// </summary>
         /// <param name="services">The services.</param>
         /// <exception cref="System.ArgumentNullException">services</exception>
-        public ISMSServiceBuilder(IServiceCollection services)
+        public OAuthAppServiceBuilder(IServiceCollection services)
         {
             Services = services ?? throw new ArgumentNullException(nameof(services));
         }

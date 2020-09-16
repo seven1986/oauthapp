@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using IdentityServer4.MicroService.Models.Shared;
-using IdentityServer4.MicroService.Tenant;
+using OAuthApp.Models.Shared;
+using OAuthApp.Tenant;
 using System.Linq;
 
-namespace IdentityServer4.MicroService.Mappers
+namespace OAuthApp.Mappers
 {
     public class TenantMappers : Profile
     {

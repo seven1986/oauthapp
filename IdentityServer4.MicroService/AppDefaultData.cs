@@ -9,12 +9,13 @@ using Microsoft.Extensions.DependencyInjection;
 using IdentityServer4.Models;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
-using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.Tenant;
-using IdentityServer4.MicroService.CacheKeys;
-using IdentityServer4.MicroService.Services;
+using OAuthApp.Data;
+using OAuthApp.Tenant;
+using OAuthApp.CacheKeys;
+using OAuthApp.Services;
+using IdentityServer4;
 
-namespace IdentityServer4.MicroService
+namespace OAuthApp
 {
     public class AppDefaultData
     {
@@ -237,7 +238,7 @@ namespace IdentityServer4.MicroService
         /// <summary>
         /// 数据库初始化
         /// </summary>
-        public static void InitializeDatabase(IApplicationBuilder app, IdentityServer4MicroServiceOptions options)
+        public static void InitializeDatabase(IApplicationBuilder app, OAuthAppOptions options)
         {
             Tenant.AppHostName = Tenant.IdentityServerIssuerUri = options.IdentityServerUri.Authority;
 
@@ -338,7 +339,7 @@ namespace IdentityServer4.MicroService
             TenantDbContext tenantDbContext,
             UserManager<AppUser> userManager,
             ConfigurationDbContext identityserverDbContext,
-            IdentityServer4MicroServiceOptions options)
+            OAuthAppOptions options)
         {
             if (!userContext.Roles.Any())
             {

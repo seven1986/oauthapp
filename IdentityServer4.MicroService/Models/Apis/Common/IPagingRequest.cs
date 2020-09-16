@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IdentityServer4.MicroService.Models.Apis.Common
+namespace OAuthApp.Models.Apis.Common
 {
     public interface IPagingRequest
     {

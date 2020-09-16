@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace IdentityServer4.MicroService.Data
+namespace OAuthApp.Data
 {
     /// <summary>
     /// 数据缓存表

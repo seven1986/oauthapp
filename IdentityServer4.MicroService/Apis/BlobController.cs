@@ -5,15 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
-using IdentityServer4.MicroService.Enums;
-using IdentityServer4.MicroService.Services;
-using IdentityServer4.MicroService.Models.Apis.Common;
+using OAuthApp.Enums;
+using OAuthApp.Services;
+using OAuthApp.Models.Apis.Common;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
-using static IdentityServer4.MicroService.AppConstant;
+using static OAuthApp.AppConstant;
 
-namespace IdentityServer4.MicroService.Apis
+namespace OAuthApp.Apis
 {
     /// <summary>
     /// Blob

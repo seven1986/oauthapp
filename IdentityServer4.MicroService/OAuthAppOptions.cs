@@ -4,9 +4,9 @@ using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IdentityServer4.MicroService
+namespace OAuthApp
 {
-    public class IdentityServer4MicroServiceOptions
+    public class OAuthAppOptions
     {
         /// <summary>
         /// 管理员账号，邮箱格式(默认admin@admin.com)
@@ -37,7 +37,7 @@ namespace IdentityServer4.MicroService
 
         /// <summary>
         /// 启用IdentityServer4Microservice的API文档（默认true）。
-        /// 可通过IdentityServer4MicroServiceOptions.APIDocuments配置需要屏蔽的接口文档
+        /// 可通过OAuthAppOptions.APIDocuments配置需要屏蔽的接口文档
         /// </summary>
         public bool EnableAPIDocuments
         {

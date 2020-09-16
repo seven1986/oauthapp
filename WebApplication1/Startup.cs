@@ -20,7 +20,7 @@ namespace WebApplication1
         {
             services.AddControllersWithViews();
 
-            services.AddIdentityServer4MicroService();
+            services.AddOAuthApp();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,7 +41,7 @@ namespace WebApplication1
 
             app.UseRouting();
 
-            app.UseIdentityServer4MicroService();
+            app.UseOAuthApp();
 
             app.UseEndpoints(endpoints =>
             {

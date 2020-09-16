@@ -11,13 +11,14 @@ using Microsoft.Extensions.Localization;
 using Swashbuckle.AspNetCore.Annotations;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.MicroService.Data;
-using IdentityServer4.MicroService.Enums;
-using IdentityServer4.MicroService.Models.Apis.Common;
-using IdentityServer4.MicroService.Models.Apis.ClientController;
-using static IdentityServer4.MicroService.AppConstant;
+using OAuthApp.Data;
+using OAuthApp.Enums;
+using OAuthApp.Models.Apis.Common;
+using OAuthApp.Models.Apis.ClientController;
+using static OAuthApp.AppConstant;
+using IdentityServer4;
 
-namespace IdentityServer4.MicroService.Apis
+namespace OAuthApp.Apis
 {
     // Client 根据 userId 来获取列表、或详情、增删改
 

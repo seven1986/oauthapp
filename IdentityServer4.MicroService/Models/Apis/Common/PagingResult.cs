@@ -1,10 +1,10 @@
-﻿using IdentityServer4.MicroService.Enums;
+﻿using OAuthApp.Enums;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace IdentityServer4.MicroService.Models.Apis.Common
+namespace OAuthApp.Models.Apis.Common
 {
     public class PagingResult<T>: IPagingResult where T : class
     {

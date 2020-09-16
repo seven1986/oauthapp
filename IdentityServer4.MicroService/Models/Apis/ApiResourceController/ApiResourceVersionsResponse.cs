@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using IdentityServer4.MicroService.Services;
+using OAuthApp.Services;
 
-namespace IdentityServer4.MicroService.Models.Apis.ApiResourceController
+namespace OAuthApp.Models.Apis.ApiResourceController
 {
     public class ApiResourceVersionsResponse : AzureApiManagementApiEntity
     {
