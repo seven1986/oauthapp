@@ -7,7 +7,7 @@
 3，修改IdentityTables.cs文件AppUser类的Lineage属性
 4，定位到web项目执行执行【首次生成迁移代码】或者【更新迁移代码】
 5，拷贝生成的文件到Data目录下
-6，修改ISMSServiceBuilderExtensions.cs文件的opts.MigrationsAssembly为IdentityServer4.MicroService
+6，修改ISMSServiceBuilderExtensions.cs文件的opts.MigrationsAssembly为 OAuthApp
 7，移除web项目的Microsoft.EntityFrameworkCore.Design引用
 8，还原IdentityTables.cs文件AppUser类的Lineage属性
 ```

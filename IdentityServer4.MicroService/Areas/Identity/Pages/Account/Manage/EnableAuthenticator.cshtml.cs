@@ -149,7 +149,7 @@ namespace OAuthApp.Areas.Identity.Pages.Account.Manage
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("IdentityServer4.MicroService"),
+                _urlEncoder.Encode("OAuthApp"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }
