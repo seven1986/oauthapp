@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OAuthApp.Tenant;
 
-namespace OAuthApp.Data.Migrations.Tenant
+namespace WebApplication1.Data.Migrations.Tenant
 {
     [DbContext(typeof(TenantDbContext))]
     partial class TenantDbContextModelSnapshot : ModelSnapshot

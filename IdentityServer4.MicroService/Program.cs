@@ -7,7 +7,7 @@
 //    //dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 //    //dotnet add package Microsoft.EntityFrameworkCore.Tools
 // Step 2,
-//    //dotnet aspnet-codegenerator identity -dc IdentityServer4.MicroService.Data.UserDbContext
+//    //dotnet aspnet-codegenerator identity -dc OAuthApp.Data.UserDbContext
 
 // Step 3，取消注释
 //namespace OAuthApp

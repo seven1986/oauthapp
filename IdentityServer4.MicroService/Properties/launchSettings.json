@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "IdentityServer4.MicroService": {
+    "OAuthApp": {
       "commandName": "Project"
     }
   }

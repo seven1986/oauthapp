@@ -129,7 +129,7 @@ namespace Microsoft.AspNetCore.Builder
 
             if (loggerFactory == null) throw new ArgumentNullException(nameof(loggerFactory));
 
-            var logger = loggerFactory.CreateLogger("IdentityServer4.MicroService.Startup");
+            var logger = loggerFactory.CreateLogger("OAuthApp.Startup");
 
             var scopeFactory = app.ApplicationServices.GetService<IServiceScopeFactory>();
 

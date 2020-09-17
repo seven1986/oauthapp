@@ -9,7 +9,7 @@
  9
 10</pre></div></td><td class=code><div class=highlight><pre><span></span><code><span class=k>public</span> <span class=k>void</span> <span class=nf>ConfigureServices</span><span class=p>(</span><span class=n>IServiceCollection</span> <span class=n>services</span><span class=p>)</span>
     <span class=p>{</span>
-        <span class=n>services</span><span class=p>.</span><span class=n>AddIdentityServer4MicroService</span><span class=p>(</span><span class=n>options</span><span class=p>=&gt;</span>
+        <span class=n>services</span><span class=p>.</span><span class=n>AddOAuthApp</span><span class=p>(</span><span class=n>options</span><span class=p>=&gt;</span>
         <span class=p>{</span>
             <span class=c1>//默认：admin@admin.com</span>
             <span class=n>options</span><span class=p>.</span><span class=n>DefaultUserAccount</span> <span class=p>=</span> <span class=s>&quot;admin@admin.com&quot;</span><span class=p>;</span> 
@@ -29,13 +29,13 @@
 10
 11</pre></div></td><td class=code><div class=highlight><pre><span></span><code><span class=k>public</span> <span class=k>void</span> <span class=nf>ConfigureServices</span><span class=p>(</span><span class=n>IServiceCollection</span> <span class=n>services</span><span class=p>)</span>
     <span class=p>{</span>
-        <span class=n>services</span><span class=p>.</span><span class=n>AddIdentityServer4MicroService</span><span class=p>(</span><span class=n>options</span><span class=p>=&gt;</span>
+        <span class=n>services</span><span class=p>.</span><span class=n>AddOAuthApp</span><span class=p>(</span><span class=n>options</span><span class=p>=&gt;</span>
         <span class=p>{</span>
             <span class=c1>// 这只该属性会隐藏所有文档</span>
             <span class=n>options</span><span class=p>.</span><span class=n>EnableAPIDocuments</span><span class=p>=</span><span class=k>false</span><span class=p>;</span>
 
             <span class=c1>// 或使用如下方法展示指定的API文档</span>
-            <span class=c1>// IdentityServer4MicroServiceOptions.APIDocuments.Add</span>
+            <span class=c1>// OAuthAppOptions.APIDocuments.Add</span>
         <span class=p>});</span>
     <span class=p>}</span>
 </code></pre></div> </td></tr></table> <h2 id=_3>版本号<a class=headerlink href=#_3 title="Permanent link">&para;</a></h2> <div class="admonition note"> <p>为api添加版本功能，在请求中实现如下方式：</p> <ul class=task-list> <li class=task-list-item><label class=task-list-control><input type=checkbox disabled checked><span class=task-list-indicator></span></label> /api/foo?api-version=1.0</li> <li class=task-list-item><label class=task-list-control><input type=checkbox disabled checked><span class=task-list-indicator></span></label> /api/foo?api-version=2.0-Alpha</li> <li class=task-list-item><label class=task-list-control><input type=checkbox disabled checked><span class=task-list-indicator></span></label> /api/foo?api-version=2015-05-01.3.0</li> <li class=task-list-item><label class=task-list-control><input type=checkbox disabled checked><span class=task-list-indicator></span></label> /api/v1/foo</li> <li class=task-list-item><label class=task-list-control><input type=checkbox disabled checked><span class=task-list-indicator></span></label> /api/v2.0-Alpha/foo</li> <li class=task-list-item><label class=task-list-control><input type=checkbox disabled checked><span class=task-list-indicator></span></label> /api/v2015-05-01.3.0/foo</li> </ul> <p>更多可以<a href=https://github.com/microsoft/aspnet-api-versioning/wiki/Version-Format>参考文档</a></p> </div> <div class=tabbed-set data-tabs=3:2><input checked=checked id=__tabbed_3_1 name=__tabbed_3 type=radio><label for=__tabbed_3_1>Startup.cs</label><div class=tabbed-content> <table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span>1
@@ -47,7 +47,7 @@
 7
 8</pre></div></td><td class=code><div class=highlight><pre><span></span><code><span class=k>public</span> <span class=k>void</span> <span class=nf>ConfigureServices</span><span class=p>(</span><span class=n>IServiceCollection</span> <span class=n>services</span><span class=p>)</span>
     <span class=p>{</span>
-        <span class=n>services</span><span class=p>.</span><span class=n>AddIdentityServer4MicroService</span><span class=p>(</span><span class=n>options</span><span class=p>=&gt;</span>
+        <span class=n>services</span><span class=p>.</span><span class=n>AddOAuthApp</span><span class=p>(</span><span class=n>options</span><span class=p>=&gt;</span>
         <span class=p>{</span>
             <span class=c1>// 默认为true</span>
             <span class=n>options</span><span class=p>.</span><span class=n>EnableApiVersioning</span><span class=p>=</span><span class=k>true</span><span class=p>;</span>
@@ -73,7 +73,7 @@
 7
 8</pre></div></td><td class=code><div class=highlight><pre><span></span><code><span class=k>public</span> <span class=k>void</span> <span class=nf>ConfigureServices</span><span class=p>(</span><span class=n>IServiceCollection</span> <span class=n>services</span><span class=p>)</span>
     <span class=p>{</span>
-        <span class=n>services</span><span class=p>.</span><span class=n>AddIdentityServer4MicroService</span><span class=p>(</span><span class=n>options</span><span class=p>=&gt;</span>
+        <span class=n>services</span><span class=p>.</span><span class=n>AddOAuthApp</span><span class=p>(</span><span class=n>options</span><span class=p>=&gt;</span>
         <span class=p>{</span>
             <span class=c1>// 默认为true</span>
             <span class=n>options</span><span class=p>.</span><span class=n>EnableCors</span><span class=p>=</span><span class=k>true</span><span class=p>;</span>
@@ -117,7 +117,7 @@
 31
 32</pre></div></td><td class=code><div class=highlight><pre><span></span><code><span class=k>public</span> <span class=k>void</span> <span class=nf>ConfigureServices</span><span class=p>(</span><span class=n>IServiceCollection</span> <span class=n>services</span><span class=p>)</span>
     <span class=p>{</span>
-        <span class=n>services</span><span class=p>.</span><span class=n>AddIdentityServer4MicroService</span><span class=p>(</span><span class=n>options</span><span class=p>=&gt;{</span>
+        <span class=n>services</span><span class=p>.</span><span class=n>AddOAuthApp</span><span class=p>(</span><span class=n>options</span><span class=p>=&gt;{</span>
 
             <span class=n>options</span><span class=p>.</span><span class=n>AspNetCoreIdentityOptions</span> <span class=p>=</span> <span class=n>identityOptions</span> <span class=p>=&gt;{</span>
 
@@ -157,7 +157,7 @@
 8
 9</pre></div></td><td class=code><div class=highlight><pre><span></span><code><span class=k>public</span> <span class=k>void</span> <span class=nf>ConfigureServices</span><span class=p>(</span><span class=n>IServiceCollection</span> <span class=n>services</span><span class=p>)</span>
     <span class=p>{</span>
-        <span class=n>services</span><span class=p>.</span><span class=n>AddIdentityServer4MicroService</span><span class=p>(</span><span class=n>options</span><span class=p>=&gt;</span>
+        <span class=n>services</span><span class=p>.</span><span class=n>AddOAuthApp</span><span class=p>(</span><span class=n>options</span><span class=p>=&gt;</span>
         <span class=p>{</span>
             <span class=c1>// 通过下面的对象配置identityserver4</span>
             <span class=c1>// options.IdentityServerBuilder</span>

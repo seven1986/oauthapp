@@ -373,7 +373,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var DbContextOptions = new Action<DbContextOptionsBuilder>(x =>
             x.UseSqlServer(DBConnectionString,
-            opts => opts.MigrationsAssembly("IdentityServer4.MicroService")));
+            opts => opts.MigrationsAssembly("OAuthApp")));
 
             builder.AddCoreService();
 

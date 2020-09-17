@@ -6,7 +6,7 @@
 ``` csharp linenums="1"
 public void ConfigureServices(IServiceCollection services)
     {
-        services.AddIdentityServer4MicroService(options=>
+        services.AddOAuthApp(options=>
         {
             //默认：admin@admin.com
             options.DefaultUserAccount = "admin@admin.com"; 
@@ -25,13 +25,13 @@ public void ConfigureServices(IServiceCollection services)
 ``` csharp linenums="1"
 public void ConfigureServices(IServiceCollection services)
     {
-        services.AddIdentityServer4MicroService(options=>
+        services.AddOAuthApp(options=>
         {
             // 这只该属性会隐藏所有文档
             options.EnableAPIDocuments=false;
 
             // 或使用如下方法展示指定的API文档
-            // IdentityServer4MicroServiceOptions.APIDocuments.Add
+            // OAuthAppOptions.APIDocuments.Add
         });
     }
 ``` 
@@ -57,7 +57,7 @@ public void ConfigureServices(IServiceCollection services)
     ``` csharp linenums="1"
     public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityServer4MicroService(options=>
+            services.AddOAuthApp(options=>
             {
                 // 默认为true
                 options.EnableApiVersioning=true;
@@ -84,7 +84,7 @@ public void ConfigureServices(IServiceCollection services)
     ``` csharp linenums="1"
     public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityServer4MicroService(options=>
+            services.AddOAuthApp(options=>
             {
                 // 默认为true
                 options.EnableCors=true;
@@ -107,7 +107,7 @@ public void ConfigureServices(IServiceCollection services)
 ``` csharp linenums="1"
 public void ConfigureServices(IServiceCollection services)
     {
-        services.AddIdentityServer4MicroService(options=>{
+        services.AddOAuthApp(options=>{
             
             options.AspNetCoreIdentityOptions = identityOptions =>{
 
@@ -148,7 +148,7 @@ public void ConfigureServices(IServiceCollection services)
     ``` csharp linenums="1"
     public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityServer4MicroService(options=>
+            services.AddOAuthApp(options=>
             {
                 // 通过下面的对象配置identityserver4
                 // options.IdentityServerBuilder
