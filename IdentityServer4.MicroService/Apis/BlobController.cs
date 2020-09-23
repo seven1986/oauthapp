@@ -18,7 +18,6 @@ namespace OAuthApp.Apis
     /// <summary>
     /// Blob
     /// </summary>
-    [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Blob")]
     [SwaggerTag("文件服务")]

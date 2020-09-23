@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.0.1</Version>
+    <Version>2.0.4</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -448,9 +448,9 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Utils" Version="3.1.4" />
     <PackageReference Include="StackExchange.Redis" Version="2.1.58" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.6.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.6.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
   </ItemGroup>

@@ -20,7 +20,6 @@ namespace OAuthApp.Apis
     /// <summary>
     /// 标识
     /// </summary>
-    [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("IdentityResource")]
     [SwaggerTag("标识")]
@@ -179,89 +178,32 @@ namespace OAuthApp.Apis
         [SwaggerOperation(OperationId = "IdentityResourcePut",
             Summary = "标识 - 更新",
             Description = "scope&permission：isms.identityresource.put")]
-        public async Task<ApiResult<long>> Put([FromBody]IdentityResource value)
+        public ApiResult<bool> Put([FromBody]IdentityResource value)
         {
             if (!ModelState.IsValid)
             {
-                return new ApiResult<long>(l,
+                return new ApiResult<bool>(l,
                     BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
-            using (var tran = configDb.Database.BeginTransaction(IsolationLevel.ReadCommitted))
+
+            configDb.Attach(value).State = EntityState.Modified;
+
+            try
             {
-                try
-                {
-                    #region Update Entity
-                    // 需要先更新value，否则更新如claims等属性会有并发问题
-                    configDb.Update(value);
-                    configDb.SaveChanges();
-                    #endregion
-
-                    #region Find Entity.Source
-                    var source = await configDb.IdentityResources.Where(x => x.Id == value.Id)
-                                     .Include(x => x.UserClaims)
-                                     .AsNoTracking()
-                                     .FirstOrDefaultAsync();
-                    #endregion
-
-                    #region Update Entity.Claims
-                    if (value.UserClaims != null && value.UserClaims.Count > 0)
-                    {
-                        #region delete
-                        var EntityIDs = value.UserClaims.Select(x => x.Id).ToList();
-                        if (EntityIDs.Count > 0)
-                        {
-                            var DeleteEntities = source.UserClaims.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-                            if (DeleteEntities.Count() > 0)
-                            {
-                                //var sql = string.Format("DELETE IdentityClaims WHERE ID IN ({0})",
-                                //            string.Join(",", DeleteEntities));
-
-                                configDb.Database.ExecuteSqlRaw($"DELETE IdentityClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
-                            }
-                        }
-                        #endregion
-
-                        #region update
-                        var UpdateEntities = value.UserClaims.Where(x => x.Id > 0).ToList();
-                        if (UpdateEntities.Count > 0)
-                        {
-                            UpdateEntities.ForEach(x =>
-                            {
-                                configDb.Database.ExecuteSqlRaw($"UPDATE IdentityClaims SET [Type]={x.Type} WHERE Id = {x.Id}");
-                            });
-                        }
-                        #endregion
-
-                        #region insert
-                        var NewEntities = value.UserClaims.Where(x => x.Id == 0).ToList();
-                        if (NewEntities.Count > 0)
-                        {
-                            NewEntities.ForEach(x =>
-                            {
-                                configDb.Database.ExecuteSqlRaw($"INSERT INTO IdentityClaims VALUES ({source.Id},{x.Type})");
-                            });
-                        }
-                        #endregion
-                    }
-                    #endregion
-
-                    tran.Commit();
-                }
-
-                catch (Exception ex)
-                {
-                    tran.Rollback();
-
-                    return new ApiResult<long>(l,
-                        BasicControllerEnums.ExpectationFailed,
-                        ex.Message);
-                }
+                configDb.SaveChanges();
             }
 
-            return new ApiResult<long>(value.Id);
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
+                {
+                    data = false
+                };
+            }
+
+            return new ApiResult<bool>(true);
         }
         #endregion
 

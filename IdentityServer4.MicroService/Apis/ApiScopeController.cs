@@ -24,7 +24,6 @@ namespace OAuthApp.Apis
     /// APIScope
     /// </summary>
     /// <remarks>权限集合。</remarks>
-    [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("ApiScope")]
     [SwaggerTag("权限")]

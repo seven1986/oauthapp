@@ -34,7 +34,6 @@ namespace OAuthApp.Apis
     /// API
     /// </summary>
     /// <remarks>为API提供版本管理、网关集成都功能。</remarks>
-    [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("ApiResource")]
     [SwaggerTag("资源")]
@@ -300,7 +299,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourcePut",
             Summary = "API - 更新",
             Description = "scope&permission：isms.apiresource.put")]
-        public async Task<ApiResult<bool>> Put([FromBody]ApiResource value)
+        public ApiResult<bool> Put([FromBody]ApiResource value)
         {
             if (!ModelState.IsValid)
             {
@@ -309,120 +308,8 @@ namespace OAuthApp.Apis
                     ModelErrors());
             }
 
-            if (!await exists(value.Id))
-            {
-                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
-            }
 
-            var Entity = configDb.ApiResources.Where(x => x.Id == value.Id)
-                .Include(x => x.Scopes).ThenInclude(x => x.Scope)
-                .Include(x => x.Secrets)
-                .Include(x => x.UserClaims)
-                .FirstOrDefault();
-
-            if (Entity == null)
-            {
-                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
-            }
-
-            #region Name
-            if (!string.IsNullOrWhiteSpace(value.Name) && !value.Name.Equals(Entity.Name))
-            {
-                Entity.Name = value.Name;
-            }
-            #endregion
-
-            #region DisplayName
-            if (!string.IsNullOrWhiteSpace(value.DisplayName) && !value.DisplayName.Equals(Entity.DisplayName))
-            {
-                Entity.DisplayName = value.DisplayName;
-            }
-            #endregion
-
-            #region Description
-            if (!string.IsNullOrWhiteSpace(value.Description) && !value.Description.Equals(Entity.Description))
-            {
-                Entity.Description = value.Description;
-            }
-            #endregion
-
-            #region Enabled
-            if (value.Enabled != Entity.Enabled)
-            {
-                Entity.Enabled = value.Enabled;
-            }
-            #endregion
-
-            #region NonEditable
-            if (value.NonEditable != Entity.NonEditable)
-            {
-                Entity.NonEditable = value.NonEditable;
-            }
-            #endregion
-
-            #region LastAccessed
-            if (value.LastAccessed != Entity.LastAccessed)
-            {
-                Entity.LastAccessed = value.LastAccessed;
-            }
-            #endregion
-
-            #region Scopes
-            if (value.Scopes != null && value.Scopes.Count > 0)
-            {
-                Entity.Scopes.Clear();
-
-                value.Scopes.ForEach(x =>
-                {
-                    Entity.Scopes.Add(new ApiResourceScope()
-                    {
-                        ApiResource = value,
-                        ApiResourceId = x.ApiResourceId,
-                        Scope = x.Scope
-                    });
-                });
-            }
-            #endregion
-
-            #region Secrets
-            if (value.Secrets != null && value.Secrets.Count > 0)
-            {
-                Entity.Secrets.Clear();
-
-                value.Secrets.ForEach(x =>
-                {
-                    Entity.Secrets.Add(new ApiResourceSecret()
-                    {
-                        ApiResource = value,
-                        ApiResourceId = x.ApiResourceId,
-                        Created = x.Created,
-                        Description = x.Description,
-                        Expiration = x.Expiration,
-                        Type = x.Type,
-                        Value = x.Value
-                    });
-                });
-            }
-            #endregion
-
-            #region UserClaims
-            if (value.UserClaims != null && value.UserClaims.Count > 0)
-            {
-                Entity.UserClaims.Clear();
-
-                value.UserClaims.ForEach(x =>
-                {
-                    Entity.UserClaims.Add(new ApiResourceClaim()
-                    {
-                        ApiResource = value,
-                        ApiResourceId = x.ApiResourceId,
-                        Type = x.Type
-                    });
-                });
-            }
-            #endregion
-
-            Entity.Updated = DateTime.UtcNow.AddHours(8);
+            configDb.Attach(value).State = EntityState.Modified;
 
             try
             {

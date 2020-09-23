@@ -21,7 +21,6 @@ namespace OAuthApp.Apis
     /// <summary>
     /// 租户
     /// </summary>
-    [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Tenant")]
     [SwaggerTag("租户")]
@@ -54,7 +53,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.get")]
         [SwaggerOperation(OperationId = "TenantGet",
             Summary = "租户 - 列表",
-            Description = "scope&permission：isms.tenant.get")]
+            Description = "scope&permission：oauthapp.tenant.get")]
         public async Task<PagingResult<AppTenant>> Get([FromQuery]PagingRequest<TenantGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -131,7 +130,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.detail")]
         [SwaggerOperation(OperationId = "TenantDetail",
             Summary = "租户 - 详情",
-            Description = "scope&permission：isms.tenant.detail")]
+            Description = "scope&permission：oauthapp.tenant.detail")]
         public async Task<ApiResult<AppTenant>> Get(int id)
         {
             var query = tenantDb.Tenants.AsQueryable();
@@ -164,7 +163,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.post")]
         [SwaggerOperation(OperationId = "TenantPost",
             Summary = "租户 - 创建",
-            Description = "scope&permission：isms.tenant.post")]
+            Description = "scope&permission：oauthapp.tenant.post")]
         public ApiResult<long> Post([FromBody]AppTenant value)
         {
             if (!ModelState.IsValid)
@@ -205,7 +204,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.put")]
         [SwaggerOperation(OperationId = "TenantPut",
             Summary = "租户 - 更新",
-            Description = "scope&permission：isms.tenant.put")]
+            Description = "scope&permission：oauthapp.tenant.put")]
         public ApiResult<bool> Put([FromBody]AppTenant value)
         {
             if (!ModelState.IsValid)
@@ -215,117 +214,16 @@ namespace OAuthApp.Apis
                     ModelErrors());
             }
 
-            var Entity = tenantDb.Tenants.Where(x => x.Id == value.Id && x.OwnerUserId == UserId)
-                .Include(x => x.Hosts)
-                .Include(x => x.Claims)
-                .Include(x => x.Properties).FirstOrDefault();
-
-            if (Entity == null)
+            if (!exists(value.Id))
             {
-                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
-            }
-
-            #region Name
-            if (!string.IsNullOrWhiteSpace(value.Name) && !value.Name.Equals(Entity.Name))
-            {
-                Entity.Name = value.Name;
-            }
-            #endregion
-
-            #region Theme
-            if (!string.IsNullOrWhiteSpace(value.Theme) && !value.Theme.Equals(Entity.Theme))
-            {
-                Entity.Theme = value.Theme;
-            }
-            #endregion
-
-            #region IdentityServerIssuerUri
-            if (!string.IsNullOrWhiteSpace(value.IdentityServerIssuerUri) && !value.IdentityServerIssuerUri.Equals(Entity.IdentityServerIssuerUri))
-            {
-                Entity.IdentityServerIssuerUri = value.IdentityServerIssuerUri;
-            }
-            #endregion
-
-            #region Status
-            if (value.Status != Entity.Status)
-            {
-                Entity.Status = value.Status;
-            }
-            #endregion
-
-            #region CacheDuration
-            if (value.CacheDuration != Entity.CacheDuration)
-            {
-                Entity.CacheDuration = value.CacheDuration;
-            } 
-            #endregion
-
-            #region Hosts
-            if (Entity.Hosts.Count > 0)
-            {
-                tenantDb.TenantHosts.RemoveRange(Entity.Hosts);
-            }
-
-            if (value.Hosts != null && value.Hosts.Count > 0)
-            {
-                Entity.Hosts.Clear();
-
-                value.Hosts.ForEach(x =>
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound)
                 {
-                    Entity.Hosts.Add(new AppTenantHost()
-                    {
-                        HostName = x.HostName,
-                        AppTenantId = value.Id
-                    });
-                });
-            }
-            #endregion
-
-            #region Claims
-            if (Entity.Claims.Count > 0)
-            {
-                tenantDb.TenantClaims.RemoveRange(Entity.Claims);
+                    data = false
+                }; ;
             }
 
-            if (value.Claims != null && value.Claims.Count > 0)
-            {
-                Entity.Claims.Clear();
 
-                value.Claims.ForEach(x =>
-                {
-                    Entity.Claims.Add(new AppTenantClaim()
-                    {
-                        ClaimType = x.ClaimType,
-                        AppTenantId = value.Id,
-                        ClaimValue = x.ClaimValue,
-                    });
-                });
-            }
-            #endregion
-
-            #region Properties
-            if (Entity.Properties.Count > 0)
-            {
-                tenantDb.TenantProperties.RemoveRange(Entity.Properties);
-            }
-
-            if (value.Properties != null && value.Properties.Count > 0)
-            {
-                Entity.Properties.Clear();
-
-                value.Properties.ForEach(x =>
-                {
-                    Entity.Properties.Add(new AppTenantProperty()
-                    {
-                        Key = x.Key,
-                        Value = x.Value,
-                        AppTenantId = value.Id
-                    });
-                });
-            }
-            #endregion
-
-            Entity.LastUpdateTime = DateTime.UtcNow.AddHours(8);
+            tenantDb.Attach(value).State = EntityState.Modified;
 
             try
             {
@@ -355,7 +253,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.delete")]
         [SwaggerOperation(OperationId = "TenantDelete",
             Summary = "租户 - 删除",
-            Description = "scope&permission：isms.tenant.delete")]
+            Description = "scope&permission：oauthapp.tenant.delete")]
         public ApiResult<bool> Delete(int id)
         {
             var entity = tenantDb.Tenants.Where(x => x.OwnerUserId == UserId && x.Id == id)
@@ -427,6 +325,13 @@ namespace OAuthApp.Apis
             var result = _Codes<TenantControllerEnums>();
 
             return result;
+        }
+        #endregion
+
+        #region 辅助方法
+        bool exists(long id)
+        {
+            return tenantDb.Tenants.Any(x => x.OwnerUserId == UserId && x.Id == id);
         }
         #endregion
     }

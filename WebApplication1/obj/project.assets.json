@@ -2109,22 +2109,22 @@
           "lib/netstandard2.0/StackExchange.Redis.dll": {}
         }
       },
-      "Swashbuckle.AspNetCore/5.6.0": {
+      "Swashbuckle.AspNetCore/5.6.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.ApiDescription.Server": "3.0.0",
-          "Swashbuckle.AspNetCore.Swagger": "5.6.0",
-          "Swashbuckle.AspNetCore.SwaggerGen": "5.6.0",
-          "Swashbuckle.AspNetCore.SwaggerUI": "5.6.0"
+          "Swashbuckle.AspNetCore.Swagger": "5.6.2",
+          "Swashbuckle.AspNetCore.SwaggerGen": "5.6.2",
+          "Swashbuckle.AspNetCore.SwaggerUI": "5.6.2"
         },
         "build": {
           "build/_._": {}
         }
       },
-      "Swashbuckle.AspNetCore.Annotations/5.6.0": {
+      "Swashbuckle.AspNetCore.Annotations/5.6.2": {
         "type": "package",
         "dependencies": {
-          "Swashbuckle.AspNetCore.SwaggerGen": "5.6.0"
+          "Swashbuckle.AspNetCore.SwaggerGen": "5.6.2"
         },
         "compile": {
           "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Annotations.dll": {}
@@ -2133,11 +2133,11 @@
           "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Annotations.dll": {}
         }
       },
-      "Swashbuckle.AspNetCore.Newtonsoft/5.6.0": {
+      "Swashbuckle.AspNetCore.Newtonsoft/5.6.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "3.0.0",
-          "Swashbuckle.AspNetCore.SwaggerGen": "5.6.0"
+          "Swashbuckle.AspNetCore.SwaggerGen": "5.6.2"
         },
         "compile": {
           "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Newtonsoft.dll": {}
@@ -2146,7 +2146,7 @@
           "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Newtonsoft.dll": {}
         }
       },
-      "Swashbuckle.AspNetCore.Swagger/5.6.0": {
+      "Swashbuckle.AspNetCore.Swagger/5.6.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.OpenApi": "1.2.3"
@@ -2161,10 +2161,10 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "Swashbuckle.AspNetCore.SwaggerGen/5.6.0": {
+      "Swashbuckle.AspNetCore.SwaggerGen/5.6.2": {
         "type": "package",
         "dependencies": {
-          "Swashbuckle.AspNetCore.Swagger": "5.6.0"
+          "Swashbuckle.AspNetCore.Swagger": "5.6.2"
         },
         "compile": {
           "lib/netcoreapp3.0/Swashbuckle.AspNetCore.SwaggerGen.dll": {}
@@ -2176,7 +2176,7 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "Swashbuckle.AspNetCore.SwaggerUI/5.6.0": {
+      "Swashbuckle.AspNetCore.SwaggerUI/5.6.2": {
         "type": "package",
         "compile": {
           "lib/netcoreapp3.0/Swashbuckle.AspNetCore.SwaggerUI.dll": {}
@@ -4020,7 +4020,7 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "OAuthApp/2.0.1": {
+      "OAuthApp/2.0.4": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
@@ -4057,9 +4057,9 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.4",
           "Microsoft.VisualStudio.Web.CodeGeneration.Utils": "3.1.4",
           "StackExchange.Redis": "2.1.58",
-          "Swashbuckle.AspNetCore": "5.6.0",
-          "Swashbuckle.AspNetCore.Annotations": "5.6.0",
-          "Swashbuckle.AspNetCore.Newtonsoft": "5.6.0",
+          "Swashbuckle.AspNetCore": "5.6.2",
+          "Swashbuckle.AspNetCore.Annotations": "5.6.2",
+          "Swashbuckle.AspNetCore.Newtonsoft": "5.6.2",
           "System.Data.SqlClient": "4.8.2",
           "System.IO.Compression.ZipFile": "4.3.0"
         },
@@ -7165,22 +7165,22 @@
         "stackexchange.redis.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore/5.6.0": {
-      "sha512": "V31O2VFPk6rLlln4dd95MpV+j6mNw6EAeh1Te5L6LJFomIAeMWV8Zc5M9XJaZp47tfYzYhbd8OC0ulLPl9DL5w==",
+    "Swashbuckle.AspNetCore/5.6.2": {
+      "sha512": "qjEOSnG4Ot0BqYvF7Wgn+ytzwVtpbSB+3qfTw46azivILqQDr9y8aAI234dNg1CxqvmEEZjI9LOu5iPpd9IjVw==",
       "type": "package",
-      "path": "swashbuckle.aspnetcore/5.6.0",
+      "path": "swashbuckle.aspnetcore/5.6.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "build/Swashbuckle.AspNetCore.props",
-        "swashbuckle.aspnetcore.5.6.0.nupkg.sha512",
+        "swashbuckle.aspnetcore.5.6.2.nupkg.sha512",
         "swashbuckle.aspnetcore.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore.Annotations/5.6.0": {
-      "sha512": "4lN9TJsRitKuUmpuXxtIUcEyJ4h4zOKStZD5/DdW3kmdShuP+tcvCtH2U1pN8/gwMhieEzK/w5FLQUuZicXzSw==",
+    "Swashbuckle.AspNetCore.Annotations/5.6.2": {
+      "sha512": "o19OLr/H/An8JhNF0fZdzUsyKb+7/+WVuNsMgSGGFk25lHJcjtj6Jhvcow70YwjhOqKsDtx8S/7MSlUanmCtCg==",
       "type": "package",
-      "path": "swashbuckle.aspnetcore.annotations/5.6.0",
+      "path": "swashbuckle.aspnetcore.annotations/5.6.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7190,14 +7190,14 @@
         "lib/netstandard2.0/Swashbuckle.AspNetCore.Annotations.dll",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.Annotations.pdb",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.Annotations.xml",
-        "swashbuckle.aspnetcore.annotations.5.6.0.nupkg.sha512",
+        "swashbuckle.aspnetcore.annotations.5.6.2.nupkg.sha512",
         "swashbuckle.aspnetcore.annotations.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore.Newtonsoft/5.6.0": {
-      "sha512": "5h9Fvrkn+ioCyIYigECAWDj+rDX2oJew1f9YUx8LZtCea03d+HB7ShFZcJaQLZ4A8mUgYJmRJMWCW827mMsGJA==",
+    "Swashbuckle.AspNetCore.Newtonsoft/5.6.2": {
+      "sha512": "+W+B8Og6frrCgwuo+4Km3gQ1ZfL7BALGyZn5+te94QeReKZuQPZadNjyDkitgZYC8jc/HyAhj8/BNhxngnXqTQ==",
       "type": "package",
-      "path": "swashbuckle.aspnetcore.newtonsoft/5.6.0",
+      "path": "swashbuckle.aspnetcore.newtonsoft/5.6.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7205,14 +7205,14 @@
         "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Newtonsoft.pdb",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.Newtonsoft.dll",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.Newtonsoft.pdb",
-        "swashbuckle.aspnetcore.newtonsoft.5.6.0.nupkg.sha512",
+        "swashbuckle.aspnetcore.newtonsoft.5.6.2.nupkg.sha512",
         "swashbuckle.aspnetcore.newtonsoft.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore.Swagger/5.6.0": {
-      "sha512": "efmpgY8MRxgs6eDAOI3HwMS4baEpI6H9RgYVTER/prToXMnlxZPZb5hsco0QhzRhO4WCJdQ0gahztSMq2hPSVw==",
+    "Swashbuckle.AspNetCore.Swagger/5.6.2": {
+      "sha512": "rrM6WHjPFJYQjo/SfIfhBbHngfELgk+GkVEBi8TQPUwpil8ckq1RHYfR55aDEf+X5kKzFTNy3PyrLMmGVVx3WA==",
       "type": "package",
-      "path": "swashbuckle.aspnetcore.swagger/5.6.0",
+      "path": "swashbuckle.aspnetcore.swagger/5.6.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7222,14 +7222,14 @@
         "lib/netstandard2.0/Swashbuckle.AspNetCore.Swagger.dll",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.Swagger.pdb",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.Swagger.xml",
-        "swashbuckle.aspnetcore.swagger.5.6.0.nupkg.sha512",
+        "swashbuckle.aspnetcore.swagger.5.6.2.nupkg.sha512",
         "swashbuckle.aspnetcore.swagger.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore.SwaggerGen/5.6.0": {
-      "sha512": "VbyBPfj8eXyFnt7Kz3KMSxSGz9CwyYtqQ26Vbt07KJQX0RNxIGiPz4eDqLsdBRDO1LUrNlenISrpf8JRG5JOtA==",
+    "Swashbuckle.AspNetCore.SwaggerGen/5.6.2": {
+      "sha512": "R2CAdB/q8TwYTm3JKlDP6ZH2WlJXz1p0qR50aU2ykrZ/6M/nCQh0NXe66pPw5DZJHQ82pe7vtSvElBn/M92l8g==",
       "type": "package",
-      "path": "swashbuckle.aspnetcore.swaggergen/5.6.0",
+      "path": "swashbuckle.aspnetcore.swaggergen/5.6.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7239,14 +7239,14 @@
         "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerGen.dll",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerGen.pdb",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerGen.xml",
-        "swashbuckle.aspnetcore.swaggergen.5.6.0.nupkg.sha512",
+        "swashbuckle.aspnetcore.swaggergen.5.6.2.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggergen.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore.SwaggerUI/5.6.0": {
-      "sha512": "cqt40P856T60HzVuLw7JhuCf4VaQzBpv6e5PfQFGtASvk3vPjQMjjQJlsUjX6MNamTU+zBSQ/49EIbe4xbQyvg==",
+    "Swashbuckle.AspNetCore.SwaggerUI/5.6.2": {
+      "sha512": "YtQyyND/XJXPpw9fVUfvqG3pCFFGRJXrFyx759qL7Sp8L1TfxxRuVbtAk8hfwdacd8lvKhYqj+Skv17z3oP0VA==",
       "type": "package",
-      "path": "swashbuckle.aspnetcore.swaggerui/5.6.0",
+      "path": "swashbuckle.aspnetcore.swaggerui/5.6.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7256,7 +7256,7 @@
         "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerUI.dll",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerUI.pdb",
         "lib/netstandard2.0/Swashbuckle.AspNetCore.SwaggerUI.xml",
-        "swashbuckle.aspnetcore.swaggerui.5.6.0.nupkg.sha512",
+        "swashbuckle.aspnetcore.swaggerui.5.6.2.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
     },
@@ -12143,7 +12143,7 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
-    "OAuthApp/2.0.1": {
+    "OAuthApp/2.0.4": {
       "type": "project",
       "path": "../IdentityServer4.MicroService/OAuthApp.csproj",
       "msbuildProject": "../IdentityServer4.MicroService/OAuthApp.csproj"
@@ -12152,7 +12152,7 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "Microsoft.EntityFrameworkCore.Design >= 3.1.6",
-      "OAuthApp >= 2.0.1"
+      "OAuthApp >= 2.0.4"
     ]
   },
   "packageFolders": {

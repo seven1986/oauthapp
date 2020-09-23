@@ -19,7 +19,6 @@ namespace OAuthApp.Apis
     /// <summary>
     /// 角色
     /// </summary>
-    [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Role")]
     [SwaggerTag("角色")]
@@ -125,111 +124,32 @@ namespace OAuthApp.Apis
         [SwaggerOperation(OperationId = "RolePut",
             Summary = "角色 - 更新",
             Description = "scope&permission：isms.role.put")]
-        public async Task<ApiResult<long>> Put([FromBody]AppRole value)
+        public ApiResult<bool> Put([FromBody]AppRole value)
         {
             if (!ModelState.IsValid)
             {
-                return new ApiResult<long>(l,
+                return new ApiResult<bool>(l,
                     BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
-            using (var tran = db.Database.BeginTransaction(IsolationLevel.ReadCommitted))
+
+            db.Attach(value).State = EntityState.Modified;
+
+            try
             {
-                try
-                {
-                    #region Update Entity
-                    // 需要先更新value，否则更新如claims等属性会有并发问题
-                    db.Update(value);
-                    db.SaveChanges();
-                    #endregion
-
-                    #region Find Entity.Source
-                    var source = await db.Roles.Where(x => x.Id == value.Id)
-                                    .Include(x => x.Claims)
-                                    .AsNoTracking()
-                                    .FirstOrDefaultAsync();
-                    #endregion
-
-                    #region Update Entity.Claims
-                    if (value.Claims != null && value.Claims.Count > 0)
-                    {
-                        #region delete
-                        var EntityIDs = value.Claims.Select(x => x.Id).ToList();
-                        if (EntityIDs.Count > 0)
-                        {
-                            var DeleteEntities = source.Claims.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-                            if (DeleteEntities.Count() > 0)
-                            {
-                                //var sql = string.Format("DELETE AspNetRoleClaims WHERE ID IN ({0})",
-                                //            string.Join(",", DeleteEntities));
-
-                                db.Database.ExecuteSqlRaw($"DELETE AspNetRoleClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
-                            }
-                        }
-                        #endregion
-
-                        #region update
-                        var UpdateEntities = value.Claims.Where(x => x.Id > 0).ToList();
-                        if (UpdateEntities.Count > 0)
-                        {
-                            UpdateEntities.ForEach(x =>
-                            {
-                                //var sql = new RawSqlString("UPDATE AspNetRoleClaims SET [ClaimType]=@ClaimType,[ClaimValue]=@ClaimValue WHERE Id = " + x.Id);
-
-                                //var _params = new SqlParameter[]
-                                //{
-                                //    new SqlParameter("@ClaimType", DBNull.Value){  IsNullable=true },
-                                //    new SqlParameter("@ClaimValue", DBNull.Value){  IsNullable=true },
-                                //};
-
-                                //if (!string.IsNullOrWhiteSpace(x.ClaimType)) { _params[0].Value = x.ClaimType; }
-                                //if (!string.IsNullOrWhiteSpace(x.ClaimValue)) { _params[1].Value = x.ClaimValue; }
-
-                                db.Database.ExecuteSqlRaw($"UPDATE AspNetRoleClaims SET [ClaimType]={x.ClaimType},[ClaimValue]={x.ClaimValue} WHERE Id = {x.Id}");
-                            });
-                        }
-                        #endregion
-
-                        #region insert
-                        var NewEntities = value.Claims.Where(x => x.Id == 0).ToList();
-                        if (NewEntities.Count > 0)
-                        {
-                            NewEntities.ForEach(x =>
-                            {
-                                var _params = new SqlParameter[]
-                                {
-                                    new SqlParameter("@RoleId", source.Id),
-                                    new SqlParameter("@ClaimType", DBNull.Value){  IsNullable=true },
-                                    new SqlParameter("@ClaimValue", DBNull.Value){  IsNullable=true },
-                                };
-
-                                if (!string.IsNullOrWhiteSpace(x.ClaimType)) { _params[1].Value = x.ClaimType; }
-
-                                if (!string.IsNullOrWhiteSpace(x.ClaimValue)) { _params[2].Value = x.ClaimValue; }
-
-                                db.Database.ExecuteSqlRaw("INSERT INTO AspNetRoleClaims VALUES (@ClaimType,@ClaimValue,@RoleId)", _params);
-                            });
-                        }
-                        #endregion
-                    }
-                    #endregion
-
-                    tran.Commit();
-                }
-
-                catch (Exception ex)
-                {
-                    tran.Rollback();
-
-                    return new ApiResult<long>(l,
-                        BasicControllerEnums.ExpectationFailed,
-                        ex.Message);
-                }
+                db.SaveChanges();
             }
 
-            return new ApiResult<long>(value.Id);
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
+                {
+                    data = false
+                };
+            }
+
+            return new ApiResult<bool>(true);
         }
         #endregion
 
