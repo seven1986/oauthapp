@@ -237,6 +237,8 @@ namespace OAuthApp.Apis
 
 
             configDb.Attach(value).State = EntityState.Modified;
+            configDb.Attach(value.Properties).State = EntityState.Modified;
+            configDb.Attach(value.UserClaims).State = EntityState.Modified;
 
             try
             {

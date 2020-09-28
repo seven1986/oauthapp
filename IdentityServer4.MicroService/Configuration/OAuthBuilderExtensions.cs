@@ -7,6 +7,8 @@ using AspNet.Security.OAuth.GitHub;
 using AspNet.Security.OAuth.QQ;
 using AspNet.Security.OAuth.Weibo;
 using AspNet.Security.OAuth.Weixin;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using OAuthApp;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

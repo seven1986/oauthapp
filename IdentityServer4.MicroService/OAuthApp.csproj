@@ -5,13 +5,13 @@
     <PackageId>OAuthApp</PackageId>
     <Authors>seven1986</Authors>
     <Company>seven1986</Company>
-    <PackageProjectUrl>https://github.com/seven1986/oauthapp</PackageProjectUrl>
+    <PackageProjectUrl>http://www.oauthapp.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/seven1986/oauthapp</RepositoryUrl>
     <PackageTags>IdentityServer4 MicroService AzureApiManagement</PackageTags>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.0.4</Version>
+    <Version>2.1.0</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -412,12 +412,12 @@
     <PackageReference Include="AspNet.Security.OAuth.Weibo" Version="3.1.3" />
     <PackageReference Include="AspNet.Security.OAuth.Weixin" Version="3.1.3" />
     <PackageReference Include="IdentityServer4" Version="4.1.0" />
-    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.0" />
     <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="3.1.8" />
@@ -448,9 +448,9 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Utils" Version="3.1.4" />
     <PackageReference Include="StackExchange.Redis" Version="2.1.58" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.6.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
   </ItemGroup>

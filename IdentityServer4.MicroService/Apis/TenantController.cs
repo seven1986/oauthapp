@@ -174,7 +174,7 @@ namespace OAuthApp.Apis
 
             value.OwnerUserId = UserId;
 
-            db.Add(value);
+            tenantDb.Add(value);
 
             try
             {
@@ -214,16 +214,111 @@ namespace OAuthApp.Apis
                     ModelErrors());
             }
 
-            if (!exists(value.Id))
+            if (value.OwnerUserId != UserId)
             {
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound)
                 {
                     data = false
-                }; ;
+                };
             }
 
+            var Entity = tenantDb.Tenants.Find(value.Id);
 
-            tenantDb.Attach(value).State = EntityState.Modified;
+            if (Entity == null)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound)
+                {
+                    data = false
+                };
+            }
+
+            Entity.CacheDuration = value.CacheDuration;
+            Entity.CreateDate = value.CreateDate;
+            Entity.LastUpdateTime = value.LastUpdateTime;
+            Entity.Status = value.Status;
+
+            if (!string.IsNullOrWhiteSpace(value.IdentityServerIssuerUri) &&
+                !value.IdentityServerIssuerUri.Equals(Entity.IdentityServerIssuerUri))
+            {
+                Entity.IdentityServerIssuerUri = value.IdentityServerIssuerUri;
+            }
+
+            if (!string.IsNullOrWhiteSpace(value.Name) &&
+                !value.Name.Equals(Entity.Name))
+            {
+                Entity.Name = value.Name;
+            }
+
+            if (!string.IsNullOrWhiteSpace(value.Theme) &&
+                !value.Theme.Equals(Entity.Theme))
+            {
+                Entity.Theme = value.Theme;
+            }
+
+            #region Claims
+            var Claims = tenantDb.TenantClaims.Where(x => x.AppTenantId == value.Id).ToList();
+
+            if (Claims != null && Claims.Count > 0)
+            {
+                tenantDb.TenantClaims.RemoveRange(Claims);
+            }
+
+            value.Claims.ForEach(x =>
+            {
+                if (!string.IsNullOrWhiteSpace(x.ClaimType))
+                {
+                    tenantDb.TenantClaims.Add(new AppTenantClaim()
+                    {
+                        ClaimType = x.ClaimType,
+                        ClaimValue = x.ClaimValue,
+                        AppTenantId = value.Id
+                    });
+                }
+            });
+            #endregion
+
+            #region Properties
+            var Properties = tenantDb.TenantProperties.Where(x => x.AppTenantId == value.Id).ToList();
+
+            if (Properties != null && Properties.Count > 0)
+            {
+                tenantDb.TenantProperties.RemoveRange(Properties);
+            }
+
+            value.Properties.ForEach(x =>
+            {
+                if (!string.IsNullOrWhiteSpace(x.Key))
+                {
+                    tenantDb.TenantProperties.Add(new AppTenantProperty()
+                    {
+                        Key = x.Key,
+                        Value = x.Value,
+                        AppTenantId = value.Id
+                    });
+                }
+            });
+            #endregion
+
+            #region Hosts
+            var Hosts = tenantDb.TenantHosts.Where(x => x.AppTenantId == value.Id).ToList();
+
+            if (Hosts != null && Hosts.Count > 0)
+            {
+                tenantDb.TenantHosts.RemoveRange(Hosts);
+            }
+
+            value.Hosts.ForEach(x =>
+            {
+                if (!string.IsNullOrWhiteSpace(x.HostName))
+                {
+                    tenantDb.TenantHosts.Add(new AppTenantHost()
+                    {
+                        HostName = x.HostName,
+                        AppTenantId = value.Id
+                    });
+                }
+            });
+            #endregion
 
             try
             {

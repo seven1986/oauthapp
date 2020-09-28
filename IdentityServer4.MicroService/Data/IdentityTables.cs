@@ -153,7 +153,7 @@ namespace OAuthApp.Data
         public int Status { get; set; }
 
         /// <summary>
-        /// 流量池集合
+        /// 用户池集合
         /// </summary>
         public string PoolIDs { get; set; }
 

@@ -27,6 +27,9 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Microsoft.Extensions.DependencyInjection
 { 
@@ -78,7 +81,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     {
                         Options.Origins = configuration["IdentityServer:Origins"];
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         throw ex;
                     }
@@ -233,7 +236,7 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 AuthorizationCode = new OpenApiOAuthFlow()
                                 {
-                                    AuthorizationUrl = new Uri("/connect/authorize",UriKind.Relative),
+                                    AuthorizationUrl = new Uri("/connect/authorize", UriKind.Relative),
                                     TokenUrl = new Uri("/connect/token", UriKind.Relative),
                                     Scopes = new Dictionary<string, string>(){
                                         { "openid","用户标识" },
@@ -317,11 +320,11 @@ namespace Microsoft.Extensions.DependencyInjection
                 builder.Services.AddMvc()
                     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                     .AddDataAnnotationsLocalization();
-                    //.AddJsonOptions(o =>
-                    //{
-                    //    //o.JsonSerializerOptions..ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    //    //o.JsonSerializerOptions.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    //});
+                //.AddJsonOptions(o =>
+                //{
+                //    //o.JsonSerializerOptions..ContractResolver = new CamelCasePropertyNamesContractResolver();
+                //    //o.JsonSerializerOptions.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                //});
             }
             #endregion
 
@@ -339,18 +342,24 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region Authentication
+
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-            })
-            .AddIdentityServerAuthentication(AppConstant.AppAuthenScheme, isAuth =>
+            }).AddJwtBearer(AppConstant.AppAuthenScheme, options =>
             {
-                isAuth.Authority = configuration["IdentityServer:Host"];
-                isAuth.ApiName = AppConstant.MicroServiceName;
-                isAuth.RequireHttpsMetadata = true;
-            })
-            .AddOAuthPlatforms();
+                options.RequireHttpsMetadata = true;
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = false,
+                    ValidateIssuer = false,
+                    ValidAudience = AppConstant.MicroServiceName,
+                    IssuerSigningKey = new X509SecurityKey(GetSigningCredential(configuration))
+                };
+                
+            }).AddOAuthPlatforms();
             #endregion
 
             #region ResponseCaching
@@ -378,7 +387,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.AddCoreService();
 
             builder.AddEmailService(configuration.GetSection("IdentityServer:Email"));
-         
+
             builder.AddSmsService(configuration.GetSection("IdentityServer:SMS"));
 
             builder.AddTenantStore(DbContextOptions);
@@ -393,7 +402,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder.Services.AddMemoryCache();
 
-            builder.Services.AddMvc().AddNewtonsoftJson(options => {
+            builder.Services.AddMvc().AddNewtonsoftJson(options =>
+            {
                 //设置时间格式
                 options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
                 //忽略循环引用

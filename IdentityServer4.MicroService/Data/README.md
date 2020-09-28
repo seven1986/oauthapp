@@ -18,6 +18,10 @@ dotnet ef migrations add InitialIdentityServerPersistedGrantDbMigration -c Persi
 dotnet ef migrations add InitialIdentityServerConfigurationDbMigration -c ConfigurationDbContext -o Data/Migrations/IdentityServer/ConfigurationDb
 dotnet ef migrations add InitialUserDbMigration -c UserDbContext -o Data/Migrations/User
 dotnet ef migrations add InitialTenantDbMigration -c TenantDbContext -o Data/Migrations/Tenant
+
+InitialUserDbMigration.cs 文件
+ - Up方法添加 migrationBuilder.Sql(SQL_View_User.SQL);
+ - Down方法添加 migrationBuilder.DropTable(SQL_View_User.Name);
 ```
 
 ##### 更新迁移代码

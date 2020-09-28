@@ -20,8 +20,6 @@ using IdentityServer4;
 
 namespace OAuthApp.Apis
 {
-    // Client 根据 userId 来获取列表、或详情、增删改
-
     /// <summary>
     /// 客户端
     /// </summary>
@@ -260,8 +258,16 @@ namespace OAuthApp.Apis
             {
                 return new ApiResult<long>(l, BasicControllerEnums.NotFound);
             }
-            
 
+            idsDB.Attach(value.Claims).State = EntityState.Modified;
+            idsDB.Attach(value.ClientSecrets).State = EntityState.Modified;
+            idsDB.Attach(value.AllowedCorsOrigins).State = EntityState.Modified;
+            idsDB.Attach(value.AllowedGrantTypes).State = EntityState.Modified;
+            idsDB.Attach(value.Properties).State = EntityState.Modified;
+            idsDB.Attach(value.AllowedScopes).State = EntityState.Modified;
+            idsDB.Attach(value.PostLogoutRedirectUris).State = EntityState.Modified;
+            idsDB.Attach(value.IdentityProviderRestrictions).State = EntityState.Modified;
+            idsDB.Attach(value.RedirectUris).State = EntityState.Modified;
             idsDB.Attach(value).State = EntityState.Modified;
 
             try
@@ -292,23 +298,38 @@ namespace OAuthApp.Apis
         [SwaggerOperation(OperationId = "ClientDelete",
             Summary = "客户端 - 删除",
             Description = "scope&permission：isms.client.delete")]
-        public async Task<ApiResult<long>> Delete(int id)
+        public ApiResult<bool> Delete(int id)
         {
-            if (!await exists(id))
+            if (!exists(id).Result)
             {
-                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound)
+                {
+                    data = false
+                };
             }
             try
             {
-                var entity = await idsDB.Clients.SingleOrDefaultAsync(m => m.Id == id);
+                var entity = idsDB.Clients.Where(m => m.Id == id)
+                .Include(x => x.Claims)
+                .Include(x => x.ClientSecrets)
+                .Include(x => x.AllowedCorsOrigins)
+                .Include(x => x.AllowedGrantTypes)
+                .Include(x => x.Properties)
+                .Include(x => x.AllowedScopes)
+                .Include(x => x.PostLogoutRedirectUris)
+                .Include(x => x.IdentityProviderRestrictions)
+                .Include(x => x.RedirectUris).FirstOrDefault();
 
                 idsDB.Clients.Remove(entity);
 
-                await idsDB.SaveChangesAsync();
+                idsDB.SaveChanges();
             }
             catch (Exception ex)
             {
-                return new ApiResult<long>(l, BasicControllerEnums.ExpectationFailed, ex.Message + ex.Source);
+                return new ApiResult<bool>(l, BasicControllerEnums.ExpectationFailed, ex.Message + ex.Source)
+                {
+                    data = false
+                };
             }
 
             var sql = "DELETE AspNetUserClients WHERE ClientId=@ClientId AND UserId=@UserId";
@@ -320,13 +341,16 @@ namespace OAuthApp.Apis
             };
             try
             {
-                await userDB.Database.ExecuteSqlRawAsync(sql, _params);
+                userDB.Database.ExecuteSqlRaw(sql, _params);
             }
             catch (Exception ex)
             {
-                return new ApiResult<long>(l, BasicControllerEnums.ExpectationFailed, ex.Message + ex.Source);
+                return new ApiResult<bool>(l, BasicControllerEnums.ExpectationFailed, ex.Message + ex.Source)
+                {
+                    data = false
+                };
             }
-            return new ApiResult<long>(id);
+            return new ApiResult<bool>(true);
         }
         #endregion
 

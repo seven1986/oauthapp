@@ -308,8 +308,11 @@ namespace OAuthApp.Apis
                     ModelErrors());
             }
 
-
             configDb.Attach(value).State = EntityState.Modified;
+            configDb.Attach(value.Scopes).State = EntityState.Modified;
+            configDb.Attach(value.UserClaims).State = EntityState.Modified;
+            configDb.Attach(value.Secrets).State = EntityState.Modified;
+            configDb.Attach(value.Properties).State = EntityState.Modified;
 
             try
             {

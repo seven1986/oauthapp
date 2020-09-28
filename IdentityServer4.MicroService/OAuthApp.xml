@@ -1264,7 +1264,7 @@
         </member>
         <member name="P:OAuthApp.Data.AppUser.PoolIDs">
             <summary>
-            流量池集合
+            用户池集合
             </summary>
         </member>
         <member name="P:OAuthApp.Data.AppUser.DataAmount">

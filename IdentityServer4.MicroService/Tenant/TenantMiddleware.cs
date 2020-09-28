@@ -9,13 +9,13 @@ using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using IdentityServer4.Configuration;
-using IdentityServer4.AccessTokenValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using AspNet.Security.OAuth.Weibo;
 using AspNet.Security.OAuth.Weixin;
 using AspNet.Security.OAuth.QQ;
 using AspNet.Security.OAuth.GitHub;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace OAuthApp.Tenant
 {
@@ -26,6 +26,8 @@ namespace OAuthApp.Tenant
         readonly IAuthenticationSchemeProvider _oauthProvider;
         readonly IMemoryCache _memoryCache;
         readonly IdentityServerOptions _identityServerOptions;
+        //readonly JwtBearerOptions _jwtBearerOptions;
+
         #region OAuthOptions
         GoogleOptions _googleOptions;
         MicrosoftAccountOptions _microsoftOptions;
@@ -42,6 +44,7 @@ namespace OAuthApp.Tenant
             IAuthenticationSchemeProvider oauthProvider,
             IMemoryCache memoryCache,
             IdentityServerOptions identityServerOptions,
+            //JwtBearerOptions jwtBearerOptions,
             IOptionsMonitor<MicrosoftAccountOptions> microsoftOptions,
             IOptionsMonitor<GoogleOptions> googleOptions,
             IOptionsMonitor<FacebookOptions> facebookOptions,
@@ -49,6 +52,7 @@ namespace OAuthApp.Tenant
             IOptionsMonitor<QQAuthenticationOptions> qqOptions,
             IOptionsMonitor<WeiboAuthenticationOptions> weiboOptions,
             IOptionsMonitor<WeixinAuthenticationOptions> weixinOptions
+            
             )
         {
             _next = next;
@@ -56,6 +60,7 @@ namespace OAuthApp.Tenant
             _oauthProvider = oauthProvider;
             _memoryCache = memoryCache;
             _identityServerOptions = identityServerOptions;
+            //_jwtBearerOptions = jwtBearerOptions;
             _microsoftOptions = microsoftOptions.Get(MicrosoftAccountDefaults.AuthenticationScheme);
             _googleOptions = googleOptions.Get(GoogleDefaults.AuthenticationScheme);
             _facebookOptions = facebookOptions.Get(FacebookDefaults.AuthenticationScheme);
@@ -67,8 +72,7 @@ namespace OAuthApp.Tenant
 
         public Task Invoke(
             HttpContext context,
-            TenantDbContext _db,
-            IOptionsMonitor<IdentityServerAuthenticationOptions> identityServerAuthenticationOptions)
+            TenantDbContext _db)
         {
             var tenant = _tenantService.GetTenant(_db,
                 context.Request.Host.Value);
@@ -86,12 +90,14 @@ namespace OAuthApp.Tenant
             {
                 var pvtModel = tenant.Item2;
 
+                var IssuerUri = $"{context.Request.Scheme}://{tenant.Item2.IdentityServerIssuerUri}";
+
                 #region IdentityServer4 - IssuerUri
-                _identityServerOptions.IssuerUri = context.Request.Scheme + "://" + tenant.Item2.IdentityServerIssuerUri;
+                _identityServerOptions.IssuerUri = IssuerUri;
                 #endregion
 
                 #region IdentityServer4 - AuthorityUri
-                identityServerAuthenticationOptions.CurrentValue.Authority = _identityServerOptions.IssuerUri;
+                //_jwtBearerOptions.Authority = IssuerUri;
                 #endregion
 
                 #region ResetOAuthProvider - PerRequest
