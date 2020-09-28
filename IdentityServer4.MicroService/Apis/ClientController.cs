@@ -17,6 +17,7 @@ using OAuthApp.Models.Apis.Common;
 using OAuthApp.Models.Apis.ClientController;
 using static OAuthApp.AppConstant;
 using IdentityServer4;
+using System.Security.Claims;
 
 namespace OAuthApp.Apis
 {
@@ -372,7 +373,7 @@ namespace OAuthApp.Apis
 
             var excludeClaimTypes = new List<string>() { "nbf", "exp", "iss" };
 
-            var claims = User.Claims.Where(x => !excludeClaimTypes.Contains(x.Type)).ToList();
+            var claims = ((ClaimsIdentity)User.Identity).Claims.Where(x => !excludeClaimTypes.Contains(x.Type)).ToList();
 
             var token = await _tools.IssueJwtAsync(value.lifetime, claims);
 
