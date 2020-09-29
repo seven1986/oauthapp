@@ -114,7 +114,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourceGet", 
             Summary = "API - 列表",
-            Description = "scope&permission：isms.apiresource.get")]
+            Description = "scope&permission：oauthapp.apiresource.get")]
         public async Task<PagingResult<ApiResource>> Get([FromQuery]PagingRequest<ApiResourceGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -196,27 +196,28 @@ namespace OAuthApp.Apis
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <permission cref="oauthapp.apiresource.detail"></permission>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.detail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.detail")]
-        [SwaggerOperation(OperationId = "ApiResourceDetail",
-            Summary = "API - 详情",
-            Description = "scope&permission：isms.apiresource.detail")]
-        public async Task<ApiResult<ApiResource>> Get(long id)
+        [SwaggerOperation(OperationId = "ApiResourceDetail",Summary = "API - 详情",
+            Description = "scope&permission：oauthapp.apiresource.detail")]
+        public ApiResult<ApiResource> Get(long id)
         {
-            if (!await exists(id))
+            if (!exists(id))
             {
                 return new ApiResult<ApiResource>(l, BasicControllerEnums.NotFound);
             }
 
             var query = configDb.ApiResources.AsQueryable();
 
-            var entity = await query
+            var entity = query
                 .Where(x => x.Id == id)
-                .Include(x => x.Scopes).ThenInclude(x => x.Scope)
+                .Include(x => x.Scopes)
                 .Include(x => x.Secrets)
+                .Include(x => x.Properties)
                 .Include(x => x.UserClaims)
-                .FirstOrDefaultAsync();
+                .FirstOrDefault();
 
             if (entity == null)
             {
@@ -233,13 +234,11 @@ namespace OAuthApp.Apis
         /// </summary>
         /// <param name="value">ID</param>
         /// <returns></returns>
+        ///<permission cref="oauthapp.apiresource.post"></permission>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.post")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.post")]
-        [SwaggerOperation(
-            OperationId = "ApiResourcePost", 
-            Summary = "API - 创建",
-            Description = "scope&permission：isms.apiresource.post")]
+        [SwaggerOperation(OperationId = "ApiResourcePost", Summary = "API - 创建")]
         public ApiResult<long> Post([FromBody]ApiResource value)
         {
             if (!ModelState.IsValid)
@@ -295,10 +294,9 @@ namespace OAuthApp.Apis
         [HttpPut]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.put")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.put")]
-        [SwaggerOperation(
-            OperationId = "ApiResourcePut",
+        [SwaggerOperation(OperationId = "ApiResourcePut",
             Summary = "API - 更新",
-            Description = "scope&permission：isms.apiresource.put")]
+            Description = "scope&permission：oauthapp.apiresource.put")]
         public ApiResult<bool> Put([FromBody]ApiResource value)
         {
             if (!ModelState.IsValid)
@@ -308,11 +306,116 @@ namespace OAuthApp.Apis
                     ModelErrors());
             }
 
-            configDb.Attach(value).State = EntityState.Modified;
-            configDb.Attach(value.Scopes).State = EntityState.Modified;
-            configDb.Attach(value.UserClaims).State = EntityState.Modified;
-            configDb.Attach(value.Secrets).State = EntityState.Modified;
-            configDb.Attach(value.Properties).State = EntityState.Modified;
+            var Entity = configDb.ApiResources
+                .Include(x => x.Properties)
+                .Include(x => x.UserClaims)
+                .Include(x => x.Scopes)
+                .Include(x => x.Secrets)
+                .FirstOrDefault(x => x.Id == value.Id);
+
+            if (Entity == null)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound)
+                {
+                    data = false
+                };
+            }
+
+            Entity.AllowedAccessTokenSigningAlgorithms = value.AllowedAccessTokenSigningAlgorithms;
+            Entity.Name = value.Name;
+            Entity.NonEditable = value.NonEditable;
+            Entity.LastAccessed = value.LastAccessed;
+            Entity.DisplayName = value.DisplayName;
+            Entity.Enabled = value.Enabled;
+            Entity.Description = value.Description;
+            Entity.Created = value.Created;
+            Entity.ShowInDiscoveryDocument = value.ShowInDiscoveryDocument;
+            Entity.Updated = value.Updated;
+
+            #region Claims
+            if (Entity.UserClaims != null && Entity.UserClaims.Count > 0)
+            {
+                Entity.UserClaims.Clear();
+            }
+
+            value.UserClaims.ForEach(x =>
+            {
+                if (!string.IsNullOrWhiteSpace(x.Type))
+                {
+                    Entity.UserClaims.Add(new ApiResourceClaim()
+                    {
+                        ApiResource = Entity,
+                        ApiResourceId = value.Id,
+                        Type = x.Type
+                    });
+                }
+            });
+            #endregion
+
+            #region Properties
+            if (Entity.Properties != null && Entity.Properties.Count > 0)
+            {
+                Entity.Properties.Clear();
+            }
+
+            value.Properties.ForEach(x =>
+            {
+                if (!string.IsNullOrWhiteSpace(x.Key))
+                {
+                    Entity.Properties.Add(new ApiResourceProperty()
+                    {
+                        ApiResource = Entity,
+                        ApiResourceId = value.Id,
+                        Key = x.Key,
+                        Value = x.Value
+                    });
+                }
+            });
+            #endregion
+
+            #region Scopes
+            if (Entity.Scopes != null && Entity.Scopes.Count > 0)
+            {
+                Entity.Scopes.Clear();
+            }
+
+            value.Scopes.ForEach(x =>
+            {
+                if (!string.IsNullOrWhiteSpace(x.Scope))
+                {
+                    Entity.Scopes.Add(new ApiResourceScope()
+                    {
+                        ApiResource = Entity,
+                        ApiResourceId = value.Id,
+                        Scope = x.Scope
+                    });
+                }
+            });
+            #endregion
+
+            #region Secrets
+            if (Entity.Secrets != null && Entity.Secrets.Count > 0)
+            {
+                Entity.Secrets.Clear();
+            }
+
+            value.Secrets.ForEach(x =>
+            {
+                if (!string.IsNullOrWhiteSpace(x.Type)&& !string.IsNullOrWhiteSpace(x.Value))
+                {
+                    Entity.Secrets.Add(new ApiResourceSecret()
+                    {
+                        ApiResource = Entity,
+                        ApiResourceId = value.Id,
+                        Type = x.Type,
+                        Value = x.Value,
+                        Description = x.Description,
+                        Expiration = x.Expiration,
+                        Created = x.Created
+                    });
+                }
+            });
+            #endregion
 
             try
             {
@@ -340,20 +443,20 @@ namespace OAuthApp.Apis
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.delete")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.delete")]
-        [SwaggerOperation(
-            OperationId = "ApiResourceDelete", 
+        [SwaggerOperation(OperationId = "ApiResourceDelete",
             Summary = "API - 删除",
-            Description = "scope&permission：isms.apiresource.delete")]
-        public async Task<ApiResult<bool>> Delete(long id)
+            Description = "scope&permission：oauthapp.apiresource.delete")]
+        public ApiResult<bool> Delete(long id)
         {
-            if (!await exists(id))
+            if (!exists(id))
             {
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
 
             var entity = configDb.ApiResources.Where(x => x.Id == id)
-                .Include(x => x.Scopes).ThenInclude(x => x.Scope)
+                .Include(x => x.Scopes)
                 .Include(x => x.Secrets)
+                .Include(x => x.Properties)
                 .Include(x => x.UserClaims)
                 .FirstOrDefault(); ;
 
@@ -378,25 +481,20 @@ namespace OAuthApp.Apis
             }
 
             #region relation
-            var relation = db.UserApiResources.Where(x => x.UserId == UserId && x.ApiResourceId == id).FirstOrDefault();
-
-            if (relation != null)
+            try
             {
-                db.Remove(relation);
+                var _ExistsCmd = $"DELETE AspNetUserApiResources WHERE UserId = {UserId} AND ApiResourceId = {id}";
 
-                try
-                {
-                    db.SaveChanges();
-                }
+                var result = db.ExecuteScalarAsync(_ExistsCmd).Result;
+            }
 
-                catch (Exception ex)
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
                 {
-                    return new ApiResult<bool>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
-                    {
-                        data = false
-                    };
-                }
-            } 
+                    data = false
+                };
+            }
             #endregion
 
             return new ApiResult<bool>(true);
@@ -612,7 +710,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourceScopes", 
             Summary = "API - 权限代码",
-            Description = "scope&permission：isms.apiresource.scopes")]
+            Description = "scope&permission：oauthapp.apiresource.scopes")]
         public async Task<ApiResult<Dictionary<string, List<ApiResourceScopeResponse>>>> Scopes()
         {
             var entities = new List<ApiResourceScopeEntity>();
@@ -691,7 +789,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourcePublish",
             Summary = "API - 网关 - 发布或更新版本",
-            Description = "scope&permission：isms.apiresource.publish")]
+            Description = "scope&permission：oauthapp.apiresource.publish")]
         public async Task<ApiResult<bool>> Publish(long id, [FromBody]ApiResourcePublishRequest value)
         {
             if (!ModelState.IsValid)
@@ -700,7 +798,7 @@ namespace OAuthApp.Apis
                     ModelErrors());
             }
 
-            if (!await exists(id))
+            if (!exists(id))
             {
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
@@ -800,7 +898,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourcePublishRevision", 
             Summary = "API - 网关 - 创建修订版",
-            Description = "scope&permission：isms.apiresource.publishrevision")]
+            Description = "scope&permission：oauthapp.apiresource.publishrevision")]
         public async Task<ApiResult<bool>> PublishRevision(long id,
             [FromBody]ApiResourcePublishRevisionsRequest value)
         {
@@ -810,7 +908,7 @@ namespace OAuthApp.Apis
                     ModelErrors());
             }
 
-            if (!await exists(id))
+            if (!exists(id))
             {
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
@@ -855,7 +953,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourcePublishVersion", 
             Summary = "API - 网关 - 创建新版本",
-            Description = "scope&permission：isms.apiresource.publishversion")]
+            Description = "scope&permission：oauthapp.apiresource.publishversion")]
         public async Task<ApiResult<bool>> PublishVersion(long id, [FromBody]ApiResourceCreateVersionRequest value)
         {
             if (!ModelState.IsValid)
@@ -864,7 +962,7 @@ namespace OAuthApp.Apis
                     BasicControllerEnums.UnprocessableEntity, ModelErrors());
             }
 
-            if (!await exists(id))
+            if (!exists(id))
             {
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
@@ -896,10 +994,10 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourcePublishConfiguration", 
             Summary = "API - 网关 - 上次发布配置",
-            Description = "scope&permission：isms.apiresource.publishconfiguration")]
+            Description = "scope&permission：oauthapp.apiresource.publishconfiguration")]
         public async Task<ApiResult<ApiResourcePublishRequest>> PublishConfiguration(long id)
         {
-            if (!await exists(id))
+            if (!exists(id))
             {
                 return new ApiResult<ApiResourcePublishRequest>(l, BasicControllerEnums.NotFound);
             }
@@ -945,7 +1043,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourceVersions", 
             Summary = "API - 网关 - 版本列表",
-            Description = "scope&permission：isms.apiresource.versions")]
+            Description = "scope&permission：oauthapp.apiresource.versions")]
         [ResponseCache(Duration = 60)]
         public async Task<PagingResult<ApiResourceVersionsResponse>> Versions(long id)
         {
@@ -1000,10 +1098,10 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourceSetOnlineVersion",
             Summary = "API - 网关 - 上线指定版本",
-            Description = "scope&permission：isms.apiresource.setonlineversion")]
+            Description = "scope&permission：oauthapp.apiresource.setonlineversion")]
         public async Task<ApiResult<bool>> SetOnlineVersion(long id, string revisionId)
         {
-            if (!await exists(id) || string.IsNullOrWhiteSpace(revisionId))
+            if (!exists(id) || string.IsNullOrWhiteSpace(revisionId))
             {
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
@@ -1032,7 +1130,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourceAuthServers", 
             Summary = "API - 网关 - OAuthServers",
-            Description = "scope&permission：isms.apiresource.authservers")]
+            Description = "scope&permission：oauthapp.apiresource.authservers")]
         public async Task<ApiResult<AzureApiManagementEntities<AzureApiManagementAuthorizationServerEntity>>> AuthServers()
         {
             var result = await AzureApim.AuthorizationServers.GetAsync();
@@ -1052,7 +1150,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourceProducts", 
             Summary = "API - 网关 - 产品包列表",
-            Description = "scope&permission：isms.apiresource.products")]
+            Description = "scope&permission：oauthapp.apiresource.products")]
         public async Task<ApiResult<AzureApiManagementEntities<AzureApiManagementProductEntity>>> Products()
         {
             var result = await AzureApim.Products.GetAsync();
@@ -1076,7 +1174,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourceReleases", 
             Summary = "API - 修订内容 - 列表",
-            Description = "scope&permission：isms.apiresource.releases")]
+            Description = "scope&permission：oauthapp.apiresource.releases")]
         public async Task<PagingResult<AzureApiManagementReleaseEntity>> Releases(long id, string apiId)
         {
             if (string.IsNullOrWhiteSpace(apiId))
@@ -1115,7 +1213,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourcePostRelease", 
             Summary = "API - 修订内容 - 发布",
-            Description = "scope&permission：isms.apiresource.postrelease")]
+            Description = "scope&permission：oauthapp.apiresource.postrelease")]
         public async Task<ApiResult<bool>> PostRelease(long id, [FromBody]ApiResourcePostReleaseRequest value)
         {
             if (!ModelState.IsValid)
@@ -1144,7 +1242,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourcePutRelease", 
             Summary = " API - 修订内容 - 更新",
-            Description = "scope&permission：isms.apiresource.putrelease")]
+            Description = "scope&permission：oauthapp.apiresource.putrelease")]
         public async Task<ApiResult<bool>> PutRelease(long id, string releaseId, [FromBody]ApiResourcePutReleaseRequest value)
         {
             if (!ModelState.IsValid)
@@ -1178,7 +1276,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourceDeleteRelease", 
             Summary = "API - 修订内容 - 删除",
-            Description = "scope&permission：isms.apiresource.deleterelease")]
+            Description = "scope&permission：oauthapp.apiresource.deleterelease")]
         public async Task<ApiResult<bool>> DeleteRelease(long id, string releaseId)
         {
             if (string.IsNullOrWhiteSpace(releaseId))
@@ -1207,10 +1305,10 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourceSubscriptions", 
             Summary = "API - 订阅者 - 列表",
-            Description = "scope&permission：isms.apiresource.subscriptions")]
+            Description = "scope&permission：oauthapp.apiresource.subscriptions")]
         public async Task<PagingResult<ApiResourceSubscriptionEntity>> Subscriptions(long id)
         {
-            if (!await exists(id))
+            if (!exists(id))
             {
                 return new PagingResult<ApiResourceSubscriptionEntity>(l, BasicControllerEnums.NotFound);
             }
@@ -1368,7 +1466,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourceVerifyEmail", 
             Summary = "API - 订阅者 - 验证邮箱",
-            Description = "scope&permission：isms.apiresource.verifyemail")]
+            Description = "scope&permission：oauthapp.apiresource.verifyemail")]
         public async Task<ApiResult<bool>> VerifyEmail(long id, [FromBody]ApiResourceSubscriptionsVerifyEmailRequest value)
         {
             if (!ModelState.IsValid)
@@ -1487,7 +1585,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourcePackages", 
             Summary = "API - 包市场 - 列表",
-            Description = "scope&permission：isms.apiresource.packages")]
+            Description = "scope&permission：oauthapp.apiresource.packages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.packages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.packages")]
         public async Task<PagingResult<ApiResourceSDKEntity>> Packages(string id)
@@ -1520,7 +1618,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourcePostPackage", 
             Summary = "API - 包市场 - 添加",
-            Description = "scope&permission：isms.apiresource.postpackages")]
+            Description = "scope&permission：oauthapp.apiresource.postpackages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.postpackages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.postpackages")]
         public async Task<ApiResult<bool>> PostPackage(string id, [FromBody]ApiResourceSDKRequest value)
@@ -1579,7 +1677,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourceDeletePackage", 
             Summary = "API - 包市场 - 删除",
-            Description = "scope&permission：isms.apiresource.deletepackage")]
+            Description = "scope&permission：oauthapp.apiresource.deletepackage")]
         public async Task<ApiResult<bool>> DeletePackage(string id, string packageId)
         {
             if (string.IsNullOrWhiteSpace(packageId))
@@ -1639,7 +1737,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourcePutPackage", 
             Summary = "API - 包市场 - 更新",
-            Description = "scope&permission：isms.apiresource.deletepackage")]
+            Description = "scope&permission：oauthapp.apiresource.deletepackage")]
         public async Task<ApiResult<bool>> PutPackage(string id, string packageId, [FromBody]ApiResourceSDKRequest value)
         {
             if (string.IsNullOrWhiteSpace(packageId))
@@ -1696,10 +1794,11 @@ namespace OAuthApp.Apis
         #endregion
 
         #region 辅助方法
-        const string _ExistsCmd = "SELECT Id FROM AspNetUserApiResources WHERE UserId = {0} AND ApiResourceId = {1}";
-        async Task<bool> exists(long id)
+        bool exists(long id)
         {
-            var result = await db.ExecuteScalarAsync(string.Format(_ExistsCmd, UserId, id));
+            var _ExistsCmd = $"SELECT Id FROM AspNetUserApiResources WHERE UserId = {UserId} AND ApiResourceId = {id}";
+
+            var result = db.ExecuteScalarAsync(_ExistsCmd).Result;
 
             if (result != null)
             {

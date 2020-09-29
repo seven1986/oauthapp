@@ -39,13 +39,15 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
+            <permission cref="!:oauthapp.apiresource.detail"></permission>
         </member>
         <member name="M:OAuthApp.Apis.ApiResourceController.Post(IdentityServer4.EntityFramework.Entities.ApiResource)">
-            <summary>
-            API - 创建
-            </summary>
-            <param name="value">ID</param>
-            <returns></returns>
+             <summary>
+             API - 创建
+             </summary>
+             <param name="value">ID</param>
+             <returns></returns>
+            <permission cref="!:oauthapp.apiresource.post"></permission>
         </member>
         <member name="M:OAuthApp.Apis.ApiResourceController.Put(IdentityServer4.EntityFramework.Entities.ApiResource)">
             <summary>
