@@ -84,9 +84,9 @@ namespace OAuthApp {
         /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
-        internal static byte[] OAuthApp1 {
+        internal static byte[] oauthapp1 {
             get {
-                object obj = ResourceManager.GetObject("OAuthApp1", resourceCulture);
+                object obj = ResourceManager.GetObject("oauthapp1", resourceCulture);
                 return ((byte[])(obj));
             }
         }

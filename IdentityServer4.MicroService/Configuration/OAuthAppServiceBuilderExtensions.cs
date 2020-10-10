@@ -342,7 +342,6 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region Authentication
-
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -351,10 +350,11 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 options.RequireHttpsMetadata = true;
 
-                options.TokenValidationParameters = new TokenValidationParameters
+                options.TokenValidationParameters = new OAuthAppTokenValidation()
                 {
-                    ValidateIssuerSigningKey = false,
-                    ValidateIssuer = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
                     ValidAudience = AppConstant.MicroServiceName,
                     IssuerSigningKey = new X509SecurityKey(GetSigningCredential(configuration))
                 };
@@ -489,7 +489,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw ex;
             }
 
-            return new X509Certificate2(AppResource.OAuthApp1, "214480728730881",
+            return new X509Certificate2(AppResource.oauthapp1, "FPRa5vNO",
                    X509KeyStorageFlags.MachineKeySet |
                    X509KeyStorageFlags.PersistKeySet |
                    X509KeyStorageFlags.Exportable);

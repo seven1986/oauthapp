@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.1.4</Version>
+    <Version>2.1.5-preview8</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -20,6 +20,8 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <RepositoryType>github</RepositoryType>
     <Copyright></Copyright>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>OAuthApp.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -91,7 +93,7 @@
     <None Remove="Node\sdkgen\npm\angular2.js" />
     <None Remove="Node\sdkgen\npm\jQuery.js" />
     <None Remove="Node\sdkgen\npm\mustache.min.js" />
-    <None Remove="OAuthApp.pfx" />
+    <None Remove="oauthapp.pfx" />
     <None Remove="readme.txt" />
     <None Remove="Views\Account\AccessDenied.cshtml" />
     <None Remove="Views\Account\LoggedOut.cshtml" />
@@ -257,9 +259,6 @@
     <Content Include="Areas\Identity\Pages\_ViewStart.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="OAuthApp.pfx">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="Node\readthedocs.gen.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -270,6 +269,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Node\sdkgen\npm\mustache.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="oauthapp.pfx">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="readme.txt">
@@ -407,13 +410,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.1.3" />
-    <PackageReference Include="AspNet.Security.OAuth.QQ" Version="3.1.3" />
-    <PackageReference Include="AspNet.Security.OAuth.Weibo" Version="3.1.3" />
-    <PackageReference Include="AspNet.Security.OAuth.Weixin" Version="3.1.3" />
-    <PackageReference Include="IdentityServer4" Version="4.1.0" />
-    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.0" />
-    <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.0" />
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.1.4" />
+    <PackageReference Include="AspNet.Security.OAuth.QQ" Version="3.1.4" />
+    <PackageReference Include="AspNet.Security.OAuth.Weibo" Version="3.1.4" />
+    <PackageReference Include="AspNet.Security.OAuth.Weixin" Version="3.1.4" />
+    <PackageReference Include="IdentityServer4" Version="4.1.1" />
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.1" />
+    <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.8" />

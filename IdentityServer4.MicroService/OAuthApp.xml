@@ -876,7 +876,7 @@
                     &lt;member name=&quot;M:OAuthApp.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,OAuthApp.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLoca [字符串的其余部分被截断]&quot;; 的本地化字符串。
              </summary>
         </member>
-        <member name="P:OAuthApp.AppResource.OAuthApp1">
+        <member name="P:OAuthApp.AppResource.oauthapp1">
             <summary>
               查找 System.Byte[] 类型的本地化资源。
             </summary>
