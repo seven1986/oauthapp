@@ -159,7 +159,8 @@ namespace OAuthApp.Apis
             Description = "scope&permission：isms.client.detail")]
         public async Task<ApiResult<Client>> Get(int id)
         {
-            if (!await exists(id))
+            if (!userDB.UserClients
+              .Any(x => x.UserId == UserId && x.ClientId == id))
             {
                 return new ApiResult<Client>(l, BasicControllerEnums.NotFound);
             }
@@ -246,30 +247,293 @@ namespace OAuthApp.Apis
         [SwaggerOperation(OperationId = "ClientPut",
             Summary = "客户端 - 更新",
             Description = "scope&permission：isms.client.put")]
-        public async Task<ApiResult<long>> Put([FromBody]Client value)
+        public ApiResult<bool> Put([FromBody]Client value)
         {
             if (!ModelState.IsValid)
             {
-                return new ApiResult<long>(l,
+                return new ApiResult<bool>(l,
                     BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
-            if (!await exists(value.Id))
+           if(!userDB.UserClients
+               .Any(x => x.UserId == UserId && x.ClientId == value.Id))
             {
-                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound)
+                {
+                    data = false
+                };
             }
 
-            idsDB.Attach(value.Claims).State = EntityState.Modified;
-            idsDB.Attach(value.ClientSecrets).State = EntityState.Modified;
-            idsDB.Attach(value.AllowedCorsOrigins).State = EntityState.Modified;
-            idsDB.Attach(value.AllowedGrantTypes).State = EntityState.Modified;
-            idsDB.Attach(value.Properties).State = EntityState.Modified;
-            idsDB.Attach(value.AllowedScopes).State = EntityState.Modified;
-            idsDB.Attach(value.PostLogoutRedirectUris).State = EntityState.Modified;
-            idsDB.Attach(value.IdentityProviderRestrictions).State = EntityState.Modified;
-            idsDB.Attach(value.RedirectUris).State = EntityState.Modified;
-            idsDB.Attach(value).State = EntityState.Modified;
+            var Entity = idsDB.Clients
+                .Include(x => x.IdentityProviderRestrictions)
+                .Include(x => x.Claims)
+                .Include(x => x.AllowedCorsOrigins)
+                .Include(x => x.ClientSecrets)
+                .Include(x => x.AllowedGrantTypes)
+                .Include(x => x.RedirectUris)
+                .Include(x => x.PostLogoutRedirectUris)
+                .FirstOrDefault(x => x.Id == value.Id);
+
+            if (Entity == null)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound)
+                {
+                    data = false
+                };
+            }
+
+            #region Properties
+            Entity.AccessTokenLifetime = value.AccessTokenLifetime;
+            Entity.AuthorizationCodeLifetime = value.AuthorizationCodeLifetime;
+            Entity.ConsentLifetime = value.ConsentLifetime;
+            Entity.AbsoluteRefreshTokenLifetime = value.AbsoluteRefreshTokenLifetime;
+            Entity.SlidingRefreshTokenLifetime = value.SlidingRefreshTokenLifetime;
+            Entity.RefreshTokenUsage = value.RefreshTokenUsage;
+            Entity.UpdateAccessTokenClaimsOnRefresh = value.UpdateAccessTokenClaimsOnRefresh;
+            Entity.RefreshTokenExpiration = value.RefreshTokenExpiration;
+            Entity.AccessTokenType = value.AccessTokenType;
+            Entity.EnableLocalLogin = value.EnableLocalLogin;
+            Entity.IncludeJwtId = value.IncludeJwtId;
+            Entity.AlwaysSendClientClaims = value.AlwaysSendClientClaims;
+            Entity.ClientClaimsPrefix = value.ClientClaimsPrefix;
+            Entity.PairWiseSubjectSalt = value.PairWiseSubjectSalt;
+            Entity.Created = value.Created;
+            Entity.Updated = value.Updated;
+            Entity.LastAccessed = value.LastAccessed;
+            Entity.UserSsoLifetime = value.UserSsoLifetime;
+            Entity.UserCodeType = value.UserCodeType;
+            Entity.AllowedIdentityTokenSigningAlgorithms = value.AllowedIdentityTokenSigningAlgorithms;
+            Entity.IdentityTokenLifetime = value.IdentityTokenLifetime;
+            Entity.AllowOfflineAccess = value.AllowOfflineAccess;
+            Entity.Enabled = value.Enabled;
+            Entity.ClientId = value.ClientId;
+            Entity.ProtocolType = value.ProtocolType;
+            Entity.RequireClientSecret = value.RequireClientSecret;
+            Entity.ClientName = value.ClientName;
+            Entity.Description = value.Description;
+            Entity.ClientUri = value.ClientUri;
+            Entity.LogoUri = value.LogoUri;
+            Entity.RequireConsent = value.RequireConsent;
+            Entity.DeviceCodeLifetime = value.DeviceCodeLifetime;
+            Entity.AllowRememberConsent = value.AllowRememberConsent;
+            Entity.RequirePkce = value.RequirePkce;
+            Entity.AllowPlainTextPkce = value.AllowPlainTextPkce;
+            Entity.RequireRequestObject = value.RequireRequestObject;
+            Entity.AllowAccessTokensViaBrowser = value.AllowAccessTokensViaBrowser;
+            Entity.FrontChannelLogoutUri = value.FrontChannelLogoutUri;
+            Entity.FrontChannelLogoutSessionRequired = value.FrontChannelLogoutSessionRequired;
+            Entity.BackChannelLogoutUri = value.BackChannelLogoutUri;
+            Entity.BackChannelLogoutSessionRequired = value.BackChannelLogoutSessionRequired;
+            Entity.AlwaysIncludeUserClaimsInIdToken = value.AlwaysIncludeUserClaimsInIdToken;
+            Entity.NonEditable = value.NonEditable;
+            #endregion
+
+            #region IdentityProviderRestrictions
+            if (Entity.IdentityProviderRestrictions != null && Entity.IdentityProviderRestrictions.Count > 0)
+            {
+                Entity.IdentityProviderRestrictions.Clear();
+            }
+            if (value.IdentityProviderRestrictions != null && value.IdentityProviderRestrictions.Count > 0)
+            {
+                value.IdentityProviderRestrictions.ForEach(x =>
+                {
+                    if (!string.IsNullOrWhiteSpace(x.Provider))
+                    {
+                        Entity.IdentityProviderRestrictions.Add(new ClientIdPRestriction()
+                        {
+                            Client = Entity,
+                            ClientId = value.Id,
+                            Provider = x.Provider
+                        });
+                    }
+                });
+            }
+            #endregion
+
+            #region Claims
+            if (Entity.Claims != null && Entity.Claims.Count > 0)
+            {
+                Entity.Claims.Clear();
+            }
+            if (value.Claims != null && value.Claims.Count > 0)
+            {
+                value.Claims.ForEach(x =>
+                {
+                    if (!string.IsNullOrWhiteSpace(x.Type))
+                    {
+                        Entity.Claims.Add(new ClientClaim()
+                        {
+                            Client = Entity,
+                            ClientId = value.Id,
+                            Type = x.Type,
+                            Value = x.Value
+                        });
+                    }
+                });
+            }
+            #endregion
+
+            #region AllowedCorsOrigins
+            if (Entity.AllowedCorsOrigins != null && Entity.AllowedCorsOrigins.Count > 0)
+            {
+                Entity.AllowedCorsOrigins.Clear();
+            }
+            if (value.AllowedCorsOrigins != null && value.AllowedCorsOrigins.Count > 0)
+            {
+                value.AllowedCorsOrigins.ForEach(x =>
+                {
+                    if (!string.IsNullOrWhiteSpace(x.Origin))
+                    {
+                        Entity.AllowedCorsOrigins.Add(new ClientCorsOrigin()
+                        {
+                            Client = Entity,
+                            ClientId = value.Id,
+                            Origin = x.Origin
+                        });
+                    }
+                });
+            }
+            #endregion
+
+            #region Properties
+            if (Entity.Properties != null && Entity.Properties.Count > 0)
+            {
+                Entity.Properties.Clear();
+            }
+            if (value.Properties != null && value.Properties.Count > 0)
+            {
+                value.Properties.ForEach(x =>
+                {
+                    if (!string.IsNullOrWhiteSpace(x.Key))
+                    {
+                        Entity.Properties.Add(new ClientProperty()
+                        {
+                            Client = Entity,
+                            ClientId = value.Id,
+                            Key = x.Key,
+                            Value = x.Value
+                        });
+                    }
+                });
+            }
+            #endregion
+
+            #region AllowedScopes
+            if (Entity.AllowedScopes != null && Entity.AllowedScopes.Count > 0)
+            {
+                Entity.AllowedScopes.Clear();
+            }
+            if (value.AllowedScopes != null && value.AllowedScopes.Count > 0)
+            {
+                value.AllowedScopes.ForEach(x =>
+                {
+                    if (!string.IsNullOrWhiteSpace(x.Scope))
+                    {
+                        Entity.AllowedScopes.Add(new ClientScope()
+                        {
+                            Client = Entity,
+                            ClientId = value.Id,
+                            Scope = x.Scope
+                        });
+                    }
+                });
+            }
+            #endregion
+
+            #region ClientSecrets
+            if (Entity.ClientSecrets != null && Entity.ClientSecrets.Count > 0)
+            {
+                Entity.ClientSecrets.Clear();
+            }
+            if (value.ClientSecrets != null && value.ClientSecrets.Count > 0)
+            {
+                value.ClientSecrets.ForEach(x =>
+                {
+                    if (!string.IsNullOrWhiteSpace(x.Type) && !string.IsNullOrWhiteSpace(x.Value))
+                    {
+                        Entity.ClientSecrets.Add(new ClientSecret()
+                        {
+                            Client = Entity,
+                            ClientId = value.Id,
+                            Type = x.Type,
+                            Value = x.Value,
+                            Created = x.Created,
+                            Description = x.Description,
+                            Expiration = x.Expiration
+                        });
+                    }
+                });
+            }
+            #endregion
+
+            #region AllowedGrantTypes
+            if (Entity.AllowedGrantTypes != null && Entity.AllowedGrantTypes.Count > 0)
+            {
+                Entity.AllowedGrantTypes.Clear();
+            }
+            if (value.AllowedGrantTypes != null && value.AllowedGrantTypes.Count > 0)
+            {
+                value.AllowedGrantTypes.ForEach(x =>
+                {
+                    if (!string.IsNullOrWhiteSpace(x.GrantType))
+                    {
+                        Entity.AllowedGrantTypes.Add(new ClientGrantType()
+                        {
+                            Client = Entity,
+                            ClientId = value.Id,
+                            GrantType = x.GrantType
+                        });
+                    }
+                });
+            }
+            #endregion
+
+            #region RedirectUris
+            if (Entity.RedirectUris != null && Entity.RedirectUris.Count > 0)
+            {
+                Entity.RedirectUris.Clear();
+            }
+            if (value.RedirectUris != null && value.RedirectUris.Count > 0)
+            {
+                value.RedirectUris.ForEach(x =>
+                {
+                    if (!string.IsNullOrWhiteSpace(x.RedirectUri))
+                    {
+                        Entity.RedirectUris.Add(new ClientRedirectUri()
+                        {
+                            Client = Entity,
+                            ClientId = value.Id,
+                            RedirectUri = x.RedirectUri
+                        });
+                    }
+                });
+            }
+            #endregion
+
+            #region PostLogoutRedirectUris
+            if (Entity.PostLogoutRedirectUris != null && Entity.PostLogoutRedirectUris.Count > 0)
+            {
+                Entity.PostLogoutRedirectUris.Clear();
+            }
+            if (value.PostLogoutRedirectUris != null && value.PostLogoutRedirectUris.Count > 0)
+            {
+                value.PostLogoutRedirectUris.ForEach(x =>
+                {
+                    if (!string.IsNullOrWhiteSpace(x.PostLogoutRedirectUri))
+                    {
+                        Entity.PostLogoutRedirectUris.Add(new ClientPostLogoutRedirectUri()
+                        {
+                            Client = Entity,
+                            ClientId = value.Id,
+                            PostLogoutRedirectUri = x.PostLogoutRedirectUri
+                        });
+                    }
+                });
+            }
+            #endregion
+
+            
 
             try
             {
@@ -278,12 +542,12 @@ namespace OAuthApp.Apis
 
             catch (Exception ex)
             {
-                return new ApiResult<long>(l,
+                return new ApiResult<bool>(l,
                     BasicControllerEnums.ExpectationFailed,
                     ex.Message);
             }
 
-            return new ApiResult<long>(value.Id);
+            return new ApiResult<bool>(true);
         }
         #endregion
 
@@ -301,7 +565,8 @@ namespace OAuthApp.Apis
             Description = "scope&permission：isms.client.delete")]
         public ApiResult<bool> Delete(int id)
         {
-            if (!exists(id).Result)
+            if (!userDB.UserClients
+              .Any(x => x.UserId == UserId && x.ClientId == id))
             {
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound)
                 {
@@ -428,21 +693,6 @@ namespace OAuthApp.Apis
             var result = _Codes<ClientControllerEnums>();
 
             return result;
-        }
-        #endregion
-
-        #region 辅助方法
-        async Task<bool> exists(long id)
-        {
-            var query = idsDB.Clients.AsQueryable();
-
-            var clientIDs = await userDB.UserClients
-                .Where(x => x.UserId == UserId)
-                .Select(x => x.ClientId).ToListAsync();
-
-            query = query.Where(x => clientIDs.Contains(x.Id));
-
-            return query.Any(x => x.Id == id);
         }
         #endregion
     }

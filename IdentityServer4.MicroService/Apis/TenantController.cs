@@ -263,18 +263,21 @@ namespace OAuthApp.Apis
                 tenantDb.TenantClaims.RemoveRange(Claims);
             }
 
-            value.Claims.ForEach(x =>
+            if (value.Claims != null && value.Claims.Count > 0)
             {
-                if (!string.IsNullOrWhiteSpace(x.ClaimType))
+                value.Claims.ForEach(x =>
                 {
-                    tenantDb.TenantClaims.Add(new AppTenantClaim()
+                    if (!string.IsNullOrWhiteSpace(x.ClaimType))
                     {
-                        ClaimType = x.ClaimType,
-                        ClaimValue = x.ClaimValue,
-                        AppTenantId = value.Id
-                    });
-                }
-            });
+                        tenantDb.TenantClaims.Add(new AppTenantClaim()
+                        {
+                            ClaimType = x.ClaimType,
+                            ClaimValue = x.ClaimValue,
+                            AppTenantId = value.Id
+                        });
+                    }
+                });
+            }
             #endregion
 
             #region Properties
@@ -284,19 +287,21 @@ namespace OAuthApp.Apis
             {
                 tenantDb.TenantProperties.RemoveRange(Properties);
             }
-
-            value.Properties.ForEach(x =>
+            if (value.Properties != null && value.Properties.Count > 0)
             {
-                if (!string.IsNullOrWhiteSpace(x.Key))
+                value.Properties.ForEach(x =>
                 {
-                    tenantDb.TenantProperties.Add(new AppTenantProperty()
+                    if (!string.IsNullOrWhiteSpace(x.Key))
                     {
-                        Key = x.Key,
-                        Value = x.Value,
-                        AppTenantId = value.Id
-                    });
-                }
-            });
+                        tenantDb.TenantProperties.Add(new AppTenantProperty()
+                        {
+                            Key = x.Key,
+                            Value = x.Value,
+                            AppTenantId = value.Id
+                        });
+                    }
+                });
+            }
             #endregion
 
             #region Hosts
@@ -306,18 +311,20 @@ namespace OAuthApp.Apis
             {
                 tenantDb.TenantHosts.RemoveRange(Hosts);
             }
-
-            value.Hosts.ForEach(x =>
+            if (value.Hosts != null && value.Hosts.Count > 0)
             {
-                if (!string.IsNullOrWhiteSpace(x.HostName))
+                value.Hosts.ForEach(x =>
                 {
-                    tenantDb.TenantHosts.Add(new AppTenantHost()
+                    if (!string.IsNullOrWhiteSpace(x.HostName))
                     {
-                        HostName = x.HostName,
-                        AppTenantId = value.Id
-                    });
-                }
-            });
+                        tenantDb.TenantHosts.Add(new AppTenantHost()
+                        {
+                            HostName = x.HostName,
+                            AppTenantId = value.Id
+                        });
+                    }
+                });
+            }
             #endregion
 
             try

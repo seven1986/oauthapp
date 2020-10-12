@@ -297,7 +297,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(OperationId = "ApiResourcePut",
             Summary = "API - 更新",
             Description = "scope&permission：oauthapp.apiresource.put")]
-        public ApiResult<bool> Put([FromBody]ApiResource value)
+        public ApiResult<bool> Put([FromBody] ApiResource value)
         {
             if (!ModelState.IsValid)
             {
@@ -337,19 +337,21 @@ namespace OAuthApp.Apis
             {
                 Entity.UserClaims.Clear();
             }
-
-            value.UserClaims.ForEach(x =>
+            if (value.UserClaims != null && value.UserClaims.Count > 0)
             {
-                if (!string.IsNullOrWhiteSpace(x.Type))
+                value.UserClaims.ForEach(x =>
                 {
-                    Entity.UserClaims.Add(new ApiResourceClaim()
+                    if (!string.IsNullOrWhiteSpace(x.Type))
                     {
-                        ApiResource = Entity,
-                        ApiResourceId = value.Id,
-                        Type = x.Type
-                    });
-                }
-            });
+                        Entity.UserClaims.Add(new ApiResourceClaim()
+                        {
+                            ApiResource = Entity,
+                            ApiResourceId = value.Id,
+                            Type = x.Type
+                        });
+                    }
+                });
+            }
             #endregion
 
             #region Properties
@@ -357,8 +359,9 @@ namespace OAuthApp.Apis
             {
                 Entity.Properties.Clear();
             }
-
-            value.Properties.ForEach(x =>
+            if (value.Properties != null && value.Properties.Count > 0)
+            {
+                value.Properties.ForEach(x =>
             {
                 if (!string.IsNullOrWhiteSpace(x.Key))
                 {
@@ -371,6 +374,7 @@ namespace OAuthApp.Apis
                     });
                 }
             });
+            }
             #endregion
 
             #region Scopes
@@ -378,19 +382,21 @@ namespace OAuthApp.Apis
             {
                 Entity.Scopes.Clear();
             }
-
-            value.Scopes.ForEach(x =>
+            if (value.Scopes != null && value.Scopes.Count > 0)
             {
-                if (!string.IsNullOrWhiteSpace(x.Scope))
+                value.Scopes.ForEach(x =>
                 {
-                    Entity.Scopes.Add(new ApiResourceScope()
+                    if (!string.IsNullOrWhiteSpace(x.Scope))
                     {
-                        ApiResource = Entity,
-                        ApiResourceId = value.Id,
-                        Scope = x.Scope
-                    });
-                }
-            });
+                        Entity.Scopes.Add(new ApiResourceScope()
+                        {
+                            ApiResource = Entity,
+                            ApiResourceId = value.Id,
+                            Scope = x.Scope
+                        });
+                    }
+                });
+            }
             #endregion
 
             #region Secrets
@@ -398,23 +404,25 @@ namespace OAuthApp.Apis
             {
                 Entity.Secrets.Clear();
             }
-
-            value.Secrets.ForEach(x =>
+            if (value.Secrets != null && value.Secrets.Count > 0)
             {
-                if (!string.IsNullOrWhiteSpace(x.Type)&& !string.IsNullOrWhiteSpace(x.Value))
+                value.Secrets.ForEach(x =>
                 {
-                    Entity.Secrets.Add(new ApiResourceSecret()
+                    if (!string.IsNullOrWhiteSpace(x.Type) && !string.IsNullOrWhiteSpace(x.Value))
                     {
-                        ApiResource = Entity,
-                        ApiResourceId = value.Id,
-                        Type = x.Type,
-                        Value = x.Value,
-                        Description = x.Description,
-                        Expiration = x.Expiration,
-                        Created = x.Created
-                    });
-                }
-            });
+                        Entity.Secrets.Add(new ApiResourceSecret()
+                        {
+                            ApiResource = Entity,
+                            ApiResourceId = value.Id,
+                            Type = x.Type,
+                            Value = x.Value,
+                            Description = x.Description,
+                            Expiration = x.Expiration,
+                            Created = x.Created
+                        });
+                    }
+                });
+            }
             #endregion
 
             try

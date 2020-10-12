@@ -127,6 +127,7 @@ namespace OAuthApp.Apis
             var entity = await configDb.IdentityResources
                 .Where(x => x.Id == id)
                 .Include(x => x.UserClaims)
+                .Include(x => x.Properties)
                 .FirstOrDefaultAsync();
 
             if (entity == null)
@@ -178,7 +179,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(OperationId = "IdentityResourcePut",
             Summary = "标识 - 更新",
             Description = "scope&permission：isms.identityresource.put")]
-        public ApiResult<bool> Put([FromBody]IdentityResource value)
+        public ApiResult<bool> Put([FromBody] IdentityResource value)
         {
             if (!ModelState.IsValid)
             {
@@ -220,7 +221,7 @@ namespace OAuthApp.Apis
             Entity.Emphasize = value.Emphasize;
             Entity.ShowInDiscoveryDocument = value.ShowInDiscoveryDocument;
             Entity.Created = value.Created;
-            Entity.Updated = value.Updated;
+            Entity.Updated = value.Updated.GetValueOrDefault();
             Entity.NonEditable = value.NonEditable;
 
             #region Properties
@@ -228,20 +229,22 @@ namespace OAuthApp.Apis
             {
                 Entity.Properties.Clear();
             }
-
-            value.Properties.ForEach(x =>
+            if (value.Properties != null && value.Properties.Count > 0)
             {
-                if (!string.IsNullOrWhiteSpace(x.Key))
+                value.Properties.ForEach(x =>
                 {
-                    Entity.Properties.Add(new IdentityResourceProperty()
+                    if (!string.IsNullOrWhiteSpace(x.Key))
                     {
-                        IdentityResource = Entity,
-                        IdentityResourceId = value.Id,
-                        Key = x.Key,
-                        Value = x.Value
-                    });
-                }
-            });
+                        Entity.Properties.Add(new IdentityResourceProperty()
+                        {
+                            IdentityResource = Entity,
+                            IdentityResourceId = value.Id,
+                            Key = x.Key,
+                            Value = x.Value
+                        });
+                    }
+                });
+            }
             #endregion
 
             #region UserClaims
@@ -249,19 +252,21 @@ namespace OAuthApp.Apis
             {
                 Entity.UserClaims.Clear();
             }
-
-            value.UserClaims.ForEach(x =>
+            if (value.UserClaims != null && value.UserClaims.Count > 0)
             {
-                if (!string.IsNullOrWhiteSpace(x.Type))
+                value.UserClaims.ForEach(x =>
                 {
-                    Entity.UserClaims.Add(new IdentityResourceClaim()
+                    if (!string.IsNullOrWhiteSpace(x.Type))
                     {
-                        IdentityResource = Entity,
-                        IdentityResourceId = value.Id,
-                        Type = x.Type
-                    });
-                }
-            });
+                        Entity.UserClaims.Add(new IdentityResourceClaim()
+                        {
+                            IdentityResource = Entity,
+                            IdentityResourceId = value.Id,
+                            Type = x.Type
+                        });
+                    }
+                });
+            }
             #endregion
 
             try

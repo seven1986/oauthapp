@@ -276,20 +276,22 @@ namespace OAuthApp.Apis
             {
                 Entity.Properties.Clear();
             }
-
-            value.Properties.ForEach(x =>
+            if (value.Properties != null && value.Properties.Count > 0)
             {
-                if (!string.IsNullOrWhiteSpace(x.Key))
+                value.Properties.ForEach(x =>
                 {
-                    Entity.Properties.Add(new ApiScopeProperty()
+                    if (!string.IsNullOrWhiteSpace(x.Key))
                     {
-                        Scope=Entity,
-                        ScopeId = value.Id,
-                        Key = x.Key,
-                        Value = x.Value
-                    });
-                }
-            });
+                        Entity.Properties.Add(new ApiScopeProperty()
+                        {
+                            Scope = Entity,
+                            ScopeId = value.Id,
+                            Key = x.Key,
+                            Value = x.Value
+                        });
+                    }
+                });
+            }
             #endregion
 
             #region UserClaims
@@ -297,19 +299,21 @@ namespace OAuthApp.Apis
             {
                 Entity.UserClaims.Clear();
             }
-
-            value.UserClaims.ForEach(x =>
+            if (value.UserClaims != null && value.UserClaims.Count > 0)
             {
-                if (!string.IsNullOrWhiteSpace(x.Type))
+                value.UserClaims.ForEach(x =>
                 {
-                    Entity.UserClaims.Add(new ApiScopeClaim()
+                    if (!string.IsNullOrWhiteSpace(x.Type))
                     {
-                        Scope = Entity,
-                        ScopeId = value.Id,
-                        Type = x.Type
-                    });
-                }
-            });
+                        Entity.UserClaims.Add(new ApiScopeClaim()
+                        {
+                            Scope = Entity,
+                            ScopeId = value.Id,
+                            Type = x.Type
+                        });
+                    }
+                });
+            }
             #endregion
 
             try
