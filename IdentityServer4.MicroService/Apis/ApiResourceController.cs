@@ -699,62 +699,61 @@ namespace OAuthApp.Apis
         }
         #endregion
 
-        #region API - 权限代码
-        /// <summary>
-        /// API - 权限代码
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("Scopes")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.scopes")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.scopes")]
-        [SwaggerOperation(
-            OperationId = "ApiResourceScopes", 
-            Summary = "API - 权限代码",
-            Description = "scope&permission：oauthapp.apiresource.scopes")]
-        public async Task<ApiResult<Dictionary<string, List<ApiResourceScopeResponse>>>> Scopes()
-        {
-            var entities = new List<ApiResourceScopeEntity>();
+        //#region API - 权限代码
+        ///// <summary>
+        ///// API - 权限代码
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpGet("Scopes")]
+        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.scopes")]
+        //[Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.scopes")]
+        //[SwaggerOperation(
+        //    OperationId = "ApiResourceScopes", 
+        //    Summary = "API - 权限代码",
+        //    Description = "scope&permission：oauthapp.apiresource.scopes")]
+        //public async Task<ApiResult<Dictionary<string, List<ApiResourceScopeResponse>>>> Scopes()
+        //{
+        //    var entities = new List<ApiResourceScopeEntity>();
 
-            var cmd = @"SELECT 
-            B.[Name] as API, 
-            A.[Name] as Code,
-            A.DisplayName as [Name],
-            A.[Description],
-            A.Emphasize 
-            FROM [dbo].[ApiScopes] A
-            INNER JOIN ApiResources B ON A.ApiResourceId = B.Id
-            WHERE ShowInDiscoveryDocument = 1";
+        //    var cmd = @"SELECT 
+        //    A.[Name] as Code,
+        //    A.DisplayName as [Name],
+        //    A.[Description],
+        //    A.Emphasize 
+        //    FROM [dbo].[ApiScopes] A
+        //    INNER JOIN ApiResources B ON A.ApiResourceId = B.Id
+        //    WHERE ShowInDiscoveryDocument = 1";
 
-            using (var r = await db.ExecuteReaderAsync(cmd))
-            {
-                while (r.Read())
-                {
-                    var item = new ApiResourceScopeEntity()
-                    {
-                        Api = r["Api"].ToString(),
-                        Code = r["Code"].ToString(),
-                        Description = r["Description"].ToString(),
-                        Emphasize = bool.Parse(r["Emphasize"].ToString()),
-                        Name = r["Name"].ToString()
-                    };
+        //    using (var r = await db.ExecuteReaderAsync(cmd))
+        //    {
+        //        while (r.Read())
+        //        {
+        //            var item = new ApiResourceScopeEntity()
+        //            {
+        //                Api = r["Api"].ToString(),
+        //                Code = r["Code"].ToString(),
+        //                Description = r["Description"].ToString(),
+        //                Emphasize = bool.Parse(r["Emphasize"].ToString()),
+        //                Name = r["Name"].ToString()
+        //            };
 
-                    entities.Add(item);
-                }
-            }
+        //            entities.Add(item);
+        //        }
+        //    }
 
-            var result = entities.GroupBy(x => x.Api).ToDictionary(
-                k => k.Key,
-                v => v.Select(x => new ApiResourceScopeResponse()
-                {
-                    Code = x.Code,
-                    Description = x.Description,
-                    Emphasize = x.Emphasize,
-                    Name = x.Name
-                }).ToList());
+        //    var result = entities.GroupBy(x => x.Api).ToDictionary(
+        //        k => k.Key,
+        //        v => v.Select(x => new ApiResourceScopeResponse()
+        //        {
+        //            Code = x.Code,
+        //            Description = x.Description,
+        //            Emphasize = x.Emphasize,
+        //            Name = x.Name
+        //        }).ToList());
 
-            return new ApiResult<Dictionary<string, List<ApiResourceScopeResponse>>>(result);
-        }
-        #endregion
+        //    return new ApiResult<Dictionary<string, List<ApiResourceScopeResponse>>>(result);
+        //}
+        //#endregion
 
         #region API - 错误码表
         /// <summary>

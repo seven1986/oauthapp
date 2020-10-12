@@ -187,9 +187,82 @@ namespace OAuthApp.Apis
                     ModelErrors());
             }
 
-            configDb.Attach(value.Properties).State = EntityState.Modified;
-            configDb.Attach(value.UserClaims).State = EntityState.Modified;
-            configDb.Attach(value).State = EntityState.Modified;
+            var Entity = configDb.IdentityResources.Where(x => x.Id == value.Id)
+              .Include(x => x.UserClaims)
+              .Include(x => x.Properties)
+              .FirstOrDefault();
+
+            if (Entity == null)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound)
+                {
+                    data = false
+                };
+            }
+
+            if (!string.IsNullOrWhiteSpace(value.Name) &&
+             !value.Name.Equals(Entity.Name))
+            {
+                Entity.Name = value.Name;
+            }
+            if (!string.IsNullOrWhiteSpace(value.DisplayName) &&
+               !value.DisplayName.Equals(Entity.DisplayName))
+            {
+                Entity.DisplayName = value.DisplayName;
+            }
+            if (!string.IsNullOrWhiteSpace(value.Description) &&
+              !value.Description.Equals(Entity.Description))
+            {
+                Entity.Description = value.Description;
+            }
+            Entity.Enabled = value.Enabled;
+            Entity.Required = value.Required;
+            Entity.Emphasize = value.Emphasize;
+            Entity.ShowInDiscoveryDocument = value.ShowInDiscoveryDocument;
+            Entity.Created = value.Created;
+            Entity.Updated = value.Updated;
+            Entity.NonEditable = value.NonEditable;
+
+            #region Properties
+            if (Entity.Properties != null && Entity.Properties.Count > 0)
+            {
+                Entity.Properties.Clear();
+            }
+
+            value.Properties.ForEach(x =>
+            {
+                if (!string.IsNullOrWhiteSpace(x.Key))
+                {
+                    Entity.Properties.Add(new IdentityResourceProperty()
+                    {
+                        IdentityResource = Entity,
+                        IdentityResourceId = value.Id,
+                        Key = x.Key,
+                        Value = x.Value
+                    });
+                }
+            });
+            #endregion
+
+            #region UserClaims
+            if (Entity.UserClaims != null && Entity.UserClaims.Count > 0)
+            {
+                Entity.UserClaims.Clear();
+            }
+
+            value.UserClaims.ForEach(x =>
+            {
+                if (!string.IsNullOrWhiteSpace(x.Type))
+                {
+                    Entity.UserClaims.Add(new IdentityResourceClaim()
+                    {
+                        IdentityResource = Entity,
+                        IdentityResourceId = value.Id,
+                        Type = x.Type
+                    });
+                }
+            });
+            #endregion
 
             try
             {

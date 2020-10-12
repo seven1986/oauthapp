@@ -70,12 +70,6 @@
             <param name="value"></param>
             <returns></returns>
         </member>
-        <member name="M:OAuthApp.Apis.ApiResourceController.Scopes">
-            <summary>
-            API - 权限代码
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:OAuthApp.Apis.ApiResourceController.Codes">
             <summary>
             API - 错误码表
@@ -1776,31 +1770,6 @@
         <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRevisionsRequest.releaseNote">
             <summary>
             修订备注
-            </summary>
-        </member>
-        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceScopeEntity.Api">
-            <summary>
-            Api名称
-            </summary>
-        </member>
-        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceScopeResponse.Code">
-            <summary>
-            权限代码
-            </summary>
-        </member>
-        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceScopeResponse.Name">
-            <summary>
-            权限名称
-            </summary>
-        </member>
-        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceScopeResponse.Description">
-            <summary>
-            权限说明
-            </summary>
-        </member>
-        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceScopeResponse.Emphasize">
-            <summary>
-            强调
             </summary>
         </member>
         <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceSDKRequest.name">
