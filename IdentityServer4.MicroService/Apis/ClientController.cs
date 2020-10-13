@@ -31,7 +31,7 @@ namespace OAuthApp.Apis
     {
         #region Services
         // database for identityserver
-        readonly ConfigurationDbContext idsDB;
+        readonly ConfigurationDbContext configDb;
         // database for user
         readonly UserDbContext userDB;
         // IdentityServer Tools
@@ -40,13 +40,13 @@ namespace OAuthApp.Apis
 
         #region 构造函数
         public ClientController(
-            ConfigurationDbContext _idsDB,
+            ConfigurationDbContext _configDb,
             UserDbContext _userDB,
             IStringLocalizer<ClientController> localizer,
             IdentityServerTools tools)
         {
             userDB = _userDB;
-            idsDB = _idsDB;
+            configDb = _configDb;
             l = localizer;
             _tools = tools;
         }
@@ -76,7 +76,7 @@ namespace OAuthApp.Apis
                 };
             }
 
-            var query = idsDB.Clients.AsQueryable();
+            var query = configDb.Clients.AsQueryable();
 
             var clientIDs = await userDB.UserClients.Where(x => x.UserId == UserId)
                .Select(x => x.ClientId).ToListAsync();
@@ -165,7 +165,7 @@ namespace OAuthApp.Apis
                 return new ApiResult<Client>(l, BasicControllerEnums.NotFound);
             }
 
-            var query = idsDB.Clients.AsQueryable();
+            var query = configDb.Clients.AsQueryable();
 
             var clientIDs = await userDB.UserClients.Where(x => x.UserId == UserId)
              .Select(x => x.ClientId).ToListAsync();
@@ -212,11 +212,11 @@ namespace OAuthApp.Apis
                     ModelErrors());
             }
 
-            idsDB.Add(value);
+            configDb.Add(value);
 
             try
             {
-                await idsDB.SaveChangesAsync();
+                await configDb.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -247,7 +247,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(OperationId = "ClientPut",
             Summary = "客户端 - 更新",
             Description = "scope&permission：isms.client.put")]
-        public ApiResult<bool> Put([FromBody]Client value)
+        public ApiResult<bool> Put([FromBody] Client value)
         {
             if (!ModelState.IsValid)
             {
@@ -256,8 +256,8 @@ namespace OAuthApp.Apis
                     ModelErrors());
             }
 
-           if(!userDB.UserClients
-               .Any(x => x.UserId == UserId && x.ClientId == value.Id))
+            if (!userDB.UserClients
+                .Any(x => x.UserId == UserId && x.ClientId == value.Id))
             {
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound)
                 {
@@ -265,7 +265,7 @@ namespace OAuthApp.Apis
                 };
             }
 
-            var Entity = idsDB.Clients
+            var Entity = configDb.Clients
                 .Include(x => x.IdentityProviderRestrictions)
                 .Include(x => x.Claims)
                 .Include(x => x.AllowedCorsOrigins)
@@ -284,49 +284,122 @@ namespace OAuthApp.Apis
             }
 
             #region Properties
-            Entity.AccessTokenLifetime = value.AccessTokenLifetime;
-            Entity.AuthorizationCodeLifetime = value.AuthorizationCodeLifetime;
-            Entity.ConsentLifetime = value.ConsentLifetime;
-            Entity.AbsoluteRefreshTokenLifetime = value.AbsoluteRefreshTokenLifetime;
-            Entity.SlidingRefreshTokenLifetime = value.SlidingRefreshTokenLifetime;
-            Entity.RefreshTokenUsage = value.RefreshTokenUsage;
-            Entity.UpdateAccessTokenClaimsOnRefresh = value.UpdateAccessTokenClaimsOnRefresh;
-            Entity.RefreshTokenExpiration = value.RefreshTokenExpiration;
-            Entity.AccessTokenType = value.AccessTokenType;
-            Entity.EnableLocalLogin = value.EnableLocalLogin;
-            Entity.IncludeJwtId = value.IncludeJwtId;
-            Entity.AlwaysSendClientClaims = value.AlwaysSendClientClaims;
-            Entity.ClientClaimsPrefix = value.ClientClaimsPrefix;
-            Entity.PairWiseSubjectSalt = value.PairWiseSubjectSalt;
-            Entity.Created = value.Created;
-            Entity.Updated = value.Updated;
-            Entity.LastAccessed = value.LastAccessed;
-            Entity.UserSsoLifetime = value.UserSsoLifetime;
-            Entity.UserCodeType = value.UserCodeType;
-            Entity.AllowedIdentityTokenSigningAlgorithms = value.AllowedIdentityTokenSigningAlgorithms;
-            Entity.IdentityTokenLifetime = value.IdentityTokenLifetime;
-            Entity.AllowOfflineAccess = value.AllowOfflineAccess;
-            Entity.Enabled = value.Enabled;
-            Entity.ClientId = value.ClientId;
-            Entity.ProtocolType = value.ProtocolType;
-            Entity.RequireClientSecret = value.RequireClientSecret;
-            Entity.ClientName = value.ClientName;
-            Entity.Description = value.Description;
-            Entity.ClientUri = value.ClientUri;
-            Entity.LogoUri = value.LogoUri;
-            Entity.RequireConsent = value.RequireConsent;
-            Entity.DeviceCodeLifetime = value.DeviceCodeLifetime;
-            Entity.AllowRememberConsent = value.AllowRememberConsent;
-            Entity.RequirePkce = value.RequirePkce;
-            Entity.AllowPlainTextPkce = value.AllowPlainTextPkce;
-            Entity.RequireRequestObject = value.RequireRequestObject;
-            Entity.AllowAccessTokensViaBrowser = value.AllowAccessTokensViaBrowser;
-            Entity.FrontChannelLogoutUri = value.FrontChannelLogoutUri;
-            Entity.FrontChannelLogoutSessionRequired = value.FrontChannelLogoutSessionRequired;
-            Entity.BackChannelLogoutUri = value.BackChannelLogoutUri;
-            Entity.BackChannelLogoutSessionRequired = value.BackChannelLogoutSessionRequired;
-            Entity.AlwaysIncludeUserClaimsInIdToken = value.AlwaysIncludeUserClaimsInIdToken;
-            Entity.NonEditable = value.NonEditable;
+            if (Entity.AccessTokenLifetime != value.AccessTokenLifetime)
+            {
+                Entity.AccessTokenLifetime = value.AccessTokenLifetime;
+            }
+            if (Entity.AuthorizationCodeLifetime != value.AuthorizationCodeLifetime)
+            {
+                Entity.AuthorizationCodeLifetime = value.AuthorizationCodeLifetime;
+            }
+            if (value.ConsentLifetime.HasValue)
+            {
+                Entity.ConsentLifetime = value.ConsentLifetime;
+            }
+            if (Entity.AbsoluteRefreshTokenLifetime != value.AbsoluteRefreshTokenLifetime)
+            {
+                Entity.AbsoluteRefreshTokenLifetime = value.AbsoluteRefreshTokenLifetime;
+            }
+            if (Entity.SlidingRefreshTokenLifetime != value.SlidingRefreshTokenLifetime)
+            {
+                Entity.SlidingRefreshTokenLifetime = value.SlidingRefreshTokenLifetime;
+            }
+            if (Entity.RefreshTokenUsage != value.RefreshTokenUsage)
+            {
+                Entity.RefreshTokenUsage = value.RefreshTokenUsage;
+            }
+            if (Entity.UpdateAccessTokenClaimsOnRefresh != value.UpdateAccessTokenClaimsOnRefresh)
+            {
+                Entity.UpdateAccessTokenClaimsOnRefresh = value.UpdateAccessTokenClaimsOnRefresh;
+            }
+            if (Entity.RefreshTokenExpiration != value.RefreshTokenExpiration)
+            {
+                Entity.RefreshTokenExpiration = value.RefreshTokenExpiration;
+            }
+            if (Entity.AccessTokenType != value.AccessTokenType)
+            {
+                Entity.AccessTokenType = value.AccessTokenType;
+            }
+            if (Entity.EnableLocalLogin != value.EnableLocalLogin)
+            {
+                Entity.EnableLocalLogin = value.EnableLocalLogin;
+            }
+            if (Entity.IncludeJwtId != value.IncludeJwtId)
+            {
+                Entity.IncludeJwtId = value.IncludeJwtId;
+            }
+            if (Entity.AlwaysSendClientClaims != value.AlwaysSendClientClaims)
+            {
+                Entity.AlwaysSendClientClaims = value.AlwaysSendClientClaims;
+            }
+            if (!string.IsNullOrWhiteSpace(value.ClientClaimsPrefix) &&
+                !Entity.ClientClaimsPrefix.Equals(value.ClientClaimsPrefix))
+            {
+                Entity.ClientClaimsPrefix = value.ClientClaimsPrefix;
+            }
+            if (!string.IsNullOrWhiteSpace(value.PairWiseSubjectSalt) &&
+                !Entity.PairWiseSubjectSalt.Equals(value.PairWiseSubjectSalt))
+            {
+                Entity.PairWiseSubjectSalt = value.PairWiseSubjectSalt;
+            }
+            if (value.Updated.HasValue)
+            {
+                Entity.Updated = value.Updated;
+            }
+            if (value.LastAccessed.HasValue)
+            {
+                Entity.LastAccessed = value.LastAccessed;
+            }
+            if (value.UserSsoLifetime.HasValue)
+            {
+                Entity.UserSsoLifetime = value.UserSsoLifetime;
+            }
+            if (Entity.AllowOfflineAccess != value.AllowOfflineAccess) { Entity.AllowOfflineAccess = value.AllowOfflineAccess; }
+            if (Entity.IdentityTokenLifetime != value.IdentityTokenLifetime) { Entity.IdentityTokenLifetime = value.IdentityTokenLifetime; }
+            if (Entity.RequireClientSecret != value.RequireClientSecret) { Entity.RequireClientSecret = value.RequireClientSecret; }
+            if (Entity.Created != value.Created) { Entity.Created = value.Created; }
+            if (Entity.RequireConsent != value.RequireConsent) { Entity.RequireConsent = value.RequireConsent; }
+            if (Entity.DeviceCodeLifetime != value.DeviceCodeLifetime) { Entity.DeviceCodeLifetime = value.DeviceCodeLifetime; }
+            if (Entity.AllowRememberConsent != value.AllowRememberConsent) { Entity.AllowRememberConsent = value.AllowRememberConsent; }
+            if (Entity.RequirePkce != value.RequirePkce) { Entity.RequirePkce = value.RequirePkce; }
+            if (Entity.AllowPlainTextPkce != value.AllowPlainTextPkce) { Entity.AllowPlainTextPkce = value.AllowPlainTextPkce; }
+            if (Entity.RequireRequestObject != value.RequireRequestObject) { Entity.RequireRequestObject = value.RequireRequestObject; }
+            if (Entity.AllowAccessTokensViaBrowser != value.AllowAccessTokensViaBrowser) { Entity.AllowAccessTokensViaBrowser = value.AllowAccessTokensViaBrowser; }
+            if (Entity.FrontChannelLogoutSessionRequired != value.FrontChannelLogoutSessionRequired) { Entity.FrontChannelLogoutSessionRequired = value.FrontChannelLogoutSessionRequired; }
+            if (Entity.BackChannelLogoutSessionRequired != value.BackChannelLogoutSessionRequired) { Entity.BackChannelLogoutSessionRequired = value.BackChannelLogoutSessionRequired; }
+            if (Entity.AlwaysIncludeUserClaimsInIdToken != value.AlwaysIncludeUserClaimsInIdToken) { Entity.AlwaysIncludeUserClaimsInIdToken = value.AlwaysIncludeUserClaimsInIdToken; }
+            if (Entity.NonEditable != value.NonEditable) { Entity.NonEditable = value.NonEditable; }
+            if (Entity.Enabled != value.Enabled) { Entity.Enabled = value.Enabled; }
+            if (!string.IsNullOrWhiteSpace(value.UserCodeType) &&
+                !Entity.UserCodeType.Equals(value.UserCodeType)) 
+            { Entity.UserCodeType = value.UserCodeType; }
+            if (!string.IsNullOrWhiteSpace(value.AllowedIdentityTokenSigningAlgorithms) &&
+                !Entity.AllowedIdentityTokenSigningAlgorithms.Equals(value.AllowedIdentityTokenSigningAlgorithms))
+            { Entity.AllowedIdentityTokenSigningAlgorithms = value.AllowedIdentityTokenSigningAlgorithms; }
+            if (!string.IsNullOrWhiteSpace(value.ClientId) &&
+                !Entity.ClientId.Equals(value.ClientId)) 
+            { Entity.ClientId = value.ClientId; }
+            if (!string.IsNullOrWhiteSpace(value.ProtocolType) &&
+                !Entity.ProtocolType.Equals(value.ProtocolType)) 
+            { Entity.ProtocolType = value.ProtocolType; }
+            if (!string.IsNullOrWhiteSpace(value.ClientName) &&
+                !Entity.ClientName.Equals(value.ClientName)) 
+            { Entity.ClientName = value.ClientName; }
+            if (!string.IsNullOrWhiteSpace(value.Description) &&
+                !Entity.Description.Equals(value.Description)) 
+            { Entity.Description = value.Description; }
+            if (!string.IsNullOrWhiteSpace(value.ClientUri) &&
+                !Entity.ClientUri.Equals(value.ClientUri)) 
+            { Entity.ClientUri = value.ClientUri; }
+            if (!string.IsNullOrWhiteSpace(value.LogoUri) &&
+                !Entity.LogoUri.Equals(value.LogoUri)) 
+            { Entity.LogoUri = value.LogoUri; }
+            if (!string.IsNullOrWhiteSpace(value.FrontChannelLogoutUri) &&
+                !Entity.FrontChannelLogoutUri.Equals(value.FrontChannelLogoutUri)) 
+            { Entity.FrontChannelLogoutUri = value.FrontChannelLogoutUri; }
+            if (!string.IsNullOrWhiteSpace(value.BackChannelLogoutUri) &&
+                !Entity.BackChannelLogoutUri.Equals(value.BackChannelLogoutUri)) 
+            { Entity.BackChannelLogoutUri = value.BackChannelLogoutUri; }
             #endregion
 
             #region IdentityProviderRestrictions
@@ -460,7 +533,7 @@ namespace OAuthApp.Apis
                             Value = x.Value,
                             Created = x.Created,
                             Description = x.Description,
-                            Expiration = x.Expiration
+                            Expiration = x.Expiration.GetValueOrDefault()
                         });
                     }
                 });
@@ -533,11 +606,9 @@ namespace OAuthApp.Apis
             }
             #endregion
 
-            
-
             try
             {
-                idsDB.SaveChanges();
+                configDb.SaveChanges();
             }
 
             catch (Exception ex)
@@ -575,7 +646,7 @@ namespace OAuthApp.Apis
             }
             try
             {
-                var entity = idsDB.Clients.Where(m => m.Id == id)
+                var entity = configDb.Clients.Where(m => m.Id == id)
                 .Include(x => x.Claims)
                 .Include(x => x.ClientSecrets)
                 .Include(x => x.AllowedCorsOrigins)
@@ -586,9 +657,9 @@ namespace OAuthApp.Apis
                 .Include(x => x.IdentityProviderRestrictions)
                 .Include(x => x.RedirectUris).FirstOrDefault();
 
-                idsDB.Clients.Remove(entity);
+                configDb.Clients.Remove(entity);
 
-                idsDB.SaveChanges();
+                configDb.SaveChanges();
             }
             catch (Exception ex)
             {
