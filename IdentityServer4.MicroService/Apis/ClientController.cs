@@ -409,18 +409,14 @@ namespace OAuthApp.Apis
             }
             if (value.IdentityProviderRestrictions != null && value.IdentityProviderRestrictions.Count > 0)
             {
-                value.IdentityProviderRestrictions.ForEach(x =>
-                {
-                    if (!string.IsNullOrWhiteSpace(x.Provider))
+                Entity.IdentityProviderRestrictions = value.IdentityProviderRestrictions
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Provider))
+                    .Select(x => new ClientIdPRestriction()
                     {
-                        Entity.IdentityProviderRestrictions.Add(new ClientIdPRestriction()
-                        {
-                            Client = Entity,
-                            ClientId = value.Id,
-                            Provider = x.Provider
-                        });
-                    }
-                });
+                        Client = Entity,
+                        ClientId = value.Id,
+                        Provider = x.Provider
+                    }).ToList();
             }
             #endregion
 
@@ -431,19 +427,15 @@ namespace OAuthApp.Apis
             }
             if (value.Claims != null && value.Claims.Count > 0)
             {
-                value.Claims.ForEach(x =>
-                {
-                    if (!string.IsNullOrWhiteSpace(x.Type))
+                Entity.Claims = value.Claims
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Type))
+                    .Select(x => new ClientClaim()
                     {
-                        Entity.Claims.Add(new ClientClaim()
-                        {
-                            Client = Entity,
-                            ClientId = value.Id,
-                            Type = x.Type,
-                            Value = x.Value
-                        });
-                    }
-                });
+                        Client = Entity,
+                        ClientId = value.Id,
+                        Type = x.Type,
+                        Value = x.Value
+                    }).ToList();
             }
             #endregion
 
@@ -454,18 +446,14 @@ namespace OAuthApp.Apis
             }
             if (value.AllowedCorsOrigins != null && value.AllowedCorsOrigins.Count > 0)
             {
-                value.AllowedCorsOrigins.ForEach(x =>
-                {
-                    if (!string.IsNullOrWhiteSpace(x.Origin))
+                Entity.AllowedCorsOrigins = value.AllowedCorsOrigins
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Origin))
+                    .Select(x => new ClientCorsOrigin()
                     {
-                        Entity.AllowedCorsOrigins.Add(new ClientCorsOrigin()
-                        {
-                            Client = Entity,
-                            ClientId = value.Id,
-                            Origin = x.Origin
-                        });
-                    }
-                });
+                        Client = Entity,
+                        ClientId = value.Id,
+                        Origin = x.Origin
+                    }).ToList();
             }
             #endregion
 
@@ -476,19 +464,15 @@ namespace OAuthApp.Apis
             }
             if (value.Properties != null && value.Properties.Count > 0)
             {
-                value.Properties.ForEach(x =>
-                {
-                    if (!string.IsNullOrWhiteSpace(x.Key))
+                Entity.Properties = value.Properties
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Key))
+                    .Select(x => new ClientProperty()
                     {
-                        Entity.Properties.Add(new ClientProperty()
-                        {
-                            Client = Entity,
-                            ClientId = value.Id,
-                            Key = x.Key,
-                            Value = x.Value
-                        });
-                    }
-                });
+                        Client = Entity,
+                        ClientId = value.Id,
+                        Key = x.Key,
+                        Value = x.Value
+                    }).ToList();
             }
             #endregion
 
@@ -499,18 +483,14 @@ namespace OAuthApp.Apis
             }
             if (value.AllowedScopes != null && value.AllowedScopes.Count > 0)
             {
-                value.AllowedScopes.ForEach(x =>
-                {
-                    if (!string.IsNullOrWhiteSpace(x.Scope))
+                Entity.AllowedScopes = value.AllowedScopes
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Scope))
+                    .Select(x => new ClientScope()
                     {
-                        Entity.AllowedScopes.Add(new ClientScope()
-                        {
-                            Client = Entity,
-                            ClientId = value.Id,
-                            Scope = x.Scope
-                        });
-                    }
-                });
+                        Client = Entity,
+                        ClientId = value.Id,
+                        Scope = x.Scope
+                    }).ToList();
             }
             #endregion
 
@@ -521,22 +501,18 @@ namespace OAuthApp.Apis
             }
             if (value.ClientSecrets != null && value.ClientSecrets.Count > 0)
             {
-                value.ClientSecrets.ForEach(x =>
-                {
-                    if (!string.IsNullOrWhiteSpace(x.Type) && !string.IsNullOrWhiteSpace(x.Value))
+                Entity.ClientSecrets = value.ClientSecrets
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Type) && !string.IsNullOrWhiteSpace(x.Value))
+                    .Select(x => new ClientSecret()
                     {
-                        Entity.ClientSecrets.Add(new ClientSecret()
-                        {
-                            Client = Entity,
-                            ClientId = value.Id,
-                            Type = x.Type,
-                            Value = x.Value,
-                            Created = x.Created,
-                            Description = x.Description,
-                            Expiration = x.Expiration.GetValueOrDefault()
-                        });
-                    }
-                });
+                        Client = Entity,
+                        ClientId = value.Id,
+                        Type = x.Type,
+                        Value = x.Value,
+                        Created = x.Created,
+                        Description = x.Description,
+                        Expiration = x.Expiration.GetValueOrDefault()
+                    }).ToList();
             }
             #endregion
 
@@ -547,18 +523,14 @@ namespace OAuthApp.Apis
             }
             if (value.AllowedGrantTypes != null && value.AllowedGrantTypes.Count > 0)
             {
-                value.AllowedGrantTypes.ForEach(x =>
-                {
-                    if (!string.IsNullOrWhiteSpace(x.GrantType))
+                Entity.AllowedGrantTypes = value.AllowedGrantTypes
+                    .Where(x => !string.IsNullOrWhiteSpace(x.GrantType))
+                    .Select(x => new ClientGrantType()
                     {
-                        Entity.AllowedGrantTypes.Add(new ClientGrantType()
-                        {
-                            Client = Entity,
-                            ClientId = value.Id,
-                            GrantType = x.GrantType
-                        });
-                    }
-                });
+                        Client = Entity,
+                        ClientId = value.Id,
+                        GrantType = x.GrantType
+                    }).ToList();
             }
             #endregion
 
@@ -569,18 +541,14 @@ namespace OAuthApp.Apis
             }
             if (value.RedirectUris != null && value.RedirectUris.Count > 0)
             {
-                value.RedirectUris.ForEach(x =>
-                {
-                    if (!string.IsNullOrWhiteSpace(x.RedirectUri))
+                Entity.RedirectUris = value.RedirectUris
+                    .Where(x => !string.IsNullOrWhiteSpace(x.RedirectUri))
+                    .Select(x => new ClientRedirectUri()
                     {
-                        Entity.RedirectUris.Add(new ClientRedirectUri()
-                        {
-                            Client = Entity,
-                            ClientId = value.Id,
-                            RedirectUri = x.RedirectUri
-                        });
-                    }
-                });
+                        Client = Entity,
+                        ClientId = value.Id,
+                        RedirectUri = x.RedirectUri
+                    }).ToList();
             }
             #endregion
 
@@ -591,18 +559,14 @@ namespace OAuthApp.Apis
             }
             if (value.PostLogoutRedirectUris != null && value.PostLogoutRedirectUris.Count > 0)
             {
-                value.PostLogoutRedirectUris.ForEach(x =>
-                {
-                    if (!string.IsNullOrWhiteSpace(x.PostLogoutRedirectUri))
+                Entity.PostLogoutRedirectUris = value.PostLogoutRedirectUris
+                    .Where(x => !string.IsNullOrWhiteSpace(x.PostLogoutRedirectUri))
+                    .Select(x => new ClientPostLogoutRedirectUri()
                     {
-                        Entity.PostLogoutRedirectUris.Add(new ClientPostLogoutRedirectUri()
-                        {
-                            Client = Entity,
-                            ClientId = value.Id,
-                            PostLogoutRedirectUri = x.PostLogoutRedirectUri
-                        });
-                    }
-                });
+                        Client = Entity,
+                        ClientId = value.Id,
+                        PostLogoutRedirectUri = x.PostLogoutRedirectUri
+                    }).ToList();
             }
             #endregion
 

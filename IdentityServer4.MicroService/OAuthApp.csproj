@@ -5,13 +5,13 @@
     <PackageId>OAuthApp</PackageId>
     <Authors>seven1986</Authors>
     <Company>seven1986</Company>
-    <PackageProjectUrl>http://www.oauthapp.com/</PackageProjectUrl>
+    <PackageProjectUrl>https://www.oauthapp.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/seven1986/oauthapp</RepositoryUrl>
     <PackageTags>IdentityServer4 MicroService AzureApiManagement</PackageTags>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.1.5</Version>
+    <Version>2.1.6</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>

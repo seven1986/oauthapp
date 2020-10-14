@@ -231,19 +231,15 @@ namespace OAuthApp.Apis
             }
             if (value.Properties != null && value.Properties.Count > 0)
             {
-                value.Properties.ForEach(x =>
-                {
-                    if (!string.IsNullOrWhiteSpace(x.Key))
-                    {
-                        Entity.Properties.Add(new IdentityResourceProperty()
-                        {
-                            IdentityResource = Entity,
-                            IdentityResourceId = value.Id,
-                            Key = x.Key,
-                            Value = x.Value
-                        });
-                    }
-                });
+                Entity.Properties = value.Properties
+                  .Where(x => !string.IsNullOrWhiteSpace(x.Key))
+                  .Select(x => new IdentityResourceProperty()
+                  {
+                      IdentityResource = Entity,
+                      IdentityResourceId = value.Id,
+                      Key = x.Key,
+                      Value = x.Value
+                  }).ToList();
             }
             #endregion
 
@@ -254,18 +250,14 @@ namespace OAuthApp.Apis
             }
             if (value.UserClaims != null && value.UserClaims.Count > 0)
             {
-                value.UserClaims.ForEach(x =>
-                {
-                    if (!string.IsNullOrWhiteSpace(x.Type))
+                Entity.UserClaims = value.UserClaims
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Type))
+                    .Select(x => new IdentityResourceClaim()
                     {
-                        Entity.UserClaims.Add(new IdentityResourceClaim()
-                        {
-                            IdentityResource = Entity,
-                            IdentityResourceId = value.Id,
-                            Type = x.Type
-                        });
-                    }
-                });
+                        IdentityResource = Entity,
+                        IdentityResourceId = value.Id,
+                        Type = x.Type
+                    }).ToList();
             }
             #endregion
 

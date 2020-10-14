@@ -339,18 +339,14 @@ namespace OAuthApp.Apis
             }
             if (value.UserClaims != null && value.UserClaims.Count > 0)
             {
-                value.UserClaims.ForEach(x =>
-                {
-                    if (!string.IsNullOrWhiteSpace(x.Type))
+                Entity.UserClaims = value.UserClaims
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Type))
+                    .Select(x => new ApiResourceClaim()
                     {
-                        Entity.UserClaims.Add(new ApiResourceClaim()
-                        {
-                            ApiResource = Entity,
-                            ApiResourceId = value.Id,
-                            Type = x.Type
-                        });
-                    }
-                });
+                        ApiResource = Entity,
+                        ApiResourceId = value.Id,
+                        Type = x.Type
+                    }).ToList();
             }
             #endregion
 
@@ -361,19 +357,15 @@ namespace OAuthApp.Apis
             }
             if (value.Properties != null && value.Properties.Count > 0)
             {
-                value.Properties.ForEach(x =>
-            {
-                if (!string.IsNullOrWhiteSpace(x.Key))
-                {
-                    Entity.Properties.Add(new ApiResourceProperty()
-                    {
-                        ApiResource = Entity,
-                        ApiResourceId = value.Id,
-                        Key = x.Key,
-                        Value = x.Value
-                    });
-                }
-            });
+                Entity.Properties = value.Properties
+                   .Where(x => !string.IsNullOrWhiteSpace(x.Key))
+                   .Select(x => new ApiResourceProperty()
+                   {
+                       ApiResource = Entity,
+                       ApiResourceId = value.Id,
+                       Key = x.Key,
+                       Value = x.Value
+                   }).ToList();
             }
             #endregion
 
@@ -384,18 +376,14 @@ namespace OAuthApp.Apis
             }
             if (value.Scopes != null && value.Scopes.Count > 0)
             {
-                value.Scopes.ForEach(x =>
-                {
-                    if (!string.IsNullOrWhiteSpace(x.Scope))
+                Entity.Scopes = value.Scopes
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Scope))
+                    .Select(x => new ApiResourceScope()
                     {
-                        Entity.Scopes.Add(new ApiResourceScope()
-                        {
-                            ApiResource = Entity,
-                            ApiResourceId = value.Id,
-                            Scope = x.Scope
-                        });
-                    }
-                });
+                        ApiResource = Entity,
+                        ApiResourceId = value.Id,
+                        Scope = x.Scope
+                    }).ToList();
             }
             #endregion
 
@@ -406,22 +394,18 @@ namespace OAuthApp.Apis
             }
             if (value.Secrets != null && value.Secrets.Count > 0)
             {
-                value.Secrets.ForEach(x =>
-                {
-                    if (!string.IsNullOrWhiteSpace(x.Type) && !string.IsNullOrWhiteSpace(x.Value))
-                    {
-                        Entity.Secrets.Add(new ApiResourceSecret()
-                        {
-                            ApiResource = Entity,
-                            ApiResourceId = value.Id,
-                            Type = x.Type,
-                            Value = x.Value,
-                            Description = x.Description,
-                            Expiration = x.Expiration,
-                            Created = x.Created
-                        });
-                    }
-                });
+                Entity.Secrets = value.Secrets
+                   .Where(x => !string.IsNullOrWhiteSpace(x.Type) && !string.IsNullOrWhiteSpace(x.Value))
+                   .Select(x => new ApiResourceSecret()
+                   {
+                       ApiResource = Entity,
+                       ApiResourceId = value.Id,
+                       Type = x.Type,
+                       Value = x.Value,
+                       Description = x.Description,
+                       Expiration = x.Expiration,
+                       Created = x.Created
+                   }).ToList();
             }
             #endregion
 
