@@ -15,7 +15,6 @@ using AspNet.Security.OAuth.Weibo;
 using AspNet.Security.OAuth.Weixin;
 using AspNet.Security.OAuth.QQ;
 using AspNet.Security.OAuth.GitHub;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace OAuthApp.Tenant
 {
@@ -233,9 +232,11 @@ namespace OAuthApp.Tenant
                         MemoryCacheOptions);
                 }
                 #endregion
+
+                return _next(context);
             }
 
-            return _next(context);
+            return context.ForbidAsync();
         }
 
         void AddSchemeIfNotExists(List<string> AppSchemes, string oauthScheme, Type handlerType)

@@ -70,7 +70,9 @@ namespace Microsoft.Extensions.DependencyInjection
             var builder = new OAuthAppServiceBuilder(services);
             builder.Services.AddSingleton(Options);
 
-            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            builder.Services.AddHttpContextAccessor();
+
+            //builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             #region Cors
             if (Options.EnableCors)

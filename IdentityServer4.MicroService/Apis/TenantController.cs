@@ -255,6 +255,18 @@ namespace OAuthApp.Apis
                 Entity.Theme = value.Theme;
             }
 
+            if (!string.IsNullOrWhiteSpace(value.LogoUri) &&
+              !value.LogoUri.Equals(Entity.LogoUri))
+            {
+                Entity.LogoUri = value.LogoUri;
+            }
+
+            if (!string.IsNullOrWhiteSpace(value.Description) &&
+              !value.Description.Equals(Entity.Description))
+            {
+                Entity.Description = value.Description;
+            }
+
             #region Claims
             var Claims = tenantDb.TenantClaims.Where(x => x.AppTenantId == value.Id).ToList();
 
@@ -427,13 +439,6 @@ namespace OAuthApp.Apis
             var result = _Codes<TenantControllerEnums>();
 
             return result;
-        }
-        #endregion
-
-        #region 辅助方法
-        bool exists(long id)
-        {
-            return tenantDb.Tenants.Any(x => x.OwnerUserId == UserId && x.Id == id);
         }
         #endregion
     }

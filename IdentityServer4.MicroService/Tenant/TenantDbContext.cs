@@ -219,6 +219,16 @@ namespace OAuthApp.Tenant
         /// 属性集合
         /// </summary>
         public virtual List<AppTenantProperty> Properties { get; } = new List<AppTenantProperty>();
+
+        /// <summary>
+        /// Logo
+        /// </summary>
+        public string LogoUri { get; set; }
+
+        /// <summary>
+        /// 简介
+        /// </summary>
+        public string Description { get; set; }
     }
 
     [Table("AppTenantHosts")]

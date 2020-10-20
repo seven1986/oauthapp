@@ -3,7 +3,7 @@
 ##### 首先要注释掉Startup.cs文件中下面2行代码！
 ```
 1，在引用的web项目安装Microsoft.EntityFrameworkCore.Design、Microsoft.EntityFrameworkCore.Tools
-2，修改ISMSServiceBuilderExtensions.cs文件的opts.MigrationsAssembly为web项目名称
+2，修改OAuthAppServiceBuilderExtensions.cs文件的opts.MigrationsAssembly为web项目名称
 3，修改IdentityTables.cs文件AppUser类的Lineage属性
 4，定位到web项目执行执行【首次生成迁移代码】或者【更新迁移代码】
 5，拷贝生成的文件到Data目录下

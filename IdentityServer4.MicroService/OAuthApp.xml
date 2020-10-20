@@ -2905,6 +2905,16 @@
             属性集合
             </summary>
         </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.LogoUri">
+            <summary>
+            Logo
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.Description">
+            <summary>
+            简介
+            </summary>
+        </member>
         <member name="P:Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder.Services">
             <summary>
             Gets the services.

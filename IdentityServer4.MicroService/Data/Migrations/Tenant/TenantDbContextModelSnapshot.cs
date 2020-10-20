@@ -32,11 +32,17 @@ namespace OAuthApp.Data.Migrations.Tenant
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IdentityServerIssuerUri")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastUpdateTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("LogoUri")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
