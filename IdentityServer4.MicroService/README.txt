@@ -1,4 +1,2 @@
-﻿欢迎使用oauthapp
-
-使用教程
+﻿欢迎使用OAuthApp
 https://www.oauthapp.com/

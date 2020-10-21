@@ -2350,6 +2350,16 @@
             租户所有者ID
             </summary>
         </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPrivateModel.Description">
+            <summary>
+            简介
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPrivateModel.LogoUri">
+            <summary>
+            图标
+            </summary>
+        </member>
         <member name="T:OAuthApp.Models.Shared.TenantPublicModel">
             <summary>
             TenantPublicModel
@@ -2368,6 +2378,16 @@
         <member name="P:OAuthApp.Models.Shared.TenantPublicModel.claims">
             <summary>
             声明
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPublicModel.description">
+            <summary>
+            简介
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPublicModel.logoUri">
+            <summary>
+            图标
             </summary>
         </member>
         <member name="P:OAuthApp.OAuthAppOptions.DefaultUserAccount">

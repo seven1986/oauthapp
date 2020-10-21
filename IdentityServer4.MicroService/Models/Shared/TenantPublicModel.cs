@@ -21,5 +21,15 @@ namespace OAuthApp.Models.Shared
         /// 声明
         /// </summary>
         public Dictionary<string, string> claims { get; set; }
+
+        /// <summary>
+        /// 简介
+        /// </summary>
+        public string description { get; set; }
+
+        /// <summary>
+        /// 图标
+        /// </summary>
+        public string logoUri { get; set; }
     }
 }
