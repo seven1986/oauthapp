@@ -76,16 +76,14 @@ namespace OAuthApp.Tenant
             var tenant = _tenantService.GetTenant(_db,
                 context.Request.Host.Value);
 
-            if (tenant.Item2 == null)
+            if (tenant.Item1 == null)
             {
-                context.Items[TenantConstant.CacheKey] = tenant.Item2;
-
                 context.Response.StatusCode = 400;
 
                 return context.Response.WriteAsync("error page");
             }
 
-            context.Items[TenantConstant.CacheKey] = tenant.Item2;
+            context.Items[TenantConstant.CacheKey] = tenant.Item1;
 
             var ResetOAuthProvider_CacheKey = TenantConstant.SchemesReflush + context.Request.Host.Value;
 
