@@ -17,7 +17,7 @@ namespace OAuthApp.Tenant
         {
             if (!context.Result.IsError)
             {
-                var TenantClaim = _context.GetTenantClaim();
+                var TenantClaim = _context.GetTenantTokenClaim();
 
                 if (TenantClaim != null)
                 {

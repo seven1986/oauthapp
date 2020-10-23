@@ -268,6 +268,8 @@ namespace OAuthApp.Apis
             var Entity = configDb.Clients
                 .Include(x => x.IdentityProviderRestrictions)
                 .Include(x => x.Claims)
+                .Include(x => x.AllowedScopes)
+                .Include(x => x.Properties)
                 .Include(x => x.AllowedCorsOrigins)
                 .Include(x => x.ClientSecrets)
                 .Include(x => x.AllowedGrantTypes)

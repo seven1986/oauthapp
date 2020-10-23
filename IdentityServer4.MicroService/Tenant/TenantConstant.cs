@@ -8,6 +8,11 @@
         public const string CacheKey = "AppTenant:";
 
         /// <summary>
+        /// for requst context in server
+        /// </summary>
+        public const string HttpContextItemKey = "AppTenant_Public";
+
+        /// <summary>
         /// for Token 
         /// </summary>
         public const string TokenKey = "tenant";

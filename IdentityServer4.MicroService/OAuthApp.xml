@@ -2800,6 +2800,11 @@
             for request context
             </summary>
         </member>
+        <member name="F:OAuthApp.Tenant.TenantConstant.HttpContextItemKey">
+            <summary>
+            for requst context in server
+            </summary>
+        </member>
         <member name="F:OAuthApp.Tenant.TenantConstant.TokenKey">
             <summary>
             for Token 

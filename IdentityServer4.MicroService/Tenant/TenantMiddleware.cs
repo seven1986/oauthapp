@@ -25,7 +25,6 @@ namespace OAuthApp.Tenant
         readonly IAuthenticationSchemeProvider _oauthProvider;
         readonly IMemoryCache _memoryCache;
         readonly IdentityServerOptions _identityServerOptions;
-        //readonly JwtBearerOptions _jwtBearerOptions;
 
         #region OAuthOptions
         GoogleOptions _googleOptions;
@@ -76,7 +75,7 @@ namespace OAuthApp.Tenant
             var tenant = _tenantService.GetTenant(_db,
                 context.Request.Host.Value);
 
-            if (tenant.Item1 == null)
+            if (tenant.Item1 == null || tenant.Item2 == null)
             {
                 context.Response.StatusCode = 400;
 
@@ -84,6 +83,8 @@ namespace OAuthApp.Tenant
             }
 
             context.Items[TenantConstant.CacheKey] = tenant.Item1;
+
+            context.Items[TenantConstant.HttpContextItemKey] = tenant.Item2;
 
             var ResetOAuthProvider_CacheKey = TenantConstant.SchemesReflush + context.Request.Host.Value;
 
@@ -95,10 +96,6 @@ namespace OAuthApp.Tenant
 
             #region IdentityServer4 - IssuerUri
             _identityServerOptions.IssuerUri = IssuerUri;
-            #endregion
-
-            #region IdentityServer4 - AuthorityUri
-            //_jwtBearerOptions.Authority = IssuerUri;
             #endregion
 
             #region ResetOAuthProvider - PerRequest

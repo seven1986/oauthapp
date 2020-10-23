@@ -3976,7 +3976,7 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "OAuthApp/2.2.1-preview1": {
+      "OAuthApp/2.2.1-alpha2": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
@@ -12052,7 +12052,7 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
-    "OAuthApp/2.2.1-preview1": {
+    "OAuthApp/2.2.1-alpha2": {
       "type": "project",
       "path": "../IdentityServer4.MicroService/OAuthApp.csproj",
       "msbuildProject": "../IdentityServer4.MicroService/OAuthApp.csproj"
@@ -12061,7 +12061,7 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "Microsoft.EntityFrameworkCore.Design >= 3.1.6",
-      "OAuthApp >= 2.2.1-preview1"
+      "OAuthApp >= 2.2.1-alpha2"
     ]
   },
   "packageFolders": {
