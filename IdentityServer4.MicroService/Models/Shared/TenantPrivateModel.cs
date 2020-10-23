@@ -25,5 +25,15 @@ namespace OAuthApp.Models.Shared
         /// 租户所有者ID
         /// </summary>
         public long OwnerUserId { get; set; }
+
+        /// <summary>
+        /// 简介
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
+        /// 图标
+        /// </summary>
+        public string LogoUri { get; set; }
     }
 }

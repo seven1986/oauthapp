@@ -4,13 +4,20 @@ repo_name: seven1986/OAuthApp
 copyright: Copyright © 2020 OAuthApp
 nav:
   - 首页: 'index.md'
-  - 开始使用:
+  - 入门:
       - 'start-server.md'
       - 'settings.md'
       - 'azureblob.md'
       - 'sendcloud.md'
-      - 'extend-validator.md'
-      - 'saas.md'
+      - 授权模式:
+        - 'auth-implicit.md'
+        - 'auth-code.md'
+        - 'auth-password.md'
+        - 'auth-credentials.md'
+        - 'auth-hybrid.md'
+  - 使用实例:
+        - 'extend-validator.md'
+        - 'saas.md'
   - 参考:
       - 'scopes.md'
   - 更新日志: 

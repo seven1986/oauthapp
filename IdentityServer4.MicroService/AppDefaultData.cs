@@ -62,7 +62,7 @@ namespace OAuthApp
 
             public static string AppHostName = "";//localhost:44309
 
-            public static string Name = "ISMS";
+            public static string Name = AppConstant.MicroServiceName;
 
             public static Dictionary<string, string> TenantProperties =
                     new Dictionary<string, string>()

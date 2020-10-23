@@ -17,15 +17,13 @@ using OAuthApp.Models.Apis.Common;
 using OAuthApp.Models.Apis.ClientController;
 using static OAuthApp.AppConstant;
 using IdentityServer4;
+using System.Security.Claims;
 
 namespace OAuthApp.Apis
 {
-    // Client 根据 userId 来获取列表、或详情、增删改
-
     /// <summary>
     /// 客户端
     /// </summary>
-    [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Client")]
     [SwaggerTag("客户端")]
@@ -33,7 +31,7 @@ namespace OAuthApp.Apis
     {
         #region Services
         // database for identityserver
-        readonly ConfigurationDbContext idsDB;
+        readonly ConfigurationDbContext configDb;
         // database for user
         readonly UserDbContext userDB;
         // IdentityServer Tools
@@ -42,13 +40,13 @@ namespace OAuthApp.Apis
 
         #region 构造函数
         public ClientController(
-            ConfigurationDbContext _idsDB,
+            ConfigurationDbContext _configDb,
             UserDbContext _userDB,
             IStringLocalizer<ClientController> localizer,
             IdentityServerTools tools)
         {
             userDB = _userDB;
-            idsDB = _idsDB;
+            configDb = _configDb;
             l = localizer;
             _tools = tools;
         }
@@ -78,7 +76,7 @@ namespace OAuthApp.Apis
                 };
             }
 
-            var query = idsDB.Clients.AsQueryable();
+            var query = configDb.Clients.AsQueryable();
 
             var clientIDs = await userDB.UserClients.Where(x => x.UserId == UserId)
                .Select(x => x.ClientId).ToListAsync();
@@ -161,12 +159,13 @@ namespace OAuthApp.Apis
             Description = "scope&permission：isms.client.detail")]
         public async Task<ApiResult<Client>> Get(int id)
         {
-            if (!await exists(id))
+            if (!userDB.UserClients
+              .Any(x => x.UserId == UserId && x.ClientId == id))
             {
                 return new ApiResult<Client>(l, BasicControllerEnums.NotFound);
             }
 
-            var query = idsDB.Clients.AsQueryable();
+            var query = configDb.Clients.AsQueryable();
 
             var clientIDs = await userDB.UserClients.Where(x => x.UserId == UserId)
              .Select(x => x.ClientId).ToListAsync();
@@ -213,11 +212,11 @@ namespace OAuthApp.Apis
                     ModelErrors());
             }
 
-            idsDB.Add(value);
+            configDb.Add(value);
 
             try
             {
-                await idsDB.SaveChangesAsync();
+                await configDb.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -248,492 +247,344 @@ namespace OAuthApp.Apis
         [SwaggerOperation(OperationId = "ClientPut",
             Summary = "客户端 - 更新",
             Description = "scope&permission：isms.client.put")]
-        public async Task<ApiResult<long>> Put([FromBody]Client value)
+        public ApiResult<bool> Put([FromBody] Client value)
         {
             if (!ModelState.IsValid)
             {
-                return new ApiResult<long>(l,
+                return new ApiResult<bool>(l,
                     BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
 
-            if (!await exists(value.Id))
+            if (!userDB.UserClients
+                .Any(x => x.UserId == UserId && x.ClientId == value.Id))
             {
-                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound)
+                {
+                    data = false
+                };
             }
-            
 
-            idsDB.Attach(value).State = EntityState.Modified;
+            var Entity = configDb.Clients
+                .Include(x => x.IdentityProviderRestrictions)
+                .Include(x => x.Claims)
+                .Include(x => x.AllowedScopes)
+                .Include(x => x.Properties)
+                .Include(x => x.AllowedCorsOrigins)
+                .Include(x => x.ClientSecrets)
+                .Include(x => x.AllowedGrantTypes)
+                .Include(x => x.RedirectUris)
+                .Include(x => x.PostLogoutRedirectUris)
+                .FirstOrDefault(x => x.Id == value.Id);
+
+            if (Entity == null)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound)
+                {
+                    data = false
+                };
+            }
+
+            #region Properties
+            if (Entity.AccessTokenLifetime != value.AccessTokenLifetime)
+            {
+                Entity.AccessTokenLifetime = value.AccessTokenLifetime;
+            }
+            if (Entity.AuthorizationCodeLifetime != value.AuthorizationCodeLifetime)
+            {
+                Entity.AuthorizationCodeLifetime = value.AuthorizationCodeLifetime;
+            }
+            if (value.ConsentLifetime.HasValue)
+            {
+                Entity.ConsentLifetime = value.ConsentLifetime;
+            }
+            if (Entity.AbsoluteRefreshTokenLifetime != value.AbsoluteRefreshTokenLifetime)
+            {
+                Entity.AbsoluteRefreshTokenLifetime = value.AbsoluteRefreshTokenLifetime;
+            }
+            if (Entity.SlidingRefreshTokenLifetime != value.SlidingRefreshTokenLifetime)
+            {
+                Entity.SlidingRefreshTokenLifetime = value.SlidingRefreshTokenLifetime;
+            }
+            if (Entity.RefreshTokenUsage != value.RefreshTokenUsage)
+            {
+                Entity.RefreshTokenUsage = value.RefreshTokenUsage;
+            }
+            if (Entity.UpdateAccessTokenClaimsOnRefresh != value.UpdateAccessTokenClaimsOnRefresh)
+            {
+                Entity.UpdateAccessTokenClaimsOnRefresh = value.UpdateAccessTokenClaimsOnRefresh;
+            }
+            if (Entity.RefreshTokenExpiration != value.RefreshTokenExpiration)
+            {
+                Entity.RefreshTokenExpiration = value.RefreshTokenExpiration;
+            }
+            if (Entity.AccessTokenType != value.AccessTokenType)
+            {
+                Entity.AccessTokenType = value.AccessTokenType;
+            }
+            if (Entity.EnableLocalLogin != value.EnableLocalLogin)
+            {
+                Entity.EnableLocalLogin = value.EnableLocalLogin;
+            }
+            if (Entity.IncludeJwtId != value.IncludeJwtId)
+            {
+                Entity.IncludeJwtId = value.IncludeJwtId;
+            }
+            if (Entity.AlwaysSendClientClaims != value.AlwaysSendClientClaims)
+            {
+                Entity.AlwaysSendClientClaims = value.AlwaysSendClientClaims;
+            }
+            if (!string.IsNullOrWhiteSpace(value.ClientClaimsPrefix) &&
+                !Entity.ClientClaimsPrefix.Equals(value.ClientClaimsPrefix))
+            {
+                Entity.ClientClaimsPrefix = value.ClientClaimsPrefix;
+            }
+            if (!string.IsNullOrWhiteSpace(value.PairWiseSubjectSalt) &&
+                !Entity.PairWiseSubjectSalt.Equals(value.PairWiseSubjectSalt))
+            {
+                Entity.PairWiseSubjectSalt = value.PairWiseSubjectSalt;
+            }
+            if (value.Updated.HasValue)
+            {
+                Entity.Updated = value.Updated;
+            }
+            if (value.LastAccessed.HasValue)
+            {
+                Entity.LastAccessed = value.LastAccessed;
+            }
+            if (value.UserSsoLifetime.HasValue)
+            {
+                Entity.UserSsoLifetime = value.UserSsoLifetime;
+            }
+            if (Entity.AllowOfflineAccess != value.AllowOfflineAccess) { Entity.AllowOfflineAccess = value.AllowOfflineAccess; }
+            if (Entity.IdentityTokenLifetime != value.IdentityTokenLifetime) { Entity.IdentityTokenLifetime = value.IdentityTokenLifetime; }
+            if (Entity.RequireClientSecret != value.RequireClientSecret) { Entity.RequireClientSecret = value.RequireClientSecret; }
+            if (Entity.Created != value.Created) { Entity.Created = value.Created; }
+            if (Entity.RequireConsent != value.RequireConsent) { Entity.RequireConsent = value.RequireConsent; }
+            if (Entity.DeviceCodeLifetime != value.DeviceCodeLifetime) { Entity.DeviceCodeLifetime = value.DeviceCodeLifetime; }
+            if (Entity.AllowRememberConsent != value.AllowRememberConsent) { Entity.AllowRememberConsent = value.AllowRememberConsent; }
+            if (Entity.RequirePkce != value.RequirePkce) { Entity.RequirePkce = value.RequirePkce; }
+            if (Entity.AllowPlainTextPkce != value.AllowPlainTextPkce) { Entity.AllowPlainTextPkce = value.AllowPlainTextPkce; }
+            if (Entity.RequireRequestObject != value.RequireRequestObject) { Entity.RequireRequestObject = value.RequireRequestObject; }
+            if (Entity.AllowAccessTokensViaBrowser != value.AllowAccessTokensViaBrowser) { Entity.AllowAccessTokensViaBrowser = value.AllowAccessTokensViaBrowser; }
+            if (Entity.FrontChannelLogoutSessionRequired != value.FrontChannelLogoutSessionRequired) { Entity.FrontChannelLogoutSessionRequired = value.FrontChannelLogoutSessionRequired; }
+            if (Entity.BackChannelLogoutSessionRequired != value.BackChannelLogoutSessionRequired) { Entity.BackChannelLogoutSessionRequired = value.BackChannelLogoutSessionRequired; }
+            if (Entity.AlwaysIncludeUserClaimsInIdToken != value.AlwaysIncludeUserClaimsInIdToken) { Entity.AlwaysIncludeUserClaimsInIdToken = value.AlwaysIncludeUserClaimsInIdToken; }
+            if (Entity.NonEditable != value.NonEditable) { Entity.NonEditable = value.NonEditable; }
+            if (Entity.Enabled != value.Enabled) { Entity.Enabled = value.Enabled; }
+            if (!string.IsNullOrWhiteSpace(value.UserCodeType) &&
+                !Entity.UserCodeType.Equals(value.UserCodeType)) 
+            { Entity.UserCodeType = value.UserCodeType; }
+            if (!string.IsNullOrWhiteSpace(value.AllowedIdentityTokenSigningAlgorithms) &&
+                !Entity.AllowedIdentityTokenSigningAlgorithms.Equals(value.AllowedIdentityTokenSigningAlgorithms))
+            { Entity.AllowedIdentityTokenSigningAlgorithms = value.AllowedIdentityTokenSigningAlgorithms; }
+            if (!string.IsNullOrWhiteSpace(value.ClientId) &&
+                !Entity.ClientId.Equals(value.ClientId)) 
+            { Entity.ClientId = value.ClientId; }
+            if (!string.IsNullOrWhiteSpace(value.ProtocolType) &&
+                !Entity.ProtocolType.Equals(value.ProtocolType)) 
+            { Entity.ProtocolType = value.ProtocolType; }
+            if (!string.IsNullOrWhiteSpace(value.ClientName) &&
+                !Entity.ClientName.Equals(value.ClientName)) 
+            { Entity.ClientName = value.ClientName; }
+            if (!string.IsNullOrWhiteSpace(value.Description) &&
+                !Entity.Description.Equals(value.Description)) 
+            { Entity.Description = value.Description; }
+            if (!string.IsNullOrWhiteSpace(value.ClientUri) &&
+                !Entity.ClientUri.Equals(value.ClientUri)) 
+            { Entity.ClientUri = value.ClientUri; }
+            if (!string.IsNullOrWhiteSpace(value.LogoUri) &&
+                !Entity.LogoUri.Equals(value.LogoUri)) 
+            { Entity.LogoUri = value.LogoUri; }
+            if (!string.IsNullOrWhiteSpace(value.FrontChannelLogoutUri) &&
+                !Entity.FrontChannelLogoutUri.Equals(value.FrontChannelLogoutUri)) 
+            { Entity.FrontChannelLogoutUri = value.FrontChannelLogoutUri; }
+            if (!string.IsNullOrWhiteSpace(value.BackChannelLogoutUri) &&
+                !Entity.BackChannelLogoutUri.Equals(value.BackChannelLogoutUri)) 
+            { Entity.BackChannelLogoutUri = value.BackChannelLogoutUri; }
+            #endregion
+
+            #region IdentityProviderRestrictions
+            if (Entity.IdentityProviderRestrictions != null && Entity.IdentityProviderRestrictions.Count > 0)
+            {
+                Entity.IdentityProviderRestrictions.Clear();
+            }
+            if (value.IdentityProviderRestrictions != null && value.IdentityProviderRestrictions.Count > 0)
+            {
+                Entity.IdentityProviderRestrictions = value.IdentityProviderRestrictions
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Provider))
+                    .Select(x => new ClientIdPRestriction()
+                    {
+                        Client = Entity,
+                        ClientId = value.Id,
+                        Provider = x.Provider
+                    }).ToList();
+            }
+            #endregion
+
+            #region Claims
+            if (Entity.Claims != null && Entity.Claims.Count > 0)
+            {
+                Entity.Claims.Clear();
+            }
+            if (value.Claims != null && value.Claims.Count > 0)
+            {
+                Entity.Claims = value.Claims
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Type))
+                    .Select(x => new ClientClaim()
+                    {
+                        Client = Entity,
+                        ClientId = value.Id,
+                        Type = x.Type,
+                        Value = x.Value
+                    }).ToList();
+            }
+            #endregion
+
+            #region AllowedCorsOrigins
+            if (Entity.AllowedCorsOrigins != null && Entity.AllowedCorsOrigins.Count > 0)
+            {
+                Entity.AllowedCorsOrigins.Clear();
+            }
+            if (value.AllowedCorsOrigins != null && value.AllowedCorsOrigins.Count > 0)
+            {
+                Entity.AllowedCorsOrigins = value.AllowedCorsOrigins
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Origin))
+                    .Select(x => new ClientCorsOrigin()
+                    {
+                        Client = Entity,
+                        ClientId = value.Id,
+                        Origin = x.Origin
+                    }).ToList();
+            }
+            #endregion
+
+            #region Properties
+            if (Entity.Properties != null && Entity.Properties.Count > 0)
+            {
+                Entity.Properties.Clear();
+            }
+            if (value.Properties != null && value.Properties.Count > 0)
+            {
+                Entity.Properties = value.Properties
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Key))
+                    .Select(x => new ClientProperty()
+                    {
+                        Client = Entity,
+                        ClientId = value.Id,
+                        Key = x.Key,
+                        Value = x.Value
+                    }).ToList();
+            }
+            #endregion
+
+            #region AllowedScopes
+            if (Entity.AllowedScopes != null && Entity.AllowedScopes.Count > 0)
+            {
+                Entity.AllowedScopes.Clear();
+            }
+            if (value.AllowedScopes != null && value.AllowedScopes.Count > 0)
+            {
+                Entity.AllowedScopes = value.AllowedScopes
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Scope))
+                    .Select(x => new ClientScope()
+                    {
+                        Client = Entity,
+                        ClientId = value.Id,
+                        Scope = x.Scope
+                    }).ToList();
+            }
+            #endregion
+
+            #region ClientSecrets
+            if (Entity.ClientSecrets != null && Entity.ClientSecrets.Count > 0)
+            {
+                Entity.ClientSecrets.Clear();
+            }
+            if (value.ClientSecrets != null && value.ClientSecrets.Count > 0)
+            {
+                Entity.ClientSecrets = value.ClientSecrets
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Type) && !string.IsNullOrWhiteSpace(x.Value))
+                    .Select(x => new ClientSecret()
+                    {
+                        Client = Entity,
+                        ClientId = value.Id,
+                        Type = x.Type,
+                        Value = x.Value,
+                        Created = x.Created,
+                        Description = x.Description,
+                        Expiration = x.Expiration.GetValueOrDefault()
+                    }).ToList();
+            }
+            #endregion
+
+            #region AllowedGrantTypes
+            if (Entity.AllowedGrantTypes != null && Entity.AllowedGrantTypes.Count > 0)
+            {
+                Entity.AllowedGrantTypes.Clear();
+            }
+            if (value.AllowedGrantTypes != null && value.AllowedGrantTypes.Count > 0)
+            {
+                Entity.AllowedGrantTypes = value.AllowedGrantTypes
+                    .Where(x => !string.IsNullOrWhiteSpace(x.GrantType))
+                    .Select(x => new ClientGrantType()
+                    {
+                        Client = Entity,
+                        ClientId = value.Id,
+                        GrantType = x.GrantType
+                    }).ToList();
+            }
+            #endregion
+
+            #region RedirectUris
+            if (Entity.RedirectUris != null && Entity.RedirectUris.Count > 0)
+            {
+                Entity.RedirectUris.Clear();
+            }
+            if (value.RedirectUris != null && value.RedirectUris.Count > 0)
+            {
+                Entity.RedirectUris = value.RedirectUris
+                    .Where(x => !string.IsNullOrWhiteSpace(x.RedirectUri))
+                    .Select(x => new ClientRedirectUri()
+                    {
+                        Client = Entity,
+                        ClientId = value.Id,
+                        RedirectUri = x.RedirectUri
+                    }).ToList();
+            }
+            #endregion
+
+            #region PostLogoutRedirectUris
+            if (Entity.PostLogoutRedirectUris != null && Entity.PostLogoutRedirectUris.Count > 0)
+            {
+                Entity.PostLogoutRedirectUris.Clear();
+            }
+            if (value.PostLogoutRedirectUris != null && value.PostLogoutRedirectUris.Count > 0)
+            {
+                Entity.PostLogoutRedirectUris = value.PostLogoutRedirectUris
+                    .Where(x => !string.IsNullOrWhiteSpace(x.PostLogoutRedirectUri))
+                    .Select(x => new ClientPostLogoutRedirectUri()
+                    {
+                        Client = Entity,
+                        ClientId = value.Id,
+                        PostLogoutRedirectUri = x.PostLogoutRedirectUri
+                    }).ToList();
+            }
+            #endregion
 
             try
             {
-                idsDB.SaveChanges();
+                configDb.SaveChanges();
             }
 
             catch (Exception ex)
             {
-                return new ApiResult<long>(l,
+                return new ApiResult<bool>(l,
                     BasicControllerEnums.ExpectationFailed,
                     ex.Message);
             }
 
-            return new ApiResult<long>(value.Id);
-
-            //using (var tran = idsDB.Database.BeginTransaction(IsolationLevel.ReadCommitted))
-            //{
-            //    try
-            //    {
-            //        #region Update Entity
-            //        // 需要先更新value，否则更新如claims等属性会有并发问题
-            //        idsDB.Update(value);
-            //        idsDB.SaveChanges();
-            //        #endregion
-
-            //        #region Find Entity.Source
-            //        var source = await idsDB.Clients.Where(x => x.Id == value.Id)
-            //                        .Include(x => x.Claims)
-            //                        .Include(x => x.AllowedGrantTypes)
-            //                        .Include(x => x.AllowedScopes)
-            //                        .Include(x => x.ClientSecrets)
-            //                        .Include(x => x.AllowedCorsOrigins)
-            //                        .Include(x => x.RedirectUris)
-            //                        .Include(x => x.PostLogoutRedirectUris)
-            //                        .Include(x => x.IdentityProviderRestrictions)
-            //                        .Include(x => x.Properties)
-            //                        .AsNoTracking()
-            //                        .FirstOrDefaultAsync();
-            //        #endregion
-
-            //        #region Update Entity.Claims
-            //        if (value.Claims != null && value.Claims.Count > 0)
-            //        {
-            //            #region delete
-            //            var EntityIDs = value.Claims.Select(x => x.Id).ToList();
-            //            if (EntityIDs.Count > 0)
-            //            {
-            //                var DeleteEntities = source.Claims.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-            //                if (DeleteEntities.Count() > 0)
-            //                {
-            //                    //var sql = string.Format("DELETE ClientClaims WHERE ID IN ({0})",
-            //                    //            string.Join(",", DeleteEntities));
-
-            //                    idsDB.Database.ExecuteSqlRaw($"DELETE ClientClaims WHERE ID IN ({string.Join(",", DeleteEntities)})");
-            //                }
-            //            }
-            //            #endregion
-
-            //            #region update
-            //            var UpdateEntities = value.Claims.Where(x => x.Id > 0).ToList();
-            //            if (UpdateEntities.Count > 0)
-            //            {
-            //                UpdateEntities.ForEach(x =>
-            //                {
-            //                    idsDB.Database.ExecuteSqlRaw($"UPDATE ClientClaims SET [Type]={x.Type},[Value]={x.Value} WHERE Id = {x.Id}");
-            //                });
-            //            }
-            //            #endregion
-
-            //            #region insert
-            //            var NewEntities = value.Claims.Where(x => x.Id == 0).ToList();
-            //            if (NewEntities.Count > 0)
-            //            {
-            //                NewEntities.ForEach(x =>
-            //                {
-            //                    idsDB.Database.ExecuteSqlRaw($"INSERT INTO ClientClaims VALUES ({source.Id},{x.Type},{ x.Value})");
-            //                });
-            //            }
-            //            #endregion
-            //        }
-            //        #endregion
-
-            //        #region Update Entity.AllowedGrantTypes
-            //        if (value.AllowedGrantTypes != null && value.AllowedGrantTypes.Count > 0)
-            //        {
-            //            #region delete
-            //            var EntityIDs = value.AllowedGrantTypes.Select(x => x.Id).ToList();
-            //            if (EntityIDs.Count > 0)
-            //            {
-            //                var DeleteEntities = source.AllowedGrantTypes.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-            //                if (DeleteEntities.Count() > 0)
-            //                {
-            //                    //var sql = string.Format("DELETE ClientGrantTypes WHERE ID IN ({0})",
-            //                    //            string.Join(",", DeleteEntities));
-
-            //                    idsDB.Database.ExecuteSqlRaw($"DELETE ClientGrantTypes WHERE ID IN ({string.Join(",", DeleteEntities)})");
-            //                }
-            //            }
-            //            #endregion
-
-            //            #region update
-            //            var UpdateEntities = value.AllowedGrantTypes.Where(x => x.Id > 0).ToList();
-            //            if (UpdateEntities.Count > 0)
-            //            {
-            //                UpdateEntities.ForEach(x =>
-            //                {
-            //                    idsDB.Database.ExecuteSqlRaw($"UPDATE ClientGrantTypes SET [GrantType]= {x.GrantType} WHERE Id = {x.Id}");
-            //                });
-            //            }
-            //            #endregion
-
-            //            #region insert
-            //            var NewEntities = value.AllowedGrantTypes.Where(x => x.Id == 0).ToList();
-            //            if (NewEntities.Count > 0)
-            //            {
-            //                NewEntities.ForEach(x =>
-            //                {
-            //                    idsDB.Database.ExecuteSqlRaw($"INSERT INTO ClientGrantTypes VALUES ({source.Id},{x.GrantType})");
-            //                });
-            //            }
-            //            #endregion
-            //        }
-            //        #endregion
-
-            //        #region Update Entity.AllowedScopes
-            //        if (value.AllowedScopes != null && value.AllowedScopes.Count > 0)
-            //        {
-            //            #region delete
-            //            var EntityIDs = value.AllowedScopes.Select(x => x.Id).ToList();
-            //            if (EntityIDs.Count > 0)
-            //            {
-            //                var DeleteEntities = source.AllowedScopes.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-            //                if (DeleteEntities.Count() > 0)
-            //                {
-            //                    //var sql = string.Format("DELETE ClientScopes WHERE ID IN ({0})",
-            //                    //            string.Join(",", DeleteEntities));
-
-            //                    idsDB.Database.ExecuteSqlRaw($"DELETE ClientScopes WHERE ID IN ({string.Join(",", DeleteEntities)})");
-            //                }
-            //            }
-            //            #endregion
-
-            //            #region update
-            //            var UpdateEntities = value.AllowedScopes.Where(x => x.Id > 0).ToList();
-            //            if (UpdateEntities.Count > 0)
-            //            {
-            //                UpdateEntities.ForEach(x =>
-            //                {
-            //                    idsDB.Database.ExecuteSqlRaw($"UPDATE ClientScopes SET [Scope]= {x.Scope} WHERE Id = {x.Id}");
-            //                });
-            //            }
-            //            #endregion
-
-            //            #region insert
-            //            var NewEntities = value.AllowedScopes.Where(x => x.Id == 0).ToList();
-            //            if (NewEntities.Count > 0)
-            //            {
-            //                NewEntities.ForEach(x =>
-            //                {
-            //                    idsDB.Database.ExecuteSqlRaw($"INSERT INTO ClientScopes VALUES ({source.Id},{x.Scope})");
-            //                });
-            //            }
-            //            #endregion
-            //        }
-            //        #endregion
-
-            //        #region Update Entity.ClientSecrets
-            //        if (value.ClientSecrets != null && value.ClientSecrets.Count > 0)
-            //        {
-            //            #region delete
-            //            var EntityIDs = value.ClientSecrets.Select(x => x.Id).ToList();
-            //            if (EntityIDs.Count > 0)
-            //            {
-            //                var DeleteEntities = source.ClientSecrets.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-            //                if (DeleteEntities.Count() > 0)
-            //                {
-            //                    //var sql = string.Format("DELETE ClientSecrets WHERE ID IN ({0})",
-            //                    //            string.Join(",", DeleteEntities));
-
-            //                    idsDB.Database.ExecuteSqlRaw($"DELETE ClientSecrets WHERE ID IN ({string.Join(",", DeleteEntities)})");
-            //                }
-            //            }
-            //            #endregion
-
-            //            #region update
-            //            var UpdateEntities = value.ClientSecrets.Where(x => x.Id > 0).ToList();
-            //            if (UpdateEntities.Count > 0)
-            //            {
-            //                UpdateEntities.ForEach(x =>
-            //                {
-            //                    //var sql = new RawSqlString("UPDATE ClientSecrets SET [Description]=@Description,[Expiration]=@Expiration,[Type]=@Type,[Value]=@Value WHERE Id = " + x.Id);
-
-            //                    //var _params = new SqlParameter[]
-            //                    //{
-            //                    //    new SqlParameter("@Description", DBNull.Value){ IsNullable=true },
-            //                    //    new SqlParameter("@Expiration",DBNull.Value){ IsNullable=true },
-            //                    //    new SqlParameter("@Type",DBNull.Value){ IsNullable=true },
-            //                    //    new SqlParameter("@Value", DBNull.Value){ IsNullable=true },
-            //                    //};
-
-            //                    //if (!string.IsNullOrWhiteSpace(x.Description)) { _params[0].Value = x.Description; }
-            //                    //if (x.Expiration.HasValue) { _params[1].Value = x.Expiration; }
-            //                    //if (!string.IsNullOrWhiteSpace(x.Type)) { _params[2].Value = x.Type; }
-            //                    //if (!string.IsNullOrWhiteSpace(x.Value)) { _params[3].Value = x.Value; }
-
-            //                    idsDB.Database.ExecuteSqlRaw($"UPDATE ClientSecrets SET [Description]={x.Description},[Expiration]={x.Expiration},[Type]={x.Type},[Value]={x.Value} WHERE Id = {x.Id}");
-            //                });
-            //            }
-            //            #endregion
-
-            //            #region insert
-            //            var NewEntities = value.ClientSecrets.Where(x => x.Id == 0).ToList();
-            //            if (NewEntities.Count > 0)
-            //            {
-            //                NewEntities.ForEach(x =>
-            //                {
-            //                    //var sql = new RawSqlString("INSERT INTO ClientSecrets VALUES (@ClientId,@Description,@Expiration,@Type,@Value)");
-
-            //                    //var _params = new SqlParameter[]
-            //                    //{
-            //                    //    new SqlParameter("@ClientId", source.Id),
-            //                    //    new SqlParameter("@Description", DBNull.Value){ IsNullable=true },
-            //                    //    new SqlParameter("@Expiration", DBNull.Value){ IsNullable=true },
-            //                    //    new SqlParameter("@Type", DBNull.Value){ IsNullable=true },
-            //                    //    new SqlParameter("@Value", DBNull.Value){ IsNullable=true },
-            //                    //};
-
-            //                    //if (!string.IsNullOrWhiteSpace(x.Description)) { _params[1].Value = x.Description; }
-            //                    //if (x.Expiration.HasValue) { _params[2].Value = x.Expiration; }
-            //                    //if (!string.IsNullOrWhiteSpace(x.Type)) { _params[3].Value = x.Type; }
-            //                    //if (!string.IsNullOrWhiteSpace(x.Value)) { _params[4].Value = x.Value; }
-
-            //                    idsDB.Database.ExecuteSqlRaw($"INSERT INTO ClientSecrets VALUES ({source.Id},{x.Description},{x.Expiration},{x.Type},{x.Value})");
-            //                });
-            //            }
-            //            #endregion
-            //        }
-            //        #endregion
-
-            //        #region Update Entity.AllowedCorsOrigins
-            //        if (value.AllowedCorsOrigins != null && value.AllowedCorsOrigins.Count > 0)
-            //        {
-            //            #region delete
-            //            var EntityIDs = value.AllowedCorsOrigins.Select(x => x.Id).ToList();
-            //            if (EntityIDs.Count > 0)
-            //            {
-            //                var DeleteEntities = source.AllowedCorsOrigins.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-            //                if (DeleteEntities.Count() > 0)
-            //                {
-            //                    //var sql = string.Format("DELETE ClientCorsOrigins WHERE ID IN ({0})",
-            //                    //            string.Join(",", DeleteEntities));
-
-            //                    idsDB.Database.ExecuteSqlRaw($"DELETE ClientCorsOrigins WHERE ID IN ({string.Join(",", DeleteEntities)})");
-            //                }
-            //            }
-            //            #endregion
-
-            //            #region update
-            //            var UpdateEntities = value.AllowedCorsOrigins.Where(x => x.Id > 0).ToList();
-            //            if (UpdateEntities.Count > 0)
-            //            {
-            //                UpdateEntities.ForEach(x =>
-            //                {
-            //                    idsDB.Database.ExecuteSqlRaw($"UPDATE ClientCorsOrigins SET [Origin]={x.Origin} WHERE Id = {x.Id}");
-            //                });
-            //            }
-            //            #endregion
-
-            //            #region insert
-            //            var NewEntities = value.AllowedCorsOrigins.Where(x => x.Id == 0).ToList();
-            //            if (NewEntities.Count > 0)
-            //            {
-            //                NewEntities.ForEach(x =>
-            //                {
-            //                    idsDB.Database.ExecuteSqlRaw($"INSERT INTO ClientCorsOrigins VALUES ({source.Id},{x.Origin})");
-            //                });
-            //            }
-            //            #endregion
-            //        }
-            //        #endregion
-
-            //        #region Update Entity.RedirectUris
-            //        if (value.RedirectUris != null && value.RedirectUris.Count > 0)
-            //        {
-            //            #region delete
-            //            var EntityIDs = value.RedirectUris.Select(x => x.Id).ToList();
-            //            if (EntityIDs.Count > 0)
-            //            {
-            //                var DeleteEntities = source.RedirectUris.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-            //                if (DeleteEntities.Count() > 0)
-            //                {
-            //                    //var sql = string.Format("DELETE ClientRedirectUris WHERE ID IN ({0})",
-            //                    //            string.Join(",", DeleteEntities));
-
-            //                    idsDB.Database.ExecuteSqlRaw($"DELETE ClientRedirectUris WHERE ID IN ({string.Join(",", DeleteEntities)})");
-            //                }
-            //            }
-            //            #endregion
-
-            //            #region update
-            //            var UpdateEntities = value.RedirectUris.Where(x => x.Id > 0).ToList();
-            //            if (UpdateEntities.Count > 0)
-            //            {
-            //                UpdateEntities.ForEach(x =>
-            //                {
-            //                    idsDB.Database.ExecuteSqlRaw($"UPDATE ClientRedirectUris SET [RedirectUri]= {x.RedirectUri} WHERE Id = {x.Id}");
-            //                });
-            //            }
-            //            #endregion
-
-            //            #region insert
-            //            var NewEntities = value.RedirectUris.Where(x => x.Id == 0).ToList();
-            //            if (NewEntities.Count > 0)
-            //            {
-            //                NewEntities.ForEach(x =>
-            //                {
-            //                    idsDB.Database.ExecuteSqlRaw($"INSERT INTO ClientRedirectUris VALUES ({source.Id},{x.RedirectUri})");
-            //                });
-            //            }
-            //            #endregion
-            //        }
-            //        #endregion
-
-            //        #region Update Entity.PostLogoutRedirectUris
-            //        if (value.PostLogoutRedirectUris != null && value.PostLogoutRedirectUris.Count > 0)
-            //        {
-            //            #region delete
-            //            var EntityIDs = value.PostLogoutRedirectUris.Select(x => x.Id).ToList();
-            //            if (EntityIDs.Count > 0)
-            //            {
-            //                var DeleteEntities = source.PostLogoutRedirectUris.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-            //                if (DeleteEntities.Count() > 0)
-            //                {
-            //                    //var sql = string.Format("DELETE ClientPostLogoutRedirectUris WHERE ID IN ({0})",
-            //                    //            string.Join(",", DeleteEntities));
-
-            //                    idsDB.Database.ExecuteSqlRaw($"DELETE ClientPostLogoutRedirectUris WHERE ID IN ({string.Join(",", DeleteEntities)})");
-            //                }
-            //            }
-            //            #endregion
-
-            //            #region update
-            //            var UpdateEntities = value.PostLogoutRedirectUris.Where(x => x.Id > 0).ToList();
-            //            if (UpdateEntities.Count > 0)
-            //            {
-            //                UpdateEntities.ForEach(x =>
-            //                {
-            //                    idsDB.Database.ExecuteSqlRaw($"UPDATE ClientPostLogoutRedirectUris SET [PostLogoutRedirectUri]= {x.PostLogoutRedirectUri} WHERE Id = {x.Id}");
-            //                });
-            //            }
-            //            #endregion
-
-            //            #region insert
-            //            var NewEntities = value.PostLogoutRedirectUris.Where(x => x.Id == 0).ToList();
-            //            if (NewEntities.Count > 0)
-            //            {
-            //                NewEntities.ForEach(x =>
-            //                {
-            //                    idsDB.Database.ExecuteSqlRaw($"INSERT INTO ClientPostLogoutRedirectUris VALUES ({source.Id},{x.PostLogoutRedirectUri})");
-            //                });
-            //            }
-            //            #endregion
-            //        }
-            //        #endregion
-
-            //        #region Update Entity.IdentityProviderRestrictions
-            //        if (value.IdentityProviderRestrictions != null && value.IdentityProviderRestrictions.Count > 0)
-            //        {
-            //            #region delete
-            //            var EntityIDs = value.IdentityProviderRestrictions.Select(x => x.Id).ToList();
-            //            if (EntityIDs.Count > 0)
-            //            {
-            //                var DeleteEntities = source.IdentityProviderRestrictions.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-            //                if (DeleteEntities.Count() > 0)
-            //                {
-            //                    //var sql = string.Format("DELETE ClientIdPRestrictions WHERE ID IN ({0})",
-            //                    //            string.Join(",", DeleteEntities));
-
-            //                    idsDB.Database.ExecuteSqlRaw($"DELETE ClientIdPRestrictions WHERE ID IN ({string.Join(",", DeleteEntities)})");
-            //                }
-            //            }
-            //            #endregion
-
-            //            #region update
-            //            var UpdateEntities = value.IdentityProviderRestrictions.Where(x => x.Id > 0).ToList();
-            //            if (UpdateEntities.Count > 0)
-            //            {
-            //                UpdateEntities.ForEach(x =>
-            //                {
-            //                    idsDB.Database.ExecuteSqlRaw($"UPDATE ClientIdPRestrictions SET [Provider]={x.Provider} WHERE Id = {x.Id}");
-            //                });
-            //            }
-            //            #endregion
-
-            //            #region insert
-            //            var NewEntities = value.IdentityProviderRestrictions.Where(x => x.Id == 0).ToList();
-            //            if (NewEntities.Count > 0)
-            //            {
-            //                NewEntities.ForEach(x =>
-            //                {
-            //                    idsDB.Database.ExecuteSqlRaw($"INSERT INTO ClientIdPRestrictions VALUES ({source.Id},{x.Provider})");
-            //                });
-            //            }
-            //            #endregion
-            //        }
-            //        #endregion
-
-            //        #region Update Entity.Properties
-            //        if (value.Properties != null && value.Properties.Count > 0)
-            //        {
-            //            #region delete
-            //            var EntityIDs = value.Properties.Select(x => x.Id).ToList();
-            //            if (EntityIDs.Count > 0)
-            //            {
-            //                var DeleteEntities = source.Properties.Where(x => !EntityIDs.Contains(x.Id)).Select(x => x.Id).ToArray();
-
-            //                if (DeleteEntities.Count() > 0)
-            //                {
-            //                    //var sql = string.Format("DELETE ClientProperties WHERE ID IN ({0})",
-            //                    //            string.Join(",", DeleteEntities));
-
-            //                    idsDB.Database.ExecuteSqlRaw($"DELETE ClientProperties WHERE ID IN ({string.Join(",", DeleteEntities)})");
-            //                }
-            //            }
-            //            #endregion
-
-            //            #region update
-            //            var UpdateEntities = value.Properties.Where(x => x.Id > 0).ToList();
-            //            if (UpdateEntities.Count > 0)
-            //            {
-            //                UpdateEntities.ForEach(x =>
-            //                {
-            //                    idsDB.Database.ExecuteSqlRaw($"UPDATE ClientProperties SET [Key]={x.Key},[Value]={x.Value} WHERE Id = {x.Id}");
-            //                });
-            //            }
-            //            #endregion
-
-            //            #region insert
-            //            var NewEntities = value.Properties.Where(x => x.Id == 0).ToList();
-            //            if (NewEntities.Count > 0)
-            //            {
-            //                NewEntities.ForEach(x =>
-            //                {
-            //                    idsDB.Database.ExecuteSqlRaw($"INSERT INTO ClientProperties VALUES ({source.Id},{x.Key},{x.Value})");
-            //                });
-            //            }
-            //            #endregion
-            //        }
-            //        #endregion
-
-            //        tran.Commit();
-            //    }
-
-            //    catch (Exception ex)
-            //    {
-            //        tran.Rollback();
-
-            //        return new ApiResult<long>(l,
-            //            BasicControllerEnums.ExpectationFailed,
-            //            ex.Message);
-            //    }
-            //}
+            return new ApiResult<bool>(true);
         }
         #endregion
 
@@ -749,23 +600,39 @@ namespace OAuthApp.Apis
         [SwaggerOperation(OperationId = "ClientDelete",
             Summary = "客户端 - 删除",
             Description = "scope&permission：isms.client.delete")]
-        public async Task<ApiResult<long>> Delete(int id)
+        public ApiResult<bool> Delete(int id)
         {
-            if (!await exists(id))
+            if (!userDB.UserClients
+              .Any(x => x.UserId == UserId && x.ClientId == id))
             {
-                return new ApiResult<long>(l, BasicControllerEnums.NotFound);
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound)
+                {
+                    data = false
+                };
             }
             try
             {
-                var entity = await idsDB.Clients.SingleOrDefaultAsync(m => m.Id == id);
+                var entity = configDb.Clients.Where(m => m.Id == id)
+                .Include(x => x.Claims)
+                .Include(x => x.ClientSecrets)
+                .Include(x => x.AllowedCorsOrigins)
+                .Include(x => x.AllowedGrantTypes)
+                .Include(x => x.Properties)
+                .Include(x => x.AllowedScopes)
+                .Include(x => x.PostLogoutRedirectUris)
+                .Include(x => x.IdentityProviderRestrictions)
+                .Include(x => x.RedirectUris).FirstOrDefault();
 
-                idsDB.Clients.Remove(entity);
+                configDb.Clients.Remove(entity);
 
-                await idsDB.SaveChangesAsync();
+                configDb.SaveChanges();
             }
             catch (Exception ex)
             {
-                return new ApiResult<long>(l, BasicControllerEnums.ExpectationFailed, ex.Message + ex.Source);
+                return new ApiResult<bool>(l, BasicControllerEnums.ExpectationFailed, ex.Message + ex.Source)
+                {
+                    data = false
+                };
             }
 
             var sql = "DELETE AspNetUserClients WHERE ClientId=@ClientId AND UserId=@UserId";
@@ -777,13 +644,16 @@ namespace OAuthApp.Apis
             };
             try
             {
-                await userDB.Database.ExecuteSqlRawAsync(sql, _params);
+                userDB.Database.ExecuteSqlRaw(sql, _params);
             }
             catch (Exception ex)
             {
-                return new ApiResult<long>(l, BasicControllerEnums.ExpectationFailed, ex.Message + ex.Source);
+                return new ApiResult<bool>(l, BasicControllerEnums.ExpectationFailed, ex.Message + ex.Source)
+                {
+                    data = false
+                };
             }
-            return new ApiResult<long>(id);
+            return new ApiResult<bool>(true);
         }
         #endregion
 
@@ -803,9 +673,9 @@ namespace OAuthApp.Apis
         {
             if (value.lifetime < 1) { value.lifetime = 3600; }
 
-            var excludeClaimTypes = new List<String>() { "nbf", "exp", "iss" };
+            var excludeClaimTypes = new List<string>() { "nbf", "exp", "iss" };
 
-            var claims = User.Claims.Where(x => !excludeClaimTypes.Contains(x.Type)).ToList();
+            var claims = ((ClaimsIdentity)User.Identity).Claims.Where(x => !excludeClaimTypes.Contains(x.Type)).ToList();
 
             var token = await _tools.IssueJwtAsync(value.lifetime, claims);
 
@@ -860,21 +730,6 @@ namespace OAuthApp.Apis
             var result = _Codes<ClientControllerEnums>();
 
             return result;
-        }
-        #endregion
-
-        #region 辅助方法
-        async Task<bool> exists(long id)
-        {
-            var query = idsDB.Clients.AsQueryable();
-
-            var clientIDs = await userDB.UserClients
-                .Where(x => x.UserId == UserId)
-                .Select(x => x.ClientId).ToListAsync();
-
-            query = query.Where(x => clientIDs.Contains(x.Id));
-
-            return query.Any(x => x.Id == id);
         }
         #endregion
     }

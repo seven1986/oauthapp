@@ -121,7 +121,7 @@
   <data name="OAuthApp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>OAuthApp.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="OAuthApp1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>OAuthApp.pfx;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="oauthapp1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>oauthapp.pfx;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

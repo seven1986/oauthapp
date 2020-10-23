@@ -28,7 +28,6 @@ namespace OAuthApp.Apis
     /// <summary>
     /// 代码生成
     /// </summary>
-    [Produces("application/json")]
     [ApiExplorerSettingsDynamic("CodeGen")]
     [SwaggerTag("代码生成")]
     public class CodeGenController : ApiControllerBase

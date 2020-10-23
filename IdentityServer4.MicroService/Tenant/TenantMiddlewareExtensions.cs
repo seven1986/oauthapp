@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using static OAuthApp.AppDefaultData;
+using Microsoft.OpenApi.Models;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -69,20 +70,11 @@ namespace Microsoft.AspNetCore.Builder
             {
                 builder.UseSwagger(x =>
                 {
-                    //x.PreSerializeFilters.Add((doc, req) =>
-                    //{
-                    //    doc.Schemes = new[] { "https" };
-                    //    doc.Host = options.IdentityServerUri.Authority;
-                    //    doc.Security = new List<IDictionary<string, IEnumerable<string>>>()
-                    //    {
-                    //        new Dictionary<string, IEnumerable<string>>()
-                    //        {
-                    //            { "SubscriptionKey", new string[]{ } },
-                    //            { "AccessToken", new string[]{ } },
-                    //            { "OAuth2", new string[]{ } },
-                    //        }
-                    //    };
-                    //});
+                    x.PreSerializeFilters.Add((swagger, httpReq) =>
+                    {
+                        swagger.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" } };
+                    });
+
                 });
             }
 

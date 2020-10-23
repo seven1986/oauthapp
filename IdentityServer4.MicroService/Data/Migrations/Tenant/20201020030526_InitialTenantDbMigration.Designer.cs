@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OAuthApp.Tenant;
 
-namespace WebApplication1.Data.Migrations.Tenant
+namespace OAuthApp.Data.Migrations.Tenant
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20200917085934_InitialTenantDbMigration")]
+    [Migration("20201020030526_InitialTenantDbMigration")]
     partial class InitialTenantDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,11 +34,17 @@ namespace WebApplication1.Data.Migrations.Tenant
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IdentityServerIssuerUri")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastUpdateTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("LogoUri")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");

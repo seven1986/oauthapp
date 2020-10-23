@@ -9,6 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using OAuthApp.Tenant;
+using OAuthApp.Models.Shared;
 
 namespace OAuthApp.Services
 {
@@ -27,25 +30,27 @@ namespace OAuthApp.Services
         // 用户管理SDK
         private readonly UserManager<AppUser> _userManager;
 
+        readonly HttpContext _httpContext;
+
         public MobileCodeGrantValidator(ITokenValidator validator,
             UserDbContext db,
             RedisService redis,
             UserManager<AppUser> userManager,
-            OAuthAppOptions ismsOptions)
+            OAuthAppOptions ismsOptions,
+            IHttpContextAccessor httpContext)
         {
             _validator = validator;
             _db = db;
             _redis = redis;
             _userManager = userManager;
             _ismsOptions = ismsOptions;
+            _httpContext = httpContext.HttpContext;
         }
 
         public async Task ValidateAsync(ExtensionGrantValidationContext context)
         {
             var country_code = context.Request.Raw.Get("country_code");
-
             var mobile = context.Request.Raw.Get("mobile");
-
             var mobile_code = context.Request.Raw.Get("mobile_code");
 
             if (string.IsNullOrWhiteSpace(country_code) ||
@@ -73,6 +78,15 @@ namespace OAuthApp.Services
             var SubId = await _db.Users.Where(x => x.PhoneNumber == mobile && x.CountryCode == country_code)
                 .Select(x => x.Id).FirstOrDefaultAsync();
 
+            var tenantId = 1L;
+
+            if(_httpContext.Items[TenantConstant.CacheKey]!=null)
+            {
+                var tenant = _httpContext.Items[TenantConstant.CacheKey] as TenantPrivateModel;
+
+                tenantId = tenant.Id;
+            }
+
             if (SubId == 0)
             {
                 var User = new AppUser
@@ -91,12 +105,12 @@ namespace OAuthApp.Services
 
                 //var tenantIds = tenantDbContext.Tenants.Select(x => x.Id).ToList();
 
-                var result = await AppUserService.CreateUser(1,
+                var result = await AppUserService.CreateUser(tenantId,
                     _userManager,
                     _db,
                     User,
                     roleIds,
-                    $"{AppConstant.MicroServiceName}.all", new List<long>() { 1 });
+                    $"{AppConstant.MicroServiceName}.all", new List<long>() { tenantId });
 
                 if (!result.Succeeded)
                 {

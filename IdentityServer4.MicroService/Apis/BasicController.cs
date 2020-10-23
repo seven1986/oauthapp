@@ -21,6 +21,7 @@ using OAuthApp.CacheKeys;
 using OAuthApp.Models.Apis.Common;
 using OAuthApp.Models.Shared;
 using static OAuthApp.AppConstant;
+using System.Security.Claims;
 
 namespace OAuthApp.Apis
 {
@@ -41,7 +42,7 @@ namespace OAuthApp.Apis
         {
             get
             {
-                var subClaim = User.Claims.FirstOrDefault(x => x.Type.Equals("sub"));
+                var subClaim = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.NameIdentifier));
 
                 if (subClaim != null)
                 {
@@ -96,7 +97,7 @@ namespace OAuthApp.Apis
         {
             get
             {
-                return User.Claims.FirstOrDefault(x => x.Type.Equals("client_id")).Value;
+                return ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => x.Type.Equals("client_id")).Value;
             }
         }
 
@@ -107,7 +108,7 @@ namespace OAuthApp.Apis
         {
             get
             {
-                var tenant = User.Claims.
+                var tenant = ((ClaimsIdentity)User.Identity).Claims.
                     Where(x => x.Type.Contains(TenantConstant.TokenKey)).FirstOrDefault();
 
                 if (tenant != null)

@@ -1,14 +1,14 @@
-# 使用现有用户颁发accessToken
+# 自定义验证器
 
 !!! note "提示"
-    自定义验证器，这个示例只是简单验证了userName和password非空。可参考代码如手机号+验证码等复杂验证。
+    自定义验证器，DemoGrantValidator演示了如何验证userName和password，然后颁发accessToken的过程。
 
 
 === "Startup.cs"
     ``` csharp linenums="1"
     public void ConfigureServices(IServiceCollection services)
         {
-           services.AddIdentityServer4MicroService(x =>
+           services.AddOAuthApp(x =>
             {
                 x.IdentityServerBuilder = builder =>
                 {
@@ -27,10 +27,10 @@
         {
             var username = context.Request.Raw.Get("username");
 
-            var input_password = context.Request.Raw.Get("password");
+            var password = context.Request.Raw.Get("password");
 
             if (string.IsNullOrWhiteSpace(username) ||
-                string.IsNullOrWhiteSpace(input_password))
+                string.IsNullOrWhiteSpace(password))
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant);
                 return;
@@ -38,10 +38,10 @@
 
             var extraInfo = new Dictionary<string, object>();
                 extraInfo.Add("country", "china");
-                extraInfo.Add("hobby", "reading");
+                extraInfo.Add("hobby", "coding,cooking,running");
 
               context.Result = new GrantValidationResult(
-                subject: "用户ID1",
+                subject: "uid_1",
                 authenticationMethod: GrantType, customResponse: extraInfo);
 
             return;

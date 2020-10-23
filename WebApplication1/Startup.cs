@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Logging;
 
 namespace WebApplication1
 {
@@ -19,6 +20,8 @@ namespace WebApplication1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            
+            IdentityModelEventSource.ShowPII = true;
 
             services.AddOAuthApp();
         }

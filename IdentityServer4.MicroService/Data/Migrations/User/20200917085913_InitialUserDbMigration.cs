@@ -399,6 +399,8 @@ namespace OAuthApp.Data.Migrations.User
                 name: "IX_AspNetUserTenants_UserId",
                 table: "AspNetUserTenants",
                 column: "UserId");
+
+            migrationBuilder.Sql(SQL_View_User.SQL);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -444,6 +446,8 @@ namespace OAuthApp.Data.Migrations.User
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(SQL_View_User.Name);
         }
     }
 }

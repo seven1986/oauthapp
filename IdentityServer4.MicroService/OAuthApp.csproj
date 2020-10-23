@@ -5,13 +5,13 @@
     <PackageId>OAuthApp</PackageId>
     <Authors>seven1986</Authors>
     <Company>seven1986</Company>
-    <PackageProjectUrl>https://github.com/seven1986/oauthapp</PackageProjectUrl>
+    <PackageProjectUrl>https://www.oauthapp.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/seven1986/oauthapp</RepositoryUrl>
     <PackageTags>IdentityServer4 MicroService AzureApiManagement</PackageTags>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.0.1</Version>
+    <Version>2.2.1-alpha2</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -20,6 +20,8 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <RepositoryType>github</RepositoryType>
     <Copyright></Copyright>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>OAuthApp.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -91,7 +93,7 @@
     <None Remove="Node\sdkgen\npm\angular2.js" />
     <None Remove="Node\sdkgen\npm\jQuery.js" />
     <None Remove="Node\sdkgen\npm\mustache.min.js" />
-    <None Remove="OAuthApp.pfx" />
+    <None Remove="oauthapp.pfx" />
     <None Remove="readme.txt" />
     <None Remove="Views\Account\AccessDenied.cshtml" />
     <None Remove="Views\Account\LoggedOut.cshtml" />
@@ -257,9 +259,6 @@
     <Content Include="Areas\Identity\Pages\_ViewStart.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="OAuthApp.pfx">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="Node\readthedocs.gen.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -270,6 +269,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Node\sdkgen\npm\mustache.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="oauthapp.pfx">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="readme.txt">
@@ -407,50 +410,48 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.1.3" />
-    <PackageReference Include="AspNet.Security.OAuth.QQ" Version="3.1.3" />
-    <PackageReference Include="AspNet.Security.OAuth.Weibo" Version="3.1.3" />
-    <PackageReference Include="AspNet.Security.OAuth.Weixin" Version="3.1.3" />
-    <PackageReference Include="IdentityServer4" Version="4.1.0" />
-    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
-    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.0" />
-    <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.0" />
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.1.4" />
+    <PackageReference Include="AspNet.Security.OAuth.QQ" Version="3.1.4" />
+    <PackageReference Include="AspNet.Security.OAuth.Weibo" Version="3.1.4" />
+    <PackageReference Include="AspNet.Security.OAuth.Weixin" Version="3.1.4" />
+    <PackageReference Include="IdentityServer4" Version="4.1.1" />
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.1" />
+    <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="3.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="3.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Extensions" Version="3.1.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Extensions" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="3.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.8" />
+    <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.9" />
     <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />
     <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.2" />
-    <PackageReference Include="Microsoft.Azure.Storage.Common" Version="11.2.2" />
-    <PackageReference Include="Microsoft.Azure.Storage.File" Version="11.2.2" />
     <PackageReference Include="Microsoft.Azure.Storage.Queue" Version="11.2.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.8">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.8">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.9">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="3.1.9" />
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Utils" Version="3.1.4" />
     <PackageReference Include="StackExchange.Redis" Version="2.1.58" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.6.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.6.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
   </ItemGroup>

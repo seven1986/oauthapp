@@ -30,7 +30,6 @@ namespace OAuthApp.Apis
     /// <summary>
     /// 用户
     /// </summary>
-    [Produces("application/json")]
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("User")]
     [SwaggerTag("用户")]

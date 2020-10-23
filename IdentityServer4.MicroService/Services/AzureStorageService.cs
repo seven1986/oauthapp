@@ -7,7 +7,6 @@ using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Azure.Storage.Blob;
 using Microsoft.Azure.Storage.Queue;
-using Microsoft.Azure.Storage;
 using Microsoft.Azure.Cosmos.Table;
 using CloudStorageAccount = Microsoft.Azure.Storage.CloudStorageAccount;
 

@@ -20,7 +20,9 @@ namespace OAuthApp.Data.Migrations.Tenant
                     CreateDate = table.Column<DateTime>(nullable: false),
                     LastUpdateTime = table.Column<DateTime>(nullable: false),
                     CacheDuration = table.Column<long>(nullable: false),
-                    OwnerUserId = table.Column<long>(nullable: false)
+                    OwnerUserId = table.Column<long>(nullable: false),
+                    LogoUri = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

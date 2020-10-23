@@ -39,13 +39,15 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
+            <permission cref="!:oauthapp.apiresource.detail"></permission>
         </member>
         <member name="M:OAuthApp.Apis.ApiResourceController.Post(IdentityServer4.EntityFramework.Entities.ApiResource)">
-            <summary>
-            API - 创建
-            </summary>
-            <param name="value">ID</param>
-            <returns></returns>
+             <summary>
+             API - 创建
+             </summary>
+             <param name="value">ID</param>
+             <returns></returns>
+            <permission cref="!:oauthapp.apiresource.post"></permission>
         </member>
         <member name="M:OAuthApp.Apis.ApiResourceController.Put(IdentityServer4.EntityFramework.Entities.ApiResource)">
             <summary>
@@ -66,12 +68,6 @@
             API - 导入
             </summary>
             <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OAuthApp.Apis.ApiResourceController.Scopes">
-            <summary>
-            API - 权限代码
-            </summary>
             <returns></returns>
         </member>
         <member name="M:OAuthApp.Apis.ApiResourceController.Codes">
@@ -874,7 +870,7 @@
                     &lt;member name=&quot;M:OAuthApp.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,OAuthApp.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLoca [字符串的其余部分被截断]&quot;; 的本地化字符串。
              </summary>
         </member>
-        <member name="P:OAuthApp.AppResource.OAuthApp1">
+        <member name="P:OAuthApp.AppResource.oauthapp1">
             <summary>
               查找 System.Byte[] 类型的本地化资源。
             </summary>
@@ -1264,7 +1260,7 @@
         </member>
         <member name="P:OAuthApp.Data.AppUser.PoolIDs">
             <summary>
-            流量池集合
+            用户池集合
             </summary>
         </member>
         <member name="P:OAuthApp.Data.AppUser.DataAmount">
@@ -1774,31 +1770,6 @@
         <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRevisionsRequest.releaseNote">
             <summary>
             修订备注
-            </summary>
-        </member>
-        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceScopeEntity.Api">
-            <summary>
-            Api名称
-            </summary>
-        </member>
-        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceScopeResponse.Code">
-            <summary>
-            权限代码
-            </summary>
-        </member>
-        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceScopeResponse.Name">
-            <summary>
-            权限名称
-            </summary>
-        </member>
-        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceScopeResponse.Description">
-            <summary>
-            权限说明
-            </summary>
-        </member>
-        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceScopeResponse.Emphasize">
-            <summary>
-            强调
             </summary>
         </member>
         <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceSDKRequest.name">
@@ -2379,6 +2350,16 @@
             租户所有者ID
             </summary>
         </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPrivateModel.Description">
+            <summary>
+            简介
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPrivateModel.LogoUri">
+            <summary>
+            图标
+            </summary>
+        </member>
         <member name="T:OAuthApp.Models.Shared.TenantPublicModel">
             <summary>
             TenantPublicModel
@@ -2397,6 +2378,16 @@
         <member name="P:OAuthApp.Models.Shared.TenantPublicModel.claims">
             <summary>
             声明
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPublicModel.description">
+            <summary>
+            简介
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPublicModel.logoUri">
+            <summary>
+            图标
             </summary>
         </member>
         <member name="P:OAuthApp.OAuthAppOptions.DefaultUserAccount">
@@ -2809,6 +2800,11 @@
             for request context
             </summary>
         </member>
+        <member name="F:OAuthApp.Tenant.TenantConstant.HttpContextItemKey">
+            <summary>
+            for requst context in server
+            </summary>
+        </member>
         <member name="F:OAuthApp.Tenant.TenantConstant.TokenKey">
             <summary>
             for Token 
@@ -2932,6 +2928,16 @@
         <member name="P:OAuthApp.Tenant.AppTenant.Properties">
             <summary>
             属性集合
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.LogoUri">
+            <summary>
+            Logo
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.Description">
+            <summary>
+            简介
             </summary>
         </member>
         <member name="P:Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder.Services">
