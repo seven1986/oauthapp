@@ -1,48 +1,31 @@
 @page
 @model GrantsModel
 @{
-    ViewData["Title"] = "授权管理";
+    ViewData["Title"] = "已授权应用管理";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h4 class="mb-4">@ViewData["Title"]</h4>
 
 <div class="grants-page">
-    <div class="lead">
-        <h1>Client Application Permissions</h1>
-        <p>Below is the list of applications you have given permission to and the resources they have access to.</p>
-    </div>
-
-    @if (Model.data.Grants.Any() == false)
-    {
-        <div class="row">
-            <div class="col-sm-8">
-                <div class="alert alert-info">
-                    You have not given access to any applications
-                </div>
-            </div>
-        </div>
-    }
-    else
+    @if (Model.data.Grants.Any())
     {
         foreach (var grant in Model.data.Grants)
         {
             <div class="card">
                 <div class="card-header">
-                    <div class="row">
-                        <div class="col-sm-8 card-title">
-                            @if (grant.ClientLogoUrl != null)
-                            {
-                                <img src="@grant.ClientLogoUrl">
-                            }
-                            <strong>@grant.ClientName</strong>
-                        </div>
+                    <div class="float-right">
+                        <form method="post">
+                            <input type="hidden" name="clientId" value="@grant.ClientId">
+                            <button class="btn btn-success btn-sm">撤消访问权限</button>
+                        </form>
+                    </div>
 
-                        <div class="col-sm-2">
-                            <form method="post">
-                                <input type="hidden" name="clientId" value="@grant.ClientId">
-                                <button class="btn btn-danger">Revoke Access</button>
-                            </form>
-                        </div>
+                    <div>
+                        @if (grant.ClientLogoUrl != null)
+                        {
+                            <img src="@grant.ClientLogoUrl" width="32px" />
+                        }
+                        <strong>@grant.ClientName</strong>
                     </div>
                 </div>
 
@@ -50,23 +33,23 @@
                     @if (grant.Description != null)
                     {
                         <li class="list-group-item">
-                            <label>Description:</label> @grant.Description
+                            <label>设备描述:</label> @grant.Description
                         </li>
 
                     }
                     <li class="list-group-item">
-                        <label>Created:</label> @grant.Created.ToString("yyyy-MM-dd")
+                        <label>创建时间:</label> @grant.Created.ToString("yyyy-MM-dd")
                     </li>
                     @if (grant.Expires.HasValue)
                     {
                         <li class="list-group-item">
-                            <label>Expires:</label> @grant.Expires.Value.ToString("yyyy-MM-dd")
+                            <label>到期时间:</label> @grant.Expires.Value.ToString("yyyy-MM-dd")
                         </li>
                     }
                     @if (grant.IdentityGrantNames.Any())
                     {
                         <li class="list-group-item">
-                            <label>Identity Grants</label>
+                            <label>个人信息</label>
                             <ul>
                                 @foreach (var name in grant.IdentityGrantNames)
                                 {
@@ -78,7 +61,7 @@
                     @if (grant.ApiGrantNames.Any())
                     {
                         <li class="list-group-item">
-                            <label>API Grants</label>
+                            <label>应用程序</label>
                             <ul>
                                 @foreach (var name in grant.ApiGrantNames)
                                 {
@@ -92,5 +75,3 @@
         }
     }
 </div>
-
-<partial name="_StatusMessage" model="Model.StatusMessage" />

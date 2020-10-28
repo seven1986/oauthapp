@@ -33,8 +33,7 @@
     </header>
 }
 
-<div style="height:100vh">
-    <div class="row">
+    <div class="row" style="height:100vh">
         <div class="col-md-3 border-right bg-white py-3">
             <partial name="_ManageNav" />
         </div>
@@ -42,7 +41,6 @@
             @RenderBody()
         </div>
     </div>
-</div>
 
 @section Scripts {
     @RenderSection("Scripts", required: false)
