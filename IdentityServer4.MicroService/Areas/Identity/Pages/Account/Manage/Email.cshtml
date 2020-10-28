@@ -1,7 +1,7 @@
 @page
 @model EmailModel
 @{
-    ViewData["Title"] = "Manage Email";
+    ViewData["Title"] = "邮箱设置";
     ViewData["ActivePage"] = ManageNavPages.Email;
 }
 
@@ -12,7 +12,7 @@
         <form id="email-form" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Email"></label>
+                <label>邮箱</label>
                 @if (Model.IsEmailConfirmed)
                 {
                     <div class="input-group">
@@ -25,15 +25,15 @@
                  else
                 {
                     <input asp-for="Email" class="form-control" disabled />
-                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Send verification email</button>
+                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-success btn-block">发送验证码</button>
                 }
             </div>
             <div class="form-group">
-                <label asp-for="Input.NewEmail"></label>
+                <label>新的邮箱</label>
                 <input asp-for="Input.NewEmail" class="form-control" />
                 <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
             </div>
-            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="btn btn-primary">Change email</button>
+            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="btn btn-success btn-block">更新邮箱</button>
         </form>
     </div>
 </div>
