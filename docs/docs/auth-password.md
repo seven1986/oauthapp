@@ -7,4 +7,31 @@
 
 第一方单页应用与第一方原生App。
 
-![14](./images/oauth/password-1.png)
+## 使用说明
+
+### 获取AccessToken
+
+!!! note ""
+    当使用Client发起一个密码模式请求时，标准的请求地址是：**--POST {server}/connect/token** 
+
+#### 参数说明
+
+| 名称 | 必传 | 说明 |
+| ----------- | ----------- | ----------- |
+| `grant_type` | 是 | 固定传password |
+| `client_id` | 是 | 应用的ID |
+| `client_secret` | 是 | 应用的密钥 |
+| `username` | 是 | 用户的登录账号 |
+| `password` | 是 | 用户的登录密码 |
+| `scope` | 是 | 申请授权的[scope](/scopes)，多个scope用空格分隔。 |
+
+
+#### 响应格式
+```json
+    {
+        "access_token":"***AccessToken***",
+        "expires_in":3600,
+        "token_type":"Bearer",
+        "scope":"***scopes***"
+    }
+```

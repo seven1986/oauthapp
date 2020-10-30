@@ -6,3 +6,26 @@
 ## 适用场景
 
 第三方单页面应用。
+
+## 使用说明
+
+### 获取AccessToken
+
+!!! note ""
+    当使用Client发起一个简化授权请求时，标准的请求地址是：**--GET {server}/connect/authorize?response_type=token&client_id={client_id}&redirect_uri={redirect_uri}&scope={scope}&nonce={nonce}** 
+
+#### 参数说明
+
+| 名称 | 必传 | 说明 |
+| ----------- | ----------- | ----------- |
+| `response_type` | 是 | 固定传token |
+| `client_id` | 是 | 应用的ID |
+| `redirect_uri` | 是 | 回调地址 |
+| `scope` | 是 | 申请授权的[scope](/scopes)，多个scope用空格分隔。 |
+| `nonce` | 是 | 随机字符串 |
+
+
+#### 响应格式
+
+!!! note ""
+    当用户授权成功后，服务器会将access_token相关信息一起回传到回调地址：**{redirect_uri}?access_token=`***access_token***`&token_type=bearer&expires_in=3600&scope=`***scopes***`**

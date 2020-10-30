@@ -35,6 +35,8 @@
     
     
     
+      <link rel="stylesheet" href="/stylesheets/extra.css">
+    
     
       
     
@@ -137,6 +139,78 @@
     <div class="md-container" data-md-component="container">
       
       
+        
+          
+
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+      <a href="/." class="md-tabs__link md-tabs__link--active">
+        首页
+      </a>
+    
+  </li>
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="/start-server/" class="md-tabs__link">
+          入门
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="/extend-validator/" class="md-tabs__link">
+          使用实例
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="/scopes/" class="md-tabs__link">
+          参考
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="/logs/" class="md-tabs__link">
+          更新日志
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
         
       
       <main class="md-main" data-md-component="main">
@@ -494,23 +568,22 @@
         </div>
       </main>
       
+          
+  <footer class="md-footer">
+    
+    <div class="md-footer-meta md-typeset">
+      <div class="md-footer-meta__inner md-grid">
+        <div class="md-footer-copyright">
+          
+            <div class="md-footer-copyright__highlight">
+              版权所有 © 2020 OAuthApp
+            </div>
+          
+          <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
+            沪ICP备2020031582号-3
+          </a>
+        </div>
         
-<footer class="md-footer">
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-          <div class="md-footer-copyright__highlight">
-            Copyright © 2020 OAuthApp
-          </div>
-        
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
-      </div>
-      
   <div class="md-footer-social">
     
       
@@ -533,9 +606,10 @@
     
   </div>
 
+      </div>
     </div>
-  </div>
-</footer>
+  </footer>
+  <script type="text/javascript" src="https://v1.cnzz.com/z_stat.php?id=1279369127&web_id=1279369127"></script>
       
     </div>
     
@@ -545,7 +619,7 @@
       <script>
         app = initialize({
           base: "/",
-          features: ['tabs'],
+          features: ['navigation.tabs', 'navigation.instant'],
           search: Object.assign({
             worker: "/assets/javascripts/worker/search.4ac00218.min.js"
           }, typeof search !== "undefined" && search)
