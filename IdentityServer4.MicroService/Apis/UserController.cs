@@ -91,7 +91,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.get")]
         [SwaggerOperation(OperationId = "UserGet",
             Summary = "用户 - 列表",
-            Description = "scope&permission：isms.user.get")]
+            Description = "scope&permission：oauthapp.user.get")]
         public async Task<PagingResult<View_User>> Get([FromQuery]PagingRequest<UserGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -210,7 +210,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.distributors")]
         [SwaggerOperation(OperationId = "UserDistributors",
             Summary = "用户 - 团队",
-            Description = "scope&permission：isms.user.distributors")]
+            Description = "scope&permission：oauthapp.user.distributors")]
         public ApiResult<List<DistributorResponse>> Distributors([FromQuery][Required]string path)
         {
             var cmd = @"SELECT
@@ -249,7 +249,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.detail")]
         [SwaggerOperation(OperationId = "UserDetail",
             Summary = "用户 - 详情",
-            Description = "scope&permission：isms.user.detail")]
+            Description = "scope&permission：oauthapp.user.detail")]
         public async Task<ApiResult<AppUser>> Get(int id)
         {
             var query = db.Users.AsQueryable();
@@ -283,7 +283,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.post")]
         [SwaggerOperation(OperationId = "UserPost",
             Summary = "用户 - 创建",
-            Description = "scope&permission：isms.user.post")]
+            Description = "scope&permission：oauthapp.user.post")]
         public async Task<ApiResult<long>> Post([FromBody]AppUser value)
         {
             if (!ModelState.IsValid)
@@ -341,7 +341,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.put")]
         [SwaggerOperation(OperationId = "UserPut",
             Summary = "用户 - 更新",
-            Description = "scope&permission：isms.user.put")]
+            Description = "scope&permission：oauthapp.user.put")]
         public ApiResult<long> Put([FromBody]AppUser value)
         {
             if (!ModelState.IsValid)
@@ -556,7 +556,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.delete")]
         [SwaggerOperation(OperationId = "UserDelete",
             Summary = "用户 - 删除",
-            Description = "scope&permission：isms.user.delete")]
+            Description = "scope&permission：oauthapp.user.delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
             var query = db.Users.AsQueryable();
@@ -591,7 +591,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.head")]
         [SwaggerOperation(OperationId = "UserHead",
             Summary = "用户 - 是否存在",
-            Description = "scope&permission：isms.user.head")]
+            Description = "scope&permission：oauthapp.user.head")]
         public async Task<ObjectResult> Head(UserDetailRequest value)
         {
             if (!ModelState.IsValid)

@@ -3,8 +3,22 @@
 !!! note ""
     OAuthApp内置的接口权限，使用Client请求用户授权时，scope参数可参考下面的code。
 
+### 应用程序
 
-## 微服务
+## 标识权限
+
+| code      | name                          |
+| ----------- | ------------------------------------ |
+| `openid` | 用户的ID |
+| `profile` | 用户资料详情 |
+| `address` | 联系地址 |
+| `email` | 邮箱地址 |
+| `phone` | 手机号 |
+| `role` | 角色 |
+| `permission` | 权限 |
+| `offline_access` | 脱机访问 |
+
+## API资源
 
 | code      | name                          |
 | ----------- | ------------------------------------ |
@@ -34,6 +48,16 @@
 | `oauthapp.apiresource.subscriptions` | 订阅者 - 列表 |
 | `oauthapp.apiresource.history` | SDK - 发布记录 |
 | `oauthapp.apiresource.all` | 所有权限 |
+
+## API权限
+
+| code      | name                          |
+| ----------- | ------------------------------------ |
+| `oauthapp.apiscope.post` | 创建 |
+| `oauthapp.apiscope.get` | 列表 |
+| `oauthapp.apiscope.detail` | 详情 |
+| `oauthapp.apiscope.delete` | 删除 |
+| `oauthapp.apiscope.put` | 更新 |
 
 ## Blob
 
