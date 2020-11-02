@@ -18,6 +18,7 @@ nav:
   - 使用实例:
         - 'extend-validator.md'
         - 'saas.md'
+        - 'authlogins.md'
   - 参考:
       - 'scopes.md'
   - 更新日志: 
