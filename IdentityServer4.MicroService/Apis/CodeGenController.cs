@@ -73,7 +73,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.get")]
         [SwaggerOperation(OperationId = "CodeGenClients",
             Summary = "代码生成 - 客户端列表",
-            Description = "scope：isms.codegen.clients")]
+            Description = "scope：oauthapp.codegen.clients")]
         public ApiResult<List<SwaggerCodeGenItem>> Clients(bool fromCache = true)
         {
             var result = fromCache ? swagerCodeGen.ClientItemsCache : swagerCodeGen.ClientItems;
@@ -91,7 +91,7 @@ namespace OAuthApp.Apis
         [HttpGet("Servers")]
         [SwaggerOperation(OperationId = "CodeGenServers",
             Summary = "代码生成 - 服务端列表",
-            Description = "scope：isms.codegen.servers")]
+            Description = "scope：oauthapp.codegen.servers")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.servers")]
         public ApiResult<List<SwaggerCodeGenItem>> Servers(bool fromCache = true)
         {
@@ -111,7 +111,7 @@ namespace OAuthApp.Apis
         [HttpGet("{id}/NpmOptions/{language}")]
         [SwaggerOperation(OperationId = "CodeGenNpmOptions",
             Summary = "代码生成 - NPM - 设置",
-            Description = "scope：isms.codegen.npmoptions")]
+            Description = "scope：oauthapp.codegen.npmoptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.npmoptions")]
         public async Task<ApiResult<CodeGenNpmOptionsModel>> NpmOptions(string id, Language language)
         {
@@ -166,7 +166,7 @@ namespace OAuthApp.Apis
         [HttpPut("{id}/NpmOptions/{language}")]
         [SwaggerOperation(OperationId = "CodeGenPutNpmOptions",
             Summary = "代码生成 - NPM - 更新设置",
-            Description = "scope：isms.codegen.putnpmoptions")]
+            Description = "scope：oauthapp.codegen.putnpmoptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.putnpmoptions")]
         public async Task<ApiResult<bool>> NpmOptions(string id, Language language, [FromBody]CodeGenNpmOptionsModel value)
         {
@@ -201,7 +201,7 @@ namespace OAuthApp.Apis
         [HttpGet("{id}/GithubOptions")]
         [SwaggerOperation(OperationId = "CodeGenGithubOptions",
             Summary = "代码生成 - Github - 设置",
-            Description = "scope：isms.codegen.githuboptions")]
+            Description = "scope：oauthapp.codegen.githuboptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.githuboptions")]
         public async Task<ApiResult<ApiResourceGithubPublishRequest>> GithubOptions(string id)
         {
@@ -255,7 +255,7 @@ namespace OAuthApp.Apis
         [HttpPut("{id}/GithubOptions")]
         [SwaggerOperation(OperationId = "CodeGenPutGithubOptions",
             Summary = "代码生成 - Github - 更新设置",
-            Description = "scope：isms.codegen.putgithuboptions")]
+            Description = "scope：oauthapp.codegen.putgithuboptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.putgithuboptions")]
         public async Task<ApiResult<bool>> GithubOptions(string id, [FromBody]ApiResourceGithubPublishRequest value)
         {
@@ -290,7 +290,7 @@ namespace OAuthApp.Apis
         [HttpPut("{id}/SyncGithub")]
         [SwaggerOperation(OperationId = "CodeGenSyncGithub",
             Summary = "代码生成 - Github - 同步",
-            Description = "scope：isms.codegen.putgithuboptions")]
+            Description = "scope：oauthapp.codegen.putgithuboptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.syncgithub")]
         public async Task<ApiResult<bool>> SyncGithub(string id)
         {
@@ -330,7 +330,7 @@ namespace OAuthApp.Apis
         [HttpGet("{id}/CommonOptions")]
         [SwaggerOperation(OperationId = "CodeGenCommonOptions",
             Summary = "代码生成 - 基本设置 - 获取",
-            Description = "scope：isms.codegen.commonoptions")]
+            Description = "scope：oauthapp.codegen.commonoptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.commonoptions")]
         public async Task<ApiResult<CodeGenCommonOptionsModel>> CommonOptions(string id)
         {
@@ -380,7 +380,7 @@ namespace OAuthApp.Apis
         [HttpPut("{id}/CommonOptions")]
         [SwaggerOperation(OperationId = "CodeGenPutCommonOptions",
             Summary = "代码生成 - 基本设置 - 更新",
-            Description = "scope：isms.codegen.putcommonoptions")]
+            Description = "scope：oauthapp.codegen.putcommonoptions")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.putcommonoptions")]
         public async Task<ApiResult<bool>> PutCommonOptions(string id, [FromBody]CodeGenCommonOptionsModel value)
         {
@@ -415,7 +415,7 @@ namespace OAuthApp.Apis
         [HttpPost("ReleaseSDK")]
         [SwaggerOperation(OperationId = "CodeGenReleaseSDK",
             Summary = "代码生成 - SDK - 发布",
-            Description = "scope：isms.codegen.releasesdk")]
+            Description = "scope：oauthapp.codegen.releasesdk")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:codegen.releasesdk")]
         public async Task<ApiResult<bool>> ReleaseSDK([FromBody]GenerateClientRequest value)
         {
@@ -734,7 +734,7 @@ namespace OAuthApp.Apis
         [HttpGet("{id}/History")]
         [SwaggerOperation(OperationId = "CodeGenHistory",
             Summary = "代码生成 - SDK - 发布记录",
-            Description = "scope：isms.apiresource.history")]
+            Description = "scope：oauthapp.apiresource.history")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.history")]
         public async Task<PagingResult<CodeGenHistoryEntity>> History(string id)
         {

@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.2.1-alpha2</Version>
+    <Version>2.2.1-alpha9</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -56,6 +56,7 @@
     <None Remove="Areas\Identity\Pages\Account\ExternalLogin.cshtml" />
     <None Remove="Areas\Identity\Pages\Account\ForgotPassword.cshtml" />
     <None Remove="Areas\Identity\Pages\Account\ForgotPasswordConfirmation.cshtml" />
+    <None Remove="Areas\Identity\Pages\Account\Grants.cshtml" />
     <None Remove="Areas\Identity\Pages\Account\Lockout.cshtml" />
     <None Remove="Areas\Identity\Pages\Account\Login.cshtml" />
     <None Remove="Areas\Identity\Pages\Account\LoginWith2fa.cshtml" />
@@ -143,6 +144,9 @@
 
   <ItemGroup>
     <Content Include="Areas\Identity\Pages\Account\AccessDenied.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Areas\Identity\Pages\Account\Manage\Grants.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Areas\Identity\Pages\Account\ConfirmEmail.cshtml">

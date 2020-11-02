@@ -64,7 +64,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ClientGet",
             Summary = "客户端 - 列表",
-            Description = "scope&permission：isms.client.get")]
+            Description = "scope&permission：oauthapp.client.get")]
         public async Task<PagingResult<Client>> Get([FromQuery]PagingRequest<ClientGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -156,7 +156,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.detail")]
         [SwaggerOperation(OperationId = "ClientDetail",
             Summary = "客户端 - 详情",
-            Description = "scope&permission：isms.client.detail")]
+            Description = "scope&permission：oauthapp.client.detail")]
         public async Task<ApiResult<Client>> Get(int id)
         {
             if (!userDB.UserClients
@@ -203,7 +203,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.post")]
         [SwaggerOperation(OperationId = "ClientPost",
             Summary = "客户端 - 创建",
-            Description = "scope&permission：isms.client.post")]
+            Description = "scope&permission：oauthapp.client.post")]
         public async Task<ApiResult<long>> Post([FromBody]Client value)
         {
             if (!ModelState.IsValid)
@@ -246,7 +246,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.put")]
         [SwaggerOperation(OperationId = "ClientPut",
             Summary = "客户端 - 更新",
-            Description = "scope&permission：isms.client.put")]
+            Description = "scope&permission：oauthapp.client.put")]
         public ApiResult<bool> Put([FromBody] Client value)
         {
             if (!ModelState.IsValid)
@@ -599,7 +599,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.delete")]
         [SwaggerOperation(OperationId = "ClientDelete",
             Summary = "客户端 - 删除",
-            Description = "scope&permission：isms.client.delete")]
+            Description = "scope&permission：oauthapp.client.delete")]
         public ApiResult<bool> Delete(int id)
         {
             if (!userDB.UserClients
@@ -668,7 +668,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.issuetoken")]
         [SwaggerOperation(OperationId = "ClientIssueToken",
             Summary = "客户端 - 创建令牌",
-            Description = "scope&permission：isms.client.issuetoken")]
+            Description = "scope&permission：oauthapp.client.issuetoken")]
         public async Task<ApiResult<string>> IssueToken([FromBody]ClientIssueTokenRequest value)
         {
             if (value.lifetime < 1) { value.lifetime = 3600; }
@@ -695,7 +695,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.postsecretkey")]
         [SwaggerOperation(OperationId = "ClientPostSecretkey",
             Summary = "客户端 - 生成密钥",
-            Description = "scope&permission：isms.client.postsecretkey")]
+            Description = "scope&permission：oauthapp.client.postsecretkey")]
         public ApiResult<string> PostSecretkey(int id,[FromBody]ClientPostSecretkeyRequest value)
         {
             var result = string.Empty;

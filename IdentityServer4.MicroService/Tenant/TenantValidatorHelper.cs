@@ -25,9 +25,9 @@ namespace OAuthApp.Tenant
             return null;
         }
 
-        public static TenantPrivateModel GetTenantWithClaims(this HttpContext _context)
+        public static TenantPrivateModel GetTenantWithProperties(this HttpContext _context)
         {
-            var TenantContext = _context.Items[TenantConstant.CacheKey];
+            var TenantContext = _context.Items[TenantConstant.HttpContextItemKey];
 
             if (TenantContext != null)
             {
@@ -37,9 +37,9 @@ namespace OAuthApp.Tenant
             return null;
         }
 
-        public static TenantPublicModel GetTenantWithProperties(this HttpContext _context)
+        public static TenantPublicModel GetTenantWithClaims(this HttpContext _context)
         {
-            var TenantContext = _context.Items[TenantConstant.HttpContextItemKey];
+            var TenantContext = _context.Items[TenantConstant.CacheKey];
 
             if (TenantContext != null)
             {

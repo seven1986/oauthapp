@@ -1,21 +1,46 @@
-﻿@{
-    Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    var TenantContext = OAuthApp.Tenant.TenantValidatorHelper.GetTenantWithProperties(Context);
+}
+<style>
+    .nav-item a {
+        color: #727272 !important;
+    }
+    .nav-item a.active {
+        background: #fff !important;
+        color: #727272 !important;
+        border: dashed 2px #06f;
+    }
+</style>
+
+@section Header{ 
+ <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    <img src="@TenantContext.LogoUri" class="img-fluid mx-2" width="28px" />
+                    @TenantContext.Name
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
 }
 
-<h1>Manage your account</h1>
-
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
+    <div class="row" style="height:100vh">
+        <div class="col-md-3 border-right bg-white py-3">
             <partial name="_ManageNav" />
         </div>
         <div class="col-md-9">
             @RenderBody()
         </div>
     </div>
-</div>
 
 @section Scripts {
     @RenderSection("Scripts", required: false)

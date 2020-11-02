@@ -37,7 +37,6 @@ namespace OAuthApp.Apis
         #endregion
 
         protected readonly Random random = new Random(DateTime.UtcNow.AddHours(8).Second);
-
         protected long UserId
         {
             get

@@ -20,15 +20,13 @@ namespace OAuthApp.Apis
     /// </summary>
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Blob")]
-    [SwaggerTag("文件服务")]
+    [SwaggerTag("Blob服务")]
     public class BlobController : ApiControllerBase
     {
         #region Services
         // azure Storage
         readonly AzureStorageService azure;
         #endregion
-
-        static string blobContainerName = "isms";
 
         #region 构造函数
         public BlobController(
@@ -115,14 +113,14 @@ namespace OAuthApp.Apis
 
             try
             {
-                var Guid_FileName = Guid.NewGuid().ToString("N") + System.IO.Path.GetExtension(value.FileName).ToLower();
+                var Guid_FileName = Guid.NewGuid().ToString("N") + Path.GetExtension(value.FileName).ToLower();
 
                 if (string.IsNullOrWhiteSpace(folderName))
                 {
                     folderName = DateTime.UtcNow.ToString("yyyyMMdd");
                 }
 
-                var result = azure.UploadBlobAsync(value.OpenReadStream(), blobContainerName, folderName + "/" + Guid_FileName).Result;
+                var result = azure.UploadBlobAsync(value.OpenReadStream(), folderName, Guid_FileName).Result;
 
                 return new ApiResult<string>(result);
             }
@@ -186,7 +184,7 @@ namespace OAuthApp.Apis
                     folderName = DateTime.UtcNow.ToString("yyyyMMdd");
                 }
 
-                var result = azure.UploadBlobAsync(value.OpenReadStream(), blobContainerName, folderName + "/" + Guid_FileName).Result;
+                var result = azure.UploadBlobAsync(value.OpenReadStream(), folderName,Guid_FileName).Result;
 
                 return new ApiResult<string>(result);
             }
@@ -226,7 +224,7 @@ namespace OAuthApp.Apis
                     folderName = DateTime.UtcNow.ToString("yyyyMMdd");
                 }
 
-                var drawingUrl = azure.UploadBlobAsync(memoryStream, blobContainerName, folderName + "/" + Guid_FileName).Result;
+                var drawingUrl = azure.UploadBlobAsync(memoryStream,folderName, Guid_FileName).Result;
 
                 return new ApiResult<string>(drawingUrl);
             }

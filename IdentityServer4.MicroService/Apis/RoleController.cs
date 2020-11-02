@@ -44,7 +44,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:role.get")]
         [SwaggerOperation(OperationId = "RoleGet",
             Summary = "角色 - 列表",
-            Description = "scope&permission：isms.role.get")]
+            Description = "scope&permission：oauthapp.role.get")]
         public async Task<PagingResult<AppRole>> Get()
         {
             var data = await db.Roles
@@ -68,7 +68,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:role.detail")]
         [SwaggerOperation(OperationId = "RoleDetail",
             Summary = "角色 - 详情",
-            Description = "scope&permission：isms.role.detail")]
+            Description = "scope&permission：oauthapp.role.detail")]
         public async Task<ApiResult<AppRole>> Get(int id)
         {
             var entity = await db.Roles
@@ -95,7 +95,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:role.post")]
         [SwaggerOperation(OperationId = "RolePost",
             Summary = "角色 - 创建",
-            Description = "scope&permission：isms.role.post")]
+            Description = "scope&permission：oauthapp.role.post")]
         public async Task<ApiResult<long>> Post([FromBody]AppRole value)
         {
             if (!ModelState.IsValid)
@@ -123,7 +123,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:role.put")]
         [SwaggerOperation(OperationId = "RolePut",
             Summary = "角色 - 更新",
-            Description = "scope&permission：isms.role.put")]
+            Description = "scope&permission：oauthapp.role.put")]
         public ApiResult<bool> Put([FromBody]AppRole value)
         {
             if (!ModelState.IsValid)
@@ -164,7 +164,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:role.delete")]
         [SwaggerOperation(OperationId = "RoleDelete",
             Summary = "角色 - 删除",
-            Description = "scope&permission：isms.role.delete")]
+            Description = "scope&permission：oauthapp.role.delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
             var entity = await db.Roles.FirstOrDefaultAsync(x => x.Id == id);

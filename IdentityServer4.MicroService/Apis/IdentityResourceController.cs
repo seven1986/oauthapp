@@ -51,7 +51,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.get")]
         [SwaggerOperation(OperationId = "IdentityResourceGet",
             Summary = "标识 - 列表",
-            Description = "scope&permission：isms.identityresource.get")]
+            Description = "scope&permission：oauthapp.identityresource.get")]
         public async Task<PagingResult<IdentityResource>> Get([FromQuery]PagingRequest<IdentityResourceGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -121,7 +121,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.detail")]
         [SwaggerOperation(OperationId = "IdentityResourceDetail",
             Summary = " 标识 - 详情",
-            Description = "scope&permission：isms.identityresource.detail")]
+            Description = "scope&permission：oauthapp.identityresource.detail")]
         public async Task<ApiResult<IdentityResource>> Get(int id)
         {
             var entity = await configDb.IdentityResources
@@ -150,7 +150,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.post")]
         [SwaggerOperation(OperationId = "IdentityResourcePost",
             Summary = " 标识 - 创建",
-            Description = "scope&permission：isms.identityresource.post")]
+            Description = "scope&permission：oauthapp.identityresource.post")]
         public async Task<ApiResult<long>> Post([FromBody]IdentityResource value)
         {
             if (!ModelState.IsValid)
@@ -178,7 +178,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.put")]
         [SwaggerOperation(OperationId = "IdentityResourcePut",
             Summary = "标识 - 更新",
-            Description = "scope&permission：isms.identityresource.put")]
+            Description = "scope&permission：oauthapp.identityresource.put")]
         public ApiResult<bool> Put([FromBody] IdentityResource value)
         {
             if (!ModelState.IsValid)
@@ -289,7 +289,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.delete")]
         [SwaggerOperation(OperationId = "IdentityResourceDelete",
             Summary = "标识 - 删除",
-            Description = "scope&permission：isms.identityresource.delete")]
+            Description = "scope&permission：oauthapp.identityresource.delete")]
         public async Task<ApiResult<long>> Delete(int id)
         {
             var entity = await configDb.IdentityResources.FirstOrDefaultAsync(x => x.Id == id);
