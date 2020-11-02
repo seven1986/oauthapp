@@ -1,5 +1,5 @@
 ﻿
-[![Build status](https://ci.appveyor.com/api/projects/status/x51ob7f1p5ihff2i?svg=true)](https://ci.appveyor.com/project/seven1986/identityserver4-microservice)  [![readthedocs](https://img.shields.io/readthedocs/OAuthApp.svg)](http://OAuthApp.readthedocs.io)
+[![Build status](https://ci.appveyor.com/api/projects/status/x51ob7f1p5ihff2i?svg=true)](https://ci.appveyor.com/project/seven1986/identityserver4-microservice)  [![readthedocs](https://img.shields.io/readthedocs/OAuthApp.svg)](https://seven1986.github.io/oauthapp/index.html)
 
 
 # OAuthApp
