@@ -1,11 +1,6 @@
 ﻿var template = require('./mustache.min');
 
 module.exports = function (callback, swaggerDocumentStr, packageOptions) {
-    //var result = template.render('hi, {{title}} spends {{calc}}.',
-    //    {
-    //        title: 'aui',
-    //        calc: () => 2 + 4
-    //    });
 
     let documentJson = JSON.parse(swaggerDocumentStr);
 

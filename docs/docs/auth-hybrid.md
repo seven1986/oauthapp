@@ -18,7 +18,7 @@
 
 #### 参数说明
 
-| 名称 | 必传 | 说明 |
+| 名称 | 是否必须 | 说明 |
 | ----------- | ----------- | ----------- |
 | `response_type` | 是 | 固定传id_token code |
 | `client_id` | 是 | 应用的ID |
@@ -40,13 +40,13 @@
 
 #### 参数说明
 
-| 名称 | 必传 | 说明 |
+| 名称 | 是否必须 | 说明 |
 | ----------- | ----------- | ----------- |
-| `grant_type` | 是 | 固定传authorization_code |
+| `grant_type` | 是 | 授权类型，可选值为`code id_token`、`code token`、`code id_token token` |
 | `code` | 是 | 步骤1返回的授权码 |
 | `client_id` | 是 | 应用的ID |
 | `client_secret` | 是 | 应用的密钥 |
-| `scope` | 是 | 申请授权的[scope](/scopes)，多个scope用空格分隔。 |
+| `scope` | 是 | 表示授权范围，多个[scope](/scopes)用空格分隔。 |
 | `redirect_uri` | 是 | 与步骤1的回调地址保持一致 |
 
 #### 响应格式

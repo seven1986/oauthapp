@@ -12,14 +12,12 @@
     <meta name="description" content="@TenantContext.Properties.GetValueOrDefault("WebSite:Description")" />
 </head>
 <body class="bg-light">
-    @RenderSection("Header", false);
-
+    @RenderSection("Header", false)
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
     @*<footer class="border-top footer text-muted">
             <div class="container">
                 &copy; 2020 - @TenantContext.Name - <a asp-area="" asp-controller="Home" asp-action="Privacy">隐私政策</a>
