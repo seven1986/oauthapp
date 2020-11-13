@@ -201,7 +201,7 @@ namespace OAuthApp.Apis
 
         #region 用户 - 团队
         /// <summary>
-        /// 获取团队列表
+        /// 用户 - 团队
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>

@@ -1,20 +1,31 @@
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = null;
     var TenantContext = OAuthApp.Tenant.TenantValidatorHelper.GetTenantWithProperties(Context);
 }
-<style>
-    .nav-item a {
-        color: #727272 !important;
-    }
-    .nav-item a.active {
-        background: #fff !important;
-        color: #727272 !important;
-        border: dashed 2px #06f;
-    }
-</style>
-
-@section Header{ 
- <header>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="@TenantContext.LogoUri" />
+    <title>@TenantContext.Name - OAuth</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <meta name="keywords" content="@TenantContext.Properties.GetValueOrDefault("WebSite:Keywords")" />
+    <meta name="description" content="@TenantContext.Properties.GetValueOrDefault("WebSite:Description")" />
+    <style>
+        .nav-item a {
+            color: #727272 !important;
+        }
+            .nav-item a.active {
+                background: #fff !important;
+                color: #727272 !important;
+                border: dashed 2px #06f;
+            }
+    </style>
+</head>
+<body class="bg-light">
+    <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" href="/">
@@ -31,7 +42,6 @@
             </div>
         </nav>
     </header>
-}
 
     <div class="row" style="height:100vh">
         <div class="col-md-3 border-right bg-white py-3">
@@ -42,6 +52,13 @@
         </div>
     </div>
 
-@section Scripts {
+    @section Scripts {
+        @RenderSection("Scripts", required: false)
+    }
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
-}
+    @TenantContext.Properties.GetValueOrDefault("WebSite:Keywords")
+</body>
+</html>

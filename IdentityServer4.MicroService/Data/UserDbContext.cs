@@ -209,7 +209,7 @@ namespace OAuthApp.Data
         }
 
         #region API Models
-        public DbSet<DistributorResponse> DistributorResponse { get; set; }
+        public virtual DbSet<DistributorResponse> DistributorResponse { get; set; }
         #endregion
     }
 }

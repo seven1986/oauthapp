@@ -1,8 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace OAuthApp.Models.Apis.UserController
+﻿namespace OAuthApp.Models.Apis.UserController
 {
-    [NotMapped]
     public class DistributorResponse
     {
         public long ID { get; set; }
