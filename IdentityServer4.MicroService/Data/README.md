@@ -18,6 +18,7 @@ dotnet ef migrations add InitialIdentityServerPersistedGrantDbMigration -c Persi
 dotnet ef migrations add InitialIdentityServerConfigurationDbMigration -c ConfigurationDbContext -o Data/Migrations/IdentityServer/ConfigurationDb
 dotnet ef migrations add InitialUserDbMigration -c UserDbContext -o Data/Migrations/User
 dotnet ef migrations add InitialTenantDbMigration -c TenantDbContext -o Data/Migrations/Tenant
+dotnet ef migrations add InitialSDKDbMigration -c SDKDbContext -o Data/Migrations/SDK
 
 InitialUserDbMigration.cs 文件
  - Up方法添加 migrationBuilder.Sql(SQL_View_User.SQL);
@@ -32,4 +33,5 @@ dotnet ef migrations add {datetime}UpdateIdentityServerPersistedGrantDbMigration
 dotnet ef migrations add {datetime}UpdateIdentityServerConfigurationDbMigration -c ConfigurationDbContext -o Data/Migrations/IdentityServer/ConfigurationDb
 dotnet ef migrations add {datetime}UpdateIdentityDbMigration -c IdentityDbContext -o Data/Migrations/Identity
 dotnet ef migrations add {datetime}UpdateTenantDbMigration -c TenantDbContext -o Data/Migrations/Tenant
+dotnet ef migrations add {datetime}UpdateSDKDbMigration -c SDKDbContext -o Data/Migrations/SDK
 ```

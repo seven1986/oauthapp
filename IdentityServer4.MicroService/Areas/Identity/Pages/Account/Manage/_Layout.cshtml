@@ -1,4 +1,4 @@
-@{
+﻿@{
     Layout = null;
     var TenantContext = OAuthApp.Tenant.TenantValidatorHelper.GetTenantWithProperties(Context);
 }
@@ -28,7 +28,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" href="/">
+                <a class="navbar-brand" href="">
                     <img src="@TenantContext.LogoUri" class="img-fluid mx-2" width="28px" />
                     @TenantContext.Name
                 </a>
@@ -42,16 +42,18 @@
             </div>
         </nav>
     </header>
-
-    <div class="row" style="height:100vh">
-        <div class="col-md-3 border-right bg-white py-3">
-            <partial name="_ManageNav" />
-        </div>
-        <div class="col-md-9">
-            @RenderBody()
-        </div>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div class="row" style="height:100vh">
+                <div class="col-md-3 border-right bg-white py-3">
+                    <partial name="_ManageNav" />
+                </div>
+                <div class="col-md-9">
+                    @RenderBody()
+                </div>
+            </div>
+        </main>
     </div>
-
     @section Scripts {
         @RenderSection("Scripts", required: false)
     }

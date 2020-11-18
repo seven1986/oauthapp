@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.NodeServices;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
@@ -34,7 +33,6 @@ namespace OAuthApp.Apis
     {
         #region Services
         readonly SwaggerCodeGenService swagerCodeGen;
-        readonly INodeServices nodeServices;
         // azure Storage
         readonly AzureStorageService storageService;
         readonly IDistributedCache cache;
@@ -50,13 +48,11 @@ namespace OAuthApp.Apis
             AzureStorageService _storageService,
             IStringLocalizer<CodeGenController> localizer,
             SwaggerCodeGenService _swagerCodeGen,
-            INodeServices _nodeServices,
             //RedisService _redis,
             IDistributedCache _cache)
         {
             l = localizer;
             swagerCodeGen = _swagerCodeGen;
-            nodeServices = _nodeServices;
             storageService = _storageService;
             //redis = _redis;
             cache = _cache;
@@ -470,8 +466,8 @@ namespace OAuthApp.Apis
                 }
                 #endregion
 
-                var SdkCode = await nodeServices.InvokeAsync<string>(platformPath + value.language,
-                    swaggerDoc, value.apiId);
+                var SdkCode = "";
+                    //await nodeServices.InvokeAsync<string>(platformPath + value.language, swaggerDoc, value.apiId);
 
                 switch (value.platform)
                 {
@@ -710,8 +706,8 @@ namespace OAuthApp.Apis
 
                 var platformPath = $"./Node/";
 
-                var result = await nodeServices.InvokeAsync<string>(platformPath + value.genName,
-                   swaggerDoc, new { value.swaggerUrl });
+                var result = "";
+                    //await nodeServices.InvokeAsync<string>(platformPath + value.genName,swaggerDoc, new { value.swaggerUrl });
 
                 return new ApiResult<string>(result);
             }

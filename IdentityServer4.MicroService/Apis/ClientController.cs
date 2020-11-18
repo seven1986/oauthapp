@@ -335,12 +335,12 @@ namespace OAuthApp.Apis
                 Entity.AlwaysSendClientClaims = value.AlwaysSendClientClaims;
             }
             if (!string.IsNullOrWhiteSpace(value.ClientClaimsPrefix) &&
-                !Entity.ClientClaimsPrefix.Equals(value.ClientClaimsPrefix))
+                Entity.ClientClaimsPrefix!=value.ClientClaimsPrefix)
             {
                 Entity.ClientClaimsPrefix = value.ClientClaimsPrefix;
             }
             if (!string.IsNullOrWhiteSpace(value.PairWiseSubjectSalt) &&
-                !Entity.PairWiseSubjectSalt.Equals(value.PairWiseSubjectSalt))
+                Entity.PairWiseSubjectSalt != value.PairWiseSubjectSalt)
             {
                 Entity.PairWiseSubjectSalt = value.PairWiseSubjectSalt;
             }
@@ -373,34 +373,34 @@ namespace OAuthApp.Apis
             if (Entity.NonEditable != value.NonEditable) { Entity.NonEditable = value.NonEditable; }
             if (Entity.Enabled != value.Enabled) { Entity.Enabled = value.Enabled; }
             if (!string.IsNullOrWhiteSpace(value.UserCodeType) &&
-                !Entity.UserCodeType.Equals(value.UserCodeType)) 
+                Entity.UserCodeType != value.UserCodeType) 
             { Entity.UserCodeType = value.UserCodeType; }
             if (!string.IsNullOrWhiteSpace(value.AllowedIdentityTokenSigningAlgorithms) &&
-                !Entity.AllowedIdentityTokenSigningAlgorithms.Equals(value.AllowedIdentityTokenSigningAlgorithms))
+                Entity.AllowedIdentityTokenSigningAlgorithms != value.AllowedIdentityTokenSigningAlgorithms)
             { Entity.AllowedIdentityTokenSigningAlgorithms = value.AllowedIdentityTokenSigningAlgorithms; }
             if (!string.IsNullOrWhiteSpace(value.ClientId) &&
-                !Entity.ClientId.Equals(value.ClientId)) 
+                Entity.ClientId != value.ClientId) 
             { Entity.ClientId = value.ClientId; }
             if (!string.IsNullOrWhiteSpace(value.ProtocolType) &&
-                !Entity.ProtocolType.Equals(value.ProtocolType)) 
+                Entity.ProtocolType != value.ProtocolType) 
             { Entity.ProtocolType = value.ProtocolType; }
             if (!string.IsNullOrWhiteSpace(value.ClientName) &&
-                !Entity.ClientName.Equals(value.ClientName)) 
+                Entity.ClientName != value.ClientName) 
             { Entity.ClientName = value.ClientName; }
             if (!string.IsNullOrWhiteSpace(value.Description) &&
-                !Entity.Description.Equals(value.Description)) 
+                Entity.Description!=value.Description) 
             { Entity.Description = value.Description; }
             if (!string.IsNullOrWhiteSpace(value.ClientUri) &&
-                !Entity.ClientUri.Equals(value.ClientUri)) 
+                Entity.ClientUri != value.ClientUri) 
             { Entity.ClientUri = value.ClientUri; }
             if (!string.IsNullOrWhiteSpace(value.LogoUri) &&
-                !Entity.LogoUri.Equals(value.LogoUri)) 
+                Entity.LogoUri != value.LogoUri) 
             { Entity.LogoUri = value.LogoUri; }
             if (!string.IsNullOrWhiteSpace(value.FrontChannelLogoutUri) &&
-                !Entity.FrontChannelLogoutUri.Equals(value.FrontChannelLogoutUri)) 
+                Entity.FrontChannelLogoutUri != value.FrontChannelLogoutUri) 
             { Entity.FrontChannelLogoutUri = value.FrontChannelLogoutUri; }
             if (!string.IsNullOrWhiteSpace(value.BackChannelLogoutUri) &&
-                !Entity.BackChannelLogoutUri.Equals(value.BackChannelLogoutUri)) 
+                Entity.BackChannelLogoutUri != value.BackChannelLogoutUri) 
             { Entity.BackChannelLogoutUri = value.BackChannelLogoutUri; }
             #endregion
 

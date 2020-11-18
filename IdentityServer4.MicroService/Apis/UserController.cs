@@ -44,10 +44,6 @@ namespace OAuthApp.Apis
         readonly UserManager<AppUser> userManager;
 
         readonly TenantDbContext tenantDbContext;
-
-        readonly ConfigurationDbContext configDbContext;
-
-        readonly OAuthAppOptions ismsOptions;
         #endregion
 
         #region 构造函数
@@ -59,10 +55,8 @@ namespace OAuthApp.Apis
             EmailService _email,
             UserManager<AppUser> _userManager,
             TenantDbContext _tenantDbContext,
-            ConfigurationDbContext _configDbContext,
             IDataProtectionProvider _provider,
-            TenantService _tenantService,
-            OAuthAppOptions _ismsOptions)
+            TenantService _tenantService)
         {
             // 多语言
             l = _localizer;
@@ -72,10 +66,8 @@ namespace OAuthApp.Apis
             email = _email;
             userManager = _userManager;
             tenantDbContext = _tenantDbContext;
-            configDbContext = _configDbContext;
             protector = _provider.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
             tenantService = _tenantService;
-            ismsOptions = _ismsOptions;
         }
         #endregion
 

@@ -140,6 +140,8 @@ namespace OAuthApp
 
         Tenant = 8,
 
-        User = 9
+        User = 9,
+
+        Package = 10
     }
 }

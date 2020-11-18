@@ -22,5 +22,7 @@
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgMicrosoft_Extensions_ApiDescription_Server Condition=" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' ">C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\microsoft.extensions.apidescription.server\3.0.0</PkgMicrosoft_Extensions_ApiDescription_Server>
     <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\microsoft.codeanalysis.analyzers\2.9.4</PkgMicrosoft_CodeAnalysis_Analyzers>
+    <PkgJavaScriptEngineSwitcher_V8_Native_win-x86 Condition=" '$(PkgJavaScriptEngineSwitcher_V8_Native_win-x86)' == '' ">C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\javascriptengineswitcher.v8.native.win-x86\3.8.3</PkgJavaScriptEngineSwitcher_V8_Native_win-x86>
+    <PkgJavaScriptEngineSwitcher_V8_Native_win-x64 Condition=" '$(PkgJavaScriptEngineSwitcher_V8_Native_win-x64)' == '' ">C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\javascriptengineswitcher.v8.native.win-x64\3.8.3</PkgJavaScriptEngineSwitcher_V8_Native_win-x64>
   </PropertyGroup>
 </Project>

@@ -562,6 +562,54 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:OAuthApp.Apis.PackageController">
+            <summary>
+            软件包
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Apis.PackageController.Get(OAuthApp.Models.Apis.Common.PagingRequest{OAuthApp.Models.Apis.CodeGenController.GeneratorGetRequest})">
+            <summary>
+            软件包 - 列表
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.PackageController.Get(System.Int64)">
+            <summary>
+            软件包 - 详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.PackageController.Post(OAuthApp.Data.SdkPackage)">
+            <summary>
+            软件包 - 创建
+            </summary>
+            <param name="value">ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.PackageController.Put(OAuthApp.Data.SdkPackage)">
+            <summary>
+            软件包 - 更新
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.PackageController.Delete(System.Int64)">
+            <summary>
+            软件包 - 删除
+            </summary>
+            <param name="id">ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.PackageController.Publish(System.Int64,OAuthApp.Models.Apis.PackageController.PublishRequest)">
+            <summary>
+            软件包 - 发布
+            </summary>
+            <param name="id"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
         <member name="T:OAuthApp.Apis.RoleController">
             <summary>
             角色
@@ -1410,6 +1458,166 @@
             used for View_User Properties property
             </summary>
         </member>
+        <member name="P:OAuthApp.Data.SdkPackage.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.Tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.Summary">
+            <summary>
+            简介
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.WebSite">
+            <summary>
+            网站地址
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.LogoUri">
+            <summary>
+            LOGO
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.PackageName">
+            <summary>
+            包名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.SwaggerUri">
+            <summary>
+            swagger地址
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.SdkGenerators">
+            <summary>
+            模板列表
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.SdkSubscribers">
+            <summary>
+            订阅者
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.UserID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.CreateDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.Enable">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkGenerator.SdkPackageId">
+            <summary>
+            软件包ID
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkGenerator.Name">
+            <summary>
+            文件名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkGenerator.Uri">
+            <summary>
+            模板地址
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkGenerator.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkGenerator.Enable">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkGenerator.CompiledCode">
+            <summary>
+            编译后的代码
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkSubscriber.SdkPackageId">
+            <summary>
+            软件包ID
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkSubscriber.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkSubscriber.Acator">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkSubscriber.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkSubscriber.Enable">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkSubscriber.CreateDate">
+            <summary>
+            订阅时间
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkReleaseHistory.UserID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkReleaseHistory.SdkPackageId">
+            <summary>
+            软件包ID
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkReleaseHistory.Tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkReleaseHistory.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkReleaseHistory.Description">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkReleaseHistory.Version">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkReleaseHistory.ReleaseDate">
+            <summary>
+            发布日志
+            </summary>
+        </member>
         <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.Versions_IdCanNotBeNull">
             <summary>
             版本列表 - 不存在的模板
@@ -2041,6 +2249,16 @@
             IOS包平台：SPM,网址：https://swift.org/package-manager/ 
             </summary>
         </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.GeneratorGetRequest.name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.GeneratorGetRequest.expandGenerators">
+            <summary>
+            是否展开所有Template（默认为false）
+            </summary>
+        </member>
         <member name="P:OAuthApp.Models.Apis.ApiScopeController.ApiScopeGetRequest.name">
             <summary>
             名称
@@ -2157,6 +2375,26 @@
         <member name="P:OAuthApp.Models.Apis.Common.PagingRequest`1.endTime">
             <summary>
             结束时间。yyyy-MM-dd
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.PublishRequest.Version">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.PublishRequest.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.PublishRequest.Tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.PublishRequest.Description">
+            <summary>
+            更新内容
             </summary>
         </member>
         <member name="P:OAuthApp.Models.Apis.TenantController.TenantGetRequest.Host">
@@ -2981,7 +3219,7 @@
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddTenantStore(Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">
             <summary>
-            Configures EF implementation of TenantStore with IdentityServer.
+            Configures TenantStore.
             </summary>
             <param name="builder">The builder.</param>
             <param name="DbContextOptions">The store options action.</param>
@@ -2989,7 +3227,7 @@
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddIdentityStore(Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})">
             <summary>
-            Configures EF implementation of IdentityStore with IdentityServer.
+            Configures IdentityStore.
             </summary>
             <param name="builder">The builder.</param>
             <param name="DbContextOptions">The store options action.</param>
@@ -3006,9 +3244,17 @@
             <param name="tableName">table name</param>
             <returns></returns>
         </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddSDKStore(Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">
+            <summary>
+            Configures CodeGenStore.
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="DbContextOptions">The store options action.</param>
+            <returns></returns>
+        </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddIdentityServer(Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Security.Cryptography.X509Certificates.X509Certificate2,System.Action{IdentityServer4.Configuration.IdentityServerOptions},System.Action{Microsoft.Extensions.DependencyInjection.IIdentityServerBuilder})">
             <summary>
-            Configures EF implementation of TenantStore with IdentityServer.
+            Configures TenantStore.
             </summary>
             <param name="builder">The builder.</param>
             <param name="DbContextOptions">The store options action.</param>

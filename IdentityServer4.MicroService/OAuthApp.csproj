@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.2.3-alpha4</Version>
+    <Version>2.2.3-alpha7</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -42,7 +42,13 @@
     <Compile Remove="Controllers\ConsentController.cs" />
     <Compile Remove="Controllers\DeviceController.cs" />
     <Compile Remove="Controllers\GrantsController.cs" />
-    <None Include="..\.editorconfig" Link=".editorconfig" />
+    <Content Include="..\.editorconfig" Link=".editorconfig" />
+    <Content Include="x64\ClearScriptV8-64.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\ClearScriptV8-32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="..\oauthapp.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -90,10 +96,6 @@
     <None Remove="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
     <None Remove="Areas\Identity\Pages\_ViewImports.cshtml" />
     <None Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
-    <None Remove="Node\readthedocs.gen.js" />
-    <None Remove="Node\sdkgen\npm\angular2.js" />
-    <None Remove="Node\sdkgen\npm\jQuery.js" />
-    <None Remove="Node\sdkgen\npm\mustache.min.js" />
     <None Remove="oauthapp.pfx" />
     <None Remove="readme.txt" />
     <None Remove="Views\Account\AccessDenied.cshtml" />
@@ -140,6 +142,8 @@
     <None Remove="wwwroot\lib\jquery\dist\jquery.slim.min.js" />
     <None Remove="wwwroot\lib\jquery\dist\jquery.slim.min.map" />
     <None Remove="wwwroot\lib\jquery\README.md" />
+    <None Remove="x64\ClearScriptV8-64.dll" />
+    <None Remove="x86\ClearScriptV8-32.dll" />
   </ItemGroup>
 
   <ItemGroup>
@@ -261,18 +265,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Areas\Identity\Pages\_ViewStart.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Node\readthedocs.gen.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Node\sdkgen\npm\angular2.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Node\sdkgen\npm\jQuery.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Node\sdkgen\npm\mustache.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="oauthapp.pfx">
@@ -421,6 +413,9 @@
     <PackageReference Include="IdentityServer4" Version="4.1.1" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.1" />
     <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.1" />
+    <PackageReference Include="JavaScriptEngineSwitcher.V8" Version="3.8.3" />
+    <PackageReference Include="JavaScriptEngineSwitcher.V8.Native.win-x64" Version="3.8.3" />
+    <PackageReference Include="JavaScriptEngineSwitcher.V8.Native.win-x86" Version="3.8.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.10" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.10" />
@@ -434,8 +429,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.10" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.10" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="3.1.10" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.10" />
     <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />
     <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.2" />
     <PackageReference Include="Microsoft.Azure.Storage.Queue" Version="11.2.2" />
@@ -541,10 +534,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\javascriptengineswitcher.v8.native.win-x64\3.8.3\build\..\runtimes\win-x64\native\ClearScriptV8-64.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\javascriptengineswitcher.v8.native.win-x86\3.8.3\build\..\runtimes\win-x86\native\ClearScriptV8-32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="AppResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\javascriptengineswitcher.v8.native.win-x64\3.8.3\build\..\runtimes\win-x64\native\ClearScriptV8-64.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\javascriptengineswitcher.v8.native.win-x86\3.8.3\build\..\runtimes\win-x86\native\ClearScriptV8-32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

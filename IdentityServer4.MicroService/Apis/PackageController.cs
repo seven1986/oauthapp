@@ -1,0 +1,509 @@
+﻿using JavaScriptEngineSwitcher.V8;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using OAuthApp.Data;
+using OAuthApp.Enums;
+using OAuthApp.Models.Apis.CodeGenController;
+using OAuthApp.Models.Apis.Common;
+using OAuthApp.Models.Apis.PackageController;
+using OAuthApp.Services;
+using Swashbuckle.AspNetCore.Annotations;
+using System;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using static OAuthApp.AppConstant;
+
+namespace OAuthApp.Apis
+{
+    /// <summary>
+    /// 软件包
+    /// </summary>
+    [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
+    [ApiExplorerSettingsDynamic("Package")]
+    [SwaggerTag("软件包")]
+    public class PackageController : ApiControllerBase
+    {
+       private readonly V8JsEngine engine = new V8JsEngine(new V8Settings
+        {
+            MaxNewSpaceSize = 4,
+            MaxOldSpaceSize = 8
+        });
+
+        #region Services
+        readonly AzureStorageService storageService;
+        readonly SdkDbContext sdkDB;
+        #endregion
+
+        #region 构造函数
+        public PackageController(
+            AzureStorageService _storageService, 
+            SdkDbContext _sdkDB,
+            IStringLocalizer<PackageController> localizer)
+        {
+            storageService = _storageService;
+            sdkDB = _sdkDB;
+            l = localizer;
+        }
+        #endregion
+
+        #region 软件包 - 列表
+        /// <summary>
+        /// 软件包 - 列表
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:package.get")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:package.get")]
+        [SwaggerOperation(
+            OperationId = "PackageGet",
+            Summary = "软件包 - 列表",
+            Description = "scope&permission：oauthapp.package.get")]
+        public async Task<PagingResult<SdkPackage>> Get([FromQuery] PagingRequest<GeneratorGetRequest> value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new PagingResult<SdkPackage>()
+                {
+                    code = (int)BasicControllerEnums.UnprocessableEntity,
+                    message = ModelErrors()
+                };
+            }
+
+            var query = sdkDB.Packages.AsQueryable();
+
+            #region filter
+            if (!string.IsNullOrWhiteSpace(value.q.name))
+            {
+                query = query.Where(x => x.Name.Equals(value.q.name));
+            }
+
+            if (value.q.expandGenerators)
+            {
+                query = query.Include(x => x.SdkGenerators);
+            }
+            #endregion
+
+            #region total
+            var result = new PagingResult<SdkPackage>()
+            {
+                skip = value.skip.Value,
+                take = value.take.Value,
+                total = await query.CountAsync()
+            };
+            #endregion
+
+            if (result.total > 0)
+            {
+                #region orderby
+                if (!string.IsNullOrWhiteSpace(value.orderby))
+                {
+                    if (value.asc.Value)
+                    {
+                        query = query.OrderBy(value.orderby);
+                    }
+                    else
+                    {
+                        query = query.OrderByDescending(value.orderby);
+                    }
+                }
+                #endregion
+
+                #region pagingWithData
+                var data = await query.Skip(value.skip.Value).Take(value.take.Value)
+                    .ToListAsync();
+                #endregion
+
+                result.data = data;
+            }
+
+            return result;
+        }
+        #endregion
+
+        #region 软件包 - 详情
+        /// <summary>
+        /// 软件包 - 详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:package.detail")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:package.detail")]
+        [SwaggerOperation(OperationId = "PackageDetail",
+            Summary = "软件包 - 详情",
+            Description = "scope&permission：oauthapp.package.detail")]
+        public async Task<ApiResult<SdkPackage>> Get(long id)
+        {
+            var query = sdkDB.Packages.AsQueryable();
+
+            var entity = await query
+                .Where(x => x.Id == id)
+                .Include(x => x.SdkGenerators)
+                .FirstOrDefaultAsync();
+
+            if (entity == null)
+            {
+                return new ApiResult<SdkPackage>(l, BasicControllerEnums.NotFound);
+            }
+
+            return new ApiResult<SdkPackage>(entity);
+        }
+        #endregion
+
+        #region 软件包 - 创建
+        /// <summary>
+        /// 软件包 - 创建
+        /// </summary>
+        /// <param name="value">ID</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:package.post")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:package.post")]
+        [SwaggerOperation(
+            OperationId = "PackagePost",
+            Summary = "软件包 - 创建",
+            Description = "scope&permission：oauthapp.package.post")]
+        public ApiResult<long> Post([FromBody] SdkPackage value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<long>(l, BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            sdkDB.Add(value);
+
+            try
+            {
+                sdkDB.SaveChanges();
+            }
+
+            catch (Exception ex)
+            {
+                return new ApiResult<long>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
+                {
+                    data = 0
+                };
+            }
+
+            return new ApiResult<long>(value.Id);
+        }
+        #endregion
+
+        #region 软件包 - 更新
+        /// <summary>
+        /// 软件包 - 更新
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:package.put")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:package.put")]
+        [SwaggerOperation(
+            OperationId = "PackagePut",
+            Summary = "软件包 - 更新",
+            Description = "scope&permission：oauthapp.package.put")]
+        public ApiResult<bool> Put([FromBody] SdkPackage value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new ApiResult<bool>(l,
+                    BasicControllerEnums.UnprocessableEntity,
+                    ModelErrors());
+            }
+
+            var Entity = sdkDB.Packages.Where(x => x.Id == value.Id)
+                .Include(x => x.SdkGenerators)
+                .FirstOrDefault();
+
+            if (Entity == null)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound)
+                {
+                    data = false
+                };
+            }
+
+            if (!string.IsNullOrWhiteSpace(value.Name) &&
+               !value.Name.Equals(Entity.Name))
+            {
+                Entity.Name = value.Name;
+            }
+
+            if (!string.IsNullOrWhiteSpace(value.PackageName) &&
+               !value.PackageName.Equals(Entity.PackageName))
+            {
+                Entity.PackageName = value.PackageName;
+            }
+
+            if (!string.IsNullOrWhiteSpace(value.Description) &&
+              !value.Description.Equals(Entity.Description))
+            {
+                Entity.Description = value.Description;
+            }
+
+            if (!string.IsNullOrWhiteSpace(value.Summary) &&
+              !value.Description.Equals(Entity.Summary))
+            {
+                Entity.Summary = value.Summary;
+            }
+
+            if (!string.IsNullOrWhiteSpace(value.WebSite) &&
+              !value.WebSite.Equals(Entity.WebSite))
+            {
+                Entity.WebSite = value.WebSite;
+            }
+
+            if (!string.IsNullOrWhiteSpace(value.LogoUri) &&
+              !value.LogoUri.Equals(Entity.LogoUri))
+            {
+                Entity.LogoUri = value.LogoUri;
+            }
+
+            if (!string.IsNullOrWhiteSpace(value.Tags) &&
+              !value.Tags.Equals(Entity.Tags))
+            {
+                Entity.Tags = value.Tags;
+            }
+
+            Entity.Enable = value.Enable;
+
+            #region Templates
+            if (Entity.SdkGenerators != null && Entity.SdkGenerators.Count > 0)
+            {
+                Entity.SdkGenerators.Clear();
+            }
+            if (value.SdkGenerators != null && value.SdkGenerators.Count > 0)
+            {
+                Entity.SdkGenerators = value.SdkGenerators
+                   .Where(x => !string.IsNullOrWhiteSpace(x.Name))
+                   .Select(x => new SdkGenerator()
+                   {
+                       Description = x.Description,
+                       Name = x.Name,
+                       Uri = x.Uri,
+                       Enable = x.Enable,
+                       SdkPackageId = value.Id
+                   }).ToList();
+            }
+            #endregion
+
+            try
+            {
+                sdkDB.SaveChanges();
+            }
+
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
+                {
+                    data = false
+                };
+            }
+
+            return new ApiResult<bool>(true);
+        }
+        #endregion
+
+        #region 软件包 - 删除
+        /// <summary>
+        /// 软件包 - 删除
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:package.delete")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:package.delete")]
+        [SwaggerOperation(
+            OperationId = "PackageDelete",
+            Summary = "软件包 - 删除",
+            Description = "scope&permission：oauthapp.package.delete")]
+        public ApiResult<bool> Delete(long id)
+        {
+            var entity = sdkDB.Packages.Where(x => x.Id == id)
+                .Include(x => x.SdkGenerators)
+                .FirstOrDefault();
+
+            if (entity == null)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
+            }
+
+            sdkDB.Packages.Remove(entity);
+
+            try
+            {
+                sdkDB.SaveChanges();
+            }
+
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
+                {
+                    data = false
+                };
+            }
+
+            return new ApiResult<bool>(true);
+        }
+        #endregion
+
+        #region 软件包 - 发布
+        /// <summary>
+        /// 软件包 - 发布
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost("{id}")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:package.publish")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:package.publish")]
+        [SwaggerOperation(
+            OperationId = "PackagePublish",
+            Summary = "软件包 - 发布",
+            Description = "scope&permission：oauthapp.package.publish")]
+        public ApiResult<bool> Publish([FromRoute]long id, [FromBody]PublishRequest value)
+        {
+            var entity = sdkDB.Packages.Where(x => x.Id == id && x.UserID == UserId)
+                .Include(x => x.SdkGenerators).FirstOrDefault();
+
+            if (entity == null)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
+            }
+
+            entity = BuildPackage(entity).Result;
+
+            var SdkRootPath = $"./sdk/{id}/"+ DateTime.Now.Ticks.ToString();
+
+            if (!Directory.Exists(SdkRootPath))
+            {
+                Directory.CreateDirectory(SdkRootPath);
+            }
+
+            foreach(var t in entity.SdkGenerators)
+            {
+                using (var sw = new StreamWriter($"{SdkRootPath}/{t.Name}", false, Encoding.UTF8))
+                {
+                    sw.WriteLine(t.CompiledCode);
+                }
+            }
+
+            #region version
+            Version ReleaseVersion = new Version(0, 0, 0);
+
+            if (!string.IsNullOrWhiteSpace(value.Version))
+            {
+                ReleaseVersion = Version.Parse(value.Version);
+            }
+
+            engine.RemoveVariable("version");
+            engine.SetVariableValue("version", ReleaseVersion);
+            #endregion
+
+            #region 打包SDK文件为.zip
+            var ReleasePath = SdkRootPath + "release/";
+            if (!Directory.Exists(ReleasePath))
+            {
+                Directory.CreateDirectory(ReleasePath);
+            }
+            var SdkRootName = Directory.GetParent(SdkRootPath).Name;
+            var SdkPackagePath = $"{ReleasePath}{SdkRootName}.zip";
+            ZipFile.CreateFromDirectory(SdkRootPath, SdkPackagePath);
+            #endregion
+
+            #region 上传.zip，发消息到发包队列
+            var blobUrl = string.Empty;
+
+            using (var zipFileStream = new FileStream(SdkPackagePath, FileMode.Open, FileAccess.Read))
+            {
+                blobUrl = storageService.UploadBlobAsync(zipFileStream, "codegen-npm", entity.PackageName).Result;
+            }
+
+            var queueResult = storageService.AddMessageAsync("publish-package-npm", blobUrl).Result;
+            #endregion
+
+            #region 清理本地文件
+            try
+            {
+                Directory.Delete(SdkRootPath, true);
+            }
+            catch { }
+            #endregion
+
+            #region
+            sdkDB.ReleaseHistories.Add(new SdkReleaseHistory()
+            {
+                Description = value.Description,
+                SdkPackageId = id,
+                ReleaseDate = DateTime.UtcNow.AddHours(8).ToString("G"),
+                Remark = value.Remark,
+                Tags = value.Tags,
+                UserID = UserId,
+                Version = ReleaseVersion.ToString()
+            });
+            #endregion
+
+            try
+            {
+                sdkDB.SaveChanges();
+            }
+
+            catch (Exception ex)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.ExpectationFailed, ex.Message)
+                {
+                    data = false
+                };
+            }
+
+            return new ApiResult<bool>(true);
+        }
+        #endregion
+
+        private async Task<SdkPackage> BuildPackage(SdkPackage item)
+        {
+            var swaggerDocument = string.Empty;
+
+            using (var hc = new HttpClient()) 
+            {
+                swaggerDocument = await hc.GetStringAsync(item.SwaggerUri);
+            }
+
+            if(string.IsNullOrWhiteSpace(swaggerDocument))
+            {
+                return item;
+            }
+            
+            engine.RemoveVariable("swaggerDocument");
+
+            engine.SetVariableValue("swaggerDocument", swaggerDocument);
+
+            if (item.SdkGenerators != null && item.SdkGenerators.Count > 0)
+            {
+                item.SdkGenerators.ForEach(g =>
+                {
+                    try
+                    {
+                        engine.Execute(g.Uri);
+
+                        g.CompiledCode = engine.CallFunction<string>("codegen");
+                    }
+                    catch
+                    {
+
+                    }
+                });
+            }
+
+            return item;
+        }
+    }
+}

@@ -302,6 +302,11 @@ namespace OAuthApp
                 userContext.Database.Migrate();
                 Data_Seeding_Users(userContext, tenantDbContext, userManager, context, options);
                 #endregion
+
+                #region SDKDb
+                var SDKDbContext = scope.ServiceProvider.GetRequiredService<SdkDbContext>();
+                SDKDbContext.Database.Migrate();
+                #endregion
             }
         }
 

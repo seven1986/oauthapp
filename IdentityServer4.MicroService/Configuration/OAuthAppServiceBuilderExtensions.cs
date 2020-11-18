@@ -390,6 +390,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder.AddSmsService(configuration.GetSection("IdentityServer:SMS"));
 
+            builder.AddSDKStore(DbContextOptions);
+
             builder.AddTenantStore(DbContextOptions);
 
             builder.AddIdentityStore(DbContextOptions, Options.AspNetCoreIdentityOptions);
@@ -538,7 +540,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// Configures EF implementation of TenantStore with IdentityServer.
+        /// Configures TenantStore.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="DbContextOptions">The store options action.</param>
@@ -552,7 +554,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// Configures EF implementation of IdentityStore with IdentityServer.
+        /// Configures IdentityStore.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="DbContextOptions">The store options action.</param>
@@ -597,9 +599,23 @@ namespace Microsoft.Extensions.DependencyInjection
             return builder;
         }
 
+        /// <summary>
+        /// Configures CodeGenStore.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="DbContextOptions">The store options action.</param>
+        /// <returns></returns>
+        static IOAuthAppServiceBuilder AddSDKStore(
+            this IOAuthAppServiceBuilder builder,
+            Action<DbContextOptionsBuilder> DbContextOptions)
+        {
+            builder.Services.AddDbContext<SdkDbContext>(DbContextOptions);
+            return builder;
+        }
+
 
         /// <summary>
-        /// Configures EF implementation of TenantStore with IdentityServer.
+        /// Configures TenantStore.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="DbContextOptions">The store options action.</param>
