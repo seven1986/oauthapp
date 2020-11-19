@@ -392,9 +392,9 @@ namespace OAuthApp.Apis
 
             var SdkBuildPath = $"{SdkRootPath}/build";
 
-            if (!Directory.Exists(SdkRootPath))
+            if (!Directory.Exists(SdkBuildPath))
             {
-                Directory.CreateDirectory(SdkRootPath);
+                Directory.CreateDirectory(SdkBuildPath);
             }
 
             foreach(var t in entity.SdkGenerators)
@@ -425,7 +425,7 @@ namespace OAuthApp.Apis
             }
             var SdkRootName = Directory.GetParent(SdkRootPath).Name;
             var SdkPackagePath = $"{ReleasePath}{SdkRootName}.zip";
-            ZipFile.CreateFromDirectory(SdkBuildPath, SdkPackagePath);
+            ZipFile.CreateFromDirectory(SdkBuildPath, ReleasePath);
             #endregion
 
             #region 上传.zip，发消息到发包队列
