@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.2.3-alpha7</Version>
+    <Version>2.2.4-alpha5</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -96,6 +96,8 @@
     <None Remove="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
     <None Remove="Areas\Identity\Pages\_ViewImports.cshtml" />
     <None Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
+    <None Remove="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\javascriptengineswitcher.v8.native.win-x64\3.8.3\build\..\runtimes\win-x64\native\ClearScriptV8-64.dll" />
+    <None Remove="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\javascriptengineswitcher.v8.native.win-x86\3.8.3\build\..\runtimes\win-x86\native\ClearScriptV8-32.dll" />
     <None Remove="oauthapp.pfx" />
     <None Remove="readme.txt" />
     <None Remove="Views\Account\AccessDenied.cshtml" />
@@ -534,28 +536,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\javascriptengineswitcher.v8.native.win-x64\3.8.3\build\..\runtimes\win-x64\native\ClearScriptV8-64.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\javascriptengineswitcher.v8.native.win-x86\3.8.3\build\..\runtimes\win-x86\native\ClearScriptV8-32.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Update="AppResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\javascriptengineswitcher.v8.native.win-x64\3.8.3\build\..\runtimes\win-x64\native\ClearScriptV8-64.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\javascriptengineswitcher.v8.native.win-x86\3.8.3\build\..\runtimes\win-x86\native\ClearScriptV8-32.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

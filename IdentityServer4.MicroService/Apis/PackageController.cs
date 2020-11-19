@@ -78,6 +78,11 @@ namespace OAuthApp.Apis
 
             var query = sdkDB.Packages.AsQueryable();
 
+            if (!User.IsInRole(DefaultRoles.Administrator))
+            {
+                query = query.Where(x => x.UserID == UserId);
+            }
+
             #region filter
             if (!string.IsNullOrWhiteSpace(value.q.name))
             {
@@ -144,7 +149,7 @@ namespace OAuthApp.Apis
             var query = sdkDB.Packages.AsQueryable();
 
             var entity = await query
-                .Where(x => x.Id == id)
+                .Where(x => x.Id == id && x.UserID == UserId)
                 .Include(x => x.SdkGenerators)
                 .FirstOrDefaultAsync();
 
@@ -177,6 +182,8 @@ namespace OAuthApp.Apis
                 return new ApiResult<long>(l, BasicControllerEnums.UnprocessableEntity,
                     ModelErrors());
             }
+
+            value.UserID = UserId;
 
             sdkDB.Add(value);
 
@@ -327,7 +334,7 @@ namespace OAuthApp.Apis
             Description = "scope&permission：oauthapp.package.delete")]
         public ApiResult<bool> Delete(long id)
         {
-            var entity = sdkDB.Packages.Where(x => x.Id == id)
+            var entity = sdkDB.Packages.Where(x => x.Id == id && x.UserID == UserId)
                 .Include(x => x.SdkGenerators)
                 .FirstOrDefault();
 
@@ -383,6 +390,8 @@ namespace OAuthApp.Apis
 
             var SdkRootPath = $"./sdk/{id}/"+ DateTime.Now.Ticks.ToString();
 
+            var SdkBuildPath = $"{SdkRootPath}/build";
+
             if (!Directory.Exists(SdkRootPath))
             {
                 Directory.CreateDirectory(SdkRootPath);
@@ -390,7 +399,7 @@ namespace OAuthApp.Apis
 
             foreach(var t in entity.SdkGenerators)
             {
-                using (var sw = new StreamWriter($"{SdkRootPath}/{t.Name}", false, Encoding.UTF8))
+                using (var sw = new StreamWriter($"{SdkBuildPath}/{t.Name}", false, Encoding.UTF8))
                 {
                     sw.WriteLine(t.CompiledCode);
                 }
@@ -404,19 +413,19 @@ namespace OAuthApp.Apis
                 ReleaseVersion = Version.Parse(value.Version);
             }
 
-            engine.RemoveVariable("version");
-            engine.SetVariableValue("version", ReleaseVersion);
+            engine.RemoveVariable("packageVersion");
+            engine.SetVariableValue("packageVersion", ReleaseVersion.ToString());
             #endregion
 
             #region 打包SDK文件为.zip
-            var ReleasePath = SdkRootPath + "release/";
+            var ReleasePath = SdkRootPath + "/release/";
             if (!Directory.Exists(ReleasePath))
             {
                 Directory.CreateDirectory(ReleasePath);
             }
             var SdkRootName = Directory.GetParent(SdkRootPath).Name;
             var SdkPackagePath = $"{ReleasePath}{SdkRootName}.zip";
-            ZipFile.CreateFromDirectory(SdkRootPath, SdkPackagePath);
+            ZipFile.CreateFromDirectory(SdkBuildPath, SdkPackagePath);
             #endregion
 
             #region 上传.zip，发消息到发包队列
@@ -431,11 +440,11 @@ namespace OAuthApp.Apis
             #endregion
 
             #region 清理本地文件
-            try
-            {
-                Directory.Delete(SdkRootPath, true);
-            }
-            catch { }
+            //try
+            //{
+            //    Directory.Delete(SdkRootPath, true);
+            //}
+            //catch { }
             #endregion
 
             #region
@@ -467,7 +476,6 @@ namespace OAuthApp.Apis
             return new ApiResult<bool>(true);
         }
         #endregion
-
         private async Task<SdkPackage> BuildPackage(SdkPackage item)
         {
             var swaggerDocument = string.Empty;
@@ -492,7 +500,14 @@ namespace OAuthApp.Apis
                 {
                     try
                     {
-                        engine.Execute(g.Uri);
+                        var templateSource = string.Empty;
+
+                        using (var hc = new HttpClient())
+                        {
+                            templateSource = hc.GetStringAsync(g.Uri).Result;
+                        }
+
+                        engine.Execute(templateSource);
 
                         g.CompiledCode = engine.CallFunction<string>("codegen");
                     }
