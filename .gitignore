@@ -27,3 +27,5 @@
 /IdentityServer4.MicroService.AzureJobs.Host/Properties/PublishProfiles
 /IdentityServer4.MicroService.AzureJobs.Host/IdentityServer4.MicroService.AzureJobs.Host.csproj.user
 /docs/.vs
+/OAuthApp.Jobs/obj
+/OAuthApp.Jobs/bin/Release
