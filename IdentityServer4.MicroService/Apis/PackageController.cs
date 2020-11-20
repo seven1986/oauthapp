@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using OAuthApp.Data;
 using OAuthApp.Enums;
-using OAuthApp.Models.Apis.CodeGenController;
 using OAuthApp.Models.Apis.Common;
 using OAuthApp.Models.Apis.PackageController;
 using OAuthApp.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -65,7 +65,7 @@ namespace OAuthApp.Apis
             OperationId = "PackageGet",
             Summary = "软件包 - 列表",
             Description = "scope&permission：oauthapp.package.get")]
-        public async Task<PagingResult<SdkPackage>> Get([FromQuery] PagingRequest<GeneratorGetRequest> value)
+        public async Task<PagingResult<SdkPackage>> Get([FromQuery] PagingRequest<PackageGetRequest> value)
         {
             if (!ModelState.IsValid)
             {
@@ -296,6 +296,7 @@ namespace OAuthApp.Apis
                        Description = x.Description,
                        Name = x.Name,
                        Uri = x.Uri,
+                       CompiledCode = "",
                        Enable = x.Enable,
                        SdkPackageId = value.Id
                    }).ToList();
@@ -362,23 +363,102 @@ namespace OAuthApp.Apis
         }
         #endregion
 
-        #region 软件包 - 发布
+        #region 软件包 - 发布记录
         /// <summary>
-        /// 软件包 - 发布
+        /// 软件包 - 发布记录
         /// </summary>
         /// <param name="id"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        [HttpPost("{id}")]
+        [HttpGet("{id}/ReleaseHistory")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:package.releasehistory")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:package.releasehistory")]
+        [SwaggerOperation(
+            OperationId = "PackageReleaseHistory",
+            Summary = "软件包 - 发布记录",
+            Description = "scope&permission：oauthapp.package.releasehistory")]
+        public async Task<PagingResult<SdkReleaseHistory>> ReleaseHistory([FromRoute]long id, [FromQuery] PagingRequest<ReleaseHistoryGetRequest> value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new PagingResult<SdkReleaseHistory>()
+                {
+                    code = (int)BasicControllerEnums.UnprocessableEntity,
+                    message = ModelErrors()
+                };
+            }
+
+            var query = sdkDB.ReleaseHistories.Where(x => x.SdkPackageId == id).AsQueryable();
+
+            if (!User.IsInRole(DefaultRoles.Administrator))
+            {
+                query = query.Where(x => x.UserID == UserId);
+            }
+
+            #region filter
+            if (!string.IsNullOrWhiteSpace(value.q.remark))
+            {
+                query = query.Where(x => x.Remark.Contains(value.q.remark));
+            }
+            if (!string.IsNullOrWhiteSpace(value.q.tags))
+            {
+                query = query.Where(x => x.Tags.Contains(value.q.tags));
+            }
+            #endregion
+
+            #region total
+            var result = new PagingResult<SdkReleaseHistory>()
+            {
+                skip = value.skip.Value,
+                take = value.take.Value,
+                total = await query.CountAsync()
+            };
+            #endregion
+
+            if (result.total > 0)
+            {
+                #region orderby
+                if (!string.IsNullOrWhiteSpace(value.orderby))
+                {
+                    if (value.asc.Value)
+                    {
+                        query = query.OrderBy(value.orderby);
+                    }
+                    else
+                    {
+                        query = query.OrderByDescending(value.orderby);
+                    }
+                }
+                #endregion
+
+                #region pagingWithData
+                var data = await query.Skip(value.skip.Value).Take(value.take.Value)
+                    .ToListAsync();
+                #endregion
+
+                result.data = data;
+            }
+
+            return result;
+        }
+        #endregion
+
+        #region 软件包 - 发布
+        /// <summary>
+        /// 软件包 - 发布
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost("Publish")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:package.publish")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:package.publish")]
         [SwaggerOperation(
             OperationId = "PackagePublish",
             Summary = "软件包 - 发布",
             Description = "scope&permission：oauthapp.package.publish")]
-        public ApiResult<bool> Publish([FromRoute]long id, [FromBody]PublishRequest value)
+        public ApiResult<bool> Publish([FromBody]PublishRequest value)
         {
-            var entity = sdkDB.Packages.Where(x => x.Id == id && x.UserID == UserId)
+            var entity = sdkDB.Packages.Where(x => x.Id == value.id && x.UserID == UserId)
                 .Include(x => x.SdkGenerators).FirstOrDefault();
 
             if (entity == null)
@@ -386,9 +466,17 @@ namespace OAuthApp.Apis
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
 
-            entity = BuildPackage(entity).Result;
+            #region version
+            Version ReleaseVersion = new Version(1, 0, 0);
+            if (!string.IsNullOrWhiteSpace(value.Version))
+            {
+                ReleaseVersion = Version.Parse(value.Version);
+            }
+            engine.RemoveVariable("packageVersion");
+            engine.SetVariableValue("packageVersion", ReleaseVersion.ToString());
+            #endregion
 
-            var SdkRootPath = $"./sdk/{id}/"+ DateTime.Now.Ticks.ToString();
+            var SdkRootPath = $"./sdk/{value.id}/"+ DateTime.Now.Ticks.ToString();
 
             var SdkBuildPath = $"{SdkRootPath}/build";
 
@@ -397,41 +485,34 @@ namespace OAuthApp.Apis
                 Directory.CreateDirectory(SdkBuildPath);
             }
 
-            foreach(var t in entity.SdkGenerators)
+            #region 生成软件包
+            var Codes = BuildPackage(entity);
+
+            foreach (var t in Codes)
             {
-                using (var sw = new StreamWriter($"{SdkBuildPath}/{t.Name}", false, Encoding.UTF8))
+                using (var sw = new StreamWriter($"{SdkBuildPath}/{t.Key}", false, Encoding.UTF8))
                 {
-                    sw.WriteLine(t.CompiledCode);
+                    sw.WriteLine(t.Value);
                 }
             }
-
-            #region version
-            Version ReleaseVersion = new Version(0, 0, 0);
-
-            if (!string.IsNullOrWhiteSpace(value.Version))
-            {
-                ReleaseVersion = Version.Parse(value.Version);
-            }
-
-            engine.RemoveVariable("packageVersion");
-            engine.SetVariableValue("packageVersion", ReleaseVersion.ToString());
             #endregion
 
-            #region 打包SDK文件为.zip
-            var ReleasePath = SdkRootPath + "/release/";
-            if (!Directory.Exists(ReleasePath))
+            #region 打包软件包
+            var SdkReleasePath = $"{SdkRootPath}/release";
+            if (!Directory.Exists(SdkReleasePath))
             {
-                Directory.CreateDirectory(ReleasePath);
+                Directory.CreateDirectory(SdkReleasePath);
             }
+
             var SdkRootName = Directory.GetParent(SdkRootPath).Name;
-            var SdkPackagePath = $"{ReleasePath}{SdkRootName}.zip";
-            ZipFile.CreateFromDirectory(SdkBuildPath, ReleasePath);
+            var PackagePath = $"{SdkReleasePath}/{SdkRootName}.zip";
+            ZipFile.CreateFromDirectory(SdkBuildPath, PackagePath);
             #endregion
 
-            #region 上传.zip，发消息到发包队列
+            #region 上传软件包、加入发布计划
             var blobUrl = string.Empty;
 
-            using (var zipFileStream = new FileStream(SdkPackagePath, FileMode.Open, FileAccess.Read))
+            using (var zipFileStream = new FileStream(PackagePath, FileMode.Open, FileAccess.Read))
             {
                 blobUrl = storageService.UploadBlobAsync(zipFileStream, "codegen-npm", entity.PackageName).Result;
             }
@@ -447,11 +528,11 @@ namespace OAuthApp.Apis
             //catch { }
             #endregion
 
-            #region
+            #region 记录发布历史
             sdkDB.ReleaseHistories.Add(new SdkReleaseHistory()
             {
                 Description = value.Description,
-                SdkPackageId = id,
+                SdkPackageId = value.id,
                 ReleaseDate = DateTime.UtcNow.AddHours(8).ToString("G"),
                 Remark = value.Remark,
                 Tags = value.Tags,
@@ -476,28 +557,32 @@ namespace OAuthApp.Apis
             return new ApiResult<bool>(true);
         }
         #endregion
-        private async Task<SdkPackage> BuildPackage(SdkPackage item)
+
+        private Dictionary<string,string> BuildPackage(SdkPackage item)
         {
+            var result = new Dictionary<string, string>();
+
             var swaggerDocument = string.Empty;
 
             using (var hc = new HttpClient()) 
             {
-                swaggerDocument = await hc.GetStringAsync(item.SwaggerUri);
+                swaggerDocument = hc.GetStringAsync(item.SwaggerUri).Result;
             }
 
             if(string.IsNullOrWhiteSpace(swaggerDocument))
             {
-                return item;
+                return result;
             }
             
             engine.RemoveVariable("swaggerDocument");
-
             engine.SetVariableValue("swaggerDocument", swaggerDocument);
 
             if (item.SdkGenerators != null && item.SdkGenerators.Count > 0)
             {
                 item.SdkGenerators.ForEach(g =>
                 {
+                    if (!g.Enable) { return; }
+
                     try
                     {
                         var templateSource = string.Empty;
@@ -509,7 +594,12 @@ namespace OAuthApp.Apis
 
                         engine.Execute(templateSource);
 
-                        g.CompiledCode = engine.CallFunction<string>("codegen");
+                        var CompiledCode = engine.CallFunction<string>("codegen");
+
+                        if (!result.ContainsKey(g.Name))
+                        {
+                            result.Add(g.Name, CompiledCode);
+                        }
                     }
                     catch
                     {
@@ -518,7 +608,9 @@ namespace OAuthApp.Apis
                 });
             }
 
-            return item;
+            return result;
         }
+
+        
     }
 }

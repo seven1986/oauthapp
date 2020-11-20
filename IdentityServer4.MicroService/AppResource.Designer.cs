@@ -61,6 +61,26 @@ namespace OAuthApp {
         }
         
         /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] ClearScriptV8_win_x64 {
+            get {
+                object obj = ResourceManager.GetObject("ClearScriptV8_win_x64", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] ClearScriptV8_win_x86 {
+            get {
+                object obj = ResourceManager.GetObject("ClearScriptV8_win_x86", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 &lt;?xml version=&quot;1.0&quot;?&gt;
         ///&lt;doc&gt;
         ///    &lt;assembly&gt;

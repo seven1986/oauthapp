@@ -567,7 +567,7 @@
             软件包
             </summary>
         </member>
-        <member name="M:OAuthApp.Apis.PackageController.Get(OAuthApp.Models.Apis.Common.PagingRequest{OAuthApp.Models.Apis.CodeGenController.GeneratorGetRequest})">
+        <member name="M:OAuthApp.Apis.PackageController.Get(OAuthApp.Models.Apis.Common.PagingRequest{OAuthApp.Models.Apis.PackageController.PackageGetRequest})">
             <summary>
             软件包 - 列表
             </summary>
@@ -602,11 +602,18 @@
             <param name="id">ID</param>
             <returns></returns>
         </member>
-        <member name="M:OAuthApp.Apis.PackageController.Publish(System.Int64,OAuthApp.Models.Apis.PackageController.PublishRequest)">
+        <member name="M:OAuthApp.Apis.PackageController.ReleaseHistory(System.Int64,OAuthApp.Models.Apis.Common.PagingRequest{OAuthApp.Models.Apis.PackageController.ReleaseHistoryGetRequest})">
+            <summary>
+            软件包 - 发布记录
+            </summary>
+            <param name="id"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.PackageController.Publish(OAuthApp.Models.Apis.PackageController.PublishRequest)">
             <summary>
             软件包 - 发布
             </summary>
-            <param name="id"></param>
             <param name="value"></param>
             <returns></returns>
         </member>
@@ -899,6 +906,16 @@
             <summary>
               重写当前线程的 CurrentUICulture 属性
               重写当前线程的 CurrentUICulture 属性。
+            </summary>
+        </member>
+        <member name="P:OAuthApp.AppResource.ClearScriptV8_win_x64">
+            <summary>
+              查找 System.Byte[] 类型的本地化资源。
+            </summary>
+        </member>
+        <member name="P:OAuthApp.AppResource.ClearScriptV8_win_x86">
+            <summary>
+              查找 System.Byte[] 类型的本地化资源。
             </summary>
         </member>
         <member name="P:OAuthApp.AppResource.OAuthApp">
@@ -2249,16 +2266,6 @@
             IOS包平台：SPM,网址：https://swift.org/package-manager/ 
             </summary>
         </member>
-        <member name="P:OAuthApp.Models.Apis.CodeGenController.GeneratorGetRequest.name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:OAuthApp.Models.Apis.CodeGenController.GeneratorGetRequest.expandGenerators">
-            <summary>
-            是否展开所有Template（默认为false）
-            </summary>
-        </member>
         <member name="P:OAuthApp.Models.Apis.ApiScopeController.ApiScopeGetRequest.name">
             <summary>
             名称
@@ -2377,6 +2384,21 @@
             结束时间。yyyy-MM-dd
             </summary>
         </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.PackageGetRequest.name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.PackageGetRequest.expandGenerators">
+            <summary>
+            是否展开所有Template（默认为false）
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.PublishRequest.id">
+            <summary>
+            版本号
+            </summary>
+        </member>
         <member name="P:OAuthApp.Models.Apis.PackageController.PublishRequest.Version">
             <summary>
             版本号
@@ -2395,6 +2417,16 @@
         <member name="P:OAuthApp.Models.Apis.PackageController.PublishRequest.Description">
             <summary>
             更新内容
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.ReleaseHistoryGetRequest.remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.ReleaseHistoryGetRequest.tags">
+            <summary>
+            标签
             </summary>
         </member>
         <member name="P:OAuthApp.Models.Apis.TenantController.TenantGetRequest.Host">

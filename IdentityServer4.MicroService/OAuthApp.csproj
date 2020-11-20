@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.2.4-alpha6</Version>
+    <Version>2.2.5</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -43,12 +43,6 @@
     <Compile Remove="Controllers\DeviceController.cs" />
     <Compile Remove="Controllers\GrantsController.cs" />
     <Content Include="..\.editorconfig" Link=".editorconfig" />
-    <Content Include="x64\ClearScriptV8-64.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x86\ClearScriptV8-32.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="..\oauthapp.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -96,8 +90,6 @@
     <None Remove="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
     <None Remove="Areas\Identity\Pages\_ViewImports.cshtml" />
     <None Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
-    <None Remove="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\javascriptengineswitcher.v8.native.win-x64\3.8.3\build\..\runtimes\win-x64\native\ClearScriptV8-64.dll" />
-    <None Remove="C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\javascriptengineswitcher.v8.native.win-x86\3.8.3\build\..\runtimes\win-x86\native\ClearScriptV8-32.dll" />
     <None Remove="oauthapp.pfx" />
     <None Remove="readme.txt" />
     <None Remove="Views\Account\AccessDenied.cshtml" />
@@ -120,8 +112,6 @@
     <None Remove="wwwroot\css\site.min.css" />
     <None Remove="wwwroot\css\site.scss" />
     <None Remove="wwwroot\favicon.ico" />
-    <None Remove="wwwroot\icon.jpg" />
-    <None Remove="wwwroot\icon.png" />
     <None Remove="wwwroot\js\signin-redirect.js" />
     <None Remove="wwwroot\js\signout-redirect.js" />
     <None Remove="wwwroot\js\swagger2Rst.html" />
@@ -144,8 +134,6 @@
     <None Remove="wwwroot\lib\jquery\dist\jquery.slim.min.js" />
     <None Remove="wwwroot\lib\jquery\dist\jquery.slim.min.map" />
     <None Remove="wwwroot\lib\jquery\README.md" />
-    <None Remove="x64\ClearScriptV8-64.dll" />
-    <None Remove="x86\ClearScriptV8-32.dll" />
   </ItemGroup>
 
   <ItemGroup>
@@ -333,12 +321,6 @@
     <Content Include="wwwroot\css\site.scss">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\icon.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\icon.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="wwwroot\js\signin-redirect.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -415,9 +397,7 @@
     <PackageReference Include="IdentityServer4" Version="4.1.1" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.1" />
     <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.1" />
-    <PackageReference Include="JavaScriptEngineSwitcher.V8" Version="3.8.3" />
-    <PackageReference Include="JavaScriptEngineSwitcher.V8.Native.win-x64" Version="3.8.3" />
-    <PackageReference Include="JavaScriptEngineSwitcher.V8.Native.win-x86" Version="3.8.3" />
+    <PackageReference Include="JavaScriptEngineSwitcher.V8" Version="3.9.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.10" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.10" />
@@ -434,6 +414,8 @@
     <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />
     <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.2" />
     <PackageReference Include="Microsoft.Azure.Storage.Queue" Version="11.2.2" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.0.0" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x86" Version="7.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -447,7 +429,7 @@
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Utils" Version="3.1.4" />
-    <PackageReference Include="StackExchange.Redis" Version="2.1.58" />
+    <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.6.3" />

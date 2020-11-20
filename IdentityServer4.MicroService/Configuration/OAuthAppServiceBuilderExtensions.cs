@@ -416,6 +416,20 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
 
+            var ClearScriptV8_64_FilePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath+ "/runtimes/win-x64/native", "ClearScriptV8.win-x64.dll");
+            if (!File.Exists(ClearScriptV8_64_FilePath))
+            {
+                using var sw = new StreamWriter(ClearScriptV8_64_FilePath);
+                sw.Write(AppResource.ClearScriptV8_win_x64);
+            }
+
+            var ClearScriptV8_86_FilePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath + "/runtimes/win-x86/native", "ClearScriptV8.win-x86.dll");
+            if (!File.Exists(ClearScriptV8_86_FilePath))
+            {
+                using var sw = new StreamWriter(ClearScriptV8_86_FilePath);
+                sw.Write(AppResource.ClearScriptV8_win_x86);
+            }
+
             return builder;
         }
 
