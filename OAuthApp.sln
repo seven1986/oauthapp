@@ -17,13 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuthApp", "IdentityServer4.MicroService\OAuthApp.csproj", "{3A3E9C63-1F21-4766-A9BE-A4B38EFCB369}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer4.MicroService.AzureJobs", "IdentityServer4.MicroService.AzureJobs\IdentityServer4.MicroService.AzureJobs.csproj", "{B71B9B32-50B8-4437-BE10-230A93EC5AB6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer4.MicroService.AzureJobs.Host", "IdentityServer4.MicroService.AzureJobs.Host\IdentityServer4.MicroService.AzureJobs.Host.csproj", "{F5305B1A-41D1-4E51-8250-7CF3C4AC2CE4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{5F4E5E96-B083-4101-9C42-5847A59DE8D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuthApp.Jobs", "OAuthApp.Jobs\OAuthApp.Jobs.csproj", "{E0320C45-F48E-4CED-971D-F7F3BBAC013A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuthApp.Jobs", "OAuthApp.Jobs\OAuthApp.Jobs.csproj", "{8399EED4-A495-427E-AAB3-04D5A8C72FD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +33,6 @@ Global
 		{3A3E9C63-1F21-4766-A9BE-A4B38EFCB369}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A3E9C63-1F21-4766-A9BE-A4B38EFCB369}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A3E9C63-1F21-4766-A9BE-A4B38EFCB369}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B71B9B32-50B8-4437-BE10-230A93EC5AB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B71B9B32-50B8-4437-BE10-230A93EC5AB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B71B9B32-50B8-4437-BE10-230A93EC5AB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B71B9B32-50B8-4437-BE10-230A93EC5AB6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F5305B1A-41D1-4E51-8250-7CF3C4AC2CE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5305B1A-41D1-4E51-8250-7CF3C4AC2CE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5305B1A-41D1-4E51-8250-7CF3C4AC2CE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -47,10 +41,10 @@ Global
 		{5F4E5E96-B083-4101-9C42-5847A59DE8D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F4E5E96-B083-4101-9C42-5847A59DE8D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F4E5E96-B083-4101-9C42-5847A59DE8D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0320C45-F48E-4CED-971D-F7F3BBAC013A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0320C45-F48E-4CED-971D-F7F3BBAC013A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0320C45-F48E-4CED-971D-F7F3BBAC013A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0320C45-F48E-4CED-971D-F7F3BBAC013A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8399EED4-A495-427E-AAB3-04D5A8C72FD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8399EED4-A495-427E-AAB3-04D5A8C72FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8399EED4-A495-427E-AAB3-04D5A8C72FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8399EED4-A495-427E-AAB3-04D5A8C72FD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
