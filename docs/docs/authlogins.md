@@ -2,7 +2,7 @@
 
 !!! note ""
 
-    每个租户的站点可以配置第三方登录功能，目前支持的平台如下
+    可以为每个租户的站点启用第三方登录功能，目前支持的平台如下
 
 | 平台      | 属性名                          |
 | ----------- | ------------------------------------ |
@@ -86,7 +86,7 @@
         [HttpPost]
         public IActionResult Post(string provider, string returnUrl = null)
         {
-            var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
+            var redirectUrl = Url.Page("./Post", pageHandler: "Callback", values: new { returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
         }

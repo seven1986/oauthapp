@@ -1,5 +1,5 @@
 ﻿
-[![Build status](https://ci.appveyor.com/api/projects/status/x51ob7f1p5ihff2i?svg=true)](https://ci.appveyor.com/project/seven1986/identityserver4-microservice)  [![readthedocs](https://img.shields.io/readthedocs/OAuthApp.svg)](http://OAuthApp.readthedocs.io)
+[![Build status](https://ci.appveyor.com/api/projects/status/x51ob7f1p5ihff2i?svg=true)](https://ci.appveyor.com/project/seven1986/oauthapp)
 
 
 # OAuthApp
@@ -8,7 +8,7 @@ OAuthApp是一个免费开源的微服务框架，基于IdentityServer4、Azure 
 
 OAuthApp | OAuthApp.AzureJobs
 --------------- | ---------------
-[![NuGet](https://img.shields.io/nuget/v/OAuthApp.svg)](https://www.nuget.org/packages/oauthapp/)|[![NuGet](https://img.shields.io/nuget/v/IdentityServer4MicroService.AzureJobs.svg)](https://github.com/seven1986/oauthapp)
+[![NuGet](https://img.shields.io/nuget/v/OAuthApp.svg)](https://www.nuget.org/packages/oauthapp/)|[![NuGet](https://img.shields.io/nuget/v/OAuthApp.Jobs.svg)](https://github.com/seven1986/oauthapp)
 
 
 核心功能

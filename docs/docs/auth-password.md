@@ -16,14 +16,14 @@
 
 #### 参数说明
 
-| 名称 | 必传 | 说明 |
+| 名称 | 是否必须 | 说明 |
 | ----------- | ----------- | ----------- |
-| `grant_type` | 是 | 固定传password |
+| `grant_type` | 是 | 授权类型，值固定为`password` |
 | `client_id` | 是 | 应用的ID |
 | `client_secret` | 是 | 应用的密钥 |
 | `username` | 是 | 用户的登录账号 |
 | `password` | 是 | 用户的登录密码 |
-| `scope` | 是 | 申请授权的[scope](/scopes)，多个scope用空格分隔。 |
+| `scope` | 是 | 表示授权范围，多个[scope](/scopes)用空格分隔。 |
 
 
 #### 响应格式

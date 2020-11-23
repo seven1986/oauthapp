@@ -20,6 +20,8 @@ nav:
         - 'saas.md'
         - 'authlogins.md'
   - 参考:
+      - 'apidocument.md'
+      - 'sdks.md'
       - 'scopes.md'
   - 更新日志: 
       - 'logs.md'
@@ -39,8 +41,6 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/seven1986/OAuthApp
-    - icon: fontawesome/regular/comments
-      link: https://github.com/seven1986/OAuthApp/issues
 markdown_extensions:
   - attr_list
   - admonition

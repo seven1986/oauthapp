@@ -17,9 +17,9 @@
 
 #### 参数说明
 
-| 名称 | 必传 | 说明 |
+| 名称 | 是否必须 | 说明 |
 | ----------- | ----------- | ----------- |
-| `response_type` | 是 | 固定传code |
+| `response_type` | 是 | 响应类型，值固定为`code` |
 | `client_id` | 是 | 应用的ID |
 | `redirect_uri` | 是 | 回调地址 |
 | `scope` | 是 | 申请授权的[scope](/scopes)，多个scope用空格分隔。 |
@@ -39,9 +39,9 @@
 
 #### 参数说明
 
-| 名称 | 必传 | 说明 |
+| 名称 | 是否必须 | 说明 |
 | ----------- | ----------- | ----------- |
-| `grant_type` | 是 | 固定传authorization_code |
+| `grant_type` | 是 | 授权类型，值固定为`authorization_code` |
 | `code` | 是 | 步骤1返回的授权码 |
 | `client_id` | 是 | 应用的ID |
 | `client_secret` | 是 | 应用的密钥 |

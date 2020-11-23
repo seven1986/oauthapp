@@ -16,12 +16,12 @@
 
 #### 参数说明
 
-| 名称 | 必传 | 说明 |
+| 名称 | 是否必须 | 说明 |
 | ----------- | ----------- | ----------- |
-| `response_type` | 是 | 固定传token |
+| `response_type` | 是 | 授权类型，可选值为`id_token token` |
 | `client_id` | 是 | 应用的ID |
 | `redirect_uri` | 是 | 回调地址 |
-| `scope` | 是 | 申请授权的[scope](/scopes)，多个scope用空格分隔。 |
+| `scope` | 是 | 表示授权范围，多个[scope](/scopes)用空格分隔。 |
 | `nonce` | 是 | 随机字符串 |
 
 

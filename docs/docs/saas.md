@@ -1,4 +1,4 @@
-# 使用Saas服务
+# SaaS 多租户
 
 !!! note ""
 
@@ -78,6 +78,10 @@
 
 ## 开始使用
 
+!!! note ""
+
+    在请求中获取当前租户信息并显示出来。
+
 ### 在控制器使用
 
 === "Controllers/HomeController.cs"
@@ -107,7 +111,7 @@
         var TenantContext = OAuthApp.Tenant.TenantValidatorHelper.GetTenantWithProperties(Context);
      }
 
-    <p><img src="@TenantContext.LogoUri" width="48px"></p>
+    <p>@TenantContext.LogoUri</p>
     <p>@TenantContext.Name</p>
     <p>@TenantContext.IdentityServerIssuerUri</p>
     <p>@TenantContext.OwnerUserId</p>
