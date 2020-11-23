@@ -1,0 +1,65 @@
+@page
+@model LoginModel
+@{
+ViewData["Title"] = "Log in";
+var TenantContext = OAuthApp.Tenant.TenantValidatorHelper.GetTenantWithProperties(HttpContext);
+}
+
+<div class="mt-5 pt-5" style="width: 100%; max-width: 420px; padding: 15px; margin: auto;">
+<form id="account" method="post">
+    <div class="text-center mb-4">
+        <img class="mb-4" src="@TenantContext.LogoUri" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">@TenantContext.Name</h1>
+        <p>@TenantContext.Description</p>
+    </div>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Input.Email"></label>
+        <input asp-for="Input.Email" class="form-control" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Input.Password"></label>
+        <input asp-for="Input.Password" class="form-control" />
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="checkbox">
+            <a id="forgot-password" class="float-right" asp-page="./ForgotPassword">忘记密码?</a>
+            <label asp-for="Input.RememberMe">
+                <input asp-for="Input.RememberMe" />
+                保存登陆信息
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block">登录</button>
+    </div>
+    <div class="form-group">
+        <a asp-page="./Register" class="btn btn-success btn-block" asp-route-returnUrl="@Model.ReturnUrl">注册账号</a>
+    </div>
+</form>
+
+
+    @{
+        if ((Model.ExternalLogins?.Count ?? 0) > 0)
+        {
+            <hr />
+
+            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                <div>
+                    <p>
+                        @foreach (var provider in Model.ExternalLogins)
+                        {
+                            <button type="submit" class="btn btn-light btn-sm border m-1 my-2" name="provider" value="@provider.Name">@provider.DisplayName</button>
+                        }
+                    </p>
+                </div>
+            </form>
+        }
+    }
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

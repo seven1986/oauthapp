@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;
+    var TenantContext = OAuthApp.Tenant.TenantValidatorHelper.GetTenantWithProperties(Context);
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="@TenantContext.LogoUri" />
+    <title>@TenantContext.Name - OAuth</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <meta name="keywords" content="@TenantContext.Properties.GetValueOrDefault("WebSite:Keywords")" />
+    <meta name="description" content="@TenantContext.Properties.GetValueOrDefault("WebSite:Description")" />
+    <style>
+        .nav-item a {
+            color: #727272 !important;
+        }
+            .nav-item a.active {
+                background: #fff !important;
+                color: #727272 !important;
+                border: dashed 2px #06f;
+            }
+    </style>
+</head>
+<body class="bg-light">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" href="">
+                    <img src="@TenantContext.LogoUri" class="img-fluid mx-2" width="28px" />
+                    @TenantContext.Name
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div class="row" style="height:100vh">
+                <div class="col-md-3 border-right bg-white py-3">
+                    <partial name="_ManageNav" />
+                </div>
+                <div class="col-md-9">
+                    @RenderBody()
+                </div>
+            </div>
+        </main>
+    </div>
+    @section Scripts {
+        @RenderSection("Scripts", required: false)
+    }
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+    @TenantContext.Properties.GetValueOrDefault("WebSite:Keywords")
+</body>
+</html>

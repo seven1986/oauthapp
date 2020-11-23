@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IdentityServer4.MicroService\OAuthApp.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="Areas\Identity\Pages\Account\AccessDenied.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
