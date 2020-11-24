@@ -617,6 +617,13 @@
             <param name="value"></param>
             <returns></returns>
         </member>
+        <member name="M:OAuthApp.Apis.PackageController.PreCompile(OAuthApp.Models.Apis.PackageController.PreCompileRequest)">
+            <summary>
+            软件包 - 预编译
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
         <member name="T:OAuthApp.Apis.RoleController">
             <summary>
             角色

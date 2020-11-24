@@ -574,8 +574,8 @@ namespace OAuthApp.Apis
                 return result;
             }
             
-            engine.RemoveVariable("swaggerDocument");
-            engine.SetVariableValue("swaggerDocument", swaggerDocument);
+            engine.RemoveVariable("packageObject");
+            engine.SetVariableValue("packageObject", swaggerDocument);
 
             if (item.SdkGenerators != null && item.SdkGenerators.Count > 0)
             {
@@ -594,7 +594,7 @@ namespace OAuthApp.Apis
 
                         engine.Execute(templateSource);
 
-                        var CompiledCode = engine.CallFunction<string>("codegen");
+                        var CompiledCode = engine.CallFunction<string>("codeCompile");
 
                         if (!result.ContainsKey(g.Name))
                         {
@@ -611,6 +611,57 @@ namespace OAuthApp.Apis
             return result;
         }
 
-        
+        #region 软件包 - 预编译
+        /// <summary>
+        /// 软件包 - 预编译
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost("PreCompile")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:package.precompile")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:package.precompile")]
+        [SwaggerOperation(
+            OperationId = "PackagePublish",
+            Summary = "软件包 - 预编译",
+            Description = "scope&permission：oauthapp.package.precompile")]
+        public ApiResult<string> PreCompile([FromBody] PreCompileRequest value)
+        {
+            try
+            {
+                var swaggerDocument = string.Empty;
+
+                using (var hc = new HttpClient())
+                {
+                    swaggerDocument = hc.GetStringAsync(value.swaggerUri).Result;
+                }
+
+                engine.RemoveVariable("packageObject");
+                engine.SetVariableValue("packageObject", swaggerDocument);
+
+                if (!string.IsNullOrWhiteSpace(value.packageVersion))
+                {
+                    engine.RemoveVariable("packageVersion");
+                    engine.SetVariableValue("packageVersion", value.packageVersion);
+                }
+
+                var templateSource = string.Empty;
+
+                using (var hc = new HttpClient())
+                {
+                    templateSource = hc.GetStringAsync(value.scriptUri).Result;
+                }
+
+                engine.Execute(templateSource);
+
+                var result = engine.CallFunction<string>("codeCompile");
+
+                return new ApiResult<string>(result);
+            }
+            catch(Exception ex)
+            {
+                return new ApiResult<string>(l, BasicControllerEnums.HasError, ex.Message);
+            }
+        }
+        #endregion
     }
 }

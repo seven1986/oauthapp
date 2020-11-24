@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "U4oPTiBr51Ws7YxMYZsN3eIa4D9mC3Q5Tp0SQzyBnFNfMAeUXrio/e5uYRV6skB567RurL4Q1SK6Az0kfwa0Cw==",
+  "dgSpecHash": "F/q1bKgtpQSd6kgB5dtSHS82LNMfBPSpZ9Q9ePhc/69Ii0LHkQRZizDTBBqucZP40clK4eyFw/faeG8st3L7vQ==",
   "success": true,
   "projectFilePath": "D:\\Source\\Repos\\IdentityServer4.MicroService\\OAuthApp\\OAuthApp.csproj",
   "expectedPackageFiles": [
