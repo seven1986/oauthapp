@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "OAuthApp/2.2.6-preview1": {
+      "OAuthApp/2.2.6-preview2": {
         "dependencies": {
           "AspNet.Security.OAuth.GitHub": "3.1.6",
           "AspNet.Security.OAuth.QQ": "3.1.6",
@@ -2876,7 +2876,7 @@
     }
   },
   "libraries": {
-    "OAuthApp/2.2.6-preview1": {
+    "OAuthApp/2.2.6-preview2": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

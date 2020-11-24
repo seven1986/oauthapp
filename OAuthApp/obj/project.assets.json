@@ -12089,7 +12089,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "2.2.6-preview1",
+    "version": "2.2.6-preview2",
     "restore": {
       "projectUniqueName": "D:\\Source\\Repos\\IdentityServer4.MicroService\\OAuthApp\\OAuthApp.csproj",
       "projectName": "OAuthApp",
