@@ -1,5 +1,10 @@
 # 更新日志
 
+## 2020-11-23
+
+- 重构Package（软件包）模块
+- 重构OAuthApp.Jobs软件包
+
 ## 2020-9-16
 
 - 变更IdentityServer4.MicroSerive项目名称为OAuthApp。

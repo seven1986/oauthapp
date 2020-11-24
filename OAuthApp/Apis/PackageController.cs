@@ -621,7 +621,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:package.precompile")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:package.precompile")]
         [SwaggerOperation(
-            OperationId = "PackagePublish",
+            OperationId = "PackagePreCompile",
             Summary = "软件包 - 预编译",
             Description = "scope&permission：oauthapp.package.precompile")]
         public ApiResult<string> PreCompile([FromBody] PreCompileRequest value)

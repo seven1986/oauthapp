@@ -1,7 +1,9 @@
 # 接口文档
 
+## Postman 调试
 
-https://www.oauthapp.com/swagger/v1/swagger.json
+使用 [Postman](https://documenter.getpostman.com/view/573334/TVewYj9b){: .md-button } 访问。
+
 ## ApiResource
 
 
@@ -528,7 +530,6 @@ https://www.oauthapp.com/swagger/v1/swagger.json
 
 ## CodeGen
 
-
 ### 代码生成 - 客户端列表
 
 !!! note "" 
@@ -663,8 +664,6 @@ https://www.oauthapp.com/swagger/v1/swagger.json
 
 ### 代码生成 - SDK - 添加记录
 
-!!! note "" 
-	
 
 | 名称 | 类型 | 说明 |
 | ----------- | ----------- | ----------- |

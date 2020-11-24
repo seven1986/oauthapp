@@ -82,22 +82,19 @@
 | `oauthapp.client.all` | 所有权限 |
 
 
-## 代码生成
+## 软件包
 
 | code      | name                          |
 | ----------- | ------------------------------------ |
-| `oauthapp.codegen.syncgithub` | Github - 同步 |
-| `oauthapp.codegen.servers` | 服务端列表 |
-| `oauthapp.codegen.releasesdk` | SDK - 发布 |
-| `oauthapp.codegen.putnpmoptions` | NPM - 更新设置 |
-| `oauthapp.codegen.putgithuboptions` | Github - 更新设置 |
-| `oauthapp.codegen.putcommonoptions` | 基本设置 - 更新 |
-| `oauthapp.codegen.npmoptions` | NPM - 设置 |
-| `oauthapp.codegen.githuboptions` | Github - 设置 |
-| `oauthapp.codegen.gen` | SDK - 预览生成代码 |
-| `oauthapp.codegen.get` | 客户端列表 |
-| `oauthapp.codegen.commonoptions` | 基本设置 - 获取 |
-| `oauthapp.codegen.all` | 所有权限 |
+| `oauthapp.package.get` | 软件包 - 列表 |
+| `oauthapp.package.detail` | 软件包 - 详情 |
+| `oauthapp.package.post` | 软件包 - 创建 |
+| `oauthapp.package.put` | 软件包 - 更新 |
+| `oauthapp.package.delete` | 软件包 - 删除 |
+| `oauthapp.package.releasehistory` | 软件包 - 发布记录 |
+| `oauthapp.package.publish` | 软件包 - 发布 |
+| `oauthapp.package.precompile` | 软件包 - 预编译 |
+| `oauthapp.package.all` | 所有权限 |
 
 
 ## 标识
