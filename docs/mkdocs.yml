@@ -15,13 +15,13 @@ nav:
         - 'auth-password.md'
         - 'auth-credentials.md'
         - 'auth-hybrid.md'
-  - 使用实例:
+  - 实例参考:
         - 'extend-validator.md'
         - 'saas.md'
         - 'authlogins.md'
-  - 参考:
+        - 'scopes.md'
+  - API:
       - 'apidocument.md'
-      - 'scopes.md'
   - 更新日志: 
       - 'logs.md'
 theme:
@@ -30,7 +30,7 @@ theme:
   favicon: images/oauthapp.png
   features:
     - navigation.tabs
-    - navigation.instant
+    - navigation.sections
   logo: images/oauthapp.png
   icon:
     repo: fontawesome/brands/github
