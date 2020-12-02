@@ -148,7 +148,7 @@ namespace OAuthApp.Apis
         [HttpPost("Image")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:blob.image")]
         [SwaggerOperation(OperationId = "BlobImage",Summary = "Blob - Image",Description = "支持图片：jpeg,jpg,png,octet-stream，小于10MB。scope：isms.blob.image")]
-        public ApiResult<string> UploadImage(IFormFile value, [FromQuery][RegularExpression("[a-zA-Z0-9]{5,30}")]string folderName)
+        public ApiResult<string> UploadImage([FromForm]IFormFile value, [FromQuery][RegularExpression("[a-zA-Z0-9]{5,30}")]string folderName)
         {
             if (value == null)
             {

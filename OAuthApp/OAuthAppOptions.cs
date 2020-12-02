@@ -130,7 +130,7 @@ namespace OAuthApp
 
         Client = 3,
 
-        CodeGen = 4,
+        // CodeGen = 4,
 
         Blob = 5,
 

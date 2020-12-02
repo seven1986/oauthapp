@@ -28,6 +28,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using Microsoft.IdentityModel.Tokens;
+using OAuthApp.Attributes;
 
 namespace Microsoft.Extensions.DependencyInjection
 { 
@@ -69,8 +70,6 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.AddSingleton(Options);
 
             builder.Services.AddHttpContextAccessor();
-
-            //builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             #region Cors
             if (Options.EnableCors)
@@ -272,7 +271,9 @@ namespace Microsoft.Extensions.DependencyInjection
                             // Description = "Swagger document",
                         });
 
-                        c.CustomSchemaIds(x => x.FullName);
+                        c.OperationFilter<SwaggerUploadFileParametersFilter>();
+
+                        //c.CustomSchemaIds(x => x.FullName);
                     }
 
                     var SiteSwaggerFilePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, AppConstant.AssemblyName + ".xml");

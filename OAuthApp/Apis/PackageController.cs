@@ -78,10 +78,7 @@ namespace OAuthApp.Apis
 
             var query = sdkDB.Packages.AsQueryable();
 
-            if (!User.IsInRole(DefaultRoles.Administrator))
-            {
                 query = query.Where(x => x.UserID == UserId);
-            }
 
             #region filter
             if (!string.IsNullOrWhiteSpace(value.q.name))
@@ -226,7 +223,7 @@ namespace OAuthApp.Apis
                     ModelErrors());
             }
 
-            var Entity = sdkDB.Packages.Where(x => x.Id == value.Id)
+            var Entity = sdkDB.Packages.Where(x => x.Id == value.Id && x.UserID == UserId)
                 .Include(x => x.SdkGenerators)
                 .FirstOrDefault();
 
@@ -388,12 +385,7 @@ namespace OAuthApp.Apis
                 };
             }
 
-            var query = sdkDB.ReleaseHistories.Where(x => x.SdkPackageId == id).AsQueryable();
-
-            if (!User.IsInRole(DefaultRoles.Administrator))
-            {
-                query = query.Where(x => x.UserID == UserId);
-            }
+            var query = sdkDB.ReleaseHistories.Where(x => x.SdkPackageId == id && x.UserID == UserId).AsQueryable();
 
             #region filter
             if (!string.IsNullOrWhiteSpace(value.q.remark))
