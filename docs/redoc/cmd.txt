@@ -1,1 +1,0 @@
-redoc-cli bundle https://www.oauthapp.com/swagger/v1/swagger.json --options.hideDownloadButton=true -t template.hbs

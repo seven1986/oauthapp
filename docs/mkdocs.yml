@@ -20,8 +20,8 @@ nav:
         - 'saas.md'
         - 'authlogins.md'
         - 'scopes.md'
-  - API:
-      - 'apidocument.md'
+  - API: 
+        - 'apidocument.md'
   - 更新日志: 
       - 'logs.md'
 theme:
@@ -73,3 +73,6 @@ plugins:
   - minify:
       minify_html: true
   - search
+  - redirects:
+      redirect_maps:
+        'apidocument.md': 'https://www.oauthapp.com/docs/index.html'
