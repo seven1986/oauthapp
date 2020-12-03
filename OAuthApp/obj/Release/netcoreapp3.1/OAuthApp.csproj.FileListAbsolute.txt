@@ -238,6 +238,7 @@ D:\Source\Repos\IdentityServer4.MicroService\OAuthApp\bin\Release\netcoreapp3.1\
 D:\Source\Repos\IdentityServer4.MicroService\OAuthApp\bin\Release\netcoreapp3.1\OAuthApp.pdb
 D:\Source\Repos\IdentityServer4.MicroService\OAuthApp\bin\Release\netcoreapp3.1\OAuthApp.xml
 D:\Source\Repos\IdentityServer4.MicroService\OAuthApp\bin\Release\netcoreapp3.1\en\OAuthApp.resources.dll
+D:\Source\Repos\IdentityServer4.MicroService\OAuthApp\obj\Release\netcoreapp3.1\OAuthApp.csprojAssemblyReference.cache
 D:\Source\Repos\IdentityServer4.MicroService\OAuthApp\obj\Release\netcoreapp3.1\OAuthApp.AppResource.resources
 D:\Source\Repos\IdentityServer4.MicroService\OAuthApp\obj\Release\netcoreapp3.1\OAuthApp.Resources.Apis.ApiResourceController.en.resources
 D:\Source\Repos\IdentityServer4.MicroService\OAuthApp\obj\Release\netcoreapp3.1\OAuthApp.Resources.Apis.ClientController.en.resources

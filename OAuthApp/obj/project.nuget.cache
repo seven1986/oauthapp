@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "oY6NGYEv2NG+52WUjy8zeBDIcGwikG/qiLyCro40AwAjnZ3tEMoNGs1+BdnwxAYC6hIAyqwf1UrXM56gy6MM5Q==",
+  "dgSpecHash": "MwQd3tHXl11CiUwowS0z8mTMhizGjdllfqMGkrm0tP2KYtITbDy7lGb/A63MEgonjeihD7CJil/UxuoYl+uWcg==",
   "success": true,
   "projectFilePath": "D:\\Source\\Repos\\IdentityServer4.MicroService\\OAuthApp\\OAuthApp.csproj",
   "expectedPackageFiles": [
@@ -153,7 +153,6 @@
     "C:\\Users\\jxsh08.DESKTOP-361U268\\.nuget\\packages\\swashbuckle.aspnetcore\\5.6.3\\swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
     "C:\\Users\\jxsh08.DESKTOP-361U268\\.nuget\\packages\\swashbuckle.aspnetcore.annotations\\5.6.3\\swashbuckle.aspnetcore.annotations.5.6.3.nupkg.sha512",
     "C:\\Users\\jxsh08.DESKTOP-361U268\\.nuget\\packages\\swashbuckle.aspnetcore.newtonsoft\\5.6.3\\swashbuckle.aspnetcore.newtonsoft.5.6.3.nupkg.sha512",
-    "C:\\Users\\jxsh08.DESKTOP-361U268\\.nuget\\packages\\swashbuckle.aspnetcore.redoc\\5.6.3\\swashbuckle.aspnetcore.redoc.5.6.3.nupkg.sha512",
     "C:\\Users\\jxsh08.DESKTOP-361U268\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\5.6.3\\swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",
     "C:\\Users\\jxsh08.DESKTOP-361U268\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\5.6.3\\swashbuckle.aspnetcore.swaggergen.5.6.3.nupkg.sha512",
     "C:\\Users\\jxsh08.DESKTOP-361U268\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\5.6.3\\swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512",

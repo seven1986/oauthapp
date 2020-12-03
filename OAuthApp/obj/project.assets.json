@@ -2090,18 +2090,6 @@
           "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Newtonsoft.dll": {}
         }
       },
-      "Swashbuckle.AspNetCore.ReDoc/5.6.3": {
-        "type": "package",
-        "compile": {
-          "lib/netcoreapp3.0/Swashbuckle.AspNetCore.ReDoc.dll": {}
-        },
-        "runtime": {
-          "lib/netcoreapp3.0/Swashbuckle.AspNetCore.ReDoc.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
-      },
       "Swashbuckle.AspNetCore.Swagger/5.6.3": {
         "type": "package",
         "dependencies": {
@@ -7135,23 +7123,6 @@
         "swashbuckle.aspnetcore.newtonsoft.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore.ReDoc/5.6.3": {
-      "sha512": "cvEO+1RN/usFMh2BJB/x5qS1GL/k7UWzHQk2NjVx4cwMJbZRNgpyCkC38DlDyqr1qKmLV/eCeGjzuSyM3FPLng==",
-      "type": "package",
-      "path": "swashbuckle.aspnetcore.redoc/5.6.3",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.ReDoc.dll",
-        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.ReDoc.pdb",
-        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.ReDoc.xml",
-        "lib/netstandard2.0/Swashbuckle.AspNetCore.ReDoc.dll",
-        "lib/netstandard2.0/Swashbuckle.AspNetCore.ReDoc.pdb",
-        "lib/netstandard2.0/Swashbuckle.AspNetCore.ReDoc.xml",
-        "swashbuckle.aspnetcore.redoc.5.6.3.nupkg.sha512",
-        "swashbuckle.aspnetcore.redoc.nuspec"
-      ]
-    },
     "Swashbuckle.AspNetCore.Swagger/5.6.3": {
       "sha512": "rn/MmLscjg6WSnTZabojx5DQYle2GjPanSPbCU3Kw8Hy72KyQR3uy8R1Aew5vpNALjfUFm2M/vwUtqdOlzw+GA==",
       "type": "package",
@@ -12109,7 +12080,6 @@
       "Swashbuckle.AspNetCore >= 5.6.3",
       "Swashbuckle.AspNetCore.Annotations >= 5.6.3",
       "Swashbuckle.AspNetCore.Newtonsoft >= 5.6.3",
-      "Swashbuckle.AspNetCore.ReDoc >= 5.6.3",
       "System.Data.SqlClient >= 4.8.2",
       "System.IO.Compression.ZipFile >= 4.3.0"
     ]
@@ -12119,7 +12089,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "2.2.8-preview2",
+    "version": "2.2.8-preview1",
     "restore": {
       "projectUniqueName": "D:\\Source\\Repos\\IdentityServer4.MicroService\\OAuthApp\\OAuthApp.csproj",
       "projectName": "OAuthApp",
@@ -12307,10 +12277,6 @@
             "version": "[5.6.3, )"
           },
           "Swashbuckle.AspNetCore.Newtonsoft": {
-            "target": "Package",
-            "version": "[5.6.3, )"
-          },
-          "Swashbuckle.AspNetCore.ReDoc": {
             "target": "Package",
             "version": "[5.6.3, )"
           },

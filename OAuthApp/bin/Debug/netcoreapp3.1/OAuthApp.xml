@@ -1,0 +1,3311 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OAuthApp</name>
+    </assembly>
+    <members>
+        <member name="T:OAuthApp.Apis.ApiResourceController">
+            <summary>
+            API
+            </summary>
+            <remarks>为API提供版本管理、网关集成都功能。</remarks>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,OAuthApp.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLocalizer{OAuthApp.Apis.ApiResourceController},OAuthApp.Tenant.TenantService,OAuthApp.Tenant.TenantDbContext,OAuthApp.Services.SwaggerCodeGenService,OAuthApp.Services.AzureStorageService,OAuthApp.Services.EmailService,Microsoft.AspNetCore.DataProtection.IDataProtectionProvider,Microsoft.Extensions.Caching.Distributed.IDistributedCache,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="_configDb"></param>
+            <param name="_userDb"></param>
+            <param name="localizer"></param>
+            <param name="_tenantService"></param>
+            <param name="_tenantDb"></param>
+            <param name="_swagerCodeGen"></param>
+            <param name="_storageService"></param>
+            <param name="_email"></param>
+            <param name="_provider"></param>
+            <param name="_cache"></param>
+            <param name="_accessor"></param>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.Get(OAuthApp.Models.Apis.Common.PagingRequest{OAuthApp.Models.Apis.ApiResourceController.ApiResourceGetRequest})">
+            <summary>
+            API - 列表
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.Get(System.Int64)">
+            <summary>
+            API - 详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <permission cref="!:oauthapp.apiresource.detail"></permission>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.Post(IdentityServer4.EntityFramework.Entities.ApiResource)">
+             <summary>
+             API - 创建
+             </summary>
+             <param name="value">ID</param>
+             <returns></returns>
+            <permission cref="!:oauthapp.apiresource.post"></permission>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.Put(IdentityServer4.EntityFramework.Entities.ApiResource)">
+            <summary>
+            API - 更新
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.Delete(System.Int64)">
+            <summary>
+            API - 删除
+            </summary>
+            <param name="id">ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.Import(OAuthApp.Models.Apis.ApiResourceController.ApiResourceImportRequest)">
+            <summary>
+            API - 导入
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.Codes">
+            <summary>
+            API - 错误码表
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.Publish(System.Int64,OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRequest)">
+            <summary>
+            API - 网关 - 发布或更新版本
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.PublishRevision(System.Int64,OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRevisionsRequest)">
+            <summary>
+            API - 网关 - 创建修订版
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.PublishVersion(System.Int64,OAuthApp.Models.Apis.ApiResourceController.ApiResourceCreateVersionRequest)">
+            <summary>
+            API - 网关 - 创建新版本
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.PublishConfiguration(System.Int64)">
+            <summary>
+            API - 网关 - 上次发布配置
+            </summary>
+            <param name="id">API的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.Versions(System.Int64)">
+            <summary>
+            API - 网关 - 版本列表
+            </summary>
+            <param name="id">API的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.SetOnlineVersion(System.Int64,System.String)">
+            <summary>
+            API - 网关 - 上线指定版本
+            </summary>
+            <param name="id"></param>
+            <param name="revisionId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.AuthServers">
+            <summary>
+            API - 网关 - OAuthServers
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.Products">
+            <summary>
+            API - 网关 - 产品包列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.Releases(System.Int64,System.String)">
+            <summary>
+            API - 修订内容 - 列表
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="apiId">Api的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.PostRelease(System.Int64,OAuthApp.Models.Apis.ApiResourceController.ApiResourcePostReleaseRequest)">
+            <summary>
+            API - 修订内容 - 发布
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.PutRelease(System.Int64,System.String,OAuthApp.Models.Apis.ApiResourceController.ApiResourcePutReleaseRequest)">
+            <summary>
+            API - 修订内容 - 更新
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="releaseId">修订内容的ID</param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.DeleteRelease(System.Int64,System.String)">
+            <summary>
+            API - 修订内容 - 删除
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="releaseId">修订内容的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.Subscriptions(System.Int64)">
+            <summary>
+            API - 订阅者 - 列表
+            </summary>
+            <param name="id">API的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.AddSubscription(System.Int64,System.String)">
+            <summary>
+            API - 订阅者 - 添加
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="code">邮箱校验加密字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.DelSubscription(System.Int64,System.String)">
+            <summary>
+            API - 订阅者 - 取消
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="code">邮箱校验加密字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.VerifyEmail(System.Int64,OAuthApp.Models.Apis.ApiResourceController.ApiResourceSubscriptionsVerifyEmailRequest)">
+            <summary>
+            API - 订阅者 - 验证邮箱
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.Packages(System.String)">
+            <summary>
+            API - 包市场 - 列表
+            </summary>
+            <param name="id">API的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.PostPackage(System.String,OAuthApp.Models.Apis.ApiResourceController.ApiResourceSDKRequest)">
+            <summary>
+            API - 包市场 - 添加
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.DeletePackage(System.String,System.String)">
+            <summary>
+            API - 包市场 - 删除
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="packageId">包的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.PutPackage(System.String,System.String,OAuthApp.Models.Apis.ApiResourceController.ApiResourceSDKRequest)">
+            <summary>
+            API - 包市场 - 更新
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="packageId">包的ID</param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:OAuthApp.Apis.ApiScopeController">
+            <summary>
+            APIScope
+            </summary>
+            <remarks>权限集合。</remarks>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiScopeController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,OAuthApp.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLocalizer{OAuthApp.Apis.ApiScopeController},OAuthApp.Tenant.TenantService,OAuthApp.Tenant.TenantDbContext,Microsoft.AspNetCore.DataProtection.IDataProtectionProvider)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="_configDb"></param>
+            <param name="_userDb"></param>
+            <param name="_localizer"></param>
+            <param name="_tenantService"></param>
+            <param name="_tenantDb"></param>
+            <param name="_provider"></param>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiScopeController.Get(OAuthApp.Models.Apis.Common.PagingRequest{OAuthApp.Models.Apis.ApiScopeController.ApiScopeGetRequest})">
+            <summary>
+            API - 列表
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiScopeController.Get(System.Int64)">
+            <summary>
+            API - 详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiScopeController.Post(IdentityServer4.EntityFramework.Entities.ApiScope)">
+            <summary>
+            API - 创建
+            </summary>
+            <param name="value">ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiScopeController.Put(IdentityServer4.EntityFramework.Entities.ApiScope)">
+            <summary>
+            API - 更新
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiScopeController.Delete(System.Int64)">
+            <summary>
+            API - 删除
+            </summary>
+            <param name="id">ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiScopeController.Codes">
+            <summary>
+            API - 错误码表
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Apis.ApiControllerBase.TenantId">
+            <summary>
+            租户信息 from client access token
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiControllerBase._Codes``1">
+            <summary>
+            根据枚举，返回值与名称的字典
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiControllerBase._MD5(System.String)">
+            <summary>
+            MD5
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiControllerBase.Unprotect(System.String)">
+            <summary>
+            解密
+            </summary>
+            <param name="str">加密过的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiControllerBase.Protect(System.String,System.TimeSpan)">
+            <summary>
+            加密
+            </summary>
+            <param name="str">未加密的字符串</param>
+            <param name="expiredIn">有效时间</param>
+            <returns></returns>
+        </member>
+        <member name="T:OAuthApp.Apis.BlobController">
+            <summary>
+            Blob
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Apis.BlobController.File(Microsoft.AspNetCore.Http.IFormFile,System.String)">
+            <summary>
+            Blob - File
+            </summary>
+            <param name="value">视频(小于20MB),文档文件(小于10MB)</param>
+            <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.BlobController.UploadImage(Microsoft.AspNetCore.Http.IFormFile,System.String)">
+            <summary>
+            Blob - 上传图片
+            </summary>
+            <param name="value">图片文件</param>
+            <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.BlobController.Base64(System.String,System.String)">
+            <summary>
+            Blob - Base64
+            </summary>
+            <param name="value">base64字符串</param>
+            <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.BlobController.Codes">
+            <summary>
+            Blob - 错误码表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:OAuthApp.Apis.ClientController">
+            <summary>
+            客户端
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Apis.ClientController.Get(OAuthApp.Models.Apis.Common.PagingRequest{OAuthApp.Models.Apis.ClientController.ClientGetRequest})">
+            <summary>
+            客户端 - 列表
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ClientController.Get(System.Int32)">
+            <summary>
+            客户端 - 详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ClientController.Post(IdentityServer4.EntityFramework.Entities.Client)">
+            <summary>
+            客户端 - 创建
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ClientController.Put(IdentityServer4.EntityFramework.Entities.Client)">
+            <summary>
+            客户端 - 更新
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ClientController.Delete(System.Int32)">
+            <summary>
+            客户端 - 删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ClientController.IssueToken(OAuthApp.Models.Apis.ClientController.ClientIssueTokenRequest)">
+            <summary>
+            客户端 - 创建令牌
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ClientController.PostSecretkey(System.Int32,OAuthApp.Models.Apis.ClientController.ClientPostSecretkeyRequest)">
+            <summary>
+            客户端 - 生成密钥
+            </summary>
+            <param name="id"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ClientController.Codes">
+            <summary>
+            客户端 - 错误码表
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Apis.CodeGenController">
+            <summary>
+            代码生成
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.Clients(System.Boolean)">
+            <summary>
+            代码生成 - 客户端列表
+            </summary>
+            <param name="fromCache"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.Servers(System.Boolean)">
+            <summary>
+            代码生成 - 服务端列表
+            </summary>
+            <param name="fromCache"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.NpmOptions(System.String,OAuthApp.Models.Apis.CodeGenController.Language)">
+            <summary>
+             代码生成 - NPM - 设置
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="language">语言</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.NpmOptions(System.String,OAuthApp.Models.Apis.CodeGenController.Language,OAuthApp.Models.Apis.CodeGenController.CodeGenNpmOptionsModel)">
+            <summary>
+             代码生成 - NPM - 更新设置
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="language">语言</param>
+            <param name="value">package.json的内容字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.GithubOptions(System.String)">
+            <summary>
+             代码生成 - Github - 设置
+            </summary>
+            <param name="id">API的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.GithubOptions(System.String,OAuthApp.Models.Apis.ApiResourceController.ApiResourceGithubPublishRequest)">
+            <summary>
+             代码生成 - Github - 更新设置
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.SyncGithub(System.String)">
+            <summary>
+             代码生成 - Github - 同步
+            </summary>
+            <param name="id">API的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.CommonOptions(System.String)">
+            <summary>
+             代码生成 - 基本设置 - 获取
+            </summary>
+            <param name="id">API的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.PutCommonOptions(System.String,OAuthApp.Models.Apis.CodeGenController.CodeGenCommonOptionsModel)">
+            <summary>
+             代码生成 - 基本设置 - 更新
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="value">package.json的内容字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.ReleaseSDK(OAuthApp.Models.Apis.CodeGenController.GenerateClientRequest)">
+            <summary>
+            代码生成 - SDK - 发布
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.Gen(OAuthApp.Models.Apis.CodeGenController.CodeGenGenRequest)">
+            <summary>
+            代码生成 - SDK - 预览生成代码
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.History(System.String)">
+            <summary>
+            代码生成 - SDK - 发布记录
+            </summary>
+            <param name="id">API的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.PostHistory(System.String,OAuthApp.Models.Apis.CodeGenController.CodeGenHistoryRequest)">
+            <summary>
+            代码生成 - SDK - 添加记录
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:OAuthApp.Apis.IdentityResourceController">
+            <summary>
+            标识
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Apis.IdentityResourceController.Get(OAuthApp.Models.Apis.Common.PagingRequest{OAuthApp.Models.Apis.IdentityResourceController.IdentityResourceGetRequest})">
+            <summary>
+            标识 - 列表
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.IdentityResourceController.Get(System.Int32)">
+            <summary>
+             标识 - 详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.IdentityResourceController.Post(IdentityServer4.EntityFramework.Entities.IdentityResource)">
+            <summary>
+             标识 - 创建
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.IdentityResourceController.Put(IdentityServer4.EntityFramework.Entities.IdentityResource)">
+            <summary>
+             标识 - 更新
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.IdentityResourceController.Delete(System.Int32)">
+            <summary>
+             标识 - 删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.IdentityResourceController.Codes">
+            <summary>
+             标识 - 错误码表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:OAuthApp.Apis.PackageController">
+            <summary>
+            软件包
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Apis.PackageController.Get(OAuthApp.Models.Apis.Common.PagingRequest{OAuthApp.Models.Apis.PackageController.PackageGetRequest})">
+            <summary>
+            软件包 - 列表
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.PackageController.Get(System.Int64)">
+            <summary>
+            软件包 - 详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.PackageController.Post(OAuthApp.Data.SdkPackage)">
+            <summary>
+            软件包 - 创建
+            </summary>
+            <param name="value">ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.PackageController.Put(OAuthApp.Data.SdkPackage)">
+            <summary>
+            软件包 - 更新
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.PackageController.Delete(System.Int64)">
+            <summary>
+            软件包 - 删除
+            </summary>
+            <param name="id">ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.PackageController.ReleaseHistory(System.Int64,OAuthApp.Models.Apis.Common.PagingRequest{OAuthApp.Models.Apis.PackageController.ReleaseHistoryGetRequest})">
+            <summary>
+            软件包 - 发布记录
+            </summary>
+            <param name="id"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.PackageController.Publish(OAuthApp.Models.Apis.PackageController.PublishRequest)">
+            <summary>
+            软件包 - 发布
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:OAuthApp.Apis.RoleController">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Apis.RoleController.Get">
+            <summary>
+            角色 - 列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.RoleController.Get(System.Int32)">
+            <summary>
+            角色 - 详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.RoleController.Post(OAuthApp.Data.AppRole)">
+            <summary>
+            角色 - 创建
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.RoleController.Put(OAuthApp.Data.AppRole)">
+            <summary>
+            角色 - 更新
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.RoleController.Delete(System.Int32)">
+            <summary>
+            角色 - 删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.RoleController.Codes">
+            <summary>
+            角色 - 错误码表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:OAuthApp.Apis.TenantController">
+            <summary>
+            租户
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Apis.TenantController.Get(OAuthApp.Models.Apis.Common.PagingRequest{OAuthApp.Models.Apis.TenantController.TenantGetRequest})">
+            <summary>
+            租户 - 列表
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.TenantController.Get(System.Int32)">
+            <summary>
+            租户 - 详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.TenantController.Post(OAuthApp.Tenant.AppTenant)">
+            <summary>
+            租户 - 创建
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.TenantController.Put(OAuthApp.Tenant.AppTenant)">
+            <summary>
+            租户 - 更新
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.TenantController.Delete(System.Int32)">
+            <summary>
+            租户 - 删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.TenantController.Info(System.String)">
+            <summary>
+            租户 - 详情（公共）
+            </summary>
+            <param name="host"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.TenantController.Codes">
+            <summary>
+            租户 - 错误码表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:OAuthApp.Apis.UserController">
+            <summary>
+            用户
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Apis.UserController.Get(OAuthApp.Models.Apis.Common.PagingRequest{OAuthApp.Models.Apis.UserController.UserGetRequest})">
+            <summary>
+            用户 - 列表
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.UserController.Distributors(System.String)">
+            <summary>
+            用户 - 团队
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.UserController.Get(System.Int32)">
+             <summary>
+            用户 - 详情
+             </summary>
+             <param name="id"></param>
+             <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.UserController.Post(OAuthApp.Data.AppUser)">
+            <summary>
+            用户 - 创建
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.UserController.Put(OAuthApp.Data.AppUser)">
+            <summary>
+            用户 - 更新
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.UserController.Delete(System.Int32)">
+            <summary>
+            用户 - 删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.UserController.Head(OAuthApp.Models.Apis.UserController.UserDetailRequest)">
+            <summary>
+            用户 - 是否存在
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.UserController.Codes">
+            <summary>
+            用户 - 错误码表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.UserController.Register(OAuthApp.Models.Apis.UserController.UserRegisterRequest)">
+            <summary>
+            用户 - 注册 - 提交
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.UserController.SmsCode(OAuthApp.Models.Apis.UserController.UserVerifyPhoneRequest)">
+            <summary>
+            用户 - 注册 - 发送手机验证码
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.UserController.EmailCode(OAuthApp.Models.Apis.UserController.UserVerifyEmailRequest)">
+            <summary>
+            用户 - 注册 - 发送邮件验证码
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.UserController.ResetPassword(OAuthApp.Models.Apis.UserController.ResetPasswordRequest)">
+            <summary>
+            用户 - 忘记密码 - 手机验证码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:OAuthApp.AppConstant.AppAuthenScheme">
+            <summary>
+            https://identityserver4.readthedocs.io/en/release/topics/add_apis.html
+            </summary>
+        </member>
+        <member name="F:OAuthApp.AppConstant.seedUserId">
+            <summary>
+            seed ID for user
+            </summary>
+        </member>
+        <member name="F:OAuthApp.AppConstant.seedTenantId">
+            <summary>
+            seed ID for tenant
+            </summary>
+        </member>
+        <member name="F:OAuthApp.AppConstant.AssemblyName">
+            <summary>
+            项目名称
+            </summary>
+        </member>
+        <member name="F:OAuthApp.AppConstant.MicroServiceName">
+            <summary>
+            标识服务的scope，必须是英文
+            </summary>
+        </member>
+        <member name="F:OAuthApp.AppConstant.InitializeDatabase">
+            <summary>
+            初始化数据库。
+            如果初始化过数据库，可以设置为这个参数为false，优化性能。
+            </summary>
+        </member>
+        <member name="T:OAuthApp.DefaultRoles">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="F:OAuthApp.DefaultRoles.User">
+            <summary>
+             用户
+            </summary>
+        </member>
+        <member name="F:OAuthApp.DefaultRoles.Partner">
+            <summary>
+            合作商
+            </summary>
+        </member>
+        <member name="F:OAuthApp.DefaultRoles.Developer">
+            <summary>
+            开发者
+            </summary>
+        </member>
+        <member name="F:OAuthApp.DefaultRoles.Administrator">
+            <summary>
+            管理员
+            </summary>
+        </member>
+        <member name="T:OAuthApp.PolicyKey">
+            <summary>
+            PolicyKey(ClaimType)
+            </summary>
+        </member>
+        <member name="F:OAuthApp.PolicyKey.UserPermission">
+            <summary>
+            for User
+            </summary>
+        </member>
+        <member name="F:OAuthApp.PolicyKey.ClientScope">
+            <summary>
+            for client
+            </summary>
+        </member>
+        <member name="T:OAuthApp.AppDefaultData.SwaggerClient">
+            <summary>
+            SwaggerClient - SwaggerUI使用
+            </summary>
+        </member>
+        <member name="T:OAuthApp.AppDefaultData.IdentityServer4Client">
+            <summary>
+            IdentityServer4Client - 后台使用
+            </summary>
+        </member>
+        <member name="T:OAuthApp.AppDefaultData.Tenant">
+            <summary>
+            租户
+            </summary>
+        </member>
+        <member name="M:OAuthApp.AppDefaultData.InitializeDatabase(Microsoft.AspNetCore.Builder.IApplicationBuilder,OAuthApp.OAuthAppOptions)">
+            <summary>
+            数据库初始化
+            </summary>
+        </member>
+        <member name="T:OAuthApp.AppResource">
+            <summary>
+              一个强类型的资源类，用于查找本地化的字符串等。
+            </summary>
+        </member>
+        <member name="P:OAuthApp.AppResource.ResourceManager">
+            <summary>
+              返回此类使用的缓存的 ResourceManager 实例。
+            </summary>
+        </member>
+        <member name="P:OAuthApp.AppResource.Culture">
+            <summary>
+              重写当前线程的 CurrentUICulture 属性
+              重写当前线程的 CurrentUICulture 属性。
+            </summary>
+        </member>
+        <member name="P:OAuthApp.AppResource.ClearScriptV8_win_x64">
+            <summary>
+              查找 System.Byte[] 类型的本地化资源。
+            </summary>
+        </member>
+        <member name="P:OAuthApp.AppResource.ClearScriptV8_win_x86">
+            <summary>
+              查找 System.Byte[] 类型的本地化资源。
+            </summary>
+        </member>
+        <member name="P:OAuthApp.AppResource.OAuthApp">
+             <summary>
+               查找类似 &lt;?xml version=&quot;1.0&quot;?&gt;
+            &lt;doc&gt;
+                &lt;assembly&gt;
+                    &lt;name&gt;OAuthApp&lt;/name&gt;
+                &lt;/assembly&gt;
+                &lt;members&gt;
+                    &lt;member name=&quot;T:OAuthApp.Apis.ApiResourceController&quot;&gt;
+                        &lt;summary&gt;
+                        API
+                        &lt;/summary&gt;
+                        &lt;remarks&gt;为API提供版本管理、网关集成都功能。&lt;/remarks&gt;
+                    &lt;/member&gt;
+                    &lt;member name=&quot;M:OAuthApp.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,OAuthApp.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLoca [字符串的其余部分被截断]&quot;; 的本地化字符串。
+             </summary>
+        </member>
+        <member name="P:OAuthApp.AppResource.oauthapp1">
+            <summary>
+              查找 System.Byte[] 类型的本地化资源。
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.AzureApiManagementKeys.Host">
+            <summary>
+            Security>>Credentials.Management API URL
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.AzureApiManagementKeys.ApiId">
+            <summary>
+            Security>>Credentials.Identifier
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.AzureApiManagementKeys.ApiKey">
+            <summary>
+            Security>>Credentials.Primary Key
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.AzureApiManagementKeys.AuthorizationServerId">
+            <summary>
+            Security>>OAuth 2.0 Authorization Servers 必须
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.AzureApiManagementKeys.ProductId">
+            <summary>
+            非必需配置
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.AzureApiManagementKeys.PortalUris">
+            <summary>
+             Portal Host集合，无需加http开后，多个用逗号分隔
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.AzureApiManagementKeys.DelegationKey">
+            <summary>
+            Security>>Delegation.Delegation Validation Key
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.CodeGenControllerKeys.NpmOptions">
+            <summary>
+            （缓存KEY）
+            发布Npm包的配置
+            Key的格式：{ApiRrsourceId}
+            Value的格式： json字符串
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.CodeGenControllerKeys.GithubOptions">
+            <summary>
+            （缓存KEY）
+            发布Github的配置
+            Key的格式：{ApiRrsourceId}
+            Value的格式： json字符串
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.CodeGenControllerKeys.CommonOptions">
+            <summary>
+            （缓存KEY）
+            API的CodeGen的基本信息配置
+            Key的格式：{ApiRrsourceId}
+            Value的格式： json字符串
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.UserControllerKeys.Limit_24Hour_Verify_Phone">
+            <summary>
+            （缓存KEY）
+            24小时内发送短信验证码的次数计数
+            Key的格式：{手机号}
+            Value的格式： 次数，调用SDK的increase方法即可，每次加1
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.UserControllerKeys.Limit_24Hour_Verify_MAX_Phone">
+            <summary>
+            24小时内发送短信验证码的上限
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.UserControllerKeys.LastTime_SendCode_Phone">
+            <summary>
+            （缓存KEY）
+            Key的格式：{手机号}
+            Value的格式：当前时间的tick            
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.UserControllerKeys.MinimumTime_SendCode_Phone">
+            <summary>
+            每次发送验证码的最小间隔时长（秒）
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.UserControllerKeys.VerifyCode_Phone">
+            <summary>
+            （缓存KEY）
+            Key的格式：{手机号} + ":" + {验证码}
+            Value的格式：任意
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.UserControllerKeys.VerifyCode_Expire_Phone">
+            <summary>
+            发送手机验证码后，该验证码在服务器的有效时长（秒）
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.UserControllerKeys.Limit_24Hour_Verify_Email">
+            <summary>
+            （缓存KEY）
+            24小时内发送邮件验证码的次数计数
+            Key的格式：{手机号}
+            Value的格式： 次数，调用SDK的increase方法即可，每次加1
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.UserControllerKeys.Limit_24Hour_Verify_MAX_Email">
+            <summary>
+            24小时内发送邮件验证码的上限
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.UserControllerKeys.LastTime_SendCode_Email">
+            <summary>
+            （缓存KEY）
+            Key的格式：{邮箱地址}
+            Value的格式：当前时间的tick            
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.UserControllerKeys.MinimumTime_SendCode_Email">
+            <summary>
+            每次发送验证码的最小间隔时长（秒）
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.UserControllerKeys.VerifyCode_Email">
+            <summary>
+            （缓存KEY）
+            Key的格式：{邮箱地址} + ":" + {验证码}
+            Value的格式：任意
+            </summary>
+        </member>
+        <member name="F:OAuthApp.CacheKeys.UserControllerKeys.VerifyCode_Expire_Email">
+            <summary>
+            发送邮箱验证码后，该验证码在服务器的有效时长（秒）
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Configuration.OAuthAppServiceBuilder.#ctor(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Initializes a new instance of the <see cref="!:IdentityServerBuilder"/> class.
+            </summary>
+            <param name="services">The services.</param>
+            <exception cref="T:System.ArgumentNullException">services</exception>
+        </member>
+        <member name="P:OAuthApp.Configuration.OAuthAppServiceBuilder.Services">
+            <summary>
+            Gets the services.
+            </summary>
+            <value>
+            The services.
+            </value>
+        </member>
+        <member name="T:OAuthApp.Controllers.AccountController">
+            <summary>
+            This sample controller implements a typical login/logout/provision workflow for local and external accounts.
+            The login service encapsulates the interactions with the user data store. This data store is in-memory only and cannot be used for production!
+            The interaction service provides a way for the UI to communicate with identityserver for validation and context retrieval
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Controllers.AccountController.Login(System.String)">
+            <summary>
+            Entry point into the login workflow
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Controllers.AccountController.Login(OAuthApp.Controllers.LoginInputModel,System.String)">
+            <summary>
+            Handle postback from username/password login
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Controllers.AccountController.Logout(System.String)">
+            <summary>
+            Show logout page
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Controllers.AccountController.Logout(OAuthApp.Controllers.LogoutInputModel)">
+            <summary>
+            Handle logout page postback
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Controllers.ExternalController.Challenge(System.String,System.String)">
+            <summary>
+            initiate roundtrip to external authentication provider
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Controllers.ExternalController.Callback">
+            <summary>
+            Post processing of external authentication
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Controllers.ConsentController">
+            <summary>
+            This controller processes the consent UI
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Controllers.ConsentController.Index(System.String)">
+            <summary>
+            Shows the consent screen
+            </summary>
+            <param name="returnUrl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Controllers.ConsentController.Index(OAuthApp.Controllers.ConsentInputModel)">
+            <summary>
+            Handles the consent screen postback
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Controllers.Extensions.IsNativeClient(IdentityServer4.Models.AuthorizationRequest)">
+            <summary>
+            Checks if the redirect URI is for a native client.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:OAuthApp.Controllers.GrantsController">
+            <summary>
+            This sample controller allows a user to revoke grants given to clients
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Controllers.GrantsController.Index">
+            <summary>
+            Show list of grants
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Controllers.GrantsController.Revoke(System.String)">
+            <summary>
+            Handle postback to revoke a client
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Data.AppCache">
+            <summary>
+            数据缓存表
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppCache.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppCache.Value">
+            <summary>
+            Value
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppCache.ExpiresAtTime">
+            <summary>
+            ExpiresAtTime
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppCache.SlidingExpirationInSeconds">
+            <summary>
+            SlidingExpirationInSeconds
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppCache.AbsoluteExpiration">
+            <summary>
+            AbsoluteExpiration
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Data.IdentityMD5PasswordHasher">
+            <summary>
+             used for replace Identity sha1 password haser
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.IsDeleted">
+            <summary>
+            是否已删除账号
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Roles">
+            <summary>
+            Navigation property for the roles this user belongs to.
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Claims">
+            <summary>
+            Navigation property for the claims this user possesses.
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Logins">
+            <summary>
+            Navigation property for this users login accounts.
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Tokens">
+            <summary>
+            Navigation property for this users token accounts.
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Tenants">
+            <summary>
+            租户
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Files">
+            <summary>
+            files
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Clients">
+            <summary>
+            Clients
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.ApiResources">
+            <summary>
+            ApiResources
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Distributors">
+            <summary>
+            Distribution
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Properties">
+            <summary>
+            Property
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.TypeIDs">
+            <summary>
+            分类
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Address">
+            <summary>
+            联系地址
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Birthday">
+            <summary>
+            生日
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Stature">
+            <summary>
+            身高
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Weight">
+            <summary>
+            体重
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Description">
+            <summary>
+            介绍
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.CreateDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.LastUpdateTime">
+            <summary>
+            最后更新日期
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Permission">
+            <summary>
+            权限(for screens)
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.LockFlag">
+            <summary>
+            是否锁定
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.PoolIDs">
+            <summary>
+            用户池集合
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.DataAmount">
+            <summary>
+            流量余额
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Points">
+            <summary>
+            积分余额
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.Money">
+            <summary>
+            余额
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppUser.CountryCode">
+            <summary>
+            国家代码
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AppRole.Claims">
+            <summary>
+            Navigation property for the claims this role belongs to.
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AspNetUserFile.FileType">
+            <summary>
+            0图片
+            1视频
+            2文档
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Data.AspNetUserTenant">
+            <summary>
+             relation between User and Tenant
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Data.AspNetUserClient">
+            <summary>
+            relation between User and Client
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Data.AspNetUserApiResource">
+            <summary>
+            relation between User and ApiResource
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Data.AspNetUserDistributor">
+            <summary>
+            Distributor
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AspNetUserDistributor.Members">
+            <summary>
+            Members Count
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AspNetUserDistributor.MembersLastUpdate">
+            <summary>
+            MembersLastUpdate
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AspNetUserDistributor.Sales">
+            <summary>
+            Sale Amount
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AspNetUserDistributor.SalesLastUpdate">
+            <summary>
+            SalesLastUpdate
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AspNetUserDistributor.Earned">
+            <summary>
+            Earned
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AspNetUserDistributor.EarnedDiff">
+            <summary>
+            EarnedDiff
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AspNetUserDistributor.EarnedDiffLastUpdate">
+            <summary>
+            EarnedDiffLastUpdate
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AspNetUserDistributor.Commission">
+            <summary>
+            Commission
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AspNetUserDistributor.CommissionLastUpdate">
+            <summary>
+            CommissionLastUpdate
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AspNetUserDistributor.CommissionLv1">
+            <summary>
+            CommissionLv1
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AspNetUserDistributor.CommissionLv1LastUpdate">
+            <summary>
+            CommissionLv1LastUpdate
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AspNetUserDistributor.CommissionLv2">
+            <summary>
+            CommissionLv2
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AspNetUserDistributor.CommissionLv2LastUpdate">
+            <summary>
+            CommissionLv2LastUpdate
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AspNetUserDistributor.CommissionLv3">
+            <summary>
+            CommissionLv3
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.AspNetUserDistributor.CommissionLv3LastUpdate">
+            <summary>
+            CommissionLv3LastUpdate
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Data.View_User_Role">
+            <summary>
+            used for View_User Roles property
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Data.View_User_Claim">
+            <summary>
+            used for View_User Claims property
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Data.View_User_File">
+            <summary>
+            used for View_User Files property
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Data.View_User_Property">
+            <summary>
+            used for View_User Properties property
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.Tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.Summary">
+            <summary>
+            简介
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.WebSite">
+            <summary>
+            网站地址
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.LogoUri">
+            <summary>
+            LOGO
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.PackageName">
+            <summary>
+            包名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.SwaggerUri">
+            <summary>
+            swagger地址
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.SdkGenerators">
+            <summary>
+            模板列表
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.SdkSubscribers">
+            <summary>
+            订阅者
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.UserID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.CreateDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkPackage.Enable">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkGenerator.SdkPackageId">
+            <summary>
+            软件包ID
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkGenerator.Name">
+            <summary>
+            文件名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkGenerator.Uri">
+            <summary>
+            模板地址
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkGenerator.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkGenerator.Enable">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkGenerator.CompiledCode">
+            <summary>
+            编译后的代码
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkSubscriber.SdkPackageId">
+            <summary>
+            软件包ID
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkSubscriber.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkSubscriber.Acator">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkSubscriber.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkSubscriber.Enable">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkSubscriber.CreateDate">
+            <summary>
+            订阅时间
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkReleaseHistory.UserID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkReleaseHistory.SdkPackageId">
+            <summary>
+            软件包ID
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkReleaseHistory.Tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkReleaseHistory.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkReleaseHistory.Description">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkReleaseHistory.Version">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Data.SdkReleaseHistory.ReleaseDate">
+            <summary>
+            发布日志
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.Versions_IdCanNotBeNull">
+            <summary>
+            版本列表 - 不存在的模板
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.Versions_GetDetailFailed">
+            <summary>
+            版本列表 - 获取Api详情失败
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.Versions_GetVersionListFailed">
+            <summary>
+            版本列表 - 获取Api版本失败
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.PublishRevision_GetDetailFailed">
+            <summary>
+            发布修订版 - 获取Api详情失败
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.PublishRevision_PublishFailed">
+            <summary>
+            发布修订版 - 发布修订版失败
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.PublishRevision_CreateReleaseFailed">
+            <summary>
+            发布修订版 - 更新修订内容失败
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.Releases_IdCanNotBeNull">
+            <summary>
+            修订记录列表 - 不存在的模板
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.Releases_GetVersionListFailed">
+            <summary>
+            修订记录列表 - 获取列表失败
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.Subscription_PostFailed">
+            <summary>
+            订阅者 - 添加订阅失败
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.Subscription_VerfifyCodeFailed">
+            <summary>
+            订阅者 - 邮箱验证码错误
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.Subscription_VerifyEmailFailed">
+            <summary>
+            订阅者 - 发送邮箱验证码失败
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.SetOnlineVersion_PostFailed">
+            <summary>
+            上线版本失败
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.Publish_PublishFailed">
+            <summary>
+            发布失败
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.Subscription_DelSubscriptionFailed">
+            <summary>
+            取消订阅失败
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.VerifyEmail_AddEmailFailed">
+            <summary>
+            邮箱已存在订阅列表
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.Packages_PostFailed">
+            <summary>
+            添加包失败
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.Packages_DelPackageFailed">
+            <summary>
+            删除包失败
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.ApiResourceControllerEnums.Packages_PutPackageFailed">
+            <summary>
+            更新包失败
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Enums.BasicControllerEnums">
+            <summary>
+            公用接口业务代码常量表
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.BasicControllerEnums.Status200OK">
+            <summary>
+            正确
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.BasicControllerEnums.UnprocessableEntity">
+            <summary>
+            请求实体错误
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.BasicControllerEnums.ExpectationFailed">
+            <summary>
+            服务器内部错误
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.BasicControllerEnums.NotFound">
+            <summary>
+            未找到内容
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.BasicControllerEnums.NoPermission">
+            <summary>
+            无权限进行操作
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.BasicControllerEnums.HasError">
+            <summary>
+            错误的请求
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.CodeGenControllerEnums.GenerateClient_GetSwaggerFialed">
+            <summary>
+            获取swagger文档失败
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.CodeGenControllerEnums.NpmOptions_GetOptionsFialed">
+            <summary>
+            不存在的配置
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.CodeGenControllerEnums.GithubOptions_GetOptionsFialed">
+            <summary>
+            不存在的配置
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.CodeGenControllerEnums.CommonOptions_GetOptionsFialed">
+            <summary>
+            不存在的配置
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.CodeGenControllerEnums.History_PostFailed">
+            <summary>
+            添加历史记录失败
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Enums.UserControllerEnums">
+            <summary>
+            用户接口业务代码常量表
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.UserControllerEnums.Register_PhoneNumberExists">
+            <summary>
+            手机号已被注册
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.UserControllerEnums.PhoneNumberVerifyCodeError">
+            <summary>
+            无效的手机验证码
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.UserControllerEnums.Register_EmailExists">
+            <summary>
+            手机号已被注册
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.UserControllerEnums.Register_EmailVerifyCodeError">
+            <summary>
+            手机号已被注册
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.UserControllerEnums.VerifyPhone_CallLimited">
+            <summary>
+            该号码已达24小时发送上限
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.UserControllerEnums.VerifyPhone_TooManyRequests">
+            <summary>
+            发送过于频繁,请{0}秒后重试
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.UserControllerEnums.VerifyEmail_CallLimited">
+            <summary>
+            该号码已达24小时发送上限
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Enums.UserControllerEnums.VerifyEmail_TooManyRequests">
+            <summary>
+            发送过于频繁,请{0}秒后重试
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceCreateVersionRequest.revisionId">
+            <summary>
+            api 修订版的版本号
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceCreateVersionRequest.apiVersionName">
+            <summary>
+            版本号（v2，v3）
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceGetRequest.name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceGetRequest.expandScopes">
+            <summary>
+            是否展开所有Scope（默认为false）
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceGetRequest.expandClaims">
+            <summary>
+            是否展开所有Claims（默认为false）
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceGithubPublishRequest.userAgent">
+            <summary>
+            userAgent
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceGithubPublishRequest.owner">
+            <summary>
+            owner
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceGithubPublishRequest.repo">
+            <summary>
+            repo
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceGithubPublishRequest.token">
+            <summary>
+            token
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceGithubPublishRequest.swaggerUrl">
+            <summary>
+            swaggerUrl
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceGithubPublishRequest.syncLabels">
+            <summary>
+            同步标签
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceGithubPublishRequest.syncDocs">
+            <summary>
+            同步文档
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceName">
+            <summary>
+            API名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceDisplayName">
+            <summary>
+            API显示名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceDescription">
+            <summary>
+            API简介
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServicePolicies">
+            <summary>
+            API策略集
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceClientIDs">
+            <summary>
+            要关联RedirectUrls的ClientID
+            默认位swagger
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceImportRequest.MicroServiceRedirectUrls">
+            <summary>
+            合法回调地址集合
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePostReleaseRequest.aid">
+            <summary>
+            api的id 
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePostReleaseRequest.notes">
+            <summary>
+            更新内容
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRequest.name">
+            <summary>
+            API名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRequest.description">
+            <summary>
+            API功能简介
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRequest.apiId">
+            <summary>
+            api的id
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRequest.suffix">
+            <summary>
+            二级路径
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRequest.swaggerUrl">
+            <summary>
+            swagger文档Uri
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRequest.productIds">
+            <summary>
+            服务所属产品组
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRequest.authorizationServerId">
+            <summary>
+            使用的Oauth服务ID，从网关创建得来，可空
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRequest.scope">
+            <summary>
+            调用Api时需要授权的的scope，可空
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRequest.openid">
+            <summary>
+            使用的OpenId服务ID，从网关创建得来，可空
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRequest.policy">
+            <summary>
+            服务的策略配置
+            https://docs.microsoft.com/zh-cn/rest/api/apimanagement/apimanagementrest/azure-api-management-rest-api-api-entity#SetAPIPolicy
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRevisionsRequest.apiId">
+            <summary>
+            Api的ID
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRevisionsRequest.swaggerUrl">
+            <summary>
+            swagger文档Uri
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourcePublishRevisionsRequest.releaseNote">
+            <summary>
+            修订备注
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceSDKRequest.name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceSDKRequest.Description">
+            <summary>
+            介绍
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceSDKRequest.Publisher">
+            <summary>
+            发布者
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceSDKRequest.Link">
+            <summary>
+            链接地址
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceSDKRequest.Icon">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceSDKRequest.PackagePlatform">
+            <summary>
+            包平台
+            npm/nuget/gradle/spm
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceSDKRequest.Language">
+            <summary>
+            语言
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceSDKRequest.ShowIndex">
+            <summary>
+            显示优先级
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiResourceController.ApiResourceSDKRequest.Tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.ApiResourceSDKEntity.Description">
+            <summary>
+            介绍
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.ApiResourceSDKEntity.Publisher">
+            <summary>
+            发布者
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.ApiResourceSDKEntity.Link">
+            <summary>
+            链接地址
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.ApiResourceSDKEntity.Icon">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.ApiResourceSDKEntity.ShowIndex">
+            <summary>
+            显示优先级
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.ApiResourceSDKEntity.Tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.ApiResourceSDKEntity.PackagePlatform">
+            <summary>
+            包平台
+            npm/nuget/gradle/spm/postman
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.ApiResourceSDKEntity.Language">
+            <summary>
+            语言
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenCommonOptionsModel.swaggerUrl">
+            <summary>
+            swagger地址
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenGenRequest.genName">
+            <summary>
+            生成器名称。当前可选（readthedocs.gen）
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenGenRequest.swaggerUrl">
+            <summary>
+            swagger地址
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Models.Apis.CodeGenController.CodeGenHistoryEntity.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="apiResourceId">API的ID</param>
+            <param name="sdkName">sdk包的名称</param>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenHistoryEntity.swaggerUrl">
+            <summary>
+            swaggerUrl
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenHistoryEntity.version">
+            <summary>
+            版本
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenHistoryEntity.tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenHistoryEntity.releaseDate">
+            <summary>
+            发布日志
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenHistoryEntity.language">
+            <summary>
+             SDK语言
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenHistoryRequest.sdkName">
+            <summary>
+            SDK名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenHistoryRequest.swaggerUrl">
+            <summary>
+            swaggerUrl
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenHistoryRequest.version">
+            <summary>
+            版本
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenHistoryRequest.tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenHistoryRequest.releaseDate">
+            <summary>
+            发布日志
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenHistoryRequest.language">
+            <summary>
+             SDK语言
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenNpmOptionsModel.name">
+            <summary>
+            包名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenNpmOptionsModel.sdkName">
+            <summary>
+            包名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenNpmOptionsModel.version">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenNpmOptionsModel.homepage">
+            <summary>
+            主页
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenNpmOptionsModel.author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenNpmOptionsModel.keywords">
+            <summary>
+            关键字
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenNpmOptionsModel.description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenNpmOptionsModel.token">
+            <summary>
+            NPM发包Token
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenNpmOptionsModel.license">
+            <summary>
+            协议
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.CodeGenNpmOptionsModel.README">
+            <summary>
+            readme 文件的内容
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.GenerateClientRequest.platform">
+            <summary>
+            包平台
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.GenerateClientRequest.language">
+            <summary>
+            语言(可选：angular2/jQuery)
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.GenerateClientRequest.apiId">
+            <summary>
+            API的ID
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.GenerateClientRequest.swaggerUrl">
+            <summary>
+            swagger 文档地址
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.CodeGenController.GenerateClientRequest.tags">
+            <summary>
+            自定义标签
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Models.Apis.CodeGenController.Language.angular2">
+            <summary>
+            angular2
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Models.Apis.CodeGenController.Language.jQuery">
+            <summary>
+            jquery
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Models.Apis.CodeGenController.PackagePlatform.npm">
+            <summary>
+            Js包平台：NPM，网址：https://www.npmjs.com/
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Models.Apis.CodeGenController.PackagePlatform.nuget">
+            <summary>
+            C#包平台：nuget，网址：https://www.nuget.org/
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Models.Apis.CodeGenController.PackagePlatform.gradle">
+            <summary>
+            Android包平台：gradle，网址：https://gradle.org/ 
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Models.Apis.CodeGenController.PackagePlatform.spm">
+            <summary>
+            IOS包平台：SPM,网址：https://swift.org/package-manager/ 
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiScopeController.ApiScopeGetRequest.name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiScopeController.ApiScopeGetRequest.expandProperties">
+            <summary>
+            是否展开所有Properties（默认为false）
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ApiScopeController.ApiScopeGetRequest.expandClaims">
+            <summary>
+            是否展开所有Claims（默认为false）
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ClientController.ClientIssueTokenRequest.lifetime">
+            <summary>
+            有效时间，单位时秒，默认微3600
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ClientController.ClientPostSecretkeyRequest.plaintext">
+            <summary>
+            密钥明文
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.Common.ApiCodeModel.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.Common.ApiCodeModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.Common.ApiCodeModel.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.Common.ApiResult`1.code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.Common.ApiResult`1.codeName">
+            <summary>
+            代码名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.Common.ApiResult`1.message">
+            <summary>
+            说明
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.Common.ApiResult`1.data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Models.Apis.Common.ApiResult`1.#ctor">
+            <summary>
+            构造函数
+            (接口正常执行)
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Models.Apis.Common.ApiResult`1.#ctor(`0)">
+            <summary>
+            构造函数
+            (接口正常执行 + 返回数据)
+            </summary>
+            <param name="_data">数据</param>
+        </member>
+        <member name="M:OAuthApp.Models.Apis.Common.ApiResult`1.#ctor(Microsoft.Extensions.Localization.IStringLocalizer,System.Enum,System.String,System.Object[])">
+            <summary>
+            构造函数
+            (接口报错返回实体)
+            </summary>
+            <param name="_code">代码</param>
+            <param name="l">本地化服务</param>
+            <param name="_message">自定义说明（将覆盖默认说明）</param>
+            <param name="arguments">本地化服务的参数</param>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.Common.PagingRequest`1.q">
+            <summary>
+            查询实体
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.Common.PagingRequest`1.orderby">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.Common.PagingRequest`1.asc">
+            <summary>
+            正序或倒序
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.Common.PagingRequest`1.skip">
+            <summary>
+            跳过的数据条数
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.Common.PagingRequest`1.take">
+            <summary>
+            将获取的数据条数
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.Common.PagingRequest`1.startTime">
+            <summary>
+            开始时间。yyyy-MM-dd
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.Common.PagingRequest`1.endTime">
+            <summary>
+            结束时间。yyyy-MM-dd
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.PackageGetRequest.name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.PackageGetRequest.expandGenerators">
+            <summary>
+            是否展开所有Template（默认为false）
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.PublishRequest.id">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.PublishRequest.Version">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.PublishRequest.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.PublishRequest.Tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.PublishRequest.Description">
+            <summary>
+            更新内容
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.ReleaseHistoryGetRequest.remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.PackageController.ReleaseHistoryGetRequest.tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.TenantController.TenantGetRequest.Host">
+            <summary>
+            站点域名
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.LoginWithMobileCodeRequest.CountryCode">
+            <summary>
+            国家代码
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.LoginWithMobileCodeRequest.PhoneNumber">
+            <summary>
+            PhoneNumber
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.LoginWithMobileCodeRequest.PhoneNumberVerifyCode">
+            <summary>
+            PhoneNumber VerifyCode
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.ResetPasswordRequest.CountryCode">
+            <summary>
+            国家代码
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.ResetPasswordRequest.PhoneNumber">
+            <summary>
+            PhoneNumber
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.ResetPasswordRequest.PhoneNumberVerifyCode">
+            <summary>
+            PhoneNumber VerifyCode
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.ResetPasswordRequest.Password">
+            <summary>
+            Password
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserDetailRequest.PhoneNumber">
+            <summary>
+            PhoneNumber
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserGetRequest.role">
+            <summary>
+            用户角色
+            可选值：user/partner/developer/administrator
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserGetRequest.phoneNumber">
+            <summary>
+            手机号
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserGetRequest.name">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserGetRequest.email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserGetRequest.providerName">
+            <summary>
+            第三方登录平台名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserGetRequest.providerKey">
+            <summary>
+            第三方登陆平台的UserID
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserGetRequest.claimType">
+            <summary>
+            claimType
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserGetRequest.claimValue">
+            <summary>
+            claimValue
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserRegisterRequest.CountryCode">
+            <summary>
+            国家代码
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserRegisterRequest.NickName">
+            <summary>
+            NickName
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserRegisterRequest.Gender">
+            <summary>
+            Gender
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserRegisterRequest.Address">
+            <summary>
+            Adress
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserRegisterRequest.Birthday">
+            <summary>
+            Birth
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserRegisterRequest.Stature">
+            <summary>
+            Stature
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserRegisterRequest.Weight">
+            <summary>
+            Weight
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserRegisterRequest.Description">
+            <summary>
+            Description
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserRegisterRequest.PhoneNumber">
+            <summary>
+            PhoneNumber
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserRegisterRequest.PhoneNumberVerifyCode">
+            <summary>
+            PhoneNumber VerifyCode
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserRegisterRequest.ImageUrl">
+            <summary>
+            photos（max for 9）
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserRegisterRequest.Video">
+            <summary>
+            Video（max for 20M）
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserRegisterRequest.Doc">
+            <summary>
+            Doc（PDF/DOC max for 10M）
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserRegisterRequest.Password">
+            <summary>
+            登录密码
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserRegisterRequest.RefereeID">
+            <summary>
+            推荐人ID
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserVerifyEmailRequest.Email">
+            <summary>
+            Email
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.UserController.UserVerifyPhoneRequest.PhoneNumber">
+            <summary>
+            PhoneNumber
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPrivateModel.Name">
+            <summary>
+            租户名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPrivateModel.IdentityServerIssuerUri">
+            <summary>
+            租户身份认证Server地址
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPrivateModel.Properties">
+            <summary>
+            属性
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPrivateModel.OwnerUserId">
+            <summary>
+            租户所有者ID
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPrivateModel.Description">
+            <summary>
+            简介
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPrivateModel.LogoUri">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Models.Shared.TenantPublicModel">
+            <summary>
+            TenantPublicModel
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPublicModel.id">
+            <summary>
+            id
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPublicModel.name">
+            <summary>
+            租户名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPublicModel.claims">
+            <summary>
+            声明
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPublicModel.description">
+            <summary>
+            简介
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Shared.TenantPublicModel.logoUri">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.DefaultUserAccount">
+            <summary>
+            管理员账号，邮箱格式(默认admin@admin.com)
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.DefaultUserPassword">
+            <summary>
+            管理员密码（默认123456aA!）
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.IdentityServerUri">
+            <summary>
+            当前项目的网址(默认读取配置文件的IdentityServer:Host节点)
+            如：https://127.0.0.1（必须为https，网址结尾无需带/）
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.EnableAuthorizationPolicy">
+            <summary>
+            启用权限（默认true）
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.EnableSwaggerGen">
+            <summary>
+            启用SwaggerGen（默认true）。
+            https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger?view=aspnetcore-3.1
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.EnableAPIDocuments">
+            <summary>
+            启用IdentityServer4Microservice的API文档（默认true）。
+            可通过OAuthAppOptions.APIDocuments配置需要屏蔽的接口文档
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.EnableSwaggerUI">
+            <summary>
+            启用SwaggerUI（默认true）。
+            https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger?view=aspnetcore-3.1
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.EnableCors">
+            <summary>
+            启用跨域（默认true）
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.EnableLocalization">
+            <summary>
+            启用多语言（默认true）。
+            https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization?view=aspnetcore-3.1
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.EnableApiVersioning">
+            <summary>
+            启用API版本号功能（默认true）。
+            https://github.com/Microsoft/aspnet-api-versioning/wiki/How-to-Version-Your-Service
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.EnableWebEncoders">
+            <summary>
+            启用WebEncoders（默认true）。
+            将 HtmlEncoder、JavaScriptEncoder和UrlEncoder添加到services中。
+            https://docs.microsoft.com/zh-cn/dotnet/api/microsoft.extensions.dependencyinjection.encoderservicecollectionextensions.addwebencoders
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.EnableResponseCaching">
+            <summary>
+            启用缓存（默认true）
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.AspNetCoreIdentityOptions">
+            <summary>
+            配置参考官方文档。
+            https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity-configuration?view=aspnetcore-3.1
+            </summary>
+        </member>
+        <member name="M:OAuthApp.OAuthAppOptions.HideIdentityServerDocument(OAuthApp.APIDocumentEnums[])">
+            <summary>
+            隐藏IdentityServer MicroserviceAPI文档
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.Origins">
+            <summary>
+            允许跨域的url集合(默认读取配置文件的IdentityServer:Origins节点)，多个网址有英文逗号分隔。
+            为空代表不允许任何网址跨域
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Services.AppUserService.CreateUser(System.Int64,Microsoft.AspNetCore.Identity.UserManager{OAuthApp.Data.AppUser},OAuthApp.Data.UserDbContext,OAuthApp.Data.AppUser,System.Collections.Generic.List{System.Int64},System.String,System.Collections.Generic.List{System.Int64})">
+            <summary>
+            创建用户
+            注意设置 parentUserID 上级用户ID
+            </summary>
+            <param name="TenantId">当前平台ID</param>
+            <param name="userManager">db</param>
+            <param name="userContext">db</param>
+            <param name="user">新用户</param>
+            <param name="roleIds">角色集合</param>
+            <param name="permissions">权限集合</param>
+            <param name="tenantIds">平台集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagement.RequestAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Net.Http.HttpContent,System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>
+            Request for Rest API Management
+            </summary>
+            <param name="path">path</param>
+            <param name="method">/POST/PUT/GET,etc.</param>
+            <param name="query">query parameters</param>
+            <param name="content">http content</param>
+            <param name="headerItems">request Headers</param>
+            <param name="mediaType">request media type,default is application/json</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementAuthorizationServers.GetAsync">
+            <summary>
+            authorizationServers List
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementProduct.GetAsync(System.String)">
+            <summary>
+            Product List
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementProduct.AddApiAsync(System.String,System.String)">
+            <summary>
+            Add Api To Product
+            </summary>
+            <param name="pid">Product id</param>
+            <param name="aid">Api id</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.GetAsync(System.Boolean)">
+            <summary>
+            Get Api List
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.GetByPathAsync(System.String)">
+            <summary>
+            Get Api List By Path
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.DetailAsync(System.String)">
+            <summary>
+            Get Api Detail
+            </summary>
+            <param name="aid">Api Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.MetadataAsync(System.String)">
+            <summary>
+            Check Api exists
+            </summary>
+            <param name="aid">Api id</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.ImportOrUpdateAsync(System.String,System.String,System.String,System.String[],System.String,System.Collections.Generic.List{System.String},System.String,System.String)">
+            <summary>
+            Import or Update Api By swagger Url
+            1，check Api exists by {aid}
+            2，if exists update Api
+            3，if not exists import Api
+            4，if set authorizationServerId, update Api authenticationSettings
+            </summary>
+            <param name="aid">Api id, not null</param>
+            <param name="suffix">Api service suffix, not null</param>
+            <param name="swaggerUrl">Swagger doc url, not null</param>
+            <param name="productIds">Product id collection</param>
+            <param name="authorizationServerId">authorize server Id</param>
+            <param name="protocols">protocols</param>
+            <param name="scope">scope</param>
+            <param name="openid">openid</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.UpdateOAuth2Async(System.String,System.String,System.String,System.String)">
+            <summary>
+            Update Api authenticationSettings
+            </summary>
+            <param name="aid">Api Id</param>
+            <param name="authorizationServerId">oauth ServerId</param>
+            <param name="scope">scopes</param>
+            <param name="openid">openid</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.UpdateAsync(System.String,System.String)">
+            <summary>
+            Update Api
+            </summary>
+            <param name="aid">id</param>
+            <param name="body">Model</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.DeleteAsync(System.String)">
+            <summary>
+            Delete Api by id
+            </summary>
+            <param name="aid">id</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.DeleteAllAsync(System.String)">
+            <summary>
+            Delete Api include all revisions
+            </summary>
+            <param name="aid">aid</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.GetPolicyAsync(System.String)">
+            <summary>
+            Get Api Policy
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.SetPolicyAsync(System.String,System.String)">
+            <summary>
+            Set Api Policy
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.GetPolicySnippetsAsync">
+            <summary>
+            Get Policy Snippets
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.GetRevisionsAsync(System.String)">
+            <summary>
+            GetRevisions
+            </summary>
+            <param name="aid">7</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.CreateRevisionFromSourceApiAsync(System.String,System.String)">
+            <summary>
+            Create Revision
+            </summary>
+            <param name="aid">7</param>
+            <param name="apiRevisionDescription">desc</param>
+            <returns>apiRevision</returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.CreateVersionAsync(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Create Version from a revision
+            </summary>
+            <param name="revisionId">/apis/7;rev=3</param>
+            <param name="newApiId">default is guid</param>
+            <param name="newApiName">default is revisionId apiName</param>
+            <param name="apiVersionName">default is V2</param>
+            <param name="apiRevisionDescription"></param>
+            <param name="versioningScheme">default is Query(Segment/Header) </param>
+            <param name="versionQueryName">default is api-version </param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.UpdateRevisionAsync(System.String,System.String)">
+            <summary>
+            Update Revision
+            </summary>
+            <param name="aid">7;rev=3</param>
+            <param name="apiRevisionDescription">desc</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.GetReleasesAsync(System.String)">
+            <summary>
+            Get Releases
+            </summary>
+            <param name="aid">7</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.CreateReleaseAsync(System.String,System.String,System.String)">
+            <summary>
+            Create Release
+            </summary>
+            <param name="aid">7</param>
+            <param name="notes"></param>
+            <param name="releaseId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.UpdateReleaseAsync(System.String,System.String)">
+            <summary>
+            Update Release
+            </summary>
+            <param name="releaseId"></param>
+            <param name="notes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.DeleteReleaseAsync(System.String)">
+            <summary>
+            Delete Release
+            </summary>
+            <param name="releaseId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.GetVersionSetsAsync">
+            <summary>
+            Get Version Set List
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.VersionSetDetailAsync(System.String)">
+            <summary>
+            Get Api Detail
+            </summary>
+            <param name="id">Api Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.AzureApiManagementApi.UpdateVersionSetAsync(System.String,System.String,System.String)">
+            <summary>
+            Update Version Set
+            </summary>
+            <param name="id">id</param>
+            <param name="name">name</param>
+            <param name="description">description</param>
+            <returns></returns>
+        </member>
+        <member name="T:OAuthApp.Services.AzureApiManagementServices">
+            <summary>
+            Azure Api Management
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Services.EmailService">
+            <summary>
+            发送邮件
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Services.EmailService.SendEmailAsync(System.String,System.String,System.String[],System.Collections.Generic.Dictionary{System.String,System.String[]})">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="templateKey">邮件模板ID</param>
+            <param name="subject">邮件标题</param>
+            <param name="emailAddress">收件地址</param>
+            <param name="vars">变量集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.SmsSender.SendSmsAsync(System.String,System.String,System.String)">
+            <summary>
+            发送短信
+            （服务商：https://sendcloud.sohu.com）
+            </summary>
+            <param name="smsVars">模板变量</param>
+            <param name="phone">电话号码</param>
+            <param name="templateId">模板ID(9812)</param>
+            <returns>true成功false失败</returns>
+        </member>
+        <member name="M:OAuthApp.Services.SmsSender._ServerTimestamp">
+            <summary>
+            sendcloud服务器的时间戳
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:OAuthApp.Services.PagingService`1.where">
+            <summary>
+            自定义筛选
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Services.PagingService`1.AutoFilter_CreateDate">
+            <summary>
+            添加CreateDate字段的查询条件
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Services.PagingService`1.OrderByFieldsExtension">
+            <summary>
+            默认的可排序字段只有当前表，这里可以设置额外的字段组合比如：A字段 - B字段
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Services.PagingService`1.ExcuteAsync(System.String,System.String,System.Func{System.Reflection.PropertyInfo,System.Object,System.Object})">
+            <summary>
+            执行分页查询
+            </summary>
+            <param name="sql">分页数据查询语句</param>
+            <param name="sql_dataCount">数据总数查询语句</param>
+            <param name="propConverter">返回实体属性转换委托</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.RedisService.GetAsync(System.String)">
+            <summary>
+            根据Key获取值
+            </summary>
+            <param name="key">键</param>
+        </member>
+        <member name="M:OAuthApp.Services.RedisService.SetAsync(System.String,System.String,System.Nullable{System.TimeSpan})">
+            <summary>
+            设置缓存key和value
+            </summary>
+            <param name="key">键</param>
+            <param name="value">值</param>
+            <param name="expire">过期时间</param>
+        </member>
+        <member name="M:OAuthApp.Services.RedisService.RemoveAsync(System.String)">
+             <summary>
+             删除指定的Key
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.RedisService.IncrementAsync(System.String,System.Int64)">
+            <summary>
+            将指定的Key的值叠加value
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Services.RedisService.KeyExistsAsync(System.String)">
+            <summary>
+            检测Key是否存在
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Tenant.TenantConstant.CacheKey">
+            <summary>
+            for request context
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Tenant.TenantConstant.HttpContextItemKey">
+            <summary>
+            for requst context in server
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Tenant.TenantConstant.TokenKey">
+            <summary>
+            for Token 
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Tenant.TenantConstant.SchemesReflush">
+            <summary>
+            for reflush tenant schemes
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Tenant.TenantConstant.SchemesReflushDuration">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Tenant.TenantDefaultProperty">
+            <summary>
+            租户默认属性集合
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Tenant.TenantDefaultProperty.WebSite">
+            <summary>
+            官方网站
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Tenant.TenantDefaultProperty.PortalSite">
+            <summary>
+            开放平台
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Tenant.TenantDefaultProperty.AdminSite">
+            <summary>
+            运营中心
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Tenant.TenantDefaultProperty.Keywords">
+            <summary>
+            关键字
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Tenant.TenantDefaultProperty.Summary">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Tenant.TenantDefaultProperty.Description">
+            <summary>
+            介绍
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Tenant.TenantDefaultProperty.EnterpriseEmail">
+            <summary>
+            企业邮箱
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Tenant.TenantDefaultProperty.Tracking">
+            <summary>
+            站点统计代码
+            </summary>
+        </member>
+        <member name="F:OAuthApp.Tenant.TenantDefaultProperty.Favicon">
+            <summary>
+            网站图标
+            </summary>
+        </member>
+        <member name="T:OAuthApp.Tenant.AppTenant">
+            <summary>
+            租户实体
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.Name">
+            <summary>
+            租户名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.Theme">
+            <summary>
+            风格
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.IdentityServerIssuerUri">
+            <summary>
+            IdentityServer IssuerUri
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.Hosts">
+            <summary>
+            域名集合
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.CreateDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.LastUpdateTime">
+            <summary>
+            最后更新时间
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.Claims">
+            <summary>
+            声明
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.CacheDuration">
+            <summary>
+            租户数据缓存时长，单位秒
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.OwnerUserId">
+            <summary>
+            所有者用户Id
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.Properties">
+            <summary>
+            属性集合
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.LogoUri">
+            <summary>
+            Logo
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Tenant.AppTenant.Description">
+            <summary>
+            简介
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder.Services">
+            <summary>
+            Gets the services.
+            </summary>
+            <value>
+            The services.
+            </value>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddOAuthApp(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{OAuthApp.OAuthAppOptions})">
+            <summary>
+            Creates a builder.
+            </summary>
+            <param name="services">The services.</param>
+            <param name="ismsOptions">The Options.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddCoreService(Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder)">
+            <summary>
+            Adds the required platform services.
+            </summary>
+            <param name="builder">The builder.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddEmailService(Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder,Microsoft.Extensions.Configuration.IConfigurationSection)">
+            <summary>
+            Adds the required platform services.
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="config">The config.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddSmsService(Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder,Microsoft.Extensions.Configuration.IConfigurationSection)">
+            <summary>
+            Adds the required platform services.
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="config">The config.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddTenantStore(Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">
+            <summary>
+            Configures TenantStore.
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="DbContextOptions">The store options action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddIdentityStore(Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})">
+            <summary>
+            Configures IdentityStore.
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="DbContextOptions">The store options action.</param>
+            <param name="identityOptions">The identity options action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddSqlCacheStore(Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder,System.String,System.String,System.String)">
+            <summary>
+            Configures SqlCache Service
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="connection">database connection string</param>
+            <param name="schemaName">table schemaName</param>
+            <param name="tableName">table name</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddSDKStore(Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">
+            <summary>
+            Configures CodeGenStore.
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="DbContextOptions">The store options action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddIdentityServer(Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.Security.Cryptography.X509Certificates.X509Certificate2,System.Action{IdentityServer4.Configuration.IdentityServerOptions},System.Action{Microsoft.Extensions.DependencyInjection.IIdentityServerBuilder})">
+            <summary>
+            Configures TenantStore.
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="DbContextOptions">The store options action.</param>
+            <param name="certificate">The certificate.</param>
+            <param name="identityServerOptions">The identityServerOptions.</param>
+            <param name="identityBuilder">The identityBuilder.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.OAuthBuilderExtensions">
+            <summary>
+            DI extension methods for adding IdentityServer
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthBuilderExtensions.AddOAuthPlatforms(Microsoft.AspNetCore.Authentication.AuthenticationBuilder)">
+            <summary>
+            Creates a builder.
+            </summary>
+            <param name="authBuilder">The services.</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

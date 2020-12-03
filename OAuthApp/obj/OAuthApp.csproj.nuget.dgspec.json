@@ -5,7 +5,7 @@
   },
   "projects": {
     "D:\\Source\\Repos\\IdentityServer4.MicroService\\OAuthApp\\OAuthApp.csproj": {
-      "version": "2.2.8-preview2",
+      "version": "2.2.8-preview1",
       "restore": {
         "projectUniqueName": "D:\\Source\\Repos\\IdentityServer4.MicroService\\OAuthApp\\OAuthApp.csproj",
         "projectName": "OAuthApp",
@@ -193,10 +193,6 @@
               "version": "[5.6.3, )"
             },
             "Swashbuckle.AspNetCore.Newtonsoft": {
-              "target": "Package",
-              "version": "[5.6.3, )"
-            },
-            "Swashbuckle.AspNetCore.ReDoc": {
               "target": "Package",
               "version": "[5.6.3, )"
             },

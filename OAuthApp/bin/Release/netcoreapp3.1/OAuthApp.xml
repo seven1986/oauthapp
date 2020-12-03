@@ -8,6 +8,7 @@
             <summary>
             API
             </summary>
+            <remarks>为API提供版本管理、网关集成都功能。</remarks>
         </member>
         <member name="M:OAuthApp.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,OAuthApp.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLocalizer{OAuthApp.Apis.ApiResourceController},OAuthApp.Tenant.TenantService,OAuthApp.Tenant.TenantDbContext,OAuthApp.Services.SwaggerCodeGenService,OAuthApp.Services.AzureStorageService,OAuthApp.Services.EmailService,Microsoft.AspNetCore.DataProtection.IDataProtectionProvider,Microsoft.Extensions.Caching.Distributed.IDistributedCache,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
             <summary>
@@ -60,6 +61,13 @@
             API - 删除
             </summary>
             <param name="id">ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.ApiResourceController.Import(OAuthApp.Models.Apis.ApiResourceController.ApiResourceImportRequest)">
+            <summary>
+            API - 导入
+            </summary>
+            <param name="value"></param>
             <returns></returns>
         </member>
         <member name="M:OAuthApp.Apis.ApiResourceController.Codes">
@@ -225,6 +233,7 @@
             <summary>
             APIScope
             </summary>
+            <remarks>权限集合。</remarks>
         </member>
         <member name="M:OAuthApp.Apis.ApiScopeController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,OAuthApp.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLocalizer{OAuthApp.Apis.ApiScopeController},OAuthApp.Tenant.TenantService,OAuthApp.Tenant.TenantDbContext,Microsoft.AspNetCore.DataProtection.IDataProtectionProvider)">
             <summary>
@@ -314,13 +323,10 @@
             <summary>
             Blob
             </summary>
-            <remarks>
-            
-            </remarks>
         </member>
         <member name="M:OAuthApp.Apis.BlobController.File(Microsoft.AspNetCore.Http.IFormFile,System.String)">
             <summary>
-            Blob - 上传文件
+            Blob - File
             </summary>
             <param name="value">视频(小于20MB),文档文件(小于10MB)</param>
             <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
@@ -407,6 +413,108 @@
             <summary>
             客户端 - 错误码表
             </summary>
+        </member>
+        <member name="T:OAuthApp.Apis.CodeGenController">
+            <summary>
+            代码生成
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.Clients(System.Boolean)">
+            <summary>
+            代码生成 - 客户端列表
+            </summary>
+            <param name="fromCache"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.Servers(System.Boolean)">
+            <summary>
+            代码生成 - 服务端列表
+            </summary>
+            <param name="fromCache"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.NpmOptions(System.String,OAuthApp.Models.Apis.CodeGenController.Language)">
+            <summary>
+             代码生成 - NPM - 设置
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="language">语言</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.NpmOptions(System.String,OAuthApp.Models.Apis.CodeGenController.Language,OAuthApp.Models.Apis.CodeGenController.CodeGenNpmOptionsModel)">
+            <summary>
+             代码生成 - NPM - 更新设置
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="language">语言</param>
+            <param name="value">package.json的内容字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.GithubOptions(System.String)">
+            <summary>
+             代码生成 - Github - 设置
+            </summary>
+            <param name="id">API的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.GithubOptions(System.String,OAuthApp.Models.Apis.ApiResourceController.ApiResourceGithubPublishRequest)">
+            <summary>
+             代码生成 - Github - 更新设置
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.SyncGithub(System.String)">
+            <summary>
+             代码生成 - Github - 同步
+            </summary>
+            <param name="id">API的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.CommonOptions(System.String)">
+            <summary>
+             代码生成 - 基本设置 - 获取
+            </summary>
+            <param name="id">API的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.PutCommonOptions(System.String,OAuthApp.Models.Apis.CodeGenController.CodeGenCommonOptionsModel)">
+            <summary>
+             代码生成 - 基本设置 - 更新
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="value">package.json的内容字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.ReleaseSDK(OAuthApp.Models.Apis.CodeGenController.GenerateClientRequest)">
+            <summary>
+            代码生成 - SDK - 发布
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.Gen(OAuthApp.Models.Apis.CodeGenController.CodeGenGenRequest)">
+            <summary>
+            代码生成 - SDK - 预览生成代码
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.History(System.String)">
+            <summary>
+            代码生成 - SDK - 发布记录
+            </summary>
+            <param name="id">API的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.CodeGenController.PostHistory(System.String,OAuthApp.Models.Apis.CodeGenController.CodeGenHistoryRequest)">
+            <summary>
+            代码生成 - SDK - 添加记录
+            </summary>
+            <param name="id">API的ID</param>
+            <param name="value"></param>
+            <returns></returns>
         </member>
         <member name="T:OAuthApp.Apis.IdentityResourceController">
             <summary>
@@ -2642,22 +2750,6 @@
             <summary>
             允许跨域的url集合(默认读取配置文件的IdentityServer:Origins节点)，多个网址有英文逗号分隔。
             为空代表不允许任何网址跨域
-            </summary>
-        </member>
-        <member name="P:OAuthApp.OAuthAppOptions.EnableReDoc">
-            <summary>
-            启用ReDoc（默认true）。
-            </summary>
-        </member>
-        <member name="P:OAuthApp.OAuthAppOptions.ReDocOptions">
-            <summary>
-            ReDoc配置
-            </summary>
-        </member>
-        <member name="P:OAuthApp.OAuthAppOptions.ReDocExtensions">
-            <summary>
-            ReDoc扩展
-            https://github.com/Redocly/redoc/blob/master/docs/redoc-vendor-extensions.md
             </summary>
         </member>
         <member name="M:OAuthApp.Services.AppUserService.CreateUser(System.Int64,Microsoft.AspNetCore.Identity.UserManager{OAuthApp.Data.AppUser},OAuthApp.Data.UserDbContext,OAuthApp.Data.AppUser,System.Collections.Generic.List{System.Int64},System.String,System.Collections.Generic.List{System.Int64})">
