@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "OAuthApp/2.2.6-preview2": {
+      "OAuthApp/2.2.8-preview2": {
         "dependencies": {
           "AspNet.Security.OAuth.GitHub": "3.1.6",
           "AspNet.Security.OAuth.QQ": "3.1.6",
@@ -45,6 +45,7 @@
           "Swashbuckle.AspNetCore": "5.6.3",
           "Swashbuckle.AspNetCore.Annotations": "5.6.3",
           "Swashbuckle.AspNetCore.Newtonsoft": "5.6.3",
+          "Swashbuckle.AspNetCore.ReDoc": "5.6.3",
           "System.Data.SqlClient": "4.8.2",
           "System.IO.Compression.ZipFile": "4.3.0"
         },
@@ -1660,6 +1661,14 @@
           }
         }
       },
+      "Swashbuckle.AspNetCore.ReDoc/5.6.3": {
+        "runtime": {
+          "lib/netcoreapp3.0/Swashbuckle.AspNetCore.ReDoc.dll": {
+            "assemblyVersion": "5.6.3.0",
+            "fileVersion": "5.6.3.0"
+          }
+        }
+      },
       "Swashbuckle.AspNetCore.Swagger/5.6.3": {
         "dependencies": {
           "Microsoft.OpenApi": "1.2.3"
@@ -2876,7 +2885,7 @@
     }
   },
   "libraries": {
-    "OAuthApp/2.2.6-preview2": {
+    "OAuthApp/2.2.8-preview2": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -3923,6 +3932,13 @@
       "sha512": "sha512-nLVhWdyyOoapuA6NiSBPHBZcYiPUR7PaKwDfpojI0z/E/5RTkx1cLy2Ks0pSgtsAiFtwkYPAbqIEDEB+VNIjfA==",
       "path": "swashbuckle.aspnetcore.newtonsoft/5.6.3",
       "hashPath": "swashbuckle.aspnetcore.newtonsoft.5.6.3.nupkg.sha512"
+    },
+    "Swashbuckle.AspNetCore.ReDoc/5.6.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cvEO+1RN/usFMh2BJB/x5qS1GL/k7UWzHQk2NjVx4cwMJbZRNgpyCkC38DlDyqr1qKmLV/eCeGjzuSyM3FPLng==",
+      "path": "swashbuckle.aspnetcore.redoc/5.6.3",
+      "hashPath": "swashbuckle.aspnetcore.redoc.5.6.3.nupkg.sha512"
     },
     "Swashbuckle.AspNetCore.Swagger/5.6.3": {
       "type": "package",
