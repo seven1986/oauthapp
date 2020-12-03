@@ -29,6 +29,7 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using Microsoft.IdentityModel.Tokens;
 using OAuthApp.Attributes;
+using Microsoft.OpenApi.Any;
 
 namespace Microsoft.Extensions.DependencyInjection
 { 
@@ -253,7 +254,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
                     foreach (var description in provider.ApiVersionDescriptions)
                     {
-                        c.SwaggerDoc(description.GroupName, new OpenApiInfo
+                        var info = new OpenApiInfo
                         {
                             Title = AppConstant.AssemblyName,
                             Version = description.ApiVersion.ToString(),
@@ -269,7 +270,14 @@ namespace Microsoft.Extensions.DependencyInjection
                             //     Email = ""
                             // },
                             // Description = "Swagger document",
-                        });
+                        };
+
+                        if(Options.ReDocExtensions!=null)
+                        {
+                            Options.ReDocExtensions.Invoke(info.Extensions);
+                        }
+
+                        c.SwaggerDoc(description.GroupName, info);
 
                         c.OperationFilter<SwaggerUploadFileParametersFilter>();
 

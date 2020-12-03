@@ -102,6 +102,34 @@ namespace Microsoft.AspNetCore.Builder
                     });
             }
 
+            if (options.EnableReDoc)
+            {
+                builder.UseReDoc(c =>
+                {
+                    c.RoutePrefix = "docs";
+                    c.SpecUrl("/swagger/v1/swagger.json");
+                    c.EnableUntrustedSpec();
+                    c.ScrollYOffset(10);
+                    c.HideHostname();
+                    c.HideDownloadButton();
+                    c.ExpandResponses("200,201");
+                    c.RequiredPropsFirst();
+                    c.HideLoading();                  
+                    c.DisableSearch();
+                    c.SortPropsAlphabetically();
+
+                    //c.OnlyRequiredInSamples();
+                    //c.NoAutoAuth();
+                    //c.PathInMiddlePanel();
+                    //c.NativeScrollbars();
+
+                    if (options.ReDocOptions!=null)
+                    {
+                        options.ReDocOptions.Invoke(c);
+                    }
+                });
+            }
+
             if (options.EnableResponseCaching)
             {
                 builder.UseResponseCaching();

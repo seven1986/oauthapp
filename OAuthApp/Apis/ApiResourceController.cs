@@ -33,10 +33,11 @@ namespace OAuthApp.Apis
     /// <summary>
     /// API
     /// </summary>
-    /// <remarks>为API提供版本管理、网关集成都功能。</remarks>
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("ApiResource")]
-    [SwaggerTag("资源")]
+    [SwaggerTag("#### API资源管理")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     public class ApiResourceController : ApiControllerBase
     {
         //sql cache options
@@ -114,7 +115,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiResourceGet", 
             Summary = "API - 列表",
-            Description = "scope&permission：oauthapp.apiresource.get")]
+            Description = "#### 需要权限\r\n"+"| client scope | user permission |\r\n" +"| ---- | ---- |\r\n" +"| oauthapp.apiresource.get | oauthapp.apiresource.get |")]
         public async Task<PagingResult<ApiResource>> Get([FromQuery]PagingRequest<ApiResourceGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -201,7 +202,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.detail")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.detail")]
         [SwaggerOperation(OperationId = "ApiResourceDetail",Summary = "API - 详情",
-            Description = "scope&permission：oauthapp.apiresource.detail")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.apiresource.detail | oauthapp.apiresource.detail |")]
         public ApiResult<ApiResource> Get(long id)
         {
             if (!exists(id))
@@ -238,7 +239,8 @@ namespace OAuthApp.Apis
         [HttpPost]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.post")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.post")]
-        [SwaggerOperation(OperationId = "ApiResourcePost", Summary = "API - 创建")]
+        [SwaggerOperation(OperationId = "ApiResourcePost", Summary = "API - 创建",
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.apiresource.post | oauthapp.apiresource.post |")]
         public ApiResult<long> Post([FromBody]ApiResource value)
         {
             if (!ModelState.IsValid)
@@ -296,7 +298,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.put")]
         [SwaggerOperation(OperationId = "ApiResourcePut",
             Summary = "API - 更新",
-            Description = "scope&permission：oauthapp.apiresource.put")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.apiresource.put | oauthapp.apiresource.put |")]
         public ApiResult<bool> Put([FromBody] ApiResource value)
         {
             if (!ModelState.IsValid)
@@ -437,7 +439,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.delete")]
         [SwaggerOperation(OperationId = "ApiResourceDelete",
             Summary = "API - 删除",
-            Description = "scope&permission：oauthapp.apiresource.delete")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.apiresource.delete | oauthapp.apiresource.delete |")]
         public ApiResult<bool> Delete(long id)
         {
             if (!exists(id))
@@ -493,203 +495,203 @@ namespace OAuthApp.Apis
         }
         #endregion
 
-        #region API - 导入
-        /// <summary>
-        /// API - 导入
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        [HttpPost("Import")]
-        [AllowAnonymous]
-        [SwaggerOperation(
-            OperationId = "ApiResourceImport", 
-            Summary = "API - 导入",
-            Description ="")]
-        public ApiResult<bool> Import([FromBody]ApiResourceImportRequest value)
-        {
-            var data = configDb.ApiResources.Where(x => x.Name.Equals(value.MicroServiceName))
-                .Include(x => x.Scopes).FirstOrDefault();
+        //#region API - 导入
+        ///// <summary>
+        ///// API - 导入
+        ///// </summary>
+        ///// <param name="value"></param>
+        ///// <returns></returns>
+        //[HttpPost("Import")]
+        //[AllowAnonymous]
+        //[SwaggerOperation(
+        //    OperationId = "ApiResourceImport", 
+        //    Summary = "API - 导入",
+        //    Description ="")]
+        //public ApiResult<bool> Import([FromBody]ApiResourceImportRequest value)
+        //{
+        //    var data = configDb.ApiResources.Where(x => x.Name.Equals(value.MicroServiceName))
+        //        .Include(x => x.Scopes).FirstOrDefault();
 
-            if (data == null)
-            {
-                var entity = new ApiResource()
-                {
-                    Name = value.MicroServiceName,
-                    DisplayName = value.MicroServiceDisplayName,
-                    Description = value.MicroServiceDescription,
-                    Created = DateTime.UtcNow,
-                    LastAccessed = DateTime.UtcNow,
-                    Updated = DateTime.UtcNow,
-                    Enabled = true,
-                    Scopes = new List<ApiResourceScope>(),
-                };
+        //    if (data == null)
+        //    {
+        //        var entity = new ApiResource()
+        //        {
+        //            Name = value.MicroServiceName,
+        //            DisplayName = value.MicroServiceDisplayName,
+        //            Description = value.MicroServiceDescription,
+        //            Created = DateTime.UtcNow,
+        //            LastAccessed = DateTime.UtcNow,
+        //            Updated = DateTime.UtcNow,
+        //            Enabled = true,
+        //            Scopes = new List<ApiResourceScope>(),
+        //        };
 
-                #region role、permission
-                entity.UserClaims = new List<ApiResourceClaim>()
-                {
-                    new ApiResourceClaim()
-                    {
-                        ApiResource = entity,
-                        Type = "role"
-                    },
-                    new ApiResourceClaim()
-                    {
-                        ApiResource = entity,
-                        Type = "permission"
-                    }
-                };
-                #endregion
+        //        #region role、permission
+        //        entity.UserClaims = new List<ApiResourceClaim>()
+        //        {
+        //            new ApiResourceClaim()
+        //            {
+        //                ApiResource = entity,
+        //                Type = "role"
+        //            },
+        //            new ApiResourceClaim()
+        //            {
+        //                ApiResource = entity,
+        //                Type = "permission"
+        //            }
+        //        };
+        //        #endregion
 
-                #region scopes
-                if (value.MicroServicePolicies.Count > 0)
-                {
-                    value.MicroServicePolicies.ForEach(policy =>
-                    {
-                        policy.Scopes.ForEach(scope =>
-                        {
-                            var scopeName = $"{value.MicroServiceName}.{scope}";
+        //        #region scopes
+        //        if (value.MicroServicePolicies.Count > 0)
+        //        {
+        //            value.MicroServicePolicies.ForEach(policy =>
+        //            {
+        //                policy.Scopes.ForEach(scope =>
+        //                {
+        //                    var scopeName = $"{value.MicroServiceName}.{scope}";
 
-                            entity.Scopes.Add(new ApiResourceScope()
-                            {
-                                ApiResource = entity,
-                                Scope = scopeName
-                            });
-                        });
+        //                    entity.Scopes.Add(new ApiResourceScope()
+        //                    {
+        //                        ApiResource = entity,
+        //                        Scope = scopeName
+        //                    });
+        //                });
 
-                        var scopeControllName = $"{value.MicroServiceName}.{policy.ControllerName}.all";
+        //                var scopeControllName = $"{value.MicroServiceName}.{policy.ControllerName}.all";
 
-                        entity.Scopes.Add(new ApiResourceScope()
-                        {
-                            ApiResource = entity,
-                            Scope = scopeControllName
-                        });
-                    });
-                }
+        //                entity.Scopes.Add(new ApiResourceScope()
+        //                {
+        //                    ApiResource = entity,
+        //                    Scope = scopeControllName
+        //                });
+        //            });
+        //        }
 
-                var scopeApiResourceName = $"{value.MicroServiceName}.all";
+        //        var scopeApiResourceName = $"{value.MicroServiceName}.all";
 
-                entity.Scopes.Add(new ApiResourceScope()
-                {
-                    ApiResource = entity,
-                    Scope = scopeApiResourceName
-                });
-                #endregion
+        //        entity.Scopes.Add(new ApiResourceScope()
+        //        {
+        //            ApiResource = entity,
+        //            Scope = scopeApiResourceName
+        //        });
+        //        #endregion
 
-                configDb.Add(entity);
+        //        configDb.Add(entity);
 
-                configDb.SaveChanges();
+        //        configDb.SaveChanges();
 
-                #region update user permission for new ApiResource
-                var userClaims = db.UserClaims.Where(x => x.ClaimType.Equals("permission") &&
-                        !x.ClaimValue.Contains(scopeApiResourceName)).ToList();
+        //        #region update user permission for new ApiResource
+        //        var userClaims = db.UserClaims.Where(x => x.ClaimType.Equals("permission") &&
+        //                !x.ClaimValue.Contains(scopeApiResourceName)).ToList();
 
-                if (userClaims.Count > 0)
-                {
-                    userClaims.ForEach(x =>
-                    {
-                        var permissions = x.ClaimValue.Split(new string[1] { "," }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        //        if (userClaims.Count > 0)
+        //        {
+        //            userClaims.ForEach(x =>
+        //            {
+        //                var permissions = x.ClaimValue.Split(new string[1] { "," }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                        if (!permissions.Contains(scopeApiResourceName))
-                        {
-                            permissions.Add(scopeApiResourceName);
+        //                if (!permissions.Contains(scopeApiResourceName))
+        //                {
+        //                    permissions.Add(scopeApiResourceName);
 
-                            x.ClaimValue = string.Join(",", permissions);
-                        }
-                    });
+        //                    x.ClaimValue = string.Join(",", permissions);
+        //                }
+        //            });
 
-                    db.SaveChanges();
-                }
-                #endregion
-            }
+        //            db.SaveChanges();
+        //        }
+        //        #endregion
+        //    }
 
-            else
-            {
-                data.DisplayName = value.MicroServiceDisplayName;
+        //    else
+        //    {
+        //        data.DisplayName = value.MicroServiceDisplayName;
 
-                data.Description = value.MicroServiceDescription;
+        //        data.Description = value.MicroServiceDescription;
 
-                data.Updated = DateTime.UtcNow;
+        //        data.Updated = DateTime.UtcNow;
 
-                data.Scopes.Clear();
+        //        data.Scopes.Clear();
 
-                value.MicroServicePolicies.ForEach(policy =>
-                {
-                    policy.Scopes.ForEach(scope =>
-                    {
-                        var scopeName = $"{value.MicroServiceName}.{scope}";
+        //        value.MicroServicePolicies.ForEach(policy =>
+        //        {
+        //            policy.Scopes.ForEach(scope =>
+        //            {
+        //                var scopeName = $"{value.MicroServiceName}.{scope}";
 
-                        data.Scopes.Add(new ApiResourceScope()
-                        {
-                            ApiResource = data,
-                            Scope = scopeName
-                        });
-                    });
+        //                data.Scopes.Add(new ApiResourceScope()
+        //                {
+        //                    ApiResource = data,
+        //                    Scope = scopeName
+        //                });
+        //            });
 
-                    var scopeControllName = $"{value.MicroServiceName}.{policy.ControllerName}.all";
+        //            var scopeControllName = $"{value.MicroServiceName}.{policy.ControllerName}.all";
 
-                    data.Scopes.Add(new ApiResourceScope()
-                    {
-                        ApiResource = data,
-                        Scope = scopeControllName
-                    });
-                });
+        //            data.Scopes.Add(new ApiResourceScope()
+        //            {
+        //                ApiResource = data,
+        //                Scope = scopeControllName
+        //            });
+        //        });
 
-                var scopeApiResourceName = $"{value.MicroServiceName}.all";
+        //        var scopeApiResourceName = $"{value.MicroServiceName}.all";
 
-                data.Scopes.Add(new ApiResourceScope()
-                {
-                    ApiResource = data,
-                    Scope = scopeApiResourceName
-                });
+        //        data.Scopes.Add(new ApiResourceScope()
+        //        {
+        //            ApiResource = data,
+        //            Scope = scopeApiResourceName
+        //        });
 
-                configDb.SaveChanges();
-            }
+        //        configDb.SaveChanges();
+        //    }
 
-            #region redirectUrl&scope for client-swagger
-            value.MicroServiceClientIDs.ForEach(clientId =>
-            {
-                var client = configDb.Clients
-                .Where(x => x.ClientName.Equals(clientId))
-                .Include(x => x.RedirectUris)
-                .Include(x => x.AllowedScopes).FirstOrDefault();
+        //    #region redirectUrl&scope for client-swagger
+        //    value.MicroServiceClientIDs.ForEach(clientId =>
+        //    {
+        //        var client = configDb.Clients
+        //        .Where(x => x.ClientName.Equals(clientId))
+        //        .Include(x => x.RedirectUris)
+        //        .Include(x => x.AllowedScopes).FirstOrDefault();
 
-                #region client redirectUrls
-                value.MicroServiceRedirectUrls.ForEach(redirectUrl =>
-                {
-                    var redirectUrlItem = client.RedirectUris
-                    .Where(x => x.RedirectUri.Equals(redirectUrl)).FirstOrDefault();
+        //        #region client redirectUrls
+        //        value.MicroServiceRedirectUrls.ForEach(redirectUrl =>
+        //        {
+        //            var redirectUrlItem = client.RedirectUris
+        //            .Where(x => x.RedirectUri.Equals(redirectUrl)).FirstOrDefault();
 
-                    if (redirectUrlItem == null)
-                    {
-                        client.RedirectUris.Add(new ClientRedirectUri()
-                        {
-                            RedirectUri = redirectUrl,
-                            Client = client
-                        });
-                    }
-                });
-                #endregion
+        //            if (redirectUrlItem == null)
+        //            {
+        //                client.RedirectUris.Add(new ClientRedirectUri()
+        //                {
+        //                    RedirectUri = redirectUrl,
+        //                    Client = client
+        //                });
+        //            }
+        //        });
+        //        #endregion
 
-                #region client scope
-                var scope = $"{value.MicroServiceName}.all";
-                var scopeItem = client.AllowedScopes.FirstOrDefault(x => x.Scope.Equals(scope));
-                if (scopeItem == null)
-                {
-                    client.AllowedScopes.Add(new ClientScope()
-                    {
-                        Client = client,
-                        Scope = scope
-                    });
-                }
-                #endregion
+        //        #region client scope
+        //        var scope = $"{value.MicroServiceName}.all";
+        //        var scopeItem = client.AllowedScopes.FirstOrDefault(x => x.Scope.Equals(scope));
+        //        if (scopeItem == null)
+        //        {
+        //            client.AllowedScopes.Add(new ClientScope()
+        //            {
+        //                Client = client,
+        //                Scope = scope
+        //            });
+        //        }
+        //        #endregion
 
-                configDb.SaveChanges();
-            });
-            #endregion
+        //        configDb.SaveChanges();
+        //    });
+        //    #endregion
 
-            return new ApiResult<bool>(true);
-        }
-        #endregion
+        //    return new ApiResult<bool>(true);
+        //}
+        //#endregion
 
         //#region API - 权限代码
         ///// <summary>
@@ -781,6 +783,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourcePublish",
             Summary = "API - 网关 - 发布或更新版本",
             Description = "scope&permission：oauthapp.apiresource.publish")]
+        [ApiExplorerSettings(IgnoreApi =true)]
         public async Task<ApiResult<bool>> Publish(long id, [FromBody]ApiResourcePublishRequest value)
         {
             if (!ModelState.IsValid)
@@ -890,6 +893,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourcePublishRevision", 
             Summary = "API - 网关 - 创建修订版",
             Description = "scope&permission：oauthapp.apiresource.publishrevision")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<bool>> PublishRevision(long id,
             [FromBody]ApiResourcePublishRevisionsRequest value)
         {
@@ -945,6 +949,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourcePublishVersion", 
             Summary = "API - 网关 - 创建新版本",
             Description = "scope&permission：oauthapp.apiresource.publishversion")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<bool>> PublishVersion(long id, [FromBody]ApiResourceCreateVersionRequest value)
         {
             if (!ModelState.IsValid)
@@ -986,6 +991,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourcePublishConfiguration", 
             Summary = "API - 网关 - 上次发布配置",
             Description = "scope&permission：oauthapp.apiresource.publishconfiguration")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<ApiResourcePublishRequest>> PublishConfiguration(long id)
         {
             if (!exists(id))
@@ -1036,6 +1042,7 @@ namespace OAuthApp.Apis
             Summary = "API - 网关 - 版本列表",
             Description = "scope&permission：oauthapp.apiresource.versions")]
         [ResponseCache(Duration = 60)]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<PagingResult<ApiResourceVersionsResponse>> Versions(long id)
         {
             var detail = await AzureApim.Apis.DetailAsync(id.ToString());
@@ -1090,6 +1097,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourceSetOnlineVersion",
             Summary = "API - 网关 - 上线指定版本",
             Description = "scope&permission：oauthapp.apiresource.setonlineversion")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<bool>> SetOnlineVersion(long id, string revisionId)
         {
             if (!exists(id) || string.IsNullOrWhiteSpace(revisionId))
@@ -1122,6 +1130,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourceAuthServers", 
             Summary = "API - 网关 - OAuthServers",
             Description = "scope&permission：oauthapp.apiresource.authservers")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<AzureApiManagementEntities<AzureApiManagementAuthorizationServerEntity>>> AuthServers()
         {
             var result = await AzureApim.AuthorizationServers.GetAsync();
@@ -1142,6 +1151,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourceProducts", 
             Summary = "API - 网关 - 产品包列表",
             Description = "scope&permission：oauthapp.apiresource.products")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<AzureApiManagementEntities<AzureApiManagementProductEntity>>> Products()
         {
             var result = await AzureApim.Products.GetAsync();
@@ -1166,6 +1176,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourceReleases", 
             Summary = "API - 修订内容 - 列表",
             Description = "scope&permission：oauthapp.apiresource.releases")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<PagingResult<AzureApiManagementReleaseEntity>> Releases(long id, string apiId)
         {
             if (string.IsNullOrWhiteSpace(apiId))
@@ -1205,6 +1216,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourcePostRelease", 
             Summary = "API - 修订内容 - 发布",
             Description = "scope&permission：oauthapp.apiresource.postrelease")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<bool>> PostRelease(long id, [FromBody]ApiResourcePostReleaseRequest value)
         {
             if (!ModelState.IsValid)
@@ -1234,6 +1246,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourcePutRelease", 
             Summary = " API - 修订内容 - 更新",
             Description = "scope&permission：oauthapp.apiresource.putrelease")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<bool>> PutRelease(long id, string releaseId, [FromBody]ApiResourcePutReleaseRequest value)
         {
             if (!ModelState.IsValid)
@@ -1268,6 +1281,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourceDeleteRelease", 
             Summary = "API - 修订内容 - 删除",
             Description = "scope&permission：oauthapp.apiresource.deleterelease")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<bool>> DeleteRelease(long id, string releaseId)
         {
             if (string.IsNullOrWhiteSpace(releaseId))
@@ -1297,6 +1311,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourceSubscriptions", 
             Summary = "API - 订阅者 - 列表",
             Description = "scope&permission：oauthapp.apiresource.subscriptions")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<PagingResult<ApiResourceSubscriptionEntity>> Subscriptions(long id)
         {
             if (!exists(id))
@@ -1334,6 +1349,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourceAddSubscription", 
             Summary = "API - 订阅者 - 添加",
             Description ="")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<bool>> AddSubscription(long id,
             [FromQuery]string code)
         {
@@ -1387,6 +1403,7 @@ namespace OAuthApp.Apis
         [HttpGet("{id}/DelSubscription")]
         [AllowAnonymous]
         [SwaggerOperation(OperationId = "ApiResourceDelSubscription", Summary = "API - 订阅者 - 取消",Description ="")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<bool>> DelSubscription(long id,
             [FromQuery]string code)
         {
@@ -1458,6 +1475,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourceVerifyEmail", 
             Summary = "API - 订阅者 - 验证邮箱",
             Description = "scope&permission：oauthapp.apiresource.verifyemail")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<bool>> VerifyEmail(long id, [FromBody]ApiResourceSubscriptionsVerifyEmailRequest value)
         {
             if (!ModelState.IsValid)
@@ -1579,6 +1597,7 @@ namespace OAuthApp.Apis
             Description = "scope&permission：oauthapp.apiresource.packages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.packages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.packages")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<PagingResult<ApiResourceSDKEntity>> Packages(string id)
         {
             var tb = await storageService.CreateTableAsync("ApiResourcePackages");
@@ -1612,6 +1631,7 @@ namespace OAuthApp.Apis
             Description = "scope&permission：oauthapp.apiresource.postpackages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:apiresource.postpackages")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiresource.postpackages")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<bool>> PostPackage(string id, [FromBody]ApiResourceSDKRequest value)
         {
             if (!ModelState.IsValid)
@@ -1669,6 +1689,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourceDeletePackage", 
             Summary = "API - 包市场 - 删除",
             Description = "scope&permission：oauthapp.apiresource.deletepackage")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<bool>> DeletePackage(string id, string packageId)
         {
             if (string.IsNullOrWhiteSpace(packageId))
@@ -1729,6 +1750,7 @@ namespace OAuthApp.Apis
             OperationId = "ApiResourcePutPackage", 
             Summary = "API - 包市场 - 更新",
             Description = "scope&permission：oauthapp.apiresource.deletepackage")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<bool>> PutPackage(string id, string packageId, [FromBody]ApiResourceSDKRequest value)
         {
             if (string.IsNullOrWhiteSpace(packageId))

@@ -18,9 +18,12 @@ namespace OAuthApp.Apis
     /// <summary>
     /// Blob
     /// </summary>
+    /// <remarks>
+    /// 
+    /// </remarks>
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Blob")]
-    [SwaggerTag("Blob服务")]
+    [SwaggerTag("#### 文件上传服务，需要开通Azure Storage才能使用")]
     public class BlobController : ApiControllerBase
     {
         #region Services
@@ -38,7 +41,7 @@ namespace OAuthApp.Apis
         }
         #endregion
 
-        #region Blob - File
+        #region Blob - 上传文件
 
         #region File Settings
         // AllowedVideoTypes
@@ -65,17 +68,17 @@ namespace OAuthApp.Apis
         #endregion
 
         /// <summary>
-        /// Blob - File
+        /// Blob - 上传文件
         /// </summary>
         /// <param name="value">视频(小于20MB),文档文件(小于10MB)</param>
         /// <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
         /// <returns></returns>
         [HttpPost("File")]
-        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:blob.post")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:blob.file")]
         [SwaggerOperation(
             OperationId = "BlobFile", 
-            Summary = "Blob - File",
-            Description = @"视频支持：avi,quicktime,asf,wmv,flv,matroska,mp4,webm,wmv,flash,mpeg。文档支持：pdf,word,excel。scope：isms.blob.post")]
+            Summary = "Blob - 上传文件",
+            Description = "视频支持：avi,quicktime,asf,wmv,flv,matroska,mp4,webm,wmv,flash,mpeg。文档支持：pdf,word,excel。\r\n\r\n #### 需要权限 \r\n " + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.blob.file | oauthapp.blob.file |")]
         public ApiResult<string> File(IFormFile value, [FromQuery][RegularExpression("[a-zA-Z0-9]{5,30}")]string folderName)
         {
             if (value == null)
@@ -147,7 +150,7 @@ namespace OAuthApp.Apis
         /// <returns></returns>
         [HttpPost("Image")]
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:blob.image")]
-        [SwaggerOperation(OperationId = "BlobImage",Summary = "Blob - Image",Description = "支持图片：jpeg,jpg,png,octet-stream，小于10MB。scope：isms.blob.image")]
+        [SwaggerOperation(OperationId = "BlobImage",Summary = "Blob - Image",Description = "支持图片：jpeg,jpg,png,octet-stream，小于10MB。\r\n\r\n #### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.blob.image | oauthapp.blob.image |")]
         public ApiResult<string> UploadImage([FromForm]IFormFile value, [FromQuery][RegularExpression("[a-zA-Z0-9]{5,30}")]string folderName)
         {
             if (value == null)
@@ -196,7 +199,7 @@ namespace OAuthApp.Apis
         }
         #endregion
 
-        #region Blob - Base64
+        #region Blob - 上传图片（Base64格式）
         /// <summary>
         /// Blob - Base64
         /// </summary>
@@ -207,8 +210,8 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:blob.base64")]
         [SwaggerOperation(
             OperationId = "BlobBase64", 
-            Summary = "Blob - Base64",
-            Description = "上传Base64格式的png图片。scope：isms.blob.base64")]
+            Summary = "Blob - 上传图片（Base64格式）",
+            Description = "上传Base64格式的png图片。\r\n\r\n #### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.blob.base64 | oauthapp.blob.base64 |")]
         public ApiResult<string> Base64([FromBody]string value, [FromQuery][RegularExpression("[a-zA-Z0-9]{5,30}")]string folderName)
         {
             try
@@ -246,6 +249,8 @@ namespace OAuthApp.Apis
             OperationId = "BlobCodes",
             Summary = "Blob - 错误码表",
             Description = "Blob错误码对照表")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
         public List<ApiCodeModel> Codes()
         {
             var result = _Codes<FileControllerEnums>();

@@ -8,7 +8,6 @@
             <summary>
             API
             </summary>
-            <remarks>为API提供版本管理、网关集成都功能。</remarks>
         </member>
         <member name="M:OAuthApp.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,OAuthApp.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLocalizer{OAuthApp.Apis.ApiResourceController},OAuthApp.Tenant.TenantService,OAuthApp.Tenant.TenantDbContext,OAuthApp.Services.SwaggerCodeGenService,OAuthApp.Services.AzureStorageService,OAuthApp.Services.EmailService,Microsoft.AspNetCore.DataProtection.IDataProtectionProvider,Microsoft.Extensions.Caching.Distributed.IDistributedCache,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
             <summary>
@@ -61,13 +60,6 @@
             API - 删除
             </summary>
             <param name="id">ID</param>
-            <returns></returns>
-        </member>
-        <member name="M:OAuthApp.Apis.ApiResourceController.Import(OAuthApp.Models.Apis.ApiResourceController.ApiResourceImportRequest)">
-            <summary>
-            API - 导入
-            </summary>
-            <param name="value"></param>
             <returns></returns>
         </member>
         <member name="M:OAuthApp.Apis.ApiResourceController.Codes">
@@ -233,7 +225,6 @@
             <summary>
             APIScope
             </summary>
-            <remarks>权限集合。</remarks>
         </member>
         <member name="M:OAuthApp.Apis.ApiScopeController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,OAuthApp.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLocalizer{OAuthApp.Apis.ApiScopeController},OAuthApp.Tenant.TenantService,OAuthApp.Tenant.TenantDbContext,Microsoft.AspNetCore.DataProtection.IDataProtectionProvider)">
             <summary>
@@ -323,10 +314,13 @@
             <summary>
             Blob
             </summary>
+            <remarks>
+            
+            </remarks>
         </member>
         <member name="M:OAuthApp.Apis.BlobController.File(Microsoft.AspNetCore.Http.IFormFile,System.String)">
             <summary>
-            Blob - File
+            Blob - 上传文件
             </summary>
             <param name="value">视频(小于20MB),文档文件(小于10MB)</param>
             <param name="folderName">文件夹名称,5~30个字节，英文或数字组装成。默认为当前日期yyyyMMdd</param>
@@ -2648,6 +2642,22 @@
             <summary>
             允许跨域的url集合(默认读取配置文件的IdentityServer:Origins节点)，多个网址有英文逗号分隔。
             为空代表不允许任何网址跨域
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.EnableReDoc">
+            <summary>
+            启用ReDoc（默认true）。
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.ReDocOptions">
+            <summary>
+            ReDoc配置
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.ReDocExtensions">
+            <summary>
+            ReDoc扩展
+            https://github.com/Redocly/redoc/blob/master/docs/redoc-vendor-extensions.md
             </summary>
         </member>
         <member name="M:OAuthApp.Services.AppUserService.CreateUser(System.Int64,Microsoft.AspNetCore.Identity.UserManager{OAuthApp.Data.AppUser},OAuthApp.Data.UserDbContext,OAuthApp.Data.AppUser,System.Collections.Generic.List{System.Int64},System.String,System.Collections.Generic.List{System.Int64})">

@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.2.8-preview1</Version>
+    <Version>2.2.8-preview2</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -433,6 +433,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="5.6.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
   </ItemGroup>

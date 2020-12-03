@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
+using Microsoft.OpenApi.Any;
 
 namespace WebApplication1
 {
@@ -23,7 +24,18 @@ namespace WebApplication1
             
             IdentityModelEventSource.ShowPII = true;
 
-            services.AddOAuthApp();
+            services.AddOAuthApp(options=> {
+
+                options.ReDocExtensions = (Extensions =>
+                  {
+                      Extensions.Add("x-logo", new OpenApiObject
+                      {
+                          ["url"] = new OpenApiString("https://www.oauthapp.com/images/oauthapp.png"),
+                          ["backgroundColor"] = new OpenApiString("#ffffff"),
+                          ["altText"] = new OpenApiString("OAuthApp.com"),
+                      });
+                  });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
