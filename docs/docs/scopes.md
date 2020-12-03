@@ -3,8 +3,6 @@
 !!! note ""
     OAuthApp内置的接口权限，使用Client请求用户授权时，scope参数可参考下面的code。
 
-### 应用程序
-
 ## 标识权限
 
 | code      | name                          |
@@ -28,25 +26,6 @@
 | `oauthapp.apiresource.delete` | 删除 |
 | `oauthapp.apiresource.put` | 更新 |
 | `oauthapp.apiresource.scopes` | 权限代码 |
-| `oauthapp.apiresource.publishrevision`  | 网关 - 创建修订版  |
-| `oauthapp.apiresource.publishconfiguration` | 网关 - 上次发布配置 |
-| `oauthapp.apiresource.publish` | 网关 - 发布或更新版本 |
-| `oauthapp.apiresource.products` | 网关 - 产品组 |
-| `oauthapp.apiresource.publishversion` | 网关 - 创建新版本 |
-| `oauthapp.apiresource.authservers` | 网关 - OAuthServers |
-| `oauthapp.apiresource.versions` | 网关 - 版本列表 |
-| `oauthapp.apiresource.setonlineversion` | 网关 - 上线指定版本 |
-| `oauthapp.apiresource.postrelease` | 修订内容 - 发布 |
-| `oauthapp.apiresource.releases` | 修订内容 - 列表 |
-| `oauthapp.apiresource.putrelease` | 修订内容 - 更新 |
-| `oauthapp.apiresource.deleterelease` | 修订内容 - 删除 |
-| `oauthapp.apiresource.postpackages` | 包市场 - 添加 |
-| `oauthapp.apiresource.putpackage` | 包市场 - 更新 |
-| `oauthapp.apiresource.packages` | 包市场 - 列表 |
-| `oauthapp.apiresource.deletepackage` | 包市场 - 删除 |
-| `oauthapp.apiresource.verifyemail` | 订阅者 - 验证邮箱 |
-| `oauthapp.apiresource.subscriptions` | 订阅者 - 列表 |
-| `oauthapp.apiresource.history` | SDK - 发布记录 |
 | `oauthapp.apiresource.all` | 所有权限 |
 
 ## API权限
@@ -63,7 +42,7 @@
 
 | code      | name                          |
 | ----------- | ------------------------------------ |
-| `oauthapp.blob.post` | 上传视频或文档 |
+| `oauthapp.blob.file` | 上传视频或文档 |
 | `oauthapp.blob.image` | 上传图片 |
 | `oauthapp.blob.base64` | 传base64格式的png图片 |
 | `oauthapp.blob.all` | 所有权限 |

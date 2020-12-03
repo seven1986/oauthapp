@@ -1,5 +1,12 @@
 # 更新日志
 
+## 2020-12-3
+- 已删除CodeGenController，改为了PackageController
+- 取消了azure api management 相关接口功能
+- API注释更新为markdown格式
+- 加入了redoc功能
+- 用户管理界面样式优化
+
 ## 2020-11-23
 
 - 重构Package（软件包）模块

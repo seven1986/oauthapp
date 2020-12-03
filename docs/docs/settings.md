@@ -1,4 +1,4 @@
-# 配置说明
+# OAuthApp配置
 
 ## 默认管理员
 
@@ -17,24 +17,70 @@ public void ConfigureServices(IServiceCollection services)
 ```
 
 
-## 显示/隐藏API文档
+## 接口文档
 
 !!! note ""
-    如果需要在项目中隐藏OAuthApp的接口文档，可参考如下配置。
+    启用ReDoc后，可为当前项目生成接口文档。
 === "Startup.cs"
 ``` csharp linenums="1"
 public void ConfigureServices(IServiceCollection services)
     {
         services.AddOAuthApp(options=>
         {
-            // 这只该属性会隐藏所有文档
-            options.EnableAPIDocuments=false;
 
-            // 或使用如下方法展示指定的API文档
-            // OAuthAppOptions.APIDocuments.Add
+            // 生成接口文档（默认为true）
+            options.EnableReDoc = true;
+            
+            // 文档配置
+            x.ReDocOptions = options =>
+            {
+                options.DocumentTitle = "OAuthApp";
+            };
+
+            // 文档个性化
+            // 配置项参考 https://github.com/Redocly/redoc/blob/master/docs/redoc-vendor-extensions.md
+            options.ReDocExtensions = (Extensions =>
+                  {
+                      Extensions.Add("x-logo", new OpenApiObject
+                      {
+                          ["url"] = new OpenApiString("https://www.oauthapp.com/images/oauthapp.png"),
+                          ["backgroundColor"] = new OpenApiString("#ffffff"),
+                          ["altText"] = new OpenApiString("OAuthApp.com"),
+                      });
+                  });
+
         });
     }
 ``` 
+
+
+
+## 调试工具
+
+!!! note ""
+    启用Swagger后，可更方便开发人员调试接口。
+=== "Startup.cs"
+``` csharp linenums="1"
+public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddOAuthApp(options=>
+        {
+
+            //生成swagger.json文档（默认为true）
+            options.EnableSwaggerGen = true;
+            
+            //启用swaggerUI（默认为true），EnableSwaggerGen必须为true
+            options.EnableSwaggerUI = true;
+
+            //在swaggerUI中隐藏OAuthApp的API文档（默认为true），当前项目的API仍会展示
+            options.EnableAPIDocuments=true;
+
+            //在swaggerUI中隐藏指定OAuthApp的API文档
+            //OAuthAppOptions.APIDocuments.Add
+        });
+    }
+``` 
+
 
 
 

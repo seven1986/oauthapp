@@ -18,8 +18,12 @@
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore.design\3.1.6\build\netcoreapp2.0\Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore.design\3.1.6\build\netcoreapp2.0\Microsoft.EntityFrameworkCore.Design.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.clearscript.v8.native.win-x86\7.0.0\build\Microsoft.ClearScript.V8.Native.win-x86.props" Condition="Exists('$(NuGetPackageRoot)microsoft.clearscript.v8.native.win-x86\7.0.0\build\Microsoft.ClearScript.V8.Native.win-x86.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.identity.ui\3.1.10\buildTransitive\Microsoft.AspNetCore.Identity.UI.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.identity.ui\3.1.10\buildTransitive\Microsoft.AspNetCore.Identity.UI.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgMicrosoft_Extensions_ApiDescription_Server Condition=" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' ">C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\microsoft.extensions.apidescription.server\3.0.0</PkgMicrosoft_Extensions_ApiDescription_Server>
+    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\microsoft.codeanalysis.analyzers\2.9.4</PkgMicrosoft_CodeAnalysis_Analyzers>
     <PkgMicrosoft_ClearScript_V8_Native_win-x86 Condition=" '$(PkgMicrosoft_ClearScript_V8_Native_win-x86)' == '' ">C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\microsoft.clearscript.v8.native.win-x86\7.0.0</PkgMicrosoft_ClearScript_V8_Native_win-x86>
+    <PkgMicrosoft_ClearScript_V8_Native_win-x64 Condition=" '$(PkgMicrosoft_ClearScript_V8_Native_win-x64)' == '' ">C:\Users\jxsh08.DESKTOP-361U268\.nuget\packages\microsoft.clearscript.v8.native.win-x64\7.0.0</PkgMicrosoft_ClearScript_V8_Native_win-x64>
   </PropertyGroup>
 </Project>
