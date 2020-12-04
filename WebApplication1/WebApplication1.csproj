@@ -23,6 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OAuthApp\OAuthApp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="Areas\Identity\Pages\Account\AccessDenied.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

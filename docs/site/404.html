@@ -8,8 +8,9 @@
       
       
       
+      
       <link rel="shortcut icon" href="/images/oauthapp.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.0">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.6">
     
     
       
@@ -17,10 +18,10 @@
       
     
     
-      <link rel="stylesheet" href="/assets/stylesheets/main.bc7e593a.min.css">
+      <link rel="stylesheet" href="/assets/stylesheets/main.6910b76c.min.css">
       
         
-        <link rel="stylesheet" href="/assets/stylesheets/palette.ab28b872.min.css">
+        <link rel="stylesheet" href="/assets/stylesheets/palette.196e0c26.min.css">
         
       
     
@@ -34,6 +35,8 @@
       
     
     
+    
+      <link rel="stylesheet" href="/css/timeago.css">
     
       <link rel="stylesheet" href="/stylesheets/extra.css">
     
@@ -97,7 +100,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
       <label class="md-search__icon md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
@@ -149,10 +152,12 @@
         
   <li class="md-tabs__item">
     
-      <a href="/." class="md-tabs__link md-tabs__link--active">
-        首页
-      </a>
     
+      
+    
+    <a href="/." class="md-tabs__link md-tabs__link--active">
+      首页
+    </a>
   </li>
 
       
@@ -161,10 +166,10 @@
   
     <li class="md-tabs__item">
       
-        <a href="/start-server/" class="md-tabs__link">
-          入门
-        </a>
       
+      <a href="/start-server/" class="md-tabs__link">
+        入门
+      </a>
     </li>
   
 
@@ -174,10 +179,10 @@
   
     <li class="md-tabs__item">
       
-        <a href="/extend-validator/" class="md-tabs__link">
-          使用实例
-        </a>
       
+      <a href="/extend-validator/" class="md-tabs__link">
+        实例&参考
+      </a>
     </li>
   
 
@@ -187,10 +192,10 @@
   
     <li class="md-tabs__item">
       
-        <a href="/apidocument/" class="md-tabs__link">
-          参考
-        </a>
       
+      <a href="/scopes/" class="md-tabs__link">
+        其他
+      </a>
     </li>
   
 
@@ -200,10 +205,10 @@
   
     <li class="md-tabs__item">
       
-        <a href="/logs/" class="md-tabs__link">
-          更新日志
-        </a>
       
+      <a href="/logs/" class="md-tabs__link">
+        更新日志
+      </a>
     </li>
   
 
@@ -266,8 +271,7 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
-    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
     <label class="md-nav__link" for="nav-2">
       入门
       <span class="md-nav__icon md-icon"></span>
@@ -287,7 +291,7 @@
 
   <li class="md-nav__item">
     <a href="/start-server/" class="md-nav__link">
-      创建标识服务器
+      安装使用
     </a>
   </li>
 
@@ -299,7 +303,7 @@
 
   <li class="md-nav__item">
     <a href="/settings/" class="md-nav__link">
-      配置说明
+      OAuthApp配置
     </a>
   </li>
 
@@ -335,8 +339,7 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-5" type="checkbox" id="nav-2-5">
-    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-5" type="checkbox" id="nav-2-5" >
     <label class="md-nav__link" for="nav-2-5">
       授权模式
       <span class="md-nav__icon md-icon"></span>
@@ -426,16 +429,15 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
-    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" >
     <label class="md-nav__link" for="nav-3">
-      使用实例
+      实例&参考
       <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" aria-label="使用实例" data-md-level="1">
+    <nav class="md-nav" aria-label="实例&参考" data-md-level="1">
       <label class="md-nav__title" for="nav-3">
         <span class="md-nav__icon md-icon"></span>
-        使用实例
+        实例&参考
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -459,7 +461,7 @@
 
   <li class="md-nav__item">
     <a href="/saas/" class="md-nav__link">
-      SaaS 多租户
+      多租户模式
     </a>
   </li>
 
@@ -471,7 +473,7 @@
 
   <li class="md-nav__item">
     <a href="/authlogins/" class="md-nav__link">
-      第三方登录
+      第三方登录集成
     </a>
   </li>
 
@@ -488,19 +490,30 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
-    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" >
     <label class="md-nav__link" for="nav-4">
-      参考
+      其他
       <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" aria-label="参考" data-md-level="1">
+    <nav class="md-nav" aria-label="其他" data-md-level="1">
       <label class="md-nav__title" for="nav-4">
         <span class="md-nav__icon md-icon"></span>
-        参考
+        其他
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/scopes/" class="md-nav__link">
+      权限码表
+    </a>
+  </li>
+
         
           
           
@@ -520,8 +533,8 @@
 
 
   <li class="md-nav__item">
-    <a href="/sdks/" class="md-nav__link">
-      SDK下载
+    <a href="/oauthappswagger/" class="md-nav__link">
+      Swagger
     </a>
   </li>
 
@@ -532,8 +545,8 @@
 
 
   <li class="md-nav__item">
-    <a href="/scopes/" class="md-nav__link">
-      权限码表
+    <a href="/doc-extensions/" class="md-nav__link">
+      ReDoc vendor extensions
     </a>
   </li>
 
@@ -550,8 +563,7 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
-    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" >
     <label class="md-nav__link" for="nav-5">
       更新日志
       <span class="md-nav__icon md-icon"></span>
@@ -640,18 +652,22 @@
       
     </div>
     
-      <script src="/assets/javascripts/vendor.6a3d08fc.min.js"></script>
-      <script src="/assets/javascripts/bundle.71201edf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      <script src="/assets/javascripts/vendor.fd16492e.min.js"></script>
+      <script src="/assets/javascripts/bundle.7836ba4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
       
       <script>
         app = initialize({
           base: "/",
-          features: ['navigation.tabs', 'navigation.instant'],
+          features: ['navigation.tabs', 'navigation.sections'],
           search: Object.assign({
             worker: "/assets/javascripts/worker/search.4ac00218.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
+      
+        <script src="/js/timeago.min.js"></script>
+      
+        <script src="/js/timeago_mkdocs_material.js"></script>
       
     
   </body>

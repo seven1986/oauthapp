@@ -23,7 +23,9 @@ namespace OAuthApp.Apis
     /// </summary>
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Tenant")]
-    [SwaggerTag("租户")]
+    [SwaggerTag("#### 租户管理")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     public class TenantController : ApiControllerBase
     {
         #region 构造函数
@@ -53,7 +55,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.get")]
         [SwaggerOperation(OperationId = "TenantGet",
             Summary = "租户 - 列表",
-            Description = "scope&permission：oauthapp.tenant.get")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.tenant.get | oauthapp.tenant.get |")]
         public async Task<PagingResult<AppTenant>> Get([FromQuery]PagingRequest<TenantGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -130,7 +132,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.detail")]
         [SwaggerOperation(OperationId = "TenantDetail",
             Summary = "租户 - 详情",
-            Description = "scope&permission：oauthapp.tenant.detail")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.tenant.detail | oauthapp.tenant.detail |")]
         public async Task<ApiResult<AppTenant>> Get(int id)
         {
             var query = tenantDb.Tenants.AsQueryable();
@@ -163,7 +165,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.post")]
         [SwaggerOperation(OperationId = "TenantPost",
             Summary = "租户 - 创建",
-            Description = "scope&permission：oauthapp.tenant.post")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.tenant.post | oauthapp.tenant.post |")]
         public ApiResult<long> Post([FromBody]AppTenant value)
         {
             if (!ModelState.IsValid)
@@ -204,7 +206,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.put")]
         [SwaggerOperation(OperationId = "TenantPut",
             Summary = "租户 - 更新",
-            Description = "scope&permission：oauthapp.tenant.put")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.tenant.put | oauthapp.tenant.put |")]
         public ApiResult<bool> Put([FromBody]AppTenant value)
         {
             if (!ModelState.IsValid)
@@ -367,7 +369,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:tenant.delete")]
         [SwaggerOperation(OperationId = "TenantDelete",
             Summary = "租户 - 删除",
-            Description = "scope&permission：oauthapp.tenant.delete")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.tenant.delete | oauthapp.tenant.delete |")]
         public ApiResult<bool> Delete(int id)
         {
             var entity = tenantDb.Tenants.Where(x => x.OwnerUserId == UserId && x.Id == id)

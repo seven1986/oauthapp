@@ -15,14 +15,15 @@ nav:
         - 'auth-password.md'
         - 'auth-credentials.md'
         - 'auth-hybrid.md'
-  - 使用实例:
+  - 实例&参考:
         - 'extend-validator.md'
         - 'saas.md'
         - 'authlogins.md'
-  - 参考:
-      - 'apidocument.md'
-      - 'sdks.md'
-      - 'scopes.md'
+  - 其他: 
+        - 'scopes.md'
+        - 'apidocument.md'
+        - 'oauthappswagger.md'
+        - 'doc-extensions.md'
   - 更新日志: 
       - 'logs.md'
 theme:
@@ -31,7 +32,7 @@ theme:
   favicon: images/oauthapp.png
   features:
     - navigation.tabs
-    - navigation.instant
+    - navigation.sections
   logo: images/oauthapp.png
   icon:
     repo: fontawesome/brands/github
@@ -74,3 +75,7 @@ plugins:
   - minify:
       minify_html: true
   - search
+  - redirects:
+      redirect_maps:
+        'apidocument.md': 'https://www.oauthapp.com/docs/index.html'
+        'oauthappswagger.md': 'https://www.oauthapp.com/swagger'

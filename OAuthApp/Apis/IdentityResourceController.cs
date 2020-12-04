@@ -22,7 +22,9 @@ namespace OAuthApp.Apis
     /// </summary>
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("IdentityResource")]
-    [SwaggerTag("标识")]
+    [SwaggerTag("#### 标识管理")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     public class IdentityResourceController : ApiControllerBase
     {
         #region Services
@@ -51,7 +53,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.get")]
         [SwaggerOperation(OperationId = "IdentityResourceGet",
             Summary = "标识 - 列表",
-            Description = "scope&permission：oauthapp.identityresource.get")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.identityresource.get | oauthapp.identityresource.get |")]
         public async Task<PagingResult<IdentityResource>> Get([FromQuery]PagingRequest<IdentityResourceGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -121,7 +123,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.detail")]
         [SwaggerOperation(OperationId = "IdentityResourceDetail",
             Summary = " 标识 - 详情",
-            Description = "scope&permission：oauthapp.identityresource.detail")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.identityresource.detail | oauthapp.identityresource.detail |")]
         public async Task<ApiResult<IdentityResource>> Get(int id)
         {
             var entity = await configDb.IdentityResources
@@ -150,7 +152,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.post")]
         [SwaggerOperation(OperationId = "IdentityResourcePost",
             Summary = " 标识 - 创建",
-            Description = "scope&permission：oauthapp.identityresource.post")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.identityresource.post | oauthapp.identityresource.post |")]
         public async Task<ApiResult<long>> Post([FromBody]IdentityResource value)
         {
             if (!ModelState.IsValid)
@@ -178,7 +180,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.put")]
         [SwaggerOperation(OperationId = "IdentityResourcePut",
             Summary = "标识 - 更新",
-            Description = "scope&permission：oauthapp.identityresource.put")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.identityresource.put | oauthapp.identityresource.put |")]
         public ApiResult<bool> Put([FromBody] IdentityResource value)
         {
             if (!ModelState.IsValid)
@@ -289,7 +291,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:identityresource.delete")]
         [SwaggerOperation(OperationId = "IdentityResourceDelete",
             Summary = "标识 - 删除",
-            Description = "scope&permission：oauthapp.identityresource.delete")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.identityresource.delete | oauthapp.identityresource.delete |")]
         public async Task<ApiResult<long>> Delete(int id)
         {
             var entity = await configDb.IdentityResources.FirstOrDefaultAsync(x => x.Id == id);

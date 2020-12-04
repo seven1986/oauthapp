@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.2.5</Version>
+    <Version>2.2.8</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -394,6 +394,7 @@
     <PackageReference Include="AspNet.Security.OAuth.QQ" Version="3.1.6" />
     <PackageReference Include="AspNet.Security.OAuth.Weibo" Version="3.1.6" />
     <PackageReference Include="AspNet.Security.OAuth.Weixin" Version="3.1.6" />
+    <PackageReference Include="AspNetCoreRateLimit" Version="3.2.2" />
     <PackageReference Include="IdentityServer4" Version="4.1.1" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.1" />
     <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.1" />
@@ -433,6 +434,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="5.6.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
   </ItemGroup>

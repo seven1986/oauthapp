@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Interfaces;
+using Swashbuckle.AspNetCore.ReDoc;
 
 namespace OAuthApp
 {
@@ -118,6 +120,32 @@ namespace OAuthApp
         public Action<IIdentityServerBuilder> IdentityServerBuilder { get; set; }
 
         public Action<IdentityServerOptions> IdentityServerOptions { get; set; }
+
+        /// <summary>
+        /// 启用ReDoc（默认true）。
+        /// </summary>
+        public bool EnableReDoc { get; set; } = true;
+
+        /// <summary>
+        /// ReDoc配置
+        /// </summary>
+        public Action<ReDocOptions> ReDocOptions { get; set; }
+
+        /// <summary>
+        /// ReDoc扩展
+        /// https://github.com/Redocly/redoc/blob/master/docs/redoc-vendor-extensions.md
+        /// </summary>
+        public Action<IDictionary<string, IOpenApiExtension>> ReDocExtensions { get; set; }
+
+        /// <summary>
+        /// 启用Client访问速率限制
+        /// </summary>
+        public bool EnableClientRateLimit { get; set; } = false;
+
+        /// <summary>
+        /// 启用IP访问速率限制
+        /// </summary>
+        public bool EnableIpRateLimit { get; set; } = false;
     }
 
     public enum APIDocumentEnums
@@ -130,7 +158,7 @@ namespace OAuthApp
 
         Client = 3,
 
-        CodeGen = 4,
+        // CodeGen = 4,
 
         Blob = 5,
 

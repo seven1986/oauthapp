@@ -26,7 +26,9 @@ namespace OAuthApp.Apis
     /// </summary>
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Client")]
-    [SwaggerTag("客户端")]
+    [SwaggerTag("#### 客户端管理")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     public class ClientController : ApiControllerBase
     {
         #region Services
@@ -64,7 +66,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ClientGet",
             Summary = "客户端 - 列表",
-            Description = "scope&permission：oauthapp.client.get")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.client.get | oauthapp.client.get |")]
         public async Task<PagingResult<Client>> Get([FromQuery]PagingRequest<ClientGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -156,7 +158,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.detail")]
         [SwaggerOperation(OperationId = "ClientDetail",
             Summary = "客户端 - 详情",
-            Description = "scope&permission：oauthapp.client.detail")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.client.detail | oauthapp.client.detail |")]
         public async Task<ApiResult<Client>> Get(int id)
         {
             if (!userDB.UserClients
@@ -203,7 +205,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.post")]
         [SwaggerOperation(OperationId = "ClientPost",
             Summary = "客户端 - 创建",
-            Description = "scope&permission：oauthapp.client.post")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.client.post | oauthapp.client.post |")]
         public async Task<ApiResult<long>> Post([FromBody]Client value)
         {
             if (!ModelState.IsValid)
@@ -246,7 +248,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.put")]
         [SwaggerOperation(OperationId = "ClientPut",
             Summary = "客户端 - 更新",
-            Description = "scope&permission：oauthapp.client.put")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.client.put | oauthapp.client.put |")]
         public ApiResult<bool> Put([FromBody] Client value)
         {
             if (!ModelState.IsValid)
@@ -599,7 +601,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.delete")]
         [SwaggerOperation(OperationId = "ClientDelete",
             Summary = "客户端 - 删除",
-            Description = "scope&permission：oauthapp.client.delete")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.client.delete | oauthapp.client.delete |")]
         public ApiResult<bool> Delete(int id)
         {
             if (!userDB.UserClients
@@ -668,7 +670,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.issuetoken")]
         [SwaggerOperation(OperationId = "ClientIssueToken",
             Summary = "客户端 - 创建令牌",
-            Description = "scope&permission：oauthapp.client.issuetoken")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.client.issuetoken | oauthapp.client.issuetoken |")]
         public async Task<ApiResult<string>> IssueToken([FromBody]ClientIssueTokenRequest value)
         {
             if (value.lifetime < 1) { value.lifetime = 3600; }
@@ -695,7 +697,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:client.postsecretkey")]
         [SwaggerOperation(OperationId = "ClientPostSecretkey",
             Summary = "客户端 - 生成密钥",
-            Description = "scope&permission：oauthapp.client.postsecretkey")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.client.postsecretkey | oauthapp.client.postsecretkey |")]
         public ApiResult<string> PostSecretkey(int id,[FromBody]ClientPostSecretkeyRequest value)
         {
             var result = string.Empty;

@@ -32,7 +32,9 @@ namespace OAuthApp.Apis
     /// </summary>
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("User")]
-    [SwaggerTag("用户")]
+    [SwaggerTag("#### 用户管理")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     public class UserController : ApiControllerBase
     {
         #region Services
@@ -83,7 +85,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.get")]
         [SwaggerOperation(OperationId = "UserGet",
             Summary = "用户 - 列表",
-            Description = "scope&permission：oauthapp.user.get")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.user.get | oauthapp.user.get |")]
         public async Task<PagingResult<View_User>> Get([FromQuery]PagingRequest<UserGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -202,7 +204,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.distributors")]
         [SwaggerOperation(OperationId = "UserDistributors",
             Summary = "用户 - 团队",
-            Description = "scope&permission：oauthapp.user.distributors")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.user.distributors | oauthapp.user.distributors |")]
         public ApiResult<List<DistributorResponse>> Distributors([FromQuery][Required]string path)
         {
             var cmd = @"SELECT
@@ -241,7 +243,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.detail")]
         [SwaggerOperation(OperationId = "UserDetail",
             Summary = "用户 - 详情",
-            Description = "scope&permission：oauthapp.user.detail")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.user.detail | oauthapp.user.detail |")]
         public async Task<ApiResult<AppUser>> Get(int id)
         {
             var query = db.Users.AsQueryable();
@@ -275,7 +277,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.post")]
         [SwaggerOperation(OperationId = "UserPost",
             Summary = "用户 - 创建",
-            Description = "scope&permission：oauthapp.user.post")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.user.post | oauthapp.user.post |")]
         public async Task<ApiResult<long>> Post([FromBody]AppUser value)
         {
             if (!ModelState.IsValid)
@@ -333,7 +335,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.put")]
         [SwaggerOperation(OperationId = "UserPut",
             Summary = "用户 - 更新",
-            Description = "scope&permission：oauthapp.user.put")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.user.put | oauthapp.user.put |")]
         public ApiResult<long> Put([FromBody]AppUser value)
         {
             if (!ModelState.IsValid)
@@ -548,7 +550,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.delete")]
         [SwaggerOperation(OperationId = "UserDelete",
             Summary = "用户 - 删除",
-            Description = "scope&permission：oauthapp.user.delete")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.user.delete | oauthapp.user.delete |")]
         public async Task<ApiResult<long>> Delete(int id)
         {
             var query = db.Users.AsQueryable();
@@ -583,7 +585,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:user.head")]
         [SwaggerOperation(OperationId = "UserHead",
             Summary = "用户 - 是否存在",
-            Description = "scope&permission：oauthapp.user.head")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.user.head | oauthapp.user.head |")]
         public async Task<ObjectResult> Head(UserDetailRequest value)
         {
             if (!ModelState.IsValid)

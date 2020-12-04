@@ -23,10 +23,11 @@ namespace OAuthApp.Apis
     /// <summary>
     /// APIScope
     /// </summary>
-    /// <remarks>权限集合。</remarks>
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("ApiScope")]
-    [SwaggerTag("权限")]
+    [SwaggerTag("#### API权限管理")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     public class ApiScopeController : ApiControllerBase
     {
         #region Services
@@ -74,7 +75,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiScopeGet",
             Summary = "API - 列表",
-            Description = "scope&permission：oauthapp.apiscope.get")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.apiscope.get | oauthapp.apiscope.get |")]
         public async Task<PagingResult<ApiScope>> Get([FromQuery]PagingRequest<ApiScopeGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -153,7 +154,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:apiscope.detail")]
         [SwaggerOperation(OperationId = "ApiScopeDetail",
             Summary = "API - 详情",
-            Description = "scope&permission：oauthapp.apiscope.detail")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.apiscope.detail | oauthapp.apiscope.detail |")]
         public async Task<ApiResult<ApiScope>> Get(long id)
         {
             var query = configDb.ApiScopes.AsQueryable();
@@ -185,7 +186,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiScopePost",
             Summary = "API - 创建",
-            Description = "scope&permission：oauthapp.apiscope.post")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.apiscope.post | oauthapp.apiscope.post |")]
         public ApiResult<long> Post([FromBody]ApiScope value)
         {
             if (!ModelState.IsValid)
@@ -225,7 +226,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiScopePut",
             Summary = "API - 更新",
-            Description = "scope&permission：oauthapp.apiscope.put")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.apiscope.put | oauthapp.apiscope.put |")]
         public ApiResult<bool> Put([FromBody]ApiScope value)
         {
             if (!ModelState.IsValid)
@@ -337,7 +338,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "ApiScopeDelete",
             Summary = "API - 删除",
-            Description = "scope&permission：oauthapp.apiscope.delete")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.apiscope.delete | oauthapp.apiscope.delete |")]
         public ApiResult<bool> Delete(long id)
         {
             var entity = configDb.ApiScopes.Where(x => x.Id == id)

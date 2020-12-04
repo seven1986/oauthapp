@@ -3,8 +3,6 @@
 !!! note ""
     OAuthApp内置的接口权限，使用Client请求用户授权时，scope参数可参考下面的code。
 
-### 应用程序
-
 ## 标识权限
 
 | code      | name                          |
@@ -28,25 +26,6 @@
 | `oauthapp.apiresource.delete` | 删除 |
 | `oauthapp.apiresource.put` | 更新 |
 | `oauthapp.apiresource.scopes` | 权限代码 |
-| `oauthapp.apiresource.publishrevision`  | 网关 - 创建修订版  |
-| `oauthapp.apiresource.publishconfiguration` | 网关 - 上次发布配置 |
-| `oauthapp.apiresource.publish` | 网关 - 发布或更新版本 |
-| `oauthapp.apiresource.products` | 网关 - 产品组 |
-| `oauthapp.apiresource.publishversion` | 网关 - 创建新版本 |
-| `oauthapp.apiresource.authservers` | 网关 - OAuthServers |
-| `oauthapp.apiresource.versions` | 网关 - 版本列表 |
-| `oauthapp.apiresource.setonlineversion` | 网关 - 上线指定版本 |
-| `oauthapp.apiresource.postrelease` | 修订内容 - 发布 |
-| `oauthapp.apiresource.releases` | 修订内容 - 列表 |
-| `oauthapp.apiresource.putrelease` | 修订内容 - 更新 |
-| `oauthapp.apiresource.deleterelease` | 修订内容 - 删除 |
-| `oauthapp.apiresource.postpackages` | 包市场 - 添加 |
-| `oauthapp.apiresource.putpackage` | 包市场 - 更新 |
-| `oauthapp.apiresource.packages` | 包市场 - 列表 |
-| `oauthapp.apiresource.deletepackage` | 包市场 - 删除 |
-| `oauthapp.apiresource.verifyemail` | 订阅者 - 验证邮箱 |
-| `oauthapp.apiresource.subscriptions` | 订阅者 - 列表 |
-| `oauthapp.apiresource.history` | SDK - 发布记录 |
 | `oauthapp.apiresource.all` | 所有权限 |
 
 ## API权限
@@ -63,7 +42,7 @@
 
 | code      | name                          |
 | ----------- | ------------------------------------ |
-| `oauthapp.blob.post` | 上传视频或文档 |
+| `oauthapp.blob.file` | 上传视频或文档 |
 | `oauthapp.blob.image` | 上传图片 |
 | `oauthapp.blob.base64` | 传base64格式的png图片 |
 | `oauthapp.blob.all` | 所有权限 |
@@ -82,22 +61,19 @@
 | `oauthapp.client.all` | 所有权限 |
 
 
-## 代码生成
+## 软件包
 
 | code      | name                          |
 | ----------- | ------------------------------------ |
-| `oauthapp.codegen.syncgithub` | Github - 同步 |
-| `oauthapp.codegen.servers` | 服务端列表 |
-| `oauthapp.codegen.releasesdk` | SDK - 发布 |
-| `oauthapp.codegen.putnpmoptions` | NPM - 更新设置 |
-| `oauthapp.codegen.putgithuboptions` | Github - 更新设置 |
-| `oauthapp.codegen.putcommonoptions` | 基本设置 - 更新 |
-| `oauthapp.codegen.npmoptions` | NPM - 设置 |
-| `oauthapp.codegen.githuboptions` | Github - 设置 |
-| `oauthapp.codegen.gen` | SDK - 预览生成代码 |
-| `oauthapp.codegen.get` | 客户端列表 |
-| `oauthapp.codegen.commonoptions` | 基本设置 - 获取 |
-| `oauthapp.codegen.all` | 所有权限 |
+| `oauthapp.package.get` | 软件包 - 列表 |
+| `oauthapp.package.detail` | 软件包 - 详情 |
+| `oauthapp.package.post` | 软件包 - 创建 |
+| `oauthapp.package.put` | 软件包 - 更新 |
+| `oauthapp.package.delete` | 软件包 - 删除 |
+| `oauthapp.package.releasehistory` | 软件包 - 发布记录 |
+| `oauthapp.package.publish` | 软件包 - 发布 |
+| `oauthapp.package.precompile` | 软件包 - 预编译 |
+| `oauthapp.package.all` | 所有权限 |
 
 
 ## 标识

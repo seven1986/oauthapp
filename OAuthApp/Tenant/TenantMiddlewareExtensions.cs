@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using static OAuthApp.AppDefaultData;
 using Microsoft.OpenApi.Models;
+using AspNetCoreRateLimit;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -40,6 +41,11 @@ namespace Microsoft.AspNetCore.Builder
             }
 
             builder.Validate();
+
+            if (options.EnableIpRateLimit || options.EnableClientRateLimit)
+            {
+                builder.UseClientRateLimiting();
+            }
 
             if (options.EnableCors)
             {
@@ -100,6 +106,34 @@ namespace Microsoft.AspNetCore.Builder
 
                         c.EnableValidator();
                     });
+            }
+
+            if (options.EnableReDoc)
+            {
+                builder.UseReDoc(c =>
+                {
+                    c.RoutePrefix = "docs";
+                    c.SpecUrl("/swagger/v1/swagger.json");
+                    c.EnableUntrustedSpec();
+                    c.ScrollYOffset(10);
+                    c.HideHostname();
+                    c.HideDownloadButton();
+                    c.ExpandResponses("200,201");
+                    c.RequiredPropsFirst();
+                    c.HideLoading();                  
+                    c.DisableSearch();
+                    c.SortPropsAlphabetically();
+
+                    //c.OnlyRequiredInSamples();
+                    //c.NoAutoAuth();
+                    //c.PathInMiddlePanel();
+                    //c.NativeScrollbars();
+
+                    if (options.ReDocOptions!=null)
+                    {
+                        options.ReDocOptions.Invoke(c);
+                    }
+                });
             }
 
             if (options.EnableResponseCaching)

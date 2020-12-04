@@ -26,7 +26,9 @@ namespace OAuthApp.Apis
     /// </summary>
     [Authorize(AuthenticationSchemes = AppAuthenScheme, Roles = DefaultRoles.User)]
     [ApiExplorerSettingsDynamic("Package")]
-    [SwaggerTag("软件包")]
+    [SwaggerTag("#### 软件包管理")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     public class PackageController : ApiControllerBase
     {
        private readonly V8JsEngine engine = new V8JsEngine(new V8Settings
@@ -64,7 +66,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "PackageGet",
             Summary = "软件包 - 列表",
-            Description = "scope&permission：oauthapp.package.get")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.package.get | oauthapp.package.get |")]
         public async Task<PagingResult<SdkPackage>> Get([FromQuery] PagingRequest<PackageGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -78,10 +80,7 @@ namespace OAuthApp.Apis
 
             var query = sdkDB.Packages.AsQueryable();
 
-            if (!User.IsInRole(DefaultRoles.Administrator))
-            {
                 query = query.Where(x => x.UserID == UserId);
-            }
 
             #region filter
             if (!string.IsNullOrWhiteSpace(value.q.name))
@@ -143,7 +142,7 @@ namespace OAuthApp.Apis
         [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:package.detail")]
         [SwaggerOperation(OperationId = "PackageDetail",
             Summary = "软件包 - 详情",
-            Description = "scope&permission：oauthapp.package.detail")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.package.detail | oauthapp.package.detail |")]
         public async Task<ApiResult<SdkPackage>> Get(long id)
         {
             var query = sdkDB.Packages.AsQueryable();
@@ -174,7 +173,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "PackagePost",
             Summary = "软件包 - 创建",
-            Description = "scope&permission：oauthapp.package.post")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.package.post | oauthapp.package.post |")]
         public ApiResult<long> Post([FromBody] SdkPackage value)
         {
             if (!ModelState.IsValid)
@@ -216,7 +215,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "PackagePut",
             Summary = "软件包 - 更新",
-            Description = "scope&permission：oauthapp.package.put")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.package.put | oauthapp.package.put |")]
         public ApiResult<bool> Put([FromBody] SdkPackage value)
         {
             if (!ModelState.IsValid)
@@ -226,7 +225,7 @@ namespace OAuthApp.Apis
                     ModelErrors());
             }
 
-            var Entity = sdkDB.Packages.Where(x => x.Id == value.Id)
+            var Entity = sdkDB.Packages.Where(x => x.Id == value.Id && x.UserID == UserId)
                 .Include(x => x.SdkGenerators)
                 .FirstOrDefault();
 
@@ -332,7 +331,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "PackageDelete",
             Summary = "软件包 - 删除",
-            Description = "scope&permission：oauthapp.package.delete")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.package.delete | oauthapp.package.delete |")]
         public ApiResult<bool> Delete(long id)
         {
             var entity = sdkDB.Packages.Where(x => x.Id == id && x.UserID == UserId)
@@ -376,7 +375,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "PackageReleaseHistory",
             Summary = "软件包 - 发布记录",
-            Description = "scope&permission：oauthapp.package.releasehistory")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.package.releasehistory | oauthapp.package.releasehistory |")]
         public async Task<PagingResult<SdkReleaseHistory>> ReleaseHistory([FromRoute]long id, [FromQuery] PagingRequest<ReleaseHistoryGetRequest> value)
         {
             if (!ModelState.IsValid)
@@ -388,12 +387,7 @@ namespace OAuthApp.Apis
                 };
             }
 
-            var query = sdkDB.ReleaseHistories.Where(x => x.SdkPackageId == id).AsQueryable();
-
-            if (!User.IsInRole(DefaultRoles.Administrator))
-            {
-                query = query.Where(x => x.UserID == UserId);
-            }
+            var query = sdkDB.ReleaseHistories.Where(x => x.SdkPackageId == id && x.UserID == UserId).AsQueryable();
 
             #region filter
             if (!string.IsNullOrWhiteSpace(value.q.remark))
@@ -455,7 +449,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
             OperationId = "PackagePublish",
             Summary = "软件包 - 发布",
-            Description = "scope&permission：oauthapp.package.publish")]
+            Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.package.publish | oauthapp.package.publish |")]
         public ApiResult<bool> Publish([FromBody]PublishRequest value)
         {
             var entity = sdkDB.Packages.Where(x => x.Id == value.id && x.UserID == UserId)
@@ -574,8 +568,8 @@ namespace OAuthApp.Apis
                 return result;
             }
             
-            engine.RemoveVariable("swaggerDocument");
-            engine.SetVariableValue("swaggerDocument", swaggerDocument);
+            engine.RemoveVariable("packageObject");
+            engine.SetVariableValue("packageObject", swaggerDocument);
 
             if (item.SdkGenerators != null && item.SdkGenerators.Count > 0)
             {
@@ -594,7 +588,7 @@ namespace OAuthApp.Apis
 
                         engine.Execute(templateSource);
 
-                        var CompiledCode = engine.CallFunction<string>("codegen");
+                        var CompiledCode = engine.CallFunction<string>("codeCompile");
 
                         if (!result.ContainsKey(g.Name))
                         {
@@ -611,6 +605,57 @@ namespace OAuthApp.Apis
             return result;
         }
 
-        
+        #region 软件包 - 预编译
+        /// <summary>
+        /// 软件包 - 预编译
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPost("PreCompile")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "scope:package.precompile")]
+        [Authorize(AuthenticationSchemes = AppAuthenScheme, Policy = "permission:package.precompile")]
+        [SwaggerOperation(
+            OperationId = "PackagePreCompile",
+            Summary = "软件包 - 预编译",
+            Description = "scope&permission：oauthapp.package.precompile")]
+        public ApiResult<string> PreCompile([FromBody] PreCompileRequest value)
+        {
+            try
+            {
+                var swaggerDocument = string.Empty;
+
+                using (var hc = new HttpClient())
+                {
+                    swaggerDocument = hc.GetStringAsync(value.swaggerUri).Result;
+                }
+
+                engine.RemoveVariable("packageObject");
+                engine.SetVariableValue("packageObject", swaggerDocument);
+
+                if (!string.IsNullOrWhiteSpace(value.packageVersion))
+                {
+                    engine.RemoveVariable("packageVersion");
+                    engine.SetVariableValue("packageVersion", value.packageVersion);
+                }
+
+                var templateSource = string.Empty;
+
+                using (var hc = new HttpClient())
+                {
+                    templateSource = hc.GetStringAsync(value.scriptUri).Result;
+                }
+
+                engine.Execute(templateSource);
+
+                var result = engine.CallFunction<string>("codeCompile");
+
+                return new ApiResult<string>(result);
+            }
+            catch(Exception ex)
+            {
+                return new ApiResult<string>(l, BasicControllerEnums.HasError, ex.Message);
+            }
+        }
+        #endregion
     }
 }
