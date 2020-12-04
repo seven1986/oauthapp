@@ -136,6 +136,16 @@ namespace OAuthApp
         /// https://github.com/Redocly/redoc/blob/master/docs/redoc-vendor-extensions.md
         /// </summary>
         public Action<IDictionary<string, IOpenApiExtension>> ReDocExtensions { get; set; }
+
+        /// <summary>
+        /// 启用Client访问速率限制
+        /// </summary>
+        public bool EnableClientRateLimit { get; set; } = false;
+
+        /// <summary>
+        /// 启用IP访问速率限制
+        /// </summary>
+        public bool EnableIpRateLimit { get; set; } = false;
     }
 
     public enum APIDocumentEnums

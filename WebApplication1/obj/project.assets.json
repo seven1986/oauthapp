@@ -59,6 +59,24 @@
           "Microsoft.AspNetCore.App"
         ]
       },
+      "AspNetCoreRateLimit/3.2.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Caching.Abstractions": "3.1.9",
+          "Microsoft.Extensions.Logging.Abstractions": "3.1.9",
+          "Microsoft.Extensions.Options": "3.1.9",
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/AspNetCoreRateLimit.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/AspNetCoreRateLimit.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "AutoMapper/10.0.0": {
         "type": "package",
         "dependencies": {
@@ -1762,7 +1780,7 @@
           "build/netstandard2.0/_._": {}
         }
       },
-      "Newtonsoft.Json/12.0.2": {
+      "Newtonsoft.Json/12.0.3": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
@@ -3952,7 +3970,7 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "OAuthApp/2.2.8-preview2": {
+      "OAuthApp/2.2.8": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
@@ -3960,6 +3978,7 @@
           "AspNet.Security.OAuth.QQ": "3.1.6",
           "AspNet.Security.OAuth.Weibo": "3.1.6",
           "AspNet.Security.OAuth.Weixin": "3.1.6",
+          "AspNetCoreRateLimit": "3.2.2",
           "IdentityServer4": "4.1.1",
           "IdentityServer4.AspNetIdentity": "4.1.1",
           "IdentityServer4.EntityFramework": "4.1.1",
@@ -4000,7 +4019,10 @@
         },
         "runtime": {
           "bin/placeholder/OAuthApp.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
@@ -4078,6 +4100,20 @@
         "aspnet.security.oauth.weixin.nuspec",
         "lib/netcoreapp3.1/AspNet.Security.OAuth.Weixin.dll",
         "lib/netcoreapp3.1/AspNet.Security.OAuth.Weixin.xml"
+      ]
+    },
+    "AspNetCoreRateLimit/3.2.2": {
+      "sha512": "ayEDHsR0d+c1UZx3c8EjmEw+WCskTjhAyAz4BF3eB2AyRJRzhIHiWbFwJ/hTUmwNs8kt0VigyKnwPonfnmR1JQ==",
+      "type": "package",
+      "path": "aspnetcoreratelimit/3.2.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "aspnetcoreratelimit.3.2.2.nupkg.sha512",
+        "aspnetcoreratelimit.nuspec",
+        "lib/net5.0/AspNetCoreRateLimit.dll",
+        "lib/netcoreapp3.1/AspNetCoreRateLimit.dll",
+        "lib/netstandard2.0/AspNetCoreRateLimit.dll"
       ]
     },
     "AutoMapper/10.0.0": {
@@ -6698,10 +6734,10 @@
         "netstandard.library.nuspec"
       ]
     },
-    "Newtonsoft.Json/12.0.2": {
-      "sha512": "rTK0s2EKlfHsQsH6Yx2smvcTCeyoDNgCW7FEYyV01drPlh2T243PR2DiDXqtC5N4GDm4Ma/lkxfW5a/4793vbA==",
+    "Newtonsoft.Json/12.0.3": {
+      "sha512": "6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
       "type": "package",
-      "path": "newtonsoft.json/12.0.2",
+      "path": "newtonsoft.json/12.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6724,8 +6760,9 @@
         "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
         "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
         "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
-        "newtonsoft.json.12.0.2.nupkg.sha512",
-        "newtonsoft.json.nuspec"
+        "newtonsoft.json.12.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
       ]
     },
     "Newtonsoft.Json.Bson/1.0.2": {
@@ -12081,7 +12118,7 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
-    "OAuthApp/2.2.8-preview2": {
+    "OAuthApp/2.2.8": {
       "type": "project",
       "path": "../OAuthApp/OAuthApp.csproj",
       "msbuildProject": "../OAuthApp/OAuthApp.csproj"
@@ -12091,7 +12128,7 @@
     ".NETCoreApp,Version=v3.1": [
       "Microsoft.ClearScript.V8.Native.win-x86 >= 7.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 3.1.6",
-      "OAuthApp >= 2.2.8-preview2"
+      "OAuthApp >= 2.2.8"
     ]
   },
   "packageFolders": {

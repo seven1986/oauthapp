@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using static OAuthApp.AppDefaultData;
 using Microsoft.OpenApi.Models;
+using AspNetCoreRateLimit;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -40,6 +41,11 @@ namespace Microsoft.AspNetCore.Builder
             }
 
             builder.Validate();
+
+            if (options.EnableIpRateLimit || options.EnableClientRateLimit)
+            {
+                builder.UseClientRateLimiting();
+            }
 
             if (options.EnableCors)
             {

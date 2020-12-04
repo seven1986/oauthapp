@@ -15,14 +15,15 @@ nav:
         - 'auth-password.md'
         - 'auth-credentials.md'
         - 'auth-hybrid.md'
-  - 实例参考:
+  - 实例&参考:
         - 'extend-validator.md'
         - 'saas.md'
         - 'authlogins.md'
-  - 文档: 
+  - 其他: 
         - 'scopes.md'
         - 'apidocument.md'
-        - 'swagger.md'
+        - 'oauthappswagger.md'
+        - 'doc-extensions.md'
   - 更新日志: 
       - 'logs.md'
 theme:
@@ -77,4 +78,4 @@ plugins:
   - redirects:
       redirect_maps:
         'apidocument.md': 'https://www.oauthapp.com/docs/index.html'
-        'swagger.md': 'https://www.oauthapp.com/swagger'
+        'oauthappswagger.md': 'https://www.oauthapp.com/swagger'

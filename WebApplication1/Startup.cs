@@ -25,7 +25,7 @@ namespace WebApplication1
             IdentityModelEventSource.ShowPII = true;
 
             services.AddOAuthApp(options=> {
-
+                
                 options.ReDocExtensions = (Extensions =>
                   {
                       Extensions.Add("x-logo", new OpenApiObject

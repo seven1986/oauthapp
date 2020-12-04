@@ -1,6 +1,6 @@
 # 自定义验证器
 
-!!! note "提示"
+!!! note ""
     自定义验证器，DemoGrantValidator演示了如何验证userName和password，然后颁发accessToken的过程。
 
 

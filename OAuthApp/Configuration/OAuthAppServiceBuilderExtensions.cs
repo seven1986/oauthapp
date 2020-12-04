@@ -29,10 +29,10 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using Microsoft.IdentityModel.Tokens;
 using OAuthApp.Attributes;
-using Microsoft.OpenApi.Any;
+using AspNetCoreRateLimit;
 
 namespace Microsoft.Extensions.DependencyInjection
-{ 
+{
     public static class OAuthAppServiceBuilderExtensions
     {
         private static IConfiguration configuration { get; }
@@ -210,23 +210,23 @@ namespace Microsoft.Extensions.DependencyInjection
 
                     //c.TagActionsBy(x => x.RelativePath.Split('/')[0]);
 
-                    c.AddSecurityDefinition("SubscriptionKey",
-                        new OpenApiSecurityScheme()
-                        {
-                            Name = "Ocp-Apim-Subscription-Key",
-                            Type = SecuritySchemeType.ApiKey,
-                            In = ParameterLocation.Header,
-                            Description = "从开放平台申请的Subscription Key，从网关调用接口时必需传入。",
-                        });
+                    //c.AddSecurityDefinition("SubscriptionKey",
+                    //    new OpenApiSecurityScheme()
+                    //    {
+                    //        Name = "Ocp-Apim-Subscription-Key",
+                    //        Type = SecuritySchemeType.ApiKey,
+                    //        In = ParameterLocation.Header,
+                    //        Description = "从开放平台申请的Subscription Key，从网关调用接口时必需传入。",
+                    //    });
 
-                    c.AddSecurityDefinition("AccessToken",
-                        new OpenApiSecurityScheme()
-                        {
-                            Name = "Authorization",
-                            Type = SecuritySchemeType.ApiKey,
-                            In = ParameterLocation.Header,
-                            Description = "从身份认证中心颁发的Token，根据接口要求决定是否传入。",
-                        });
+                    //c.AddSecurityDefinition("AccessToken",
+                    //    new OpenApiSecurityScheme()
+                    //    {
+                    //        Name = "Authorization",
+                    //        Type = SecuritySchemeType.OpenIdConnect,
+                    //        In = ParameterLocation.Header,
+                    //        Description = "从身份认证中心颁发的Token，根据接口要求决定是否传入。",
+                    //    });
 
                     c.AddSecurityDefinition("OAuth2",
                         new OpenApiSecurityScheme()
@@ -411,6 +411,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder.AddIdentityServer(DbContextOptions, certificate, Options.IdentityServerOptions, Options.IdentityServerBuilder);
 
+            builder.Services.AddOptions();
+
             builder.Services.AddMemoryCache();
 
             builder.Services.AddMvc().AddNewtonsoftJson(options =>
@@ -438,6 +440,28 @@ namespace Microsoft.Extensions.DependencyInjection
                 using var sw = new StreamWriter(ClearScriptV8_86_FilePath);
                 sw.Write(AppResource.ClearScriptV8_win_x86);
             }
+
+            #region RateLimit
+            if (Options.EnableClientRateLimit)
+            {
+                builder.AddClientRateLimit();
+            }
+
+            if (Options.EnableIpRateLimit)
+            {
+                builder.AddIpRateLimit();
+            }
+
+            if (Options.EnableClientRateLimit || Options.EnableIpRateLimit)
+            {
+                builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+
+                //https://github.com/stefanprodan/AspNetCoreRateLimit/issues/171
+                //builder.Services.AddSingleton<IRateLimitCounterStore, DistributedCacheRateLimitCounterStore>();
+
+                builder.Services.AddSingleton<IRateLimitConfiguration, OAuthAppRateLimitConfiguration>();
+            }
+            #endregion
 
             return builder;
         }
@@ -518,6 +542,34 @@ namespace Microsoft.Extensions.DependencyInjection
                    X509KeyStorageFlags.MachineKeySet |
                    X509KeyStorageFlags.PersistKeySet |
                    X509KeyStorageFlags.Exportable);
+        }
+
+        /// <summary>
+        /// Adds ClientRateLimit.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <returns></returns>
+        static IOAuthAppServiceBuilder AddClientRateLimit(this IOAuthAppServiceBuilder builder)
+        {
+            builder.Services.Configure<ClientRateLimitOptions>(configuration.GetSection("ClientRateLimiting"));
+            builder.Services.Configure<ClientRateLimitPolicies>(configuration.GetSection("ClientRateLimitPolicies"));
+            builder.Services.AddSingleton<IClientPolicyStore, DistributedCacheClientPolicyStore>();
+
+            return builder;
+        }
+
+        /// <summary>
+        /// Adds AddIpRateLimit.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <returns></returns>
+        static IOAuthAppServiceBuilder AddIpRateLimit(this IOAuthAppServiceBuilder builder)
+        {
+            builder.Services.Configure<IpRateLimitOptions>(configuration.GetSection("ClientRateLimiting"));
+            builder.Services.Configure<IpRateLimitPolicies>(configuration.GetSection("ClientRateLimitPolicies"));
+            builder.Services.AddSingleton<IIpPolicyStore, DistributedCacheIpPolicyStore>();
+
+            return builder;
         }
 
         /// <summary>

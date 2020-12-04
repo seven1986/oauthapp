@@ -2660,6 +2660,16 @@
             https://github.com/Redocly/redoc/blob/master/docs/redoc-vendor-extensions.md
             </summary>
         </member>
+        <member name="P:OAuthApp.OAuthAppOptions.EnableClientRateLimit">
+            <summary>
+            启用Client访问速率限制
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.EnableIpRateLimit">
+            <summary>
+            启用IP访问速率限制
+            </summary>
+        </member>
         <member name="M:OAuthApp.Services.AppUserService.CreateUser(System.Int64,Microsoft.AspNetCore.Identity.UserManager{OAuthApp.Data.AppUser},OAuthApp.Data.UserDbContext,OAuthApp.Data.AppUser,System.Collections.Generic.List{System.Int64},System.String,System.Collections.Generic.List{System.Int64})">
             <summary>
             创建用户
@@ -3139,6 +3149,20 @@
             </summary>
             <param name="services">The services.</param>
             <param name="ismsOptions">The Options.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddClientRateLimit(Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder)">
+            <summary>
+            Adds ClientRateLimit.
+            </summary>
+            <param name="builder">The builder.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddIpRateLimit(Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder)">
+            <summary>
+            Adds AddIpRateLimit.
+            </summary>
+            <param name="builder">The builder.</param>
             <returns></returns>
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddCoreService(Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder)">

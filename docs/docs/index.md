@@ -1,6 +1,6 @@
 # 概述
 !!! note ""
-    基于AspNet Core Identity、IdentityServer4的框架，快速搭建具有开放平台的用户中心。
+    OAuth2.0的Saas用户中心框架。（基于AspNet Core Identity、IdentityServer4）
 
 ## OAuthApp [![NuGet](https://img.shields.io/nuget/v/OAuthApp.svg)](https://www.nuget.org/packages/oauthapp/)
 

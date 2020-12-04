@@ -20,7 +20,7 @@ public void ConfigureServices(IServiceCollection services)
 ## 接口文档
 
 !!! note ""
-    启用ReDoc后，可为当前项目生成接口文档。
+    设置 **EnableReDoc=true** 后，可为当前项目生成接口文档。 [ReDocExtensions](http://www.oauthapp.com/doc-extensions)
 === "Startup.cs"
 ``` csharp linenums="1"
 public void ConfigureServices(IServiceCollection services)
@@ -32,13 +32,27 @@ public void ConfigureServices(IServiceCollection services)
             options.EnableReDoc = true;
             
             // 文档配置
-            x.ReDocOptions = options =>
+            options.ReDocOptions = _options =>
             {
-                options.DocumentTitle = "OAuthApp";
+                _options.DocumentTitle = "OAuthApp";
+                _options.RoutePrefix = "docs";
+                _options.SpecUrl("/swagger/v1/swagger.json");
+                _options.EnableUntrustedSpec();
+                _options.ScrollYOffset(10);
+                _options.HideHostname();
+                _options.HideDownloadButton();
+                _options.ExpandResponses("200,201");
+                _options.RequiredPropsFirst();
+                _options.HideLoading();                  
+                _options.DisableSearch();
+                _options.SortPropsAlphabetically();
+                _options.OnlyRequiredInSamples();
+                _options.NoAutoAuth();
+                _options.PathInMiddlePanel();
+                _options.NativeScrollbars();
             };
 
             // 文档个性化
-            // 配置项参考 https://github.com/Redocly/redoc/blob/master/docs/redoc-vendor-extensions.md
             options.ReDocExtensions = (Extensions =>
                   {
                       Extensions.Add("x-logo", new OpenApiObject
@@ -53,19 +67,108 @@ public void ConfigureServices(IServiceCollection services)
     }
 ``` 
 
+## 访问限流
+
+!!! note ""
+    设置 **EnableClientRateLimit=true、EnableIpRateLimit=true** 后，可控制`ClientIP`、`ClientID`的访问频率。
+
+=== "Startup.cs"
+    ``` csharp linenums="1"
+    ublic void ConfigureServices(IServiceCollection services)
+       {
+           services.AddOAuthApp(options=>
+           {
+               // 启用Client限流（默认为false）
+               options.EnableClientRateLimit = true;
+    
+               // 启用Ip限流（默认为false）
+               options.EnableIpRateLimit = true;
+           });
+       }
+    ```
+=== "appsettings.json(Ip限流)"
+    ``` javascript linenums="1"
+    "IpRateLimiting": {
+       "EnableEndpointRateLimiting": false,
+       "StackBlockedRequests": false,
+       "RealIpHeader": "X-Real-IP",
+       "ClientIdHeader": "X-ClientId",
+       "HttpStatusCode": 429,
+       "IpWhitelist": [ "127.0.0.1", "::1/10", "192.168.0.0/24" ],
+       "EndpointWhitelist": [ "get:/api/license", "*:/api/status" ],
+       "ClientWhitelist": [ "dev-id-1", "dev-id-2" ],
+       "GeneralRules": [
+         {
+           "Endpoint": "*",
+           "Period": "1s",
+           "Limit": 2
+         },
+         {
+           "Endpoint": "*",
+           "Period": "15m",
+           "Limit": 100
+         },
+         {
+           "Endpoint": "*",
+           "Period": "12h",
+           "Limit": 1000
+         },
+         {
+           "Endpoint": "*",
+           "Period": "7d",
+           "Limit": 10000
+         }
+       ]
+     }
+    ```
+=== "appsettings.json(Client限流)"
+    ``` javascript linenums="1"
+    "ClientRateLimiting": {
+    "EnableEndpointRateLimiting": false,
+    "StackBlockedRequests": false,
+    "ClientIdHeader": "X-ClientId",
+    "HttpStatusCode": 429,
+    "EndpointWhitelist": [ "get:/api/license", "*:/api/status" ],
+    "ClientWhitelist": [ "dev-id-1", "dev-id-2" ],
+    "GeneralRules": [
+      {
+        "Endpoint": "*",
+        "Period": "1s",
+        "Limit": 2
+      },
+      {
+        "Endpoint": "*",
+        "Period": "15m",
+        "Limit": 100
+      },
+      {
+        "Endpoint": "*",
+        "Period": "12h",
+        "Limit": 1000
+      },
+      {
+        "Endpoint": "*",
+        "Period": "7d",
+        "Limit": 10000
+      }
+    ]
+    }
+    ```
+
+
 
 
 ## 调试工具
 
 !!! note ""
-    启用Swagger后，可更方便开发人员调试接口。
+    设置 **EnableSwaggerGen=true、EnableSwaggerUI=true、EnableAPIDocuments=true** ，可方便开发人员调试接口，也可通过 **OAuthAppOptions.APIDocuments.Add** 隐藏指定文档
+
 === "Startup.cs"
 ``` csharp linenums="1"
 public void ConfigureServices(IServiceCollection services)
     {
         services.AddOAuthApp(options=>
         {
-
             //生成swagger.json文档（默认为true）
             options.EnableSwaggerGen = true;
             
@@ -84,10 +187,12 @@ public void ConfigureServices(IServiceCollection services)
 
 
 
+
+
 ## 版本号
 
 !!! note ""
-    为api添加版本功能，在请求中实现如下方式：
+    设置 **EnableApiVersioning=true** 后，可启用版本功能。例如：
 
     * [x] /api/foo?api-version=1.0
     * [x] /api/foo?api-version=2.0-Alpha
@@ -96,7 +201,7 @@ public void ConfigureServices(IServiceCollection services)
     * [x] /api/v2.0-Alpha/foo
     * [x] /api/v2015-05-01.3.0/foo
 
-    更多可以[参考文档](https://github.com/microsoft/aspnet-api-versioning/wiki/Version-Format)
+    [aspnet-api-versioning](https://github.com/microsoft/aspnet-api-versioning/wiki/Version-Format)
 
 
 === "Startup.cs"
@@ -124,7 +229,7 @@ public void ConfigureServices(IServiceCollection services)
 ## 跨域
 
 !!! note "" 
-    允许跨域的url集合(默认读取配置文件的IdentityServer:Origins节点)，多个网址有英文逗号分隔。
+    设置 **EnableCors=true** 后，可以启用跨域功能。
 
 === "Startup.cs"
     ``` csharp linenums="1"
@@ -147,7 +252,7 @@ public void ConfigureServices(IServiceCollection services)
 ## Aspnet Core Identity
 
 !!! note ""
-    具体相关配置，可以参考[官方文档](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity-configuration)
+    相关配置可参考[Configure ASP.NET Core Identity](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity-configuration)
 
 === "Startup.cs"
 ``` csharp linenums="1"
@@ -188,7 +293,7 @@ public void ConfigureServices(IServiceCollection services)
 ## Identity Server 4
 
 !!! note ""
-    具体相关配置，可以参考[官方文档](https://identityserver4.readthedocs.io/en/latest/reference/options.html)
+    相关配置可参考[IdentityServer Options](https://identityserver4.readthedocs.io/en/latest/reference/options.html)
 
 === "Startup.cs"
     ``` csharp linenums="1"
