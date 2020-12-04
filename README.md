@@ -1,10 +1,7 @@
 ﻿
-[![Build status](https://ci.appveyor.com/api/projects/status/x51ob7f1p5ihff2i?svg=true)](https://ci.appveyor.com/project/seven1986/oauthapp)
-
-
 # OAuthApp
 
-OAuthApp是一个免费开源的微服务框架，基于IdentityServer4、Azure API Management构建。 
+OAuth2.0的Saas用户中心框架。
 
 OAuthApp | OAuthApp.AzureJobs
 --------------- | ---------------
@@ -13,35 +10,32 @@ OAuthApp | OAuthApp.AzureJobs
 
 核心功能
 --
-* 统一管理微服务、用户、客户端的Sass授权中心
-* 集成Azure API Management  [🐱‍🏍示例](https://portal.ixingban.com)
-* 自动生成接口文档、Server/Client端SDK包、推送Android/IOS/Npm/Nuget平台   [🐱‍🏍示例](https://portal.ixingban.com/docs/services/59f97c558826900ef0b57d7a/operations/59f98c018826900e60abf936)
 
-截图
---
-![apiresource](apiresource.png)
-![doc](doc.png)
-![codegen](codegen.png)
-![gatewatlog](gatewaylog.png)
-![elklog](elklog.png)
+- Blob
+- 客户端
+- 软件包
+- 标识资源
+- 角色
+- 租户
+- 用户
+- 其他
 
-Acknowledgements
+
+感谢
 --
-  OAuthApp is built using the following great open source projects
+  OAuthApp使用了以下优秀的开源项目
+
   
 * [IdentityServer4](https://github.com/IdentityServer)
 * [ASP.NET Core](https://github.com/aspnet)
-* [Azure API Management](https://azure.microsoft.com/zh-cn/services/api-management/)
-* [Swagger Codegen](https://github.com/swagger-api/swagger-codegen)
+* [Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
+* [AspNetCoreRateLimit](https://github.com/stefanprodan/AspNetCoreRateLimit)
 
 For run this project recommends
 --
-* Azure Key Valut (统一配置，将Appsetting的配置、SSL证书迁移到Azure Key Valut等)
-* Azure Redis & SqlCache（缓存）
-* Azure SqlServer （持久存储，User、Client、ApiResource等数据）
-* Azure Storage （Table/Queue/Blob）
-* Email & Message （Send Cloud）
-* Elastic Search （请求日志） 
+
+* Azure Storage （文件存储）
+* Email & Message （邮件、短信服务）
 
 
 > 目前主要由[seven1986](https://github.com/seven1986)创建和维护。
