@@ -170,6 +170,8 @@ namespace OAuthApp
 
         User = 9,
 
-        Package = 10
+        Package = 10,
+
+        Authing = 11
     }
 }

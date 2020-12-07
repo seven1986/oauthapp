@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.2.8</Version>
+    <Version>2.2.9-alpha1</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -92,10 +92,6 @@
     <None Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
     <None Remove="oauthapp.pfx" />
     <None Remove="readme.txt" />
-    <None Remove="Views\Account\AccessDenied.cshtml" />
-    <None Remove="Views\Account\LoggedOut.cshtml" />
-    <None Remove="Views\Account\Login.cshtml" />
-    <None Remove="Views\Account\Logout.cshtml" />
     <None Remove="Views\Consent\Index.cshtml" />
     <None Remove="Views\Device\Success.cshtml" />
     <None Remove="Views\Device\UserCodeCapture.cshtml" />
@@ -262,18 +258,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="readme.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Account\AccessDenied.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Account\LoggedOut.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Account\Login.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Account\Logout.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Consent\Index.cshtml">

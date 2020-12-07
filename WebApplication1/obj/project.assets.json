@@ -3970,7 +3970,7 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "OAuthApp/2.2.8": {
+      "OAuthApp/2.2.9-alpha1": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
@@ -12118,7 +12118,7 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
-    "OAuthApp/2.2.8": {
+    "OAuthApp/2.2.9-alpha1": {
       "type": "project",
       "path": "../OAuthApp/OAuthApp.csproj",
       "msbuildProject": "../OAuthApp/OAuthApp.csproj"
@@ -12128,7 +12128,7 @@
     ".NETCoreApp,Version=v3.1": [
       "Microsoft.ClearScript.V8.Native.win-x86 >= 7.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 3.1.6",
-      "OAuthApp >= 2.2.8"
+      "OAuthApp >= 2.2.9-alpha1"
     ]
   },
   "packageFolders": {
