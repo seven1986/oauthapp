@@ -21,7 +21,6 @@ namespace OAuthApp.Tenant
     public class TenantMiddleware
     {
         readonly RequestDelegate _next;
-        readonly TenantService _tenantService;
         readonly IAuthenticationSchemeProvider _oauthProvider;
         readonly IMemoryCache _memoryCache;
         readonly IdentityServerOptions _identityServerOptions;
@@ -38,7 +37,6 @@ namespace OAuthApp.Tenant
 
         public TenantMiddleware(
             RequestDelegate next,
-            TenantService tenantService,
             IAuthenticationSchemeProvider oauthProvider,
             IMemoryCache memoryCache,
             IdentityServerOptions identityServerOptions,
@@ -54,7 +52,6 @@ namespace OAuthApp.Tenant
             )
         {
             _next = next;
-            _tenantService = tenantService;
             _oauthProvider = oauthProvider;
             _memoryCache = memoryCache;
             _identityServerOptions = identityServerOptions;
@@ -69,11 +66,11 @@ namespace OAuthApp.Tenant
         }
 
         public Task Invoke(
-            HttpContext context,
-            TenantDbContext _db)
+            HttpContext context)
         {
-            var tenant = _tenantService.GetTenant(_db,
-                context.Request.Host.Value);
+            var _tenantService = context.RequestServices.GetService<TenantService>();
+
+            var tenant = _tenantService.GetTenant(context.Request.Host.Value);
 
             if (tenant.Item1 == null || tenant.Item2 == null)
             {
@@ -90,7 +87,7 @@ namespace OAuthApp.Tenant
 
             var ResetOAuthProvider_Flag = _memoryCache.Get<string>(ResetOAuthProvider_CacheKey);
 
-            var pvtModel = tenant.Item2;
+            var TenantProperties = tenant.Item2.Properties;
 
             var IssuerUri = $"{context.Request.Scheme}://{tenant.Item2.IdentityServerIssuerUri}";
 
@@ -98,22 +95,80 @@ namespace OAuthApp.Tenant
             _identityServerOptions.IssuerUri = IssuerUri;
             #endregion
 
+            #region ResetUserInteraction
+            if (TenantProperties.ContainsKey(UserInteractionKeys.Enable) &&
+                TenantProperties[UserInteractionKeys.Enable].Equals("true"))
+            {
+                if (TenantProperties.ContainsKey(UserInteractionKeys.LoginUrl))
+                {
+                    _identityServerOptions.UserInteraction.LoginUrl = TenantProperties[UserInteractionKeys.LoginUrl];
+                }
+                if (TenantProperties.ContainsKey(UserInteractionKeys.LoginReturnUrlParameter))
+                {
+                    _identityServerOptions.UserInteraction.LoginReturnUrlParameter = TenantProperties[UserInteractionKeys.LoginReturnUrlParameter];
+                }
+                if (TenantProperties.ContainsKey(UserInteractionKeys.LogoutUrl))
+                {
+                    _identityServerOptions.UserInteraction.LogoutUrl = TenantProperties[UserInteractionKeys.LogoutUrl];
+                }
+                if (TenantProperties.ContainsKey(UserInteractionKeys.LogoutIdParameter))
+                {
+                    _identityServerOptions.UserInteraction.LogoutIdParameter = TenantProperties[UserInteractionKeys.LogoutIdParameter];
+                }
+                if (TenantProperties.ContainsKey(UserInteractionKeys.ConsentUrl))
+                {
+                    _identityServerOptions.UserInteraction.ConsentUrl = TenantProperties[UserInteractionKeys.ConsentUrl];
+                }
+                if (TenantProperties.ContainsKey(UserInteractionKeys.ConsentReturnUrlParameter))
+                {
+                    _identityServerOptions.UserInteraction.ConsentReturnUrlParameter = TenantProperties[UserInteractionKeys.ConsentReturnUrlParameter];
+                }
+                if (TenantProperties.ContainsKey(UserInteractionKeys.ErrorUrl))
+                {
+                    _identityServerOptions.UserInteraction.ErrorUrl = TenantProperties[UserInteractionKeys.ErrorUrl];
+                }
+                if (TenantProperties.ContainsKey(UserInteractionKeys.ErrorIdParameter))
+                {
+                    _identityServerOptions.UserInteraction.ErrorIdParameter = TenantProperties[UserInteractionKeys.ErrorIdParameter];
+                }
+                if (TenantProperties.ContainsKey(UserInteractionKeys.CustomRedirectReturnUrlParameter))
+                {
+                    _identityServerOptions.UserInteraction.CustomRedirectReturnUrlParameter = TenantProperties[UserInteractionKeys.CustomRedirectReturnUrlParameter];
+                }
+                if (TenantProperties.ContainsKey(UserInteractionKeys.CookieMessageThreshold))
+                {
+                    if (int.TryParse(TenantProperties[UserInteractionKeys.CookieMessageThreshold], out int _i))
+                    {
+                        _identityServerOptions.UserInteraction.CookieMessageThreshold = _i;
+                    }
+                }
+                if (TenantProperties.ContainsKey(UserInteractionKeys.DeviceVerificationUrl))
+                {
+                    _identityServerOptions.UserInteraction.DeviceVerificationUrl = TenantProperties[UserInteractionKeys.DeviceVerificationUrl];
+                }
+                if (TenantProperties.ContainsKey(UserInteractionKeys.DeviceVerificationUserCodeParameter))
+                {
+                    _identityServerOptions.UserInteraction.DeviceVerificationUserCodeParameter = TenantProperties[UserInteractionKeys.DeviceVerificationUserCodeParameter];
+                }
+            }
+            #endregion
+
             #region ResetOAuthProvider - PerRequest
-            if (string.IsNullOrWhiteSpace(ResetOAuthProvider_Flag) && pvtModel.Properties.Count > 0)
+            if (string.IsNullOrWhiteSpace(ResetOAuthProvider_Flag) && TenantProperties.Count > 0)
             {
                 var AppSchemes = _oauthProvider.GetAllSchemesAsync().Result.Select(x => x.Name).ToList();
 
                 foreach (var scheme in OAuthBuilderExtensions.Schemes)
                 {
-                    if (!pvtModel.Properties.ContainsKey($"{scheme}:ClientId") ||
-                        !pvtModel.Properties.ContainsKey($"{scheme}:ClientSecret"))
+                    if (!TenantProperties.ContainsKey($"{scheme}:ClientId") ||
+                        !TenantProperties.ContainsKey($"{scheme}:ClientSecret"))
                     {
                         _oauthProvider.RemoveScheme(scheme);
                         continue;
                     }
 
-                    var ClientId_FromTenant = pvtModel.Properties[$"{scheme}:ClientId"];
-                    var ClientSecret_FromTenant = pvtModel.Properties[$"{scheme}:ClientSecret"];
+                    var ClientId_FromTenant = TenantProperties[$"{scheme}:ClientId"];
+                    var ClientSecret_FromTenant = TenantProperties[$"{scheme}:ClientSecret"];
 
                     if (string.IsNullOrWhiteSpace(ClientId_FromTenant) ||
                         string.IsNullOrWhiteSpace(ClientSecret_FromTenant))

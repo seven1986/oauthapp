@@ -32,17 +32,17 @@ namespace OAuthApp
         }
         #endregion
 
-        #region IdentityServer4Client
+        #region OAuthAppClient
         /// <summary>
-        /// IdentityServer4Client - 后台使用
+        /// OAuthAppClient - 后台使用
         /// </summary>
         public class IdentityServer4Client
         {
-            public static string ClientId = "identityserver4";
+            public static string ClientId = "oauthapp";
 
-            public static string ClientName = "identityserver4";
+            public static string ClientName = "oauthapp";
 
-            public static string ClientSecret = "identityserver4";
+            public static string ClientSecret = "oauthapp";
 
             public static List<string> AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials.ToList();
 

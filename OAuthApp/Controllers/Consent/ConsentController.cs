@@ -59,7 +59,7 @@ namespace OAuthApp.Controllers
         /// Handles the consent screen postback
         /// </summary>
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(ConsentInputModel model)
         {
             var result = await ProcessConsent(model);

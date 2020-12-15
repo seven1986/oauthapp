@@ -285,6 +285,47 @@
             
             </remarks>
         </member>
+        <member name="M:OAuthApp.Apis.AuthingController.SignIn(OAuthApp.Models.Apis.AuthingController.AuthingSignInRequest)">
+            <summary>
+            授权 - 登陆
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.PreConsent(OAuthApp.Models.Apis.AuthingController.AuthingPreConsentRequest)">
+            <summary>
+            授权 - 预授权应用
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.Consent(OAuthApp.Models.Apis.ConsentController.AuthingConsentRequest)">
+            <summary>
+            授权 - 授权应用
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.Grants">
+            <summary>
+            授权 - 已授权应用
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.Revoke(System.String)">
+            <summary>
+            授权 - 撤销应用权限
+            </summary>
+            <param name="clientId">应用ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.ErrorReport(System.String)">
+            <summary>
+            授权 - 错误报告
+            </summary>
+            <param name="ErrorId"></param>
+            <returns></returns>
+        </member>
         <member name="P:OAuthApp.Apis.ApiControllerBase.TenantId">
             <summary>
             租户信息 from client access token
@@ -786,7 +827,7 @@
         </member>
         <member name="T:OAuthApp.AppDefaultData.IdentityServer4Client">
             <summary>
-            IdentityServer4Client - 后台使用
+            OAuthAppClient - 后台使用
             </summary>
         </member>
         <member name="T:OAuthApp.AppDefaultData.Tenant">
@@ -2151,6 +2192,76 @@
             是否展开所有Claims（默认为false）
             </summary>
         </member>
+        <member name="P:OAuthApp.Models.Apis.ConsentController.AuthingConsentRequest.Scopes">
+            <summary>
+            权限
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ConsentController.AuthingConsentRequest.Remember">
+            <summary>
+            持久
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ConsentController.AuthingConsentRequest.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ConsentController.AuthingConsentRequest.ReturnUrl">
+            <summary>
+            跳转地址
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ConsentController.AuthingPreConsentReponse.Tenant">
+            <summary>
+            租户
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ConsentController.AuthingPreConsentReponse.ClientName">
+            <summary>
+            应用名称
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ConsentController.AuthingPreConsentReponse.ClientUrl">
+            <summary>
+            应用网址
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ConsentController.AuthingPreConsentReponse.ClientLogoUrl">
+            <summary>
+            应用Logo
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ConsentController.AuthingPreConsentReponse.ClientDescription">
+            <summary>
+            应用简介
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ConsentController.AuthingPreConsentReponse.IdentityScopes">
+            <summary>
+            标识权限
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.ConsentController.AuthingPreConsentReponse.ApiScopes">
+            <summary>
+            服务权限
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.AuthingController.AuthingSignInRequest.UserName">
+            <summary>
+            账号
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.AuthingController.AuthingSignInRequest.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.AuthingController.AuthingSignInRequest.ReturnUrl">
+            <summary>
+            授权地址
+            </summary>
+        </member>
         <member name="P:OAuthApp.Models.Apis.ClientController.ClientIssueTokenRequest.lifetime">
             <summary>
             有效时间，单位时秒，默认微3600
@@ -3105,6 +3216,20 @@
             <summary>
             简介
             </summary>
+        </member>
+        <member name="M:OAuthApp.Tenant.TenantValidatorHelper.GetTenantWithProperties(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            获取租户信息附加属性集合
+            </summary>
+            <param name="_context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Tenant.TenantValidatorHelper.GetTenantWithClaims(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            获取租户信息附加声明集合
+            </summary>
+            <param name="_context"></param>
+            <returns></returns>
         </member>
         <member name="P:Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder.Services">
             <summary>

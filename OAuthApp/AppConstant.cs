@@ -5,6 +5,8 @@ namespace OAuthApp
 {
     public class AppConstant
     {
+        public const string AuthorizeEndpoint = "/connect/authorize";
+
         /// <summary>
         /// https://identityserver4.readthedocs.io/en/release/topics/add_apis.html
         /// </summary>

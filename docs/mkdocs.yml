@@ -3,23 +3,25 @@ repo_url: https://github.com/seven1986/OAuthApp
 repo_name: seven1986/OAuthApp
 copyright: 版权所有 © 2020 OAuthApp
 nav:
-  - 首页: 'index.md'
-  - 入门:
-      - 'start-server.md'
-      - 'settings.md'
-      - 'azureblob.md'
-      - 'sendcloud.md'
-      - 授权模式:
+  - 首页: 
+      - 'index.md'
+      - Auth2.0 授权模式:
         - 'auth-implicit.md'
         - 'auth-code.md'
         - 'auth-password.md'
         - 'auth-credentials.md'
         - 'auth-hybrid.md'
-  - 实例&参考:
+  - 开始使用:
+      - 'start-server.md'
+      - 'settings.md'
+      - 'azureblob.md'
+      - 'sendcloud.md'
+  - 实例:
         - 'extend-validator.md'
         - 'saas.md'
         - 'authlogins.md'
-  - 其他: 
+        - 'userinteraction.md'
+  - 参考: 
         - 'scopes.md'
         - 'apidocument.md'
         - 'oauthappswagger.md'
