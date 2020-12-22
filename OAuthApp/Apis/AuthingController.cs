@@ -12,12 +12,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
-using OAuthApp.Controllers;
 using OAuthApp.Data;
 using OAuthApp.Enums;
 using OAuthApp.Models.Apis.AuthingController;
 using OAuthApp.Models.Apis.Common;
 using OAuthApp.Models.Apis.ConsentController;
+using OAuthApp.Models.Shared;
 using OAuthApp.Services;
 using OAuthApp.Tenant;
 using Swashbuckle.AspNetCore.Annotations;
@@ -61,7 +61,7 @@ namespace OAuthApp.Apis
             UserManager<AppUser> userManager,
         IIdentityServerInteractionService interaction,
          IUserSession userSession,
-            IStringLocalizer<ConsentController> localizer,
+            IStringLocalizer<AuthingController> localizer,
             IEventService events,
             UserDbContext _db,
             IEmailSender emailSender)

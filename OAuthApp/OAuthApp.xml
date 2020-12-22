@@ -906,7 +906,7 @@
             SwaggerClient - SwaggerUI使用
             </summary>
         </member>
-        <member name="T:OAuthApp.AppDefaultData.IdentityServer4Client">
+        <member name="T:OAuthApp.AppDefaultData.OAuthAppClient">
             <summary>
             OAuthAppClient - 后台使用
             </summary>
@@ -1116,44 +1116,6 @@
             <value>
             The services.
             </value>
-        </member>
-        <member name="T:OAuthApp.Controllers.ConsentController">
-            <summary>
-            This controller processes the consent UI
-            </summary>
-        </member>
-        <member name="M:OAuthApp.Controllers.ConsentController.Index(System.String)">
-            <summary>
-            Shows the consent screen
-            </summary>
-            <param name="returnUrl"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OAuthApp.Controllers.ConsentController.Index(OAuthApp.Controllers.ConsentInputModel)">
-            <summary>
-            Handles the consent screen postback
-            </summary>
-        </member>
-        <member name="M:OAuthApp.Controllers.Extensions.IsNativeClient(IdentityServer4.Models.AuthorizationRequest)">
-            <summary>
-            Checks if the redirect URI is for a native client.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:OAuthApp.Controllers.GrantsController">
-            <summary>
-            This sample controller allows a user to revoke grants given to clients
-            </summary>
-        </member>
-        <member name="M:OAuthApp.Controllers.GrantsController.Index">
-            <summary>
-            Show list of grants
-            </summary>
-        </member>
-        <member name="M:OAuthApp.Controllers.GrantsController.Revoke(System.String)">
-            <summary>
-            Handle postback to revoke a client
-            </summary>
         </member>
         <member name="T:OAuthApp.Data.AppCache">
             <summary>

@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.3.0-preview4</Version>
+    <Version>2.3.0-preview5</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -39,17 +39,20 @@
     <EmbeddedResource Remove="Microsoft.AspNetCore.Authentication\**" />
     <None Remove="Microsoft.AspNetCore.Authentication\**" />
     <Compile Remove="Attributes\EmailConfigAttribute.cs" />
-    <Compile Remove="Controllers\ConsentController.cs" />
-    <Compile Remove="Controllers\DeviceController.cs" />
-    <Compile Remove="Controllers\GrantsController.cs" />
     <Content Include="..\.editorconfig" Link=".editorconfig" />
     <Content Include="wwwroot\tenant\3rdpartylicenses.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\tenant\4.f9fc1f0f63086feacc5e.js">
+    <Content Include="wwwroot\tenant\5.2acac7fa6eb8ef284254.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\tenant\5.b1cc80c0683219c57ea4.js">
+    <Content Include="wwwroot\tenant\6.45afe8b3c17f127a5cde.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\user.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\common.c50789678c9248fb08ab.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\tenant\favicon.ico">
@@ -58,13 +61,13 @@
     <Content Include="wwwroot\tenant\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\tenant\main.828d006dc1923f1983a8.js">
+    <Content Include="wwwroot\tenant\main.1ebf178abec5b5c6a632.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\tenant\polyfills.f43954ace77eaf1b4591.js">
+    <Content Include="wwwroot\tenant\polyfills.055dc73325887d36f663.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\tenant\runtime.21d3a80db88d760642b3.js">
+    <Content Include="wwwroot\tenant\runtime.fb4f60c3cbca59576797.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\tenant\scripts.b6ec25f718bb533d5f0c.js">
@@ -122,19 +125,6 @@
     <None Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
     <None Remove="oauthapp.pfx" />
     <None Remove="readme.txt" />
-    <None Remove="Views\Consent\Index.cshtml" />
-    <None Remove="Views\Device\Success.cshtml" />
-    <None Remove="Views\Device\UserCodeCapture.cshtml" />
-    <None Remove="Views\Device\UserCodeConfirmation.cshtml" />
-    <None Remove="Views\Diagnostics\Index.cshtml" />
-    <None Remove="Views\Grants\Index.cshtml" />
-    <None Remove="Views\Shared\Error.cshtml" />
-    <None Remove="Views\Shared\Redirect.cshtml" />
-    <None Remove="Views\Shared\_LoginPartial.cshtml" />
-    <None Remove="Views\Shared\_Nav.cshtml" />
-    <None Remove="Views\Shared\_ScopeListItem.cshtml" />
-    <None Remove="Views\Shared\_ValidationSummary.cshtml" />
-    <None Remove="Views\_ViewImports.cshtml" />
     <None Remove="wwwroot\css\site.min.css" />
     <None Remove="wwwroot\css\site.scss" />
     <None Remove="wwwroot\favicon.ico" />
@@ -162,12 +152,19 @@
     <None Remove="wwwroot\lib\jquery\README.md" />
     <None Remove="wwwroot\tenant\3rdpartylicenses.txt" />
     <None Remove="wwwroot\tenant\4.f9fc1f0f63086feacc5e.js" />
+    <None Remove="wwwroot\tenant\5.2acac7fa6eb8ef284254.js" />
     <None Remove="wwwroot\tenant\5.b1cc80c0683219c57ea4.js" />
+    <None Remove="wwwroot\tenant\6.45afe8b3c17f127a5cde.js" />
+    <None Remove="wwwroot\tenant\assets\user.png" />
+    <None Remove="wwwroot\tenant\common.c50789678c9248fb08ab.js" />
     <None Remove="wwwroot\tenant\favicon.ico" />
     <None Remove="wwwroot\tenant\index.html" />
+    <None Remove="wwwroot\tenant\main.1ebf178abec5b5c6a632.js" />
     <None Remove="wwwroot\tenant\main.828d006dc1923f1983a8.js" />
+    <None Remove="wwwroot\tenant\polyfills.055dc73325887d36f663.js" />
     <None Remove="wwwroot\tenant\polyfills.f43954ace77eaf1b4591.js" />
     <None Remove="wwwroot\tenant\runtime.21d3a80db88d760642b3.js" />
+    <None Remove="wwwroot\tenant\runtime.fb4f60c3cbca59576797.js" />
     <None Remove="wwwroot\tenant\scripts.b6ec25f718bb533d5f0c.js" />
     <None Remove="wwwroot\tenant\styles.5bff5aa7c7507d93a46f.css" />
   </ItemGroup>
@@ -298,45 +295,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="readme.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Consent\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Device\Success.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Device\UserCodeCapture.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Device\UserCodeConfirmation.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Diagnostics\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Grants\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\Error.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\Redirect.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\_LoginPartial.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\_Nav.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\_ScopeListItem.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\_ValidationSummary.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\_ViewImports.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\css\site.min.css">
