@@ -28,11 +28,11 @@ namespace WebApplication1
                 
                 options.IdentityServerOptions = options =>
                 {
-                    options.UserInteraction.LoginUrl = "http://localhost:4200/auth/signin";
-                    options.UserInteraction.DeviceVerificationUrl = "http://localhost:4200/auth/signin";
-                    options.UserInteraction.LogoutUrl = "http://localhost:4200/auth/logout";
-                    options.UserInteraction.ErrorUrl = "http://localhost:4200/auth/error";
-                    options.UserInteraction.ConsentUrl = "http://localhost:4200/auth/consent";
+                    options.UserInteraction.LoginUrl = "http://localhost:4200/auth2/signin";
+                    options.UserInteraction.DeviceVerificationUrl = "http://localhost:4200/auth2/signin";
+                    options.UserInteraction.LogoutUrl = "http://localhost:4200/auth2/logout";
+                    options.UserInteraction.ErrorUrl = "http://localhost:4200/auth2/error";
+                    options.UserInteraction.ConsentUrl = "http://localhost:4200/auth2/consent";
                 };
 
                 options.ReDocExtensions = (Extensions =>

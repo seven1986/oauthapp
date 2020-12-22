@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.2.9</Version>
+    <Version>2.3.0-preview4</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -43,6 +43,36 @@
     <Compile Remove="Controllers\DeviceController.cs" />
     <Compile Remove="Controllers\GrantsController.cs" />
     <Content Include="..\.editorconfig" Link=".editorconfig" />
+    <Content Include="wwwroot\tenant\3rdpartylicenses.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\4.f9fc1f0f63086feacc5e.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\5.b1cc80c0683219c57ea4.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\favicon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\main.828d006dc1923f1983a8.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\polyfills.f43954ace77eaf1b4591.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\runtime.21d3a80db88d760642b3.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\scripts.b6ec25f718bb533d5f0c.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\styles.5bff5aa7c7507d93a46f.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="..\oauthapp.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -130,6 +160,16 @@
     <None Remove="wwwroot\lib\jquery\dist\jquery.slim.min.js" />
     <None Remove="wwwroot\lib\jquery\dist\jquery.slim.min.map" />
     <None Remove="wwwroot\lib\jquery\README.md" />
+    <None Remove="wwwroot\tenant\3rdpartylicenses.txt" />
+    <None Remove="wwwroot\tenant\4.f9fc1f0f63086feacc5e.js" />
+    <None Remove="wwwroot\tenant\5.b1cc80c0683219c57ea4.js" />
+    <None Remove="wwwroot\tenant\favicon.ico" />
+    <None Remove="wwwroot\tenant\index.html" />
+    <None Remove="wwwroot\tenant\main.828d006dc1923f1983a8.js" />
+    <None Remove="wwwroot\tenant\polyfills.f43954ace77eaf1b4591.js" />
+    <None Remove="wwwroot\tenant\runtime.21d3a80db88d760642b3.js" />
+    <None Remove="wwwroot\tenant\scripts.b6ec25f718bb533d5f0c.js" />
+    <None Remove="wwwroot\tenant\styles.5bff5aa7c7507d93a46f.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -396,6 +436,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.10" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.10" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.10" />
     <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />
     <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.2" />
     <PackageReference Include="Microsoft.Azure.Storage.Queue" Version="11.2.2" />

@@ -30,6 +30,7 @@ using System.Text.Unicode;
 using Microsoft.IdentityModel.Tokens;
 using OAuthApp.Attributes;
 using AspNetCoreRateLimit;
+using IdentityServer4;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -351,7 +352,8 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region Authentication
-            builder.Services.AddAuthentication().AddJwtBearer(AppConstant.AppAuthenScheme, options =>
+            builder.Services.AddAuthentication()
+                .AddJwtBearer(AppConstant.AppAuthenScheme, options =>
             {
                 options.RequireHttpsMetadata = true;
 
@@ -717,6 +719,7 @@ namespace Microsoft.Extensions.DependencyInjection
               .AddAspNetIdentity<AppUser>()
               .AddJwtBearerClientAuthentication()
               .AddAppAuthRedirectUriValidator()
+              .AddRedirectUriValidator<AnonymousRedirectUriValidator>()
               .AddExtensionGrantValidator<MobileCodeGrantValidator>()
               .AddExtensionGrantValidator<OpenIdOAuthGrantValidator>();
 

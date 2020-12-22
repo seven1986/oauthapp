@@ -319,11 +319,92 @@
             <param name="clientId">应用ID</param>
             <returns></returns>
         </member>
+        <member name="M:OAuthApp.Apis.AuthingController.SignOut">
+            <summary>
+            授权 - 登出
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:OAuthApp.Apis.AuthingController.ErrorReport(System.String)">
             <summary>
             授权 - 错误报告
             </summary>
             <param name="ErrorId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.ExternalLogins">
+            <summary>
+            授权 - 第三方登录服务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.ExternalLogin(System.String,System.String)">
+            <summary>
+            授权 - 使用第三方登录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.ExternalLoginCallback">
+            <summary>
+            授权 - 使用第三方登录回调
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.MyExternalLogins">
+            <summary>
+            授权 - 已绑定的第三方登录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.LinkExternalLogin(System.String,System.String)">
+            <summary>
+            授权 - 绑定第三方登录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.LinkExternalLoginCallback">
+            <summary>
+            授权 - 绑定第三方登录回调
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.RemoveMyLogins(System.String,System.String)">
+            <summary>
+            授权 - 移除指定第三方登录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.ChangePassword(OAuthApp.Models.Apis.AuthingController.AuthingChangePasswordRequest)">
+            <summary>
+            授权 - 修改密码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.ChangePhone(OAuthApp.Models.Apis.AuthingController.AuthingAuthinChangePhoneRequest)">
+            <summary>
+            授权 - 修改手机号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.ChangeEmail(OAuthApp.Models.Apis.AuthingController.AuthinChangeEmailRequest)">
+            <summary>
+            授权 - 修改邮箱
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.ChangeEmailConfirm(System.String,System.String,System.String)">
+            <summary>
+            授权 - 修改邮箱确认
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.AutoProvisionUser(System.String,System.String,System.Collections.Generic.List{System.Security.Claims.Claim})">
+            <summary>
+            自动生成用户
+            </summary>
+            <param name="provider">The provider.</param>
+            <param name="userId">The user identifier.</param>
+            <param name="claims">The claims.</param>
             <returns></returns>
         </member>
         <member name="P:OAuthApp.Apis.ApiControllerBase.TenantId">
@@ -2192,6 +2273,21 @@
             是否展开所有Claims（默认为false）
             </summary>
         </member>
+        <member name="P:OAuthApp.Models.Apis.AuthingController.AuthingSignInRequest.UserName">
+            <summary>
+            账号
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.AuthingController.AuthingSignInRequest.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:OAuthApp.Models.Apis.AuthingController.AuthingSignInRequest.ReturnUrl">
+            <summary>
+            授权地址
+            </summary>
+        </member>
         <member name="P:OAuthApp.Models.Apis.ConsentController.AuthingConsentRequest.Scopes">
             <summary>
             权限
@@ -2245,21 +2341,6 @@
         <member name="P:OAuthApp.Models.Apis.ConsentController.AuthingPreConsentReponse.ApiScopes">
             <summary>
             服务权限
-            </summary>
-        </member>
-        <member name="P:OAuthApp.Models.Apis.AuthingController.AuthingSignInRequest.UserName">
-            <summary>
-            账号
-            </summary>
-        </member>
-        <member name="P:OAuthApp.Models.Apis.AuthingController.AuthingSignInRequest.Password">
-            <summary>
-            密码
-            </summary>
-        </member>
-        <member name="P:OAuthApp.Models.Apis.AuthingController.AuthingSignInRequest.ReturnUrl">
-            <summary>
-            授权地址
             </summary>
         </member>
         <member name="P:OAuthApp.Models.Apis.ClientController.ClientIssueTokenRequest.lifetime">
@@ -2750,6 +2831,11 @@
         <member name="P:OAuthApp.OAuthAppOptions.EnableIpRateLimit">
             <summary>
             启用IP访问速率限制
+            </summary>
+        </member>
+        <member name="P:OAuthApp.OAuthAppOptions.EnableOAuthAppUI">
+            <summary>
+            使用新的交互页面
             </summary>
         </member>
         <member name="M:OAuthApp.Services.AppUserService.CreateUser(System.Int64,Microsoft.AspNetCore.Identity.UserManager{OAuthApp.Data.AppUser},OAuthApp.Data.UserDbContext,OAuthApp.Data.AppUser,System.Collections.Generic.List{System.Int64},System.String,System.Collections.Generic.List{System.Int64})">
