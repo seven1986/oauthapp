@@ -16,6 +16,7 @@ using Microsoft.OpenApi.Models;
 using AspNetCoreRateLimit;
 using IdentityServer4.Configuration;
 using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -47,11 +48,13 @@ namespace Microsoft.AspNetCore.Builder
             if (options.EnableOAuthAppUI)
             {
                 var idsOptions = builder.ApplicationServices.GetService<IdentityServerOptions>();
-                idsOptions.UserInteraction.LoginUrl = "/auth2/signin";
-                idsOptions.UserInteraction.DeviceVerificationUrl = "/auth2/signin";
-                idsOptions.UserInteraction.LogoutUrl = "/auth2/logout";
-                idsOptions.UserInteraction.ErrorUrl = "/auth2/error";
-                idsOptions.UserInteraction.ConsentUrl = "/auth2/consent";
+
+                idsOptions.UserInteraction.LoginUrl = "/tenant/auth2/signin";
+                idsOptions.UserInteraction.DeviceVerificationUrl = "/tenant/auth2/signin";
+                idsOptions.UserInteraction.LogoutUrl = "/tenant/auth2/logout";
+                idsOptions.UserInteraction.ErrorUrl = "/tenant/auth2/error";
+                idsOptions.UserInteraction.ConsentUrl = "/tenant/auth2/consent";
+
                 builder.Map("/tenant", subApp =>
                 {
                     subApp.UseSpa(spa =>

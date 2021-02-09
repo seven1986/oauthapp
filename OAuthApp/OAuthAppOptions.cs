@@ -150,7 +150,7 @@ namespace OAuthApp
         /// <summary>
         /// 使用新的交互页面
         /// </summary>
-        public bool EnableOAuthAppUI { get; set; } = false;
+        public bool EnableOAuthAppUI { get; set; } = true;
     }
 
     public enum APIDocumentEnums
