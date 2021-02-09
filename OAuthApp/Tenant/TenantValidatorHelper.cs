@@ -25,6 +25,11 @@ namespace OAuthApp.Tenant
             return null;
         }
 
+        /// <summary>
+        /// 获取租户信息附加属性集合
+        /// </summary>
+        /// <param name="_context"></param>
+        /// <returns></returns>
         public static TenantPrivateModel GetTenantWithProperties(this HttpContext _context)
         {
             var TenantContext = _context.Items[TenantConstant.HttpContextItemKey];
@@ -37,6 +42,11 @@ namespace OAuthApp.Tenant
             return null;
         }
 
+        /// <summary>
+        /// 获取租户信息附加声明集合
+        /// </summary>
+        /// <param name="_context"></param>
+        /// <returns></returns>
         public static TenantPublicModel GetTenantWithClaims(this HttpContext _context)
         {
             var TenantContext = _context.Items[TenantConstant.CacheKey];

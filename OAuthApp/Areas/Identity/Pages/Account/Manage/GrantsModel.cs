@@ -5,7 +5,6 @@ using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using OAuthApp.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,11 +32,10 @@ namespace OAuthApp.Areas.Identity.Pages.Account.Manage
             _events = events;
         }
 
-        public GrantsViewModel data { get; set; }
 
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGetAsync()
         {
-            data = await BuildViewModelAsync();
+           // data = await BuildViewModelAsync();
 
             return Page();
         }
@@ -51,39 +49,39 @@ namespace OAuthApp.Areas.Identity.Pages.Account.Manage
             return RedirectToPage();
         }
 
-        private async Task<GrantsViewModel> BuildViewModelAsync()
-        {
-            var grants = await _interaction.GetAllUserGrantsAsync();
+        //private async Task<GrantsViewModel> BuildViewModelAsync()
+        //{
+        //    var grants = await _interaction.GetAllUserGrantsAsync();
 
-            var list = new List<GrantViewModel>();
-            foreach (var grant in grants)
-            {
-                var client = await _clients.FindClientByIdAsync(grant.ClientId);
-                if (client != null)
-                {
-                    var resources = await _resources.FindResourcesByScopeAsync(grant.Scopes);
+        //    var list = new List<GrantViewModel>();
+        //    foreach (var grant in grants)
+        //    {
+        //        var client = await _clients.FindClientByIdAsync(grant.ClientId);
+        //        if (client != null)
+        //        {
+        //            var resources = await _resources.FindResourcesByScopeAsync(grant.Scopes);
 
-                    var item = new GrantViewModel()
-                    {
-                        ClientId = client.ClientId,
-                        ClientName = client.ClientName ?? client.ClientId,
-                        ClientLogoUrl = client.LogoUri,
-                        ClientUrl = client.ClientUri,
-                        Description = grant.Description,
-                        Created = grant.CreationTime,
-                        Expires = grant.Expiration,
-                        IdentityGrantNames = resources.IdentityResources.Select(x => x.DisplayName ?? x.Name).ToArray(),
-                        ApiGrantNames = resources.ApiScopes.Select(x => x.DisplayName ?? x.Name).ToArray()
-                    };
+        //            var item = new GrantViewModel()
+        //            {
+        //                ClientId = client.ClientId,
+        //                ClientName = client.ClientName ?? client.ClientId,
+        //                ClientLogoUrl = client.LogoUri,
+        //                ClientUrl = client.ClientUri,
+        //                Description = grant.Description,
+        //                Created = grant.CreationTime,
+        //                Expires = grant.Expiration,
+        //                IdentityGrantNames = resources.IdentityResources.Select(x => x.DisplayName ?? x.Name).ToArray(),
+        //                ApiGrantNames = resources.ApiScopes.Select(x => x.DisplayName ?? x.Name).ToArray()
+        //            };
 
-                    list.Add(item);
-                }
-            }
+        //            list.Add(item);
+        //        }
+        //    }
 
-            return new GrantsViewModel
-            {
-                Grants = list
-            };
-        }
+        //    return new GrantsViewModel
+        //    {
+        //        Grants = list
+        //    };
+        //}
     }
 }

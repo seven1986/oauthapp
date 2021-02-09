@@ -9,11 +9,14 @@ namespace OAuthApp.Tenant
 {
     public class TenantService
     {
-       readonly IMemoryCache _cache;
+        readonly IMemoryCache _cache;
+        readonly TenantDbContext _db;
 
         public TenantService(
+            TenantDbContext db,
             IMemoryCache cache)
         {
+            _db = db;
             _cache = cache;
         }
 
@@ -27,7 +30,7 @@ namespace OAuthApp.Tenant
             return MemoryCacheOptions;
         }
 
-        public Tuple<TenantPublicModel, TenantPrivateModel> GetTenant(TenantDbContext _db, string host)
+        public Tuple<TenantPublicModel, TenantPrivateModel> GetTenant(string host)
         {
             #region 设置缓存Key
             // for client use

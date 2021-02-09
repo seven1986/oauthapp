@@ -9,6 +9,7 @@ using AspNet.Security.OAuth.Weibo;
 using AspNet.Security.OAuth.Weixin;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using OAuthApp;
+using IdentityServer4;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -47,6 +48,7 @@ namespace Microsoft.Extensions.DependencyInjection
             authBuilder.Services.AddSingleton(microsoft_options);
             authBuilder.AddMicrosoftAccount(x =>
             {
+                x.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                 x.ClientId = unknow;
                 x.ClientSecret = unknow;
                 authBuilder.Services.Remove(new ServiceDescriptor(typeof(MicrosoftAccountOptions), microsoft_options));
@@ -59,6 +61,7 @@ namespace Microsoft.Extensions.DependencyInjection
             authBuilder.Services.AddSingleton(google_options);
             authBuilder.AddGoogle(x =>
             {
+                x.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                 x.ClientId = unknow;
                 x.ClientSecret = unknow;
                 authBuilder.Services.Remove(new ServiceDescriptor(typeof(GoogleOptions), google_options));
@@ -71,6 +74,7 @@ namespace Microsoft.Extensions.DependencyInjection
             authBuilder.Services.AddSingleton(facebook_options);
             authBuilder.AddFacebook(x =>
             {
+                x.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                 x.ClientId = unknow;
                 x.ClientSecret = unknow;
                 authBuilder.Services.Remove(new ServiceDescriptor(typeof(FacebookOptions), facebook_options));
@@ -83,6 +87,7 @@ namespace Microsoft.Extensions.DependencyInjection
             authBuilder.Services.AddSingleton(github_options);
             authBuilder.AddGitHub(x =>
             {
+                x.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                 x.ClientId = unknow;
                 x.ClientSecret = unknow;
                 authBuilder.Services.Remove(new ServiceDescriptor(typeof(GitHubAuthenticationOptions), github_options));
@@ -95,6 +100,7 @@ namespace Microsoft.Extensions.DependencyInjection
             authBuilder.Services.AddSingleton(qq_options);
             authBuilder.AddQQ(x =>
             {
+                x.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                 x.ClientId = unknow;
                 x.ClientSecret = unknow;
                 authBuilder.Services.Remove(new ServiceDescriptor(typeof(QQAuthenticationOptions), qq_options));
@@ -107,6 +113,7 @@ namespace Microsoft.Extensions.DependencyInjection
             authBuilder.Services.AddSingleton(weibo_options);
             authBuilder.AddWeibo(x =>
             {
+                x.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                 x.ClientId = unknow;
                 x.ClientSecret = unknow;
                 authBuilder.Services.Remove(new ServiceDescriptor(typeof(WeiboAuthenticationOptions), weibo_options));
@@ -119,6 +126,7 @@ namespace Microsoft.Extensions.DependencyInjection
             authBuilder.Services.AddSingleton(weixin_options);
             authBuilder.AddWeixin(x =>
             {
+                x.SignInScheme= IdentityServerConstants.ExternalCookieAuthenticationScheme;
                 x.ClientId = unknow;
                 x.ClientSecret = unknow;
                 authBuilder.Services.Remove(new ServiceDescriptor(typeof(WeixinAuthenticationOptions), weixin_options));

@@ -26,6 +26,15 @@ namespace WebApplication1
 
             services.AddOAuthApp(options=> {
                 
+                options.IdentityServerOptions = options =>
+                {
+                    options.UserInteraction.LoginUrl = "http://localhost:4200/auth2/signin";
+                    options.UserInteraction.DeviceVerificationUrl = "http://localhost:4200/auth2/signin";
+                    options.UserInteraction.LogoutUrl = "http://localhost:4200/auth2/logout";
+                    options.UserInteraction.ErrorUrl = "http://localhost:4200/auth2/error";
+                    options.UserInteraction.ConsentUrl = "http://localhost:4200/auth2/consent";
+                };
+
                 options.ReDocExtensions = (Extensions =>
                   {
                       Extensions.Add("x-logo", new OpenApiObject

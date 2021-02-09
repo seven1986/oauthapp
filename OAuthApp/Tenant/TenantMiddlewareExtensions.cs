@@ -14,6 +14,9 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using static OAuthApp.AppDefaultData;
 using Microsoft.OpenApi.Models;
 using AspNetCoreRateLimit;
+using IdentityServer4.Configuration;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -41,6 +44,32 @@ namespace Microsoft.AspNetCore.Builder
             }
 
             builder.Validate();
+
+            if (options.EnableOAuthAppUI)
+            {
+                var idsOptions = builder.ApplicationServices.GetService<IdentityServerOptions>();
+
+                idsOptions.UserInteraction.LoginUrl = "/tenant/auth2/signin";
+                idsOptions.UserInteraction.DeviceVerificationUrl = "/tenant/auth2/signin";
+                idsOptions.UserInteraction.LogoutUrl = "/tenant/auth2/logout";
+                idsOptions.UserInteraction.ErrorUrl = "/tenant/auth2/error";
+                idsOptions.UserInteraction.ConsentUrl = "/tenant/auth2/consent";
+
+                builder.Map("/tenant", subApp =>
+                {
+                    subApp.UseSpa(spa =>
+                    {
+                        spa.Options.SourcePath = "/tenant";
+                        spa.Options.DefaultPage = "/tenant/index.html";
+                    });
+
+                    builder.UseSpaStaticFiles(new StaticFileOptions
+                    {
+                        FileProvider = new PhysicalFileProvider($"{env.WebRootPath}/tenant"),
+                        RequestPath = "/tenant"
+                    });
+                });
+            }
 
             if (options.EnableIpRateLimit || options.EnableClientRateLimit)
             {

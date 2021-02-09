@@ -32,17 +32,17 @@ namespace OAuthApp
         }
         #endregion
 
-        #region IdentityServer4Client
+        #region OAuthAppClient
         /// <summary>
-        /// IdentityServer4Client - 后台使用
+        /// OAuthAppClient - 后台使用
         /// </summary>
-        public class IdentityServer4Client
+        public class OAuthAppClient
         {
-            public static string ClientId = "identityserver4";
+            public static string ClientId = "oauthapp";
 
-            public static string ClientName = "identityserver4";
+            public static string ClientName = "oauthapp";
 
-            public static string ClientSecret = "identityserver4";
+            public static string ClientSecret = "oauthapp";
 
             public static List<string> AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials.ToList();
 
@@ -96,7 +96,7 @@ namespace OAuthApp
             additionGrantTypes.ForEach(_grantType =>
             {
                 SwaggerClient.AllowedGrantTypes.Add(_grantType);
-                IdentityServer4Client.AllowedGrantTypes.Add(_grantType);
+                OAuthAppClient.AllowedGrantTypes.Add(_grantType);
             });
 
             return new List<Client>
@@ -127,26 +127,33 @@ namespace OAuthApp
                         {
                             IdentityServerConstants.StandardScopes.OpenId,
                             IdentityServerConstants.StandardScopes.Profile,
+                            IdentityServerConstants.StandardScopes.Address,
+                            IdentityServerConstants.StandardScopes.Email,
+                            IdentityServerConstants.StandardScopes.Phone,
+                            IdentityServerConstants.StandardScopes.OfflineAccess,
+                            "role",
+                            "permission",
                             AppConstant.MicroServiceName + ".all"
                         }, 
                         AllowOfflineAccess = true
                     },
 	                #endregion
 
-                    #region IdentityServer4Client
+                    #region OAuthApp
 		            new Client
                     {
-                        ClientId = IdentityServer4Client.ClientId,
-                        ClientName = IdentityServer4Client.ClientName,
-                        AllowedGrantTypes = IdentityServer4Client.AllowedGrantTypes,
+                        ClientId = OAuthAppClient.ClientId,
+                        ClientName = OAuthAppClient.ClientName,
+                        AllowedGrantTypes = OAuthAppClient.AllowedGrantTypes,
                         AllowAccessTokensViaBrowser = true,
                         ClientSecrets =
                         {
-                            new Secret(IdentityServer4Client.ClientSecret.Sha256())
+                            new Secret(OAuthAppClient.ClientSecret.Sha256())
                         },
                         BackChannelLogoutSessionRequired=false,
                         BackChannelLogoutUri="",
                         ConsentLifetime=969000,
+                        RequireConsent=true,
 
                         // 需要设置为true，否则token无法附加tenant相关信息
                         AlwaysSendClientClaims = true,
@@ -162,6 +169,12 @@ namespace OAuthApp
                         {
                             IdentityServerConstants.StandardScopes.OpenId,
                             IdentityServerConstants.StandardScopes.Profile,
+                            IdentityServerConstants.StandardScopes.Address,
+                            IdentityServerConstants.StandardScopes.Email,
+                            IdentityServerConstants.StandardScopes.Phone,
+                            IdentityServerConstants.StandardScopes.OfflineAccess,
+                            "role",
+                            "permission",
                             AppConstant.MicroServiceName + ".all"
                         },
                         AllowOfflineAccess = true

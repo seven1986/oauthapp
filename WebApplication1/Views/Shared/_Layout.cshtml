@@ -1,28 +1,32 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@{var TenantContext = OAuthApp.Tenant.TenantValidatorHelper.GetTenantWithProperties(Context);}
+<!DOCTYPE html>
+<html>
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
-
-    <title>IdentityServer4</title>
-    
-    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
-    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="@TenantContext.LogoUri" />
+    <title>@TenantContext.Name - OAuth</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <meta name="keywords" content="@TenantContext.Properties.GetValueOrDefault("WebSite:Keywords")" />
+    <meta name="description" content="@TenantContext.Properties.GetValueOrDefault("WebSite:Description")" />
 </head>
-<body>
-    <partial name="_Nav" />
-   
-    <div class="container body-container">
-        @RenderBody()
+<body class="bg-light">
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
     </div>
-
-    <script src="~/lib/jquery/dist/jquery.slim.min.js"></script>
+    @*<footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2020 - @TenantContext.Name - <a asp-area="" asp-controller="Home" asp-action="Privacy">隐私政策</a>
+            </div>
+        </footer>*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-    @RenderSection("scripts", required: false)
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+    @TenantContext.Properties.GetValueOrDefault("WebSite:Keywords")
 </body>
 </html>

@@ -1,7 +1,7 @@
-# 使用短信、邮件服务
+# 配置短信、邮件服务
 
 !!! note ""
-    当用户注册成功、找回密码、验证手机号时，可以使用 [SendCloud服务](https://sendcloud.sohu.com){: .md-button } 并把对应的连接字符串复制到如下配置中。
+    当用户注册成功、找回密码、验证手机号时，可以使用 [SendCloud服务](https://sendcloud.sohu.com) 并把对应的连接字符串复制到如下配置中。
 
 === "appsettings.json"
     ``` json linenums="1"
@@ -33,9 +33,9 @@
     ``` csharp linenums="1"
     public class EmailSender : Microsoft.AspNetCore.Identity.UI.Services.IEmailSender
       {
-          IdentityServer4.MicroService.Services.EmailService _sender;
+          EmailService _sender;
   
-          public EmailSender(IdentityServer4.MicroService.Services.EmailService sender)
+          public EmailSender(EmailService sender)
           {
               _sender = sender;
           }

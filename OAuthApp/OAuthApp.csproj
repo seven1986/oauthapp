@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.2.8</Version>
+    <Version>2.3.1-beta7</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -35,14 +35,53 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\**" />
     <Compile Remove="Microsoft.AspNetCore.Authentication\**" />
+    <EmbeddedResource Remove="Areas\**" />
     <EmbeddedResource Remove="Microsoft.AspNetCore.Authentication\**" />
+    <None Remove="Areas\**" />
     <None Remove="Microsoft.AspNetCore.Authentication\**" />
     <Compile Remove="Attributes\EmailConfigAttribute.cs" />
-    <Compile Remove="Controllers\ConsentController.cs" />
-    <Compile Remove="Controllers\DeviceController.cs" />
-    <Compile Remove="Controllers\GrantsController.cs" />
     <Content Include="..\.editorconfig" Link=".editorconfig" />
+    <Content Include="wwwroot\tenant\3rdpartylicenses.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\5.ab668b0440265ae45cc1.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\6.d5558726b2d8003090d7.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\7.e2257009c2b6013edf33.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\user.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\common.4a0b8a2ceabc9d8b32b3.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\favicon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\main.963016de68e859993f72.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\polyfills.055dc73325887d36f663.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\runtime.3723221c4dc33c318fce.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\scripts.b6ec25f718bb533d5f0c.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\styles.5bff5aa7c7507d93a46f.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="..\oauthapp.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -50,213 +89,34 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Areas\Identity\Pages\Account\AccessDenied.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\ConfirmEmail.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\ConfirmEmailChange.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\ExternalLogin.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\ForgotPassword.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\ForgotPasswordConfirmation.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Grants.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Lockout.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Login.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\LoginWith2fa.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\LoginWithRecoveryCode.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Logout.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\ChangePassword.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\DeletePersonalData.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\Disable2fa.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\DownloadPersonalData.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\Email.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\EnableAuthenticator.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\ExternalLogins.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\GenerateRecoveryCodes.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\Index.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\PersonalData.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\ResetAuthenticator.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\SetPassword.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\ShowRecoveryCodes.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\TwoFactorAuthentication.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\_Layout.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\_ManageNav.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\_StatusMessage.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Manage\_ViewImports.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\Register.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\RegisterConfirmation.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\ResetPassword.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\ResetPasswordConfirmation.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\_StatusMessage.cshtml" />
-    <None Remove="Areas\Identity\Pages\Account\_ViewImports.cshtml" />
-    <None Remove="Areas\Identity\Pages\Error.cshtml" />
-    <None Remove="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
-    <None Remove="Areas\Identity\Pages\_ViewImports.cshtml" />
-    <None Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
     <None Remove="oauthapp.pfx" />
     <None Remove="readme.txt" />
-    <None Remove="Views\Account\AccessDenied.cshtml" />
-    <None Remove="Views\Account\LoggedOut.cshtml" />
-    <None Remove="Views\Account\Login.cshtml" />
-    <None Remove="Views\Account\Logout.cshtml" />
-    <None Remove="Views\Consent\Index.cshtml" />
-    <None Remove="Views\Device\Success.cshtml" />
-    <None Remove="Views\Device\UserCodeCapture.cshtml" />
-    <None Remove="Views\Device\UserCodeConfirmation.cshtml" />
-    <None Remove="Views\Diagnostics\Index.cshtml" />
-    <None Remove="Views\Grants\Index.cshtml" />
-    <None Remove="Views\Shared\Error.cshtml" />
-    <None Remove="Views\Shared\Redirect.cshtml" />
-    <None Remove="Views\Shared\_LoginPartial.cshtml" />
-    <None Remove="Views\Shared\_Nav.cshtml" />
-    <None Remove="Views\Shared\_ScopeListItem.cshtml" />
-    <None Remove="Views\Shared\_ValidationSummary.cshtml" />
-    <None Remove="Views\_ViewImports.cshtml" />
-    <None Remove="wwwroot\css\site.min.css" />
-    <None Remove="wwwroot\css\site.scss" />
-    <None Remove="wwwroot\favicon.ico" />
-    <None Remove="wwwroot\js\signin-redirect.js" />
-    <None Remove="wwwroot\js\signout-redirect.js" />
-    <None Remove="wwwroot\js\swagger2Rst.html" />
-    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css" />
-    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
-    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
-    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
-    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css" />
-    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
-    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css" />
-    <None Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
-    <None Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
-    <None Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
-    <None Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
-    <None Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
-    <None Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
-    <None Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
-    <None Remove="wwwroot\lib\bootstrap\README.md" />
-    <None Remove="wwwroot\lib\jquery\dist\jquery.slim.js" />
-    <None Remove="wwwroot\lib\jquery\dist\jquery.slim.min.js" />
-    <None Remove="wwwroot\lib\jquery\dist\jquery.slim.min.map" />
-    <None Remove="wwwroot\lib\jquery\README.md" />
+    <None Remove="wwwroot\tenant\3rdpartylicenses.txt" />
+    <None Remove="wwwroot\tenant\4.f9fc1f0f63086feacc5e.js" />
+    <None Remove="wwwroot\tenant\5.2acac7fa6eb8ef284254.js" />
+    <None Remove="wwwroot\tenant\5.ab668b0440265ae45cc1.js" />
+    <None Remove="wwwroot\tenant\5.b1cc80c0683219c57ea4.js" />
+    <None Remove="wwwroot\tenant\6.45afe8b3c17f127a5cde.js" />
+    <None Remove="wwwroot\tenant\6.d5558726b2d8003090d7.js" />
+    <None Remove="wwwroot\tenant\7.e2257009c2b6013edf33.js" />
+    <None Remove="wwwroot\tenant\assets\user.png" />
+    <None Remove="wwwroot\tenant\common.4a0b8a2ceabc9d8b32b3.js" />
+    <None Remove="wwwroot\tenant\common.c50789678c9248fb08ab.js" />
+    <None Remove="wwwroot\tenant\favicon.ico" />
+    <None Remove="wwwroot\tenant\index.html" />
+    <None Remove="wwwroot\tenant\main.1ebf178abec5b5c6a632.js" />
+    <None Remove="wwwroot\tenant\main.828d006dc1923f1983a8.js" />
+    <None Remove="wwwroot\tenant\main.963016de68e859993f72.js" />
+    <None Remove="wwwroot\tenant\polyfills.055dc73325887d36f663.js" />
+    <None Remove="wwwroot\tenant\polyfills.f43954ace77eaf1b4591.js" />
+    <None Remove="wwwroot\tenant\runtime.21d3a80db88d760642b3.js" />
+    <None Remove="wwwroot\tenant\runtime.3723221c4dc33c318fce.js" />
+    <None Remove="wwwroot\tenant\runtime.fb4f60c3cbca59576797.js" />
+    <None Remove="wwwroot\tenant\scripts.b6ec25f718bb533d5f0c.js" />
+    <None Remove="wwwroot\tenant\styles.5bff5aa7c7507d93a46f.css" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Areas\Identity\Pages\Account\AccessDenied.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\Grants.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\ConfirmEmail.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\ConfirmEmailChange.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\ExternalLogin.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\ForgotPassword.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\ForgotPasswordConfirmation.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Lockout.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Login.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\LoginWith2fa.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\LoginWithRecoveryCode.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Logout.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\ChangePassword.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\DeletePersonalData.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\Disable2fa.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\DownloadPersonalData.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\Email.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\EnableAuthenticator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\ExternalLogins.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\GenerateRecoveryCodes.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\PersonalData.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\ResetAuthenticator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\SetPassword.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\ShowRecoveryCodes.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\TwoFactorAuthentication.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\_Layout.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\_ManageNav.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\_StatusMessage.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Manage\_ViewImports.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\Register.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\RegisterConfirmation.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\ResetPassword.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\ResetPasswordConfirmation.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\_StatusMessage.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Account\_ViewImports.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\Error.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\_ViewImports.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Identity\Pages\_ViewStart.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="oauthapp.pfx">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -264,245 +124,57 @@
     <Content Include="readme.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Account\AccessDenied.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Account\LoggedOut.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Account\Login.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Account\Logout.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Consent\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Device\Success.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Device\UserCodeCapture.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Device\UserCodeConfirmation.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Diagnostics\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Grants\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\Error.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\Redirect.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\_LoginPartial.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\_Nav.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\_ScopeListItem.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\_ValidationSummary.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\_ViewImports.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\css\site.min.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\css\site.scss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\js\signin-redirect.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\js\signout-redirect.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\js\swagger2Rst.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\README.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\jquery\dist\jquery.slim.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\jquery\dist\jquery.slim.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\jquery\dist\jquery.slim.min.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\jquery\README.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.1.6" />
-    <PackageReference Include="AspNet.Security.OAuth.QQ" Version="3.1.6" />
-    <PackageReference Include="AspNet.Security.OAuth.Weibo" Version="3.1.6" />
-    <PackageReference Include="AspNet.Security.OAuth.Weixin" Version="3.1.6" />
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.1.7" />
+    <PackageReference Include="AspNet.Security.OAuth.QQ" Version="3.1.7" />
+    <PackageReference Include="AspNet.Security.OAuth.Weibo" Version="3.1.7" />
+    <PackageReference Include="AspNet.Security.OAuth.Weixin" Version="3.1.7" />
     <PackageReference Include="AspNetCoreRateLimit" Version="3.2.2" />
     <PackageReference Include="IdentityServer4" Version="4.1.1" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.1" />
     <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.1" />
-    <PackageReference Include="JavaScriptEngineSwitcher.V8" Version="3.9.0" />
+    <PackageReference Include="JavaScriptEngineSwitcher.V8" Version="3.10.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="3.1.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="3.1.10" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Extensions" Version="3.1.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="3.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="3.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Extensions" Version="3.1.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.11" />
     <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />
     <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.2" />
     <PackageReference Include="Microsoft.Azure.Storage.Queue" Version="11.2.2" />
-    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.0.0" />
-    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x86" Version="7.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.10">
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.1.0" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x86" Version="7.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.10">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.11">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="3.1.10" />
+    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="3.1.11" />
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Utils" Version="3.1.4" />
     <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.6.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="6.0.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="wwwroot\css\site.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\favicon.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\js\site.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\bootstrap\LICENSE">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\jquery-validation\dist\additional-methods.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\jquery-validation\LICENSE.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\jquery\dist\jquery.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\jquery\dist\jquery.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\jquery\dist\jquery.min.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\jquery\LICENSE.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -510,12 +182,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>AppResource.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Areas\Identity\Pages\Account\Manage\Disable2fa.cshtml.cs">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Areas\Identity\Pages\Account\Manage\Email.cshtml.cs">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
 

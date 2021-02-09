@@ -4,11 +4,8 @@ using OAuthApp.Configuration;
 using OAuthApp.Data;
 using OAuthApp.Services;
 using OAuthApp.Tenant;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -30,6 +27,7 @@ using System.Text.Unicode;
 using Microsoft.IdentityModel.Tokens;
 using OAuthApp.Attributes;
 using AspNetCoreRateLimit;
+using IdentityServer4;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -351,11 +349,8 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             #region Authentication
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-            }).AddJwtBearer(AppConstant.AppAuthenScheme, options =>
+            builder.Services.AddAuthentication()
+                .AddJwtBearer(AppConstant.AppAuthenScheme, options =>
             {
                 options.RequireHttpsMetadata = true;
 
@@ -580,7 +575,7 @@ namespace Microsoft.Extensions.DependencyInjection
         static IOAuthAppServiceBuilder AddCoreService(this IOAuthAppServiceBuilder builder)
         {
             builder.Services.AddScoped<IPasswordHasher<AppUser>, IdentityMD5PasswordHasher>();
-            builder.Services.AddSingleton<TenantService>();
+            builder.Services.AddScoped<TenantService>();
             builder.Services.AddSingleton<RedisService>();
             builder.Services.AddSingleton<SwaggerCodeGenService>();
             builder.Services.AddSingleton<AzureStorageService>();
@@ -719,6 +714,9 @@ namespace Microsoft.Extensions.DependencyInjection
               .AddConfigurationStore(x => x.ConfigureDbContext = DbContextOptions)
               .AddOperationalStore(x => x.ConfigureDbContext = DbContextOptions)
               .AddAspNetIdentity<AppUser>()
+              .AddJwtBearerClientAuthentication()
+              .AddAppAuthRedirectUriValidator()
+              .AddRedirectUriValidator<AnonymousRedirectUriValidator>()
               .AddExtensionGrantValidator<MobileCodeGrantValidator>()
               .AddExtensionGrantValidator<OpenIdOAuthGrantValidator>();
 

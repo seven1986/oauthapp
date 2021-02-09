@@ -22,6 +22,7 @@ using OAuthApp.Models.Apis.Common;
 using OAuthApp.Models.Shared;
 using static OAuthApp.AppConstant;
 using System.Security.Claims;
+using IdentityModel;
 
 namespace OAuthApp.Apis
 {
@@ -41,7 +42,7 @@ namespace OAuthApp.Apis
         {
             get
             {
-                var subClaim = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.NameIdentifier));
+                var subClaim = UserClaims(ClaimTypes.NameIdentifier);
 
                 if (subClaim != null)
                 {
@@ -50,6 +51,11 @@ namespace OAuthApp.Apis
 
                 return 0L;
             }
+        }
+
+        protected Claim UserClaims(string claimType)
+        {
+            return ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => x.Type.Equals(claimType));
         }
 
         private string _UserLineage;
@@ -96,7 +102,7 @@ namespace OAuthApp.Apis
         {
             get
             {
-                return ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => x.Type.Equals("client_id")).Value;
+                return UserClaims(JwtClaimTypes.ClientId).Value;
             }
         }
 
@@ -107,8 +113,7 @@ namespace OAuthApp.Apis
         {
             get
             {
-                var tenant = ((ClaimsIdentity)User.Identity).Claims.
-                    Where(x => x.Type.Contains(TenantConstant.TokenKey)).FirstOrDefault();
+                var tenant = UserClaims(TenantConstant.TokenKey);
 
                 if (tenant != null)
                 {
@@ -132,9 +137,7 @@ namespace OAuthApp.Apis
             {
                 if (_tenant == null)
                 {
-                    var tenantCache = tenantService.GetTenant(tenantDb, HttpContext.Request.Host.Value);
-
-                    _tenant = tenantCache.Item2;
+                    _tenant = HttpContext.GetTenantWithProperties();
                 }
 
                 return _tenant;

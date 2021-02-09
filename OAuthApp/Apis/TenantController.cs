@@ -415,7 +415,7 @@ namespace OAuthApp.Apis
             Description = "")]
         public ApiResult<TenantPublicModel> Info(string host)
         {
-            var entity = tenantService.GetTenant(tenantDb, host);
+            var entity = tenantService.GetTenant(host);
 
             if (entity == null)
             {

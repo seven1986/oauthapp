@@ -1,4 +1,4 @@
-# 安装使用
+# 安装
 
 !!! note ""
     使用OAuthApp可以快速建立OAuth2.0的Saas用户中心。参考如下步骤创建项目并确保已安装[Visual Studio 2019](https://visualstudio.microsoft.com/zh-hans/vs/)、[DotNet Core 3.1+](https://dotnet.microsoft.com/download/dotnet-core/3.1)、[SQL Server](https://www.microsoft.com/zh-cn/sql-server/sql-server-downloads)。

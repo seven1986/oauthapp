@@ -146,6 +146,11 @@ namespace OAuthApp
         /// 启用IP访问速率限制
         /// </summary>
         public bool EnableIpRateLimit { get; set; } = false;
+
+        /// <summary>
+        /// 使用新的交互页面
+        /// </summary>
+        public bool EnableOAuthAppUI { get; set; } = true;
     }
 
     public enum APIDocumentEnums
@@ -170,6 +175,8 @@ namespace OAuthApp
 
         User = 9,
 
-        Package = 10
+        Package = 10,
+
+        Authing = 11
     }
 }
