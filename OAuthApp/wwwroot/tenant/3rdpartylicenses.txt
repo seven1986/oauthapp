@@ -19,6 +19,18 @@ MIT
 @angular/router
 MIT
 
+@ngx-loading-bar/core
+MIT
+
+@ngx-loading-bar/router
+MIT
+
+@ngx-translate/core
+MIT
+
+@ngx-translate/http-loader
+MIT
+
 @sweetalert2/ngx-sweetalert2
 MIT License
 
