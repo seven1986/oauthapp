@@ -11,7 +11,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.3.1-beta7</Version>
+    <Version>2.3.1-beta8</Version>
     <Product>oauthapp</Product>
     <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -46,19 +46,49 @@
     <Content Include="wwwroot\tenant\3rdpartylicenses.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\tenant\5.ab668b0440265ae45cc1.js">
+    <Content Include="wwwroot\tenant\5.5da9739d8c455ddabeea.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\tenant\6.d5558726b2d8003090d7.js">
+    <Content Include="wwwroot\tenant\6.d72268b94d80124a416e.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\tenant\7.e2257009c2b6013edf33.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\es.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\it.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ja.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ko.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\pt.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ru.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="wwwroot\tenant\assets\user.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\tenant\common.4a0b8a2ceabc9d8b32b3.js">
+    <Content Include="wwwroot\tenant\common.fd1f8bccdb65ee6fa4e4.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\tenant\favicon.ico">
@@ -67,13 +97,13 @@
     <Content Include="wwwroot\tenant\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\tenant\main.963016de68e859993f72.js">
+    <Content Include="wwwroot\tenant\main.cdc5463b20f635604c30.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\tenant\polyfills.055dc73325887d36f663.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\tenant\runtime.3723221c4dc33c318fce.js">
+    <Content Include="wwwroot\tenant\runtime.d55e3c892998743c75b6.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\tenant\scripts.b6ec25f718bb533d5f0c.js">
@@ -94,23 +124,38 @@
     <None Remove="wwwroot\tenant\3rdpartylicenses.txt" />
     <None Remove="wwwroot\tenant\4.f9fc1f0f63086feacc5e.js" />
     <None Remove="wwwroot\tenant\5.2acac7fa6eb8ef284254.js" />
+    <None Remove="wwwroot\tenant\5.5da9739d8c455ddabeea.js" />
     <None Remove="wwwroot\tenant\5.ab668b0440265ae45cc1.js" />
     <None Remove="wwwroot\tenant\5.b1cc80c0683219c57ea4.js" />
     <None Remove="wwwroot\tenant\6.45afe8b3c17f127a5cde.js" />
     <None Remove="wwwroot\tenant\6.d5558726b2d8003090d7.js" />
+    <None Remove="wwwroot\tenant\6.d72268b94d80124a416e.js" />
     <None Remove="wwwroot\tenant\7.e2257009c2b6013edf33.js" />
+    <None Remove="wwwroot\tenant\assets\i18n\de.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\en.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\es.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\fr.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\it.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ja.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ko.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\pt.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ru.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\zh.json" />
     <None Remove="wwwroot\tenant\assets\user.png" />
     <None Remove="wwwroot\tenant\common.4a0b8a2ceabc9d8b32b3.js" />
     <None Remove="wwwroot\tenant\common.c50789678c9248fb08ab.js" />
+    <None Remove="wwwroot\tenant\common.fd1f8bccdb65ee6fa4e4.js" />
     <None Remove="wwwroot\tenant\favicon.ico" />
     <None Remove="wwwroot\tenant\index.html" />
     <None Remove="wwwroot\tenant\main.1ebf178abec5b5c6a632.js" />
     <None Remove="wwwroot\tenant\main.828d006dc1923f1983a8.js" />
     <None Remove="wwwroot\tenant\main.963016de68e859993f72.js" />
+    <None Remove="wwwroot\tenant\main.cdc5463b20f635604c30.js" />
     <None Remove="wwwroot\tenant\polyfills.055dc73325887d36f663.js" />
     <None Remove="wwwroot\tenant\polyfills.f43954ace77eaf1b4591.js" />
     <None Remove="wwwroot\tenant\runtime.21d3a80db88d760642b3.js" />
     <None Remove="wwwroot\tenant\runtime.3723221c4dc33c318fce.js" />
+    <None Remove="wwwroot\tenant\runtime.d55e3c892998743c75b6.js" />
     <None Remove="wwwroot\tenant\runtime.fb4f60c3cbca59576797.js" />
     <None Remove="wwwroot\tenant\scripts.b6ec25f718bb533d5f0c.js" />
     <None Remove="wwwroot\tenant\styles.5bff5aa7c7507d93a46f.css" />
