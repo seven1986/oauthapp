@@ -46,16 +46,55 @@
     <Content Include="wwwroot\tenant\3rdpartylicenses.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\tenant\5.5da9739d8c455ddabeea.js">
+    <Content Include="wwwroot\tenant\5.6cce34994917da81f247.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\tenant\6.d72268b94d80124a416e.js">
+    <Content Include="wwwroot\tenant\6.9e1ffba2fd662861e75e.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\tenant\7.e2257009c2b6013edf33.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\af.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\am.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ar.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\as.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\az.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\bg.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\bn.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\bs.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ca.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\cs.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\cy.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\da.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="wwwroot\tenant\assets\i18n\de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\el.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\tenant\assets\i18n\en.json">
@@ -64,22 +103,229 @@
     <Content Include="wwwroot\tenant\assets\i18n\es.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\et.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\fa.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\fi.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\fil.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\fj.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\fr-CA.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="wwwroot\tenant\assets\i18n\fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ga.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\gu.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\he.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\hi.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\hr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ht.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\hu.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\hy.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\id.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\is.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\tenant\assets\i18n\it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\iu.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="wwwroot\tenant\assets\i18n\ja.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\kk.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\km.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\kmr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\kn.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\tenant\assets\i18n\ko.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ku.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\lo.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\lt.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\lv.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\mg.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\mi.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ml.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\mr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ms.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\mt.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\mww.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\my.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\nb.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ne.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\nl.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\or.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\otq.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\pa.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\pl.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\prs.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ps.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\pt-PT.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="wwwroot\tenant\assets\i18n\pt.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ro.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="wwwroot\tenant\assets\i18n\ru.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\sk.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\sl.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\sm.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\sq.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\sr-Cyrl.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\sr-Latn.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\sv.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\sw.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ta.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\te.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\th.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ti.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\tlh-Latn.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\tlh-Piqd.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\to.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\tr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ty.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\uk.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\ur.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\vi.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\yua.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\yue.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\zh-CN.xlf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\zh-Hans.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\tenant\assets\i18n\zh-Hant.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\tenant\assets\i18n\zh.json">
@@ -88,7 +334,7 @@
     <Content Include="wwwroot\tenant\assets\user.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\tenant\common.fd1f8bccdb65ee6fa4e4.js">
+    <Content Include="wwwroot\tenant\common.7afda4970e544b7871b7.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\tenant\favicon.ico">
@@ -97,19 +343,19 @@
     <Content Include="wwwroot\tenant\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\tenant\main.cdc5463b20f635604c30.js">
+    <Content Include="wwwroot\tenant\main.3e782d0f480ceed4e94c.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\tenant\polyfills.055dc73325887d36f663.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\tenant\runtime.d55e3c892998743c75b6.js">
+    <Content Include="wwwroot\tenant\runtime.515706d6ab1ccce14dd4.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\tenant\scripts.b6ec25f718bb533d5f0c.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\tenant\styles.5bff5aa7c7507d93a46f.css">
+    <Content Include="wwwroot\tenant\styles.e89d1b3fb38681852c4c.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="..\oauthapp.png">
@@ -125,29 +371,115 @@
     <None Remove="wwwroot\tenant\4.f9fc1f0f63086feacc5e.js" />
     <None Remove="wwwroot\tenant\5.2acac7fa6eb8ef284254.js" />
     <None Remove="wwwroot\tenant\5.5da9739d8c455ddabeea.js" />
+    <None Remove="wwwroot\tenant\5.6cce34994917da81f247.js" />
     <None Remove="wwwroot\tenant\5.ab668b0440265ae45cc1.js" />
     <None Remove="wwwroot\tenant\5.b1cc80c0683219c57ea4.js" />
     <None Remove="wwwroot\tenant\6.45afe8b3c17f127a5cde.js" />
+    <None Remove="wwwroot\tenant\6.9e1ffba2fd662861e75e.js" />
     <None Remove="wwwroot\tenant\6.d5558726b2d8003090d7.js" />
     <None Remove="wwwroot\tenant\6.d72268b94d80124a416e.js" />
     <None Remove="wwwroot\tenant\7.e2257009c2b6013edf33.js" />
+    <None Remove="wwwroot\tenant\assets\i18n\af.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\am.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ar.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\as.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\az.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\bg.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\bn.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\bs.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ca.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\cs.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\cy.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\da.json" />
     <None Remove="wwwroot\tenant\assets\i18n\de.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\el.json" />
     <None Remove="wwwroot\tenant\assets\i18n\en.json" />
     <None Remove="wwwroot\tenant\assets\i18n\es.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\et.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\fa.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\fi.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\fil.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\fj.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\fr-CA.json" />
     <None Remove="wwwroot\tenant\assets\i18n\fr.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ga.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\gu.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\he.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\hi.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\hr.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ht.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\hu.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\hy.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\id.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\is.json" />
     <None Remove="wwwroot\tenant\assets\i18n\it.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\iu.json" />
     <None Remove="wwwroot\tenant\assets\i18n\ja.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\kk.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\km.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\kmr.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\kn.json" />
     <None Remove="wwwroot\tenant\assets\i18n\ko.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ku.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\lo.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\lt.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\lv.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\mg.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\mi.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ml.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\mr.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ms.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\mt.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\mww.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\my.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\nb.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ne.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\nl.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\or.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\otq.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\pa.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\pl.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\prs.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ps.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\pt-PT.json" />
     <None Remove="wwwroot\tenant\assets\i18n\pt.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ro.json" />
     <None Remove="wwwroot\tenant\assets\i18n\ru.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\sk.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\sl.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\sm.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\sq.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\sr-Cyrl.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\sr-Latn.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\sv.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\sw.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ta.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\te.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\th.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ti.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\tlh-Latn.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\tlh-Piqd.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\to.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\tr.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ty.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\uk.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\ur.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\vi.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\yua.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\yue.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\zh-CN.xlf" />
+    <None Remove="wwwroot\tenant\assets\i18n\zh-Hans.json" />
+    <None Remove="wwwroot\tenant\assets\i18n\zh-Hant.json" />
     <None Remove="wwwroot\tenant\assets\i18n\zh.json" />
     <None Remove="wwwroot\tenant\assets\user.png" />
     <None Remove="wwwroot\tenant\common.4a0b8a2ceabc9d8b32b3.js" />
+    <None Remove="wwwroot\tenant\common.7afda4970e544b7871b7.js" />
     <None Remove="wwwroot\tenant\common.c50789678c9248fb08ab.js" />
     <None Remove="wwwroot\tenant\common.fd1f8bccdb65ee6fa4e4.js" />
     <None Remove="wwwroot\tenant\favicon.ico" />
     <None Remove="wwwroot\tenant\index.html" />
     <None Remove="wwwroot\tenant\main.1ebf178abec5b5c6a632.js" />
+    <None Remove="wwwroot\tenant\main.3e782d0f480ceed4e94c.js" />
     <None Remove="wwwroot\tenant\main.828d006dc1923f1983a8.js" />
     <None Remove="wwwroot\tenant\main.963016de68e859993f72.js" />
     <None Remove="wwwroot\tenant\main.cdc5463b20f635604c30.js" />
@@ -155,10 +487,12 @@
     <None Remove="wwwroot\tenant\polyfills.f43954ace77eaf1b4591.js" />
     <None Remove="wwwroot\tenant\runtime.21d3a80db88d760642b3.js" />
     <None Remove="wwwroot\tenant\runtime.3723221c4dc33c318fce.js" />
+    <None Remove="wwwroot\tenant\runtime.515706d6ab1ccce14dd4.js" />
     <None Remove="wwwroot\tenant\runtime.d55e3c892998743c75b6.js" />
     <None Remove="wwwroot\tenant\runtime.fb4f60c3cbca59576797.js" />
     <None Remove="wwwroot\tenant\scripts.b6ec25f718bb533d5f0c.js" />
     <None Remove="wwwroot\tenant\styles.5bff5aa7c7507d93a46f.css" />
+    <None Remove="wwwroot\tenant\styles.e89d1b3fb38681852c4c.css" />
   </ItemGroup>
 
   <ItemGroup>
