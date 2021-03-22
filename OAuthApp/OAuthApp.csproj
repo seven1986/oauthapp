@@ -547,6 +547,10 @@
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Utils" Version="3.1.4" />
+    <PackageReference Include="NuGetDebugTools" Version="1.4.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.0.2" />
@@ -554,6 +558,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="6.0.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
+    <PackageReference Include="XYZ" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
