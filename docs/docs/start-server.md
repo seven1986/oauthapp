@@ -65,19 +65,8 @@
 ### 3.2 Identity UI
 
 !!! note ""
-    打开项目的 **Views/Shared/_Layout.cshtml** 文件，添加登陆组件。
- 
-=== "Views/Shared/_Layout.cshtml"
-``` html linenums="1"
-    <partial name="_LoginPartial" />
-```
-
-![9](./images/usecase-basic/startserver9.png)
-
-### 3.3 添加并引用服务
-
-!!! note ""
     打开 **Startup.cs** 文件，添加如下代码。
+    启动项目后可打开测试：{{网站地址}}/tenant/index.html
 
 
 === "Startup.cs"
@@ -89,7 +78,23 @@
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        app.UseOAuthApp();
+         if (env.IsDevelopment())
+         {
+             app.UseDeveloperExceptionPage();
+         }
+         else
+         {
+             app.UseExceptionHandler("/Home/Error");
+             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+             app.UseHsts();
+         }
+
+         app.UseHttpsRedirection();
+
+        //必须在app.UseHttpsRedirection之后、app.UseStaticFiles之前
+         app.UseOAuthAppUI(); 
+
+         app.UseStaticFiles();
     }
     ```
 
@@ -117,11 +122,6 @@
 ![16](./images/usecase-basic/startserver16.png)
 ![17](./images/usecase-basic/startserver17.png)
 ![18](./images/usecase-basic/startserver18.png)
-
-!!! note ""
-    可访问 **{项目网址}** /grants，撤销对指定client的授权。
-
-![19](./images/usecase-basic/startserver19.png)
 
 ## 6，Postman
 

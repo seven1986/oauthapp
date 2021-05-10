@@ -19,6 +19,10 @@
     <None Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="OAuthApp" Version="2.3.4" />
+  </ItemGroup>
+
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 

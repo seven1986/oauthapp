@@ -24,8 +24,6 @@ namespace WebApplication1
         {
             services.AddControllersWithViews();
             
-            IdentityModelEventSource.ShowPII = true;
-
             services.AddOAuthApp();
         }
 
