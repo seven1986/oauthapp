@@ -17,6 +17,9 @@ using AspNetCoreRateLimit;
 using IdentityServer4.Configuration;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using Microsoft.Extensions.PlatformAbstractions;
+using System.IO.Compression;
+using System.Threading.Tasks;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -44,32 +47,6 @@ namespace Microsoft.AspNetCore.Builder
             }
 
             builder.Validate();
-
-            if (options.EnableOAuthAppUI)
-            {
-                var idsOptions = builder.ApplicationServices.GetService<IdentityServerOptions>();
-
-                idsOptions.UserInteraction.LoginUrl = "/tenant/auth2/signin";
-                idsOptions.UserInteraction.DeviceVerificationUrl = "/tenant/auth2/signin";
-                idsOptions.UserInteraction.LogoutUrl = "/tenant/auth2/logout";
-                idsOptions.UserInteraction.ErrorUrl = "/tenant/auth2/error";
-                idsOptions.UserInteraction.ConsentUrl = "/tenant/auth2/consent";
-
-                builder.Map("/tenant", subApp =>
-                {
-                    subApp.UseSpa(spa =>
-                    {
-                        spa.Options.SourcePath = "/tenant";
-                        spa.Options.DefaultPage = "/tenant/index.html";
-                    });
-
-                    builder.UseSpaStaticFiles(new StaticFileOptions
-                    {
-                        FileProvider = new PhysicalFileProvider($"{env.WebRootPath}/tenant"),
-                        RequestPath = "/tenant"
-                    });
-                });
-            }
 
             if (options.EnableIpRateLimit || options.EnableClientRateLimit)
             {
@@ -178,6 +155,67 @@ namespace Microsoft.AspNetCore.Builder
             return builder;
         }
 
+        /// <summary>
+        /// 使用OAuthApp UI
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseOAuthAppUI(
+         this IApplicationBuilder builder)
+        {
+            var env = builder.ApplicationServices.GetService<IWebHostEnvironment>();
+
+            var OAuthAppUI_DirectoryPath = $"{env.WebRootPath}/tenant";
+
+            var OAuthAppUI_PackageFilePath = Path.Combine($"{env.WebRootPath}", "oauthapp-ui.zip");
+
+            if (!Directory.Exists(OAuthAppUI_DirectoryPath))
+            {
+                using (var ms = new MemoryStream(AppResource.oauthapp_ui))
+                {
+                    using (var fs = new FileStream(OAuthAppUI_PackageFilePath,FileMode.CreateNew))
+                    {
+                        fs.Write(AppResource.oauthapp_ui, 0, AppResource.oauthapp_ui.Length);
+                    }
+                }
+
+                new Func<bool>(() =>
+                {
+                    ZipFile.ExtractToDirectory(OAuthAppUI_PackageFilePath, env.WebRootPath);
+
+                    return true;
+
+                }).Invoke();
+
+                File.Delete(OAuthAppUI_PackageFilePath);
+            }
+
+
+            var idsOptions = builder.ApplicationServices.GetService<IdentityServerOptions>();
+
+            idsOptions.UserInteraction.LoginUrl = "/tenant/auth2/signin";
+            idsOptions.UserInteraction.DeviceVerificationUrl = "/tenant/auth2/signin";
+            idsOptions.UserInteraction.LogoutUrl = "/tenant/auth2/logout";
+            idsOptions.UserInteraction.ErrorUrl = "/tenant/auth2/error";
+            idsOptions.UserInteraction.ConsentUrl = "/tenant/auth2/consent";
+
+            builder.Map("/tenant", subApp =>
+            {
+                subApp.UseSpa(spa =>
+                {
+                    spa.Options.SourcePath = "/tenant";
+                    spa.Options.DefaultPage = "/tenant/index.html";
+                });
+
+                builder.UseSpaStaticFiles(new StaticFileOptions
+                {
+                    FileProvider = new PhysicalFileProvider($"{env.WebRootPath}/tenant"),
+                    RequestPath = "/tenant"
+                });
+            });
+
+            return builder;
+        }
         internal static void Validate(this IApplicationBuilder app)
         {
             var loggerFactory = app.ApplicationServices.GetService(typeof(ILoggerFactory)) as ILoggerFactory;

@@ -47,8 +47,8 @@ namespace OAuthApp {
         }
         
         /// <summary>
-        ///   重写当前线程的 CurrentUICulture 属性
-        ///   重写当前线程的 CurrentUICulture 属性。
+        ///   重写当前线程的 CurrentUICulture 属性，对
+        ///   使用此强类型资源类的所有资源查找执行重写。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Globalization.CultureInfo Culture {
@@ -91,13 +91,22 @@ namespace OAuthApp {
         ///            &lt;summary&gt;
         ///            API
         ///            &lt;/summary&gt;
-        ///            &lt;remarks&gt;为API提供版本管理、网关集成都功能。&lt;/remarks&gt;
         ///        &lt;/member&gt;
-        ///        &lt;member name=&quot;M:OAuthApp.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,OAuthApp.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLoca [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///        &lt;member name=&quot;M:OAuthApp.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,OAuthApp.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLocalizer{OAuthApp.Apis.ApiResourceController},OAuthApp. [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string OAuthApp {
             get {
                 return ResourceManager.GetString("OAuthApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] oauthapp_ui {
+            get {
+                object obj = ResourceManager.GetObject("oauthapp_ui", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

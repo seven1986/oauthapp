@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Any;
 
@@ -22,29 +24,7 @@ namespace WebApplication1
         {
             services.AddControllersWithViews();
             
-            IdentityModelEventSource.ShowPII = true;
-
-            services.AddOAuthApp(options=> {
-                
-                options.IdentityServerOptions = options =>
-                {
-                    options.UserInteraction.LoginUrl = "http://localhost:4200/auth2/signin";
-                    options.UserInteraction.DeviceVerificationUrl = "http://localhost:4200/auth2/signin";
-                    options.UserInteraction.LogoutUrl = "http://localhost:4200/auth2/logout";
-                    options.UserInteraction.ErrorUrl = "http://localhost:4200/auth2/error";
-                    options.UserInteraction.ConsentUrl = "http://localhost:4200/auth2/consent";
-                };
-
-                options.ReDocExtensions = (Extensions =>
-                  {
-                      Extensions.Add("x-logo", new OpenApiObject
-                      {
-                          ["url"] = new OpenApiString("https://www.oauthapp.com/images/oauthapp.png"),
-                          ["backgroundColor"] = new OpenApiString("#ffffff"),
-                          ["altText"] = new OpenApiString("OAuthApp.com"),
-                      });
-                  });
-            });
+            services.AddOAuthApp();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +40,11 @@ namespace WebApplication1
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
+
+            app.UseOAuthAppUI();
+
             app.UseStaticFiles();
 
             app.UseRouting();

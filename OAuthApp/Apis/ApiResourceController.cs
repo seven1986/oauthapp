@@ -49,11 +49,9 @@ namespace OAuthApp.Apis
         #region Services
         //Database
         readonly ConfigurationDbContext configDb;
-        readonly SwaggerCodeGenService swagerCodeGen;
         readonly AzureStorageService storageService;
         readonly EmailService email;
         readonly IDistributedCache cache;
-        readonly IHttpContextAccessor accessor;
         #endregion
 
         #region 构造函数
@@ -91,14 +89,11 @@ namespace OAuthApp.Apis
             tenantDb = _tenantDb;
             tenantService = _tenantService;
             //redis = _redis;
-            swagerCodeGen = _swagerCodeGen;
             storageService = _storageService;
             email = _email;
             protector = _provider.CreateProtector(GetType().FullName).ToTimeLimitedDataProtector();
 
             cache = _cache;
-
-            accessor = _accessor;
         }
         #endregion
 
@@ -205,7 +200,7 @@ namespace OAuthApp.Apis
             Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.apiresource.detail | oauthapp.apiresource.detail |")]
         public ApiResult<ApiResource> Get(long id)
         {
-            if (!exists(id))
+            if (!Exists(id))
             {
                 return new ApiResult<ApiResource>(l, BasicControllerEnums.NotFound);
             }
@@ -442,7 +437,7 @@ namespace OAuthApp.Apis
             Description = "#### 需要权限\r\n" + "| client scope | user permission |\r\n" + "| ---- | ---- |\r\n" + "| oauthapp.apiresource.delete | oauthapp.apiresource.delete |")]
         public ApiResult<bool> Delete(long id)
         {
-            if (!exists(id))
+            if (!Exists(id))
             {
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
@@ -792,7 +787,7 @@ namespace OAuthApp.Apis
                     ModelErrors());
             }
 
-            if (!exists(id))
+            if (!Exists(id))
             {
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
@@ -903,7 +898,7 @@ namespace OAuthApp.Apis
                     ModelErrors());
             }
 
-            if (!exists(id))
+            if (!Exists(id))
             {
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
@@ -958,7 +953,7 @@ namespace OAuthApp.Apis
                     BasicControllerEnums.UnprocessableEntity, ModelErrors());
             }
 
-            if (!exists(id))
+            if (!Exists(id))
             {
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
@@ -971,7 +966,7 @@ namespace OAuthApp.Apis
 
             foreach (var v in pcts.value)
             {
-                bool resultx = await AzureApim.Products.AddApiAsync(v.id, newApiId);
+                await AzureApim.Products.AddApiAsync(v.id, newApiId);
             }
 
             return new ApiResult<bool>(result);
@@ -994,7 +989,7 @@ namespace OAuthApp.Apis
         [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<ApiResourcePublishRequest>> PublishConfiguration(long id)
         {
-            if (!exists(id))
+            if (!Exists(id))
             {
                 return new ApiResult<ApiResourcePublishRequest>(l, BasicControllerEnums.NotFound);
             }
@@ -1100,7 +1095,7 @@ namespace OAuthApp.Apis
         [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ApiResult<bool>> SetOnlineVersion(long id, string revisionId)
         {
-            if (!exists(id) || string.IsNullOrWhiteSpace(revisionId))
+            if (!Exists(id) || string.IsNullOrWhiteSpace(revisionId))
             {
                 return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
             }
@@ -1314,7 +1309,7 @@ namespace OAuthApp.Apis
         [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<PagingResult<ApiResourceSubscriptionEntity>> Subscriptions(long id)
         {
-            if (!exists(id))
+            if (!Exists(id))
             {
                 return new PagingResult<ApiResourceSubscriptionEntity>(l, BasicControllerEnums.NotFound);
             }
@@ -1359,8 +1354,7 @@ namespace OAuthApp.Apis
                     "无效的订阅验证码");
             }
 
-            string Email = string.Empty;
-
+            string Email;
             try
             {
                 Email = Unprotect(code);
@@ -1413,8 +1407,7 @@ namespace OAuthApp.Apis
                     "无效的订阅验证码");
             }
 
-            string Email = string.Empty;
-
+            string Email;
             try
             {
                 Email = Encoding.UTF8.GetString(Convert.FromBase64String(code));
@@ -1807,7 +1800,7 @@ namespace OAuthApp.Apis
         #endregion
 
         #region 辅助方法
-        bool exists(long id)
+        bool Exists(long id)
         {
             var _ExistsCmd = $"SELECT Id FROM AspNetUserApiResources WHERE UserId = {UserId} AND ApiResourceId = {id}";
 

@@ -1,19 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <PackageId>OAuthApp</PackageId>
     <Authors>seven1986</Authors>
     <Company>seven1986</Company>
-    <PackageProjectUrl>https://www.oauthapp.com/</PackageProjectUrl>
+    <PackageProjectUrl>https://seven1986.github.io/oauthapp/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/seven1986/oauthapp</RepositoryUrl>
     <PackageTags>IdentityServer4 MicroService AzureApiManagement</PackageTags>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackageIconUrl></PackageIconUrl>
-    <Version>2.3.1-beta8</Version>
-    <Product>oauthapp</Product>
-    <Description>MicroService based on IdentityServer4 + Azure API Management</Description>
+    <Version>2.3.4</Version>
+    <Product>OAuthApp</Product>
+    <Description>OAuth2.0的Saas用户中心框架。</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIcon>oauthapp.png</PackageIcon>
@@ -42,322 +42,8 @@
     <None Remove="Areas\**" />
     <None Remove="Microsoft.AspNetCore.Authentication\**" />
     <Compile Remove="Attributes\EmailConfigAttribute.cs" />
-    <Content Include="..\.editorconfig" Link=".editorconfig" />
-    <Content Include="wwwroot\tenant\3rdpartylicenses.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\5.6cce34994917da81f247.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\6.9e1ffba2fd662861e75e.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\7.e2257009c2b6013edf33.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\af.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\am.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ar.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\as.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\az.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\bg.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\bn.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\bs.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ca.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\cs.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\cy.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\da.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\el.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\en.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\et.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\fa.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\fi.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\fil.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\fj.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\fr-CA.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ga.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\gu.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\he.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\hi.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\hr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ht.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\hu.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\hy.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\id.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\is.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\iu.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ja.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\kk.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\km.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\kmr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\kn.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ko.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ku.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\lo.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\lt.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\lv.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\mg.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\mi.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ml.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\mr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ms.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\mt.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\mww.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\my.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\nb.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ne.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\nl.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\or.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\otq.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\pa.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\pl.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\prs.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ps.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\pt-PT.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\pt.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ro.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ru.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\sk.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\sl.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\sm.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\sq.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\sr-Cyrl.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\sr-Latn.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\sv.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\sw.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ta.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\te.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\th.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ti.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\tlh-Latn.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\tlh-Piqd.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\to.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\tr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ty.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\uk.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\ur.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\vi.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\yua.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\yue.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\zh-CN.xlf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\zh-Hans.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\zh-Hant.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\i18n\zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\assets\user.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\common.7afda4970e544b7871b7.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\favicon.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\index.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\main.3e782d0f480ceed4e94c.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\polyfills.055dc73325887d36f663.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\runtime.515706d6ab1ccce14dd4.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\scripts.b6ec25f718bb533d5f0c.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wwwroot\tenant\styles.e89d1b3fb38681852c4c.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Compile Remove="Program.cs" />
+    <None Include="..\.editorconfig" Link=".editorconfig" />
     <None Include="..\oauthapp.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -365,134 +51,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="oauthapp-ui" />
     <None Remove="oauthapp.pfx" />
     <None Remove="readme.txt" />
-    <None Remove="wwwroot\tenant\3rdpartylicenses.txt" />
-    <None Remove="wwwroot\tenant\4.f9fc1f0f63086feacc5e.js" />
-    <None Remove="wwwroot\tenant\5.2acac7fa6eb8ef284254.js" />
-    <None Remove="wwwroot\tenant\5.5da9739d8c455ddabeea.js" />
-    <None Remove="wwwroot\tenant\5.6cce34994917da81f247.js" />
-    <None Remove="wwwroot\tenant\5.ab668b0440265ae45cc1.js" />
-    <None Remove="wwwroot\tenant\5.b1cc80c0683219c57ea4.js" />
-    <None Remove="wwwroot\tenant\6.45afe8b3c17f127a5cde.js" />
-    <None Remove="wwwroot\tenant\6.9e1ffba2fd662861e75e.js" />
-    <None Remove="wwwroot\tenant\6.d5558726b2d8003090d7.js" />
-    <None Remove="wwwroot\tenant\6.d72268b94d80124a416e.js" />
-    <None Remove="wwwroot\tenant\7.e2257009c2b6013edf33.js" />
-    <None Remove="wwwroot\tenant\assets\i18n\af.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\am.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ar.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\as.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\az.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\bg.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\bn.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\bs.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ca.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\cs.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\cy.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\da.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\de.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\el.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\en.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\es.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\et.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\fa.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\fi.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\fil.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\fj.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\fr-CA.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\fr.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ga.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\gu.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\he.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\hi.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\hr.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ht.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\hu.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\hy.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\id.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\is.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\it.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\iu.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ja.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\kk.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\km.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\kmr.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\kn.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ko.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ku.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\lo.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\lt.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\lv.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\mg.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\mi.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ml.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\mr.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ms.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\mt.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\mww.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\my.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\nb.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ne.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\nl.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\or.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\otq.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\pa.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\pl.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\prs.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ps.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\pt-PT.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\pt.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ro.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ru.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\sk.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\sl.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\sm.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\sq.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\sr-Cyrl.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\sr-Latn.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\sv.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\sw.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ta.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\te.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\th.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ti.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\tlh-Latn.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\tlh-Piqd.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\to.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\tr.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ty.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\uk.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\ur.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\vi.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\yua.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\yue.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\zh-CN.xlf" />
-    <None Remove="wwwroot\tenant\assets\i18n\zh-Hans.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\zh-Hant.json" />
-    <None Remove="wwwroot\tenant\assets\i18n\zh.json" />
-    <None Remove="wwwroot\tenant\assets\user.png" />
-    <None Remove="wwwroot\tenant\common.4a0b8a2ceabc9d8b32b3.js" />
-    <None Remove="wwwroot\tenant\common.7afda4970e544b7871b7.js" />
-    <None Remove="wwwroot\tenant\common.c50789678c9248fb08ab.js" />
-    <None Remove="wwwroot\tenant\common.fd1f8bccdb65ee6fa4e4.js" />
-    <None Remove="wwwroot\tenant\favicon.ico" />
-    <None Remove="wwwroot\tenant\index.html" />
-    <None Remove="wwwroot\tenant\main.1ebf178abec5b5c6a632.js" />
-    <None Remove="wwwroot\tenant\main.3e782d0f480ceed4e94c.js" />
-    <None Remove="wwwroot\tenant\main.828d006dc1923f1983a8.js" />
-    <None Remove="wwwroot\tenant\main.963016de68e859993f72.js" />
-    <None Remove="wwwroot\tenant\main.cdc5463b20f635604c30.js" />
-    <None Remove="wwwroot\tenant\polyfills.055dc73325887d36f663.js" />
-    <None Remove="wwwroot\tenant\polyfills.f43954ace77eaf1b4591.js" />
-    <None Remove="wwwroot\tenant\runtime.21d3a80db88d760642b3.js" />
-    <None Remove="wwwroot\tenant\runtime.3723221c4dc33c318fce.js" />
-    <None Remove="wwwroot\tenant\runtime.515706d6ab1ccce14dd4.js" />
-    <None Remove="wwwroot\tenant\runtime.d55e3c892998743c75b6.js" />
-    <None Remove="wwwroot\tenant\runtime.fb4f60c3cbca59576797.js" />
-    <None Remove="wwwroot\tenant\scripts.b6ec25f718bb533d5f0c.js" />
-    <None Remove="wwwroot\tenant\styles.5bff5aa7c7507d93a46f.css" />
-    <None Remove="wwwroot\tenant\styles.e89d1b3fb38681852c4c.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -501,64 +62,59 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="readme.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.1.7" />
-    <PackageReference Include="AspNet.Security.OAuth.QQ" Version="3.1.7" />
-    <PackageReference Include="AspNet.Security.OAuth.Weibo" Version="3.1.7" />
-    <PackageReference Include="AspNet.Security.OAuth.Weixin" Version="3.1.7" />
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="5.0.4" />
+    <PackageReference Include="AspNet.Security.OAuth.QQ" Version="5.0.4" />
+    <PackageReference Include="AspNet.Security.OAuth.Weibo" Version="5.0.4" />
+    <PackageReference Include="AspNet.Security.OAuth.Weixin" Version="5.0.4" />
     <PackageReference Include="AspNetCoreRateLimit" Version="3.2.2" />
-    <PackageReference Include="IdentityServer4" Version="4.1.1" />
-    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.1" />
-    <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.1" />
-    <PackageReference Include="JavaScriptEngineSwitcher.V8" Version="3.10.0" />
+    <PackageReference Include="IdentityServer4" Version="4.1.2" />
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />
+    <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.2" />
+    <PackageReference Include="JavaScriptEngineSwitcher.V8" Version="3.12.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="3.1.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="3.1.11" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Extensions" Version="3.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Extensions" Version="5.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.5" />
     <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />
-    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.2" />
-    <PackageReference Include="Microsoft.Azure.Storage.Queue" Version="11.2.2" />
-    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.1.0" />
-    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x86" Version="7.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.11">
+    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.3" />
+    <PackageReference Include="Microsoft.Azure.Storage.Queue" Version="11.2.3" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.1.2" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x86" Version="7.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.11">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="3.1.11" />
+    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="5.0.1" />
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Utils" Version="3.1.4" />
-    <PackageReference Include="NuGetDebugTools" Version="1.4.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Utils" Version="5.0.2" />
     <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.0.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.0.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="6.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="6.1.4" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
-    <PackageReference Include="XYZ" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -574,6 +130,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="oauthapp-ui" />
+    <Resource Include="Program.cs" />
   </ItemGroup>
 
 </Project>

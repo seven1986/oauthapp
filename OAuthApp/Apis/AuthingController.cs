@@ -172,7 +172,7 @@ namespace OAuthApp.Apis
         }
 
         #region 辅助方法
-        private AuthingScopeItem CreateIdentityScope(IdentityResource identity, bool check)
+        private static AuthingScopeItem CreateIdentityScope(IdentityResource identity, bool check)
         {
             return new AuthingScopeItem
             {
@@ -184,7 +184,7 @@ namespace OAuthApp.Apis
                 Checked = check || identity.Required
             };
         }
-        private AuthingScopeItem CreateApiScope(ParsedScopeValue parsedScopeValue, ApiScope apiScope, bool check)
+        private static AuthingScopeItem CreateApiScope(ParsedScopeValue parsedScopeValue, ApiScope apiScope, bool check)
         {
             var displayName = apiScope.DisplayName ?? apiScope.Name;
 
@@ -303,7 +303,7 @@ namespace OAuthApp.Apis
         [SwaggerOperation(
            OperationId = "AuthingSignOut",
            Summary = "授权 - 登出")]
-        public async Task<ApiResult<bool>> SignOut()
+        public new async Task<ApiResult<bool>> SignOut()
         {
             await _SignInManager.SignOutAsync();
 
@@ -532,11 +532,11 @@ namespace OAuthApp.Apis
                 throw new Exception("External authentication error");
             }
 
-            var (user, _provider, providerUserId, claims) = FindUserFromExternalProvider(authResult);
+            var (_, _provider, providerUserId, _) = FindUserFromExternalProvider(authResult);
 
             var userId = authResult.Properties.Items["userId"];
 
-            user = _userManager.FindByIdAsync(userId).Result;
+            AppUser user = _userManager.FindByIdAsync(userId).Result;
 
             var result = await _SignInManager.UserManager.AddLoginAsync(user, new UserLoginInfo(_provider, providerUserId, userId));
 
@@ -955,14 +955,6 @@ namespace OAuthApp.Apis
             {
                 localSignInProps.StoreTokens(new[] { new AuthenticationToken { Name = "id_token", Value = id_token } });
             }
-        }
-
-        private void ProcessLoginCallbackForWsFed(AuthenticateResult externalResult, List<Claim> localClaims, AuthenticationProperties localSignInProps)
-        {
-        }
-
-        private void ProcessLoginCallbackForSaml2p(AuthenticateResult externalResult, List<Claim> localClaims, AuthenticationProperties localSignInProps)
-        {
         }
         #endregion
     }
