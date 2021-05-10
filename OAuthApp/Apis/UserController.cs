@@ -105,7 +105,7 @@ namespace OAuthApp.Apis
 
             var q = new PagingService<View_User>(db, value, "View_User")
             {
-                where = (where, sqlParams) =>
+                Where = (where, sqlParams) =>
                 {
                     where.Add(" Tenants LIKE @TenantId");
                     sqlParams.Add(new SqlParameter("@TenantId", $"%TenantId\":{TenantId}%"));

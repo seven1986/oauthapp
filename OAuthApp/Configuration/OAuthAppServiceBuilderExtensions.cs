@@ -28,12 +28,13 @@ using Microsoft.IdentityModel.Tokens;
 using OAuthApp.Attributes;
 using AspNetCoreRateLimit;
 using IdentityServer4;
+using System.IO.Compression;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class OAuthAppServiceBuilderExtensions
     {
-        private static IConfiguration configuration { get; }
+        private static IConfiguration Configuration { get; }
 
         static OAuthAppServiceBuilderExtensions()
         {
@@ -45,7 +46,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddJsonFile("appsettings.Production.json", true)
                 .AddEnvironmentVariables();
 
-            configuration = builder.Build();
+            Configuration = builder.Build();
         }
 
         /// <summary>
@@ -77,11 +78,11 @@ namespace Microsoft.Extensions.DependencyInjection
                 {
                     try
                     {
-                        Options.Origins = configuration["IdentityServer:Origins"];
+                        Options.Origins = Configuration["IdentityServer:Origins"];
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        throw ex;
+                        throw;
                     }
                 }
 
@@ -360,7 +361,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidAudience = AppConstant.MicroServiceName,
-                    IssuerSigningKey = new X509SecurityKey(GetSigningCredential(configuration))
+                    IssuerSigningKey = new X509SecurityKey(GetSigningCredential(Configuration))
                 };
                 
             }).AddOAuthPlatforms();
@@ -377,7 +378,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             try
             {
-                DBConnectionString = configuration["ConnectionStrings:DataBaseConnection"];
+                DBConnectionString = Configuration["ConnectionStrings:DataBaseConnection"];
             }
             catch
             {
@@ -390,9 +391,9 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder.AddCoreService();
 
-            builder.AddEmailService(configuration.GetSection("IdentityServer:Email"));
+            builder.AddEmailService(Configuration.GetSection("IdentityServer:Email"));
 
-            builder.AddSmsService(configuration.GetSection("IdentityServer:SMS"));
+            builder.AddSmsService(Configuration.GetSection("IdentityServer:SMS"));
 
             builder.AddSDKStore(DbContextOptions);
 
@@ -402,7 +403,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder.AddSqlCacheStore(DBConnectionString);
 
-            var certificate = GetSigningCredential(configuration);
+            var certificate = GetSigningCredential(Configuration);
 
             builder.AddIdentityServer(DbContextOptions, certificate, Options.IdentityServerOptions, Options.IdentityServerBuilder);
 
@@ -421,7 +422,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 //忽略空值
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
-
+            
             var ClearScriptV8_64_FilePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath+ "/runtimes/win-x64/native", "ClearScriptV8.win-x64.dll");
             if (!File.Exists(ClearScriptV8_64_FilePath))
             {
@@ -528,9 +529,9 @@ namespace Microsoft.Extensions.DependencyInjection
                    X509KeyStorageFlags.Exportable);
                 }
             }
-            catch(Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
 
             return new X509Certificate2(AppResource.oauthapp1, "FPRa5vNO",
@@ -546,8 +547,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         static IOAuthAppServiceBuilder AddClientRateLimit(this IOAuthAppServiceBuilder builder)
         {
-            builder.Services.Configure<ClientRateLimitOptions>(configuration.GetSection("ClientRateLimiting"));
-            builder.Services.Configure<ClientRateLimitPolicies>(configuration.GetSection("ClientRateLimitPolicies"));
+            builder.Services.Configure<ClientRateLimitOptions>(Configuration.GetSection("ClientRateLimiting"));
+            builder.Services.Configure<ClientRateLimitPolicies>(Configuration.GetSection("ClientRateLimitPolicies"));
             builder.Services.AddSingleton<IClientPolicyStore, DistributedCacheClientPolicyStore>();
 
             return builder;
@@ -560,8 +561,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         static IOAuthAppServiceBuilder AddIpRateLimit(this IOAuthAppServiceBuilder builder)
         {
-            builder.Services.Configure<IpRateLimitOptions>(configuration.GetSection("ClientRateLimiting"));
-            builder.Services.Configure<IpRateLimitPolicies>(configuration.GetSection("ClientRateLimitPolicies"));
+            builder.Services.Configure<IpRateLimitOptions>(Configuration.GetSection("ClientRateLimiting"));
+            builder.Services.Configure<IpRateLimitPolicies>(Configuration.GetSection("ClientRateLimitPolicies"));
             builder.Services.AddSingleton<IIpPolicyStore, DistributedCacheIpPolicyStore>();
 
             return builder;

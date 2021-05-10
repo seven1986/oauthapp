@@ -15,7 +15,8 @@ namespace OAuthApp.Services
     public class AzureStorageService
     {
         string Connection { get; set; }
-        readonly ILogger<AzureStorageService> logger;
+
+        private readonly ILogger<AzureStorageService> logger;
 
         public AzureStorageService(
             IConfiguration configuration,
@@ -45,7 +46,7 @@ namespace OAuthApp.Services
         public async Task<string> UploadBlobAsync(Stream stream, string blobContainerName, string blobName)
         {
             if (stream == null || string.IsNullOrWhiteSpace(blobContainerName)) { return string.Empty; }
-            
+
             try
             {
                 var blobContainer = await CreateBlobAsync(blobContainerName);
@@ -56,9 +57,9 @@ namespace OAuthApp.Services
 
                 return blockBlob.Uri.ToString();
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -88,9 +89,9 @@ namespace OAuthApp.Services
 
                 return await table.ExecuteBatchAsync(operation);
             }
-            catch (Microsoft.Azure.Cosmos.Table.StorageException ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
 

@@ -17,12 +17,12 @@ namespace OAuthApp.Services
 
         string TableName { get; set; }
 
-        IPagingRequest value { get; set; }
+        IPagingRequest Value { get; set; }
 
         /// <summary>
         /// 自定义筛选
         /// </summary>
-        public Action<List<string>, List<SqlParameter>> where { get; set; }
+        public Action<List<string>, List<SqlParameter>> Where { get; set; }
 
         /// <summary>
         /// 添加CreateDate字段的查询条件
@@ -34,13 +34,13 @@ namespace OAuthApp.Services
         /// </summary>
         public List<string> OrderByFieldsExtension { get; set; }
 
-        DbContext db { get; set; }
+        DbContext Db { get; set; }
 
         public PagingService(DbContext _db, IPagingRequest value, string tableName = "")
         {
             TableName = string.IsNullOrWhiteSpace(tableName) ? typeof(T).Name : tableName;
 
-            db = _db;
+            Db = _db;
 
             #region 缓存每张表的列，用于检测orderby的合法性
             if (!Columns.ContainsKey(tableName))
@@ -49,7 +49,7 @@ namespace OAuthApp.Services
             }
             #endregion
 
-            this.value = value;
+            this.Value = value;
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace OAuthApp.Services
             #region custom
             var WhereBuilder = new List<string>();
             var WhereParameters = new List<SqlParameter>();
-            where?.Invoke(WhereBuilder, WhereParameters);
+            this.Where?.Invoke(WhereBuilder, WhereParameters);
             #endregion
 
             #region createDate
@@ -76,21 +76,21 @@ namespace OAuthApp.Services
             {
                 #region 根据时间过滤
                 #region 大于等于 开始时间 && 小于等于 结束时间
-                if (value.startTime.HasValue && value.endTime.HasValue)
+                if (Value.startTime.HasValue && Value.endTime.HasValue)
                 {
-                    WhereBuilder.Add(" CreateDate >= '" + value.startTime.Value.ToString("yyyy-MM-dd") + " 00:00:00' AND CreateDate <= '" + value.endTime.Value.ToString("yyyy-MM-dd") + " 23:59:59'");
+                    WhereBuilder.Add(" CreateDate >= '" + Value.startTime.Value.ToString("yyyy-MM-dd") + " 00:00:00' AND CreateDate <= '" + Value.endTime.Value.ToString("yyyy-MM-dd") + " 23:59:59'");
                 }
                 #endregion
                 #region 大于等于开始时间
-                else if (value.startTime.HasValue)
+                else if (Value.startTime.HasValue)
                 {
-                    WhereBuilder.Add(" CreateDate >= '" + value.startTime.Value.ToString("yyyy-MM-dd") + " 00:00:00'");
+                    WhereBuilder.Add(" CreateDate >= '" + Value.startTime.Value.ToString("yyyy-MM-dd") + " 00:00:00'");
                 }
                 #endregion
                 #region 小于等于结束时间
-                else if (value.endTime.HasValue)
+                else if (Value.endTime.HasValue)
                 {
-                    WhereBuilder.Add(" CreateDate <= '" + value.endTime.Value.ToString("yyyy-MM-dd") + " 23:59:59'");
+                    WhereBuilder.Add(" CreateDate <= '" + Value.endTime.Value.ToString("yyyy-MM-dd") + " 23:59:59'");
                 }
                 #endregion
                 #endregion
@@ -105,11 +105,11 @@ namespace OAuthApp.Services
             #region orderBy
             var OrderBy = Columns[TableName][0] + " DESC ";
 
-            if (!string.IsNullOrWhiteSpace(value.orderby))
+            if (!string.IsNullOrWhiteSpace(Value.orderby))
             {
-                if (Columns[TableName].Contains(value.orderby) || OrderByFieldsExtension.Contains(value.orderby))
+                if (Columns[TableName].Contains(Value.orderby) || OrderByFieldsExtension.Contains(Value.orderby))
                 {
-                    OrderBy = " " + value.orderby + " " + (!value.asc.Value ? "DESC" : "ASC");
+                    OrderBy = " " + Value.orderby + " " + (!Value.asc.Value ? "DESC" : "ASC");
                 }
             }
             #endregion
@@ -118,14 +118,14 @@ namespace OAuthApp.Services
             var total = 0;
 
             sql = string.Format(sql, TableName, Where, OrderBy, 
-                value.skip, 
-                value.take);
+                Value.skip, 
+                Value.take);
 
             var entities = new List<T>();
 
             var entityType = typeof(T);
 
-            using (var connection = db.Database.GetDbConnection())
+            using (var connection = Db.Database.GetDbConnection())
             {
                 if (connection.State != System.Data.ConnectionState.Open)
                 {
@@ -193,9 +193,9 @@ namespace OAuthApp.Services
                                             Property.SetValue(item, PropertyValue);
                                         }
                                     }
-                                    catch (Exception ex)
+                                    catch
                                     {
-                                        throw ex;
+                                        throw;
                                     }
                                 }
                             }
@@ -209,7 +209,7 @@ namespace OAuthApp.Services
             }
 
             var result = new PagingResult<T>(entities,
-                total, value.skip.Value, value.take.Value);
+                total, Value.skip.Value, Value.take.Value);
 
             return result;
         }

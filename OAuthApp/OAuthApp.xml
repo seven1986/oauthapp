@@ -933,8 +933,8 @@
         </member>
         <member name="P:OAuthApp.AppResource.Culture">
             <summary>
-              重写当前线程的 CurrentUICulture 属性
-              重写当前线程的 CurrentUICulture 属性。
+              重写当前线程的 CurrentUICulture 属性，对
+              使用此强类型资源类的所有资源查找执行重写。
             </summary>
         </member>
         <member name="P:OAuthApp.AppResource.ClearScriptV8_win_x64">
@@ -959,10 +959,14 @@
                         &lt;summary&gt;
                         API
                         &lt;/summary&gt;
-                        &lt;remarks&gt;为API提供版本管理、网关集成都功能。&lt;/remarks&gt;
                     &lt;/member&gt;
-                    &lt;member name=&quot;M:OAuthApp.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,OAuthApp.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLoca [字符串的其余部分被截断]&quot;; 的本地化字符串。
+                    &lt;member name=&quot;M:OAuthApp.Apis.ApiResourceController.#ctor(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext,OAuthApp.Data.UserDbContext,Microsoft.Extensions.Localization.IStringLocalizer{OAuthApp.Apis.ApiResourceController},OAuthApp. [字符串的其余部分被截断]&quot;; 的本地化字符串。
              </summary>
+        </member>
+        <member name="P:OAuthApp.AppResource.oauthapp_ui">
+            <summary>
+              查找 System.Byte[] 类型的本地化资源。
+            </summary>
         </member>
         <member name="P:OAuthApp.AppResource.oauthapp1">
             <summary>
@@ -2795,11 +2799,6 @@
             启用IP访问速率限制
             </summary>
         </member>
-        <member name="P:OAuthApp.OAuthAppOptions.EnableOAuthAppUI">
-            <summary>
-            使用新的交互页面
-            </summary>
-        </member>
         <member name="M:OAuthApp.Services.AppUserService.CreateUser(System.Int64,Microsoft.AspNetCore.Identity.UserManager{OAuthApp.Data.AppUser},OAuthApp.Data.UserDbContext,OAuthApp.Data.AppUser,System.Collections.Generic.List{System.Int64},System.String,System.Collections.Generic.List{System.Int64})">
             <summary>
             创建用户
@@ -3065,7 +3064,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="P:OAuthApp.Services.PagingService`1.where">
+        <member name="P:OAuthApp.Services.PagingService`1.Where">
             <summary>
             自定义筛选
             </summary>
@@ -3388,6 +3387,13 @@
             Creates a builder.
             </summary>
             <param name="authBuilder">The services.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.TenantExtensions.UseOAuthAppUI(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            使用OAuthApp UI
+            </summary>
+            <param name="builder"></param>
             <returns></returns>
         </member>
     </members>
