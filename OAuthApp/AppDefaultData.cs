@@ -18,7 +18,6 @@ namespace OAuthApp
 {
     public class AppDefaultData
     {
-
         #region SwaggerClient
         /// <summary>
         /// SwaggerClient - SwaggerUI使用
@@ -134,8 +133,9 @@ namespace OAuthApp
                             "role",
                             "permission",
                             AppConstant.MicroServiceName + ".all"
-                        }, 
-                        AllowOfflineAccess = true
+                        },
+                        AllowOfflineAccess = true,
+                        RequirePkce=false
                     },
 	                #endregion
 

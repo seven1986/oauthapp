@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>08242d89-792d-4cc1-9e45-09b26ec3bddb</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OAuthApp" Version="2.3.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OAuthApp\OAuthApp.csproj" />
   </ItemGroup>
 
 

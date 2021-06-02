@@ -37,6 +37,23 @@ namespace OAuthApp
         /// 如果初始化过数据库，可以设置为这个参数为false，优化性能。
         /// </summary>
         public static bool InitializeDatabase = true;
+
+        public static List<string> WhiteList_Clients = new List<string>()
+        {
+            MicroServiceName
+        };
+
+        public static List<string> WhiteList_RedirectUris = new List<string>()
+        { 
+            "https://oauth.pstmn.io/v1/callback" // post man
+        };
+    }
+
+    public class PropertyKeys
+    {
+        public const string LogoutRedirectUri = "CheckPostLogoutRedirectUri";
+
+        public const string RedirectUri = "CheckPostLogoutRedirectUri";
     }
 
     public class PolicyConfig
@@ -89,4 +106,6 @@ namespace OAuthApp
         /// </summary>
         public const string ClientScope = "scope";
     }
+
+
 }

@@ -101,7 +101,7 @@ namespace Microsoft.AspNetCore.Builder
                             c.SwaggerEndpoint(
                                 $"/swagger/{description.GroupName}/swagger.json",
                                 description.GroupName.ToUpperInvariant());
-
+                            c.OAuthUsePkce();
                             c.OAuthAppName(SwaggerClient.ClientName);
                             c.OAuthClientId(SwaggerClient.ClientId);
                             c.OAuthClientSecret(SwaggerClient.ClientSecret);
@@ -211,6 +211,21 @@ namespace Microsoft.AspNetCore.Builder
                 {
                     FileProvider = new PhysicalFileProvider($"{env.WebRootPath}/tenant"),
                     RequestPath = "/tenant"
+                });
+            });
+
+            builder.Map("/tenant-admin", subApp =>
+            {
+                subApp.UseSpa(spa =>
+                {
+                    spa.Options.SourcePath = "/tenant-admin";
+                    spa.Options.DefaultPage = "/tenant-admin/index.html";
+                });
+
+                builder.UseSpaStaticFiles(new StaticFileOptions
+                {
+                    FileProvider = new PhysicalFileProvider($"{env.WebRootPath}/tenant-admin"),
+                    RequestPath = "/tenant-admin"
                 });
             });
 

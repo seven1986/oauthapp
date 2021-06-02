@@ -398,6 +398,18 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:OAuthApp.Apis.AuthingController.EnableAuthenticator(System.String)">
+            <summary>
+            授权 - 启用双认证
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.AuthingController.ResetAuthenticator(System.String)">
+            <summary>
+            授权 - 重置双认证密钥
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:OAuthApp.Apis.AuthingController.AutoProvisionUser(System.String,System.String,System.Collections.Generic.List{System.Security.Claims.Claim})">
             <summary>
             自动生成用户
