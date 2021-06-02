@@ -104,14 +104,27 @@
 
 ## 4，    启动
 
+    启动项目并预览。
+
+### 访问前台
+
 !!! note ""
-	启动项目并预览。默认用户账号：admin@admin.com，密码：123456aA!，拥有所有权限。
+
+    前台地址：{{serverUrl}}/tenant (默认用户账号：admin@admin.com，密码：123456aA!，拥有所有权限。)
 
 ![11](./images/usecase-basic/startserver11.png)
 ![12](./images/usecase-basic/startserver12.png)
 ![13](./images/usecase-basic/startserver13.png)
 ![14](./images/usecase-basic/startserver14.png)
 
+### 访问后台
+
+!!! note ""
+    后台地址：{{serverUrl}}/tenant-admin
+
+![11](./images/usecase-basic/startserver11_1.png)
+![12](./images/usecase-basic/startserver11_2.png)
+![13](./images/usecase-basic/startserver11_3.png)
 
 ## 5，   Swagger UI
 
