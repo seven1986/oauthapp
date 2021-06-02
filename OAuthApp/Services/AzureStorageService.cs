@@ -2,13 +2,11 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
 using System.Threading;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Azure.Storage.Blob;
-using Microsoft.Azure.Storage.Queue;
+using Azure.Storage.Blobs;
+using Azure.Storage.Queues;
 using Microsoft.Azure.Cosmos.Table;
-using CloudStorageAccount = Microsoft.Azure.Storage.CloudStorageAccount;
 
 namespace OAuthApp.Services
 {
@@ -16,30 +14,19 @@ namespace OAuthApp.Services
     {
         string Connection { get; set; }
 
-        private readonly ILogger<AzureStorageService> logger;
-
         public AzureStorageService(
-            IConfiguration configuration,
-            ILogger<AzureStorageService> _logger)
+            IConfiguration configuration)
         {
-            Connection = configuration["ConnectionStrings:AzureStorageConnection"];
-            logger = _logger;
+            Connection = configuration.GetConnectionString("AzureStorageConnection");
         }
 
-        public async Task<CloudBlobContainer> CreateBlobAsync(string blobContainerName)
+        public async Task<BlobContainerClient> CreateBlobAsync(string blobContainerName)
         {
-            var storageAccount = CloudStorageAccount.Parse(Connection);
+            var blobClient = new BlobServiceClient(Connection);
+            
+            var blobContainer = blobClient.GetBlobContainerClient(blobContainerName);
 
-            var blobClient = storageAccount.CreateCloudBlobClient();
-
-            var blobContainer = blobClient.GetContainerReference(blobContainerName);
-
-            if (blobContainer.CreateIfNotExistsAsync().Result)
-            {
-                var blobPermission = new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob };
-
-                await blobContainer.SetPermissionsAsync(blobPermission);
-            }
+            await blobContainer.CreateIfNotExistsAsync(Azure.Storage.Blobs.Models.PublicAccessType.Blob);
 
             return blobContainer;
         }
@@ -50,12 +37,10 @@ namespace OAuthApp.Services
             try
             {
                 var blobContainer = await CreateBlobAsync(blobContainerName);
+                
+                var blockBlob =  blobContainer.UploadBlob(blobName, stream);
 
-                var blockBlob = blobContainer.GetBlockBlobReference(DateTime.UtcNow.ToString("yyyyMMdd") + "/" + blobName);
-
-                await blockBlob.UploadFromStreamAsync(stream);
-
-                return blockBlob.Uri.ToString();
+                return blobContainer.Uri.ToString() + "/" + blobName;
             }
             catch
             {
@@ -65,7 +50,7 @@ namespace OAuthApp.Services
 
         public async Task<CloudTable> CreateTableAsync(string tableName)
         {
-            var storageAccount = Microsoft.Azure.Cosmos.Table.CloudStorageAccount.Parse(Connection);
+            var storageAccount = CloudStorageAccount.Parse(Connection);
 
             var tableClient = storageAccount.CreateCloudTableClient();
 
@@ -75,6 +60,7 @@ namespace OAuthApp.Services
 
             return table;
         }
+
         public async Task<IList<TableResult>> TableInsertAsync(CloudTable table,
            params ITableEntity[] entities)
         {
@@ -117,18 +103,16 @@ namespace OAuthApp.Services
 
         public async Task<bool> AddMessageAsync(string queueName, string message)
         {
-            var storageAccount = Microsoft.Azure.Storage.CloudStorageAccount.Parse(Connection);
-
             // Create the queue client.
-            var queueClient = storageAccount.CreateCloudQueueClient();
+            var queueClient = new QueueServiceClient(Connection);
 
             // Retrieve a reference to a container.
-            var queue = queueClient.GetQueueReference(queueName);
+            var queue = queueClient.GetQueueClient(queueName);
 
             // Create the queue if it doesn't already exist
            await queue.CreateIfNotExistsAsync();
 
-           await queue.AddMessageAsync(new CloudQueueMessage(message));
+           await queue.SendMessageAsync(message);
 
            return true;
         }

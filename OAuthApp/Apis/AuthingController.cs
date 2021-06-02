@@ -54,6 +54,7 @@ namespace OAuthApp.Apis
         private readonly IEventService _events;
         private readonly IUserSession _userSession;
         private readonly IEmailSender _emailSender;
+        private readonly UrlEncoder _urlEncoder;
 
         #region 构造函数
         public AuthingController(
@@ -64,7 +65,8 @@ namespace OAuthApp.Apis
             IStringLocalizer<AuthingController> localizer,
             IEventService events,
             UserDbContext _db,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            UrlEncoder urlEncoder)
         {
             l = localizer;
             _userSession = userSession;
@@ -74,6 +76,7 @@ namespace OAuthApp.Apis
             _events = events;
             db = _db;
             _emailSender = emailSender;
+            _urlEncoder = urlEncoder;
         }
         #endregion
 
@@ -513,7 +516,7 @@ namespace OAuthApp.Apis
         }
         #endregion
 
-        #region 绑定第三方登录回调
+        #region 授权 - 绑定第三方登录回调
         /// <summary>
         /// 授权 - 绑定第三方登录回调
         /// </summary>
@@ -747,7 +750,7 @@ namespace OAuthApp.Apis
         /// <returns></returns>
         [HttpPut("ChangeEmailConfirm")]
         [SwaggerOperation(
-            OperationId = "AuthinChangeEmailConfirm",
+            OperationId = "AuthingChangeEmailConfirm",
             Summary = "授权 - 修改邮箱确认")]
         public async Task<ApiResult<bool>> ChangeEmailConfirm([FromQuery]string userId, [FromQuery] string email, [FromQuery] string code)
         {
@@ -785,7 +788,99 @@ namespace OAuthApp.Apis
         }
         #endregion
 
+        #region 授权 - 启用双认证
+        /// <summary>
+        /// 授权 - 启用双认证
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("EnableAuthenticator")]
+        [SwaggerOperation(
+            OperationId = "AuthingEnableAuthenticator",
+            Summary = "授权 - 启用双认证")]
+        public async Task<ApiResult<EnableAuthenticatorResponse>> EnableAuthenticator([FromQuery] string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return new ApiResult<EnableAuthenticatorResponse>(l, BasicControllerEnums.NotFound);
+            }
+
+            var unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
+
+            if (string.IsNullOrEmpty(unformattedKey))
+            {
+                await _userManager.ResetAuthenticatorKeyAsync(user);
+                unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
+            }
+
+            var SharedKey = FormatKey(unformattedKey);
+            
+            var AuthenticatorUri = GenerateQrCodeUri(user.Email, unformattedKey);
+
+            return new ApiResult<EnableAuthenticatorResponse>(new EnableAuthenticatorResponse()
+            {
+                AuthenticatorUri = AuthenticatorUri,
+                SharedKey = SharedKey
+            });
+        }
+        #endregion
+
+        #region 授权 - 重置双认证密钥
+        /// <summary>
+        /// 授权 - 重置双认证密钥
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("ResetAuthenticator")]
+        [SwaggerOperation(
+            OperationId = "AuthingResetAuthenticator",
+            Summary = "授权 - 重置双认证密钥")]
+        public async Task<ApiResult<bool>> ResetAuthenticator([FromQuery] string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return new ApiResult<bool>(l, BasicControllerEnums.NotFound);
+            }
+
+            await _userManager.SetTwoFactorEnabledAsync(user, false);
+
+            await _userManager.ResetAuthenticatorKeyAsync(user);
+
+            return new ApiResult<bool>(true);
+        }
+        #endregion
+
         #region 辅助方法
+        private string FormatKey(string unformattedKey)
+        {
+            var result = new StringBuilder();
+            int currentPosition = 0;
+            while (currentPosition + 4 < unformattedKey.Length)
+            {
+                result.Append(unformattedKey.Substring(currentPosition, 4)).Append(" ");
+                currentPosition += 4;
+            }
+            if (currentPosition < unformattedKey.Length)
+            {
+                result.Append(unformattedKey.Substring(currentPosition));
+            }
+
+            return result.ToString().ToLowerInvariant();
+        }
+
+        private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
+        private string GenerateQrCodeUri(string email, string unformattedKey)
+        {
+            return string.Format(
+                AuthenticatorUriFormat,
+                _urlEncoder.Encode("WebApplication2"),
+                _urlEncoder.Encode(email),
+                unformattedKey);
+        }
+
+
         private string GetUserIdFromSession()
         {
             if (User.Identity.IsAuthenticated)

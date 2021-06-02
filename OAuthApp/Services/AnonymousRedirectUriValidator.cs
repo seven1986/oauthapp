@@ -12,7 +12,24 @@ namespace OAuthApp.Services
     {
         public Task<bool> IsPostLogoutRedirectUriValidAsync(string requestedUri, Client client)
         {
-            if (client.ClientId.Equals(AppConstant.MicroServiceName))
+            var CheckPostLogoutRedirectUri = string.Empty;
+
+            if (client.Properties.ContainsKey(PropertyKeys.LogoutRedirectUri))
+            {
+                CheckPostLogoutRedirectUri = client.Properties[PropertyKeys.LogoutRedirectUri];
+            }
+
+            if ("false".Equals(CheckPostLogoutRedirectUri.ToLower()))
+            {
+                return Task.FromResult(true);
+            }
+
+            else if (StringCollectionContainsString(AppConstant.WhiteList_Clients, client.ClientId))
+            {
+                return Task.FromResult(true);
+            }
+
+            else if (StringCollectionContainsString(AppConstant.WhiteList_RedirectUris, requestedUri))
             {
                 return Task.FromResult(true);
             }
@@ -22,7 +39,24 @@ namespace OAuthApp.Services
 
         public Task<bool> IsRedirectUriValidAsync(string requestedUri, Client client)
         {
-            if (client.ClientId.Equals(AppConstant.MicroServiceName))
+            var CheckRedirectUri = string.Empty;
+            
+            if (client.Properties.ContainsKey(PropertyKeys.RedirectUri))
+            {
+                CheckRedirectUri = client.Properties[PropertyKeys.RedirectUri];
+            }
+
+            if ("false".Equals(CheckRedirectUri.ToLower()))
+            {
+                return Task.FromResult(true);
+            }
+
+            else if (StringCollectionContainsString(AppConstant.WhiteList_Clients, client.ClientId))
+            {
+                return Task.FromResult(true);
+            }
+
+            else if (StringCollectionContainsString(AppConstant.WhiteList_RedirectUris, requestedUri))
             {
                 return Task.FromResult(true);
             }
