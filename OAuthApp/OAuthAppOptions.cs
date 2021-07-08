@@ -172,6 +172,8 @@ namespace OAuthApp
 
         Package = 10,
 
-        Authing = 11
+        Authing = 11,
+
+        Log = 12
     }
 }

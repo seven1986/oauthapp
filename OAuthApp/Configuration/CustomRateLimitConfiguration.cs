@@ -4,21 +4,23 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace OAuthApp.Configuration
 {
     public class OAuthAppRateLimitConfiguration : RateLimitConfiguration
     {
-        public OAuthAppRateLimitConfiguration(IHttpContextAccessor httpContextAccessor, 
-            IOptions<IpRateLimitOptions> ipOptions, 
-            IOptions<ClientRateLimitOptions> clientOptions) : base(httpContextAccessor, ipOptions, clientOptions) { }
+        readonly HttpContextAccessor _accessor;
+        public OAuthAppRateLimitConfiguration(HttpContextAccessor accessor,IOptions<IpRateLimitOptions> ipOptions, 
+            IOptions<ClientRateLimitOptions> clientOptions) : base(ipOptions, clientOptions) {
+            _accessor = accessor;
+        }
 
-        protected override void RegisterResolvers()
+        public override void RegisterResolvers()
         {
             base.RegisterResolvers();
-
             ClientResolvers.Add(
-                new OAuthAppClientResolveContributor(HttpContextAccessor));
+                new OAuthAppClientResolveContributor(_accessor));
         }
     }
 
@@ -33,7 +35,7 @@ namespace OAuthApp.Configuration
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public string ResolveClient()
+        public Task<string> ResolveClientAsync(HttpContext httpContext)
         {
             var Identity = _httpContextAccessor.HttpContext.User.Identity as ClaimsIdentity;
 
@@ -44,11 +46,11 @@ namespace OAuthApp.Configuration
 
                 if (claim != null && !string.IsNullOrWhiteSpace(claim.Value))
                 {
-                    return claim.Value;
+                    return Task.FromResult(claim.Value);
                 }
             }
 
-            return AnonymousClient;
+            return Task.FromResult(AnonymousClient);
         }
     }
 }

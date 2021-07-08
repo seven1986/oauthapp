@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using OAuthApp.Data;
 using OAuthApp.Enums;
@@ -20,6 +21,8 @@ using OAuthApp.Models.Apis.ConsentController;
 using OAuthApp.Models.Shared;
 using OAuthApp.Services;
 using OAuthApp.Tenant;
+using Serilog;
+using Serilog.Context;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
@@ -55,6 +58,7 @@ namespace OAuthApp.Apis
         private readonly IUserSession _userSession;
         private readonly IEmailSender _emailSender;
         private readonly UrlEncoder _urlEncoder;
+        private readonly ILogger<AuthingController> _log;
 
         #region 构造函数
         public AuthingController(
@@ -66,7 +70,8 @@ namespace OAuthApp.Apis
             IEventService events,
             UserDbContext _db,
             IEmailSender emailSender,
-            UrlEncoder urlEncoder)
+            UrlEncoder urlEncoder,
+            ILogger<AuthingController> log)
         {
             l = localizer;
             _userSession = userSession;
@@ -77,10 +82,11 @@ namespace OAuthApp.Apis
             db = _db;
             _emailSender = emailSender;
             _urlEncoder = urlEncoder;
+            _log = log;
         }
         #endregion
 
-        #region 授权 - 登陆
+        #region 授权 - 登陆 (event)
         /// <summary>
         /// 授权 - 登陆
         /// </summary>
@@ -106,6 +112,17 @@ namespace OAuthApp.Apis
 
             var result = await _SignInManager.PasswordSignInAsync(value.UserName, value.Password, true, false);
 
+            if (result.Succeeded)
+            {
+                var userID = GetUserIdFromSession();
+                var user = await _userManager.FindByIdAsync(userID);
+                RaiseEvent(new UserLoginSuccessEvent(value.UserName, userID, user.NickName));
+            }
+            else
+            {
+                RaiseEvent(new UserLoginFailureEvent(value.UserName, "invalid credentials"));
+            }
+            
             return new ApiResult<AuthingSignInReponse>(new AuthingSignInReponse()
             {
                 IsLockedOut = result.IsLockedOut,
@@ -220,7 +237,7 @@ namespace OAuthApp.Apis
         #endregion
         #endregion
 
-        #region 授权 - 授权应用
+        #region 授权 - 授权应用 (event)
         /// <summary>
         /// 授权 - 授权应用
         /// </summary>
@@ -258,6 +275,14 @@ namespace OAuthApp.Apis
                 return new ApiResult<bool>(l, BasicControllerEnums.HasError, grantedConsent.ErrorDescription);
             }
 
+            RaiseEvent(new ConsentGrantedEvent(
+                UserId.ToString(), 
+                request.Client.ClientId,
+                value.Scopes,
+                value.Scopes,
+                value.Remember
+                ));
+
             return new ApiResult<bool>(true);
         }
         #endregion
@@ -279,7 +304,7 @@ namespace OAuthApp.Apis
         }
         #endregion
 
-        #region 授权 - 撤销应用权限
+        #region 授权 - 撤销应用权限 (event)
         /// <summary>
         /// 授权 - 撤销应用权限
         /// </summary>
@@ -293,11 +318,13 @@ namespace OAuthApp.Apis
         {
             await _interaction.RevokeUserConsentAsync(clientId);
 
+            RaiseEvent(new GrantsRevokedEvent(UserId.ToString(), clientId));
+
             return new ApiResult<bool>(true);
         }
         #endregion
 
-        #region 授权 - 登出
+        #region 授权 - 登出 (event)
         /// <summary>
         /// 授权 - 登出
         /// </summary>
@@ -308,6 +335,11 @@ namespace OAuthApp.Apis
            Summary = "授权 - 登出")]
         public new async Task<ApiResult<bool>> SignOut()
         {
+            var userID = GetUserIdFromSession();
+            var user = await _userManager.FindByIdAsync(userID);
+            
+            RaiseEvent(new UserLogoutSuccessEvent(userID, user.UserName));
+
             await _SignInManager.SignOutAsync();
 
             return new ApiResult<bool>(true);
@@ -880,7 +912,6 @@ namespace OAuthApp.Apis
                 unformattedKey);
         }
 
-
         private string GetUserIdFromSession()
         {
             if (User.Identity.IsAuthenticated)
@@ -1052,5 +1083,15 @@ namespace OAuthApp.Apis
             }
         }
         #endregion
+
+        private void RaiseEvent(Event evt)
+        {
+            //using (LogContext.PushProperty("UserID", UserId))
+            //using (LogContext.PushProperty("TenantID", TenantId))
+            //using (LogContext.PushProperty("ClientID", ClientId))
+            //{
+            //    _log.LogInformation(evt.Name, evt);
+            //}
+        }
     }
 }

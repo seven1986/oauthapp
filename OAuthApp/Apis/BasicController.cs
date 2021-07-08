@@ -102,7 +102,7 @@ namespace OAuthApp.Apis
         {
             get
             {
-                return UserClaims(JwtClaimTypes.ClientId).Value;
+                return UserClaims(JwtClaimTypes.ClientId)?.Value;
             }
         }
 
@@ -274,7 +274,8 @@ namespace OAuthApp.Apis
         /// <param name="str">未加密的字符串</param>
         /// <param name="expiredIn">有效时间</param>
         /// <returns></returns>
-        protected string Protect(string str, TimeSpan expiredIn) => protector.Protect(str, expiredIn); 
+        protected string Protect(string str, TimeSpan expiredIn) => protector.Protect(str, expiredIn);
         #endregion
+       
     }
 }

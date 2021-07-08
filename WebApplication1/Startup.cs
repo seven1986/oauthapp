@@ -7,6 +7,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Any;
+using Serilog;
+using Serilog.Events;
+using Serilog.Filters;
+using Serilog.Sinks.MSSqlServer;
+using System;
 
 namespace WebApplication1
 {
@@ -23,7 +28,7 @@ namespace WebApplication1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            
+
             services.AddOAuthApp();
         }
 

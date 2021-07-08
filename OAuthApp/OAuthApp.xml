@@ -596,6 +596,30 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:OAuthApp.Apis.LogController">
+            <summary>
+            日志
+            </summary>
+        </member>
+        <member name="M:OAuthApp.Apis.LogController.Get(OAuthApp.Models.Apis.Common.PagingRequest{OAuthApp.Models.Apis.LogController.LogGetRequest})">
+            <summary>
+            日志 - 列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.LogController.Post(OAuthApp.Models.Apis.LogController.LogPostRequest)">
+            <summary>
+            日志 - 添加
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OAuthApp.Apis.LogController.Delete(System.Int32)">
+            <summary>
+            日志 - 删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:OAuthApp.Apis.PackageController">
             <summary>
             软件包
@@ -3387,6 +3411,14 @@
             <param name="certificate">The certificate.</param>
             <param name="identityServerOptions">The identityServerOptions.</param>
             <param name="identityBuilder">The identityBuilder.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.OAuthAppServiceBuilderExtensions.AddLogStore(Microsoft.Extensions.DependencyInjection.IOAuthAppServiceBuilder,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">
+            <summary>
+            Configures LogStore.
+            </summary>
+            <param name="builder">The builder.</param>
+            <param name="DbContextOptions">The store options action.</param>
             <returns></returns>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.OAuthBuilderExtensions">

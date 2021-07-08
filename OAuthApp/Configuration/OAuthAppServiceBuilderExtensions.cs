@@ -27,8 +27,11 @@ using System.Text.Unicode;
 using Microsoft.IdentityModel.Tokens;
 using OAuthApp.Attributes;
 using AspNetCoreRateLimit;
-using IdentityServer4;
-using System.IO.Compression;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.MSSqlServer;
+using System.Collections.ObjectModel;
+using Serilog.Filters;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -397,6 +400,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder.AddSDKStore(DbContextOptions);
 
+            builder.AddLogStore(DbContextOptions);
+
             builder.AddTenantStore(DbContextOptions);
 
             builder.AddIdentityStore(DbContextOptions, Options.AspNetCoreIdentityOptions);
@@ -706,7 +711,12 @@ namespace Microsoft.Extensions.DependencyInjection
             }
             else
             {
-                ISBuilder = builder.Services.AddIdentityServer();
+                ISBuilder = builder.Services.AddIdentityServer(options =>
+                {
+                    options.Events.RaiseSuccessEvents = true;
+                    options.Events.RaiseFailureEvents = true;
+                    options.Events.RaiseErrorEvents = true;
+                });
             }
 
             ISBuilder.AddSigningCredential(certificate)
@@ -726,6 +736,44 @@ namespace Microsoft.Extensions.DependencyInjection
                 identityBuilder.Invoke(ISBuilder);
             }
 
+            return builder;
+        }
+
+        /// <summary>
+        /// Configures LogStore.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="DbContextOptions">The store options action.</param>
+        /// <returns></returns>
+        static IOAuthAppServiceBuilder AddLogStore(
+            this IOAuthAppServiceBuilder builder,
+            Action<DbContextOptionsBuilder> DbContextOptions)
+        {
+            var columnOptions = new ColumnOptions();
+            columnOptions.AdditionalColumns = new Collection<SqlColumn>
+            {
+                new SqlColumn("TenantID", System.Data.SqlDbType.BigInt, true),
+                new SqlColumn("UserID", System.Data.SqlDbType.BigInt, true),
+                new SqlColumn("ClientID", System.Data.SqlDbType.NVarChar, true)
+            };
+
+            columnOptions.Store.Remove(StandardColumn.Properties);
+            columnOptions.Store.Add(StandardColumn.LogEvent);
+
+            Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(Configuration)
+            .Enrich.FromLogContext()
+          .Filter.ByIncludingOnly(Matching.FromSource("OAuthApp"))
+          .WriteTo
+          .MSSqlServer(
+                connectionString: Configuration.GetConnectionString("DataBaseConnection"),
+                sinkOptions: new MSSqlServerSinkOptions { TableName = "LogEvents", AutoCreateSqlTable = true },
+                columnOptions: columnOptions)
+          //  .Filter.ByExcluding(Matching.WithProperty<int>("Count", p => p < 10))
+          //.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Literate)
+          .CreateLogger();
+
+            builder.Services.AddDbContext<LogDbContext>(DbContextOptions);
             return builder;
         }
     }
