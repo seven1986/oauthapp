@@ -1,0 +1,42 @@
+[
+  {
+    "outputFileName": "wwwroot/dist/verdor.css",
+    "inputFiles": [
+      "node_modules/@tabler/core/dist/css/tabler.min.css"
+    ],
+    "minify": { "enabled": false }
+  },
+  {
+    "outputFileName": "wwwroot/dist/verdor.js",
+    "inputFiles": [
+      "node_modules/jquery/dist/jquery.min.js",
+      "node_modules/@tabler/core/dist/js/tabler.min.js"
+    ],
+    "minify": { "enabled": false }
+  },
+  {
+    "outputFileName": "wwwroot/lib/sdk/vendor.js",
+    "inputFiles": [
+      "wwwroot/lib/sdk/jquery.min.js",
+      "wwwroot/lib/sdk/js.cookie.min.js",
+      "wwwroot/lib/sdk/fingerprint2.min.js",
+      "wwwroot/lib/sdk/jweixin-1.6.0.js"
+    ],
+    "minify": { "enabled": false }
+  },
+  {
+    "outputFileName": "wwwroot/lib/sdk/core.min.js",
+    "inputFiles": [
+      "wwwroot/lib/sdk/core.js"
+    ],
+    "minify": { "enabled": true, "renameLocals": false }
+  },
+  {
+    "outputFileName": "wwwroot/lib/sdk/oauthapp.1.0.0.js",
+    "inputFiles": [
+      "wwwroot/lib/sdk/vendor.js",
+      "wwwroot/lib/sdk/core.min.js"
+    ],
+    "minify": { "enabled": false }
+  }
+]

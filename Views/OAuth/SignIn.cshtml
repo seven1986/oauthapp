@@ -1,0 +1,48 @@
+﻿@model OAuthSignInModel
+@{
+    var client = ViewBag.client as OAuthApp.Data.App;
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-4 offset-md-4 d-flex align-items-start justify-content-center border border-top-0 border-bottom-0"
+             style="height: 100vh;">
+            <div style="width:80%" class="mt-5">
+                <div class="text-center">
+                    <img src="@client.Logo" class="shadow-sm border border-2 p-1 rounded-circle" width="68px" onerror="this.src='/assets/app_default.png'" />
+                    <div class="my-3">
+                        <h1>@client.Name</h1>
+                        <p class="mt-2">@client.Website</p>
+                    </div>
+                </div>
+             
+                <div class="hr-text hr-text-center hr-text-spaceless my-3 fs-5 fw-normal">
+                    登录
+                </div>
+                <div class="card-body">
+                    <form method="post" action="/OAuth/SignInPost">
+                        <input name="scheme" type="hidden" value="@Model.scheme" />
+                        <input name="client_id" type="hidden" value="@Model.client_id" />
+                        <input name="scope" type="hidden" value="@Model.scope" />
+                        <input name="nonce" type="hidden" value="@Model.nonce" />
+                        <input name="state" type="hidden" value="@Model.state" />
+                        <input name="grantType" type="hidden" value="@Model.grantType" />
+                        <input name="redirect_uri" type="hidden" value="@Model.redirect_uri" />
+                        <div class="mb-3">
+                            <label class="form-label">账号</label>
+                            <input name="userName" type="text" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">密码</label>
+                            <input name="Pwd" type="password" class="form-control" />
+                        </div>
+                        <div class="d-flex flex-column">
+                            <button type="submit" class="btn btn-indigo">登录</button>
+                            <a href="@Model.redirect_uri" class="btn btn-white my-3">返回</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

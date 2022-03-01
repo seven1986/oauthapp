@@ -1,0 +1,42 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "出现错误";
+}
+
+<div class="page-header my-3">
+    <div class="row align-items-center mw-100">
+        <div class="col">
+            <div class="mb-1">
+                <ol class="breadcrumb breadcrumb-alternate" aria-label="breadcrumbs">
+                    <li class="breadcrumb-item"><a href="/">首页</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">服务器发生错误</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="empty">
+                    <div class="empty-img">
+                        <img src="/img/errorpageicon.svg" height="128" alt="">
+                    </div>
+                    <h2>@Model.ErrorMessage</h2>
+                    @if (Model.ShowRequestId)
+                    {
+                        <p class="text-muted">
+                            <small>Request ID: <code>@Model.RequestId</code></small>
+                        </p>
+                    }
+                    <p>
+                        <small>@Model.StackTrace</small>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

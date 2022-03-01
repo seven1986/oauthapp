@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "首页";
+}
+@if (Context.Request.Host.Value.Equals("www.oauthapp.com"))
+{
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <div class="container">
+                <a class="navbar-brand p-0 me-2" href="#">
+                    <img src="/app.png" width="40px" class="mx-1" />
+                    OAuthApp
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="me-auto mb-2 mb-md-0"></div>
+                    <div class="d-flex">
+                        <a class="btn btn-indigo mx-3" href="https://www.oauthapp.com/tenant/auth/signin">登录</a>
+                        <a class="btn btn-success" href="https://www.oauthapp.com/tenant/auth/signup">注册</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-12 pt-5 mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">站点</div>
+                        <div class="mb-3">
+                            <label class="form-label">域名（6-12位小写字母）</label>
+                            <div class="d-flex">
+                                <div><input type="text" id="domain" class="form-control"></div>
+                                <div>
+                                    <span class="input-group-text bg-white border-0">.oauthapp.com</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-success"
+                                    onclick="GoRegister()">
+                                创建站点
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="container fixed-bottom">
+        <p class="float-end"><a href="#">返回顶部</a></p>
+        <p>&copy; 2022 oauthapp.com</p>
+    </footer>
+
+    <script type="text/javascript">
+        function GoRegister() {
+            var domain = document.getElementById('domain').value;
+            if (!domain || domain.length < 6 || domain.length > 12) {
+                alert('长度在6-12位')
+                return;
+            }
+            location.href = `https://${domain}.oauthapp.com/tenant/auth/signup`;
+        }
+    </script>
+}

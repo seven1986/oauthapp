@@ -1,0 +1,1640 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="添加" datatype="html">
+        <source>添加</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-codegenerators/apis-codegenerators.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/blob-editor/blob-editor.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/team-editor/team-editor.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="删除" datatype="html">
+        <source>删除</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-codegenerators/apis-codegenerators.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-storage/app-storage.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/blob-editor/blob-editor.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens/codegens.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="基本信息" datatype="html">
+        <source>基本信息</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-menus/apis-menus.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegen-menus/codegen-menus.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-menus/app-menus.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/project-menus/project-menus.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="模板配置" datatype="html">
+        <source>模板配置</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-menus/apis-menus.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="文件管理" datatype="html">
+        <source>文件管理</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-menus/apis-menus.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegen-menus/codegen-menus.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-menus/app-menus.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/project-menus/project-menus.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="生成器配置" datatype="html">
+        <source>生成器配置</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegen-menus/codegen-menus.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="登录" datatype="html">
+        <source>登录</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth.module/signin/signin.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/layout.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="返回首页" datatype="html">
+        <source>返回首页</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth.module/signin/signin.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth.module/signup/signup.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="首页" datatype="html">
+        <source>首页</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/index.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/layout.component.html</context>
+          <context context-type="linenumber">64,65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="条数据" datatype="html">
+        <source>条数据</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/index.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ms/ms.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-users/app-users.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/appusers/appusers.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/users.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis.component.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens/codegens.component.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-list/app-list.component.html</context>
+          <context context-type="linenumber">30,31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tenants.module/tenants.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="全部" datatype="html">
+        <source>全部</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/index.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ms/ms.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/appusers/appusers.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ms-detail/ms-detail.component.html</context>
+          <context context-type="linenumber">43,44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="加载更多..." datatype="html">
+        <source>加载更多...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/index/index.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ms/ms.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis.component.html</context>
+          <context context-type="linenumber">82,84</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens/codegens.component.html</context>
+          <context context-type="linenumber">72,74</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-list/app-list.component.html</context>
+          <context context-type="linenumber">125,127</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="模板" datatype="html">
+        <source>模板</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ms/ms.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/layout.component.html</context>
+          <context context-type="linenumber">90,91</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="页面不存在" datatype="html">
+        <source>页面不存在</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pagenotfound/pagenotfound.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="返回" datatype="html">
+        <source>返回</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pagenotfound/pagenotfound.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-add/app-add.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-add/app-add.component.html</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-ranks/app-ranks.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-storage/app-storage.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-users/app-users.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/servers.module/servers.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-add/apis-add.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-add/apis-add.component.html</context>
+          <context context-type="linenumber">87</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens-add/codegens-add.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens-add/codegens-add.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ms-detail/ms-detail.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/projects-add/projects-add.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/projects-add/projects-add.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tenants.module/tenants.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-setting/user-setting.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="新建应用" datatype="html">
+        <source>新建应用</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-add/app-add.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-list/app-list.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="应用图标" datatype="html">
+        <source>应用图标</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-add/app-add.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-setting/app-setting.component.html</context>
+          <context context-type="linenumber">30,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="名称" datatype="html">
+        <source>名称</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-add/app-add.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/projects-setting/projects-setting.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/blob-editor/blob-editor.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-add/apis-add.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-setting/apis-setting.component.html</context>
+          <context context-type="linenumber">26,27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegen-setting/codegen-setting.component.html</context>
+          <context context-type="linenumber">21,22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens-add/codegens-add.component.html</context>
+          <context context-type="linenumber">27,28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-setting/app-setting.component.html</context>
+          <context context-type="linenumber">42,43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/projects-add/projects-add.component.html</context>
+          <context context-type="linenumber">17,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="站点路径" datatype="html">
+        <source>站点路径</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-add/app-add.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-setting/app-setting.component.html</context>
+          <context context-type="linenumber">47,48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="网站" datatype="html">
+        <source>网站</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-add/app-add.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-setting/app-setting.component.html</context>
+          <context context-type="linenumber">52,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="描述" datatype="html">
+        <source>描述</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-add/app-add.component.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/projects-setting/projects-setting.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-setting/apis-setting.component.html</context>
+          <context context-type="linenumber">46,47</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegen-setting/codegen-setting.component.html</context>
+          <context context-type="linenumber">40,41</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens-add/codegens-add.component.html</context>
+          <context context-type="linenumber">47,48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-setting/app-setting.component.html</context>
+          <context context-type="linenumber">57,58</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/projects-add/projects-add.component.html</context>
+          <context context-type="linenumber">23,24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="应用配置" datatype="html">
+        <source>应用配置</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-menus/app-menus.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="二维码" datatype="html">
+        <source>二维码</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-menus/app-menus.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="推广码" datatype="html">
+        <source>推广码</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-qrcode/app-qrcode.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="可通过这个网址直接进入应用" datatype="html">
+        <source> 可通过这个网址直接进入应用 </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-qrcode/app-qrcode.component.html</context>
+          <context context-type="linenumber">16,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="微信" datatype="html">
+        <source>微信</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-qrcode/app-qrcode.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="微信进入,可通过URL的" datatype="html">
+        <source>微信进入,可通过URL的</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-qrcode/app-qrcode.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="参数调试用户数据" datatype="html">
+        <source>参数调试用户数据</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-qrcode/app-qrcode.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="微信PC" datatype="html">
+        <source>微信PC</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-qrcode/app-qrcode.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="微博" datatype="html">
+        <source>微博</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-qrcode/app-qrcode.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="微博进入,可通过URL的" datatype="html">
+        <source>微博进入,可通过URL的</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-qrcode/app-qrcode.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="QQ" datatype="html">
+        <source>QQ</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-qrcode/app-qrcode.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="QQ进入,可通过URL的" datatype="html">
+        <source>QQ进入,可通过URL的</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-qrcode/app-qrcode.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6902125542469231256" datatype="html">
+        <source>条数据</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-ranks/app-ranks.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="总分" datatype="html">
+        <source>总分</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-ranks/app-ranks.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="最高分" datatype="html">
+        <source>最高分</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-ranks/app-ranks.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="创建于" datatype="html">
+        <source>创建于</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-ranks/app-ranks.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="用户" datatype="html">
+        <source>用户</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-ranks/app-ranks.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-users/app-users.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/team-editor/team-editor.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/team-editor/team-editor.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="平台" datatype="html">
+        <source>平台</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-ranks/app-ranks.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-users/app-users.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="得分/最高分" datatype="html">
+        <source>得分/最高分</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-ranks/app-ranks.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="时间" datatype="html">
+        <source>时间</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-ranks/app-ranks.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-users/app-users.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-publish/app-publish.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="数据" datatype="html">
+        <source>数据</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-ranks/app-ranks.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-users/app-users.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/appusers/appusers.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="查看" datatype="html">
+        <source>查看</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-ranks/app-ranks.component.html</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-storage/app-storage.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-users/app-users.component.html</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/blob-editor/blob-editor.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ms-detail/ms-detail.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="参考" datatype="html">
+        <source>参考</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-storage/app-storage.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="数据库工具" datatype="html">
+        <source>数据库工具</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-storage/app-storage.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="H5新闻管理 示例项目" datatype="html">
+        <source>H5新闻管理 示例项目</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-storage/app-storage.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="新建数据表" datatype="html">
+        <source>新建数据表</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-storage/app-storage.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="查询" datatype="html">
+        <source>查询</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-storage/app-storage.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-users/app-users.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/appusers/appusers.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/users.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="新增" datatype="html">
+        <source>新增</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-storage/app-storage.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens/codegens.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="保存" datatype="html">
+        <source>保存</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-storage/app-storage.component.html</context>
+          <context context-type="linenumber">95</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens/codegens.component.html</context>
+          <context context-type="linenumber">102,103</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="用户ID / UID" datatype="html">
+        <source>用户ID / UID</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-users/app-users.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="项目配置" datatype="html">
+        <source>项目配置</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/project-menus/project-menus.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="成员列表" datatype="html">
+        <source>成员列表</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/project-menus/project-menus.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="更新" datatype="html">
+        <source>更新</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/projects-setting/projects-setting.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-setting/apis-setting.component.html</context>
+          <context context-type="linenumber">73,74</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegen-setting/codegen-setting.component.html</context>
+          <context context-type="linenumber">78,79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="服务器" datatype="html">
+        <source>服务器</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/servers.module/servers.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-publish/app-publish.component.html</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="取消" datatype="html">
+        <source>取消</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/servers.module/servers.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="启用" datatype="html">
+        <source>启用</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/servers.module/servers.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegen-setting/codegen-setting.component.html</context>
+          <context context-type="linenumber">64,65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="文本" datatype="html">
+        <source>文本</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/blob-editor/blob-editor.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="图片" datatype="html">
+        <source>图片</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/blob-editor/blob-editor.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="文件" datatype="html">
+        <source>文件</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/blob-editor/blob-editor.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="标签" datatype="html">
+        <source>标签</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/blob-editor/blob-editor.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-setting/apis-setting.component.html</context>
+          <context context-type="linenumber">36,37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegen-setting/codegen-setting.component.html</context>
+          <context context-type="linenumber">26,27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="内容(JSON格式)" datatype="html">
+        <source>内容(JSON格式)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/blob-editor/blob-editor.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="条数据，当前第" datatype="html">
+        <source>条数据，当前第</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/pager/pager.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="页" datatype="html">
+        <source>页</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/pager/pager.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="每页" datatype="html">
+        <source>每页</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/pager/pager.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="条" datatype="html">
+        <source>条</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/pager/pager.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="上一页" datatype="html">
+        <source>上一页</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/pager/pager.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="下一页" datatype="html">
+        <source>下一页</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/pager/pager.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="尾页" datatype="html">
+        <source>尾页</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/pager/pager.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="可选配置" datatype="html">
+        <source>可选配置</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/property-editor/property-editor.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="设置" datatype="html">
+        <source>设置</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/property-editor/property-editor.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/layout.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-setting/user-setting.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="上传" datatype="html">
+        <source>上传</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/property-editor/property-editor.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="添加成员" datatype="html">
+        <source>添加成员</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/team-editor/team-editor.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="管理员" datatype="html">
+        <source>管理员</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/team-editor/team-editor.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="昵称" datatype="html">
+        <source>昵称</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/team-editor/team-editor.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/appusers/appusers.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-setting/user-setting.component.html</context>
+          <context context-type="linenumber">36,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="角色" datatype="html">
+        <source>角色</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/team-editor/team-editor.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="权限" datatype="html">
+        <source>权限</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/team-editor/team-editor.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="加入时间" datatype="html">
+        <source>加入时间</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/team-editor/team-editor.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="移除" datatype="html">
+        <source>移除</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/team-editor/team-editor.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="用户池" datatype="html">
+        <source>用户池</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/appusers/appusers.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/layout.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-list/app-list.component.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="用户名" datatype="html">
+        <source>用户名</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/appusers/appusers.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/users.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="邮箱" datatype="html">
+        <source>邮箱</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/appusers/appusers.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/users.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth.module/signup/signup.component.html</context>
+          <context context-type="linenumber">15,16</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-setting/user-setting.component.html</context>
+          <context context-type="linenumber">41,42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="手机" datatype="html">
+        <source>手机</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/appusers/appusers.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/users.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-setting/user-setting.component.html</context>
+          <context context-type="linenumber">49,50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="创建时间" datatype="html">
+        <source>创建时间</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/appusers/appusers.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/users.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="用户资料" datatype="html">
+        <source>用户资料</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="账号" datatype="html">
+        <source>账号</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-setting/user-setting.component.html</context>
+          <context context-type="linenumber">26,27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="子账号" datatype="html">
+        <source>子账号</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="应用" datatype="html">
+        <source>应用</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-list/app-list.component.html</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="来源" datatype="html">
+        <source>来源</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="最后更新" datatype="html">
+        <source>最后更新</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="主账号" datatype="html">
+        <source>主账号</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/users.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/layout.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="新建模板" datatype="html">
+        <source>新建模板</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-add/apis-add.component.html</context>
+          <context context-type="linenumber">4,5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="图标" datatype="html">
+        <source>图标</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-add/apis-add.component.html</context>
+          <context context-type="linenumber">20,21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-setting/apis-setting.component.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegen-setting/codegen-setting.component.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens-add/codegens-add.component.html</context>
+          <context context-type="linenumber">20,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="名称必须填写（6-50位）" datatype="html">
+        <source> 名称必须填写（6-50位） </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-add/apis-add.component.html</context>
+          <context context-type="linenumber">30,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="网站地址" datatype="html">
+        <source>网站地址</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-add/apis-add.component.html</context>
+          <context context-type="linenumber">35,36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-setting/apis-setting.component.html</context>
+          <context context-type="linenumber">31,32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="简介" datatype="html">
+        <source>简介</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-setting/apis-setting.component.html</context>
+          <context context-type="linenumber">41,42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegen-setting/codegen-setting.component.html</context>
+          <context context-type="linenumber">35,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="显示" datatype="html">
+        <source>显示</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis-setting/apis-setting.component.html</context>
+          <context context-type="linenumber">66,67</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-setting/app-setting.component.html</context>
+          <context context-type="linenumber">82,83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="管理" datatype="html">
+        <source>管理</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis.component.html</context>
+          <context context-type="linenumber">43,44</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens/codegens.component.html</context>
+          <context context-type="linenumber">32,33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-list/app-list.component.html</context>
+          <context context-type="linenumber">67,68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="生成器" datatype="html">
+        <source> 生成器 </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/apis.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="版本" datatype="html">
+        <source>版本</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegen-setting/codegen-setting.component.html</context>
+          <context context-type="linenumber">31,32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens-add/codegens-add.component.html</context>
+          <context context-type="linenumber">39,40</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens/codegens.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-publish/app-publish.component.html</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="代码" datatype="html">
+        <source>代码</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegen-setting/codegen-setting.component.html</context>
+          <context context-type="linenumber">45,46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="编辑器" datatype="html">
+        <source>编辑器</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegen-setting/codegen-setting.component.html</context>
+          <context context-type="linenumber">50,51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="共享" datatype="html">
+        <source>共享</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegen-setting/codegen-setting.component.html</context>
+          <context context-type="linenumber">57,58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="关闭" datatype="html">
+        <source>关闭</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegen-setting/codegen-setting.component.html</context>
+          <context context-type="linenumber">79,80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="新建代码生成器" datatype="html">
+        <source>新建代码生成器</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens-add/codegens-add.component.html</context>
+          <context context-type="linenumber">4,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="名称必须填写（3-50位）" datatype="html">
+        <source> 名称必须填写（3-50位） </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens-add/codegens-add.component.html</context>
+          <context context-type="linenumber">33,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="版本必须填写（1-20位）" datatype="html">
+        <source> 版本必须填写（1-20位） </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens-add/codegens-add.component.html</context>
+          <context context-type="linenumber">42,43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="代码生成器" datatype="html">
+        <source>代码生成器</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens/codegens.component.html</context>
+          <context context-type="linenumber">4,5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/layout.component.html</context>
+          <context context-type="linenumber">96,97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="编辑代码" datatype="html">
+        <source> 编辑代码 </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/apis.module/codegens/codegens.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="注册" datatype="html">
+        <source>注册</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth.module/signup/signup.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth.module/signup/signup.component.html</context>
+          <context context-type="linenumber">31,32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/layout.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="密码" datatype="html">
+        <source>密码</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth.module/signup/signup.component.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-setting/user-setting.component.html</context>
+          <context context-type="linenumber">31,32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="确认密码" datatype="html">
+        <source>确认密码</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth.module/signup/signup.component.html</context>
+          <context context-type="linenumber">23,24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="手机号" datatype="html">
+        <source>手机号</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth.module/signup/signup.component.html</context>
+          <context context-type="linenumber">27,28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="站点" datatype="html">
+        <source>站点</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/layout.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tenants.module/tenants.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="应用服务器" datatype="html">
+        <source>应用服务器</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/layout.component.html</context>
+          <context context-type="linenumber">42,43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="退出" datatype="html">
+        <source>退出</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/layout.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="项目" datatype="html">
+        <source>项目</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/layout.component.html</context>
+          <context context-type="linenumber">70,71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="创建项目" datatype="html">
+        <source>创建项目</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/layout.component.html</context>
+          <context context-type="linenumber">84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="公共模板" datatype="html">
+        <source>公共模板</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/layout.component.html</context>
+          <context context-type="linenumber">94</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="我的模板" datatype="html">
+        <source>我的模板</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/layout.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="文档" datatype="html">
+        <source>文档</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/layout.component.html</context>
+          <context context-type="linenumber">102,103</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="更多" datatype="html">
+        <source>更多</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ms-detail/ms-detail.component.html</context>
+          <context context-type="linenumber">53,54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="生成.zip压缩包" datatype="html">
+        <source>生成.zip压缩包</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ms-detail/ms-detail.component.html</context>
+          <context context-type="linenumber">57,58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="重置下载目录" datatype="html">
+        <source>重置下载目录 <x id="START_SMALL_TEXT" ctype="x-small" equiv-text="&lt;small&gt;"/>//<x id="INTERPOLATION" equiv-text="{{apiFileHandle?.name}}"/><x id="CLOSE_SMALL_TEXT" ctype="x-small" equiv-text="&lt;/a&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ms-detail/ms-detail.component.html</context>
+          <context context-type="linenumber">61,62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="下载" datatype="html">
+        <source>下载</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ms-detail/ms-detail.component.html</context>
+          <context context-type="linenumber">77,78</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="查看代码" datatype="html">
+        <source>查看代码</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ms-detail/ms-detail.component.html</context>
+          <context context-type="linenumber">79,80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="操作" datatype="html">
+        <source>操作</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-list/app-list.component.html</context>
+          <context context-type="linenumber">43,44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="项目设置" datatype="html">
+        <source>项目设置</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-list/app-list.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="删除项目" datatype="html">
+        <source>删除项目</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-list/app-list.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="数据库" datatype="html">
+        <source>数据库</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-list/app-list.component.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="排行榜" datatype="html">
+        <source>排行榜</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-list/app-list.component.html</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="删除应用" datatype="html">
+        <source>删除应用</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-list/app-list.component.html</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="发布站点" datatype="html">
+        <source> 发布站点 </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-list/app-list.component.html</context>
+          <context context-type="linenumber">97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="统计" datatype="html">
+        <source>统计</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-list/app-list.component.html</context>
+          <context context-type="linenumber">103,104</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="打开项目（VS Code）" datatype="html">
+        <source> 打开项目（VS Code） </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-list/app-list.component.html</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="发布上线" datatype="html">
+        <source>发布上线</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-publish/app-publish.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="版本管理" datatype="html">
+        <source>版本管理</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-publish/app-publish.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="请先设置发布文件夹路径。" datatype="html">
+        <source>请先设置发布文件夹路径。</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-publish/app-publish.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="设置目录" datatype="html">
+        <source>设置目录</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-publish/app-publish.component.html</context>
+          <context context-type="linenumber">20,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="应用文件夹名称" datatype="html">
+        <source>应用文件夹名称</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-publish/app-publish.component.html</context>
+          <context context-type="linenumber">22,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="您还可以" datatype="html">
+        <source>您还可以</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-publish/app-publish.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="重置路径" datatype="html">
+        <source>重置路径</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-publish/app-publish.component.html</context>
+          <context context-type="linenumber">24,25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="[我的服务器]" datatype="html">
+        <source>[我的服务器]</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-publish/app-publish.component.html</context>
+          <context context-type="linenumber">30,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="发布" datatype="html">
+        <source>发布</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-publish/app-publish.component.html</context>
+          <context context-type="linenumber">43,44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="预览" datatype="html">
+        <source>预览</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-publish/app-publish.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="存档" datatype="html">
+        <source>存档</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-publish/app-publish.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="回滚" datatype="html">
+        <source>回滚</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-publish/app-publish.component.html</context>
+          <context context-type="linenumber">76,77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="提交" datatype="html">
+        <source> 提交 </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/app-setting/app-setting.component.html</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="新建项目" datatype="html">
+        <source>新建项目</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/projects.module/projects-add/projects-add.component.html</context>
+          <context context-type="linenumber">4,5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="站点配置" datatype="html">
+        <source>站点配置</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tenants.module/tenants.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="系统配置管理" datatype="html">
+        <source>系统配置管理</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tenants.module/tenants.component.html</context>
+          <context context-type="linenumber">48,49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="版本更新" datatype="html">
+        <source>版本更新</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tenants.module/tenants.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="站点空间" datatype="html">
+        <source>站点空间</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tenants.module/tenants.component.html</context>
+          <context context-type="linenumber">61,62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="数 据 库" datatype="html">
+        <source>数 据 库</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tenants.module/tenants.component.html</context>
+          <context context-type="linenumber">70,71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="文件存储" datatype="html">
+        <source>文件存储</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tenants.module/tenants.component.html</context>
+          <context context-type="linenumber">79,80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="应用备份" datatype="html">
+        <source>应用备份</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tenants.module/tenants.component.html</context>
+          <context context-type="linenumber">88,89</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="注册于" datatype="html">
+        <source>注册于</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-setting/user-setting.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="最近更新" datatype="html">
+        <source>最近更新</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-setting/user-setting.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="验证" datatype="html">
+        <source>验证</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-setting/user-setting.component.html</context>
+          <context context-type="linenumber">44,45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/users.module/user-setting/user-setting.component.html</context>
+          <context context-type="linenumber">52,53</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

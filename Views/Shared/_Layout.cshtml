@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link href="~/dist/verdor.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    @RenderBody()
+    <script src="~/dist/verdor.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <div class="d-none">
+        <script type="text/javascript" src="https://v1.cnzz.com/z_stat.php?id=1279369127&web_id=1279369127"></script>
+    </div>
+</body>
+</html>
