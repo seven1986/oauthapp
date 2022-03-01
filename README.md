@@ -1,41 +1,34 @@
-﻿
 # OAuthApp
 
-OAuth2.0的Saas用户中心框架。
+#### 介绍
+H5应用、模板共享平台。
 
-OAuthApp | OAuthApp.AzureJobs
---------------- | ---------------
-[![NuGet](https://img.shields.io/nuget/v/OAuthApp.svg)](https://www.nuget.org/packages/oauthapp/)|[![NuGet](https://img.shields.io/nuget/v/OAuthApp.Jobs.svg)](https://github.com/seven1986/oauthapp)
+SAAS架构，每个二级域名都是独立数据库、用户池、账号系统。
 
+功能特性：
 
-核心功能
---
-
-- Blob
-- 客户端
-- 软件包
-- 标识资源
-- 角色
-- 租户
-- 用户
-- 其他
+- 1，在线发布H5应用到服务器
+- 2，用户池、数据库、排行榜3个模块可快速实现业务需求
+- 3，模板中心、代码生成器，在线制作，在线部署
 
 
-感谢
---
-  OAuthApp使用了以下优秀的开源项目
+#### 软件架构
+.Net Core 5.0
 
-  
-* [IdentityServer4](https://github.com/IdentityServer)
-* [ASP.NET Core](https://github.com/aspnet)
-* [Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
-* [AspNetCoreRateLimit](https://github.com/stefanprodan/AspNetCoreRateLimit)
+#### 截图预览
 
-For run this project recommends
---
+##### 应用配置
 
-* Azure Storage （文件存储）
-* Email & Message （邮件、短信服务）
+![1](jietu/2.png)
 
+##### 发布应用
 
-> 目前主要由[seven1986](https://github.com/seven1986)创建和维护。
+![1](jietu/1.png)
+
+##### 模板中心
+
+![1](jietu/3.png)
+
+##### 下载模板
+
+![1](jietu/4.png)

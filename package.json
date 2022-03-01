@@ -1,0 +1,24 @@
+{
+  "name": "oauthapp",
+  "version": "1.0.0",
+  "description": "{**When you're done, you can delete the content in this README and update the file with details for others getting started with your repository**}",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/seven1986/OAuthApp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tabler/core": "^1.0.0-beta8",
+    "jquery": "^3.6.0"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglify": "^3.0.2"
+  }
+}
